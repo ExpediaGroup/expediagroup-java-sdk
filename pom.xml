@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.expediagroup.openworld.sdk</groupId>
+        <artifactId>openworld-java-sdk-pom</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath/>
+    </parent>
+
+    <artifactId>openworld-java-sdk-core</artifactId>
+    <name>EG Open World SDK Tooling :: Core</name>
+    <description>Core Modules of EG Travel SDK</description>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>**/constants/**</exclude>
+
+                        <exclude>**/client/openapi/OpenApiStub*</exclude>
+                        <exclude>**/client/Client*</exclude>
+
+                        <exclude>**/config/NetworkConfiguration*</exclude>
+                        <exclude>**/config/EnvironmentConfigs*</exclude>
+                        <exclude>**/config/EnvironmentConfigsFactory*</exclude>
+                        <exclude>**/config/EnvironmentConfigurationProvider*</exclude>
+                        <exclude>**/config/impl/EnvironmentConfigsFactoryImpl*</exclude>
+                        <exclude>**/config/provider/ConfigurationData*</exclude>
+
+                        <exclude>**/exceptions/ClientException*</exclude>
+                        <exclude>**/exceptions/BaseException*</exclude>
+                        <exclude>**/exceptions/ServiceException*</exclude>
+                        <exclude>**/exceptions/errors/**</exclude>
+
+                        <exclude>**/plugin/Hook*</exclude>
+                        <exclude>**/plugin/Plugin*</exclude>
+                        <exclude>**/plugin/PluginConfigs*</exclude>
+                        <exclude>**/plugin/KtorPluginConfigs*</exclude>
+
+                        <exclude>**/authentication/TokenResponse*</exclude>
+                        <exclude>**/authentication/AuthenticationConfigs*</exclude>
+                        <exclude>**/authentication/AuthenticationHook*</exclude>
+                        <exclude>**/authentication/AuthenticationPlugin*</exclude>
+
+                        <exclude>**/logging/**</exclude>
+                        <exclude>**/serialization/**</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <configuration>
+                    <properties>
+                        <year>2022</year>
+                        <owner>Expedia, Inc.</owner>
+                    </properties>
+                    <licenseSets>
+                        <licenseSet>
+                            <header>LICENSE-HEADER.txt</header>
+                            <includes>
+                                <include>**/*.kt</include>
+                            </includes>
+                        </licenseSet>
+                    </licenseSets>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>format</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+
+    <dependencies>
+
+        <!-- SDK Http client -->
+        <dependency>
+            <groupId>io.ktor</groupId>
+            <artifactId>ktor-client-core-jvm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.ktor</groupId>
+            <artifactId>ktor-client-okhttp-jvm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.ktor</groupId>
+            <artifactId>ktor-client-auth-jvm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.ktor</groupId>
+            <artifactId>ktor-client-content-negotiation-jvm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.ktor</groupId>
+            <artifactId>ktor-http-jvm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.ktor</groupId>
+            <artifactId>ktor-utils-jvm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.ktor</groupId>
+            <artifactId>ktor-client-logging-jvm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlinx</groupId>
+            <artifactId>kotlinx-coroutines-core-jvm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.ktor</groupId>
+            <artifactId>ktor-io-jvm</artifactId>
+        </dependency>
+
+        <!-- Serialization dependencies -->
+        <dependency>
+            <groupId>io.ktor</groupId>
+            <artifactId>ktor-serialization-jvm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.ktor</groupId>
+            <artifactId>ktor-serialization-gson-jvm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+        </dependency>
+
+        <!-- Logging -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Kotlin Atomic -->
+        <dependency>
+            <groupId>org.jetbrains.kotlinx</groupId>
+            <artifactId>atomicfu-jvm</artifactId>
+        </dependency>
+
+        <!-- Kotlin reelections -->
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-reflect</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- Test Dependencies -->
+        <dependency>
+            <groupId>io.ktor</groupId>
+            <artifactId>ktor-client-mock-jvm</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.mockk</groupId>
+            <artifactId>mockk-dsl-jvm</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.mockk</groupId>
+            <artifactId>mockk</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+</project>
