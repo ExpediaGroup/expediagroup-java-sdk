@@ -16,6 +16,6 @@
 package com.expediagroup.sdk.core.config
 
 data class ClientCredentials(
-    val clientId: String,
+    val clientKey: String,
     val clientSecret: String
 ) : AuthenticationConfiguration

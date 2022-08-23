@@ -18,28 +18,29 @@ package com.expediagroup.sdk.core.config
 import com.expediagroup.sdk.core.config.provider.FileConfigurationProvider
 import com.expediagroup.sdk.core.constants.ClientConstants.BASE_URL
 import com.expediagroup.sdk.core.constants.ClientConstants.CLIENT_CONFIGS_FILE_PATH
-import com.expediagroup.sdk.core.constants.ClientConstants.CLIENT_ID
+import com.expediagroup.sdk.core.constants.ClientConstants.CLIENT_KEY
 import com.expediagroup.sdk.core.constants.ClientConstants.CLIENT_SECRET
 import com.expediagroup.sdk.core.constants.ClientConstants.CREDENTIALS_FILE_PATH
-import com.expediagroup.sdk.core.constants.ClientConstants.IDENTITY_URL
+import com.expediagroup.sdk.core.constants.ClientConstants.EMPTY_STRING
+import com.expediagroup.sdk.core.plugin.authentication.IdentityUrl
 
 object EnvironmentConfigurationProvider {
-
-    val configuration = prepareConfiguration()
-    val clientEnvironmentConfigs = prepareClientEnvironmentConfigs()
+    val configuration: Configuration = prepareConfiguration()
+    val clientEnvironmentConfigs: EnvironmentConfigs = prepareClientEnvironmentConfigs()
 
     private fun prepareConfiguration(): Configuration {
         val configurationData = FileConfigurationProvider()[CREDENTIALS_FILE_PATH]
-        val clientId = configurationData.data()[CLIENT_ID] ?: ""
-        val clientSecret = configurationData.data()[CLIENT_SECRET] ?: ""
-        return Configuration(ClientConfiguration(ClientCredentials(clientId, clientSecret)))
+        val clientKey = configurationData.data()[CLIENT_KEY] ?: EMPTY_STRING
+        val clientSecret = configurationData.data()[CLIENT_SECRET] ?: EMPTY_STRING
+
+        return Configuration(ClientConfiguration(ClientCredentials(clientKey, clientSecret)))
     }
 
     private fun prepareClientEnvironmentConfigs(): EnvironmentConfigs {
         val clientEnvironmentConfigsData = FileConfigurationProvider()[CLIENT_CONFIGS_FILE_PATH].data()
-        return EnvironmentConfigs(
-            clientEnvironmentConfigsData[BASE_URL] ?: "",
-            clientEnvironmentConfigsData[IDENTITY_URL] ?: ""
-        )
+        val baseUrl = clientEnvironmentConfigsData[BASE_URL] ?: EMPTY_STRING
+        val identityUrl = IdentityUrl.from(baseUrl)
+
+        return EnvironmentConfigs(baseUrl, identityUrl)
     }
 }

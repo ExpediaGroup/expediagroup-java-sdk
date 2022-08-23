@@ -18,6 +18,8 @@ package com.expediagroup.sdk.core.constants
 import java.io.File
 
 object ClientConstants {
+    const val EMPTY_STRING = ""
+
     const val AUTHORIZATION_REQUEST_LOCK_DELAY = 20L // TODO: Update me.
 
     const val AUTHORIZATION_HEADER = "Authorization"
@@ -30,13 +32,11 @@ object ClientConstants {
 
     const val CLIENT_CREDENTIALS_HEADER = "client_credentials"
 
-    const val CLIENT_ID = "client_id"
+    const val CLIENT_KEY = "client_key"
 
     const val CLIENT_SECRET = "client_secret"
 
     const val BASE_URL = "base_url"
-
-    const val IDENTITY_URL = "identity_url"
 
     private val OPEN_WORLD_HOME_PATH = "${System.getProperty("user.home")}${File.separator}.openworld${File.separator}"
 

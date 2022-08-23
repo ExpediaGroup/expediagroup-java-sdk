@@ -17,7 +17,7 @@ package com.expediagroup.sdk.core.plugin.authentication
 
 import com.expediagroup.sdk.core.commons.ClientFactory
 import com.expediagroup.sdk.core.commons.TestConstants.ACCESS_TOKEN
-import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_ID_TEST_CREDENTIAL
+import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_KEY_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.commons.TestConstants.TEST_URL
 import com.expediagroup.sdk.core.config.ClientConfiguration
@@ -58,11 +58,11 @@ class AuthenticationPluginTest {
             assertThrows<ClientException> {
                 AuthenticationPlugin.refreshToken(
                     client,
-                    AuthenticationConfigs(
+                    AuthenticationConfigs.from(
                         HttpClientConfig(),
                         ClientConfiguration(
                             ClientCredentials(
-                                CLIENT_ID_TEST_CREDENTIAL + "invalid",
+                                CLIENT_KEY_TEST_CREDENTIAL + "invalid",
                                 CLIENT_SECRET_TEST_CREDENTIAL + "invalid"
                             )
                         ),

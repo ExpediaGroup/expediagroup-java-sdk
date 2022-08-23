@@ -15,6 +15,7 @@
  */
 package com.expediagroup.sdk.core.config.provider
 
+import com.expediagroup.sdk.core.constants.ClientConstants.EMPTY_STRING
 import com.expediagroup.sdk.core.exceptions.ConfigurationException
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -29,11 +30,10 @@ class FileConfigurationProviderTest {
         private const val RESOURCE_FILE_PATH = "/test_configuration.properties"
         private const val RESOURCE_FILE_NAME = "test_configuration.properties"
         private const val INVALID_RESOURCE_FILE_NAME = "./wrongfile.name"
-        private const val API_CLIENT_ID_KEY_NAME = "api_credentials.client_id"
-        private const val API_CLIENT_ID_VALUE = "test-client"
+        private const val API_CLIENT_KEY_NAME = "api_credentials.client_key"
+        private const val API_CLIENT_KEY_VALUE = "test-client"
         private const val API_CLIENT_SECRET_KEY_NAME = "api_credentials.client_secret"
         private const val API_CLIENT_SECRET_VALUE = "test-secret"
-        private const val EMPTY_STRING = ""
         private val INVALID_URL = URL("file:/un-exist_file")
     }
 
@@ -52,7 +52,7 @@ class FileConfigurationProviderTest {
         val configurationData = provider[filePath]
         assertNotNull(configurationData)
         assertEquals(configurationData.data()[API_CLIENT_SECRET_KEY_NAME], API_CLIENT_SECRET_VALUE)
-        assertEquals(configurationData.data()[API_CLIENT_ID_KEY_NAME], API_CLIENT_ID_VALUE)
+        assertEquals(configurationData.data()[API_CLIENT_KEY_NAME], API_CLIENT_KEY_VALUE)
     }
 
     @Test
@@ -63,7 +63,7 @@ class FileConfigurationProviderTest {
         val configurationData = provider[filePath]
         assertNotNull(configurationData)
         assertEquals(configurationData.data()[API_CLIENT_SECRET_KEY_NAME], API_CLIENT_SECRET_VALUE)
-        assertEquals(configurationData.data()[API_CLIENT_ID_KEY_NAME], API_CLIENT_ID_VALUE)
+        assertEquals(configurationData.data()[API_CLIENT_KEY_NAME], API_CLIENT_KEY_VALUE)
     }
 
     @Test
@@ -94,18 +94,18 @@ class FileConfigurationProviderTest {
     fun `file configuration provider should load specific configuration keys if passed`() {
         val provider = FileConfigurationProvider()
         val filePath = this::class.java.getResource(RESOURCE_FILE_PATH)?.file.orEmpty()
-        val configurationData = provider[filePath, setOf(API_CLIENT_ID_KEY_NAME)]
+        val configurationData = provider[filePath, setOf(API_CLIENT_KEY_NAME)]
         assertNotNull(configurationData)
-        assertEquals(configurationData.data()[API_CLIENT_ID_KEY_NAME], API_CLIENT_ID_VALUE)
+        assertEquals(configurationData.data()[API_CLIENT_KEY_NAME], API_CLIENT_KEY_VALUE)
         assertNull(configurationData.data()[API_CLIENT_SECRET_KEY_NAME])
     }
 
     @Test
     fun `file configuration provider should load empty configuration keys if passed with an empty path`() {
         val provider = FileConfigurationProvider()
-        val configurationData = provider[EMPTY_STRING, setOf(API_CLIENT_ID_KEY_NAME)]
+        val configurationData = provider[EMPTY_STRING, setOf(API_CLIENT_KEY_NAME)]
         assertNotNull(configurationData)
-        assertNull(configurationData.data()[API_CLIENT_ID_KEY_NAME])
+        assertNull(configurationData.data()[API_CLIENT_KEY_NAME])
         assertNull(configurationData.data()[API_CLIENT_SECRET_KEY_NAME])
     }
 

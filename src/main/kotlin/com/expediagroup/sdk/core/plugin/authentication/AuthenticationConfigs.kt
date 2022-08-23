@@ -23,13 +23,13 @@ import io.ktor.client.engine.HttpClientEngineConfig
 data class AuthenticationConfigs(
     override val httpClientConfig: HttpClientConfig<out HttpClientEngineConfig>,
     val clientConfiguration: ClientConfiguration,
-    val identityUrl: String
+    val baseUrl: String
 ) : KtorPluginConfigs(httpClientConfig) {
     companion object {
         fun from(
             httpClientConfig: HttpClientConfig<out HttpClientEngineConfig>,
             clientConfiguration: ClientConfiguration,
-            identityUrl: String
-        ): AuthenticationConfigs = AuthenticationConfigs(httpClientConfig, clientConfiguration, identityUrl)
+            baseUrl: String
+        ): AuthenticationConfigs = AuthenticationConfigs(httpClientConfig, clientConfiguration, IdentityUrl.from(baseUrl))
     }
 }

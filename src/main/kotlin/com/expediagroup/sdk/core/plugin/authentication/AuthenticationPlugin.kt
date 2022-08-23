@@ -18,6 +18,7 @@ package com.expediagroup.sdk.core.plugin.authentication
 import com.expediagroup.sdk.core.config.ClientConfiguration
 import com.expediagroup.sdk.core.config.ClientCredentials
 import com.expediagroup.sdk.core.constants.ClientConstants.CLIENT_CREDENTIALS_HEADER
+import com.expediagroup.sdk.core.constants.ClientConstants.EMPTY_STRING
 import com.expediagroup.sdk.core.constants.ClientConstants.GRANT_TYPE_HEADER
 import com.expediagroup.sdk.core.constants.MessagesConstants.UNABLE_TO_AUTHENTICATE
 import com.expediagroup.sdk.core.exceptions.ClientException
@@ -38,7 +39,7 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.Parameters
 
 object AuthenticationPlugin : Plugin<AuthenticationConfigs> {
-    private var bearerTokenStorage = BearerTokens("", "")
+    private var bearerTokenStorage = BearerTokens(EMPTY_STRING, EMPTY_STRING)
     override fun install(configs: AuthenticationConfigs) {
         configs.httpClientConfig.install(Auth) {
             bearer {
@@ -57,13 +58,13 @@ object AuthenticationPlugin : Plugin<AuthenticationConfigs> {
         request: HttpRequestBuilder,
         configs: AuthenticationConfigs
     ): Boolean =
-        request.url.buildString() != configs.identityUrl
+        request.url.buildString() != configs.baseUrl
 
     suspend fun refreshToken(client: HttpClient, configs: AuthenticationConfigs) {
         clearTokens(client)
         val refreshTokenResponse = client.request {
             method = HttpMethod.Post
-            url(configs.identityUrl)
+            url(configs.baseUrl)
             buildTokenRequest()
             basicAuth(configs.clientConfiguration)
         }
@@ -80,7 +81,7 @@ object AuthenticationPlugin : Plugin<AuthenticationConfigs> {
 
     private fun clearTokens(client: HttpClient) {
         client.plugin(Auth).providers.filterIsInstance<BearerAuthProvider>().first().clearToken()
-        bearerTokenStorage = BearerTokens("", "")
+        bearerTokenStorage = BearerTokens(EMPTY_STRING, EMPTY_STRING)
     }
 
     fun getToken(): BearerTokens {
@@ -89,7 +90,7 @@ object AuthenticationPlugin : Plugin<AuthenticationConfigs> {
 
     private fun HttpRequestBuilder.basicAuth(configs: ClientConfiguration) {
         basicAuth(
-            (configs.auth as ClientCredentials).clientId,
+            (configs.auth as ClientCredentials).clientKey,
             configs.auth.clientSecret
         )
     }

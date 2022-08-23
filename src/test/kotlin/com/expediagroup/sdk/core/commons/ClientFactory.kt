@@ -16,7 +16,7 @@
 package com.expediagroup.sdk.core.commons
 
 import com.expediagroup.sdk.core.client.Client
-import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_ID_TEST_CREDENTIAL
+import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_KEY_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.commons.TestConstants.TEST_URL
 import com.expediagroup.sdk.core.config.ClientConfiguration
@@ -24,6 +24,7 @@ import com.expediagroup.sdk.core.config.ClientCredentials
 import com.expediagroup.sdk.core.config.Configuration
 import com.expediagroup.sdk.core.config.EnvironmentConfigs
 import com.expediagroup.sdk.core.config.EnvironmentConfigurationProvider
+import com.expediagroup.sdk.core.plugin.authentication.IdentityUrl
 import io.ktor.client.HttpClient
 import io.mockk.every
 import io.mockk.mockkConstructor
@@ -37,14 +38,14 @@ object ClientFactory {
         every { EnvironmentConfigurationProvider.configuration } returns Configuration(
             ClientConfiguration(
                 ClientCredentials(
-                    clientId = CLIENT_ID_TEST_CREDENTIAL,
+                    clientKey = CLIENT_KEY_TEST_CREDENTIAL,
                     clientSecret = CLIENT_SECRET_TEST_CREDENTIAL
                 )
             )
         )
         every { EnvironmentConfigurationProvider.clientEnvironmentConfigs } returns EnvironmentConfigs(
             TEST_URL,
-            TEST_URL
+            IdentityUrl.from(TEST_URL)
         )
     }
 
