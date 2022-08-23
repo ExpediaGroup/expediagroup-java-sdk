@@ -17,7 +17,7 @@ package com.expediagroup.sdk.core.commons
 
 object TestConstants {
     const val TEST_URL = "https://example.com"
-    const val CLIENT_ID_TEST_CREDENTIAL = "any client ID"
+    const val CLIENT_KEY_TEST_CREDENTIAL = "any client key"
     const val CLIENT_SECRET_TEST_CREDENTIAL = "any client secret"
     const val ACCESS_TOKEN = "test-access-token"
     const val BAD_REQUEST_ATTRIBUTE = "bad-request"

@@ -17,7 +17,7 @@ package com.expediagroup.sdk.core.commons
 
 import com.expediagroup.sdk.core.commons.TestConstants.ACCESS_TOKEN
 import com.expediagroup.sdk.core.commons.TestConstants.BAD_REQUEST_ATTRIBUTE
-import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_ID_TEST_CREDENTIAL
+import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_KEY_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.commons.TestConstants.TEST_URL
 import com.expediagroup.sdk.core.config.EnvironmentConfigurationProvider
@@ -61,7 +61,7 @@ object MockEnginFactory {
     private fun isValidCredentialsRequest(request: HttpRequestData) = request.headers[AUTHORIZATION_HEADER] == "Basic ${
     String(
         Base64.getEncoder().encode(
-            "$CLIENT_ID_TEST_CREDENTIAL:$CLIENT_SECRET_TEST_CREDENTIAL".toByteArray()
+            "$CLIENT_KEY_TEST_CREDENTIAL:$CLIENT_SECRET_TEST_CREDENTIAL".toByteArray()
         )
     )
     }"
