@@ -1,0 +1,57 @@
+name: Build & Release SDK
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'generated sdk version'
+        required: true
+      name:
+        description: 'generated sdk name'
+        required: true
+      fileAsBase64:
+        description: 'generated sdk file as base64 encoded'
+        required: true
+jobs:
+  generate_sdk:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+      - id: Build_with_Maven
+        run: mvn clean install
+      - id: Generate_Sdk_Files
+        run: |
+          mvn exec:java "-Dnamespace=${{ github.event.inputs.name }}" "-DsdkVersion=${{ github.event.inputs.version }}" "-Dspec=${{ github.event.inputs.fileAsBase64 }}"
+          zip -r sdk.zip target/sdk
+          cd target
+      - name: Send mail
+        uses: dawidd6/action-send-mail@v3
+        with:
+          # Required mail server address:
+          server_address: smtp.gmail.com
+          # Required mail server port:
+          server_port: 465
+          # Optional (recommended): mail server username:
+          username: ${{secrets.MAIL_USERNAME}}
+          # Optional (recommended) mail server password:
+          password: ${{secrets.MAIL_PASSWORD}}
+          # Required mail subject:
+          subject: Github Actions job result
+          # Required recipients' addresses:
+          to: ${{secrets.MAIL_TARGET}}
+          # Required sender full name (address can be skipped):
+          from: ${{secrets.SENDER_NAME}}
+          # cc
+          cc: ${{secrets.MAIL_CC}}
+          # Optional whether this connection use TLS (default is true if server_port is 465)
+          secure: true
+          # Optional plain body:
+          body: Build job of ${{github.repository}} completed successfully!
+          # Optional attachments:
+          attachments: sdk.zip
+          # Optional priority: 'high', 'normal' (default) or 'low'
+          priority: high
