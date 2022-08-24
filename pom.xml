@@ -6,12 +6,12 @@
     <parent>
         <groupId>com.expediagroup.openworld.sdk</groupId>
         <artifactId>openworld-java-sdk-pom</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.1-alpha</version>
         <relativePath/>
     </parent>
 
     <artifactId>openworld-java-sdk-core</artifactId>
-    <name>EG Open World SDK Tooling :: Core</name>
+    <name>EG Open World SDK :: Core</name>
     <description>Core Modules of EG Travel SDK</description>
 
     <build>
