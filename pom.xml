@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>openworld-java-sdk-core</artifactId>
-    <name>EG Open World SDK Tooling :: Core</name>
+    <name>EG Open World SDK :: Core</name>
     <description>Core Modules of EG Travel SDK</description>
 
     <build>
