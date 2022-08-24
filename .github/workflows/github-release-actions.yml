@@ -1,6 +1,10 @@
 name: Openworld SDK Release
 on:
-  push:
+  workflow_dispatch:
+    inputs:
+      confirmation:
+        description: 'confirmation to release on maven central'
+        required: true
 jobs:
   job:
     runs-on: ubuntu-latest
