@@ -68,7 +68,7 @@ class OpenApiSdkGenerator {
                 val packageName = namespace.lowercase().replace(Regex("[^a-z0-9]"), "")
                 // specify the target language
                 setGeneratorName("kotlin")
-                setTemplateDir("templates/eg-travel-sdk")
+                setTemplateDir("templates/openworld-sdk")
                 setInputSpec(
                     prepareSpecFile()
                 )
@@ -101,7 +101,9 @@ class OpenApiSdkGenerator {
                         TemplateDefinition("README.mustache", "README.md"),
                         TemplateDefinition(
                             "factory.mustache",
-                            "src/main/kotlin/com/expediagroup/openworld/sdk/${namespace.lowercase().replace(Regex("[^a-z0-9]"), "")}/configs"
+                            "src/main/kotlin/com/expediagroup/openworld/sdk/${
+                            namespace.lowercase().replace(Regex("[^a-z0-9]"), "")
+                            }/configs"
                         )
                     )
                 )
