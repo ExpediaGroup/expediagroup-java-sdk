@@ -21,11 +21,17 @@ import com.github.rvesse.airline.annotations.Option
 import org.openapitools.codegen.DefaultGenerator
 import org.openapitools.codegen.api.TemplateDefinition
 import org.openapitools.codegen.config.CodegenConfigurator
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.nio.file.Files
+import java.util.Base64
+import java.util.zip.ZipInputStream
+import kotlin.io.path.writeBytes
 
 /**
  * Configures the OpenAPI Generator based on command line parameters to generate an EG Travel SDK project
- *
- * This will produce a maven project in the specified output directory, which when built, will
+ * This will produce a maven project in the specified output directory
  */
 @Command(name = "generate", description = "Let's build an EG Travel SDK!")
 class OpenApiSdkGenerator {
@@ -58,33 +64,34 @@ class OpenApiSdkGenerator {
     fun run() {
         try {
             val config = CodegenConfigurator().apply {
-                setTemplateDir("templates/eg-travel-sdk")
-                setInputSpec(inputFile)
-                setOutputDir(outputDirectory)
                 // Adjust namespace to fit with JVM package naming conventions
                 val packageName = namespace.lowercase().replace(Regex("[^a-z0-9]"), "")
+                // specify the target language
+                setGeneratorName("kotlin")
+                setTemplateDir("templates/eg-travel-sdk")
+                setInputSpec(
+                    prepareSpecFile()
+                )
+                setOutputDir(outputDirectory)
                 // Configure CodeGen Components
                 addGlobalProperty("models", "")
                 addGlobalProperty("apis", "")
                 addGlobalProperty("supportingFiles", "pom.xml,README.md")
                 // Configure generated client suffix eg: AnyNameClient
                 addAdditionalProperty("apiSuffix", "Client")
+                addAdditionalProperty("apiPackage", "com.expediagroup.openworld.sdk.$packageName.client")
                 // Configure generated Enum class names
                 addAdditionalProperty("enumPropertyNaming", "UPPERCASE")
                 // Configure CodeGen Language
-                setGeneratorName("kotlin")
                 addAdditionalProperty("library", "jvm-ktor")
                 // Configure serialization library
                 addAdditionalProperty("serializationLibrary", "gson")
                 addAdditionalProperty("sortParamsByRequiredFlag", true)
-                addAdditionalProperty("authPackage", null)
                 // Configure SDK Artifact Coordinates
-                setGroupId("com.expediagroup.sdk.$namespace")
                 setArtifactId("openworld-java-sdk-$namespace")
                 setArtifactVersion(version)
                 // Configure package details
                 setPackageName("com.expediagroup.openworld.sdk.$packageName")
-                addAdditionalProperty("apiPackage", "com.expediagroup.openworld.sdk.$packageName.client")
             }
             // Load Template Customizations
             val generatorInput = config.toClientOptInput().apply {
@@ -94,8 +101,7 @@ class OpenApiSdkGenerator {
                         TemplateDefinition("README.mustache", "README.md"),
                         TemplateDefinition(
                             "factory.mustache",
-                            "src/main/kotlin/com/expediagroup/openworld/sdk/${namespace.lowercase().replace(Regex("[^a-z0-9]"), "")}/configs",
-                            "EnvironmentConfigsFactoryImpl.kt"
+                            "src/main/kotlin/com/expediagroup/openworld/sdk/${namespace.lowercase().replace(Regex("[^a-z0-9]"), "")}/configs"
                         )
                     )
                 )
@@ -108,5 +114,26 @@ class OpenApiSdkGenerator {
             System.err.println(e.message)
             e.printStackTrace()
         }
+    }
+
+    private fun prepareSpecFile(): String {
+        val buffer = ByteArray(1024)
+        val zipInputStream = ZipInputStream(FileInputStream(prepareTmpZipFile()))
+        val tempFile = Files.createTempFile("", zipInputStream.nextEntry?.name).toFile()
+        val fileOutputStream = FileOutputStream(tempFile)
+        var len: Int
+        while (zipInputStream.read(buffer).also { len = it } > 0) {
+            fileOutputStream.write(buffer, 0, len)
+        }
+        zipInputStream.closeEntry()
+        fileOutputStream.close()
+        zipInputStream.close()
+        return tempFile.absolutePath
+    }
+
+    private fun prepareTmpZipFile(): File {
+        val tmpFile = Files.createTempFile("", "tmp")
+        tmpFile.writeBytes(Base64.getDecoder().decode(inputFile))
+        return tmpFile.toFile()
     }
 }

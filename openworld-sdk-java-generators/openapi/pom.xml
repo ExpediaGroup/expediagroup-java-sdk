@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.expediagroup.openworld.sdk</groupId>
         <artifactId>openworld-java-sdk-pom</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.1-alpha.3</version>
         <relativePath/>
     </parent>
 

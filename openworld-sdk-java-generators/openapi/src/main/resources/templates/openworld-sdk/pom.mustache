@@ -20,13 +20,20 @@
         <sdk-title>${project.artifactId}</sdk-title>
     </properties>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>@@project.parent.groupId@@</groupId>
+                <artifactId>openworld-java-sdk-core</artifactId>
+                <version>0.0.1-alpha.2</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <dependency>
             <groupId>@@project.parent.groupId@@</groupId>
             <artifactId>openworld-java-sdk-core</artifactId>
-
-            <!-- TODO: Dynamically update RG Open World Core version -->
-            <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
