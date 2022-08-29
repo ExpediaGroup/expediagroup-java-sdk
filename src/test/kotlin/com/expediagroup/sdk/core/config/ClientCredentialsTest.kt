@@ -15,4 +15,15 @@
  */
 package com.expediagroup.sdk.core.config
 
-data class EnvironmentConfigs(val baseUrl: String, val identityUrl: String)
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
+
+class ClientCredentialsTest {
+
+    @Test
+    fun `test ClientCredentialsFactory`() {
+        ClientCredentials.from("client-key", "client-secret").let {
+            Assertions.assertEquals(it, ClientCredentials("client-key", "client-secret"))
+        }
+    }
+}

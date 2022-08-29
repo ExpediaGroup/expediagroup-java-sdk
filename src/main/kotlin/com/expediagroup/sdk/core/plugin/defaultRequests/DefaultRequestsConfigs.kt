@@ -15,20 +15,20 @@
  */
 package com.expediagroup.sdk.core.plugin.defaultRequests
 
-import com.expediagroup.sdk.core.config.EnvironmentConfigs
+import com.expediagroup.sdk.core.config.EnvironmentConfiguration
 import com.expediagroup.sdk.core.plugin.KtorPluginConfigs
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.HttpClientEngineConfig
 
 data class DefaultRequestsConfigs(
     override val httpClientConfig: HttpClientConfig<out HttpClientEngineConfig>,
-    val environmentConfigs: EnvironmentConfigs
+    val environmentConfiguration: EnvironmentConfiguration
 ) : KtorPluginConfigs(httpClientConfig) {
     companion object {
         fun from(
             httpClientConfig: HttpClientConfig<out HttpClientEngineConfig>,
-            environmentConfigs: EnvironmentConfigs
+            environmentConfiguration: EnvironmentConfiguration
         ) =
-            DefaultRequestsConfigs(httpClientConfig, environmentConfigs)
+            DefaultRequestsConfigs(httpClientConfig, environmentConfiguration)
     }
 }

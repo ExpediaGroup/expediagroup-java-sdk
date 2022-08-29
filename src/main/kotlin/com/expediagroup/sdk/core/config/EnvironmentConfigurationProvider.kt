@@ -24,23 +24,52 @@ import com.expediagroup.sdk.core.constants.ClientConstants.CREDENTIALS_FILE_PATH
 import com.expediagroup.sdk.core.constants.ClientConstants.EMPTY_STRING
 import com.expediagroup.sdk.core.plugin.authentication.IdentityUrl
 
+// TODO: Split into 2 providers!
 object EnvironmentConfigurationProvider {
-    val configuration: Configuration = prepareConfiguration()
-    val clientEnvironmentConfigs: EnvironmentConfigs = prepareClientEnvironmentConfigs()
 
-    private fun prepareConfiguration(): Configuration {
-        val configurationData = FileConfigurationProvider()[CREDENTIALS_FILE_PATH]
-        val clientKey = configurationData.data()[CLIENT_KEY] ?: EMPTY_STRING
-        val clientSecret = configurationData.data()[CLIENT_SECRET] ?: EMPTY_STRING
-
-        return Configuration(ClientConfiguration(ClientCredentials(clientKey, clientSecret)))
+    /**
+     * Reads and gets the configuration from the provided [RuntimeConfiguration] if provided; or from the system files otherwise.
+     **
+     * @param runtimeConfiguration - An optional configurations to read the configuration from.
+     * @return The configuration read from the provided [RuntimeConfiguration] if provided; or from the system files otherwise.
+     */
+    fun getConfigurations(runtimeConfiguration: RuntimeConfiguration = RuntimeConfiguration.NONE): Configuration {
+        return if (Configuration.canBeCreatedFrom(runtimeConfiguration)) {
+            Configuration.from(runtimeConfiguration)
+        } else {
+            readSystemFileConfigurations()
+        }
     }
 
-    private fun prepareClientEnvironmentConfigs(): EnvironmentConfigs {
-        val clientEnvironmentConfigsData = FileConfigurationProvider()[CLIENT_CONFIGS_FILE_PATH].data()
-        val baseUrl = clientEnvironmentConfigsData[BASE_URL] ?: EMPTY_STRING
+    /**
+     * Reads and gets the client environment configurations from the provided [RuntimeConfiguration] if provided; or from the system files otherwise.
+     *
+     * @param runtimeConfiguration - An optional configurations to read the configuration from.
+     * @return The client environment configurations read from the provided [RuntimeConfiguration] if provided; or from the system files otherwise.
+     */
+    fun getEnvironmentConfigurations(runtimeConfiguration: RuntimeConfiguration = RuntimeConfiguration.NONE): EnvironmentConfiguration {
+        return if (EnvironmentConfiguration.canBeCreatedFrom(runtimeConfiguration)) {
+            EnvironmentConfiguration.from(runtimeConfiguration)
+        } else {
+            readSystemFileEnvironmentConfigs()
+        }
+    }
+
+    private fun readSystemFileConfigurations(): Configuration {
+        val configurationData = FileConfigurationProvider()[CREDENTIALS_FILE_PATH]
+        val data = configurationData.data()
+        val clientId = data[CLIENT_KEY] ?: EMPTY_STRING
+        val clientSecret = data[CLIENT_SECRET] ?: EMPTY_STRING
+
+        return Configuration(ClientConfiguration(ClientCredentials(clientId, clientSecret)))
+    }
+
+    private fun readSystemFileEnvironmentConfigs(): EnvironmentConfiguration {
+        val clientEnvironmentConfigsData = FileConfigurationProvider()[CLIENT_CONFIGS_FILE_PATH]
+        val data = clientEnvironmentConfigsData.data()
+        val baseUrl = data[BASE_URL] ?: EMPTY_STRING
         val identityUrl = IdentityUrl.from(baseUrl)
 
-        return EnvironmentConfigs(baseUrl, identityUrl)
+        return EnvironmentConfiguration(baseUrl, identityUrl)
     }
 }

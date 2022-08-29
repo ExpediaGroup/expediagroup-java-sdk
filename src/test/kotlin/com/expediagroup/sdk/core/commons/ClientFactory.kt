@@ -22,20 +22,17 @@ import com.expediagroup.sdk.core.commons.TestConstants.TEST_URL
 import com.expediagroup.sdk.core.config.ClientConfiguration
 import com.expediagroup.sdk.core.config.ClientCredentials
 import com.expediagroup.sdk.core.config.Configuration
-import com.expediagroup.sdk.core.config.EnvironmentConfigs
+import com.expediagroup.sdk.core.config.EnvironmentConfiguration
 import com.expediagroup.sdk.core.config.EnvironmentConfigurationProvider
-import com.expediagroup.sdk.core.plugin.authentication.IdentityUrl
 import io.ktor.client.HttpClient
 import io.mockk.every
-import io.mockk.mockkConstructor
+import io.mockk.mockkObject
 
 object ClientFactory {
 
     private fun mockConfigurationProvider() {
-        mockkConstructor(EnvironmentConfigurationProvider::class)
-        every { constructedWith<EnvironmentConfigurationProvider>().clientEnvironmentConfigs }
-        every { constructedWith<EnvironmentConfigurationProvider>().configuration }
-        every { EnvironmentConfigurationProvider.configuration } returns Configuration(
+        mockkObject(EnvironmentConfigurationProvider)
+        every { EnvironmentConfigurationProvider.getConfigurations() } returns Configuration(
             ClientConfiguration(
                 ClientCredentials(
                     clientKey = CLIENT_KEY_TEST_CREDENTIAL,
@@ -43,10 +40,7 @@ object ClientFactory {
                 )
             )
         )
-        every { EnvironmentConfigurationProvider.clientEnvironmentConfigs } returns EnvironmentConfigs(
-            TEST_URL,
-            IdentityUrl.from(TEST_URL)
-        )
+        every { EnvironmentConfigurationProvider.getEnvironmentConfigurations() } returns EnvironmentConfiguration.from(TEST_URL)
     }
 
     fun createClient(): HttpClient {

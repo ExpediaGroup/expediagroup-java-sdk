@@ -38,10 +38,4 @@ data class ConfigurationData(private val data: Map<String, String>, private val 
     fun ttl(): Long? {
         return ttl
     }
-    /**
-     * Creates a new ConfigData with the given data and TTL (in milliseconds).
-     *
-     * @param data a Map of key-value pairs
-     * @param ttl the time-to-live of the data in milliseconds, or null if there is no TTL
-     */
 }

@@ -135,8 +135,6 @@ class FileConfigurationProvider : ConfigurationProvider {
         return BufferedReader(InputStreamReader(url.openStream()))
     }
 
-    fun close() {}
-
     companion object {
         private val log: Logger = LoggerFactory.getLogger(this::class.java)
     }

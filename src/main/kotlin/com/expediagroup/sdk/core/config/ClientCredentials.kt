@@ -18,4 +18,17 @@ package com.expediagroup.sdk.core.config
 data class ClientCredentials(
     val clientKey: String,
     val clientSecret: String
-) : AuthenticationConfiguration
+) : AuthenticationConfiguration {
+
+    companion object ClientCredentialsFactory {
+        /**
+         * Create a [ClientCredentials] object.
+         *
+         * @param clientKey Client key.
+         * @param clientSecret Client secret.
+         * @return ClientCredentials object.
+         */
+        @JvmStatic
+        fun from(clientKey: String, clientSecret: String): ClientCredentials = ClientCredentials(clientKey, clientSecret)
+    }
+}

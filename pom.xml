@@ -13,7 +13,7 @@
     <artifactId>openworld-java-sdk-core</artifactId>
     <name>EG Open World SDK :: Core</name>
     <description>Core Modules of EG Travel SDK</description>
-    <version>0.0.1-alpha.2</version>
+    <version>0.0.2-alpha</version>
 
     <build>
         <plugins>

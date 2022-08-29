@@ -53,7 +53,7 @@ object MockEnginFactory {
     }
 
     private fun isIdentityRequest(request: HttpRequestData) =
-        request.url.toString() == EnvironmentConfigurationProvider.clientEnvironmentConfigs.identityUrl
+        request.url.toString() == EnvironmentConfigurationProvider.getEnvironmentConfigurations().identityUrl
 
     private fun isBadRequest(request: HttpRequestData) =
         request.attributes.getOrNull(AttributeKey(BAD_REQUEST_ATTRIBUTE)) != null
