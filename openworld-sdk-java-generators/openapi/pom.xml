@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.expediagroup.openworld.sdk</groupId>
         <artifactId>openworld-java-sdk-pom</artifactId>
-        <version>0.0.1-alpha.3</version>
+        <version>0.0.1-alpha.4</version>
         <relativePath/>
     </parent>
 
@@ -123,6 +123,24 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <configuration>
+                    <properties>
+                        <year>2022</year>
+                        <owner>Expedia, Inc.</owner>
+                    </properties>
+                    <licenseSets>
+                        <licenseSet>
+                            <header>LICENSE-HEADER.txt</header>
+                            <includes>
+                                <include>**/*.kt</include>
+                            </includes>
+                        </licenseSet>
+                    </licenseSets>
+                </configuration>
             </plugin>
         </plugins>
     </build>
