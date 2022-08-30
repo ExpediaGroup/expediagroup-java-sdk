@@ -1,4 +1,4 @@
-name: Openworld SDK Release
+name: Open World Core Release
 on:
   workflow_dispatch:
     inputs:
