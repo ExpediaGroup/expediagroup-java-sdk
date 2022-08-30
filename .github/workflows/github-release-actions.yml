@@ -1,4 +1,4 @@
-name: Openworld SDK Release
+name: Open World Core Release
 on:
   workflow_dispatch:
     inputs:
@@ -6,7 +6,18 @@ on:
         description: 'confirmation to release on maven central'
         required: true
 jobs:
-  job:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: "JDK set-up"
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+      - run: mvn verify
+  deploy:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
