@@ -1,0 +1,30 @@
+name: Openworld SDK Release
+on:
+  workflow_dispatch:
+    inputs:
+      confirmation:
+        description: 'confirmation to release on maven central'
+        required: true
+jobs:
+  job:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: "JDK set-up"
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+          server-id: oss-sonatype # Value of the distributionManagement/repository/id field of the pom.xml
+          server-username: SONATYPE_USERNAME # env variable for username in deploy
+          server-password: SONATYPE_PASSWORD # env variable for token in deploy
+          # only signed artifacts will be released to maven central. this sets up things for the maven-gpg-plugin
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }} # Value of the GPG private key to import
+          gpg-passphrase: GPG_PASSPHRASE # env variable for GPG private key passphrase
+          settings-path: ${{ github.workspace }}
+      - name: "Release artifacts"
+        env:
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PRIVATE_KEY_PASSPHRASE }}
+        run: mvn deploy --settings $GITHUB_WORKSPACE/settings.xml -B -U -P release -DskipTests=true
