@@ -91,6 +91,25 @@ class FileConfigurationProviderTest {
     }
 
     @Test
+    fun `file configuration provider return empty data when the optional flag is active and file doesn't exists`() {
+        val provider: ConfigurationProvider = FileConfigurationProvider()
+        assertEquals(provider[INVALID_URL, true].data(), emptyMap<String, String>())
+    }
+
+    @Test
+    fun `file configuration provider return empty data when the optional flag is active and file path doesn't exists`() {
+        val provider: ConfigurationProvider = FileConfigurationProvider()
+        assertEquals(provider[INVALID_RESOURCE_FILE_NAME, true].data(), emptyMap<String, String>())
+    }
+
+    @Test
+    fun `file configuration provider should load empty configuration keys if passed with an invalid path and optional flag`() {
+        val provider = FileConfigurationProvider()
+        val configurationData = provider[INVALID_RESOURCE_FILE_NAME, setOf(API_CLIENT_KEY_NAME), true]
+        assertEquals(configurationData.data(), emptyMap<String, String>())
+    }
+
+    @Test
     fun `file configuration provider should load specific configuration keys if passed`() {
         val provider = FileConfigurationProvider()
         val filePath = this::class.java.getResource(RESOURCE_FILE_PATH)?.file.orEmpty()
