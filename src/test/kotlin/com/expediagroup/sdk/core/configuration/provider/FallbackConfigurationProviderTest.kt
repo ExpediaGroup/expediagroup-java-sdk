@@ -13,10 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.config
+package com.expediagroup.sdk.core.configuration.provider
 
-data class NetworkConfiguration(
-    val connectionTimeout: Long = 10_000,
-    val readTimeout: Long = 10_000,
-    val writeTimeout: Long = 10_000
-)
+import com.expediagroup.sdk.core.constants.ClientConstants.EMPTY_STRING
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
+
+class FallbackConfigurationProviderTest {
+
+    @Test
+    fun `verify default values`() {
+        assertEquals(EMPTY_STRING, FallbackConfigurationProvider.key)
+        assertEquals(EMPTY_STRING, FallbackConfigurationProvider.secret)
+        assertEquals(EMPTY_STRING, FallbackConfigurationProvider.endpoint)
+    }
+}

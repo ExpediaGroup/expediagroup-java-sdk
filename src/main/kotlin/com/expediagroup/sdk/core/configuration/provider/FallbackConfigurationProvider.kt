@@ -13,18 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.plugin.authentication
+package com.expediagroup.sdk.core.configuration.provider
 
-object IdentityUrl {
-    private const val IDENTITY_SUFFIX = "/identity/oauth2/v2/token"
+import com.expediagroup.sdk.core.constants.ClientConstants.EMPTY_STRING
 
-    /**
-     * Builds the identity URL for the given [endpoint], removing any extra slashes.
-     *
-     * @param endpoint The base URL of the service.
-     * @return The identity URL.
-     */
-    fun from(endpoint: String): String {
-        return "$endpoint$IDENTITY_SUFFIX".replace("(?<=[^:\\s])(\\/+\\/)", "/")
-    }
+object FallbackConfigurationProvider : ConfigurationProvider {
+    override val key: String = EMPTY_STRING
+    override val secret: String = EMPTY_STRING
+    override val endpoint: String = EMPTY_STRING
 }

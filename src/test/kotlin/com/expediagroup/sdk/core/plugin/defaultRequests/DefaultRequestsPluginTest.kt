@@ -16,19 +16,22 @@
 package com.expediagroup.sdk.core.plugin.defaultRequests
 
 import com.expediagroup.sdk.core.commons.ClientFactory
-import com.expediagroup.sdk.core.config.EnvironmentConfigurationProvider
+import com.expediagroup.sdk.core.commons.TestConstants.TEST_URL
 import io.ktor.client.request.get
 import io.ktor.client.statement.request
 import kotlinx.coroutines.runBlocking
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 
 class DefaultRequestsPluginTest {
     @Test
-    fun `making any http call with relative url should invoke the base url from the configuration`(): Unit =
+    fun `making any http call with relative url should invoke the endpoint from the configuration`(): Unit =
         runBlocking {
-            ClientFactory.createClient().get("/any-url").request.url.toString().let {
-                assertEquals(it, "${EnvironmentConfigurationProvider.getEnvironmentConfigurations().baseUrl}/any-url")
-            }
+            val client = ClientFactory.createClient()
+            val testRequest = client.httpClient.get("/any-url")
+
+            Assertions.assertThat(testRequest.request.url.toString()).isEqualTo(
+                "$TEST_URL/any-url"
+            )
         }
 }

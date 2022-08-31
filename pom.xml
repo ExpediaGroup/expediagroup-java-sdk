@@ -34,6 +34,9 @@
                         <exclude>**/config/impl/EnvironmentConfigsFactoryImpl*</exclude>
                         <exclude>**/config/provider/ConfigurationData*</exclude>
 
+                        <exclude>**/NetworkConfiguration*</exclude>
+                        <exclude>**/SystemConfigurationProvider*</exclude>
+
                         <exclude>**/exceptions/ClientException*</exclude>
                         <exclude>**/exceptions/BaseException*</exclude>
                         <exclude>**/exceptions/ServiceException*</exclude>

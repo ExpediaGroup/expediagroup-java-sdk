@@ -15,10 +15,9 @@
  */
 package com.expediagroup.sdk.core.client
 
-import com.expediagroup.sdk.core.config.Configuration
-import com.expediagroup.sdk.core.config.EnvironmentConfiguration
-import com.expediagroup.sdk.core.config.EnvironmentConfigurationProvider
-import com.expediagroup.sdk.core.config.RuntimeConfiguration
+import com.expediagroup.sdk.core.config.ClientCredentials
+import com.expediagroup.sdk.core.configuration.ClientConfiguration
+import com.expediagroup.sdk.core.configuration.collecter.ConfigurationCollector
 import com.expediagroup.sdk.core.plugin.Hooks
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationConfigs
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationHook
@@ -38,22 +37,25 @@ import io.ktor.client.engine.HttpClientEngine
 
 class Client private constructor(
     httpClientEngine: HttpClientEngine,
-    runtimeConfiguration: RuntimeConfiguration
+    clientConfiguration: ClientConfiguration
 ) {
     val httpClient: HttpClient
-    private val environmentConfiguration: EnvironmentConfiguration = EnvironmentConfigurationProvider.getEnvironmentConfigurations(runtimeConfiguration)
-    private val configuration: Configuration = EnvironmentConfigurationProvider.getConfigurations(runtimeConfiguration)
+    private val configurationCollector: ConfigurationCollector = ConfigurationCollector.collect(clientConfiguration)
 
     init {
         httpClient = HttpClient(httpClientEngine) {
             val authenticationConfigs =
-                AuthenticationConfigs.from(this, configuration.clientConfiguration, environmentConfiguration.baseUrl)
+                AuthenticationConfigs.from(
+                    this,
+                    ClientCredentials.from(configurationCollector.key, configurationCollector.secret),
+                    configurationCollector.endpoint
+                )
 
             plugins {
                 use(LoggingPlugin).with(LoggingConfigs.from(this))
                 use(SerializationPlugin).with(SerializationConfigs.from(this))
                 use(AuthenticationPlugin).with(authenticationConfigs)
-                use(DefaultRequestsPlugin).with(DefaultRequestsConfigs.from(this, environmentConfiguration))
+                use(DefaultRequestsPlugin).with(DefaultRequestsConfigs.from(this, configurationCollector.endpoint))
             }
 
             hooks {
@@ -75,8 +77,8 @@ class Client private constructor(
         @JvmOverloads
         fun from(
             httpClientEngine: HttpClientEngine,
-            runtimeConfiguration: RuntimeConfiguration = RuntimeConfiguration.NONE
-        ): Client = Client(httpClientEngine, runtimeConfiguration)
+            clientConfiguration: ClientConfiguration = ClientConfiguration.EMPTY
+        ): Client = Client(httpClientEngine, clientConfiguration)
     }
 }
 

@@ -15,7 +15,6 @@
  */
 package com.expediagroup.sdk.core.plugin.authentication
 
-import com.expediagroup.sdk.core.config.ClientConfiguration
 import com.expediagroup.sdk.core.config.ClientCredentials
 import com.expediagroup.sdk.core.constants.ClientConstants.CLIENT_CREDENTIALS_HEADER
 import com.expediagroup.sdk.core.constants.ClientConstants.EMPTY_STRING
@@ -58,15 +57,15 @@ object AuthenticationPlugin : Plugin<AuthenticationConfigs> {
         request: HttpRequestBuilder,
         configs: AuthenticationConfigs
     ): Boolean =
-        request.url.buildString() != configs.baseUrl
+        request.url.buildString() != configs.endpoint
 
     suspend fun refreshToken(client: HttpClient, configs: AuthenticationConfigs) {
         clearTokens(client)
         val refreshTokenResponse = client.request {
             method = HttpMethod.Post
-            url(configs.baseUrl)
+            url(configs.endpoint)
             buildTokenRequest()
-            basicAuth(configs.clientConfiguration)
+            basicAuth(configs.clientCredentials)
         }
         if (refreshTokenResponse.status != HttpStatusCode.OK) {
             throw ClientException(
@@ -76,7 +75,6 @@ object AuthenticationPlugin : Plugin<AuthenticationConfigs> {
         }
         val refreshTokenInfo: TokenResponse = refreshTokenResponse.body()
         bearerTokenStorage = BearerTokens(refreshTokenInfo.accessToken, refreshTokenInfo.accessToken)
-        bearerTokenStorage
     }
 
     private fun clearTokens(client: HttpClient) {
@@ -88,10 +86,10 @@ object AuthenticationPlugin : Plugin<AuthenticationConfigs> {
         return bearerTokenStorage
     }
 
-    private fun HttpRequestBuilder.basicAuth(configs: ClientConfiguration) {
+    private fun HttpRequestBuilder.basicAuth(credentials: ClientCredentials) {
         basicAuth(
-            (configs.auth as ClientCredentials).clientKey,
-            configs.auth.clientSecret
+            credentials.clientKey,
+            credentials.clientSecret
         )
     }
 

@@ -13,14 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.config
+package com.expediagroup.sdk.core.configuration
 
-data class LoggingConfiguration(val level: LogLevel = LogLevel.WARNING) {
-    enum class LogLevel {
-        TRACE,
-        DEBUG,
-        INFO,
-        WARNING,
-        ERROR
-    }
-}
+import com.expediagroup.sdk.core.constants.ClientConstants.EMPTY_STRING
+
+data class NetworkConfiguration(
+    val endpoint: String = EMPTY_STRING,
+    val connectionTimeout: Long = 10_000,
+    val readTimeout: Long = 10_000,
+    val writeTimeout: Long = 10_000
+)

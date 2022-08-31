@@ -13,8 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.config
+package com.expediagroup.sdk.core.configuration
 
-data class ClientConfiguration(
-    val auth: AuthenticationConfiguration
+import com.expediagroup.sdk.core.config.AuthenticationConfiguration
+
+internal data class Configuration @JvmOverloads constructor(
+    val authentication: AuthenticationConfiguration,
+    val network: NetworkConfiguration = NetworkConfiguration(),
+    val logging: LoggingConfiguration = LoggingConfiguration()
 )

@@ -20,7 +20,7 @@ data class ClientCredentials(
     val clientSecret: String
 ) : AuthenticationConfiguration {
 
-    companion object ClientCredentialsFactory {
+    companion object Factory {
         /**
          * Create a [ClientCredentials] object.
          *

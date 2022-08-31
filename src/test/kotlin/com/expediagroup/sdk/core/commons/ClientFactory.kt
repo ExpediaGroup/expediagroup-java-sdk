@@ -19,32 +19,17 @@ import com.expediagroup.sdk.core.client.Client
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_KEY_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.commons.TestConstants.TEST_URL
-import com.expediagroup.sdk.core.config.ClientConfiguration
-import com.expediagroup.sdk.core.config.ClientCredentials
-import com.expediagroup.sdk.core.config.Configuration
-import com.expediagroup.sdk.core.config.EnvironmentConfiguration
-import com.expediagroup.sdk.core.config.EnvironmentConfigurationProvider
-import io.ktor.client.HttpClient
-import io.mockk.every
-import io.mockk.mockkObject
+import com.expediagroup.sdk.core.configuration.ClientConfiguration
 
 object ClientFactory {
 
-    private fun mockConfigurationProvider() {
-        mockkObject(EnvironmentConfigurationProvider)
-        every { EnvironmentConfigurationProvider.getConfigurations() } returns Configuration(
-            ClientConfiguration(
-                ClientCredentials(
-                    clientKey = CLIENT_KEY_TEST_CREDENTIAL,
-                    clientSecret = CLIENT_SECRET_TEST_CREDENTIAL
-                )
-            )
-        )
-        every { EnvironmentConfigurationProvider.getEnvironmentConfigurations() } returns EnvironmentConfiguration.from(TEST_URL)
-    }
+    fun createClient(): Client {
+        val configuration = ClientConfiguration.Builder()
+            .key(CLIENT_KEY_TEST_CREDENTIAL)
+            .secret(CLIENT_SECRET_TEST_CREDENTIAL)
+            .endpoint(TEST_URL)
+            .build()
 
-    fun createClient(): HttpClient {
-        mockConfigurationProvider()
-        return Client.from(MockEnginFactory.createDefaultEngin()).httpClient
+        return Client.from(MockEnginFactory.createDefaultEngin(), configuration)
     }
 }

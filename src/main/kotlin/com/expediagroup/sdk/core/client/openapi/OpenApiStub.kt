@@ -16,7 +16,7 @@
 package com.expediagroup.sdk.core.client.openapi
 
 import com.expediagroup.sdk.core.client.Client
-import com.expediagroup.sdk.core.config.RuntimeConfiguration
+import com.expediagroup.sdk.core.configuration.ClientConfiguration
 import com.expediagroup.sdk.core.exceptions.ServiceException
 import com.expediagroup.sdk.core.exceptions.errors.Error
 import io.ktor.client.call.body
@@ -29,14 +29,14 @@ import io.ktor.http.toURI
  * Base class used by generated OpenAPI APIs to perform the heavy lifting of actually sending requests
  */
 abstract class OpenApiStub(
-    private val runtimeConfiguration: RuntimeConfiguration = RuntimeConfiguration.NONE
+    private val clientConfiguration: ClientConfiguration = ClientConfiguration.EMPTY
 ) {
     protected val client: Client by lazy { createClient() }
 
     /**
      * Create a new [Client] instance to be used by the generated OpenAPI APIs.
      */
-    protected open fun createClient(): Client = Client.from(OkHttp.create(), runtimeConfiguration)
+    protected open fun createClient(): Client = Client.from(OkHttp.create(), clientConfiguration)
 
     protected fun collectionDelimiter(format: String): String {
         return when (format) {

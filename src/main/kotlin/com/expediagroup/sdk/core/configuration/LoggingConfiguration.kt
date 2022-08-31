@@ -13,20 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.plugin.defaultRequests
+package com.expediagroup.sdk.core.configuration
 
-import com.expediagroup.sdk.core.plugin.KtorPluginConfigs
-import io.ktor.client.HttpClientConfig
-import io.ktor.client.engine.HttpClientEngineConfig
-
-data class DefaultRequestsConfigs(
-    override val httpClientConfig: HttpClientConfig<out HttpClientEngineConfig>,
-    val endpoint: String
-) : KtorPluginConfigs(httpClientConfig) {
-    companion object {
-        fun from(
-            httpClientConfig: HttpClientConfig<out HttpClientEngineConfig>,
-            endpoint: String
-        ) = DefaultRequestsConfigs(httpClientConfig, endpoint)
+data class LoggingConfiguration(val level: LogLevel = LogLevel.WARNING) {
+    enum class LogLevel {
+        TRACE,
+        DEBUG,
+        INFO,
+        WARNING,
+        ERROR
     }
 }

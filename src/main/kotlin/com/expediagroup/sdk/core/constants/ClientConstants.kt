@@ -36,7 +36,7 @@ object ClientConstants {
 
     const val CLIENT_SECRET = "client_secret"
 
-    const val BASE_URL = "base_url"
+    const val END_POINT = "endpoint"
 
     private val OPEN_WORLD_HOME_PATH = "${System.getProperty("user.home")}${File.separator}.openworld${File.separator}"
 

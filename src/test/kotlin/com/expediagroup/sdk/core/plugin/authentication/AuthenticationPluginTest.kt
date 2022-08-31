@@ -20,7 +20,6 @@ import com.expediagroup.sdk.core.commons.TestConstants.ACCESS_TOKEN
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_KEY_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.commons.TestConstants.TEST_URL
-import com.expediagroup.sdk.core.config.ClientConfiguration
 import com.expediagroup.sdk.core.config.ClientCredentials
 import com.expediagroup.sdk.core.exceptions.ClientException
 import io.ktor.client.HttpClient
@@ -43,7 +42,7 @@ class AuthenticationPluginTest {
     @Test
     fun `making any http call should invoke the authorized token`(): Unit = runBlocking {
         val client = ClientFactory.createClient()
-        val testRequest = client.get("http://any-url")
+        val testRequest = client.httpClient.get("http://any-url")
 
         assertThat(testRequest.request.headers["Authorization"]).isEqualTo(
             "Bearer $ACCESS_TOKEN"
@@ -57,14 +56,12 @@ class AuthenticationPluginTest {
 
             assertThrows<ClientException> {
                 AuthenticationPlugin.refreshToken(
-                    client,
+                    client.httpClient,
                     AuthenticationConfigs.from(
                         HttpClientConfig(),
-                        ClientConfiguration(
-                            ClientCredentials(
-                                CLIENT_KEY_TEST_CREDENTIAL + "invalid",
-                                CLIENT_SECRET_TEST_CREDENTIAL + "invalid"
-                            )
+                        ClientCredentials(
+                            CLIENT_KEY_TEST_CREDENTIAL + "invalid",
+                            CLIENT_SECRET_TEST_CREDENTIAL + "invalid"
                         ),
                         TEST_URL
                     )
@@ -77,19 +74,19 @@ class AuthenticationPluginTest {
         runBlocking {
             mockkObject(AuthenticationPlugin)
             val client = ClientFactory.createClient()
-            clearAuthorizationTokens(client)
+            val httpClient = client.httpClient
+            clearAuthorizationTokens(httpClient)
 
-            println(AuthenticationPlugin.getToken().accessToken)
             launch {
-                client.get("http://any-url")
+                httpClient.get("http://any-url")
             }
             launch {
-                client.get("http://any-url")
+                httpClient.get("http://any-url")
             }
 
             delay(1000)
             coVerify(exactly = 1) {
-                AuthenticationPlugin.refreshToken(client, any())
+                AuthenticationPlugin.refreshToken(httpClient, any())
             }
         }
 
