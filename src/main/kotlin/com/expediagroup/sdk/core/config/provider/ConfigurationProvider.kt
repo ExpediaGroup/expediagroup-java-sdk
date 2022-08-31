@@ -16,32 +16,36 @@
 package com.expediagroup.sdk.core.config.provider
 
 import java.net.URL
+
 interface ConfigurationProvider {
 
     /**
      * Retrieves the data at the given path.
      *
      * @param path the path where the data resides
+     * @param optional will not throw an exception if optional field is set to true
      * @return the configuration data
      */
-    operator fun get(path: String): ConfigurationData
+    operator fun get(path: String, optional: Boolean = false): ConfigurationData
 
     /**
      * Retrieves the data at the given path.
      *
      * @param url the uri where the data resides
+     * @param optional will not throw an exception if optional field is set to true
      * @return the configuration data
      */
-    operator fun get(url: URL): ConfigurationData
+    operator fun get(url: URL, optional: Boolean = false): ConfigurationData
 
     /**
      * Retrieves the data with the given keys at the given path.
      *
      * @param path the path where the data resides
      * @param keys the keys whose values will be retrieved
+     * @param optional will not throw an exception if optional field is set to true
      * @return the configuration data
      */
-    operator fun get(path: String, keys: Set<String>): ConfigurationData
+    operator fun get(path: String, keys: Set<String>, optional: Boolean = false): ConfigurationData
 
     /**
      * Subscribes to changes for the given keys at the given path (optional operation).

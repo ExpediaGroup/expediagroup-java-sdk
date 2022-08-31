@@ -21,6 +21,7 @@ import com.expediagroup.sdk.core.constants.ClientConstants.CLIENT_CONFIGS_FILE_P
 import com.expediagroup.sdk.core.constants.ClientConstants.CLIENT_KEY
 import com.expediagroup.sdk.core.constants.ClientConstants.CLIENT_SECRET
 import com.expediagroup.sdk.core.constants.ClientConstants.CREDENTIALS_FILE_PATH
+import com.expediagroup.sdk.core.constants.ClientConstants.DEFAULT_BASE_URL
 import com.expediagroup.sdk.core.constants.ClientConstants.EMPTY_STRING
 import com.expediagroup.sdk.core.plugin.authentication.IdentityUrl
 
@@ -37,8 +38,8 @@ object EnvironmentConfigurationProvider {
     }
 
     private fun prepareClientEnvironmentConfigs(): EnvironmentConfigs {
-        val clientEnvironmentConfigsData = FileConfigurationProvider()[CLIENT_CONFIGS_FILE_PATH].data()
-        val baseUrl = clientEnvironmentConfigsData[BASE_URL] ?: EMPTY_STRING
+        val clientEnvironmentConfigsData = FileConfigurationProvider()[CLIENT_CONFIGS_FILE_PATH, true].data()
+        val baseUrl = clientEnvironmentConfigsData[BASE_URL] ?: DEFAULT_BASE_URL
         val identityUrl = IdentityUrl.from(baseUrl)
 
         return EnvironmentConfigs(baseUrl, identityUrl)
