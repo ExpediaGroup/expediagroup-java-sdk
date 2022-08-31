@@ -42,6 +42,6 @@ internal class ConfigurationProviderQueue private constructor(private val provid
          * @param providers the providers to build the queue from.
          * @return a [ConfigurationProviderQueue] instance.
          */
-        fun from(providers: List<ConfigurationProvider>) = ConfigurationProviderQueue(providers)
+        fun from(providers: List<ConfigurationProvider>) = ConfigurationProviderQueue(providers.toList())
     }
 }

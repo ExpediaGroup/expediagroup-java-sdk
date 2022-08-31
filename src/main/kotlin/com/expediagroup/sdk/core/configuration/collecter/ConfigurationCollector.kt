@@ -30,9 +30,7 @@ internal class ConfigurationCollector private constructor(providers: Configurati
          * @param providerQueue the [ConfigurationProviderQueue] to use.
          * @return a new [ConfigurationCollector] with the given [providerQueue].
          */
-        fun collect(providerQueue: ConfigurationProviderQueue): ConfigurationCollector {
-            return ConfigurationCollector(providerQueue)
-        }
+        fun collect(providerQueue: ConfigurationProviderQueue): ConfigurationCollector = ConfigurationCollector(providerQueue)
 
         /**
          * Creates a new [ConfigurationCollector] with the given [providers] and the default [DEFAULT_PROVIDERS].

@@ -17,7 +17,7 @@ package com.expediagroup.sdk.core.configuration.provider
 
 import com.expediagroup.sdk.core.constants.ClientConstants.EMPTY_STRING
 
-object FallbackConfigurationProvider : ConfigurationProvider {
+internal object FallbackConfigurationProvider : ConfigurationProvider {
     override val key: String = EMPTY_STRING
     override val secret: String = EMPTY_STRING
     override val endpoint: String = EMPTY_STRING
