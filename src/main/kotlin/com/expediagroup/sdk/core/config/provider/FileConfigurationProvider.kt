@@ -32,6 +32,7 @@ import java.util.Properties
  * All property keys and values are stored as cleartext.
  */
 class FileConfigurationProvider : ConfigurationProvider {
+    private val emptyConfigurationData = ConfigurationData(emptyMap())
 
     /**
      * Retrieves the data at the given Properties file.
@@ -39,13 +40,14 @@ class FileConfigurationProvider : ConfigurationProvider {
      * @param path the file where the data resides
      * @return the configuration data
      */
-    override fun get(path: String): ConfigurationData {
+    override fun get(path: String, optional: Boolean): ConfigurationData {
         if (path.isEmpty()) {
-            return ConfigurationData(emptyMap())
+            return emptyConfigurationData
         }
         return runCatching {
             readPropsFileIntoConfigurationData(getReader(path))
         }.getOrElse {
+            if (optional) return emptyConfigurationData
             log.error("Could not read properties from file {}", path, it)
             throw ConfigurationException("Could not read properties from file $path")
         }
@@ -57,10 +59,11 @@ class FileConfigurationProvider : ConfigurationProvider {
      * @param url the file url where the data resides
      * @return the configuration data
      */
-    override fun get(url: URL): ConfigurationData {
+    override fun get(url: URL, optional: Boolean): ConfigurationData {
         return runCatching {
             readPropsFileIntoConfigurationData(getReader(url))
         }.getOrElse {
+            if (optional) return emptyConfigurationData
             log.error("Could not read properties from file {}", url, it)
             throw ConfigurationException("Could not read properties from file $url")
         }
@@ -85,10 +88,10 @@ class FileConfigurationProvider : ConfigurationProvider {
      * @param keys the keys whose values will be retrieved
      * @return the configuration data
      */
-    override fun get(path: String, keys: Set<String>): ConfigurationData {
+    override fun get(path: String, keys: Set<String>, optional: Boolean): ConfigurationData {
         val data: MutableMap<String, String> = HashMap()
         if (path.isEmpty()) {
-            return ConfigurationData(data)
+            return emptyConfigurationData
         }
         try {
             getReader(path).use { reader ->
@@ -103,6 +106,7 @@ class FileConfigurationProvider : ConfigurationProvider {
                 return ConfigurationData(data)
             }
         } catch (e: IOException) {
+            if (optional) return emptyConfigurationData
             log.error("Could not read properties from file {}", path, e)
             throw ConfigurationException("Could not read properties from file $path")
         }

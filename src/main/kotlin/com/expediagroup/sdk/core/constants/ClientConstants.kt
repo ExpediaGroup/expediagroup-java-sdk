@@ -20,6 +20,8 @@ import java.io.File
 object ClientConstants {
     const val EMPTY_STRING = ""
 
+    const val DEFAULT_BASE_URL = "https://api.expediagroup.com"
+
     const val AUTHORIZATION_REQUEST_LOCK_DELAY = 20L // TODO: Update me.
 
     const val AUTHORIZATION_HEADER = "Authorization"
