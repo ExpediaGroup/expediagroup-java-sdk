@@ -16,8 +16,8 @@
 package com.expediagroup.sdk.core.client
 
 import com.expediagroup.sdk.core.config.ClientCredentials
-import com.expediagroup.sdk.core.configuration.ClientConfiguration
 import com.expediagroup.sdk.core.configuration.collecter.ConfigurationCollector
+import com.expediagroup.sdk.core.configuration.provider.ClientConfiguration
 import com.expediagroup.sdk.core.plugin.Hooks
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationConfigs
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationHook

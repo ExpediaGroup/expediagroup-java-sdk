@@ -18,7 +18,7 @@ package com.expediagroup.sdk.core.configuration.collecter
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_KEY_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.commons.TestConstants.TEST_URL
-import com.expediagroup.sdk.core.configuration.ClientConfiguration
+import com.expediagroup.sdk.core.configuration.provider.ClientConfiguration
 import com.expediagroup.sdk.core.constants.ClientConstants.EMPTY_STRING
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals

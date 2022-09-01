@@ -13,12 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.configuration
-
-import com.expediagroup.sdk.core.configuration.provider.ConfigurationProvider
+package com.expediagroup.sdk.core.configuration.provider
 
 /**
- * SDK Client Configurations.
+ * SDK Client Configurations Provider.
  *
  * @property key The API key to use for authentication.
  * @property secret The API secret to use for authentication.
@@ -39,7 +37,7 @@ class ClientConfiguration private constructor(
     }
 
     /**
-     * Builder for [ClientConfiguration].
+     * A Builder for [ClientConfiguration] Provider.
      */
     class Builder {
         private var key: String? = null
