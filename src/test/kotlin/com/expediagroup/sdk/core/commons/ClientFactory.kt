@@ -24,7 +24,7 @@ import com.expediagroup.sdk.core.config.ClientCredentials
 import com.expediagroup.sdk.core.config.Configuration
 import com.expediagroup.sdk.core.config.EnvironmentConfigs
 import com.expediagroup.sdk.core.config.EnvironmentConfigurationProvider
-import com.expediagroup.sdk.core.plugin.authentication.IdentityUrl
+import com.expediagroup.sdk.core.constants.ClientConstants.DEFAULT_AUTH_URL
 import io.ktor.client.HttpClient
 import io.mockk.every
 import io.mockk.mockkConstructor
@@ -45,7 +45,7 @@ object ClientFactory {
         )
         every { EnvironmentConfigurationProvider.clientEnvironmentConfigs } returns EnvironmentConfigs(
             TEST_URL,
-            IdentityUrl.from(TEST_URL)
+            DEFAULT_AUTH_URL
         )
     }
 
