@@ -24,11 +24,15 @@ import kotlinx.coroutines.future.future
 {{#operations}}
 open class {{classname}}() : OpenApiStub() {
     private val loader = FileConfigurationProvider()[javaClass.classLoader.getResource("sdk.properties")!!]
+
+    private fun removeLeadingSlash(path: String): String {
+         return path.slice(1 until path.length)
+    }
     {{#operation}}
     private suspend inline fun k{{operationId}}({{#queryParams}}{{{paramName}}}: {{{dataType}}}{{#required}}{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{/required}}{{^required}}?{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^-last}},{{/-last}}{{/queryParams}}{{#hasQueryParam}}{{#hasBodyParam}},{{/hasBodyParam}}{{/hasQueryParam}}{{#bodyParam}}{{{paramName}}}: {{{dataType}}}{{#required}}{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{/required}}{{^required}}?{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^-last}},{{/-last}}{{/bodyParam}}{{^hasBodyParam}}{{#hasFormParam}},{{/hasFormParam}}{{/hasBodyParam}}{{#formParams}}{{{paramName}}}: {{{dataType}}}{{#required}}{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{/required}}{{^required}}?{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^-last}},{{/-last}}{{/formParams}}): {{{returnType}}}{{^returnType}}Void?{{/returnType}} {
         val response = client.request {
             method = HttpMethod.parse("{{httpMethod}}")
-            url("{{path}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}"${{{paramName}}}"{{/isContainer}}){{/pathParams}})
+            url(removeLeadingSlash("{{path}}"){{#pathParams}}.replace("{" + "{{baseName}}" + "}", {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}"${{{paramName}}}"{{/isContainer}}){{/pathParams}})
             headers.append("x-sdk-title", loader.data()["sdk-title"]!!)
             headers.append("User-agent", "open-world-sdk/${loader.data()["sdk-version"]!!}")
             {{#headerParams}}
