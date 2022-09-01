@@ -19,7 +19,8 @@ import com.expediagroup.sdk.core.constants.ClientConstants.EMPTY_STRING
 
 data class NetworkConfiguration(
     val endpoint: String = EMPTY_STRING,
-    val connectionTimeout: Long = 10_000,
-    val readTimeout: Long = 10_000,
-    val writeTimeout: Long = 10_000
+    val authEndpoint: String = EMPTY_STRING,
+    val connectionTimeout: Long = 0,
+    val readTimeout: Long = 0,
+    val writeTimeout: Long = 0
 )

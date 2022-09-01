@@ -20,7 +20,7 @@ import com.expediagroup.sdk.core.plugin.KtorPluginConfigs
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.HttpClientEngineConfig
 
-data class AuthenticationConfigs(
+class AuthenticationConfigs(
     override val httpClientConfig: HttpClientConfig<out HttpClientEngineConfig>,
     val clientCredentials: ClientCredentials,
     val endpoint: String
@@ -30,6 +30,6 @@ data class AuthenticationConfigs(
             httpClientConfig: HttpClientConfig<out HttpClientEngineConfig>,
             clientCredentials: ClientCredentials,
             endpoint: String
-        ): AuthenticationConfigs = AuthenticationConfigs(httpClientConfig, clientCredentials, IdentityUrl.from(endpoint))
+        ): AuthenticationConfigs = AuthenticationConfigs(httpClientConfig, clientCredentials, endpoint)
     }
 }

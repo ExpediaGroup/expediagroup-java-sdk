@@ -48,7 +48,7 @@ class Client private constructor(
                 AuthenticationConfigs.from(
                     this,
                     ClientCredentials.from(configurationCollector.key, configurationCollector.secret),
-                    configurationCollector.endpoint
+                    configurationCollector.authEndpoint
                 )
 
             plugins {

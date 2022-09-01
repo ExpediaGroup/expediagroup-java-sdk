@@ -22,6 +22,8 @@ object ClientConstants {
 
     const val DEFAULT_ENDPOINT = "https://api.expediagroup.com"
 
+    const val DEFAULT_AUTH_ENDPOINT = "$DEFAULT_ENDPOINT/identity/oauth2/v2/token"
+
     const val AUTHORIZATION_REQUEST_LOCK_DELAY = 20L // TODO: Update me.
 
     const val AUTHORIZATION_HEADER = "Authorization"
@@ -38,7 +40,9 @@ object ClientConstants {
 
     const val CLIENT_SECRET = "client_secret"
 
-    const val END_POINT = "endpoint"
+    const val ENDPOINT = "endpoint"
+
+    const val AUTH_ENDPOINT = "auth_endpoint"
 
     private val OPEN_WORLD_HOME_PATH = "${System.getProperty("user.home")}${File.separator}.openworld${File.separator}"
 

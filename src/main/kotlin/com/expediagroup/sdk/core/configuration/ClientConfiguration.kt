@@ -27,7 +27,8 @@ import com.expediagroup.sdk.core.configuration.provider.ConfigurationProvider
 class ClientConfiguration private constructor(
     override val key: String? = null,
     override val secret: String? = null,
-    override val endpoint: String? = null
+    override val endpoint: String? = null,
+    override val authEndpoint: String? = null
 ) : ConfigurationProvider {
 
     companion object {
@@ -44,6 +45,7 @@ class ClientConfiguration private constructor(
         private var key: String? = null
         private var secret: String? = null
         private var endpoint: String? = null
+        private var authEndpoint: String? = null
 
         /** Sets the API key to use for authentication.
          *
@@ -66,6 +68,13 @@ class ClientConfiguration private constructor(
          */
         fun endpoint(endpoint: String) = apply { this.endpoint = endpoint }
 
+        /** Sets the API auth endpoint to use for requests.
+         *
+         * @param authEndpoint The API auth endpoint to use for requests.
+         * @return The [Builder] instance.
+         */
+        fun authEndpoint(authEndpoint: String) = apply { this.authEndpoint = authEndpoint }
+
         /** Builds the [ClientConfiguration] object.
          *
          * @return The [ClientConfiguration] object.
@@ -73,7 +82,8 @@ class ClientConfiguration private constructor(
         fun build() = ClientConfiguration(
             key = key,
             secret = secret,
-            endpoint = endpoint
+            endpoint = endpoint,
+            authEndpoint = authEndpoint
         )
     }
 }

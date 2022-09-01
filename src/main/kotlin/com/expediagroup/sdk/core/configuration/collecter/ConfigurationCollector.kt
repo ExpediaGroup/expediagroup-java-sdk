@@ -46,4 +46,5 @@ internal class ConfigurationCollector private constructor(providers: Configurati
     override val key: String = providers.firstOf { it.key }
     override val secret: String = providers.firstOf { it.secret }
     override val endpoint: String = providers.firstOf { it.endpoint }
+    override val authEndpoint: String = providers.firstOf { it.authEndpoint }
 }

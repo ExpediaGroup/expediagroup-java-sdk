@@ -30,6 +30,7 @@ internal interface ConfigurationProvider {
 
     /* NetworkConfiguration */
     val endpoint: String?
+    val authEndpoint: String?
 
     companion object {
         /** A list of the default configuration providers. */

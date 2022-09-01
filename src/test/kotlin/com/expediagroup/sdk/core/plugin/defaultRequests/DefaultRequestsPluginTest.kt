@@ -16,7 +16,7 @@
 package com.expediagroup.sdk.core.plugin.defaultRequests
 
 import com.expediagroup.sdk.core.commons.ClientFactory
-import com.expediagroup.sdk.core.commons.TestConstants.TEST_URL
+import com.expediagroup.sdk.core.constants.ClientConstants.DEFAULT_ENDPOINT
 import io.ktor.client.request.get
 import io.ktor.client.statement.request
 import kotlinx.coroutines.runBlocking
@@ -31,7 +31,7 @@ class DefaultRequestsPluginTest {
             val testRequest = client.httpClient.get("/any-url")
 
             Assertions.assertThat(testRequest.request.url.toString()).isEqualTo(
-                "$TEST_URL/any-url"
+                "$DEFAULT_ENDPOINT/any-url"
             )
         }
 }

@@ -16,11 +16,12 @@
 package com.expediagroup.sdk.core.configuration.provider
 
 import com.expediagroup.sdk.core.config.provider.FileConfigurationProvider
+import com.expediagroup.sdk.core.constants.ClientConstants.AUTH_ENDPOINT
 import com.expediagroup.sdk.core.constants.ClientConstants.CLIENT_CONFIGS_FILE_PATH
 import com.expediagroup.sdk.core.constants.ClientConstants.CLIENT_KEY
 import com.expediagroup.sdk.core.constants.ClientConstants.CLIENT_SECRET
 import com.expediagroup.sdk.core.constants.ClientConstants.CREDENTIALS_FILE_PATH
-import com.expediagroup.sdk.core.constants.ClientConstants.END_POINT
+import com.expediagroup.sdk.core.constants.ClientConstants.ENDPOINT
 
 internal object SystemConfigurationProvider : ConfigurationProvider {
     private val fileConfigurationProvider = FileConfigurationProvider()
@@ -29,5 +30,6 @@ internal object SystemConfigurationProvider : ConfigurationProvider {
 
     override val key: String? = credentials[CLIENT_KEY]
     override val secret: String? = credentials[CLIENT_SECRET]
-    override val endpoint: String? = configurations[END_POINT]
+    override val endpoint: String? = configurations[ENDPOINT]
+    override val authEndpoint: String? = configurations[AUTH_ENDPOINT]
 }

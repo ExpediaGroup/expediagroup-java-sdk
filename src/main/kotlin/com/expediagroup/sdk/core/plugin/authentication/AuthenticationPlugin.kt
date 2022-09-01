@@ -55,9 +55,9 @@ object AuthenticationPlugin : Plugin<AuthenticationConfigs> {
 
     fun isIdentityRequest(
         request: HttpRequestBuilder,
-        configs: AuthenticationConfigs
+        authentication: AuthenticationConfigs
     ): Boolean =
-        request.url.buildString() != configs.endpoint
+        request.url.buildString() != authentication.endpoint
 
     suspend fun refreshToken(client: HttpClient, configs: AuthenticationConfigs) {
         clearTokens(client)
