@@ -22,6 +22,8 @@ object ClientConstants {
 
     const val DEFAULT_BASE_URL = "https://api.expediagroup.com"
 
+    const val DEFAULT_AUTH_URL = "$DEFAULT_BASE_URL/identity/oauth2/v2/token"
+
     const val AUTHORIZATION_REQUEST_LOCK_DELAY = 20L // TODO: Update me.
 
     const val AUTHORIZATION_HEADER = "Authorization"
@@ -39,6 +41,8 @@ object ClientConstants {
     const val CLIENT_SECRET = "client_secret"
 
     const val BASE_URL = "base_url"
+
+    const val AUTH_URL = "auth_url"
 
     private val OPEN_WORLD_HOME_PATH = "${System.getProperty("user.home")}${File.separator}.openworld${File.separator}"
 

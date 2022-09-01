@@ -58,13 +58,13 @@ object AuthenticationPlugin : Plugin<AuthenticationConfigs> {
         request: HttpRequestBuilder,
         configs: AuthenticationConfigs
     ): Boolean =
-        request.url.buildString() != configs.baseUrl
+        request.url.buildString() != configs.authUrl
 
     suspend fun refreshToken(client: HttpClient, configs: AuthenticationConfigs) {
         clearTokens(client)
         val refreshTokenResponse = client.request {
             method = HttpMethod.Post
-            url(configs.baseUrl)
+            url(configs.authUrl)
             buildTokenRequest()
             basicAuth(configs.clientConfiguration)
         }
