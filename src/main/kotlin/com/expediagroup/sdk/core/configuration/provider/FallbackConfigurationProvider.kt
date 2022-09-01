@@ -15,10 +15,11 @@
  */
 package com.expediagroup.sdk.core.configuration.provider
 
+import com.expediagroup.sdk.core.constants.ClientConstants.DEFAULT_ENDPOINT
 import com.expediagroup.sdk.core.constants.ClientConstants.EMPTY_STRING
 
 internal object FallbackConfigurationProvider : ConfigurationProvider {
     override val key: String = EMPTY_STRING
     override val secret: String = EMPTY_STRING
-    override val endpoint: String = EMPTY_STRING
+    override val endpoint: String = DEFAULT_ENDPOINT
 }

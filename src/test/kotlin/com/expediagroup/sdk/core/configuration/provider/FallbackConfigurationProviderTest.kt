@@ -15,6 +15,7 @@
  */
 package com.expediagroup.sdk.core.configuration.provider
 
+import com.expediagroup.sdk.core.constants.ClientConstants.DEFAULT_ENDPOINT
 import com.expediagroup.sdk.core.constants.ClientConstants.EMPTY_STRING
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -25,6 +26,6 @@ class FallbackConfigurationProviderTest {
     fun `verify default values`() {
         assertEquals(EMPTY_STRING, FallbackConfigurationProvider.key)
         assertEquals(EMPTY_STRING, FallbackConfigurationProvider.secret)
-        assertEquals(EMPTY_STRING, FallbackConfigurationProvider.endpoint)
+        assertEquals(DEFAULT_ENDPOINT, FallbackConfigurationProvider.endpoint)
     }
 }
