@@ -45,7 +45,7 @@ class Client private constructor(
     init {
         httpClient = HttpClient(httpClientEngine) {
             val authenticationConfigs =
-                AuthenticationConfigs.from(this, configuration.clientConfiguration, environmentConfigs.baseUrl)
+                AuthenticationConfigs.from(this, configuration.clientConfiguration, environmentConfigs.identityUrl)
 
             plugins {
                 use(LoggingPlugin).with(LoggingConfigs.from(this))

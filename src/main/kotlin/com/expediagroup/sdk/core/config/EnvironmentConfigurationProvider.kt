@@ -16,14 +16,15 @@
 package com.expediagroup.sdk.core.config
 
 import com.expediagroup.sdk.core.config.provider.FileConfigurationProvider
+import com.expediagroup.sdk.core.constants.ClientConstants.AUTH_URL
 import com.expediagroup.sdk.core.constants.ClientConstants.BASE_URL
 import com.expediagroup.sdk.core.constants.ClientConstants.CLIENT_CONFIGS_FILE_PATH
 import com.expediagroup.sdk.core.constants.ClientConstants.CLIENT_KEY
 import com.expediagroup.sdk.core.constants.ClientConstants.CLIENT_SECRET
 import com.expediagroup.sdk.core.constants.ClientConstants.CREDENTIALS_FILE_PATH
+import com.expediagroup.sdk.core.constants.ClientConstants.DEFAULT_AUTH_URL
 import com.expediagroup.sdk.core.constants.ClientConstants.DEFAULT_BASE_URL
 import com.expediagroup.sdk.core.constants.ClientConstants.EMPTY_STRING
-import com.expediagroup.sdk.core.plugin.authentication.IdentityUrl
 
 object EnvironmentConfigurationProvider {
     val configuration: Configuration = prepareConfiguration()
@@ -40,7 +41,7 @@ object EnvironmentConfigurationProvider {
     private fun prepareClientEnvironmentConfigs(): EnvironmentConfigs {
         val clientEnvironmentConfigsData = FileConfigurationProvider()[CLIENT_CONFIGS_FILE_PATH, true].data()
         val baseUrl = clientEnvironmentConfigsData[BASE_URL] ?: DEFAULT_BASE_URL
-        val identityUrl = IdentityUrl.from(baseUrl)
+        val identityUrl = clientEnvironmentConfigsData[AUTH_URL] ?: DEFAULT_AUTH_URL
 
         return EnvironmentConfigs(baseUrl, identityUrl)
     }

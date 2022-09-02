@@ -19,9 +19,9 @@ import com.expediagroup.sdk.core.commons.ClientFactory
 import com.expediagroup.sdk.core.commons.TestConstants.ACCESS_TOKEN
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_KEY_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
-import com.expediagroup.sdk.core.commons.TestConstants.TEST_URL
 import com.expediagroup.sdk.core.config.ClientConfiguration
 import com.expediagroup.sdk.core.config.ClientCredentials
+import com.expediagroup.sdk.core.constants.ClientConstants.DEFAULT_AUTH_URL
 import com.expediagroup.sdk.core.exceptions.ClientException
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
@@ -66,7 +66,7 @@ class AuthenticationPluginTest {
                                 CLIENT_SECRET_TEST_CREDENTIAL + "invalid"
                             )
                         ),
-                        TEST_URL
+                        DEFAULT_AUTH_URL
                     )
                 )
             }
