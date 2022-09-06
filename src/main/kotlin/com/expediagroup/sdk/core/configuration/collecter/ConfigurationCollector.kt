@@ -16,7 +16,6 @@
 package com.expediagroup.sdk.core.configuration.collecter
 
 import com.expediagroup.sdk.core.configuration.provider.ConfigurationProvider
-import com.expediagroup.sdk.core.configuration.provider.ConfigurationProvider.Companion.DEFAULT_PROVIDERS
 
 /**
  * Configuration collector that collects configuration from all available providers.
@@ -24,22 +23,23 @@ import com.expediagroup.sdk.core.configuration.provider.ConfigurationProvider.Co
 internal class ConfigurationCollector private constructor(providers: ConfigurationProviderQueue) : ConfigurationProvider {
 
     companion object Factory {
+
         /**
          * Creates a new [ConfigurationCollector] with the given [providerQueue].
          *
          * @param providerQueue the [ConfigurationProviderQueue] to use.
          * @return a new [ConfigurationCollector] with the given [providerQueue].
          */
-        fun collect(providerQueue: ConfigurationProviderQueue): ConfigurationCollector = ConfigurationCollector(providerQueue)
+        fun create(providerQueue: ConfigurationProviderQueue): ConfigurationCollector = ConfigurationCollector(providerQueue)
 
         /**
-         * Creates a new [ConfigurationCollector] with the given [providers] and the default [DEFAULT_PROVIDERS].
+         * Creates a new [ConfigurationCollector] with the given [providers].
          *
          * @param providers the [ConfigurationProvider]s to use.
-         * @return a new [ConfigurationCollector] with the given [providers] merged with the default [DEFAULT_PROVIDERS].
+         * @return a new [ConfigurationCollector] with the given [providers].
          */
-        fun collect(vararg providers: ConfigurationProvider): ConfigurationCollector {
-            return collect(ConfigurationProviderQueue.from(providers.asList() + DEFAULT_PROVIDERS))
+        fun create(vararg providers: ConfigurationProvider): ConfigurationCollector {
+            return create(ConfigurationProviderQueue.from(providers.asList()))
         }
     }
 

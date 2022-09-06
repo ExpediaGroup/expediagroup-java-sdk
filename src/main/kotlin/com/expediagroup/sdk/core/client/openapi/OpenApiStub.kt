@@ -16,7 +16,7 @@
 package com.expediagroup.sdk.core.client.openapi
 
 import com.expediagroup.sdk.core.client.Client
-import com.expediagroup.sdk.core.configuration.provider.ClientConfiguration
+import com.expediagroup.sdk.core.configuration.ClientConfiguration
 import com.expediagroup.sdk.core.exceptions.ServiceException
 import com.expediagroup.sdk.core.exceptions.errors.Error
 import io.ktor.client.call.body

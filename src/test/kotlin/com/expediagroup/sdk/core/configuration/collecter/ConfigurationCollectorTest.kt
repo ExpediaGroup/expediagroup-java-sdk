@@ -17,51 +17,85 @@ package com.expediagroup.sdk.core.configuration.collecter
 
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_KEY_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
-import com.expediagroup.sdk.core.commons.TestConstants.TEST_URL
-import com.expediagroup.sdk.core.configuration.provider.ClientConfiguration
-import com.expediagroup.sdk.core.configuration.provider.SystemConfigurationProvider
+import com.expediagroup.sdk.core.configuration.ClientConfiguration
+import com.expediagroup.sdk.core.configuration.provider.DefaultConfigurationProvider
+import com.expediagroup.sdk.core.configuration.toProvider
+import com.expediagroup.sdk.core.constants.ClientConstants.DEFAULT_AUTH_ENDPOINT
+import com.expediagroup.sdk.core.constants.ClientConstants.DEFAULT_ENDPOINT
 import com.expediagroup.sdk.core.constants.ClientConstants.EMPTY_STRING
-import io.mockk.every
-import io.mockk.mockkObject
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
+import java.lang.NullPointerException
 
 internal class ConfigurationCollectorTest {
 
-    companion object {
-        private val clientConfiguration = ClientConfiguration.Builder()
-            .key(CLIENT_KEY_TEST_CREDENTIAL)
-            .secret(CLIENT_SECRET_TEST_CREDENTIAL)
-            .endpoint(TEST_URL)
-            .build()
-
-        private val configurationCollectorWithClientConfiguration = ConfigurationCollector.collect(
-            clientConfiguration
-        )
-
-        @BeforeAll
-        @JvmStatic
-        fun setUp() {
-            mockkObject(SystemConfigurationProvider)
-            every { SystemConfigurationProvider.key } returns EMPTY_STRING
-            every { SystemConfigurationProvider.secret } returns EMPTY_STRING
-            every { SystemConfigurationProvider.endpoint } returns EMPTY_STRING
+    @Test
+    fun `verify configuration collector with no providers`() {
+        assertThrows<NullPointerException> {
+            ConfigurationCollector.create()
         }
     }
 
     @Test
-    fun `verify default configuration collector`() {
-        val defaultConfigurationCollector = ConfigurationCollector.collect()
-        assertEquals(EMPTY_STRING, defaultConfigurationCollector.key)
-        assertEquals(EMPTY_STRING, defaultConfigurationCollector.secret)
-        assertEquals(EMPTY_STRING, defaultConfigurationCollector.endpoint)
+    fun `verify configuration collector with default configuration only`() {
+        val collector = ConfigurationCollector.create(DefaultConfigurationProvider)
+
+        assertEquals(EMPTY_STRING, collector.key)
+        assertEquals(EMPTY_STRING, collector.secret)
+        assertEquals(DEFAULT_ENDPOINT, collector.endpoint)
+        assertEquals(DEFAULT_AUTH_ENDPOINT, collector.authEndpoint)
     }
 
     @Test
-    fun `verify configuration collector with client configuration`() {
-        assertEquals(CLIENT_KEY_TEST_CREDENTIAL, configurationCollectorWithClientConfiguration.key)
-        assertEquals(CLIENT_SECRET_TEST_CREDENTIAL, configurationCollectorWithClientConfiguration.secret)
-        assertEquals(TEST_URL, configurationCollectorWithClientConfiguration.endpoint)
+    fun `verify configuration collector with client configuration only`() {
+        val clientConfiguration = ClientConfiguration.Builder()
+            .key(CLIENT_KEY_TEST_CREDENTIAL)
+            .secret(CLIENT_SECRET_TEST_CREDENTIAL)
+            .endpoint(DEFAULT_ENDPOINT)
+            .authEndpoint(DEFAULT_AUTH_ENDPOINT)
+            .build()
+
+        val collector = ConfigurationCollector.create(
+            clientConfiguration.toProvider()
+        )
+
+        assertEquals(CLIENT_KEY_TEST_CREDENTIAL, collector.key)
+        assertEquals(CLIENT_SECRET_TEST_CREDENTIAL, collector.secret)
+        assertEquals(DEFAULT_ENDPOINT, collector.endpoint)
+        assertEquals(DEFAULT_AUTH_ENDPOINT, collector.authEndpoint)
+    }
+
+    @Test
+    fun `verify configuration collector with incomplete client configuration only`() {
+        val clientConfiguration = ClientConfiguration.Builder()
+            .key(CLIENT_KEY_TEST_CREDENTIAL)
+            .secret(CLIENT_SECRET_TEST_CREDENTIAL)
+            .endpoint(DEFAULT_ENDPOINT)
+            .build()
+
+        assertThrows<NullPointerException> {
+            val collector = ConfigurationCollector.create(
+                clientConfiguration.toProvider()
+            )
+        }
+    }
+
+    @Test
+    fun `verify configuration collector with client configuration and default provider`() {
+        val clientConfiguration = ClientConfiguration.Builder()
+            .secret(CLIENT_SECRET_TEST_CREDENTIAL)
+            .endpoint(DEFAULT_ENDPOINT)
+            .build()
+
+        val collector = ConfigurationCollector.create(
+            clientConfiguration.toProvider(),
+            DefaultConfigurationProvider
+        )
+
+        assertEquals(EMPTY_STRING, collector.key) // from default provider
+        assertEquals(CLIENT_SECRET_TEST_CREDENTIAL, collector.secret) // from client configuration
+        assertEquals(DEFAULT_ENDPOINT, collector.endpoint) // from client configuration
+        assertEquals(DEFAULT_AUTH_ENDPOINT, collector.authEndpoint) // from default provider
     }
 }

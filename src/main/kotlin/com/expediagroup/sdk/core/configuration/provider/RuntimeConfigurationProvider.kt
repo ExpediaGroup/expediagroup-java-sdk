@@ -15,27 +15,19 @@
  */
 package com.expediagroup.sdk.core.configuration.provider
 
+import com.expediagroup.sdk.core.configuration.Configuration
+
 /**
- * A configuration provider that can be used to provide configuration values.
+ * A runtime-built provider for [Configuration].
  *
  * @property key The API key to use for authentication.
  * @property secret The API secret to use for authentication.
  * @property endpoint The API endpoint to use for requests.
  * @property authEndpoint The API endpoint to use for authentication.
  */
-internal interface ConfigurationProvider {
-
-    /* AuthenticationConfiguration */
-    /** The API key to use for authentication. */
-    val key: String?
-
-    /** The API secret to use for authentication. */
-    val secret: String?
-
-    /* NetworkConfiguration */
-    /** The API endpoint to use for requests. */
-    val endpoint: String?
-
-    /** The API endpoint to use for authentication. */
-    val authEndpoint: String?
-}
+class RuntimeConfigurationProvider(
+    override val key: String? = null,
+    override val secret: String? = null,
+    override val endpoint: String? = null,
+    override val authEndpoint: String? = null
+) : ConfigurationProvider

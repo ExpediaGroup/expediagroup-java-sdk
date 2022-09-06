@@ -13,7 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.configuration.provider
+package com.expediagroup.sdk.core.configuration
+
+import com.expediagroup.sdk.core.configuration.provider.RuntimeConfigurationProvider
 
 /**
  * SDK Client Configurations Provider.
@@ -23,11 +25,11 @@ package com.expediagroup.sdk.core.configuration.provider
  * @property endpoint The API endpoint to use for requests.
  */
 class ClientConfiguration private constructor(
-    override val key: String? = null,
-    override val secret: String? = null,
-    override val endpoint: String? = null,
-    override val authEndpoint: String? = null
-) : ConfigurationProvider {
+    val key: String? = null,
+    val secret: String? = null,
+    val endpoint: String? = null,
+    val authEndpoint: String? = null
+) {
 
     companion object {
 
@@ -85,3 +87,13 @@ class ClientConfiguration private constructor(
         )
     }
 }
+
+/**
+ * Build a [RuntimeConfigurationProvider] from a [ClientConfiguration].
+ */
+internal fun ClientConfiguration.toProvider(): RuntimeConfigurationProvider = RuntimeConfigurationProvider(
+    key = key,
+    secret = secret,
+    endpoint = endpoint,
+    authEndpoint = authEndpoint
+)

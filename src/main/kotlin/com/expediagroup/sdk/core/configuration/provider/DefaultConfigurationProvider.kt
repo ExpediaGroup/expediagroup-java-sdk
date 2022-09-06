@@ -13,24 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.commons
+package com.expediagroup.sdk.core.configuration.provider
 
-import com.expediagroup.sdk.core.client.Client
-import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_KEY_TEST_CREDENTIAL
-import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
-import com.expediagroup.sdk.core.configuration.ClientConfiguration
 import com.expediagroup.sdk.core.constants.ClientConstants.DEFAULT_AUTH_ENDPOINT
 import com.expediagroup.sdk.core.constants.ClientConstants.DEFAULT_ENDPOINT
+import com.expediagroup.sdk.core.constants.ClientConstants.EMPTY_STRING
 
-object ClientFactory {
-    private val configuration = ClientConfiguration.Builder()
-        .key(CLIENT_KEY_TEST_CREDENTIAL)
-        .secret(CLIENT_SECRET_TEST_CREDENTIAL)
-        .endpoint(DEFAULT_ENDPOINT)
-        .authEndpoint(DEFAULT_AUTH_ENDPOINT)
-        .build()
-
-    fun createClient(): Client {
-        return Client.from(MockEnginFactory.createDefaultEngin(), configuration)
-    }
+/**
+ * Default implementation of [ConfigurationProvider].
+ */
+internal object DefaultConfigurationProvider : ConfigurationProvider {
+    override val key: String = EMPTY_STRING
+    override val secret: String = EMPTY_STRING
+    override val endpoint: String = DEFAULT_ENDPOINT
+    override val authEndpoint: String = DEFAULT_AUTH_ENDPOINT
 }

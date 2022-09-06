@@ -16,8 +16,11 @@
 package com.expediagroup.sdk.core.client
 
 import com.expediagroup.sdk.core.config.ClientCredentials
+import com.expediagroup.sdk.core.configuration.ClientConfiguration
 import com.expediagroup.sdk.core.configuration.collecter.ConfigurationCollector
-import com.expediagroup.sdk.core.configuration.provider.ClientConfiguration
+import com.expediagroup.sdk.core.configuration.provider.DefaultConfigurationProvider
+import com.expediagroup.sdk.core.configuration.provider.SystemConfigurationProvider
+import com.expediagroup.sdk.core.configuration.toProvider
 import com.expediagroup.sdk.core.plugin.Hooks
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationConfigs
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationHook
@@ -40,7 +43,11 @@ class Client private constructor(
     clientConfiguration: ClientConfiguration
 ) {
     val httpClient: HttpClient
-    private val configurationCollector: ConfigurationCollector = ConfigurationCollector.collect(clientConfiguration)
+    private val configurationCollector: ConfigurationCollector = ConfigurationCollector.create(
+        clientConfiguration.toProvider(),
+        SystemConfigurationProvider,
+        DefaultConfigurationProvider
+    )
 
     init {
         httpClient = HttpClient(httpClientEngine) {

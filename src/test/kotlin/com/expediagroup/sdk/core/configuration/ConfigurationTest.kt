@@ -13,11 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.config
+package com.expediagroup.sdk.core.configuration
 
-import com.expediagroup.sdk.core.configuration.Configuration
-import com.expediagroup.sdk.core.configuration.LoggingConfiguration
-import com.expediagroup.sdk.core.configuration.NetworkConfiguration
+import com.expediagroup.sdk.core.config.ClientCredentials
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 

@@ -17,51 +17,47 @@ package com.expediagroup.sdk.core.configuration.collecter
 
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_KEY_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
-import com.expediagroup.sdk.core.commons.TestConstants.TEST_URL
-import com.expediagroup.sdk.core.configuration.provider.ClientConfiguration
+import com.expediagroup.sdk.core.configuration.ClientConfiguration
+import com.expediagroup.sdk.core.configuration.provider.DefaultConfigurationProvider
+import com.expediagroup.sdk.core.configuration.toProvider
+import com.expediagroup.sdk.core.constants.ClientConstants.DEFAULT_AUTH_ENDPOINT
+import com.expediagroup.sdk.core.constants.ClientConstants.DEFAULT_ENDPOINT
 import com.expediagroup.sdk.core.constants.ClientConstants.EMPTY_STRING
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
-import java.lang.NullPointerException
 
 internal class ConfigurationProviderQueueTest {
-    companion object {
-        private val clientConfiguration = ClientConfiguration.Builder()
-            .key(CLIENT_KEY_TEST_CREDENTIAL)
-            .secret(CLIENT_SECRET_TEST_CREDENTIAL)
-            .endpoint(TEST_URL)
-            .build()
-
-        private val emptyConfigurationProviderQueue = ConfigurationProviderQueue.from(
-            listOf(ClientConfiguration.EMPTY)
-        )
-
-        private val configurationProviderQueue = ConfigurationProviderQueue.from(
-            listOf(clientConfiguration)
-        )
-    }
 
     @Test
-    fun `test a provider queue with only an empty provider`() {
-        emptyConfigurationProviderQueue.first() === ClientConfiguration.EMPTY
-        emptyConfigurationProviderQueue.first { it.key != null } === ClientConfiguration.EMPTY
-
-        assertThrows<NullPointerException> {
-            emptyConfigurationProviderQueue.firstOf { it.key }
-            Unit
-        }
+    fun `test a provider queue with only a default provider`() {
+        val configurationProviderQueue = ConfigurationProviderQueue.from(listOf(DefaultConfigurationProvider))
+        assertEquals(EMPTY_STRING, configurationProviderQueue.firstOf { it.key })
+        assertEquals(EMPTY_STRING, configurationProviderQueue.firstOf { it.secret })
+        assertEquals(DEFAULT_ENDPOINT, configurationProviderQueue.firstOf { it.endpoint })
+        assertEquals(DEFAULT_AUTH_ENDPOINT, configurationProviderQueue.firstOf { it.authEndpoint })
     }
 
     @Test
     fun `test a provider queue with at least a non-empty provider`() {
-        assertThat(configurationProviderQueue.first()).isSameAs(clientConfiguration)
-        assertThat(configurationProviderQueue.first { it.key != null }).isSameAs(clientConfiguration)
-        assertThat(configurationProviderQueue.first { it.key !== EMPTY_STRING }).isSameAs(clientConfiguration)
+        val runtimeConfigurationProvider = ClientConfiguration.Builder()
+            .key(CLIENT_KEY_TEST_CREDENTIAL)
+            .secret(CLIENT_SECRET_TEST_CREDENTIAL)
+            .endpoint(DEFAULT_ENDPOINT)
+            .authEndpoint(DEFAULT_AUTH_ENDPOINT)
+            .build()
+            .toProvider()
+
+        val configurationProviderQueue = ConfigurationProviderQueue.from(
+            listOf(runtimeConfigurationProvider)
+        )
+
+        assertEquals(runtimeConfigurationProvider, configurationProviderQueue.first())
+        assertEquals(runtimeConfigurationProvider, configurationProviderQueue.first { it.key != null })
+        assertEquals(runtimeConfigurationProvider, configurationProviderQueue.first { it.key != EMPTY_STRING })
 
         assertEquals(configurationProviderQueue.firstOf { it.key }, CLIENT_KEY_TEST_CREDENTIAL)
         assertEquals(configurationProviderQueue.firstOf { it.secret }, CLIENT_SECRET_TEST_CREDENTIAL)
-        assertEquals(configurationProviderQueue.firstOf { it.endpoint }, TEST_URL)
+        assertEquals(configurationProviderQueue.firstOf { it.endpoint }, DEFAULT_ENDPOINT)
+        assertEquals(configurationProviderQueue.firstOf { it.authEndpoint }, DEFAULT_AUTH_ENDPOINT)
     }
 }

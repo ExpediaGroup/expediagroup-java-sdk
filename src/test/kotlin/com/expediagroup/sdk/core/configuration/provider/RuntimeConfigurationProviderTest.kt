@@ -15,17 +15,19 @@
  */
 package com.expediagroup.sdk.core.configuration.provider
 
-import com.expediagroup.sdk.core.constants.ClientConstants.DEFAULT_ENDPOINT
-import com.expediagroup.sdk.core.constants.ClientConstants.EMPTY_STRING
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 
-class FallbackConfigurationProviderTest {
+class RuntimeConfigurationProviderTest {
 
     @Test
     fun `verify default values`() {
-        assertEquals(EMPTY_STRING, FallbackConfigurationProvider.key)
-        assertEquals(EMPTY_STRING, FallbackConfigurationProvider.secret)
-        assertEquals(DEFAULT_ENDPOINT, FallbackConfigurationProvider.endpoint)
+        val emptyRuntimeConfigurationProvider = RuntimeConfigurationProvider()
+        assertNotNull(emptyRuntimeConfigurationProvider)
+        assertNull(emptyRuntimeConfigurationProvider.key)
+        assertNull(emptyRuntimeConfigurationProvider.secret)
+        assertNull(emptyRuntimeConfigurationProvider.endpoint)
+        assertNull(emptyRuntimeConfigurationProvider.authEndpoint)
     }
 }

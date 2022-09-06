@@ -24,12 +24,12 @@ import com.expediagroup.sdk.core.constants.ClientConstants.CREDENTIALS_FILE_PATH
 import com.expediagroup.sdk.core.constants.ClientConstants.ENDPOINT
 
 internal object SystemConfigurationProvider : ConfigurationProvider {
-    private val fileConfigurationProvider = FileConfigurationProvider()
-    private val credentials: Map<String, String> = fileConfigurationProvider[CREDENTIALS_FILE_PATH].data()
-    private val configurations: Map<String, String> = fileConfigurationProvider[CLIENT_CONFIGS_FILE_PATH].data()
+    private val fileConfigurationProvider: FileConfigurationProvider by lazy { FileConfigurationProvider() }
+    private val credentials: Map<String, String> by lazy { fileConfigurationProvider[CREDENTIALS_FILE_PATH].data() }
+    private val configurations: Map<String, String> by lazy { fileConfigurationProvider[CLIENT_CONFIGS_FILE_PATH].data() }
 
-    override val key: String? = credentials[CLIENT_KEY]
-    override val secret: String? = credentials[CLIENT_SECRET]
-    override val endpoint: String? = configurations[ENDPOINT]
-    override val authEndpoint: String? = configurations[AUTH_ENDPOINT]
+    override val key: String? by lazy { credentials[CLIENT_KEY] }
+    override val secret: String? by lazy { credentials[CLIENT_SECRET] }
+    override val endpoint: String? by lazy { configurations[ENDPOINT] }
+    override val authEndpoint: String? by lazy { configurations[AUTH_ENDPOINT] }
 }
