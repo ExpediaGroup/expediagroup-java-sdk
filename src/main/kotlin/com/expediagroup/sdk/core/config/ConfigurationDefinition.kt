@@ -21,6 +21,12 @@ class ConfigurationDefinition {
 
     private var configKeys = mutableMapOf<String, ConfigurationKey>()
 
+    /**
+     * Define a new configuration which is required by the SDK
+     *
+     * @param key key which needs to be defined
+     * @return ConfigurationDefinition object after adding the configuration key
+     */
     fun define(key: ConfigurationKey): ConfigurationDefinition {
         if (configKeys.containsKey(key.name)) {
             throw ConfigurationException("Configuration " + key.name + " is defined twice")
@@ -30,7 +36,15 @@ class ConfigurationDefinition {
     }
 
     /**
+     * Define a new configuration which is required by the SDK
      *
+     * @param name of the configuration, it should be unique, use a . delemited string eg : api_credentials.client_key
+     * @param documentation documentation for the configuration key, its logged and used by the client of the sdk to set the right value
+     * @param type type of the expected configuration value.
+     * @param importance specifies the importance of the key, sdk fails to initialize if a configuration for a key of high importance is not passed
+     * @param defaultValue the default value of the configuration if its not passed, its an optional field, some key's won't have a default
+     * @param validator - configuration validator if the value needs additional validation. eg : if a value has to be between 1-10 just expecting the type to be INT would not be enough
+     * @return ConfigurationDefinition object after adding the configuration key
      */
     fun define(
         name: String,
@@ -51,9 +65,21 @@ class ConfigurationDefinition {
         return define(key)
     }
 
+    /**
+     * Gets the configuration key given the unique identifier
+     *
+     * @param name - identifier for the configuration key
+     * @return - configuration key
+     */
     fun get(name: String): ConfigurationKey =
         configKeys[name] ?: throw ConfigurationException("configuration key not defined, name:$name")
 
+    /**
+     * Parses the configuration values based on the defined keys
+     *
+     * @param props - unparsed configuration values as properties
+     * @return - map of configuration names along with its parsed values
+     */
     fun parse(props: Map<String, Any>): Map<String, Any> {
         // Check all configurations are defined
         val undefinedConfigKeys: List<String> = undefinedConfigs(props)
