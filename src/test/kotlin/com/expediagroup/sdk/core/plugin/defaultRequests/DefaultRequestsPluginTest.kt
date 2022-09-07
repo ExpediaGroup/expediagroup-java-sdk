@@ -23,15 +23,16 @@ import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 
-class DefaultRequestsPluginTest {
+internal class DefaultRequestsPluginTest {
+
     @Test
-    fun `making any http call with relative url should invoke the base url from the configuration`(): Unit =
+    fun `making any http call with relative url should invoke the endpoint from the configuration`(): Unit =
         runBlocking {
             val client = ClientFactory.createClient()
             val testRequest = client.get("/any-url")
 
             Assertions.assertThat(testRequest.request.url.toString()).isEqualTo(
-                "${EnvironmentConfigurationProvider.clientEnvironmentConfigs.baseUrl}/any-url"
+                "${EnvironmentConfigurationProvider.clientEnvironmentConfigs.endpoint}/any-url"
             )
         }
 }

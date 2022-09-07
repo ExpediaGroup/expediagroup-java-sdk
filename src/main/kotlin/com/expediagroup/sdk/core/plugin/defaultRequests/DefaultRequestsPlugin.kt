@@ -21,7 +21,7 @@ import io.ktor.client.plugins.DefaultRequest
 object DefaultRequestsPlugin : Plugin<DefaultRequestsConfigs> {
     override fun install(configs: DefaultRequestsConfigs) {
         configs.httpClientConfig.install(DefaultRequest) {
-            url(configs.environmentConfigs.baseUrl)
+            url(configs.environmentConfigs.endpoint)
         }
     }
 }

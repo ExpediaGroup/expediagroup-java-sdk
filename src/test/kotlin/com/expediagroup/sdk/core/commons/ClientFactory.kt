@@ -24,12 +24,12 @@ import com.expediagroup.sdk.core.config.ClientCredentials
 import com.expediagroup.sdk.core.config.Configuration
 import com.expediagroup.sdk.core.config.EnvironmentConfigs
 import com.expediagroup.sdk.core.config.EnvironmentConfigurationProvider
-import com.expediagroup.sdk.core.constants.ClientConstants.DEFAULT_AUTH_URL
+import com.expediagroup.sdk.core.constants.ClientConstants.DEFAULT_AUTH_ENDPOINT
 import io.ktor.client.HttpClient
 import io.mockk.every
 import io.mockk.mockkConstructor
 
-object ClientFactory {
+internal object ClientFactory {
 
     private fun mockConfigurationProvider() {
         mockkConstructor(EnvironmentConfigurationProvider::class)
@@ -45,7 +45,7 @@ object ClientFactory {
         )
         every { EnvironmentConfigurationProvider.clientEnvironmentConfigs } returns EnvironmentConfigs(
             TEST_URL,
-            DEFAULT_AUTH_URL
+            DEFAULT_AUTH_ENDPOINT
         )
     }
 

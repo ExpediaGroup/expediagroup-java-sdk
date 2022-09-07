@@ -21,7 +21,7 @@ import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_KEY_TEST_CREDENTIA
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.config.ClientConfiguration
 import com.expediagroup.sdk.core.config.ClientCredentials
-import com.expediagroup.sdk.core.constants.ClientConstants.DEFAULT_AUTH_URL
+import com.expediagroup.sdk.core.constants.ClientConstants.DEFAULT_AUTH_ENDPOINT
 import com.expediagroup.sdk.core.exceptions.ClientException
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
@@ -38,7 +38,7 @@ import org.junit.jupiter.api.assertThrows
 import kotlin.reflect.full.declaredMemberFunctions
 import kotlin.reflect.jvm.isAccessible
 
-class AuthenticationPluginTest {
+internal class AuthenticationPluginTest {
 
     @Test
     fun `making any http call should invoke the authorized token`(): Unit = runBlocking {
@@ -66,7 +66,7 @@ class AuthenticationPluginTest {
                                 CLIENT_SECRET_TEST_CREDENTIAL + "invalid"
                             )
                         ),
-                        DEFAULT_AUTH_URL
+                        DEFAULT_AUTH_ENDPOINT
                     )
                 )
             }
