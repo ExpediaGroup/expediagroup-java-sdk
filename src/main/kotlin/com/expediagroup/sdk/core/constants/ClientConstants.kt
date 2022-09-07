@@ -17,12 +17,12 @@ package com.expediagroup.sdk.core.constants
 
 import java.io.File
 
-object ClientConstants {
+internal object ClientConstants {
     const val EMPTY_STRING = ""
 
-    const val DEFAULT_BASE_URL = "https://api.expediagroup.com"
+    const val DEFAULT_ENDPOINT = "https://api.expediagroup.com"
 
-    const val DEFAULT_AUTH_URL = "$DEFAULT_BASE_URL/identity/oauth2/v2/token"
+    const val DEFAULT_AUTH_ENDPOINT = "$DEFAULT_ENDPOINT/identity/oauth2/v2/token"
 
     const val AUTHORIZATION_REQUEST_LOCK_DELAY = 20L // TODO: Update me.
 
@@ -40,9 +40,9 @@ object ClientConstants {
 
     const val CLIENT_SECRET = "client_secret"
 
-    const val BASE_URL = "base_url"
+    const val ENDPOINT_KEY = "endpoint"
 
-    const val AUTH_URL = "auth_url"
+    const val AUTH_ENDPOINT_KEY = "auth_endpoint"
 
     private val OPEN_WORLD_HOME_PATH = "${System.getProperty("user.home")}${File.separator}.openworld${File.separator}"
 

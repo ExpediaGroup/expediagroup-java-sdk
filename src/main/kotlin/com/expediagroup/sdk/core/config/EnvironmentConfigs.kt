@@ -15,4 +15,4 @@
  */
 package com.expediagroup.sdk.core.config
 
-data class EnvironmentConfigs(val baseUrl: String, val identityUrl: String)
+data class EnvironmentConfigs(val endpoint: String, val identityUrl: String)
