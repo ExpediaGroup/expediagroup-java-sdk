@@ -15,8 +15,96 @@
  */
 package com.expediagroup.sdk.core.config
 
+import com.expediagroup.sdk.core.config.provider.ConfigurationData
+import com.expediagroup.sdk.core.exceptions.ConfigurationException
+
+@Deprecated("we should be using the Config Class instead of parse the values, the strongly typed objects can live with the respective modules")
 data class Configuration @JvmOverloads constructor(
     val clientConfiguration: ClientConfiguration,
     val network: NetworkConfiguration = NetworkConfiguration(),
     val logging: LoggingConfiguration = LoggingConfiguration()
 )
+
+/**
+ * @property configurationData deserialized configuration data which needs to be parsed
+ * @property configurationDefinition the configuration  definitions used to parse the data
+ **/
+class Config(
+    private val configurationData: ConfigurationData,
+    private val configurationDefinition: ConfigurationDefinition
+) {
+    private var configurations = mapOf<String, Any>()
+
+    init {
+        configurations = configurationDefinition.parse(configurationData.data())
+    }
+
+    /**
+     * Gets the configuration value given a key. The key should be defined as a Configuration Definition
+     *
+     * @param key - string key for the config being looked up
+     * @return - the value without casting it
+     */
+    operator fun get(key: String): Any {
+        if (!configurations.containsKey(key)) throw ConfigurationException(String.format("Unknown configuration $key"))
+        return configurations[key]!!
+    }
+
+    /**
+     * Gets the configuration value given a key and casts it to Int. The key should be defined as a Configuration Definition and the type should be Int
+     *
+     * @param key - string key for the config being looked up
+     * @return - the value as Int
+     */
+    fun getInt(key: String): Int {
+        return get(key) as Int
+    }
+    /**
+     * Gets the configuration value given a key and casts it to Double. The key should be defined as a Configuration Definition and the type should be Double
+     *
+     * @param key - string key for the config being looked up
+     * @return - the value as Double
+     */
+    fun getDouble(key: String): Double {
+        return get(key) as Double
+    }
+    /**
+     * Gets the configuration value given a key and casts it to List<String>. The key should be defined as a Configuration Definition and the type should be List
+     *
+     * @param key - string key for the config being looked up
+     * @return - the value as List<String>
+     */
+    fun getList(key: String): List<String> {
+        return get(key) as List<String>
+    }
+
+    /**
+     * Gets the configuration value given a key and casts it to Boolean. The key should be defined as a Configuration Definition and the type should be Boolean
+     *
+     * @param key - string key for the config being looked up
+     * @return - the value as Boolean
+     */
+    fun getBoolean(key: String): Boolean {
+        return get(key) as Boolean
+    }
+
+    /**
+     * Gets the configuration value given a key and casts it to String. The key should be defined as a Configuration Definition and the type should be String
+     *
+     * @param key - string key for the config being looked up
+     * @return - the value as String
+     */
+    fun getString(key: String): String {
+        return get(key) as String
+    }
+
+    /**
+     * Gets the configuration value given a key and casts it to Password. The key should be defined as a Configuration Definition and the type should be Password
+     *
+     * @param key - string key for the config being looked up
+     * @return - the value as Password
+     */
+    fun getPassword(key: String): ConfigurationKey.Password {
+        return get(key) as ConfigurationKey.Password
+    }
+}
