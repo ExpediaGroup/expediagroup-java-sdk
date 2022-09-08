@@ -35,7 +35,7 @@ internal object EnvironmentConfigurationProvider {
         val clientKey = configurationData.data()[CLIENT_KEY] ?: EMPTY_STRING
         val clientSecret = configurationData.data()[CLIENT_SECRET] ?: EMPTY_STRING
 
-        return Configuration(ClientConfiguration(ClientCredentials(clientKey, clientSecret)))
+        return Configuration(Credentials(clientKey, clientSecret))
     }
 
     private fun prepareClientEnvironmentConfigs(): EnvironmentConfigs {

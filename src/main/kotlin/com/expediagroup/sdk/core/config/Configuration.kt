@@ -20,7 +20,7 @@ import com.expediagroup.sdk.core.exceptions.ConfigurationException
 
 @Deprecated("we should be using the Config Class instead of parse the values, the strongly typed objects can live with the respective modules")
 data class Configuration @JvmOverloads constructor(
-    val clientConfiguration: ClientConfiguration,
+    val credentials: Credentials,
     val network: NetworkConfiguration = NetworkConfiguration(),
     val logging: LoggingConfiguration = LoggingConfiguration()
 )

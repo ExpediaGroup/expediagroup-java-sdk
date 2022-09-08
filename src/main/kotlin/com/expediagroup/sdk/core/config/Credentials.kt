@@ -15,4 +15,7 @@
  */
 package com.expediagroup.sdk.core.config
 
-sealed interface AuthenticationConfiguration
+data class Credentials(
+    val key: String,
+    val secret: String
+)

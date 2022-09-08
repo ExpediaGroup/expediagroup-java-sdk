@@ -15,21 +15,21 @@
  */
 package com.expediagroup.sdk.core.plugin.authentication
 
-import com.expediagroup.sdk.core.config.ClientConfiguration
+import com.expediagroup.sdk.core.config.Credentials
 import com.expediagroup.sdk.core.plugin.KtorPluginConfigs
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.HttpClientEngineConfig
 
 data class AuthenticationConfigs(
     override val httpClientConfig: HttpClientConfig<out HttpClientEngineConfig>,
-    val clientConfiguration: ClientConfiguration,
+    val credentials: Credentials,
     val authUrl: String
 ) : KtorPluginConfigs(httpClientConfig) {
     companion object {
         fun from(
             httpClientConfig: HttpClientConfig<out HttpClientEngineConfig>,
-            clientConfiguration: ClientConfiguration,
+            credentials: Credentials,
             authUrl: String
-        ): AuthenticationConfigs = AuthenticationConfigs(httpClientConfig, clientConfiguration, authUrl)
+        ): AuthenticationConfigs = AuthenticationConfigs(httpClientConfig, credentials, authUrl)
     }
 }
