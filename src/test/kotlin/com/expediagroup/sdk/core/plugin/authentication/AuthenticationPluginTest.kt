@@ -41,8 +41,8 @@ internal class AuthenticationPluginTest {
 
     @Test
     fun `making any http call should invoke the authorized token`(): Unit = runBlocking {
-        val client = ClientFactory.createClient()
-        val testRequest = client.get("http://any-url")
+        val httpClient = ClientFactory.createClient().httpClient
+        val testRequest = httpClient.get("http://any-url")
 
         assertThat(testRequest.request.headers["Authorization"]).isEqualTo(
             "Bearer $ACCESS_TOKEN"
@@ -52,11 +52,11 @@ internal class AuthenticationPluginTest {
     @Test
     fun `refresh auth token should throw client exception if the the credentials are invalid`(): Unit =
         runBlocking {
-            val client = ClientFactory.createClient()
+            val httpClient = ClientFactory.createClient().httpClient
 
             assertThrows<ClientException> {
                 AuthenticationPlugin.refreshToken(
-                    client,
+                    httpClient,
                     AuthenticationConfigs.from(
                         HttpClientConfig(),
                         Credentials(
@@ -73,20 +73,20 @@ internal class AuthenticationPluginTest {
     fun `make parallel should run the single refresh token only`(): Unit =
         runBlocking {
             mockkObject(AuthenticationPlugin)
-            val client = ClientFactory.createClient()
-            clearAuthorizationTokens(client)
+            val httpClient = ClientFactory.createClient().httpClient
+            clearAuthorizationTokens(httpClient)
 
             println(AuthenticationPlugin.getToken().accessToken)
             launch {
-                client.get("http://any-url")
+                httpClient.get("http://any-url")
             }
             launch {
-                client.get("http://any-url")
+                httpClient.get("http://any-url")
             }
 
             delay(1000)
             coVerify(exactly = 1) {
-                AuthenticationPlugin.refreshToken(client, any())
+                AuthenticationPlugin.refreshToken(httpClient, any())
             }
         }
 

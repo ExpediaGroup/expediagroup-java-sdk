@@ -16,23 +16,23 @@
 package com.expediagroup.sdk.core.plugin.defaultRequests
 
 import com.expediagroup.sdk.core.commons.ClientFactory
-import com.expediagroup.sdk.core.config.EnvironmentConfigurationProvider
+import com.expediagroup.sdk.core.constants.ClientConstants.DEFAULT_ENDPOINT
 import io.ktor.client.request.get
 import io.ktor.client.statement.request
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 
-internal class DefaultRequestsPluginTest {
+class DefaultRequestsPluginTest {
 
     @Test
     fun `making any http call with relative url should invoke the endpoint from the configuration`(): Unit =
         runBlocking {
             val client = ClientFactory.createClient()
-            val testRequest = client.get("/any-url")
+            val testRequest = client.httpClient.get("/any-url")
 
             Assertions.assertThat(testRequest.request.url.toString()).isEqualTo(
-                "${EnvironmentConfigurationProvider.clientEnvironmentConfigs.endpoint}/any-url"
+                "$DEFAULT_ENDPOINT/any-url"
             )
         }
 }

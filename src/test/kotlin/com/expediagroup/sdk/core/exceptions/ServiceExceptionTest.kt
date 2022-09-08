@@ -34,8 +34,8 @@ class ServiceExceptionTest {
 
     @Test
     internal fun `request with invalid body should throw an exception`(): Unit = runBlocking {
-        val client = ClientFactory.createClient()
-        val response = client.get {
+        val httpClient = ClientFactory.createClient().httpClient
+        val response = httpClient.get {
             url("http://anyurl")
             setAttributes {
                 put(AttributeKey(BAD_REQUEST_ATTRIBUTE), "any value")
@@ -51,8 +51,8 @@ class ServiceExceptionTest {
 
     @Test
     internal fun `request with invalid body with PROD profile should throw an exception`(): Unit = runBlocking {
-        val client = ClientFactory.createClient()
-        val response = client.get {
+        val httpClient = ClientFactory.createClient().httpClient
+        val response = httpClient.get {
             url("http://anyurl")
             setAttributes {
                 put(AttributeKey(BAD_REQUEST_ATTRIBUTE), "any value")
