@@ -15,8 +15,7 @@
  */
 package com.expediagroup.sdk.core.plugin.authentication
 
-import com.expediagroup.sdk.core.config.ClientConfiguration
-import com.expediagroup.sdk.core.config.ClientCredentials
+import com.expediagroup.sdk.core.config.Credentials
 import com.expediagroup.sdk.core.constants.ClientConstants.CLIENT_CREDENTIALS_HEADER
 import com.expediagroup.sdk.core.constants.ClientConstants.EMPTY_STRING
 import com.expediagroup.sdk.core.constants.ClientConstants.GRANT_TYPE_HEADER
@@ -66,7 +65,7 @@ object AuthenticationPlugin : Plugin<AuthenticationConfigs> {
             method = HttpMethod.Post
             url(configs.authUrl)
             buildTokenRequest()
-            basicAuth(configs.clientConfiguration)
+            basicAuth(configs.credentials)
         }
         if (refreshTokenResponse.status != HttpStatusCode.OK) {
             throw ClientException(
@@ -88,10 +87,10 @@ object AuthenticationPlugin : Plugin<AuthenticationConfigs> {
         return bearerTokenStorage
     }
 
-    private fun HttpRequestBuilder.basicAuth(configs: ClientConfiguration) {
+    private fun HttpRequestBuilder.basicAuth(credentials: Credentials) {
         basicAuth(
-            (configs.auth as ClientCredentials).clientKey,
-            configs.auth.clientSecret
+            credentials.key,
+            credentials.secret
         )
     }
 

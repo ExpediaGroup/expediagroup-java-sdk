@@ -19,9 +19,8 @@ import com.expediagroup.sdk.core.client.Client
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_KEY_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.commons.TestConstants.TEST_URL
-import com.expediagroup.sdk.core.config.ClientConfiguration
-import com.expediagroup.sdk.core.config.ClientCredentials
 import com.expediagroup.sdk.core.config.Configuration
+import com.expediagroup.sdk.core.config.Credentials
 import com.expediagroup.sdk.core.config.EnvironmentConfigs
 import com.expediagroup.sdk.core.config.EnvironmentConfigurationProvider
 import com.expediagroup.sdk.core.constants.ClientConstants.DEFAULT_AUTH_ENDPOINT
@@ -36,11 +35,9 @@ internal object ClientFactory {
         every { constructedWith<EnvironmentConfigurationProvider>().clientEnvironmentConfigs }
         every { constructedWith<EnvironmentConfigurationProvider>().configuration }
         every { EnvironmentConfigurationProvider.configuration } returns Configuration(
-            ClientConfiguration(
-                ClientCredentials(
-                    clientKey = CLIENT_KEY_TEST_CREDENTIAL,
-                    clientSecret = CLIENT_SECRET_TEST_CREDENTIAL
-                )
+            Credentials(
+                key = CLIENT_KEY_TEST_CREDENTIAL,
+                secret = CLIENT_SECRET_TEST_CREDENTIAL
             )
         )
         every { EnvironmentConfigurationProvider.clientEnvironmentConfigs } returns EnvironmentConfigs(
