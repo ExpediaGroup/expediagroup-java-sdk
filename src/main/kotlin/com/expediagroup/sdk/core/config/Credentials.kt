@@ -18,4 +18,18 @@ package com.expediagroup.sdk.core.config
 data class Credentials(
     val key: String,
     val secret: String
-)
+) {
+
+    companion object Factory {
+
+        /**
+         * Create a [Credentials] object.
+         *
+         * @param key Client key.
+         * @param secret Client secret.
+         * @return ClientCredentials object.
+         */
+        @JvmStatic
+        fun from(key: String, secret: String): Credentials = Credentials(key, secret)
+    }
+}

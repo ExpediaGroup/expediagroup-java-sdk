@@ -18,36 +18,19 @@ package com.expediagroup.sdk.core.commons
 import com.expediagroup.sdk.core.client.Client
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_KEY_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
-import com.expediagroup.sdk.core.commons.TestConstants.TEST_URL
-import com.expediagroup.sdk.core.config.Configuration
-import com.expediagroup.sdk.core.config.Credentials
-import com.expediagroup.sdk.core.config.EnvironmentConfigs
-import com.expediagroup.sdk.core.config.EnvironmentConfigurationProvider
+import com.expediagroup.sdk.core.configuration.ClientConfiguration
 import com.expediagroup.sdk.core.constants.ClientConstants.DEFAULT_AUTH_ENDPOINT
-import io.ktor.client.HttpClient
-import io.mockk.every
-import io.mockk.mockkConstructor
+import com.expediagroup.sdk.core.constants.ClientConstants.DEFAULT_ENDPOINT
 
 internal object ClientFactory {
+    private val configuration = ClientConfiguration.Builder()
+        .key(CLIENT_KEY_TEST_CREDENTIAL)
+        .secret(CLIENT_SECRET_TEST_CREDENTIAL)
+        .endpoint(DEFAULT_ENDPOINT)
+        .authEndpoint(DEFAULT_AUTH_ENDPOINT)
+        .build()
 
-    private fun mockConfigurationProvider() {
-        mockkConstructor(EnvironmentConfigurationProvider::class)
-        every { constructedWith<EnvironmentConfigurationProvider>().clientEnvironmentConfigs }
-        every { constructedWith<EnvironmentConfigurationProvider>().configuration }
-        every { EnvironmentConfigurationProvider.configuration } returns Configuration(
-            Credentials(
-                key = CLIENT_KEY_TEST_CREDENTIAL,
-                secret = CLIENT_SECRET_TEST_CREDENTIAL
-            )
-        )
-        every { EnvironmentConfigurationProvider.clientEnvironmentConfigs } returns EnvironmentConfigs(
-            TEST_URL,
-            DEFAULT_AUTH_ENDPOINT
-        )
-    }
-
-    fun createClient(): HttpClient {
-        mockConfigurationProvider()
-        return Client.from(MockEnginFactory.createDefaultEngin()).httpClient
+    fun createClient(): Client {
+        return Client.from(MockEnginFactory.createDefaultEngine(), configuration)
     }
 }

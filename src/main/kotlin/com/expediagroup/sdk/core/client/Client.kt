@@ -15,10 +15,12 @@
  */
 package com.expediagroup.sdk.core.client
 
-import com.expediagroup.sdk.core.config.Configuration
-import com.expediagroup.sdk.core.config.EnvironmentConfigs
-import com.expediagroup.sdk.core.config.EnvironmentConfigurationProvider
+import com.expediagroup.sdk.core.config.Credentials
 import com.expediagroup.sdk.core.configuration.ClientConfiguration
+import com.expediagroup.sdk.core.configuration.collecter.ConfigurationCollector
+import com.expediagroup.sdk.core.configuration.provider.DefaultConfigurationProvider
+import com.expediagroup.sdk.core.configuration.provider.FileSystemConfigurationProvider
+import com.expediagroup.sdk.core.configuration.toProvider
 import com.expediagroup.sdk.core.plugin.Hooks
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationConfigs
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationHook
@@ -41,19 +43,25 @@ class Client private constructor(
     clientConfiguration: ClientConfiguration
 ) {
     val httpClient: HttpClient
-    private val environmentConfigs: EnvironmentConfigs = EnvironmentConfigurationProvider.clientEnvironmentConfigs
-    private val configuration: Configuration = EnvironmentConfigurationProvider.configuration
+    private val configurationCollector: ConfigurationCollector = ConfigurationCollector.create(
+        clientConfiguration.toProvider(),
+        FileSystemConfigurationProvider(),
+        DefaultConfigurationProvider
+    )
 
     init {
         httpClient = HttpClient(httpClientEngine) {
-            val authenticationConfigs =
-                AuthenticationConfigs.from(this, configuration.credentials, environmentConfigs.identityUrl)
+            val authenticationConfigs = AuthenticationConfigs.from(
+                this,
+                Credentials.from(configurationCollector.key, configurationCollector.secret),
+                configurationCollector.authEndpoint
+            )
 
             plugins {
                 use(LoggingPlugin).with(LoggingConfigs.from(this))
                 use(SerializationPlugin).with(SerializationConfigs.from(this))
                 use(AuthenticationPlugin).with(authenticationConfigs)
-                use(DefaultRequestsPlugin).with(DefaultRequestsConfigs.from(this, environmentConfigs))
+                use(DefaultRequestsPlugin).with(DefaultRequestsConfigs.from(this, configurationCollector.endpoint))
             }
 
             hooks {
