@@ -18,6 +18,7 @@ package com.expediagroup.sdk.core.client
 import com.expediagroup.sdk.core.config.Configuration
 import com.expediagroup.sdk.core.config.EnvironmentConfigs
 import com.expediagroup.sdk.core.config.EnvironmentConfigurationProvider
+import com.expediagroup.sdk.core.configuration.ClientConfiguration
 import com.expediagroup.sdk.core.plugin.Hooks
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationConfigs
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationHook
@@ -36,7 +37,8 @@ import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 
 class Client private constructor(
-    httpClientEngine: HttpClientEngine
+    httpClientEngine: HttpClientEngine,
+    clientConfiguration: ClientConfiguration
 ) {
     val httpClient: HttpClient
     private val environmentConfigs: EnvironmentConfigs = EnvironmentConfigurationProvider.clientEnvironmentConfigs
@@ -65,14 +67,17 @@ class Client private constructor(
     companion object {
         /**
          * Create a Client.
+         *
+         * @param httpClientEngine The HttpClientEngine to use.
+         * @param clientConfiguration The ClientConfiguration to use.
+         * @return A Client.
          */
+        @JvmOverloads
         fun from(
-            httpClientEngine: HttpClientEngine
-        ): Client = Client(httpClientEngine)
+            httpClientEngine: HttpClientEngine,
+            clientConfiguration: ClientConfiguration = ClientConfiguration.EMPTY
+        ): Client = Client(httpClientEngine, clientConfiguration)
     }
 }
 
-/**
- * Finalize creating the client.
- */
 private fun Client.finalize() = Hooks.execute(this)
