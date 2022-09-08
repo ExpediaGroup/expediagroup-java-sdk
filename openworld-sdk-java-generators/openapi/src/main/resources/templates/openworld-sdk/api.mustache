@@ -7,6 +7,7 @@ package {{apiPackage}}
 
 import com.expediagroup.sdk.core.client.openapi.OpenApiStub
 import com.expediagroup.sdk.core.config.provider.FileConfigurationProvider
+import com.expediagroup.sdk.core.configuration.ClientConfiguration
 import io.ktor.client.call.body
 {{#hasFormParams}}import io.ktor.client.request.forms.formData{{/hasFormParams}}
 import io.ktor.client.request.request
@@ -22,7 +23,7 @@ import kotlinx.coroutines.future.future
 * {{{description}}}
 */
 {{#operations}}
-open class {{classname}}() : OpenApiStub() {
+open class {{classname}}(clientConfiguration: ClientConfiguration = ClientConfiguration.EMPTY) : OpenApiStub(clientConfiguration) {
     private val loader = FileConfigurationProvider()[javaClass.classLoader.getResource("sdk.properties")!!]
 
     private fun removeLeadingSlash(path: String): String {
@@ -30,7 +31,7 @@ open class {{classname}}() : OpenApiStub() {
     }
     {{#operation}}
     private suspend inline fun k{{operationId}}({{#queryParams}}{{{paramName}}}: {{{dataType}}}{{#required}}{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{/required}}{{^required}}?{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^-last}},{{/-last}}{{/queryParams}}{{#hasQueryParam}}{{#hasBodyParam}},{{/hasBodyParam}}{{/hasQueryParam}}{{#bodyParam}}{{{paramName}}}: {{{dataType}}}{{#required}}{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{/required}}{{^required}}?{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^-last}},{{/-last}}{{/bodyParam}}{{^hasBodyParam}}{{#hasFormParam}},{{/hasFormParam}}{{/hasBodyParam}}{{#formParams}}{{{paramName}}}: {{{dataType}}}{{#required}}{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{/required}}{{^required}}?{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^-last}},{{/-last}}{{/formParams}}): {{{returnType}}}{{^returnType}}Void?{{/returnType}} {
-        val response = client.request {
+        val response = client.httpClient.request {
             method = HttpMethod.parse("{{httpMethod}}")
             url(removeLeadingSlash("{{path}}"){{#pathParams}}.replace("{" + "{{baseName}}" + "}", {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}"${{{paramName}}}"{{/isContainer}}){{/pathParams}})
             headers.append("x-sdk-title", loader.data()["sdk-title"]!!)
