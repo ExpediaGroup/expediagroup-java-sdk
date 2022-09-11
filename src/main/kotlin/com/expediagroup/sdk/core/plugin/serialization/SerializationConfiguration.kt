@@ -25,7 +25,6 @@ internal data class SerializationConfiguration(
     val contentType: ContentType = ContentType.Application.Json
 ) : KtorPluginConfiguration(httpClientConfiguration) {
     companion object {
-        fun from(httpClientConfig: HttpClientConfig<out HttpClientEngineConfig>): SerializationConfiguration =
-            SerializationConfiguration(httpClientConfig)
+        fun from(httpClientConfig: HttpClientConfig<out HttpClientEngineConfig>) = SerializationConfiguration(httpClientConfig)
     }
 }

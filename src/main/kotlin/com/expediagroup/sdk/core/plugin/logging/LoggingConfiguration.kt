@@ -28,7 +28,6 @@ internal data class LoggingConfiguration(
     val level: LogLevel = LogLevel.INFO
 ) : KtorPluginConfiguration(httpClientConfiguration) {
     companion object {
-        fun from(httpClientConfig: HttpClientConfig<out HttpClientEngineConfig>) =
-            LoggingConfiguration(httpClientConfig)
+        fun from(httpClientConfig: HttpClientConfig<out HttpClientEngineConfig>) = LoggingConfiguration(httpClientConfig)
     }
 }

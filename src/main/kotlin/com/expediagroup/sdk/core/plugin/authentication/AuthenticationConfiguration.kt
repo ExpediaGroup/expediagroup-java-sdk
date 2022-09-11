@@ -30,6 +30,6 @@ internal data class AuthenticationConfiguration(
             httpClientConfig: HttpClientConfig<out HttpClientEngineConfig>,
             credentials: Credentials,
             authUrl: String
-        ): AuthenticationConfiguration = AuthenticationConfiguration(httpClientConfig, credentials, authUrl)
+        ) = AuthenticationConfiguration(httpClientConfig, credentials, authUrl)
     }
 }
