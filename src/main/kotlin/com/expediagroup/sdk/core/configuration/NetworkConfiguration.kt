@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.config
+package com.expediagroup.sdk.core.configuration
 
-data class NetworkConfiguration(
+internal data class NetworkConfiguration(
     val connectionTimeout: Long = 10_000,
     val readTimeout: Long = 10_000,
     val writeTimeout: Long = 10_000

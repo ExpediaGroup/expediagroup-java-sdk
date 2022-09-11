@@ -15,7 +15,7 @@
  */
 package com.expediagroup.sdk.core.plugin.authentication
 
-import com.expediagroup.sdk.core.config.Credentials
+import com.expediagroup.sdk.core.configuration.Credentials
 import com.expediagroup.sdk.core.plugin.KtorPluginConfigs
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.HttpClientEngineConfig

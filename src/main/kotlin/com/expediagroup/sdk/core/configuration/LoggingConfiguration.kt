@@ -13,23 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.config
+package com.expediagroup.sdk.core.configuration
 
-data class Credentials(
-    val key: String,
-    val secret: String
-) {
-
-    companion object Factory {
-
-        /**
-         * Create a [Credentials] object.
-         *
-         * @param key Client key.
-         * @param secret Client secret.
-         * @return ClientCredentials object.
-         */
-        @JvmStatic
-        fun from(key: String, secret: String): Credentials = Credentials(key, secret)
+internal data class LoggingConfiguration(val level: LogLevel = LogLevel.WARNING) {
+    enum class LogLevel {
+        TRACE,
+        DEBUG,
+        INFO,
+        WARNING,
+        ERROR
     }
 }
