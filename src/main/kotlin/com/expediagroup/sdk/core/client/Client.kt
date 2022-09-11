@@ -15,7 +15,7 @@
  */
 package com.expediagroup.sdk.core.client
 
-import com.expediagroup.sdk.core.config.Credentials
+import com.expediagroup.sdk.core.configuration.Credentials
 import com.expediagroup.sdk.core.configuration.ClientConfiguration
 import com.expediagroup.sdk.core.configuration.collector.ConfigurationCollector
 import com.expediagroup.sdk.core.configuration.provider.DefaultConfigurationProvider

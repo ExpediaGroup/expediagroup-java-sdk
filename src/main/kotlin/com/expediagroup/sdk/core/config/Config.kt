@@ -18,13 +18,6 @@ package com.expediagroup.sdk.core.config
 import com.expediagroup.sdk.core.config.provider.ConfigurationData
 import com.expediagroup.sdk.core.exceptions.ConfigurationException
 
-@Deprecated("we should be using the Config Class instead of parse the values, the strongly typed objects can live with the respective modules")
-data class Configuration @JvmOverloads constructor(
-    val credentials: Credentials,
-    val network: NetworkConfiguration = NetworkConfiguration(),
-    val logging: LoggingConfiguration = LoggingConfiguration()
-)
-
 /**
  * @property configurationData deserialized configuration data which needs to be parsed
  * @property configurationDefinition the configuration  definitions used to parse the data
@@ -59,6 +52,7 @@ class Config(
     fun getInt(key: String): Int {
         return get(key) as Int
     }
+
     /**
      * Gets the configuration value given a key and casts it to Double. The key should be defined as a Configuration Definition and the type should be Double
      *
@@ -68,6 +62,7 @@ class Config(
     fun getDouble(key: String): Double {
         return get(key) as Double
     }
+
     /**
      * Gets the configuration value given a key and casts it to List<String>. The key should be defined as a Configuration Definition and the type should be List
      *

@@ -15,7 +15,7 @@
  */
 package com.expediagroup.sdk.core.plugin.authentication
 
-import com.expediagroup.sdk.core.config.Credentials
+import com.expediagroup.sdk.core.configuration.Credentials
 import com.expediagroup.sdk.core.constants.ClientConstants.CLIENT_CREDENTIALS_HEADER
 import com.expediagroup.sdk.core.constants.ClientConstants.EMPTY_STRING
 import com.expediagroup.sdk.core.constants.ClientConstants.GRANT_TYPE_HEADER
