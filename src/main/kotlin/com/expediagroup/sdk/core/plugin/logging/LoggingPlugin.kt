@@ -18,11 +18,11 @@ package com.expediagroup.sdk.core.plugin.logging
 import com.expediagroup.sdk.core.plugin.Plugin
 import io.ktor.client.plugins.logging.Logging
 
-object LoggingPlugin : Plugin<LoggingConfigs> {
-    override fun install(configs: LoggingConfigs) {
-        configs.httpClientConfig.install(Logging) {
-            logger = configs.logger
-            level = configs.level
+internal object LoggingPlugin : Plugin<LoggingConfiguration> {
+    override fun install(configurations: LoggingConfiguration) {
+        configurations.httpClientConfiguration.install(Logging) {
+            logger = configurations.logger
+            level = configurations.level
         }
     }
 }

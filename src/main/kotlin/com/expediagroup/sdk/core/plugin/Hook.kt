@@ -20,7 +20,7 @@ import com.expediagroup.sdk.core.client.Client
 /**
  * A helper to build a hook.
  */
-interface HookBuilder<in C : PluginConfigs> {
+internal interface HookBuilder<in C : PluginConfiguration> {
     fun build(client: Client, configs: C)
 }
 
@@ -29,27 +29,27 @@ interface HookBuilder<in C : PluginConfigs> {
  *
  * Ideally, it should be implemented by a companion object in a Hook class.
  */
-interface HookConfigsBuilder<in C : PluginConfigs, out H : Hook<C>> {
-    fun with(configs: C): H
+internal interface HookConfigsBuilder<in C : PluginConfiguration, out H : Hook<C>> {
+    fun with(configuration: C): H
 }
 
 /**
  * A hook is a post action we need to apply after creating a [Client].
  */
-open class Hook<in C : PluginConfigs>(
-    private val configs: C,
+internal open class Hook<in C : PluginConfiguration>(
+    private val configuration: C,
     private val builder: HookBuilder<C>
 ) {
-    fun execute(client: Client) = builder.build(client, configs)
+    fun execute(client: Client) = builder.build(client, configuration)
 }
 
 /**
  * A singleton repository of all [Hook]s we need to apply on the [Client].
  */
-object Hooks {
+internal object Hooks {
     private var hooks: MutableList<Hook<*>> = mutableListOf()
 
-    fun <C : PluginConfigs> add(hook: Hook<C>) {
+    fun <C : PluginConfiguration> add(hook: Hook<C>) {
         hooks += hook
     }
 
@@ -61,9 +61,9 @@ object Hooks {
 /**
  * Provide an idiomatic scope to define hooks.
  */
-fun hooks(block: () -> Unit) = block()
+internal fun hooks(block: () -> Unit) = block()
 
 /**
  * Provides an idiomatic way of defining a hook.
  */
-fun <C : PluginConfigs> use(hook: Hook<C>) = Hooks.add(hook)
+internal fun <C : PluginConfiguration> use(hook: Hook<C>) = Hooks.add(hook)

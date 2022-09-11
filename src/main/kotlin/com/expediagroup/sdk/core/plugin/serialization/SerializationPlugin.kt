@@ -25,10 +25,10 @@ import io.ktor.http.ContentType
 import io.ktor.serialization.gson.gson
 import java.time.OffsetDateTime
 
-object SerializationPlugin : Plugin<SerializationConfigs> {
-    override fun install(configs: SerializationConfigs) {
-        configs.httpClientConfig.install(ContentNegotiation) {
-            when (configs.contentType.contentSubtype) {
+internal object SerializationPlugin : Plugin<SerializationConfiguration> {
+    override fun install(configurations: SerializationConfiguration) {
+        configurations.httpClientConfiguration.install(ContentNegotiation) {
+            when (configurations.contentType.contentSubtype) {
                 ContentType.Application.Json.contentSubtype -> gson {
                     setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                     setPrettyPrinting().registerTypeAdapter(

@@ -13,23 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.plugin.authentication
+package com.expediagroup.sdk.core.plugin.serialization
 
-import com.expediagroup.sdk.core.configuration.Credentials
-import com.expediagroup.sdk.core.plugin.KtorPluginConfigs
+import com.expediagroup.sdk.core.plugin.KtorPluginConfiguration
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.HttpClientEngineConfig
+import io.ktor.http.ContentType
 
-data class AuthenticationConfigs(
-    override val httpClientConfig: HttpClientConfig<out HttpClientEngineConfig>,
-    val credentials: Credentials,
-    val authUrl: String
-) : KtorPluginConfigs(httpClientConfig) {
+internal data class SerializationConfiguration(
+    override val httpClientConfiguration: HttpClientConfig<out HttpClientEngineConfig>,
+    val contentType: ContentType = ContentType.Application.Json
+) : KtorPluginConfiguration(httpClientConfiguration) {
     companion object {
-        fun from(
-            httpClientConfig: HttpClientConfig<out HttpClientEngineConfig>,
-            credentials: Credentials,
-            authUrl: String
-        ): AuthenticationConfigs = AuthenticationConfigs(httpClientConfig, credentials, authUrl)
+        fun from(httpClientConfig: HttpClientConfig<out HttpClientEngineConfig>): SerializationConfiguration =
+            SerializationConfiguration(httpClientConfig)
     }
 }

@@ -15,24 +15,24 @@
  */
 package com.expediagroup.sdk.core.plugin
 
-interface Plugin<in C : PluginConfigs> {
+internal interface Plugin<in C : PluginConfiguration> {
     /**
      * Install a plugin.
      */
-    fun install(configs: C)
+    fun install(configurations: C)
 }
 
 /**
  * Provide an idiomatic scope to define plugins.
  */
-fun plugins(block: () -> Unit) = block()
+internal fun plugins(block: () -> Unit) = block()
 
 /**
  * Provides an idiomatic way of starting a plugin.
  */
-fun <C : PluginConfigs, P : Plugin<C>> use(plugin: P): P = plugin
+internal fun <C : PluginConfiguration, P : Plugin<C>> use(plugin: P): P = plugin
 
 /**
  * Provides an idiomatic way of configuring a plugin.
  */
-fun <C : PluginConfigs> Plugin<C>.with(configs: C): Unit = install(configs)
+internal fun <C : PluginConfiguration> Plugin<C>.with(configs: C): Unit = install(configs)

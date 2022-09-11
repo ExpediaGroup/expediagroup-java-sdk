@@ -22,16 +22,16 @@ import com.expediagroup.sdk.core.configuration.provider.DefaultConfigurationProv
 import com.expediagroup.sdk.core.configuration.provider.FileSystemConfigurationProvider
 import com.expediagroup.sdk.core.configuration.toProvider
 import com.expediagroup.sdk.core.plugin.Hooks
-import com.expediagroup.sdk.core.plugin.authentication.AuthenticationConfigs
+import com.expediagroup.sdk.core.plugin.authentication.AuthenticationConfiguration
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationHook
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationPlugin
-import com.expediagroup.sdk.core.plugin.defaultRequests.DefaultRequestsConfigs
-import com.expediagroup.sdk.core.plugin.defaultRequests.DefaultRequestsPlugin
+import com.expediagroup.sdk.core.plugin.request.DefaultRequestConfiguration
+import com.expediagroup.sdk.core.plugin.request.DefaultRequestPlugin
 import com.expediagroup.sdk.core.plugin.hooks
-import com.expediagroup.sdk.core.plugin.logging.LoggingConfigs
+import com.expediagroup.sdk.core.plugin.logging.LoggingConfiguration
 import com.expediagroup.sdk.core.plugin.logging.LoggingPlugin
 import com.expediagroup.sdk.core.plugin.plugins
-import com.expediagroup.sdk.core.plugin.serialization.SerializationConfigs
+import com.expediagroup.sdk.core.plugin.serialization.SerializationConfiguration
 import com.expediagroup.sdk.core.plugin.serialization.SerializationPlugin
 import com.expediagroup.sdk.core.plugin.use
 import com.expediagroup.sdk.core.plugin.with
@@ -51,21 +51,21 @@ class Client private constructor(
 
     init {
         httpClient = HttpClient(httpClientEngine) {
-            val authenticationConfigs = AuthenticationConfigs.from(
+            val authenticationConfiguration = AuthenticationConfiguration.from(
                 this,
                 Credentials.from(configurationCollector.key, configurationCollector.secret),
                 configurationCollector.authEndpoint
             )
 
             plugins {
-                use(LoggingPlugin).with(LoggingConfigs.from(this))
-                use(SerializationPlugin).with(SerializationConfigs.from(this))
-                use(AuthenticationPlugin).with(authenticationConfigs)
-                use(DefaultRequestsPlugin).with(DefaultRequestsConfigs.from(this, configurationCollector.endpoint))
+                use(LoggingPlugin).with(LoggingConfiguration.from(this))
+                use(SerializationPlugin).with(SerializationConfiguration.from(this))
+                use(AuthenticationPlugin).with(authenticationConfiguration)
+                use(DefaultRequestPlugin).with(DefaultRequestConfiguration.from(this, configurationCollector.endpoint))
             }
 
             hooks {
-                use(AuthenticationHook.with(authenticationConfigs))
+                use(AuthenticationHook.with(authenticationConfiguration))
             }
         }
 

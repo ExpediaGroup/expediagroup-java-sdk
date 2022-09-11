@@ -13,21 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.plugin.defaultRequests
+package com.expediagroup.sdk.core.plugin.authentication
 
-import com.expediagroup.sdk.core.plugin.KtorPluginConfigs
+import com.expediagroup.sdk.core.configuration.Credentials
+import com.expediagroup.sdk.core.plugin.KtorPluginConfiguration
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.HttpClientEngineConfig
 
-data class DefaultRequestsConfigs(
-    override val httpClientConfig: HttpClientConfig<out HttpClientEngineConfig>,
-    val endpoint: String
-) : KtorPluginConfigs(httpClientConfig) {
+internal data class AuthenticationConfiguration(
+    override val httpClientConfiguration: HttpClientConfig<out HttpClientEngineConfig>,
+    val credentials: Credentials,
+    val authUrl: String
+) : KtorPluginConfiguration(httpClientConfiguration) {
     companion object {
         fun from(
             httpClientConfig: HttpClientConfig<out HttpClientEngineConfig>,
-            endpoint: String
-        ) =
-            DefaultRequestsConfigs(httpClientConfig, endpoint)
+            credentials: Credentials,
+            authUrl: String
+        ): AuthenticationConfiguration = AuthenticationConfiguration(httpClientConfig, credentials, authUrl)
     }
 }

@@ -13,16 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.plugin
+package com.expediagroup.sdk.core.plugin.request
 
-import io.ktor.client.HttpClientConfig
-import io.ktor.client.engine.HttpClientEngineConfig
+import com.expediagroup.sdk.core.plugin.Plugin
+import io.ktor.client.plugins.DefaultRequest
 
-interface PluginConfigs
-
-abstract class KtorPluginConfigs(open val httpClientConfig: HttpClientConfig<out HttpClientEngineConfig>) :
-    PluginConfigs
-
-interface KtorPluginConfigsFactory<T : KtorPluginConfigs> {
-    fun from(httpClientConfig: HttpClientConfig<out HttpClientEngineConfig>): T
+internal object DefaultRequestPlugin : Plugin<DefaultRequestConfiguration> {
+    override fun install(configurations: DefaultRequestConfiguration) {
+        configurations.httpClientConfiguration.install(DefaultRequest) {
+            url(configurations.endpoint)
+        }
+    }
 }

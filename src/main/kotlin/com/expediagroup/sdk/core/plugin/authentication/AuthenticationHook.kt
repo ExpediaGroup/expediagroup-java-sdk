@@ -31,21 +31,21 @@ import io.ktor.client.request.HttpRequestBuilder
 import kotlinx.atomicfu.atomic
 import kotlinx.coroutines.delay
 
-class AuthenticationHook(
-    configs: AuthenticationConfigs
-) : Hook<AuthenticationConfigs>(
-    configs,
+internal class AuthenticationHook(
+    configuration: AuthenticationConfiguration
+) : Hook<AuthenticationConfiguration>(
+    configuration,
     AuthenticationHookBuilder
 ) {
-    companion object : HookConfigsBuilder<AuthenticationConfigs, AuthenticationHook> {
-        override fun with(configs: AuthenticationConfigs): AuthenticationHook = AuthenticationHook(configs)
+    companion object : HookConfigsBuilder<AuthenticationConfiguration, AuthenticationHook> {
+        override fun with(configuration: AuthenticationConfiguration): AuthenticationHook = AuthenticationHook(configuration)
     }
 }
 
-private object AuthenticationHookBuilder : HookBuilder<AuthenticationConfigs> {
+private object AuthenticationHookBuilder : HookBuilder<AuthenticationConfiguration> {
     private val isLock = atomic(false)
 
-    override fun build(client: Client, configs: AuthenticationConfigs) {
+    override fun build(client: Client, configs: AuthenticationConfiguration) {
         val httpClient = client.httpClient
 
         httpClient.plugin(HttpSend).intercept { request ->
