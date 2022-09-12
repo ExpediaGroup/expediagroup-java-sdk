@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.plugin.defaultRequests
+package com.expediagroup.sdk.core.plugin.request
 
 import com.expediagroup.sdk.core.commons.ClientFactory
 import com.expediagroup.sdk.core.constants.ClientConstants.DEFAULT_ENDPOINT
@@ -23,7 +23,7 @@ import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 
-class DefaultRequestsPluginTest {
+internal class DefaultRequestPluginTest {
 
     @Test
     fun `making any http call with relative url should invoke the endpoint from the configuration`(): Unit =

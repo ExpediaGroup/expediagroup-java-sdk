@@ -13,20 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.plugin.serialization
+package com.expediagroup.sdk.core.plugin.logging
 
-import com.expediagroup.sdk.core.plugin.KtorPluginConfigs
-import com.expediagroup.sdk.core.plugin.KtorPluginConfigsFactory
+import com.expediagroup.sdk.core.plugin.KtorPluginConfiguration
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.HttpClientEngineConfig
-import io.ktor.http.ContentType
+import io.ktor.client.plugins.logging.DEFAULT
+import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logger
 
-data class SerializationConfigs(
-    override val httpClientConfig: HttpClientConfig<out HttpClientEngineConfig>,
-    val contentType: ContentType = ContentType.Application.Json
-) : KtorPluginConfigs(httpClientConfig) {
-    companion object : KtorPluginConfigsFactory<SerializationConfigs> {
-        override fun from(httpClientConfig: HttpClientConfig<out HttpClientEngineConfig>): SerializationConfigs =
-            SerializationConfigs(httpClientConfig)
+internal data class LoggingConfiguration(
+    override val httpClientConfiguration: HttpClientConfig<out HttpClientEngineConfig>,
+    val logger: Logger = Logger.DEFAULT,
+    val level: LogLevel = LogLevel.INFO
+) : KtorPluginConfiguration(httpClientConfiguration) {
+    companion object {
+        fun from(httpClientConfig: HttpClientConfig<out HttpClientEngineConfig>) = LoggingConfiguration(httpClientConfig)
     }
 }

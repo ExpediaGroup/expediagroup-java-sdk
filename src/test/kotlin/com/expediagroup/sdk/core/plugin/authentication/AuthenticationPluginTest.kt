@@ -57,7 +57,7 @@ internal class AuthenticationPluginTest {
             assertThrows<ClientException> {
                 AuthenticationPlugin.refreshToken(
                     httpClient,
-                    AuthenticationConfigs.from(
+                    AuthenticationConfiguration.from(
                         HttpClientConfig(),
                         Credentials(
                             CLIENT_KEY_TEST_CREDENTIAL + "invalid",

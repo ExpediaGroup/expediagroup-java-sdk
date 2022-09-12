@@ -37,17 +37,17 @@ import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.Parameters
 
-object AuthenticationPlugin : Plugin<AuthenticationConfigs> {
+internal object AuthenticationPlugin : Plugin<AuthenticationConfiguration> {
     private var bearerTokenStorage = BearerTokens(EMPTY_STRING, EMPTY_STRING)
-    override fun install(configs: AuthenticationConfigs) {
-        configs.httpClientConfig.install(Auth) {
+    override fun install(configurations: AuthenticationConfiguration) {
+        configurations.httpClientConfiguration.install(Auth) {
             bearer {
                 loadTokens {
                     bearerTokenStorage
                 }
                 // Auth is always needed to request a token except for identity
                 sendWithoutRequest { request ->
-                    isIdentityRequest(request, configs)
+                    isIdentityRequest(request, configurations)
                 }
             }
         }
@@ -55,11 +55,11 @@ object AuthenticationPlugin : Plugin<AuthenticationConfigs> {
 
     fun isIdentityRequest(
         request: HttpRequestBuilder,
-        configs: AuthenticationConfigs
+        configs: AuthenticationConfiguration
     ): Boolean =
         request.url.buildString() != configs.authUrl
 
-    suspend fun refreshToken(client: HttpClient, configs: AuthenticationConfigs) {
+    suspend fun refreshToken(client: HttpClient, configs: AuthenticationConfiguration) {
         clearTokens(client)
         val refreshTokenResponse = client.request {
             method = HttpMethod.Post

@@ -15,7 +15,7 @@
  */
 package com.expediagroup.sdk.core.plugin.authentication
 
-data class TokenResponse(
+internal data class TokenResponse(
     val accessToken: String,
     val expiresIn: Int,
     val refreshToken: String? = null,
