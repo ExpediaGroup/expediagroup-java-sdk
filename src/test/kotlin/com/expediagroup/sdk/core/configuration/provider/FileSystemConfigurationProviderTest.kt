@@ -15,10 +15,9 @@
  */
 package com.expediagroup.sdk.core.configuration.provider
 
-import com.expediagroup.sdk.core.constants.ClientConstants.CLIENT_CONFIGS_FILE_PATH
-import com.expediagroup.sdk.core.constants.ClientConstants.CREDENTIALS_FILE_PATH
-import com.expediagroup.sdk.core.constants.ClientConstants.EMPTY_STRING
-import com.expediagroup.sdk.core.exceptions.ConfigurationException
+import com.expediagroup.sdk.core.constant.Constant
+import com.expediagroup.sdk.core.constant.Constant.EMPTY_STRING
+import com.expediagroup.sdk.core.exception.ConfigurationException
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
@@ -66,7 +65,7 @@ internal class FileSystemConfigurationProviderTest {
 
     @Test
     fun `test default configurations if default files exist`() {
-        if (!File(CREDENTIALS_FILE_PATH).exists() || !File(CLIENT_CONFIGS_FILE_PATH).exists()) return
+        if (!File(Constant.CREDENTIALS_FILE_PATH).exists() || !File(Constant.CLIENT_CONFIGS_FILE_PATH).exists()) return
 
         FileSystemConfigurationProvider().let {
             assertNotNull(it.key)
@@ -78,7 +77,7 @@ internal class FileSystemConfigurationProviderTest {
 
     @Test
     fun `test default configurations if default files do not exist`() {
-        if (File(CREDENTIALS_FILE_PATH).exists() && File(CLIENT_CONFIGS_FILE_PATH).exists()) return
+        if (File(Constant.CREDENTIALS_FILE_PATH).exists() && File(Constant.CLIENT_CONFIGS_FILE_PATH).exists()) return
 
         assertThrows<ConfigurationException> {
             FileSystemConfigurationProvider().key

@@ -13,12 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.exceptions
+package com.expediagroup.sdk.core.constant
 
-import com.expediagroup.sdk.core.exceptions.errors.Error
-import io.ktor.http.HttpStatusCode
+internal object Key {
+    const val CLIENT_KEY = "client_key"
 
-class ServiceException(
-    val errorCode: HttpStatusCode,
-    val error: Error
-) : BaseException(error.toString())
+    const val CLIENT_SECRET = "client_secret"
+
+    const val ENDPOINT = "endpoint"
+
+    const val AUTH_ENDPOINT = "auth_endpoint"
+}

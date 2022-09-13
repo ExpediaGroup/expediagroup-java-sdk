@@ -16,10 +16,7 @@
 package com.expediagroup.sdk.core.plugin.authentication
 
 import com.expediagroup.sdk.core.client.Client
-import com.expediagroup.sdk.core.constants.ClientConstants.AUTHENTICATE_HEADER
-import com.expediagroup.sdk.core.constants.ClientConstants.AUTHORIZATION_HEADER
-import com.expediagroup.sdk.core.constants.ClientConstants.AUTHORIZATION_REQUEST_LOCK_DELAY
-import com.expediagroup.sdk.core.constants.ClientConstants.CAPITALIZED_AUTHENTICATE_HEADER
+import com.expediagroup.sdk.core.constant.Header
 import com.expediagroup.sdk.core.plugin.Hook
 import com.expediagroup.sdk.core.plugin.HookBuilder
 import com.expediagroup.sdk.core.plugin.HookConfigsBuilder
@@ -30,6 +27,8 @@ import io.ktor.client.plugins.plugin
 import io.ktor.client.request.HttpRequestBuilder
 import kotlinx.atomicfu.atomic
 import kotlinx.coroutines.delay
+
+internal const val AUTHORIZATION_REQUEST_LOCK_DELAY = 20L
 
 internal class AuthenticationHook(
     configuration: AuthenticationConfiguration
@@ -71,17 +70,17 @@ private object AuthenticationHookBuilder : HookBuilder<AuthenticationConfigurati
     private fun isUnauthorizedIdentityResponse(httpCall: HttpClientCall) =
         getResponseHeader(
             httpCall,
-            CAPITALIZED_AUTHENTICATE_HEADER
+            Header.CAPITALIZED_AUTHENTICATE
         )?.startsWith("Bearer") ?: false || getResponseHeader(
             httpCall,
-            AUTHENTICATE_HEADER
+            Header.AUTHORIZATION
         )?.startsWith("Bearer") ?: false
 
     private fun getResponseHeader(httpCall: HttpClientCall, header: String) =
         httpCall.response.headers[header]
 
     private suspend fun Sender.makeRequest(request: HttpRequestBuilder): HttpClientCall {
-        request.headers[AUTHORIZATION_HEADER] =
+        request.headers[Header.AUTHORIZATION] =
             "Bearer ${AuthenticationPlugin.getToken().accessToken}"
         return execute(request)
     }

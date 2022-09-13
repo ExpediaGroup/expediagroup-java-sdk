@@ -13,8 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.constants
+package com.expediagroup.sdk.core.exception
 
-object MessagesConstants {
-    const val UNABLE_TO_AUTHENTICATE = "Unable to authenticate"
+open class BaseException : RuntimeException {
+    constructor(message: String?) : super(message)
+    constructor(message: String?, cause: Throwable?) : super(message, cause)
+    constructor(cause: Throwable?) : super(cause)
 }

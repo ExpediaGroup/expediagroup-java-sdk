@@ -20,8 +20,8 @@ import com.expediagroup.sdk.core.commons.TestConstants.ACCESS_TOKEN
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_KEY_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.configuration.Credentials
-import com.expediagroup.sdk.core.constants.ClientConstants.DEFAULT_AUTH_ENDPOINT
-import com.expediagroup.sdk.core.exceptions.ClientException
+import com.expediagroup.sdk.core.configuration.provider.DefaultConfigurationProvider
+import com.expediagroup.sdk.core.exception.ClientException
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.request.get
@@ -63,7 +63,7 @@ internal class AuthenticationPluginTest {
                             CLIENT_KEY_TEST_CREDENTIAL + "invalid",
                             CLIENT_SECRET_TEST_CREDENTIAL + "invalid"
                         ),
-                        DEFAULT_AUTH_ENDPOINT
+                        DefaultConfigurationProvider.authEndpoint
                     )
                 )
             }

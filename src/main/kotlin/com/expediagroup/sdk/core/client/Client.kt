@@ -15,8 +15,8 @@
  */
 package com.expediagroup.sdk.core.client
 
-import com.expediagroup.sdk.core.configuration.Credentials
 import com.expediagroup.sdk.core.configuration.ClientConfiguration
+import com.expediagroup.sdk.core.configuration.Credentials
 import com.expediagroup.sdk.core.configuration.collector.ConfigurationCollector
 import com.expediagroup.sdk.core.configuration.provider.DefaultConfigurationProvider
 import com.expediagroup.sdk.core.configuration.provider.FileSystemConfigurationProvider
@@ -25,12 +25,12 @@ import com.expediagroup.sdk.core.plugin.Hooks
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationConfiguration
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationHook
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationPlugin
-import com.expediagroup.sdk.core.plugin.request.DefaultRequestConfiguration
-import com.expediagroup.sdk.core.plugin.request.DefaultRequestPlugin
 import com.expediagroup.sdk.core.plugin.hooks
 import com.expediagroup.sdk.core.plugin.logging.LoggingConfiguration
 import com.expediagroup.sdk.core.plugin.logging.LoggingPlugin
 import com.expediagroup.sdk.core.plugin.plugins
+import com.expediagroup.sdk.core.plugin.request.DefaultRequestConfiguration
+import com.expediagroup.sdk.core.plugin.request.DefaultRequestPlugin
 import com.expediagroup.sdk.core.plugin.serialization.SerializationConfiguration
 import com.expediagroup.sdk.core.plugin.serialization.SerializationPlugin
 import com.expediagroup.sdk.core.plugin.use

@@ -15,7 +15,7 @@
  */
 package com.expediagroup.sdk.core.config.provider
 
-import com.expediagroup.sdk.core.exceptions.ConfigurationException
+import com.expediagroup.sdk.core.exception.ConfigurationException
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.BufferedReader

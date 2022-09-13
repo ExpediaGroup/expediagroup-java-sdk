@@ -19,15 +19,14 @@ import com.expediagroup.sdk.core.client.Client
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_KEY_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.configuration.ClientConfiguration
-import com.expediagroup.sdk.core.constants.ClientConstants.DEFAULT_AUTH_ENDPOINT
-import com.expediagroup.sdk.core.constants.ClientConstants.DEFAULT_ENDPOINT
+import com.expediagroup.sdk.core.configuration.provider.DefaultConfigurationProvider
 
 internal object ClientFactory {
     private val configuration = ClientConfiguration.Builder()
         .key(CLIENT_KEY_TEST_CREDENTIAL)
         .secret(CLIENT_SECRET_TEST_CREDENTIAL)
-        .endpoint(DEFAULT_ENDPOINT)
-        .authEndpoint(DEFAULT_AUTH_ENDPOINT)
+        .endpoint(DefaultConfigurationProvider.endpoint)
+        .authEndpoint(DefaultConfigurationProvider.authEndpoint)
         .build()
 
     fun createClient(): Client {

@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.exceptions
+package com.expediagroup.sdk.core.exception
 
 import com.expediagroup.sdk.core.commons.ClientFactory
 import com.expediagroup.sdk.core.commons.TestConstants.BAD_REQUEST_ATTRIBUTE
 import com.expediagroup.sdk.core.commons.TestConstants.TEST_URL
-import com.expediagroup.sdk.core.exceptions.errors.Error
-import com.expediagroup.sdk.core.exceptions.errors.ErrorCause
+import com.expediagroup.sdk.core.exception.error.Error
+import com.expediagroup.sdk.core.exception.error.ErrorCause
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.url

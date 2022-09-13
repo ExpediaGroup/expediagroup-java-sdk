@@ -15,7 +15,7 @@
  */
 package com.expediagroup.sdk.core.config
 
-import com.expediagroup.sdk.core.exceptions.ConfigurationException
+import com.expediagroup.sdk.core.exception.ConfigurationException
 
 class ConfigurationDefinition {
 

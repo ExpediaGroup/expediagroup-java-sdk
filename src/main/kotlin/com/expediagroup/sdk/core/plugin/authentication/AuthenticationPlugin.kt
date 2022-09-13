@@ -16,11 +16,10 @@
 package com.expediagroup.sdk.core.plugin.authentication
 
 import com.expediagroup.sdk.core.configuration.Credentials
-import com.expediagroup.sdk.core.constants.ClientConstants.CLIENT_CREDENTIALS_HEADER
-import com.expediagroup.sdk.core.constants.ClientConstants.EMPTY_STRING
-import com.expediagroup.sdk.core.constants.ClientConstants.GRANT_TYPE_HEADER
-import com.expediagroup.sdk.core.constants.MessagesConstants.UNABLE_TO_AUTHENTICATE
-import com.expediagroup.sdk.core.exceptions.ClientException
+import com.expediagroup.sdk.core.constant.Constant.EMPTY_STRING
+import com.expediagroup.sdk.core.constant.Header
+import com.expediagroup.sdk.core.constant.Message.UNABLE_TO_AUTHENTICATE
+import com.expediagroup.sdk.core.exception.ClientException
 import com.expediagroup.sdk.core.plugin.Plugin
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -96,7 +95,7 @@ internal object AuthenticationPlugin : Plugin<AuthenticationConfiguration> {
 
     private fun buildTokenRequest(): Parameters {
         return Parameters.build {
-            append(GRANT_TYPE_HEADER, CLIENT_CREDENTIALS_HEADER)
+            append(Header.GRANT_TYPE, Header.CLIENT_CREDENTIALS)
         }
     }
 }

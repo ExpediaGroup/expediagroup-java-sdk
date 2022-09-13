@@ -19,9 +19,7 @@ import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_KEY_TEST_CREDENTIA
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.configuration.provider.DefaultConfigurationProvider
 import com.expediagroup.sdk.core.configuration.provider.RuntimeConfigurationProvider
-import com.expediagroup.sdk.core.constants.ClientConstants.DEFAULT_AUTH_ENDPOINT
-import com.expediagroup.sdk.core.constants.ClientConstants.DEFAULT_ENDPOINT
-import com.expediagroup.sdk.core.constants.ClientConstants.EMPTY_STRING
+import com.expediagroup.sdk.core.constant.Constant.EMPTY_STRING
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -44,8 +42,8 @@ internal class ConfigurationCollectorTest {
 
         assertEquals(EMPTY_STRING, collector.key)
         assertEquals(EMPTY_STRING, collector.secret)
-        assertEquals(DEFAULT_ENDPOINT, collector.endpoint)
-        assertEquals(DEFAULT_AUTH_ENDPOINT, collector.authEndpoint)
+        assertEquals(DefaultConfigurationProvider.endpoint, collector.endpoint)
+        assertEquals(DefaultConfigurationProvider.authEndpoint, collector.authEndpoint)
     }
 
     @Test
@@ -53,8 +51,8 @@ internal class ConfigurationCollectorTest {
         val runtimeConfigurationProvider = RuntimeConfigurationProvider(
             key = CLIENT_KEY_TEST_CREDENTIAL,
             secret = CLIENT_SECRET_TEST_CREDENTIAL,
-            endpoint = DEFAULT_ENDPOINT,
-            authEndpoint = DEFAULT_AUTH_ENDPOINT
+            endpoint = DefaultConfigurationProvider.endpoint,
+            authEndpoint = DefaultConfigurationProvider.authEndpoint
         )
 
         val collector = ConfigurationCollector.create(
@@ -63,8 +61,8 @@ internal class ConfigurationCollectorTest {
 
         assertEquals(CLIENT_KEY_TEST_CREDENTIAL, collector.key)
         assertEquals(CLIENT_SECRET_TEST_CREDENTIAL, collector.secret)
-        assertEquals(DEFAULT_ENDPOINT, collector.endpoint)
-        assertEquals(DEFAULT_AUTH_ENDPOINT, collector.authEndpoint)
+        assertEquals(DefaultConfigurationProvider.endpoint, collector.endpoint)
+        assertEquals(DefaultConfigurationProvider.authEndpoint, collector.authEndpoint)
     }
 
     @Test
@@ -72,7 +70,7 @@ internal class ConfigurationCollectorTest {
         val runtimeConfigurationProvider = RuntimeConfigurationProvider(
             key = CLIENT_KEY_TEST_CREDENTIAL,
             secret = CLIENT_SECRET_TEST_CREDENTIAL,
-            endpoint = DEFAULT_ENDPOINT
+            endpoint = DefaultConfigurationProvider.endpoint
         )
 
         val collector = ConfigurationCollector.create(
@@ -81,7 +79,7 @@ internal class ConfigurationCollectorTest {
 
         assertEquals(CLIENT_KEY_TEST_CREDENTIAL, collector.key)
         assertEquals(CLIENT_SECRET_TEST_CREDENTIAL, collector.secret)
-        assertEquals(DEFAULT_ENDPOINT, collector.endpoint)
+        assertEquals(DefaultConfigurationProvider.endpoint, collector.endpoint)
 
         assertThrows<NullPointerException> {
             collector.authEndpoint
@@ -92,7 +90,7 @@ internal class ConfigurationCollectorTest {
     fun `verify configuration collector with runtime and default providers`() {
         val runtimeConfigurationProvider = RuntimeConfigurationProvider(
             secret = CLIENT_SECRET_TEST_CREDENTIAL,
-            endpoint = DEFAULT_ENDPOINT
+            endpoint = DefaultConfigurationProvider.endpoint
         )
 
         val collector = ConfigurationCollector.create(
@@ -102,7 +100,7 @@ internal class ConfigurationCollectorTest {
 
         assertEquals(EMPTY_STRING, collector.key) // from default provider
         assertEquals(CLIENT_SECRET_TEST_CREDENTIAL, collector.secret) // from client configuration
-        assertEquals(DEFAULT_ENDPOINT, collector.endpoint) // from client configuration
-        assertEquals(DEFAULT_AUTH_ENDPOINT, collector.authEndpoint) // from default provider
+        assertEquals(DefaultConfigurationProvider.endpoint, collector.endpoint) // from client configuration
+        assertEquals(DefaultConfigurationProvider.authEndpoint, collector.authEndpoint) // from default provider
     }
 }
