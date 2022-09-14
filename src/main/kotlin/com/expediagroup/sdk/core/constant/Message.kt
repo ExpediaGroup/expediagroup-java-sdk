@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.exceptions
+package com.expediagroup.sdk.core.constant
 
-class ConfigurationException(message: String?) : BaseException(message)
+internal object Message {
+    const val UNABLE_TO_AUTHENTICATE = "Unable to authenticate"
+}

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.exceptions.errors
+package com.expediagroup.sdk.core.exception.error
 
 /**
  * The object used to describe an error, containing both human-readable and in a machine-readable information.

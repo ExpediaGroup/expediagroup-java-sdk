@@ -13,9 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.exceptions
+package com.expediagroup.sdk.core.constant
 
-import io.ktor.http.HttpStatusCode
+internal object Header {
+    const val AUTHORIZATION = "Authorization"
 
-class ClientException(val errorStatusCode: HttpStatusCode, val errorMessage: String) :
-    BaseException("[${errorStatusCode.value}] $errorMessage")
+    const val CAPITALIZED_AUTHENTICATE = "WWW-Authenticate"
+
+    const val AUTHENTICATE = "www-authenticate"
+
+    const val GRANT_TYPE = "grant_type"
+
+    const val CLIENT_CREDENTIALS = "client_credentials"
+}

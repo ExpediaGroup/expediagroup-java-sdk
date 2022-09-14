@@ -15,9 +15,7 @@
  */
 package com.expediagroup.sdk.core.configuration.provider
 
-import com.expediagroup.sdk.core.constants.ClientConstants.DEFAULT_AUTH_ENDPOINT
-import com.expediagroup.sdk.core.constants.ClientConstants.DEFAULT_ENDPOINT
-import com.expediagroup.sdk.core.constants.ClientConstants.EMPTY_STRING
+import com.expediagroup.sdk.core.constant.Constant.EMPTY_STRING
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -27,7 +25,7 @@ internal class DefaultConfigurationProviderTest {
     fun `verify default values`() {
         assertEquals(EMPTY_STRING, DefaultConfigurationProvider.key)
         assertEquals(EMPTY_STRING, DefaultConfigurationProvider.secret)
-        assertEquals(DEFAULT_ENDPOINT, DefaultConfigurationProvider.endpoint)
-        assertEquals(DEFAULT_AUTH_ENDPOINT, DefaultConfigurationProvider.authEndpoint)
+        assertEquals("https://api.expediagroup.com", DefaultConfigurationProvider.endpoint)
+        assertEquals("https://api.expediagroup.com/identity/oauth2/v2/token", DefaultConfigurationProvider.authEndpoint)
     }
 }

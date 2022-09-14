@@ -16,7 +16,7 @@
 package com.expediagroup.sdk.core.config
 
 import com.expediagroup.sdk.core.config.provider.FileConfigurationProvider
-import com.expediagroup.sdk.core.exceptions.ConfigurationException
+import com.expediagroup.sdk.core.exception.ConfigurationException
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow

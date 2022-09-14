@@ -19,9 +19,7 @@ import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_KEY_TEST_CREDENTIA
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.configuration.provider.DefaultConfigurationProvider
 import com.expediagroup.sdk.core.configuration.provider.RuntimeConfigurationProvider
-import com.expediagroup.sdk.core.constants.ClientConstants.DEFAULT_AUTH_ENDPOINT
-import com.expediagroup.sdk.core.constants.ClientConstants.DEFAULT_ENDPOINT
-import com.expediagroup.sdk.core.constants.ClientConstants.EMPTY_STRING
+import com.expediagroup.sdk.core.constant.Constant.EMPTY_STRING
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -32,8 +30,8 @@ internal class ConfigurationProviderQueueTest {
         val configurationProviderQueue = ConfigurationProviderQueue.from(listOf(DefaultConfigurationProvider))
         assertEquals(EMPTY_STRING, configurationProviderQueue.firstOf { it.key })
         assertEquals(EMPTY_STRING, configurationProviderQueue.firstOf { it.secret })
-        assertEquals(DEFAULT_ENDPOINT, configurationProviderQueue.firstOf { it.endpoint })
-        assertEquals(DEFAULT_AUTH_ENDPOINT, configurationProviderQueue.firstOf { it.authEndpoint })
+        assertEquals(DefaultConfigurationProvider.endpoint, configurationProviderQueue.firstOf { it.endpoint })
+        assertEquals(DefaultConfigurationProvider.authEndpoint, configurationProviderQueue.firstOf { it.authEndpoint })
     }
 
     @Test
@@ -41,8 +39,8 @@ internal class ConfigurationProviderQueueTest {
         val runtimeConfigurationProvider = RuntimeConfigurationProvider(
             key = CLIENT_KEY_TEST_CREDENTIAL,
             secret = CLIENT_SECRET_TEST_CREDENTIAL,
-            endpoint = DEFAULT_ENDPOINT,
-            authEndpoint = DEFAULT_AUTH_ENDPOINT
+            endpoint = DefaultConfigurationProvider.endpoint,
+            authEndpoint = DefaultConfigurationProvider.authEndpoint
         )
         val configurationProviderQueue = ConfigurationProviderQueue.from(
             listOf(runtimeConfigurationProvider)
@@ -54,7 +52,7 @@ internal class ConfigurationProviderQueueTest {
 
         assertEquals(configurationProviderQueue.firstOf { it.key }, CLIENT_KEY_TEST_CREDENTIAL)
         assertEquals(configurationProviderQueue.firstOf { it.secret }, CLIENT_SECRET_TEST_CREDENTIAL)
-        assertEquals(configurationProviderQueue.firstOf { it.endpoint }, DEFAULT_ENDPOINT)
-        assertEquals(configurationProviderQueue.firstOf { it.authEndpoint }, DEFAULT_AUTH_ENDPOINT)
+        assertEquals(configurationProviderQueue.firstOf { it.endpoint }, DefaultConfigurationProvider.endpoint)
+        assertEquals(configurationProviderQueue.firstOf { it.authEndpoint }, DefaultConfigurationProvider.authEndpoint)
     }
 }

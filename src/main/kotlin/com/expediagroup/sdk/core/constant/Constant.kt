@@ -13,10 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.exceptions
+package com.expediagroup.sdk.core.constant
 
-open class BaseException : RuntimeException {
-    constructor(message: String?) : super(message)
-    constructor(message: String?, cause: Throwable?) : super(message, cause)
-    constructor(cause: Throwable?) : super(cause)
+import java.io.File
+
+internal object Constant {
+    const val EMPTY_STRING = ""
+
+    private val OPEN_WORLD_HOME_PATH = "${System.getProperty("user.home")}${File.separator}.openworld${File.separator}"
+
+    val CREDENTIALS_FILE_PATH = "${OPEN_WORLD_HOME_PATH}credentials"
+
+    val CLIENT_CONFIGS_FILE_PATH = "${OPEN_WORLD_HOME_PATH}configuration"
 }

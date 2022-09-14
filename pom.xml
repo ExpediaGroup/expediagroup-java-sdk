@@ -22,30 +22,27 @@
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <configuration>
                     <excludes>
-                        <exclude>**/constants/**</exclude>
+                        <exclude>**/constant/**</exclude>
 
                         <exclude>**/client/openapi/OpenApiStub*</exclude>
                         <exclude>**/client/Client*</exclude>
 
-                        <exclude>**/config/NetworkConfiguration*</exclude>
-                        <exclude>**/config/EnvironmentConfigs*</exclude>
-                        <exclude>**/config/EnvironmentConfigsFactory*</exclude>
-                        <exclude>**/config/EnvironmentConfigurationProvider*</exclude>
-                        <exclude>**/config/impl/EnvironmentConfigsFactoryImpl*</exclude>
+                        <exclude>**/configuration/NetworkConfiguration*</exclude>
+                        <exclude>**/configuration/LoggingConfiguration*</exclude>
                         <exclude>**/config/provider/ConfigurationData*</exclude>
 
-                        <exclude>**/exceptions/ClientException*</exclude>
-                        <exclude>**/exceptions/BaseException*</exclude>
-                        <exclude>**/exceptions/ServiceException*</exclude>
-                        <exclude>**/exceptions/errors/**</exclude>
+                        <exclude>**/exception/ClientException*</exclude>
+                        <exclude>**/exception/BaseException*</exclude>
+                        <exclude>**/exception/ServiceException*</exclude>
+                        <exclude>**/exception/error/**</exclude>
 
                         <exclude>**/plugin/Hook*</exclude>
                         <exclude>**/plugin/Plugin*</exclude>
-                        <exclude>**/plugin/PluginConfigs*</exclude>
-                        <exclude>**/plugin/KtorPluginConfigs*</exclude>
+                        <exclude>**/plugin/PluginConfiguration*</exclude>
+                        <exclude>**/plugin/KtorPluginConfiguration*</exclude>
 
                         <exclude>**/authentication/TokenResponse*</exclude>
-                        <exclude>**/authentication/AuthenticationConfigs*</exclude>
+                        <exclude>**/authentication/AuthenticationConfiguration*</exclude>
                         <exclude>**/authentication/AuthenticationHook*</exclude>
                         <exclude>**/authentication/AuthenticationPlugin*</exclude>
 

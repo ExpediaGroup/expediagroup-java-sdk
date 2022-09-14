@@ -16,12 +16,8 @@
 package com.expediagroup.sdk.core.configuration.provider
 
 import com.expediagroup.sdk.core.config.provider.FileConfigurationProvider
-import com.expediagroup.sdk.core.constants.ClientConstants.AUTH_ENDPOINT_KEY
-import com.expediagroup.sdk.core.constants.ClientConstants.CLIENT_CONFIGS_FILE_PATH
-import com.expediagroup.sdk.core.constants.ClientConstants.CLIENT_KEY
-import com.expediagroup.sdk.core.constants.ClientConstants.CLIENT_SECRET
-import com.expediagroup.sdk.core.constants.ClientConstants.CREDENTIALS_FILE_PATH
-import com.expediagroup.sdk.core.constants.ClientConstants.ENDPOINT_KEY
+import com.expediagroup.sdk.core.constant.Constant
+import com.expediagroup.sdk.core.constant.Key
 
 /**
  * File System implementation of [ConfigurationProvider] to fall back to for any missing configuration.
@@ -32,15 +28,15 @@ import com.expediagroup.sdk.core.constants.ClientConstants.ENDPOINT_KEY
  * @property authEndpoint The API endpoint to use for authentication.
  */
 internal class FileSystemConfigurationProvider(
-    private val credentialsFilePath: String = CREDENTIALS_FILE_PATH,
-    private val configurationsFilePath: String = CLIENT_CONFIGS_FILE_PATH
+    private val credentialsFilePath: String = Constant.CREDENTIALS_FILE_PATH,
+    private val configurationsFilePath: String = Constant.CLIENT_CONFIGS_FILE_PATH
 ) : ConfigurationProvider {
     private val fileConfigurationProvider: FileConfigurationProvider by lazy { FileConfigurationProvider() }
     private val credentials: Map<String, String> by lazy { fileConfigurationProvider[credentialsFilePath].data() }
     private val configurations: Map<String, String> by lazy { fileConfigurationProvider[configurationsFilePath].data() }
 
-    override val key: String? by lazy { credentials[CLIENT_KEY] }
-    override val secret: String? by lazy { credentials[CLIENT_SECRET] }
-    override val endpoint: String? by lazy { configurations[ENDPOINT_KEY] }
-    override val authEndpoint: String? by lazy { configurations[AUTH_ENDPOINT_KEY] }
+    override val key: String? by lazy { credentials[Key.CLIENT_KEY] }
+    override val secret: String? by lazy { credentials[Key.CLIENT_SECRET] }
+    override val endpoint: String? by lazy { configurations[Key.ENDPOINT] }
+    override val authEndpoint: String? by lazy { configurations[Key.AUTH_ENDPOINT] }
 }

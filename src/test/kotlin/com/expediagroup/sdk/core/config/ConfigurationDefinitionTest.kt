@@ -15,7 +15,7 @@
  */
 package com.expediagroup.sdk.core.config
 
-import com.expediagroup.sdk.core.exceptions.ConfigurationException
+import com.expediagroup.sdk.core.exception.ConfigurationException
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
