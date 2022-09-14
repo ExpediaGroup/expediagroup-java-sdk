@@ -64,18 +64,6 @@ internal class FileSystemConfigurationProviderTest {
     }
 
     @Test
-    fun `test default configurations if default files exist`() {
-        if (!File(Constant.CREDENTIALS_FILE_PATH).exists() || !File(Constant.CLIENT_CONFIGS_FILE_PATH).exists()) return
-
-        FileSystemConfigurationProvider().let {
-            assertNotNull(it.key)
-            assertNotNull(it.secret)
-            assertNotNull(it.endpoint)
-            assertNotNull(it.authEndpoint)
-        }
-    }
-
-    @Test
     fun `test default configurations if default files do not exist`() {
         if (File(Constant.CREDENTIALS_FILE_PATH).exists() && File(Constant.CLIENT_CONFIGS_FILE_PATH).exists()) return
 
