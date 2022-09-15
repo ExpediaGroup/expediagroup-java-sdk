@@ -46,4 +46,4 @@ jobs:
           url: 'https://api.github.com/repos/ExpediaGroup/openworld-sdk-java/actions/workflows/update-bom-version-actions.yml/dispatches'
           method: 'POST'
           customHeaders: '{"Authorization": "${{secrets.CUSTOM_TOKEN}}","Accept": "application/vnd.github+json"}'
-          data: '{"ref":"main","inputs":{"sdk-version":"${{ inputs.version }}","sdk-name":"${{ inputs.name }}"}}'
+          data: '{"ref":"main","inputs":{"sdk-version":"${{ inputs.version }}","sdk-name":"openworld-java-sdk-${{ inputs.name }}"}}'
