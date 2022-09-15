@@ -31,10 +31,7 @@
                         <exclude>**/configuration/LoggingConfiguration*</exclude>
                         <exclude>**/config/provider/ConfigurationData*</exclude>
 
-                        <exclude>**/exception/ClientException*</exclude>
-                        <exclude>**/exception/BaseException*</exclude>
-                        <exclude>**/exception/ServiceException*</exclude>
-                        <exclude>**/exception/error/**</exclude>
+                        <exclude>**/model/**</exclude>
 
                         <exclude>**/plugin/Hook*</exclude>
                         <exclude>**/plugin/Plugin*</exclude>

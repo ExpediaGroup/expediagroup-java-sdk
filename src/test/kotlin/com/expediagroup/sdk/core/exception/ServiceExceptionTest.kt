@@ -18,8 +18,8 @@ package com.expediagroup.sdk.core.exception
 import com.expediagroup.sdk.core.commons.ClientFactory
 import com.expediagroup.sdk.core.commons.TestConstants.BAD_REQUEST_ATTRIBUTE
 import com.expediagroup.sdk.core.commons.TestConstants.TEST_URL
-import com.expediagroup.sdk.core.exception.error.Error
-import com.expediagroup.sdk.core.exception.error.ErrorCause
+import com.expediagroup.sdk.core.model.error.Error
+import com.expediagroup.sdk.core.model.error.ErrorCause
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.url

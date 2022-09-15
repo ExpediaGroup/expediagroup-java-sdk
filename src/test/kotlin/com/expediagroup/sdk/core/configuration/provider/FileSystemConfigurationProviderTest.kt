@@ -17,7 +17,7 @@ package com.expediagroup.sdk.core.configuration.provider
 
 import com.expediagroup.sdk.core.constant.Constant
 import com.expediagroup.sdk.core.constant.Constant.EMPTY_STRING
-import com.expediagroup.sdk.core.exception.ConfigurationException
+import com.expediagroup.sdk.core.model.exception.ConfigurationException
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
