@@ -19,7 +19,7 @@ import com.expediagroup.sdk.core.configuration.Credentials
 import com.expediagroup.sdk.core.constant.Constant.EMPTY_STRING
 import com.expediagroup.sdk.core.constant.Header
 import com.expediagroup.sdk.core.constant.Message.UNABLE_TO_AUTHENTICATE
-import com.expediagroup.sdk.core.exception.ClientException
+import com.expediagroup.sdk.core.model.exception.ClientException
 import com.expediagroup.sdk.core.plugin.Plugin
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body

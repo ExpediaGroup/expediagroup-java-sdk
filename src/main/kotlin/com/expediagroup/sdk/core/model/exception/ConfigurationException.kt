@@ -13,9 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.exception
+package com.expediagroup.sdk.core.model.exception
 
-import io.ktor.http.HttpStatusCode
-
-class ClientException(val errorStatusCode: HttpStatusCode, val errorMessage: String) :
-    BaseException("[${errorStatusCode.value}] $errorMessage")
+internal class ConfigurationException(message: String?, cause: Throwable? = null) : BaseException(message, cause)

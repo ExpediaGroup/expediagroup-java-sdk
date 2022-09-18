@@ -13,12 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.exception
+package com.expediagroup.sdk.core.model.exception
 
-import com.expediagroup.sdk.core.exception.error.Error
 import io.ktor.http.HttpStatusCode
 
-class ServiceException(
-    val errorCode: HttpStatusCode,
-    val error: Error
-) : BaseException(error.toString())
+internal class ClientException(errorStatusCode: HttpStatusCode, errorMessage: String) : BaseException("[${errorStatusCode.value}] $errorMessage")

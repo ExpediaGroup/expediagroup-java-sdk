@@ -21,7 +21,7 @@ import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_KEY_TEST_CREDENTIA
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.configuration.Credentials
 import com.expediagroup.sdk.core.configuration.provider.DefaultConfigurationProvider
-import com.expediagroup.sdk.core.exception.ClientException
+import com.expediagroup.sdk.core.model.exception.ClientException
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.request.get
