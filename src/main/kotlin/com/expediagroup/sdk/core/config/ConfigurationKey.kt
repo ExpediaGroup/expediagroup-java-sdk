@@ -21,7 +21,7 @@ data class ConfigurationKey(
     val type: Type,
     val importance: Importance,
     val defaultValue: Any?,
-    val validator: Validator?,
+    val validator: Validator?
 ) {
     /**
      * The config types
