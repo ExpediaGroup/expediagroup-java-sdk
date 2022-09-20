@@ -19,6 +19,8 @@ jobs:
   deploy:
     needs: test
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.release_artifact.outputs.version }}
     steps:
       - uses: actions/checkout@v3
       - name: "JDK set-up"
@@ -34,8 +36,22 @@ jobs:
           gpg-passphrase: GPG_PASSPHRASE # env variable for GPG private key passphrase
           settings-path: ${{ github.workspace }}
       - name: "Release artifacts"
+        id: release_artifact
         env:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PRIVATE_KEY_PASSPHRASE }}
-        run: mvn deploy --settings $GITHUB_WORKSPACE/settings.xml -B -U -P release -DskipTests=true
+        run: |
+          mvn deploy --settings $GITHUB_WORKSPACE/settings.xml -B -U -P release -DskipTests=true
+          echo "::set-output name=version::$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)"
+  update-bom:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update BOM
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: 'https://api.github.com/repos/ExpediaGroup/openworld-sdk-java/actions/workflows/update-bom-version-actions.yml/dispatches'
+          method: 'POST'
+          customHeaders: '{"Authorization": "${{secrets.CUSTOM_TOKEN}}","Accept": "application/vnd.github+json"}'
+          data: '{"ref":"main","inputs":{"sdk-version":"${{needs.deploy.outputs.version}}","sdk-name":"openworld-java-sdk-core"}}'
