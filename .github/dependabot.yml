@@ -27,7 +27,9 @@ updates:
     open-pull-requests-limit: 10
     target-branch: develop
     reviewers:
-      - fborriello
+      - anssari1
+      - hamzanael
+      - mohnoor94
     labels:
       - configuration
       - update
