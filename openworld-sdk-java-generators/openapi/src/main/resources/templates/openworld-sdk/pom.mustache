@@ -79,17 +79,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- Shade all the dependencies away -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>shade-sdk</id>
-                        <phase>package</phase>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>org.jetbrains.dokka</groupId>
                 <artifactId>dokka-maven-plugin</artifactId>
