@@ -76,6 +76,20 @@
                 </executions>
             </plugin>
 
+            <plugin>
+                <groupId>com.github.gantsign.maven</groupId>
+                <artifactId>ktlint-maven-plugin</artifactId>
+                <version>${ktlint-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <id>check</id>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
