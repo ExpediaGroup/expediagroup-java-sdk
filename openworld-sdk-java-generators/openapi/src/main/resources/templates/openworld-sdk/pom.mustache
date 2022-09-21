@@ -104,22 +104,6 @@
                             </dokkaPlugins>
                         </configuration>
                     </execution>
-                    <execution>
-                        <phase>install</phase>
-                        <id>second</id>
-                        <inherited>false</inherited>
-                        <goals>
-                            <goal>dokka</goal>
-                            <goal>javadoc</goal>
-                            <goal>javadocJar</goal>
-                        </goals>
-                        <configuration>
-                            <sourceDirectories>
-                                <dir>${project.basedir}/src/main/kotlin</dir>
-                                <dir>${project.basedir}/src/main/java</dir>
-                            </sourceDirectories>
-                        </configuration>
-                    </execution>
                 </executions>
             </plugin>
         </plugins>
