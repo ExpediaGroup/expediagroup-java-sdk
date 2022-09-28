@@ -1,0 +1,58 @@
+name: Build & Release SDK
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'generated sdk version'
+        required: false
+        default: ''
+      name:
+        description: 'generated sdk name'
+        required: true
+      fileAsBase64:
+        description: 'generated sdk file as base64 encoded'
+        required: true
+jobs:
+  prepare_sdk_version:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.get_version.outputs.version }}
+    steps:
+      - id: get_version
+        run: |
+          if [ -z "${{ github.event.inputs.version }}" ]; then
+              sudo apt-get update
+              sudo apt-get -y install libxml2-utils
+              currentVersion=$(curl --silent https://repo1.maven.org/maven2/com/expediagroup/openworld/sdk/openworld-java-sdk-${{ github.event.inputs.name }}/maven-metadata.xml | xmllint --xpath "/metadata/versioning/latest/text()" -) || currentVersion=0.0.1-alpha
+              lastCharacter=${currentVersion: -1}
+              re='^[0-9]+$'
+              if ! [[ $lastCharacter =~ $re ]]; then
+              currentVersion="${currentVersion}.1"
+              else
+              currentVersion="${currentVersion%?}$((lastCharacter+1))"
+              fi
+              echo "::set-output name=version::${currentVersion}"
+          else
+              echo "::set-output name=version::${{ github.event.inputs.version }}"
+          fi
+
+  generate_sdk:
+    uses: ./.github/workflows/generate-sdk-action.yml
+    needs: [ prepare_sdk_version ]
+    with:
+      version: ${{ needs.prepare_sdk_version.outputs.version }}
+      name: ${{ github.event.inputs.name }}
+      fileAsBase64: ${{ github.event.inputs.fileAsBase64 }}
+
+  deploy_sdk:
+    needs: [ generate_sdk ]
+    uses: ./.github/workflows/github-release-actions.yml
+    secrets: inherit
+
+  update-bom:
+    needs: [ deploy_sdk, prepare_sdk_version ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update BOM
+        run: |
+          curl -X POST https://api.github.com/repos/Expediagroup/openworld-sdk-java/actions/workflows/update-bom-version-actions.yml/dispatches -H 'Content-Type: application/json' -H 'Authorization: ${{secrets.CUSTOM_TOKEN}}' -H  'Accept: application/vnd.github+json' -d  '{"ref":"main","inputs":{"sdk-version": "${{ needs.prepare_sdk_version.outputs.version }}" , "sdk-name":"openworld-java-sdk-${{ github.event.inputs.name }}"}}'
