@@ -26,7 +26,7 @@ import io.ktor.client.statement.request
 import io.ktor.http.toURI
 
 /**
- * Base class used by generated OpenAPI APIs to perform the heavy lifting of actually sending requests
+ * Base class used by generated OpenAPI APIs to perform the heavy lifting of actually sending requests.
  */
 abstract class OpenApiStub(
     private val clientConfiguration: ClientConfiguration = ClientConfiguration.EMPTY
@@ -48,7 +48,9 @@ abstract class OpenApiStub(
     }
 
     /**
-     * Examines the status code for errors and throws the appropriate exception
+     * Examines the status code for errors and throws the appropriate exception.
+     *
+     * @param response The response to examine
      */
     protected suspend fun throwIfError(response: HttpResponse) {
         if (response.status.value !in 200..299) {

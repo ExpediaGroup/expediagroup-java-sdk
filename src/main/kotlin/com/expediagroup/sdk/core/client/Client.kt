@@ -38,11 +38,21 @@ import com.expediagroup.sdk.core.plugin.with
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 
+/**
+ * The integration point between the SDK Core and the product SDKs.
+ *
+ * @param httpClientEngine The HTTP client engine to use.
+ * @param clientConfiguration The configuration for the client.
+ */
 class Client private constructor(
     httpClientEngine: HttpClientEngine,
     clientConfiguration: ClientConfiguration
 ) {
+    /**
+     * The HTTP client to perform requests with.
+     */
     val httpClient: HttpClient
+
     private val configurationCollector: ConfigurationCollector = ConfigurationCollector.create(
         clientConfiguration.toProvider(),
         FileSystemConfigurationProvider(),

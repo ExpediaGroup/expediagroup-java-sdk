@@ -17,12 +17,15 @@ package com.expediagroup.sdk.core.config
 
 import com.expediagroup.sdk.core.model.exception.ConfigurationException
 
+/**
+ * A definition of a configuration property.
+ */
 class ConfigurationDefinition {
 
     private var configKeys = mutableMapOf<String, ConfigurationKey>()
 
     /**
-     * Define a new configuration which is required by the SDK
+     * Define a new configuration which is required by the SDK.
      *
      * @param key key which needs to be defined
      * @return ConfigurationDefinition object after adding the configuration key
@@ -36,9 +39,9 @@ class ConfigurationDefinition {
     }
 
     /**
-     * Define a new configuration which is required by the SDK
+     * Define a new configuration which is required by the SDK.
      *
-     * @param name of the configuration, it should be unique, use a . delemited string eg : api_credentials.client_key
+     * @param name of the configuration, it should be unique, use a . delimited string eg : api_credentials.client_key
      * @param documentation documentation for the configuration key, its logged and used by the client of the sdk to set the right value
      * @param type type of the expected configuration value.
      * @param importance specifies the importance of the key, sdk fails to initialize if a configuration for a key of high importance is not passed
@@ -60,13 +63,13 @@ class ConfigurationDefinition {
             type = type,
             importance = importance,
             defaultValue = defaultValue,
-            validator = validator,
+            validator = validator
         )
         return define(key)
     }
 
     /**
-     * Gets the configuration key given the unique identifier
+     * Gets the configuration key given the unique identifier.
      *
      * @param name - identifier for the configuration key
      * @return - configuration key
@@ -75,7 +78,7 @@ class ConfigurationDefinition {
         configKeys[name] ?: throw ConfigurationException("configuration key not defined, name:$name")
 
     /**
-     * Parses the configuration values based on the defined keys
+     * Parses the configuration values based on the defined keys.
      *
      * @param props - unparsed configuration values as properties
      * @return - map of configuration names along with its parsed values
@@ -109,13 +112,6 @@ class ConfigurationDefinition {
             .let { key.validator?.ensureValid(key.name, it) ?: it }
     }
 
-    /**
-     * Parse a value according to its expected type.
-     * @param name  The config name
-     * @param value The config value
-     * @param type  The expected type
-     * @return The parsed object
-     */
     private fun parseType(name: String, value: Any, type: ConfigurationKey.Type): Any {
         return when (type) {
             ConfigurationKey.Type.BOOLEAN ->
@@ -124,6 +120,7 @@ class ConfigurationDefinition {
                         if (value.equals("true", ignoreCase = true)) true
                         else if (value.equals("false", ignoreCase = true)) false
                         else throw ConfigurationException("Expected value to be either true or false, name:$name, value:$value")
+
                     is Boolean -> value
                     else -> throw ConfigurationException("Expected value to be either true or false, name:$name, value:$value")
                 }
@@ -150,6 +147,7 @@ class ConfigurationDefinition {
                     is String -> value.toDoubleOrNull() ?: throw ConfigurationException("Expected value to be a double, but it was a ${value.javaClass.name}, name:$name, value:$value")
                     else -> throw ConfigurationException("Expected value to be a double, but it was a ${value.javaClass.name}, name:$name, value:$value")
                 }
+
             ConfigurationKey.Type.LIST ->
                 value as? List<*>
                     ?: if (value is String) if (value.isEmpty()) emptyList<Any>() else value.split(",")
