@@ -38,6 +38,7 @@ class FileConfigurationProvider : ConfigurationProvider {
      * Retrieves the data at the given Properties file.
      *
      * @param path the file where the data resides
+     * @param optional whether these configurations are optional or not
      * @return the configuration data
      */
     override fun get(path: String, optional: Boolean): ConfigurationData {
@@ -55,8 +56,10 @@ class FileConfigurationProvider : ConfigurationProvider {
 
     /**
      * Retrieves the data at the given Properties file.
-     * We used it with getting the files within jar file
+     *
+     * We used it with getting the files within jar file.
      * @param url the file url where the data resides
+     * @param optional whether these configurations are optional or not
      * @return the configuration data
      */
     override fun get(url: URL, optional: Boolean): ConfigurationData {
@@ -86,6 +89,7 @@ class FileConfigurationProvider : ConfigurationProvider {
      *
      * @param path the file where the data resides
      * @param keys the keys whose values will be retrieved
+     * @param optional whether these configurations are optional or not
      * @return the configuration data
      */
     override fun get(path: String, keys: Set<String>, optional: Boolean): ConfigurationData {
@@ -138,8 +142,6 @@ class FileConfigurationProvider : ConfigurationProvider {
     private fun getReader(url: URL): Reader {
         return BufferedReader(InputStreamReader(url.openStream()))
     }
-
-    fun close() {}
 
     companion object {
         private val log: Logger = LoggerFactory.getLogger(this::class.java)
