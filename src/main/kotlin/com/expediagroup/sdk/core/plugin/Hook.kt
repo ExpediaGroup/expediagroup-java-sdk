@@ -47,14 +47,14 @@ internal open class Hook<in C : PluginConfiguration>(
  * A singleton repository of all [Hook]s we need to apply on the [Client].
  */
 internal object Hooks {
-    private var hooks: MutableList<Hook<*>> = mutableListOf()
+    private var hooksCollection: MutableList<Hook<*>> = mutableListOf()
 
     fun <C : PluginConfiguration> add(hook: Hook<C>) {
-        hooks += hook
+        hooksCollection += hook
     }
 
     fun execute(client: Client) {
-        hooks.forEach { it.execute(client) }
+        hooksCollection.forEach { it.execute(client) }
     }
 }
 

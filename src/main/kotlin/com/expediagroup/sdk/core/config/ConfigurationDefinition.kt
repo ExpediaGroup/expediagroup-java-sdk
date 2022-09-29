@@ -45,10 +45,13 @@ class ConfigurationDefinition {
      * @param documentation documentation for the configuration key, its logged and used by the client of the sdk to set the right value
      * @param type type of the expected configuration value.
      * @param importance specifies the importance of the key, sdk fails to initialize if a configuration for a key of high importance is not passed
-     * @param defaultValue the default value of the configuration if its not passed, its an optional field, some key's won't have a default
+     * @param defaultValue the default value of the configuration if it's not passed, it's an optional field, some key's won't have a default
      * @param validator - configuration validator if the value needs additional validation. eg : if a value has to be between 1-10 just expecting the type to be INT would not be enough
      * @return ConfigurationDefinition object after adding the configuration key
      */
+
+    // TODO: Fix the cause and remove the suppress warning.
+    @Suppress("LongParameterList")
     fun define(
         name: String,
         documentation: String,
@@ -112,6 +115,8 @@ class ConfigurationDefinition {
             .let { key.validator?.ensureValid(key.name, it) ?: it }
     }
 
+    // TODO: Fix the cause and remove the suppress warning.
+    @Suppress("ComplexMethod")
     private fun parseType(name: String, value: Any, type: ConfigurationKey.Type): Any {
         return when (type) {
             ConfigurationKey.Type.BOOLEAN ->
