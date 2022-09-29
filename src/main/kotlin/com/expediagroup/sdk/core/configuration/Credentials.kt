@@ -18,8 +18,8 @@ package com.expediagroup.sdk.core.configuration
 /**
  * A pair of key-secret.
  *
- * @property key the key
- * @property secret the secret
+ * @property key the client key
+ * @property secret the client secret
  */
 internal data class Credentials(
     val key: String,
