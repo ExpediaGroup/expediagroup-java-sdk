@@ -97,6 +97,15 @@ class FileConfigurationProviderTest {
     }
 
     @Test
+    fun `file configuration provider should throw an exception when the optional flag is not set and file doesn't exists`() {
+        val provider: ConfigurationProvider = FileConfigurationProvider()
+
+        assertThrows<ConfigurationException> {
+            provider[INVALID_URL].data()
+        }
+    }
+
+    @Test
     fun `file configuration provider return empty data when the optional flag is active and file path doesn't exists`() {
         val provider: ConfigurationProvider = FileConfigurationProvider()
         assertEquals(provider[INVALID_RESOURCE_FILE_NAME, true].data(), emptyMap<String, String>())

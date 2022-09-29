@@ -47,8 +47,8 @@ class FileConfigurationProvider : ConfigurationProvider {
             return emptyConfigurationData
         }
 
-        return runCatching {
-            readPropsFileIntoConfigurationData(getReader(path))
+        runCatching {
+            return readPropsFileIntoConfigurationData(getReader(path))
         }.getOrElse {
             if (optional) return emptyConfigurationData
 
@@ -70,7 +70,7 @@ class FileConfigurationProvider : ConfigurationProvider {
         }.getOrElse {
             if (optional) return emptyConfigurationData
 
-            throw ConfigurationException("Could not read properties from file $url")
+            throw ConfigurationException("$PROPERTY_NOT_FOUND $url")
         }
     }
 
@@ -102,29 +102,21 @@ class FileConfigurationProvider : ConfigurationProvider {
         if (path.isEmpty()) {
             return emptyConfigurationData
         }
-        return try {
-            readData(path, keys, data)
+        try {
+            getReader(path).use { reader ->
+                val properties = Properties()
+                properties.load(reader)
+                for (key in keys) {
+                    val value = properties.getProperty(key)
+                    data[key] = value
+                }
+                return ConfigurationData(data)
+            }
         } catch (e: IOException) {
-            if (optional) emptyConfigurationData
+            if (optional) return emptyConfigurationData
 
             throw ConfigurationException("$PROPERTY_NOT_FOUND $path", e)
         }
-    }
-
-    private fun readData(
-        path: String,
-        keys: Set<String>,
-        data: MutableMap<String, String>
-    ): ConfigurationData = getReader(path).use { reader ->
-        val properties = Properties()
-        properties.load(reader)
-        for (key in keys) {
-            val value = properties.getProperty(key)
-            if (value != null) {
-                data[key] = value
-            }
-        }
-        return ConfigurationData(data)
     }
 
     private fun readPropsFileIntoConfigurationData(reader: Reader): ConfigurationData {
@@ -136,9 +128,7 @@ class FileConfigurationProvider : ConfigurationProvider {
             while (keys.hasMoreElements()) {
                 val key = keys.nextElement().toString()
                 val value = properties.getProperty(key)
-                if (value != null) {
-                    data[key] = value
-                }
+                data[key] = value
             }
             return ConfigurationData(data)
         }
