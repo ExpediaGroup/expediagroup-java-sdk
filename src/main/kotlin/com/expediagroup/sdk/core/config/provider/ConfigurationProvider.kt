@@ -17,6 +17,9 @@ package com.expediagroup.sdk.core.config.provider
 
 import java.net.URL
 
+/**
+ * A configuration provider that could be implemented to provide configuration from a variety of sources.
+ */
 interface ConfigurationProvider {
 
     /**

@@ -17,11 +17,6 @@ package com.expediagroup.sdk.core.configuration.provider
 
 /**
  * A configuration provider that can be used to provide configuration values.
- *
- * @property key The API key to use for authentication.
- * @property secret The API secret to use for authentication.
- * @property endpoint The API endpoint to use for requests.
- * @property authEndpoint The API endpoint to use for authentication.
  */
 internal interface ConfigurationProvider {
 

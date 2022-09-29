@@ -18,7 +18,8 @@ package com.expediagroup.sdk.core.config.provider
 /**
  * Creates a new ConfigData with the given data.
  *
- * @param data a Map of key-value pairs
+ * @property data a Map of key-value pairs
+ * @property ttl the time to live for the data
  */
 data class ConfigurationData(private val data: Map<String, String>, private val ttl: Long? = null) {
     /**
@@ -38,10 +39,4 @@ data class ConfigurationData(private val data: Map<String, String>, private val 
     fun ttl(): Long? {
         return ttl
     }
-    /**
-     * Creates a new ConfigData with the given data and TTL (in milliseconds).
-     *
-     * @param data a Map of key-value pairs
-     * @param ttl the time-to-live of the data in milliseconds, or null if there is no TTL
-     */
 }

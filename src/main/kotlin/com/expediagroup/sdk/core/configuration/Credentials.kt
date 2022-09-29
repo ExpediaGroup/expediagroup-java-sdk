@@ -15,11 +15,20 @@
  */
 package com.expediagroup.sdk.core.configuration
 
-data class Credentials(
+/**
+ * A pair of key-secret.
+ *
+ * @property key the client key
+ * @property secret the client secret
+ */
+internal data class Credentials(
     val key: String,
     val secret: String
 ) {
 
+    /**
+     * A factory of [Credentials].
+     */
     companion object Factory {
 
         /**

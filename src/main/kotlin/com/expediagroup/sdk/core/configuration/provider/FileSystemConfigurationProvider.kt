@@ -22,10 +22,8 @@ import com.expediagroup.sdk.core.constant.Key
 /**
  * File System implementation of [ConfigurationProvider] to fall back to for any missing configuration.
  *
- * @property key The API key to use for authentication.
- * @property secret The API secret to use for authentication.
- * @property endpoint The API endpoint to use for requests.
- * @property authEndpoint The API endpoint to use for authentication.
+ * @property credentialsFilePath path to credentials file
+ * @property configurationsFilePath path to configurations file
  */
 internal class FileSystemConfigurationProvider(
     private val credentialsFilePath: String = Constant.CREDENTIALS_FILE_PATH,
