@@ -39,7 +39,8 @@ class Config(
      * @return - the value without casting it
      */
     operator fun get(key: String): Any {
-        if (!configurations.containsKey(key)) throw ConfigurationException(String.format("Unknown configuration $key"))
+        if (!configurations.containsKey(key)) throw ConfigurationException("Unknown configuration $key")
+
         return configurations[key]!!
     }
 

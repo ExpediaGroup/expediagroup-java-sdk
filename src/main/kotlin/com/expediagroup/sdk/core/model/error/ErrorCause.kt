@@ -31,7 +31,7 @@ internal data class ErrorCause(
     val detail: String,
     val location: Location? = null,
     val name: String? = null,
-    val `value`: String? = null
+    val value: String? = null
 ) {
     /**
      * The location of the element in the request that identifies this specific cause. When specified, the `name` will be specified and when applicable, the `value` as well. Can be one of: * `HEADER` - When an error has been identified in one of the request headers. * `PATH` - When an error has been identified in one of the path parameters. * `QUERY` - When an error has been identified in one of the query parameters. * `BODY` - When an error has been identified in the request body.

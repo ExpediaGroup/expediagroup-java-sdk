@@ -60,7 +60,6 @@ class ConfigTest {
 
     @Test
     fun `defined configurations are correctly parsed and available for consumption`() {
-
         val filePath = this::class.java.getResource(RESOURCE_FILE_PATH)?.file.orEmpty()
         val configurationDefinition = ConfigurationDefinition()
 
@@ -115,7 +114,6 @@ class ConfigTest {
 
     @Test
     fun `fails to initialize if defined configurations are unavailable`() {
-
         val filePath = this::class.java.getResource(RESOURCE_FILE_PATH)?.file.orEmpty()
         val configurationDefinition = ConfigurationDefinition()
 
@@ -140,7 +138,6 @@ class ConfigTest {
 
     @Test
     fun `throws an exception when an undefined config is retrieved`() {
-
         val filePath = this::class.java.getResource(RESOURCE_FILE_PATH)?.file.orEmpty()
         val configurationDefinition = ConfigurationDefinition()
         val provider = FileConfigurationProvider()
@@ -154,7 +151,6 @@ class ConfigTest {
 
     @Test
     fun `fails to initialize if defined configuration are of a type that doesn't match the instance`() {
-
         val filePath = this::class.java.getResource(RESOURCE_FILE_PATH)?.file.orEmpty()
         val configurationDefinition = ConfigurationDefinition()
 

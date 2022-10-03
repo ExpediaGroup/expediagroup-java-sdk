@@ -22,6 +22,7 @@ import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_SECRET_TEST_CREDEN
 import com.expediagroup.sdk.core.commons.TestConstants.TEST_URL
 import com.expediagroup.sdk.core.configuration.provider.DefaultConfigurationProvider
 import com.expediagroup.sdk.core.constant.Header
+import com.expediagroup.sdk.core.model.exception.ClientException
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.MockRequestHandleScope
@@ -48,7 +49,7 @@ object MockEnginFactory {
         } else if (isBadRequest(request)) {
             errorResponse()
         } else {
-            throw RuntimeException("un supported case in the mock engin")
+            throw ClientException(HttpStatusCode.InternalServerError, "unsupported case in the mock engine")
         }
     }
 
@@ -130,7 +131,7 @@ object MockEnginFactory {
                          "value":"NotANumber"
                       }
                    ]
-                }  
+                }
                  """
         ),
         status = HttpStatusCode.BadRequest,

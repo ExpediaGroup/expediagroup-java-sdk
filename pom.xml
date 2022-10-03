@@ -113,10 +113,6 @@
             <artifactId>ktor-client-content-negotiation-jvm</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
-        <dependency>
             <groupId>io.ktor</groupId>
             <artifactId>ktor-http-jvm</artifactId>
         </dependency>

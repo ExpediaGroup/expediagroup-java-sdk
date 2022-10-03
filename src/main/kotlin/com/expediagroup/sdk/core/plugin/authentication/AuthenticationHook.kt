@@ -57,7 +57,7 @@ private object AuthenticationHookBuilder : HookBuilder<AuthenticationConfigurati
                 if (!isLock.getAndSet(true)) {
                     AuthenticationPlugin.refreshToken(httpClient, configs)
                     isLock.compareAndSet(expect = true, update = false)
-                    return@intercept makeRequest(request)
+                    makeRequest(request)
                 }
                 waitUntilTheTokenIsRefreshed()
                 makeRequest(request)
