@@ -50,7 +50,7 @@ class ConfigurationDefinition {
      * @return ConfigurationDefinition object after adding the configuration key
      */
 
-    // TODO: Fix the cause and remove the suppress warning.
+    // TODO: Fix the cause and remove the suppression warning.
     @Suppress("LongParameterList")
     fun define(
         name: String,
@@ -115,8 +115,8 @@ class ConfigurationDefinition {
             .let { key.validator?.ensureValid(key.name, it) ?: it }
     }
 
-    // TODO: Fix the cause and remove the suppress warning.
-    @Suppress("ComplexMethod")
+    // TODO: Fix the causes and remove the suppression warning.
+    @Suppress("ComplexMethod", "ThrowsCount")
     private fun parseType(name: String, value: Any, type: ConfigurationKey.Type): Any {
         return when (type) {
             ConfigurationKey.Type.BOOLEAN ->

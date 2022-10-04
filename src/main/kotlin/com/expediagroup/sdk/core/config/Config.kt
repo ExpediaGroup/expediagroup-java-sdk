@@ -50,9 +50,7 @@ class Config(
      * @param key - string key for the config being looked up
      * @return - the value as Int
      */
-    fun getInt(key: String): Int {
-        return get(key) as Int
-    }
+    fun getInt(key: String): Int = get(key) as Int
 
     /**
      * Gets the configuration value given a key and casts it to Double. The key should be defined as a Configuration Definition and the type should be Double
@@ -60,9 +58,7 @@ class Config(
      * @param key - string key for the config being looked up
      * @return - the value as Double
      */
-    fun getDouble(key: String): Double {
-        return get(key) as Double
-    }
+    fun getDouble(key: String): Double = get(key) as Double
 
     /**
      * Gets the configuration value given a key and casts it to List<String>. The key should be defined as a Configuration Definition and the type should be List
@@ -70,9 +66,7 @@ class Config(
      * @param key - string key for the config being looked up
      * @return - the value as List<String>
      */
-    fun getList(key: String): List<String> {
-        return get(key) as List<String>
-    }
+    fun getList(key: String): List<String> = get(key) as List<String>
 
     /**
      * Gets the configuration value given a key and casts it to Boolean. The key should be defined as a Configuration Definition and the type should be Boolean
@@ -80,9 +74,7 @@ class Config(
      * @param key - string key for the config being looked up
      * @return - the value as Boolean
      */
-    fun getBoolean(key: String): Boolean {
-        return get(key) as Boolean
-    }
+    fun getBoolean(key: String): Boolean = get(key) as Boolean
 
     /**
      * Gets the configuration value given a key and casts it to String. The key should be defined as a Configuration Definition and the type should be String
@@ -90,9 +82,7 @@ class Config(
      * @param key - string key for the config being looked up
      * @return - the value as String
      */
-    fun getString(key: String): String {
-        return get(key) as String
-    }
+    fun getString(key: String): String = get(key) as String
 
     /**
      * Gets the configuration value given a key and casts it to Password. The key should be defined as a Configuration Definition and the type should be Password
@@ -100,7 +90,5 @@ class Config(
      * @param key - string key for the config being looked up
      * @return - the value as Password
      */
-    fun getPassword(key: String): ConfigurationKey.Password {
-        return get(key) as ConfigurationKey.Password
-    }
+    fun getPassword(key: String): ConfigurationKey.Password = get(key) as ConfigurationKey.Password
 }

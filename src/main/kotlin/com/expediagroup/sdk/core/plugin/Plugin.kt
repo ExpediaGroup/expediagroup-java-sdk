@@ -35,4 +35,4 @@ internal fun <C : PluginConfiguration, P : Plugin<C>> use(plugin: P): P = plugin
 /**
  * Provides an idiomatic way of configuring a plugin.
  */
-internal fun <C : PluginConfiguration> Plugin<C>.with(configs: C): Unit = install(configs)
+internal fun <C : PluginConfiguration> Plugin<C>.with(configs: C) = install(configs)

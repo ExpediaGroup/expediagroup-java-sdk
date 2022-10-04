@@ -82,9 +82,7 @@ internal object AuthenticationPlugin : Plugin<AuthenticationConfiguration> {
         bearerTokenStorage = BearerTokens(EMPTY_STRING, EMPTY_STRING)
     }
 
-    fun getToken(): BearerTokens {
-        return bearerTokenStorage
-    }
+    fun getToken(): BearerTokens = bearerTokenStorage
 
     private fun HttpRequestBuilder.basicAuth(credentials: Credentials) {
         basicAuth(
