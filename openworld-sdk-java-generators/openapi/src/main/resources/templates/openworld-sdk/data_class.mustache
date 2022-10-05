@@ -13,7 +13,12 @@
     {{>interface_req_var}}{{/required}}{{^required}}
     {{>interface_opt_var}}{{/required}}{{/vars}}{{/discriminator}}
 {{^discriminator}}
-    data class Builder(
+    companion object {
+         @JvmStatic
+        fun builder() = Builder()
+    }
+
+    class Builder(
     {{#allVars}}
         var {{{name}}}: {{#isEnum}}{{^isArray}}{{^isInherited}}{{classname}}.{{{nameInCamelCase}}}{{/isInherited}}{{/isArray}}{{^isArray}}{{#isInherited}}{{{parent}}}.{{{nameInCamelCase}}}{{/isInherited}}{{/isArray}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}} ? = null{{^-last}},{{/-last}}
     {{/allVars}}
@@ -21,11 +26,24 @@
     {{#allVars}}
         fun {{{name}}} ({{{name}}} : {{#isEnum}}{{^isArray}}{{^isInherited}}{{classname}}.{{{nameInCamelCase}}}{{/isInherited}}{{/isArray}}{{^isArray}}{{#isInherited}}{{{parent}}}.{{{nameInCamelCase}}}{{/isInherited}}{{/isArray}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}) = apply { this.{{{name}}} = {{{name}}} }
     {{/allVars}}
-    fun build() = {{classname}}(
+    fun build(): {{classname}} {
+    {{#hasRequired}}
+        // check required params
+        validateNullity()
+     {{/hasRequired}}
+     return {{classname}}({{#allVars}}{{{name}}} = {{{name}}}{{#required}}!!{{/required}}{{^-last}},{{/-last}}{{/allVars}})
+    }
+    {{#hasRequired}}
+    private fun validateNullity() {
     {{#allVars}}
-        {{{name}}} = {{{name}}}{{#required}}!!{{/required}}{{^-last}},{{/-last}}
+        {{#required}}
+        if ({{{name}}} == null) {
+            throw NullPointerException("Required parameter {{{name}}} is missing")
+        }
+        {{/required}}
     {{/allVars}}
-    )
+    }
+    {{/hasRequired}}
     }
 {{/discriminator}}
 {{#hasEnums}}
