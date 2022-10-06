@@ -40,17 +40,19 @@ import kotlin.reflect.jvm.isAccessible
 internal class AuthenticationPluginTest {
 
     @Test
-    fun `making any http call should invoke the authorized token`(): Unit = runBlocking {
-        val httpClient = ClientFactory.createClient().httpClient
-        val testRequest = httpClient.get("http://any-url")
+    fun `making any http call should invoke the authorized token`() {
+        runBlocking {
+            val httpClient = ClientFactory.createClient().httpClient
+            val testRequest = httpClient.get("http://any-url")
 
-        assertThat(testRequest.request.headers["Authorization"]).isEqualTo(
-            "Bearer $ACCESS_TOKEN"
-        )
+            assertThat(testRequest.request.headers["Authorization"]).isEqualTo(
+                "Bearer $ACCESS_TOKEN"
+            )
+        }
     }
 
     @Test
-    fun `refresh auth token should throw client exception if the the credentials are invalid`(): Unit =
+    fun `refresh auth token should throw client exception if the the credentials are invalid`() {
         runBlocking {
             val httpClient = ClientFactory.createClient().httpClient
 
@@ -68,9 +70,10 @@ internal class AuthenticationPluginTest {
                 )
             }
         }
+    }
 
     @Test
-    fun `make parallel should run the single refresh token only`(): Unit =
+    fun `make parallel should run the single refresh token only`() {
         runBlocking {
             mockkObject(AuthenticationPlugin)
             val httpClient = ClientFactory.createClient().httpClient
@@ -89,9 +92,12 @@ internal class AuthenticationPluginTest {
                 AuthenticationPlugin.refreshToken(httpClient, any())
             }
         }
+    }
 
-    private fun clearAuthorizationTokens(client: HttpClient) = AuthenticationPlugin::class.declaredMemberFunctions
-        .firstOrNull { it.name == "clearTokens" }
-        ?.apply { isAccessible = true }
-        ?.call(AuthenticationPlugin, client)
+    private fun clearAuthorizationTokens(client: HttpClient): Any? {
+        return AuthenticationPlugin::class.declaredMemberFunctions
+            .firstOrNull { it.name == "clearTokens" }
+            ?.apply { isAccessible = true }
+            ?.call(AuthenticationPlugin, client)
+    }
 }

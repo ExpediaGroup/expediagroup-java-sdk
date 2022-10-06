@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test
 internal class DefaultRequestPluginTest {
 
     @Test
-    fun `making any http call with relative url should invoke the endpoint from the configuration`(): Unit =
+    fun `making any http call with relative url should invoke the endpoint from the configuration`() {
         runBlocking {
             val client = ClientFactory.createClient()
             val testRequest = client.httpClient.get("/any-url")
@@ -35,4 +35,5 @@ internal class DefaultRequestPluginTest {
                 "${DefaultConfigurationProvider.endpoint}/any-url"
             )
         }
+    }
 }

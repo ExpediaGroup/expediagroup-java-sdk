@@ -40,9 +40,7 @@ internal class ConfigurationCollector private constructor(providers: Configurati
          * @param providers the [ConfigurationProvider]s to use.
          * @return a new [ConfigurationCollector] with the given [providers].
          */
-        fun create(vararg providers: ConfigurationProvider): ConfigurationCollector {
-            return create(ConfigurationProviderQueue.from(providers.asList()))
-        }
+        fun create(vararg providers: ConfigurationProvider): ConfigurationCollector = create(ConfigurationProviderQueue.from(providers.asList()))
     }
 
     override val key: String by lazy { providers.firstOf { it.key } }

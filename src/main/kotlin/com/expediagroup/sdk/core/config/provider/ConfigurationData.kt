@@ -21,22 +21,18 @@ package com.expediagroup.sdk.core.config.provider
  * @property data a Map of key-value pairs
  * @property ttl the time to live for the data
  */
-data class ConfigurationData(private val data: Map<String, String>, private val ttl: Long? = null) {
+class ConfigurationData(private val data: Map<String, String>, private val ttl: Long? = null) {
     /**
      * Returns the data.
      *
      * @return data a Map of key-value pairs
      */
-    fun data(): Map<String, String> {
-        return data
-    }
+    fun data(): Map<String, String> = data
 
     /**
      * Returns the TTL (in milliseconds).
      *
      * @return ttl the time-to-live (in milliseconds) of the data, or null if there is no TTL
      */
-    fun ttl(): Long? {
-        return ttl
-    }
+    fun ttl(): Long? = ttl
 }

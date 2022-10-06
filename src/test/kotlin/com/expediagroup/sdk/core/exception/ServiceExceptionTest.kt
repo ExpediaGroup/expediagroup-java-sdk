@@ -33,37 +33,41 @@ import java.net.URI
 class ServiceExceptionTest {
 
     @Test
-    internal fun `request with invalid body should throw an exception`(): Unit = runBlocking {
-        val httpClient = ClientFactory.createClient().httpClient
-        val response = httpClient.get {
-            url("http://anyurl")
-            setAttributes {
-                put(AttributeKey(BAD_REQUEST_ATTRIBUTE), "any value")
+    internal fun `request with invalid body should throw an exception`() {
+        runBlocking {
+            val httpClient = ClientFactory.createClient().httpClient
+            val response = httpClient.get {
+                url("http://anyurl")
+                setAttributes {
+                    put(AttributeKey(BAD_REQUEST_ATTRIBUTE), "any value")
+                }
             }
+
+            assertThat(response.status).isEqualTo(HttpStatusCode.BadRequest)
+
+            val error = response.body<Error>()
+
+            assertThat(error).isEqualTo(DEFAULT_ERROR_OBJECT)
         }
-
-        assertThat(response.status).isEqualTo(HttpStatusCode.BadRequest)
-
-        val error = response.body<Error>()
-
-        assertThat(error).isEqualTo(DEFAULT_ERROR_OBJECT)
     }
 
     @Test
-    internal fun `request with invalid body with PROD profile should throw an exception`(): Unit = runBlocking {
-        val httpClient = ClientFactory.createClient().httpClient
-        val response = httpClient.get {
-            url("http://anyurl")
-            setAttributes {
-                put(AttributeKey(BAD_REQUEST_ATTRIBUTE), "any value")
+    internal fun `request with invalid body with PROD profile should throw an exception`() {
+        runBlocking {
+            val httpClient = ClientFactory.createClient().httpClient
+            val response = httpClient.get {
+                url("http://anyurl")
+                setAttributes {
+                    put(AttributeKey(BAD_REQUEST_ATTRIBUTE), "any value")
+                }
             }
+
+            assertThat(response.status).isEqualTo(HttpStatusCode.BadRequest)
+
+            val error = response.body<Error>()
+
+            assertThat(error).isEqualTo(DEFAULT_ERROR_OBJECT)
         }
-
-        assertThat(response.status).isEqualTo(HttpStatusCode.BadRequest)
-
-        val error = response.body<Error>()
-
-        assertThat(error).isEqualTo(DEFAULT_ERROR_OBJECT)
     }
 
     private companion object {

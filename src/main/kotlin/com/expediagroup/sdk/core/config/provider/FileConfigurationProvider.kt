@@ -135,12 +135,8 @@ class FileConfigurationProvider : ConfigurationProvider {
     }
 
     @Throws(IOException::class)
-    private fun getReader(path: String): Reader {
-        return Files.newBufferedReader(Paths.get(path))
-    }
+    private fun getReader(path: String): Reader = Files.newBufferedReader(Paths.get(path))
 
     @Throws(IOException::class)
-    private fun getReader(url: URL): Reader {
-        return BufferedReader(InputStreamReader(url.openStream()))
-    }
+    private fun getReader(url: URL): Reader = BufferedReader(InputStreamReader(url.openStream()))
 }
