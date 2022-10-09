@@ -44,13 +44,20 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.Disabled
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.ValueSource
 import kotlin.reflect.full.declaredMemberFunctions
 import kotlin.reflect.jvm.isAccessible
 
 internal class AuthenticationPluginTest {
+
+    @BeforeEach
+    internal fun setUp() {
+        clearAllMocks()
+    }
 
     @AfterEach
     internal fun tearDown() {
@@ -58,7 +65,6 @@ internal class AuthenticationPluginTest {
     }
 
     @Test
-    @Disabled
     fun `making any http call should invoke the authorized token`(): Unit = runBlocking {
         val httpClient = ClientFactory.createClient().httpClient
         val testRequest = httpClient.get("http://any-url")
@@ -71,7 +77,6 @@ internal class AuthenticationPluginTest {
     }
 
     @Test
-    @Disabled
     fun `refresh auth token should throw client exception if the the credentials are invalid`(): Unit =
         runBlocking {
             val httpClient = ClientFactory.createClient().httpClient
@@ -116,18 +121,15 @@ internal class AuthenticationPluginTest {
             clearAuthorizationTokens(httpClient)
         }
 
-    @Test
-    fun `given request when token almost or is expired then should renew token`(): Unit = runBlocking {
-        val mockEngine = MockEngine {
-            createTokenResponse(6)
-        }
+    @ParameterizedTest
+    @ValueSource(ints = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+    fun `given request when token almost or is expired then should renew token`(expiresIn: Int): Unit = runBlocking {
+        val mockEngine = createMockEngineExpiresInPerCall(expiresIn, 1000)
         val httpClient = ClientFactory.createClient(mockEngine).httpClient
         renewToken(httpClient)
 
         mockkObject(AuthenticationPlugin)
-        println("here1") // FIXME
         httpClient.get("http://any-url-test")
-        println("here2") // FIXME
 
         coVerify(exactly = 1) {
             AuthenticationPlugin.renewToken(httpClient, any())
@@ -137,11 +139,8 @@ internal class AuthenticationPluginTest {
     }
 
     @Test
-    @Disabled
     fun `given request when token not almost and not expired then should not renew token`(): Unit = runBlocking {
-        val mockEngine = MockEngine {
-            createTokenResponse(1000)
-        }
+        val mockEngine = createMockEngineExpiresInPerCall(1000)
         val httpClient = ClientFactory.createClient(mockEngine).httpClient
         renewToken(httpClient)
 
@@ -156,11 +155,8 @@ internal class AuthenticationPluginTest {
     }
 
     @Test
-    @Disabled
     fun `given identity request when token almost expired then should not renew token`(): Unit = runBlocking {
-        val mockEngine = MockEngine {
-            createTokenResponse(6)
-        }
+        val mockEngine = createMockEngineExpiresInPerCall(6, 1000)
         val httpClient = ClientFactory.createClient(mockEngine).httpClient
         mockkObject(AuthenticationPlugin)
 
@@ -178,7 +174,6 @@ internal class AuthenticationPluginTest {
     }
 
     @Test
-    @Disabled
     fun `given multiple requests when token expired then no requests should be unauthorized`(): Unit = runBlocking {
         mockkObject(AuthenticationPlugin)
         val httpClient = ClientFactory.createClient().httpClient
@@ -240,4 +235,17 @@ internal class AuthenticationPluginTest {
         ),
         DefaultConfigurationProvider.authEndpoint
     )
+
+    private fun createMockEngineExpiresInPerCall(vararg expiresIn: Int): MockEngine {
+        var timesCalled = -1
+        val mockEngine = MockEngine {
+            timesCalled++
+            if (timesCalled in expiresIn.indices) {
+                createTokenResponse(expiresIn[timesCalled])
+            } else {
+                createTokenResponse(1000)
+            }
+        }
+        return mockEngine
+    }
 }
