@@ -20,9 +20,8 @@ import com.expediagroup.sdk.core.constant.Header
 import com.expediagroup.sdk.core.plugin.Hook
 import com.expediagroup.sdk.core.plugin.HookBuilder
 import com.expediagroup.sdk.core.plugin.HookConfigsBuilder
-import io.ktor.client.call.HttpClientCall
+import com.expediagroup.sdk.core.plugin.authentication.AuthenticationPlugin.notIdentityRequest
 import io.ktor.client.plugins.HttpSend
-import io.ktor.client.plugins.Sender
 import io.ktor.client.plugins.plugin
 import io.ktor.client.request.HttpRequestBuilder
 import kotlinx.atomicfu.atomic
@@ -37,7 +36,8 @@ internal class AuthenticationHook(
     AuthenticationHookBuilder
 ) {
     companion object : HookConfigsBuilder<AuthenticationConfiguration, AuthenticationHook> {
-        override fun with(configuration: AuthenticationConfiguration): AuthenticationHook = AuthenticationHook(configuration)
+        override fun with(configuration: AuthenticationConfiguration): AuthenticationHook =
+            AuthenticationHook(configuration)
     }
 }
 
@@ -48,46 +48,23 @@ private object AuthenticationHookBuilder : HookBuilder<AuthenticationConfigurati
         val httpClient = client.httpClient
 
         httpClient.plugin(HttpSend).intercept { request ->
-            val originalCall = execute(request)
-            if (originalCall.response.status.value == 401 && AuthenticationPlugin.isIdentityRequest(
-                    request,
-                    configs
-                ) && !isUnauthorizedIdentityResponse(originalCall)
-            ) {
+            if (notIdentityRequest(request, configs) && AuthenticationPlugin.isTokenAboutToExpire()) {
                 if (!isLock.getAndSet(true)) {
-                    AuthenticationPlugin.refreshToken(httpClient, configs)
+                    AuthenticationPlugin.renewToken(httpClient, configs)
                     isLock.compareAndSet(expect = true, update = false)
-                    makeRequest(request)
                 }
-                waitUntilTheTokenIsRefreshed()
-                makeRequest(request)
-            } else {
-                originalCall
+                waitForTokenRenewal()
+                assignNewToken(request)
             }
+            execute(request)
         }
     }
 
-    private fun isUnauthorizedIdentityResponse(httpCall: HttpClientCall) =
-        getResponseHeader(
-            httpCall,
-            Header.CAPITALIZED_AUTHENTICATE
-        )?.startsWith("Bearer") ?: false || getResponseHeader(
-            httpCall,
-            Header.AUTHORIZATION
-        )?.startsWith("Bearer") ?: false
-
-    private fun getResponseHeader(httpCall: HttpClientCall, header: String) =
-        httpCall.response.headers[header]
-
-    private suspend fun Sender.makeRequest(request: HttpRequestBuilder): HttpClientCall {
-        request.headers[Header.AUTHORIZATION] =
-            "Bearer ${AuthenticationPlugin.getToken().accessToken}"
-        return execute(request)
+    private fun assignNewToken(request: HttpRequestBuilder) {
+        request.headers[Header.AUTHORIZATION] = "Bearer ${AuthenticationPlugin.getToken().accessToken}"
     }
 
-    private suspend fun waitUntilTheTokenIsRefreshed() {
-        while (isLock.value) {
-            delay(AUTHORIZATION_REQUEST_LOCK_DELAY)
-        }
+    private suspend fun waitForTokenRenewal() {
+        while (isLock.value) delay(AUTHORIZATION_REQUEST_LOCK_DELAY)
     }
 }
