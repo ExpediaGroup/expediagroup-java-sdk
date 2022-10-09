@@ -20,6 +20,7 @@ import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_KEY_TEST_CREDENTIA
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.configuration.ClientConfiguration
 import com.expediagroup.sdk.core.configuration.provider.DefaultConfigurationProvider
+import io.ktor.client.engine.mock.MockEngine
 
 internal object ClientFactory {
     private val configuration = ClientConfiguration.Builder()
@@ -30,6 +31,10 @@ internal object ClientFactory {
         .build()
 
     fun createClient(): Client {
-        return Client.from(MockEnginFactory.createDefaultEngine(), configuration)
+        return Client.from(MockEngineFactory.createDefaultEngine(), configuration)
+    }
+
+    fun createClient(mockEngine: MockEngine): Client {
+        return Client.from(mockEngine, configuration)
     }
 }

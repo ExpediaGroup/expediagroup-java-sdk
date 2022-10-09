@@ -34,7 +34,7 @@ import io.ktor.util.AttributeKey
 import io.ktor.utils.io.ByteReadChannel
 import java.util.Base64
 
-object MockEnginFactory {
+object MockEngineFactory {
 
     fun createDefaultEngine(): HttpClientEngine = MockEngine { request ->
         if (isIdentityRequest(request) && isValidCredentialsRequest(request)) {

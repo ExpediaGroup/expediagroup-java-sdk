@@ -16,7 +16,6 @@
 package com.expediagroup.sdk.core.plugin.authentication
 
 import com.expediagroup.sdk.core.configuration.Credentials
-import com.expediagroup.sdk.core.constant.Constant.EMPTY_STRING
 import com.expediagroup.sdk.core.constant.Header
 import com.expediagroup.sdk.core.constant.Message.UNABLE_TO_AUTHENTICATE
 import com.expediagroup.sdk.core.model.exception.ClientException
@@ -37,28 +36,28 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.Parameters
 
 internal object AuthenticationPlugin : Plugin<AuthenticationConfiguration> {
-    private var bearerTokenStorage = BearerTokens(EMPTY_STRING, EMPTY_STRING)
+    private var bearerTokenStorage = BearerTokensInfo.emptyBearerTokenInfo
     override fun install(configurations: AuthenticationConfiguration) {
         configurations.httpClientConfiguration.install(Auth) {
             bearer {
                 loadTokens {
-                    bearerTokenStorage
+                    bearerTokenStorage.bearerTokens
                 }
                 // Auth is always needed to request a token except for identity
                 sendWithoutRequest { request ->
-                    isIdentityRequest(request, configurations)
+                    notIdentityRequest(request, configurations)
                 }
             }
         }
     }
 
-    fun isIdentityRequest(
+    fun notIdentityRequest(
         request: HttpRequestBuilder,
         configs: AuthenticationConfiguration
     ): Boolean =
         request.url.buildString() != configs.authUrl
 
-    suspend fun refreshToken(client: HttpClient, configs: AuthenticationConfiguration) {
+    suspend fun renewToken(client: HttpClient, configs: AuthenticationConfiguration) {
         clearTokens(client)
         val refreshTokenResponse = client.request {
             method = HttpMethod.Post
@@ -73,17 +72,20 @@ internal object AuthenticationPlugin : Plugin<AuthenticationConfiguration> {
             )
         }
         val refreshTokenInfo: TokenResponse = refreshTokenResponse.body()
-        bearerTokenStorage = BearerTokens(refreshTokenInfo.accessToken, refreshTokenInfo.accessToken)
+        bearerTokenStorage = BearerTokensInfo(
+            BearerTokens(refreshTokenInfo.accessToken, refreshTokenInfo.accessToken),
+            refreshTokenInfo.expiresIn
+        )
         bearerTokenStorage
     }
 
     private fun clearTokens(client: HttpClient) {
         client.plugin(Auth).providers.filterIsInstance<BearerAuthProvider>().first().clearToken()
-        bearerTokenStorage = BearerTokens(EMPTY_STRING, EMPTY_STRING)
+        bearerTokenStorage = BearerTokensInfo.emptyBearerTokenInfo
     }
 
     fun getToken(): BearerTokens {
-        return bearerTokenStorage
+        return bearerTokenStorage.bearerTokens
     }
 
     private fun HttpRequestBuilder.basicAuth(credentials: Credentials) {
@@ -98,4 +100,6 @@ internal object AuthenticationPlugin : Plugin<AuthenticationConfiguration> {
             append(Header.GRANT_TYPE, Header.CLIENT_CREDENTIALS)
         }
     }
+
+    fun isTokenAboutToExpire() = bearerTokenStorage.isAboutToExpire()
 }
