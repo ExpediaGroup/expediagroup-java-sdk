@@ -67,7 +67,7 @@ internal class AuthenticationPluginTest {
     @Test
     fun `making any http call should invoke the authorized token`(): Unit = runBlocking {
         val httpClient = ClientFactory.createClient().httpClient
-        val testRequest = httpClient.get("http://any-url")
+        val testRequest = httpClient.get(ANY_URL)
 
         assertThat(testRequest.request.headers["Authorization"]).isEqualTo(
             "Bearer $ACCESS_TOKEN"
@@ -107,10 +107,10 @@ internal class AuthenticationPluginTest {
 
             println(AuthenticationPlugin.getToken().accessToken)
             launch {
-                httpClient.get("http://any-url")
+                httpClient.get(ANY_URL)
             }
             launch {
-                httpClient.get("http://any-url")
+                httpClient.get(ANY_URL)
             }
 
             delay(1000)
@@ -129,7 +129,7 @@ internal class AuthenticationPluginTest {
         renewToken(httpClient)
 
         mockkObject(AuthenticationPlugin)
-        httpClient.get("http://any-url-test")
+        httpClient.get(ANY_URL)
 
         coVerify(exactly = 1) {
             AuthenticationPlugin.renewToken(httpClient, any())
@@ -145,7 +145,7 @@ internal class AuthenticationPluginTest {
         renewToken(httpClient)
 
         mockkObject(AuthenticationPlugin)
-        httpClient.get("http://any-url")
+        httpClient.get(ANY_URL)
 
         coVerify(exactly = 0) {
             AuthenticationPlugin.renewToken(httpClient, any())
@@ -179,15 +179,15 @@ internal class AuthenticationPluginTest {
         val httpClient = ClientFactory.createClient().httpClient
 
         launch {
-            val request = httpClient.get("http://any-url")
+            val request = httpClient.get(ANY_URL)
             assertThat(request.status != HttpStatusCode.Unauthorized)
         }
         launch {
-            val request = httpClient.get("http://any-url")
+            val request = httpClient.get(ANY_URL)
             assertThat(request.status != HttpStatusCode.Unauthorized)
         }
         launch {
-            val request = httpClient.get("http://any-url")
+            val request = httpClient.get(ANY_URL)
             assertThat(request.status != HttpStatusCode.Unauthorized)
         }
 
@@ -247,5 +247,9 @@ internal class AuthenticationPluginTest {
             }
         }
         return mockEngine
+    }
+
+    companion object {
+        private const val ANY_URL = "http://any-ucrl"
     }
 }
