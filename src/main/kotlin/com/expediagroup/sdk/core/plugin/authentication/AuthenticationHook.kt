@@ -20,7 +20,7 @@ import com.expediagroup.sdk.core.constant.Header
 import com.expediagroup.sdk.core.plugin.Hook
 import com.expediagroup.sdk.core.plugin.HookBuilder
 import com.expediagroup.sdk.core.plugin.HookConfigsBuilder
-import com.expediagroup.sdk.core.plugin.authentication.AuthenticationPlugin.notIdentityRequest
+import com.expediagroup.sdk.core.plugin.authentication.AuthenticationPlugin.isNotIdentityRequest
 import io.ktor.client.plugins.HttpSend
 import io.ktor.client.plugins.plugin
 import io.ktor.client.request.HttpRequestBuilder
@@ -48,7 +48,7 @@ private object AuthenticationHookBuilder : HookBuilder<AuthenticationConfigurati
         val httpClient = client.httpClient
 
         httpClient.plugin(HttpSend).intercept { request ->
-            if (notIdentityRequest(request, configs) && AuthenticationPlugin.isTokenAboutToExpire()) {
+            if (isNotIdentityRequest(request, configs) && AuthenticationPlugin.isTokenAboutToExpire()) {
                 if (!isLock.getAndSet(true)) {
                     AuthenticationPlugin.renewToken(httpClient, configs)
                     isLock.compareAndSet(expect = true, update = false)

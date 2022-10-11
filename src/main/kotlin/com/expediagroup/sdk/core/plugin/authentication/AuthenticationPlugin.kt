@@ -45,13 +45,13 @@ internal object AuthenticationPlugin : Plugin<AuthenticationConfiguration> {
                 }
                 // Auth is always needed to request a token except for identity
                 sendWithoutRequest { request ->
-                    notIdentityRequest(request, configurations)
+                    isNotIdentityRequest(request, configurations)
                 }
             }
         }
     }
 
-    fun notIdentityRequest(
+    fun isNotIdentityRequest(
         request: HttpRequestBuilder,
         configs: AuthenticationConfiguration
     ): Boolean =
