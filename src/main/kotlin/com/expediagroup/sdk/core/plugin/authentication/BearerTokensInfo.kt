@@ -15,13 +15,13 @@
  */
 package com.expediagroup.sdk.core.plugin.authentication
 
+import com.expediagroup.sdk.core.constant.Authentication.expiryDateMargin
 import com.expediagroup.sdk.core.constant.Constant
 import io.ktor.client.plugins.auth.providers.BearerTokens
 import java.time.LocalDateTime
 
 internal class BearerTokensInfo(val bearerTokens: BearerTokens, expiresIn: Int) {
     companion object {
-        private const val expiryDateMargin: Long = 10 // In seconds
         val emptyBearerTokenInfo = BearerTokensInfo(BearerTokens(Constant.EMPTY_STRING, Constant.EMPTY_STRING), -1)
     }
 
