@@ -59,22 +59,22 @@ internal object AuthenticationPlugin : Plugin<AuthenticationConfiguration> {
 
     suspend fun renewToken(client: HttpClient, configs: AuthenticationConfiguration) {
         clearTokens(client)
-        val refreshTokenResponse = client.request {
+        val renewTokenResponse = client.request {
             method = HttpMethod.Post
             url(configs.authUrl)
             buildTokenRequest()
             basicAuth(configs.credentials)
         }
-        if (refreshTokenResponse.status != HttpStatusCode.OK) {
+        if (renewTokenResponse.status != HttpStatusCode.OK) {
             throw ClientException(
-                refreshTokenResponse.status,
+                renewTokenResponse.status,
                 UNABLE_TO_AUTHENTICATE
             )
         }
-        val refreshTokenInfo: TokenResponse = refreshTokenResponse.body()
+        val renewedTokenInfo: TokenResponse = renewTokenResponse.body()
         bearerTokenStorage = BearerTokensInfo(
-            BearerTokens(refreshTokenInfo.accessToken, refreshTokenInfo.accessToken),
-            refreshTokenInfo.expiresIn
+            BearerTokens(renewedTokenInfo.accessToken, renewedTokenInfo.accessToken),
+            renewedTokenInfo.expiresIn
         )
         bearerTokenStorage
     }
