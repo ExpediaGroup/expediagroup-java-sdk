@@ -73,14 +73,14 @@ internal object AuthenticationPlugin : Plugin<AuthenticationConfiguration> {
             basicAuth(configs.credentials)
         }
         if (renewTokenResponse.status != HttpStatusCode.OK) {
-            logger.error(FAILED_TOKEN_RENEWAL, refreshTokenResponse.status)
+            logger.error(FAILED_TOKEN_RENEWAL, renewTokenResponse.status)
             throw ClientException(
                 renewTokenResponse.status,
                 UNABLE_TO_AUTHENTICATE
             )
         }
         val renewedTokenInfo: TokenResponse = renewTokenResponse.body()
-        logger.info(SUCCESSFUL_TOKEN_RENEWAL, refreshTokenInfo.expiresIn)
+        logger.info(SUCCESSFUL_TOKEN_RENEWAL, renewedTokenInfo.expiresIn)
         bearerTokenStorage = BearerTokensInfo(
             BearerTokens(renewedTokenInfo.accessToken, renewedTokenInfo.accessToken),
             renewedTokenInfo.expiresIn
