@@ -16,7 +16,6 @@
 package com.expediagroup.sdk.core.plugin.authentication
 
 import com.expediagroup.sdk.core.configuration.Credentials
-import com.expediagroup.sdk.core.constant.Constant.EMPTY_STRING
 import com.expediagroup.sdk.core.constant.Header
 import com.expediagroup.sdk.core.constant.Logging.CLEARING_TOKENS
 import com.expediagroup.sdk.core.constant.Logging.FAILED_TOKEN_RENEWAL
@@ -43,56 +42,61 @@ import org.slf4j.LoggerFactory
 
 internal object AuthenticationPlugin : Plugin<AuthenticationConfiguration> {
     private val logger = LoggerFactory.getLogger(javaClass)
-    private var bearerTokenStorage = BearerTokens(EMPTY_STRING, EMPTY_STRING)
+    private var bearerTokenStorage = BearerTokensInfo.emptyBearerTokenInfo
     override fun install(configurations: AuthenticationConfiguration) {
         configurations.httpClientConfiguration.install(Auth) {
             bearer {
                 loadTokens {
-                    bearerTokenStorage
+                    bearerTokenStorage.bearerTokens
                 }
                 // Auth is always needed to request a token except for identity
                 sendWithoutRequest { request ->
-                    isIdentityRequest(request, configurations)
+                    isNotIdentityRequest(request, configurations)
                 }
             }
         }
     }
 
-    fun isIdentityRequest(
+    fun isNotIdentityRequest(
         request: HttpRequestBuilder,
         configs: AuthenticationConfiguration
     ): Boolean =
         request.url.buildString() != configs.authUrl
 
-    suspend fun refreshToken(client: HttpClient, configs: AuthenticationConfiguration) {
+    suspend fun renewToken(client: HttpClient, configs: AuthenticationConfiguration) {
         logger.info(RENEWING_TOKEN)
         clearTokens(client)
-        val refreshTokenResponse = client.request {
+        val renewTokenResponse = client.request {
             method = HttpMethod.Post
             url(configs.authUrl)
             buildTokenRequest()
             basicAuth(configs.credentials)
         }
-        if (refreshTokenResponse.status != HttpStatusCode.OK) {
+        if (renewTokenResponse.status != HttpStatusCode.OK) {
             logger.error(FAILED_TOKEN_RENEWAL, refreshTokenResponse.status)
             throw ClientException(
-                refreshTokenResponse.status,
+                renewTokenResponse.status,
                 UNABLE_TO_AUTHENTICATE
             )
         }
-        val refreshTokenInfo: TokenResponse = refreshTokenResponse.body()
+        val renewedTokenInfo: TokenResponse = renewTokenResponse.body()
         logger.info(SUCCESSFUL_TOKEN_RENEWAL, refreshTokenInfo.expiresIn)
-        bearerTokenStorage = BearerTokens(refreshTokenInfo.accessToken, refreshTokenInfo.accessToken)
+        bearerTokenStorage = BearerTokensInfo(
+            BearerTokens(renewedTokenInfo.accessToken, renewedTokenInfo.accessToken),
+            renewedTokenInfo.expiresIn
+        )
         bearerTokenStorage
     }
 
     private fun clearTokens(client: HttpClient) {
         logger.info(CLEARING_TOKENS)
         client.plugin(Auth).providers.filterIsInstance<BearerAuthProvider>().first().clearToken()
-        bearerTokenStorage = BearerTokens(EMPTY_STRING, EMPTY_STRING)
+        bearerTokenStorage = BearerTokensInfo.emptyBearerTokenInfo
     }
 
-    fun getToken(): BearerTokens = bearerTokenStorage
+    fun getToken(): BearerTokens {
+        return bearerTokenStorage.bearerTokens
+    }
 
     private fun HttpRequestBuilder.basicAuth(credentials: Credentials) {
         basicAuth(
@@ -106,4 +110,6 @@ internal object AuthenticationPlugin : Plugin<AuthenticationConfiguration> {
             append(Header.GRANT_TYPE, Header.CLIENT_CREDENTIALS)
         }
     }
+
+    fun isTokenAboutToExpire() = bearerTokenStorage.isAboutToExpire()
 }
