@@ -17,6 +17,7 @@ package com.expediagroup.sdk.core.plugin.authentication
 
 import com.expediagroup.sdk.core.client.Client
 import com.expediagroup.sdk.core.constant.Header
+import com.expediagroup.sdk.core.constant.Logging.TOKEN_EXPIRED
 import com.expediagroup.sdk.core.plugin.Hook
 import com.expediagroup.sdk.core.plugin.HookBuilder
 import com.expediagroup.sdk.core.plugin.HookConfigsBuilder
@@ -57,7 +58,7 @@ private object AuthenticationHookBuilder : HookBuilder<AuthenticationConfigurati
                     configs
                 ) && !isUnauthorizedIdentityResponse(originalCall)
             ) {
-                logger.info("Client[$client]: Token expired or is about to expire: Request [$request] will wait until the token is renewed")
+                logger.info(TOKEN_EXPIRED)
                 if (!isLock.getAndSet(true)) {
                     AuthenticationPlugin.refreshToken(httpClient, configs)
                     isLock.compareAndSet(expect = true, update = false)

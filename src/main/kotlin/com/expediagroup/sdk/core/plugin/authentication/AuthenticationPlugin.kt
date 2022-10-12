@@ -18,6 +18,10 @@ package com.expediagroup.sdk.core.plugin.authentication
 import com.expediagroup.sdk.core.configuration.Credentials
 import com.expediagroup.sdk.core.constant.Constant.EMPTY_STRING
 import com.expediagroup.sdk.core.constant.Header
+import com.expediagroup.sdk.core.constant.Logging.CLEARING_TOKENS
+import com.expediagroup.sdk.core.constant.Logging.FAILED_TOKEN_RENEWAL
+import com.expediagroup.sdk.core.constant.Logging.RENEWING_TOKEN
+import com.expediagroup.sdk.core.constant.Logging.SUCCESSFUL_TOKEN_RENEWAL
 import com.expediagroup.sdk.core.constant.Message.UNABLE_TO_AUTHENTICATE
 import com.expediagroup.sdk.core.model.exception.ClientException
 import com.expediagroup.sdk.core.plugin.Plugin
@@ -61,7 +65,7 @@ internal object AuthenticationPlugin : Plugin<AuthenticationConfiguration> {
         request.url.buildString() != configs.authUrl
 
     suspend fun refreshToken(client: HttpClient, configs: AuthenticationConfiguration) {
-        logger.info("Client[$client]: Renewing token")
+        logger.info(RENEWING_TOKEN)
         clearTokens(client)
         val refreshTokenResponse = client.request {
             method = HttpMethod.Post
@@ -70,20 +74,20 @@ internal object AuthenticationPlugin : Plugin<AuthenticationConfiguration> {
             basicAuth(configs.credentials)
         }
         if (refreshTokenResponse.status != HttpStatusCode.OK) {
-            logger.error("Client[$client]: Token refresh failed: Response status[${refreshTokenResponse.status}]")
+            logger.error(FAILED_TOKEN_RENEWAL, refreshTokenResponse.status)
             throw ClientException(
                 refreshTokenResponse.status,
                 UNABLE_TO_AUTHENTICATE
             )
         }
         val refreshTokenInfo: TokenResponse = refreshTokenResponse.body()
-        logger.info("Client[$client]: Token refresh successful: New token expires in ${refreshTokenInfo.expiresIn} seconds")
+        logger.info(SUCCESSFUL_TOKEN_RENEWAL, refreshTokenInfo.expiresIn)
         bearerTokenStorage = BearerTokens(refreshTokenInfo.accessToken, refreshTokenInfo.accessToken)
         bearerTokenStorage
     }
 
     private fun clearTokens(client: HttpClient) {
-        logger.info("Client[$client]: Clearing tokens")
+        logger.info(CLEARING_TOKENS)
         client.plugin(Auth).providers.filterIsInstance<BearerAuthProvider>().first().clearToken()
         bearerTokenStorage = BearerTokens(EMPTY_STRING, EMPTY_STRING)
     }
