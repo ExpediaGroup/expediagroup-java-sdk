@@ -13,7 +13,7 @@
     <artifactId>openworld-java-sdk-core</artifactId>
     <name>EG Open World SDK :: Core</name>
     <description>Core Modules of EG Travel SDK</description>
-    <version>0.0.2-alpha</version>
+    <version>0.0.2-alpha.1</version>
 
     <build>
         <plugins>
@@ -187,6 +187,12 @@
             <artifactId>junit-jupiter-engine</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>io.mockk</groupId>
             <artifactId>mockk-dsl-jvm</artifactId>
