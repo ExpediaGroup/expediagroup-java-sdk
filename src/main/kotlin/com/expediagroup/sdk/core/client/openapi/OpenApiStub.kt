@@ -17,6 +17,8 @@ package com.expediagroup.sdk.core.client.openapi
 
 import com.expediagroup.sdk.core.client.Client
 import com.expediagroup.sdk.core.configuration.ClientConfiguration
+import com.expediagroup.sdk.core.constant.Logging.COULD_NOT_RECEIVE_RESPONSE_PAYLOAD
+import com.expediagroup.sdk.core.constant.Logging.UNSUCCESSFUL_RESPONSE
 import com.expediagroup.sdk.core.model.error.Error
 import com.expediagroup.sdk.core.model.exception.ServiceException
 import io.ktor.client.call.body
@@ -56,14 +58,14 @@ abstract class OpenApiStub(
      */
     protected suspend fun throwIfError(response: HttpResponse) {
         if (isNotSuccessfulResponse(response)) {
-            logger.info("Unsuccessful response [$response]")
+            logger.info(UNSUCCESSFUL_RESPONSE, response.status)
             // Make sure we read the body to avoid resource leaks
             runCatching {
                 response.body<Error>()
             }.onSuccess {
                 throw ServiceException(response.status, it)
             }.onFailure {
-                logger.error("Could not receive the payload of the response [$response]")
+                logger.error(COULD_NOT_RECEIVE_RESPONSE_PAYLOAD)
                 throw ServiceException(
                     response.status,
                     Error(
