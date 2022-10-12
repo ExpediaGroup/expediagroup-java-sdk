@@ -28,7 +28,6 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.Properties
 
-
 /**
  * An implementation of [ConfigurationProvider] that represents a Properties file.
  * All property keys and values are stored as cleartext.
