@@ -15,7 +15,10 @@
  */
 package com.expediagroup.sdk.core.config.provider
 
+import com.expediagroup.sdk.core.constant.Message.NOT_YET_IMPLEMENTED
+import com.expediagroup.sdk.core.constant.Message.PROPERTY_NOT_FOUND
 import com.expediagroup.sdk.core.model.exception.ConfigurationException
+import org.slf4j.LoggerFactory
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
@@ -25,14 +28,13 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.Properties
 
-private const val NOT_YET_IMPLEMENTED = "Not yet implemented"
-private const val PROPERTY_NOT_FOUND = "Could not read properties from file "
 
 /**
  * An implementation of [ConfigurationProvider] that represents a Properties file.
  * All property keys and values are stored as cleartext.
  */
 class FileConfigurationProvider : ConfigurationProvider {
+    private val logger = LoggerFactory.getLogger(javaClass)
     private val emptyConfigurationData = ConfigurationData(emptyMap())
 
     /**
@@ -52,7 +54,8 @@ class FileConfigurationProvider : ConfigurationProvider {
         }.getOrElse {
             if (optional) return emptyConfigurationData
 
-            throw ConfigurationException("$PROPERTY_NOT_FOUND $path")
+            logger.error(PROPERTY_NOT_FOUND.format(path))
+            throw ConfigurationException(PROPERTY_NOT_FOUND.format(path))
         }
     }
 
@@ -70,22 +73,26 @@ class FileConfigurationProvider : ConfigurationProvider {
         }.getOrElse {
             if (optional) return emptyConfigurationData
 
-            throw ConfigurationException("$PROPERTY_NOT_FOUND $url")
+            logger.error(PROPERTY_NOT_FOUND.format(url))
+            throw ConfigurationException(PROPERTY_NOT_FOUND.format(url))
         }
     }
 
     @Suppress("NotImplementedDeclaration")
     override fun subscribe(path: String, keys: Set<String>, callback: ConfigurationChangeCallback) {
+        logger.warn(NOT_YET_IMPLEMENTED)
         TODO(NOT_YET_IMPLEMENTED)
     }
 
     @Suppress("NotImplementedDeclaration")
     override fun unsubscribe(path: String, keys: Set<String>, callback: ConfigurationChangeCallback) {
+        logger.warn(NOT_YET_IMPLEMENTED)
         TODO(NOT_YET_IMPLEMENTED)
     }
 
     @Suppress("NotImplementedDeclaration")
     override fun unsubscribeAll() {
+        logger.warn(NOT_YET_IMPLEMENTED)
         TODO(NOT_YET_IMPLEMENTED)
     }
 
@@ -115,7 +122,8 @@ class FileConfigurationProvider : ConfigurationProvider {
         } catch (e: IOException) {
             if (optional) return emptyConfigurationData
 
-            throw ConfigurationException("$PROPERTY_NOT_FOUND $path", e)
+            logger.error(PROPERTY_NOT_FOUND.format(path))
+            throw ConfigurationException(PROPERTY_NOT_FOUND.format(path), e)
         }
     }
 

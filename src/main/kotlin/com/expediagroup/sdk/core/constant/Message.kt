@@ -17,4 +17,6 @@ package com.expediagroup.sdk.core.constant
 
 internal object Message {
     const val UNABLE_TO_AUTHENTICATE = "Unable to authenticate"
+    const val PROPERTY_NOT_FOUND = "Could not read properties from file %s"
+    const val NOT_YET_IMPLEMENTED = "Not yet implemented"
 }
