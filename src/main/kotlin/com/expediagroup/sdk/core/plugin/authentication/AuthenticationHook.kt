@@ -27,6 +27,7 @@ import io.ktor.client.plugins.plugin
 import io.ktor.client.request.HttpRequestBuilder
 import kotlinx.atomicfu.atomic
 import kotlinx.coroutines.delay
+import org.slf4j.LoggerFactory
 
 internal const val AUTHORIZATION_REQUEST_LOCK_DELAY = 20L
 
@@ -37,11 +38,13 @@ internal class AuthenticationHook(
     AuthenticationHookBuilder
 ) {
     companion object : HookConfigsBuilder<AuthenticationConfiguration, AuthenticationHook> {
-        override fun with(configuration: AuthenticationConfiguration): AuthenticationHook = AuthenticationHook(configuration)
+        override fun with(configuration: AuthenticationConfiguration): AuthenticationHook =
+            AuthenticationHook(configuration)
     }
 }
 
 private object AuthenticationHookBuilder : HookBuilder<AuthenticationConfiguration> {
+    private val logger = LoggerFactory.getLogger(javaClass)
     private val isLock = atomic(false)
 
     override fun build(client: Client, configs: AuthenticationConfiguration) {
@@ -54,6 +57,7 @@ private object AuthenticationHookBuilder : HookBuilder<AuthenticationConfigurati
                     configs
                 ) && !isUnauthorizedIdentityResponse(originalCall)
             ) {
+                logger.info("Client[$client]: Token expired or is about to expire: Request [$request] will wait until the token is renewed")
                 if (!isLock.getAndSet(true)) {
                     AuthenticationPlugin.refreshToken(httpClient, configs)
                     isLock.compareAndSet(expect = true, update = false)

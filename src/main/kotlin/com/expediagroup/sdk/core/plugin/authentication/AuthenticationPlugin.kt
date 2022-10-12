@@ -35,8 +35,10 @@ import io.ktor.client.request.url
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.Parameters
+import org.slf4j.LoggerFactory
 
 internal object AuthenticationPlugin : Plugin<AuthenticationConfiguration> {
+    private val logger = LoggerFactory.getLogger(javaClass)
     private var bearerTokenStorage = BearerTokens(EMPTY_STRING, EMPTY_STRING)
     override fun install(configurations: AuthenticationConfiguration) {
         configurations.httpClientConfiguration.install(Auth) {
@@ -59,6 +61,7 @@ internal object AuthenticationPlugin : Plugin<AuthenticationConfiguration> {
         request.url.buildString() != configs.authUrl
 
     suspend fun refreshToken(client: HttpClient, configs: AuthenticationConfiguration) {
+        logger.info("Client[$client]: Renewing token")
         clearTokens(client)
         val refreshTokenResponse = client.request {
             method = HttpMethod.Post
@@ -67,17 +70,20 @@ internal object AuthenticationPlugin : Plugin<AuthenticationConfiguration> {
             basicAuth(configs.credentials)
         }
         if (refreshTokenResponse.status != HttpStatusCode.OK) {
+            logger.error("Client[$client]: Token refresh failed: Response status[${refreshTokenResponse.status}]")
             throw ClientException(
                 refreshTokenResponse.status,
                 UNABLE_TO_AUTHENTICATE
             )
         }
         val refreshTokenInfo: TokenResponse = refreshTokenResponse.body()
+        logger.info("Client[$client]: Token refresh successful: New token expires in ${refreshTokenInfo.expiresIn} seconds")
         bearerTokenStorage = BearerTokens(refreshTokenInfo.accessToken, refreshTokenInfo.accessToken)
         bearerTokenStorage
     }
 
     private fun clearTokens(client: HttpClient) {
+        logger.info("Client[$client]: Clearing tokens")
         client.plugin(Auth).providers.filterIsInstance<BearerAuthProvider>().first().clearToken()
         bearerTokenStorage = BearerTokens(EMPTY_STRING, EMPTY_STRING)
     }
