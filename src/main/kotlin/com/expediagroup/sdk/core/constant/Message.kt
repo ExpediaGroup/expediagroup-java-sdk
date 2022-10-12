@@ -19,4 +19,9 @@ internal object Message {
     const val UNABLE_TO_AUTHENTICATE = "Unable to authenticate"
     const val PROPERTY_NOT_FOUND = "Could not read properties from file %s"
     const val NOT_YET_IMPLEMENTED = "Not yet implemented"
+    const val CONFIGURATION_IS_DEFINED_TWICE = "Configuration %s is defined twice"
+    const val SOME_REQUIRED_CONFIGURATIONS_NOT_DEFINED = "Some required configurations are not defined: %s"
+    const val EXPECTED_VALUE_SHOULD_BE = "Expected value to be a %s, but it was a %s, name:%s, value:%s"
+    const val EXPECTED_VALUE_TRUE_OR_FALSE = "Expected value to be either true or false, name:%s, value:%s"
+    const val EXPECTED_COMMA_SEPERATED_LIST = "Expected a comma separated list, name:%s, value:%s"
 }

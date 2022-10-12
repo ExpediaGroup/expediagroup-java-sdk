@@ -15,13 +15,19 @@
  */
 package com.expediagroup.sdk.core.config
 
+import com.expediagroup.sdk.core.constant.Message.CONFIGURATION_IS_DEFINED_TWICE
+import com.expediagroup.sdk.core.constant.Message.EXPECTED_COMMA_SEPERATED_LIST
+import com.expediagroup.sdk.core.constant.Message.EXPECTED_VALUE_SHOULD_BE
+import com.expediagroup.sdk.core.constant.Message.EXPECTED_VALUE_TRUE_OR_FALSE
+import com.expediagroup.sdk.core.constant.Message.SOME_REQUIRED_CONFIGURATIONS_NOT_DEFINED
 import com.expediagroup.sdk.core.model.exception.ConfigurationException
+import org.slf4j.LoggerFactory
 
 /**
  * A definition of a configuration property.
  */
 class ConfigurationDefinition {
-
+    private val logger = LoggerFactory.getLogger(javaClass)
     private var configKeys = mutableMapOf<String, ConfigurationKey>()
 
     /**
@@ -30,10 +36,8 @@ class ConfigurationDefinition {
      * @param key key which needs to be defined
      * @return ConfigurationDefinition object after adding the configuration key
      */
-    fun define(key: ConfigurationKey): ConfigurationDefinition {
-        if (configKeys.containsKey(key.name)) {
-            throw ConfigurationException("Configuration " + key.name + " is defined twice")
-        }
+    private fun define(key: ConfigurationKey): ConfigurationDefinition {
+        if (configKeys.containsKey(key.name)) throwConfigurationException(CONFIGURATION_IS_DEFINED_TWICE.format(key.name))
         configKeys[key.name] = key
         return this
     }
@@ -90,8 +94,12 @@ class ConfigurationDefinition {
         // Check all configurations are defined
         val undefinedConfigKeys: List<String> = undefinedConfigs(props)
         if (undefinedConfigKeys.isNotEmpty()) {
-            throw ConfigurationException(
-                "Some required configurations are not defined: ${undefinedConfigKeys.joinToString(",")}"
+            throwConfigurationException(
+                SOME_REQUIRED_CONFIGURATIONS_NOT_DEFINED.format(
+                    undefinedConfigKeys.joinToString(
+                        ","
+                    )
+                )
             )
         }
         // parse all known keys
@@ -124,39 +132,88 @@ class ConfigurationDefinition {
                     is String ->
                         if (value.equals("true", ignoreCase = true)) true
                         else if (value.equals("false", ignoreCase = true)) false
-                        else throw ConfigurationException("Expected value to be either true or false, name:$name, value:$value")
+                        else throwConfigurationException(EXPECTED_VALUE_TRUE_OR_FALSE.format(name, value))
 
                     is Boolean -> value
-                    else -> throw ConfigurationException("Expected value to be either true or false, name:$name, value:$value")
+                    else -> throwConfigurationException(EXPECTED_VALUE_TRUE_OR_FALSE.format(name, value))
                 }
 
             ConfigurationKey.Type.PASSWORD ->
                 value as? ConfigurationKey.Password
                     ?: if (value is String) ConfigurationKey.Password(value.trim())
-                    else throw ConfigurationException("Expected value to be a string, but it was a ${value.javaClass.name}, name:$name, value:$value")
+                    else throwConfigurationException(
+                        EXPECTED_VALUE_SHOULD_BE.format(
+                            "string",
+                            value.javaClass.name,
+                            name,
+                            value
+                        )
+                    )
 
             ConfigurationKey.Type.STRING ->
                 if (value is String) value.trim()
-                else throw ConfigurationException("Expected value to be a string, but it was a ${value.javaClass.name}, name:$name, value:$value")
+                else throwConfigurationException(
+                    EXPECTED_VALUE_SHOULD_BE.format(
+                        "string",
+                        value.javaClass.name,
+                        name,
+                        value
+                    )
+                )
 
             ConfigurationKey.Type.INT ->
                 when (value) {
                     is Number -> value.toInt()
-                    is String -> value.toIntOrNull() ?: throw ConfigurationException("Expected value to be a  32-bit integer, but it was a ${value.javaClass.name}, name:$name, value:$value")
-                    else -> throw ConfigurationException("Expected value to be a  32-bit integer, but it was a ${value.javaClass.name}, name:$name, value:$value")
+                    is String -> value.toIntOrNull() ?: throwConfigurationException(
+                        EXPECTED_VALUE_SHOULD_BE.format(
+                            "32-bit integer",
+                            value.javaClass.name,
+                            name,
+                            value
+                        )
+                    )
+
+                    else -> throwConfigurationException(
+                        EXPECTED_VALUE_SHOULD_BE.format(
+                            "32-bit integer",
+                            value.javaClass.name,
+                            name,
+                            value
+                        )
+                    )
                 }
 
             ConfigurationKey.Type.DOUBLE ->
                 when (value) {
                     is Number -> value.toDouble()
-                    is String -> value.toDoubleOrNull() ?: throw ConfigurationException("Expected value to be a double, but it was a ${value.javaClass.name}, name:$name, value:$value")
-                    else -> throw ConfigurationException("Expected value to be a double, but it was a ${value.javaClass.name}, name:$name, value:$value")
+                    is String -> value.toDoubleOrNull() ?: throwConfigurationException(
+                        EXPECTED_VALUE_SHOULD_BE.format(
+                            "double",
+                            value.javaClass.name,
+                            name,
+                            value
+                        )
+                    )
+
+                    else -> throwConfigurationException(
+                        EXPECTED_VALUE_SHOULD_BE.format(
+                            "double",
+                            value.javaClass.name,
+                            name,
+                            value
+                        )
+                    )
                 }
 
             ConfigurationKey.Type.LIST ->
                 value as? List<*>
                     ?: if (value is String) if (value.isEmpty()) emptyList<Any>() else value.split(",")
-                    else throw ConfigurationException("Expected a comma separated list, name:$name, value:$value")
+                    else throwConfigurationException(EXPECTED_COMMA_SEPERATED_LIST.format(name, value))
         }
+    }
+
+    private fun throwConfigurationException(message: String) {
+        logger.error(message)
+        throw ConfigurationException(message)
     }
 }

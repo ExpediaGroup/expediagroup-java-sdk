@@ -170,6 +170,6 @@ class ConfigTest {
         val throwable = assertThrows<ConfigurationException> {
             Config(provider[filePath], configurationDefinition)
         }
-        assertEquals(throwable.message, "Expected value to be a  32-bit integer, but it was a java.lang.String, name:api_credentials.client_key, value:test-client")
+        assertEquals(throwable.message, "Expected value to be a 32-bit integer, but it was a java.lang.String, name:api_credentials.client_key, value:test-client")
     }
 }

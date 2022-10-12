@@ -328,14 +328,14 @@ class ConfigurationDefinitionTest {
         }
         assertEquals(
             throwableWhenInvalidString.message,
-            "Expected value to be a  32-bit integer, but it was a java.lang.String, name:$configurationName, value:invalid"
+            "Expected value to be a 32-bit integer, but it was a java.lang.String, name:$configurationName, value:invalid"
         )
         val throwableWhenInvalidBoolean = assertThrows<ConfigurationException> {
             configurationDefinition.parse(mapOf(configurationName to true))
         }
         assertEquals(
             throwableWhenInvalidBoolean.message,
-            "Expected value to be a  32-bit integer, but it was a java.lang.Boolean, name:$configurationName, value:true"
+            "Expected value to be a 32-bit integer, but it was a java.lang.Boolean, name:$configurationName, value:true"
         )
     }
 
