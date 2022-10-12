@@ -24,6 +24,7 @@ import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.request
 import io.ktor.http.toURI
+import org.slf4j.LoggerFactory
 
 /**
  * Base class used by generated OpenAPI APIs to perform the heavy lifting of actually sending requests.
@@ -31,6 +32,7 @@ import io.ktor.http.toURI
 abstract class OpenApiStub(
     private val clientConfiguration: ClientConfiguration = ClientConfiguration.EMPTY
 ) {
+    private val logger = LoggerFactory.getLogger(javaClass)
     protected val client: Client by lazy { createClient() }
 
     /**
@@ -53,13 +55,15 @@ abstract class OpenApiStub(
      * @param response The response to examine
      */
     protected suspend fun throwIfError(response: HttpResponse) {
-        if (response.status.value !in 200..299) {
+        if (isNotSuccessfulResponse(response)) {
+            logger.info("Unsuccessful response [$response]")
             // Make sure we read the body to avoid resource leaks
             runCatching {
                 response.body<Error>()
             }.onSuccess {
                 throw ServiceException(response.status, it)
             }.onFailure {
+                logger.error("Could not receive the payload of the response [$response]")
                 throw ServiceException(
                     response.status,
                     Error(
@@ -70,4 +74,6 @@ abstract class OpenApiStub(
             }
         }
     }
+
+    private fun isNotSuccessfulResponse(response: HttpResponse) = response.status.value !in 200..299
 }
