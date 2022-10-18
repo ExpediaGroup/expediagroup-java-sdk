@@ -16,8 +16,8 @@
 package com.expediagroup.sdk.core.config
 
 import com.expediagroup.sdk.core.config.provider.ConfigurationData
-import com.expediagroup.sdk.core.constant.ExceptionMessage.configurationUnknown
 import com.expediagroup.sdk.core.model.exception.ConfigurationException
+import com.expediagroup.sdk.core.utils.ExceptionMessageProvider.configurationUnknown
 import org.slf4j.LoggerFactory
 
 /**

@@ -16,8 +16,8 @@
 package com.expediagroup.sdk.core.config.provider
 
 import com.expediagroup.sdk.core.constant.ExceptionMessage.NOT_YET_IMPLEMENTED
-import com.expediagroup.sdk.core.constant.ExceptionMessage.propertyNotFound
 import com.expediagroup.sdk.core.model.exception.ConfigurationException
+import com.expediagroup.sdk.core.utils.ExceptionMessageProvider.propertyNotFound
 import org.slf4j.LoggerFactory
 import java.io.BufferedReader
 import java.io.IOException

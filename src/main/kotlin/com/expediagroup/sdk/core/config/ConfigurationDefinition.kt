@@ -15,12 +15,12 @@
  */
 package com.expediagroup.sdk.core.config
 
-import com.expediagroup.sdk.core.constant.ExceptionMessage.configurationDefinedTwice
-import com.expediagroup.sdk.core.constant.ExceptionMessage.configurationKeyNotDefined
-import com.expediagroup.sdk.core.constant.ExceptionMessage.expectedActualNameValue
-import com.expediagroup.sdk.core.constant.ExceptionMessage.expectedNameValue
-import com.expediagroup.sdk.core.constant.ExceptionMessage.requiredConfigurationsNotDefined
 import com.expediagroup.sdk.core.model.exception.ConfigurationException
+import com.expediagroup.sdk.core.utils.ExceptionMessageProvider.configurationDefinedTwice
+import com.expediagroup.sdk.core.utils.ExceptionMessageProvider.configurationKeyNotDefined
+import com.expediagroup.sdk.core.utils.ExceptionMessageProvider.expectedActualNameValue
+import com.expediagroup.sdk.core.utils.ExceptionMessageProvider.expectedNameValue
+import com.expediagroup.sdk.core.utils.ExceptionMessageProvider.requiredConfigurationsNotDefined
 import org.slf4j.LoggerFactory
 import java.util.Locale
 

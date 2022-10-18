@@ -17,7 +17,7 @@ package com.expediagroup.sdk.core.plugin.authentication
 
 import com.expediagroup.sdk.core.client.Client
 import com.expediagroup.sdk.core.constant.Header
-import com.expediagroup.sdk.core.constant.Logging.TOKEN_EXPIRED
+import com.expediagroup.sdk.core.constant.LoggingMessage.TOKEN_EXPIRED
 import com.expediagroup.sdk.core.plugin.Hook
 import com.expediagroup.sdk.core.plugin.HookBuilder
 import com.expediagroup.sdk.core.plugin.HookConfigsBuilder

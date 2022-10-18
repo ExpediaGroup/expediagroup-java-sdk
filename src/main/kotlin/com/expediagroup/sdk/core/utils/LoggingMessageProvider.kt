@@ -13,9 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.constant
+package com.expediagroup.sdk.core.utils
 
-internal object ExceptionMessage {
-    const val AUTHENTICATION_FAILURE = "Unable to authenticate"
-    const val NOT_YET_IMPLEMENTED = "Not yet implemented"
+import io.ktor.http.HttpStatusCode
+
+object LoggingMessageProvider {
+    fun tokenExpiresIn(expiresIn: Int) = "New token expires in %s seconds".format(expiresIn)
+    fun responseStatusCode(statusCode: HttpStatusCode) = ":Response status code [%s]".format(statusCode)
+    fun responseUnsuccessful(statusCode: HttpStatusCode) = "Unsuccessful response [%s]".format(statusCode)
 }
