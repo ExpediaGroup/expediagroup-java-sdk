@@ -64,15 +64,12 @@ abstract class OpenApiStub(
                 response.body<Error>()
             }.onSuccess {
                 throw ServiceException(response.status, it)
+                    .also { exception -> logger.error(exception.message) }
             }.onFailure {
-                logger.error(RESPONSE_PAYLOAD_RECEPTION_FAILURE)
                 throw ServiceException(
                     response.status,
-                    Error(
-                        response.request.url.toURI(),
-                        response.status.description
-                    )
-                )
+                    Error(response.request.url.toURI(), response.status.description)
+                ).also { logger.error(RESPONSE_PAYLOAD_RECEPTION_FAILURE) }
             }
         }
     }

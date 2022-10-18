@@ -16,6 +16,7 @@
 package com.expediagroup.sdk.core.constant
 
 internal object ExceptionMessage {
+    private const val CONFIGURATION_UNKNOWN = "Unknown configuration %s"
     private const val CONFIGURATION_DEFINED_TWICE = "Configuration %s is defined twice"
     private const val CONFIGURATION_KEY_NOT_DEFINED = "Configuration key not defined, name: %s"
     private const val REQUIRED_CONFIGURATIONS_NOT_DEFINED = "Some required configurations are not defined: %s"
@@ -24,6 +25,7 @@ internal object ExceptionMessage {
     private const val EXPECTED_ACTUAL_NAME_VALUE = "Expected value to be a %s, but it was a %s, name: %s, value: %s"
     const val AUTHENTICATION_FAILURE = "Unable to authenticate"
     const val NOT_YET_IMPLEMENTED = "Not yet implemented"
+    const val VALUE_NOT_UPPERCASE = "Value is not uppercase"
 
     fun configurationDefinedTwice(configurationName: String) = CONFIGURATION_DEFINED_TWICE.format(configurationName)
     fun propertyNotFound(path: Any) = PROPERTY_NOT_FOUND.format(path)
@@ -38,4 +40,6 @@ internal object ExceptionMessage {
         EXPECTED_NAME_VALUE.format(expected, name, value)
 
     fun configurationKeyNotDefined(name: String) = CONFIGURATION_KEY_NOT_DEFINED.format(name)
+
+    fun configurationUnknown(key: String) = CONFIGURATION_UNKNOWN.format(key)
 }

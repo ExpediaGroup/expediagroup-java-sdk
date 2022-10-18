@@ -55,6 +55,7 @@ class FileConfigurationProvider : ConfigurationProvider {
 
             logger.error(propertyNotFound(path))
             throw ConfigurationException(propertyNotFound(path))
+                .also { logger.error(it.message) }
         }
     }
 
@@ -74,6 +75,7 @@ class FileConfigurationProvider : ConfigurationProvider {
 
             logger.error(propertyNotFound(url))
             throw ConfigurationException(propertyNotFound(url))
+                .also { logger.error(it.message) }
         }
     }
 
@@ -123,6 +125,7 @@ class FileConfigurationProvider : ConfigurationProvider {
 
             logger.error(propertyNotFound(path))
             throw ConfigurationException(propertyNotFound(path), e)
+                .also { logger.error(it.message) }
         }
     }
 
