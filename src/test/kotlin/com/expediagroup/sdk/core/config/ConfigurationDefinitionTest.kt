@@ -293,7 +293,7 @@ class ConfigurationDefinitionTest {
             configurationDefinition.parse(mapOf(booleanConfigurationName to "invalid"))
         }
         assertEquals(
-            "Expected value to be a boolean, name:$booleanConfigurationName, value:invalid",
+            "Expected value to be a boolean, name: $booleanConfigurationName, value: invalid",
             throwableWhenInvalidString.message
         )
     }
@@ -316,7 +316,7 @@ class ConfigurationDefinitionTest {
             configurationDefinition.parse(mapOf(booleanConfigurationName to 213))
         }
         assertEquals(
-            "Expected value to be a boolean, name:$booleanConfigurationName, value:213",
+            "Expected value to be a boolean, name: $booleanConfigurationName, value: 213",
             throwableWhenInvalidInt.message
         )
     }
@@ -340,7 +340,7 @@ class ConfigurationDefinitionTest {
             configurationDefinition.parse(props)
         }
         assertEquals(
-            "Expected value to be a string, but it was a java.lang.Integer, name:$passwordConfigurationName, value:123",
+            "Expected value to be a string, but it was a java.lang.Integer, name: $passwordConfigurationName, value: 123",
             throwable.message
         )
     }
@@ -364,14 +364,14 @@ class ConfigurationDefinitionTest {
             configurationDefinition.parse(props)
         }
         assertEquals(
-            "Expected value to be a 32-bit integer, but it was a java.lang.String, name:$configurationName, value:invalid",
+            "Expected value to be a 32-bit integer, but it was a java.lang.String, name: $configurationName, value: invalid",
             throwableWhenInvalidString.message
         )
         val throwableWhenInvalidBoolean = assertThrows<ConfigurationException> {
             configurationDefinition.parse(mapOf(configurationName to true))
         }
         assertEquals(
-            "Expected value to be a 32-bit integer, but it was a java.lang.Boolean, name:$configurationName, value:true",
+            "Expected value to be a 32-bit integer, but it was a java.lang.Boolean, name: $configurationName, value: true",
             throwableWhenInvalidBoolean.message
         )
     }
@@ -393,14 +393,14 @@ class ConfigurationDefinitionTest {
             configurationDefinition.parse(mapOf(configurationName to "invalid"))
         }
         assertEquals(
-            "Expected value to be a double, but it was a java.lang.String, name:$configurationName, value:invalid",
+            "Expected value to be a double, but it was a java.lang.String, name: $configurationName, value: invalid",
             throwableWhenInvalidString.message
         )
         val throwableWhenInvalidBoolean = assertThrows<ConfigurationException> {
             configurationDefinition.parse(mapOf(configurationName to true))
         }
         assertEquals(
-            "Expected value to be a double, but it was a java.lang.Boolean, name:$configurationName, value:true",
+            "Expected value to be a double, but it was a java.lang.Boolean, name: $configurationName, value: true",
             throwableWhenInvalidBoolean.message
         )
     }
@@ -424,7 +424,7 @@ class ConfigurationDefinitionTest {
             configurationDefinition.parse(props)
         }
         assertEquals(
-            "Expected value to be a string, but it was a java.lang.Integer, name:$stringConfigurationName, value:123",
+            "Expected value to be a string, but it was a java.lang.Integer, name: $stringConfigurationName, value: 123",
             throwable.message
         )
     }
@@ -448,7 +448,7 @@ class ConfigurationDefinitionTest {
             configurationDefinition.parse(props)
         }
         assertEquals(
-            "Expected value to be a comma-separated list, name:$listConfigurationName, value:123",
+            "Expected value to be a comma-separated list, name: $listConfigurationName, value: 123",
             throwable.message
         )
     }
@@ -462,7 +462,7 @@ class ConfigurationDefinitionTest {
         val throwable = assertThrows<ConfigurationException> {
             configurationDefinition.get(listConfigurationName)
         }
-        assertEquals("Configuration key not defined, name:$listConfigurationName", throwable.message)
+        assertEquals("Configuration key not defined, name: $listConfigurationName", throwable.message)
     }
 
     @Test

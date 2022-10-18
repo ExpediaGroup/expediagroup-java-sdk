@@ -17,11 +17,11 @@ package com.expediagroup.sdk.core.constant
 
 internal object ExceptionMessage {
     private const val CONFIGURATION_DEFINED_TWICE = "Configuration %s is defined twice"
-    private const val CONFIGURATION_KEY_NOT_DEFINED = "Configuration key not defined, name:%s"
+    private const val CONFIGURATION_KEY_NOT_DEFINED = "Configuration key not defined, name: %s"
     private const val REQUIRED_CONFIGURATIONS_NOT_DEFINED = "Some required configurations are not defined: %s"
-    private const val PROPERTY_NOT_FOUND = "Could not read properties from file %s"
-    private const val EXPECTED_NAME_VALUE = "Expected value to be a %s, name:%s, value:%s"
-    private const val EXPECTED_ACTUAL_NAME_VALUE = "Expected value to be a %s, but it was a %s, name:%s, value:%s"
+    private const val PROPERTY_NOT_FOUND = "Could not read properties from file [%s]"
+    private const val EXPECTED_NAME_VALUE = "Expected value to be a %s, name: %s, value: %s"
+    private const val EXPECTED_ACTUAL_NAME_VALUE = "Expected value to be a %s, but it was a %s, name: %s, value: %s"
     const val AUTHENTICATION_FAILURE = "Unable to authenticate"
     const val NOT_YET_IMPLEMENTED = "Not yet implemented"
 
