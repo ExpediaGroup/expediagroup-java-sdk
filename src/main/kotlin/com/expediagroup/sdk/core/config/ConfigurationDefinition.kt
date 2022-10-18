@@ -38,10 +38,9 @@ class ConfigurationDefinition {
      * @return ConfigurationDefinition object after adding the configuration key
      */
     private fun define(key: ConfigurationKey): ConfigurationDefinition {
-        if (configKeys.containsKey(key.name)) {
+        if (configKeys.containsKey(key.name))
             throw ConfigurationException(configurationDefinedTwice(key.name))
                 .also { logger.error(it.message) }
-        }
         configKeys[key.name] = key
         return this
     }
@@ -86,9 +85,8 @@ class ConfigurationDefinition {
      * @return - configuration key
      */
     fun get(name: String): ConfigurationKey =
-        configKeys[name]
-            ?: throw ConfigurationException(configurationKeyNotDefined(name))
-                .also { logger.error(it.message) }
+        configKeys[name] ?: throw ConfigurationException(configurationKeyNotDefined(name))
+            .also { logger.error(it.message) }
 
     /**
      * Parses the configuration values based on the defined keys.
