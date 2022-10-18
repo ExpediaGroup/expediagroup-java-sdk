@@ -25,7 +25,6 @@ internal object ExceptionMessage {
     private const val EXPECTED_ACTUAL_NAME_VALUE = "Expected value to be a %s, but it was a %s, name: %s, value: %s"
     const val AUTHENTICATION_FAILURE = "Unable to authenticate"
     const val NOT_YET_IMPLEMENTED = "Not yet implemented"
-    const val VALUE_NOT_UPPERCASE = "Value is not uppercase"
 
     fun configurationDefinedTwice(configurationName: String) = CONFIGURATION_DEFINED_TWICE.format(configurationName)
     fun propertyNotFound(path: Any) = PROPERTY_NOT_FOUND.format(path)
