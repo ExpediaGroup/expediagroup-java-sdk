@@ -15,13 +15,14 @@
  */
 package com.expediagroup.sdk.core.config
 
-import com.expediagroup.sdk.core.constant.Message.CONFIGURATION_IS_DEFINED_TWICE
-import com.expediagroup.sdk.core.constant.Message.EXPECTED_COMMA_SEPERATED_LIST
-import com.expediagroup.sdk.core.constant.Message.EXPECTED_VALUE_SHOULD_BE
-import com.expediagroup.sdk.core.constant.Message.EXPECTED_VALUE_TRUE_OR_FALSE
-import com.expediagroup.sdk.core.constant.Message.SOME_REQUIRED_CONFIGURATIONS_NOT_DEFINED
+import com.expediagroup.sdk.core.constant.ExceptionMessage.configurationDefinedTwice
+import com.expediagroup.sdk.core.constant.ExceptionMessage.configurationKeyNotDefined
+import com.expediagroup.sdk.core.constant.ExceptionMessage.expectedActualNameValue
+import com.expediagroup.sdk.core.constant.ExceptionMessage.expectedNameValue
+import com.expediagroup.sdk.core.constant.ExceptionMessage.requiredConfigurationsNotDefined
 import com.expediagroup.sdk.core.model.exception.ConfigurationException
 import org.slf4j.LoggerFactory
+import java.util.Locale
 
 /**
  * A definition of a configuration property.
@@ -37,7 +38,10 @@ class ConfigurationDefinition {
      * @return ConfigurationDefinition object after adding the configuration key
      */
     private fun define(key: ConfigurationKey): ConfigurationDefinition {
-        if (configKeys.containsKey(key.name)) throwConfigurationException(CONFIGURATION_IS_DEFINED_TWICE.format(key.name))
+        if (configKeys.containsKey(key.name)) {
+            throw ConfigurationException(configurationDefinedTwice(key.name))
+                .also { logger.error(it.message) }
+        }
         configKeys[key.name] = key
         return this
     }
@@ -82,7 +86,9 @@ class ConfigurationDefinition {
      * @return - configuration key
      */
     fun get(name: String): ConfigurationKey =
-        configKeys[name] ?: throw ConfigurationException("configuration key not defined, name:$name")
+        configKeys[name]
+            ?: throw ConfigurationException(configurationKeyNotDefined(name))
+                .also { logger.error(it.message) }
 
     /**
      * Parses the configuration values based on the defined keys.
@@ -93,15 +99,9 @@ class ConfigurationDefinition {
     fun parse(props: Map<String, Any>): Map<String, Any> {
         // Check all configurations are defined
         val undefinedConfigKeys: List<String> = undefinedConfigs(props)
-        if (undefinedConfigKeys.isNotEmpty()) {
-            throwConfigurationException(
-                SOME_REQUIRED_CONFIGURATIONS_NOT_DEFINED.format(
-                    undefinedConfigKeys.joinToString(
-                        ","
-                    )
-                )
-            )
-        }
+        if (undefinedConfigKeys.isNotEmpty())
+            throw ConfigurationException(requiredConfigurationsNotDefined(undefinedConfigKeys.joinToString(",")))
+                .also { logger.error(it.message) }
         // parse all known keys
         val values: MutableMap<String, Any> = HashMap()
         for (key in configKeys.values) values[key.name] =
@@ -127,93 +127,80 @@ class ConfigurationDefinition {
     @Suppress("ComplexMethod", "ThrowsCount")
     private fun parseType(name: String, value: Any, type: ConfigurationKey.Type): Any {
         return when (type) {
-            ConfigurationKey.Type.BOOLEAN ->
-                when (value) {
-                    is String ->
-                        if (value.equals("true", ignoreCase = true)) true
-                        else if (value.equals("false", ignoreCase = true)) false
-                        else throwConfigurationException(EXPECTED_VALUE_TRUE_OR_FALSE.format(name, value))
-
-                    is Boolean -> value
-                    else -> throwConfigurationException(EXPECTED_VALUE_TRUE_OR_FALSE.format(name, value))
-                }
-
-            ConfigurationKey.Type.PASSWORD ->
-                value as? ConfigurationKey.Password
-                    ?: if (value is String) ConfigurationKey.Password(value.trim())
-                    else throwConfigurationException(
-                        EXPECTED_VALUE_SHOULD_BE.format(
-                            "string",
-                            value.javaClass.name,
-                            name,
-                            value
-                        )
-                    )
-
-            ConfigurationKey.Type.STRING ->
-                if (value is String) value.trim()
-                else throwConfigurationException(
-                    EXPECTED_VALUE_SHOULD_BE.format(
-                        "string",
-                        value.javaClass.name,
-                        name,
-                        value
-                    )
-                )
-
-            ConfigurationKey.Type.INT ->
-                when (value) {
-                    is Number -> value.toInt()
-                    is String -> value.toIntOrNull() ?: throwConfigurationException(
-                        EXPECTED_VALUE_SHOULD_BE.format(
-                            "32-bit integer",
-                            value.javaClass.name,
-                            name,
-                            value
-                        )
-                    )
-
-                    else -> throwConfigurationException(
-                        EXPECTED_VALUE_SHOULD_BE.format(
-                            "32-bit integer",
-                            value.javaClass.name,
-                            name,
-                            value
-                        )
-                    )
-                }
-
-            ConfigurationKey.Type.DOUBLE ->
-                when (value) {
-                    is Number -> value.toDouble()
-                    is String -> value.toDoubleOrNull() ?: throwConfigurationException(
-                        EXPECTED_VALUE_SHOULD_BE.format(
-                            "double",
-                            value.javaClass.name,
-                            name,
-                            value
-                        )
-                    )
-
-                    else -> throwConfigurationException(
-                        EXPECTED_VALUE_SHOULD_BE.format(
-                            "double",
-                            value.javaClass.name,
-                            name,
-                            value
-                        )
-                    )
-                }
-
-            ConfigurationKey.Type.LIST ->
-                value as? List<*>
-                    ?: if (value is String) if (value.isEmpty()) emptyList<Any>() else value.split(",")
-                    else throwConfigurationException(EXPECTED_COMMA_SEPERATED_LIST.format(name, value))
+            ConfigurationKey.Type.BOOLEAN -> parseBoolean(value, name)
+            ConfigurationKey.Type.PASSWORD -> parsePassword(value, name)
+            ConfigurationKey.Type.STRING -> parseString(value, name)
+            ConfigurationKey.Type.INT -> parseInt(value, name)
+            ConfigurationKey.Type.DOUBLE -> parseDouble(value, name)
+            ConfigurationKey.Type.LIST -> parseList(value, name)
         }
     }
 
-    private fun throwConfigurationException(message: String) {
-        logger.error(message)
-        throw ConfigurationException(message)
+    private fun parseBoolean(value: Any, name: String): Boolean {
+        toBooleanOrNull(value)?.let { return it }
+
+        throw ConfigurationException(expectedNameValue("boolean", name, value))
+            .also { logger.error(it.message) }
     }
+
+    private fun parsePassword(value: Any, name: String): ConfigurationKey.Password {
+        toPasswordOrNull(value)?.let { return it }
+
+        throw ConfigurationException(expectedActualNameValue("string", value.javaClass.name, name, value))
+            .also { logger.error(it.message) }
+    }
+
+    private fun parseString(value: Any, name: String): String {
+        toStringOrNull(value)?.let { return it }
+
+        throw ConfigurationException(expectedActualNameValue("string", value.javaClass.name, name, value))
+            .also { logger.error(it.message) }
+    }
+
+    private fun parseInt(value: Any, name: String): Int {
+        toIntOrNull(value)?.let { return it }
+
+        throw ConfigurationException(expectedActualNameValue("32-bit integer", value.javaClass.name, name, value))
+            .also { logger.error(it.message) }
+    }
+
+    private fun parseDouble(value: Any, name: String): Double {
+        toDoubleOrNull(value)?.let { return it }
+
+        throw ConfigurationException(expectedActualNameValue("double", value.javaClass.name, name, value))
+            .also { logger.error(it.message) }
+    }
+
+    private fun parseList(value: Any, name: String): List<*> {
+        toListOrNull(value)?.let { return it }
+
+        throw ConfigurationException(expectedNameValue("comma-separated list", name, value))
+            .also { logger.error(it.message) }
+    }
+
+    private fun toBooleanOrNull(value: Any) = when (value) {
+        is String -> value.lowercase(Locale.getDefault()).toBooleanStrictOrNull()
+        is Boolean -> value
+        else -> null
+    }
+
+    private fun toPasswordOrNull(value: Any) =
+        (value as? ConfigurationKey.Password) ?: if (value is String) ConfigurationKey.Password(value.trim()) else null
+
+    private fun toStringOrNull(value: Any) = if (value is String) value.trim() else null
+
+    private fun toIntOrNull(value: Any) = when (value) {
+        is Number -> value.toInt()
+        is String -> value.toIntOrNull()
+        else -> null
+    }
+
+    private fun toDoubleOrNull(value: Any) = when (value) {
+        is Number -> value.toDouble()
+        is String -> value.toDoubleOrNull()
+        else -> null
+    }
+
+    private fun toListOrNull(value: Any) = (value as? List<*>)
+        ?: if (value is String) if (value.isEmpty()) emptyList<Any>() else value.split(",") else null
 }

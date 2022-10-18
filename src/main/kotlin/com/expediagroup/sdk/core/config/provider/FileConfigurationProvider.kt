@@ -15,8 +15,8 @@
  */
 package com.expediagroup.sdk.core.config.provider
 
-import com.expediagroup.sdk.core.constant.Message.NOT_YET_IMPLEMENTED
-import com.expediagroup.sdk.core.constant.Message.PROPERTY_NOT_FOUND
+import com.expediagroup.sdk.core.constant.ExceptionMessage.NOT_YET_IMPLEMENTED
+import com.expediagroup.sdk.core.constant.ExceptionMessage.propertyNotFound
 import com.expediagroup.sdk.core.model.exception.ConfigurationException
 import org.slf4j.LoggerFactory
 import java.io.BufferedReader
@@ -53,8 +53,8 @@ class FileConfigurationProvider : ConfigurationProvider {
         }.getOrElse {
             if (optional) return emptyConfigurationData
 
-            logger.error(PROPERTY_NOT_FOUND.format(path))
-            throw ConfigurationException(PROPERTY_NOT_FOUND.format(path))
+            logger.error(propertyNotFound(path))
+            throw ConfigurationException(propertyNotFound(path))
         }
     }
 
@@ -72,8 +72,8 @@ class FileConfigurationProvider : ConfigurationProvider {
         }.getOrElse {
             if (optional) return emptyConfigurationData
 
-            logger.error(PROPERTY_NOT_FOUND.format(url))
-            throw ConfigurationException(PROPERTY_NOT_FOUND.format(url))
+            logger.error(propertyNotFound(url))
+            throw ConfigurationException(propertyNotFound(url))
         }
     }
 
@@ -121,8 +121,8 @@ class FileConfigurationProvider : ConfigurationProvider {
         } catch (e: IOException) {
             if (optional) return emptyConfigurationData
 
-            logger.error(PROPERTY_NOT_FOUND.format(path))
-            throw ConfigurationException(PROPERTY_NOT_FOUND.format(path), e)
+            logger.error(propertyNotFound(path))
+            throw ConfigurationException(propertyNotFound(path), e)
         }
     }
 

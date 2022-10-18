@@ -15,12 +15,21 @@
  */
 package com.expediagroup.sdk.core.constant
 
+import io.ktor.http.HttpStatusCode
+
 object Logging {
-    const val RENEWING_TOKEN = "Renewing token"
-    const val SUCCESSFUL_TOKEN_RENEWAL = "Token renewal successful: New token expires in {} seconds"
-    const val FAILED_TOKEN_RENEWAL = "Token renewal failed: Response status[{}]"
-    const val CLEARING_TOKENS = "Clearing tokens"
+    private const val TOKEN_EXPIRES_IN = "New token expires in {} seconds"
+    private const val RESPONSE_STATUS_CODE = ":Response status code [{}]"
+    private const val RESPONSE_UNSUCCESSFUL = "Unsuccessful response [{}]"
+    const val TOKEN_RENEWAL_IN_PROCESS = "Renewing token"
+    const val TOKEN_RENEWAL_SUCCESSFUL = "Token renewal successful"
+    const val TOKEN_RENEWAL_FAILED = "Token renewal failed"
+    const val TOKEN_CLEARING_IN_PROCESS = "Clearing tokens"
+    const val TOKEN_CLEARING_SUCCESSFUL = "Tokens successfully cleared"
     const val TOKEN_EXPIRED = "Token expired or is about to expire: Request will wait until token is renewed"
-    const val UNSUCCESSFUL_RESPONSE = "Unsuccessful response [{}]"
-    const val COULD_NOT_RECEIVE_RESPONSE_PAYLOAD = "Could not receive the payload of the response"
+    const val RESPONSE_PAYLOAD_RECEPTION_FAILURE = "Could not receive the payload of the response"
+
+    fun tokenExpiresIn(expiresIn: Int) = TOKEN_EXPIRES_IN.format(expiresIn)
+    fun responseStatusCode(statusCode: HttpStatusCode) = RESPONSE_STATUS_CODE.format(statusCode)
+    fun responseUnsuccessful(statusCode: HttpStatusCode) = RESPONSE_UNSUCCESSFUL.format(statusCode)
 }
