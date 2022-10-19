@@ -33,8 +33,11 @@ import java.util.Properties
  * All property keys and values are stored as cleartext.
  */
 class FileConfigurationProvider : ConfigurationProvider {
-    private val logger = LoggerFactory.getLogger(javaClass)
     private val emptyConfigurationData = ConfigurationData(emptyMap())
+
+    companion object {
+        private val log = LoggerFactory.getLogger(FileConfigurationProvider::class.java)
+    }
 
     /**
      * Retrieves the data at the given Properties file.
@@ -54,7 +57,7 @@ class FileConfigurationProvider : ConfigurationProvider {
             if (optional) return emptyConfigurationData
 
             throw ConfigurationException(propertyNotFound(path))
-                .also { logger.error(it.message) }
+                .also { log.error(it.message) }
         }
     }
 
@@ -73,25 +76,25 @@ class FileConfigurationProvider : ConfigurationProvider {
             if (optional) return emptyConfigurationData
 
             throw ConfigurationException(propertyNotFound(url))
-                .also { logger.error(it.message) }
+                .also { log.error(it.message) }
         }
     }
 
     @Suppress("NotImplementedDeclaration")
     override fun subscribe(path: String, keys: Set<String>, callback: ConfigurationChangeCallback) {
-        logger.warn(NOT_YET_IMPLEMENTED)
+        log.warn(NOT_YET_IMPLEMENTED)
         TODO(NOT_YET_IMPLEMENTED)
     }
 
     @Suppress("NotImplementedDeclaration")
     override fun unsubscribe(path: String, keys: Set<String>, callback: ConfigurationChangeCallback) {
-        logger.warn(NOT_YET_IMPLEMENTED)
+        log.warn(NOT_YET_IMPLEMENTED)
         TODO(NOT_YET_IMPLEMENTED)
     }
 
     @Suppress("NotImplementedDeclaration")
     override fun unsubscribeAll() {
-        logger.warn(NOT_YET_IMPLEMENTED)
+        log.warn(NOT_YET_IMPLEMENTED)
         TODO(NOT_YET_IMPLEMENTED)
     }
 
@@ -122,7 +125,7 @@ class FileConfigurationProvider : ConfigurationProvider {
             if (optional) return emptyConfigurationData
 
             throw ConfigurationException(propertyNotFound(path), e)
-                .also { logger.error(it.message) }
+                .also { log.error(it.message) }
         }
     }
 

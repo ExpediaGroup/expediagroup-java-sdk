@@ -34,8 +34,11 @@ import org.slf4j.LoggerFactory
 abstract class OpenApiStub(
     private val clientConfiguration: ClientConfiguration = ClientConfiguration.EMPTY
 ) {
-    private val logger = LoggerFactory.getLogger(javaClass)
     protected val client: Client by lazy { createClient() }
+
+    companion object {
+        private val log = LoggerFactory.getLogger(OpenApiStub::class.java)
+    }
 
     /**
      * Create a new [Client] instance to be used by the generated OpenAPI APIs.
@@ -58,18 +61,18 @@ abstract class OpenApiStub(
      */
     protected suspend fun throwIfError(response: HttpResponse) {
         if (isNotSuccessfulResponse(response)) {
-            logger.info(responseUnsuccessful(response.status))
+            log.info(responseUnsuccessful(response.status))
             // Make sure we read the body to avoid resource leaks
             runCatching {
                 response.body<Error>()
             }.onSuccess {
                 throw ServiceException(response.status, it)
-                    .also { exception -> logger.error(exception.message) }
+                    .also { exception -> log.error(exception.message) }
             }.onFailure {
                 throw ServiceException(
                     response.status,
                     Error(response.request.url.toURI(), response.status.description)
-                ).also { logger.error(RESPONSE_PAYLOAD_RECEPTION_FAILURE) }
+                ).also { log.error(RESPONSE_PAYLOAD_RECEPTION_FAILURE) }
             }
         }
     }

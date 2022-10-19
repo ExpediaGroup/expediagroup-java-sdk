@@ -28,8 +28,11 @@ import java.util.Locale
  * A definition of a configuration property.
  */
 class ConfigurationDefinition {
-    private val logger = LoggerFactory.getLogger(javaClass)
     private var configKeys = mutableMapOf<String, ConfigurationKey>()
+
+    companion object {
+        private val log = LoggerFactory.getLogger(ConfigurationDefinition::class.java)
+    }
 
     /**
      * Define a new configuration which is required by the SDK.
@@ -40,7 +43,7 @@ class ConfigurationDefinition {
     private fun define(key: ConfigurationKey): ConfigurationDefinition {
         if (configKeys.containsKey(key.name))
             throw ConfigurationException(configurationDefinedTwice(key.name))
-                .also { logger.error(it.message) }
+                .also { log.error(it.message) }
         configKeys[key.name] = key
         return this
     }
@@ -86,7 +89,7 @@ class ConfigurationDefinition {
      */
     fun get(name: String): ConfigurationKey =
         configKeys[name] ?: throw ConfigurationException(configurationKeyNotDefined(name))
-            .also { logger.error(it.message) }
+            .also { log.error(it.message) }
 
     /**
      * Parses the configuration values based on the defined keys.
@@ -99,7 +102,7 @@ class ConfigurationDefinition {
         val undefinedConfigKeys: List<String> = undefinedConfigs(props)
         if (undefinedConfigKeys.isNotEmpty())
             throw ConfigurationException(requiredConfigurationsNotDefined(undefinedConfigKeys.joinToString(",")))
-                .also { logger.error(it.message) }
+                .also { log.error(it.message) }
         // parse all known keys
         val values: MutableMap<String, Any> = HashMap()
         for (key in configKeys.values) values[key.name] =
@@ -138,42 +141,42 @@ class ConfigurationDefinition {
         toBooleanOrNull(value)?.let { return it }
 
         throw ConfigurationException(expectedNameValue("boolean", name, value))
-            .also { logger.error(it.message) }
+            .also { log.error(it.message) }
     }
 
     private fun parsePassword(value: Any, name: String): ConfigurationKey.Password {
         toPasswordOrNull(value)?.let { return it }
 
         throw ConfigurationException(expectedActualNameValue("string", value.javaClass.name, name, value))
-            .also { logger.error(it.message) }
+            .also { log.error(it.message) }
     }
 
     private fun parseString(value: Any, name: String): String {
         toStringOrNull(value)?.let { return it }
 
         throw ConfigurationException(expectedActualNameValue("string", value.javaClass.name, name, value))
-            .also { logger.error(it.message) }
+            .also { log.error(it.message) }
     }
 
     private fun parseInt(value: Any, name: String): Int {
         toIntOrNull(value)?.let { return it }
 
         throw ConfigurationException(expectedActualNameValue("32-bit integer", value.javaClass.name, name, value))
-            .also { logger.error(it.message) }
+            .also { log.error(it.message) }
     }
 
     private fun parseDouble(value: Any, name: String): Double {
         toDoubleOrNull(value)?.let { return it }
 
         throw ConfigurationException(expectedActualNameValue("double", value.javaClass.name, name, value))
-            .also { logger.error(it.message) }
+            .also { log.error(it.message) }
     }
 
     private fun parseList(value: Any, name: String): List<*> {
         toListOrNull(value)?.let { return it }
 
         throw ConfigurationException(expectedNameValue("comma-separated list", name, value))
-            .also { logger.error(it.message) }
+            .also { log.error(it.message) }
     }
 
     private fun toBooleanOrNull(value: Any) = when (value) {

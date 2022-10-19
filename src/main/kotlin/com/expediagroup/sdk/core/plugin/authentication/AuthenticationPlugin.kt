@@ -44,8 +44,9 @@ import io.ktor.http.Parameters
 import org.slf4j.LoggerFactory
 
 internal object AuthenticationPlugin : Plugin<AuthenticationConfiguration> {
-    private val logger = LoggerFactory.getLogger(javaClass)
+    private val log = LoggerFactory.getLogger(javaClass)
     private var bearerTokenStorage = BearerTokensInfo.emptyBearerTokenInfo
+
     override fun install(configurations: AuthenticationConfiguration) {
         configurations.httpClientConfiguration.install(Auth) {
             bearer {
@@ -67,7 +68,7 @@ internal object AuthenticationPlugin : Plugin<AuthenticationConfiguration> {
         request.url.buildString() != configs.authUrl
 
     suspend fun renewToken(client: HttpClient, configs: AuthenticationConfiguration) {
-        logger.info(TOKEN_RENEWAL_IN_PROCESS)
+        log.info(TOKEN_RENEWAL_IN_PROCESS)
         clearTokens(client)
         val renewTokenResponse = client.request {
             method = HttpMethod.Post
@@ -78,12 +79,12 @@ internal object AuthenticationPlugin : Plugin<AuthenticationConfiguration> {
         if (renewTokenResponse.status != HttpStatusCode.OK)
             throw ClientException(renewTokenResponse.status, AUTHENTICATION_FAILURE)
                 .also {
-                    logger.error(responseStatusCode(renewTokenResponse.status))
-                    logger.error(TOKEN_RENEWAL_FAILED)
+                    log.error(responseStatusCode(renewTokenResponse.status))
+                    log.error(TOKEN_RENEWAL_FAILED)
                 }
         val renewedTokenInfo: TokenResponse = renewTokenResponse.body()
-        logger.info(TOKEN_RENEWAL_SUCCESSFUL)
-        logger.info(tokenExpiresIn(renewedTokenInfo.expiresIn))
+        log.info(TOKEN_RENEWAL_SUCCESSFUL)
+        log.info(tokenExpiresIn(renewedTokenInfo.expiresIn))
         bearerTokenStorage = BearerTokensInfo(
             BearerTokens(renewedTokenInfo.accessToken, renewedTokenInfo.accessToken),
             renewedTokenInfo.expiresIn
@@ -92,10 +93,10 @@ internal object AuthenticationPlugin : Plugin<AuthenticationConfiguration> {
     }
 
     private fun clearTokens(client: HttpClient) {
-        logger.info(TOKEN_CLEARING_IN_PROCESS)
+        log.info(TOKEN_CLEARING_IN_PROCESS)
         client.plugin(Auth).providers.filterIsInstance<BearerAuthProvider>().first().clearToken()
         bearerTokenStorage = BearerTokensInfo.emptyBearerTokenInfo
-        logger.info(TOKEN_CLEARING_SUCCESSFUL)
+        log.info(TOKEN_CLEARING_SUCCESSFUL)
     }
 
     fun getToken(): BearerTokens {

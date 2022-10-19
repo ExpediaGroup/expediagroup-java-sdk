@@ -44,7 +44,7 @@ internal class AuthenticationHook(
 }
 
 private object AuthenticationHookBuilder : HookBuilder<AuthenticationConfiguration> {
-    private val logger = LoggerFactory.getLogger(javaClass)
+    private val log = LoggerFactory.getLogger(javaClass)
     private val isLock = atomic(false)
 
     override fun build(client: Client, configs: AuthenticationConfiguration) {
@@ -52,7 +52,7 @@ private object AuthenticationHookBuilder : HookBuilder<AuthenticationConfigurati
 
         httpClient.plugin(HttpSend).intercept { request ->
             if (isNotIdentityRequest(request, configs) && AuthenticationPlugin.isTokenAboutToExpire()) {
-                logger.info(TOKEN_EXPIRED)
+                log.info(TOKEN_EXPIRED)
                 if (!isLock.getAndSet(true)) {
                     AuthenticationPlugin.renewToken(httpClient, configs)
                     isLock.compareAndSet(expect = true, update = false)
