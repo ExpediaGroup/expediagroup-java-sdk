@@ -16,21 +16,20 @@
 package com.expediagroup.sdk.core.utils
 
 internal object ExceptionMessageProvider {
-    fun configurationDefinedTwice(configurationName: String) =
-        "Configuration %s is defined twice".format(configurationName)
+    fun configurationDefinedTwice(configurationName: String) = "Configuration $configurationName is defined twice"
 
-    fun propertyNotFound(path: Any) = "Could not read properties from file [%s]".format(path)
+    fun propertyNotFound(path: Any) = "Could not read properties from file [$path]"
 
     fun requiredConfigurationsNotDefined(configurations: String) =
-        "Some required configurations are not defined: %s".format(configurations)
+        "Some required configurations are not defined: $configurations"
 
     fun expectedActualNameValue(expected: String, actual: String, name: String, value: Any) =
-        "Expected value to be a %s, but it was a %s, name: %s, value: %s".format(expected, actual, name, value)
+        "Expected value to be a $expected, but it was a $actual, name: $name, value: $value"
 
     fun expectedNameValue(expected: String, name: String, value: Any) =
-        "Expected value to be a %s, name: %s, value: %s".format(expected, name, value)
+        "Expected value to be a $expected, name: $name, value: $value"
 
-    fun configurationKeyNotDefined(name: String) = "Configuration key not defined, name: %s".format(name)
+    fun configurationKeyNotDefined(name: String) = "Configuration key not defined, name: $name"
 
-    fun configurationUnknown(key: String) = "Unknown configuration %s".format(key)
+    fun configurationUnknown(key: String) = "Unknown configuration $key"
 }

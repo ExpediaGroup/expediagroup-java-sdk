@@ -18,7 +18,7 @@ package com.expediagroup.sdk.core.utils
 import io.ktor.http.HttpStatusCode
 
 object LoggingMessageProvider {
-    fun tokenExpiresIn(expiresIn: Int) = "New token expires in %s seconds".format(expiresIn)
-    fun responseStatusCode(statusCode: HttpStatusCode) = ":Response status code [%s]".format(statusCode)
-    fun responseUnsuccessful(statusCode: HttpStatusCode) = "Unsuccessful response [%s]".format(statusCode)
+    fun tokenExpiresIn(expiresIn: Int) = "New token expires in $expiresIn seconds"
+    fun responseStatusCode(statusCode: HttpStatusCode) = ":Response status code [$statusCode]"
+    fun responseUnsuccessful(httpStatusCode: HttpStatusCode) = "Unsuccessful response [$httpStatusCode]"
 }
