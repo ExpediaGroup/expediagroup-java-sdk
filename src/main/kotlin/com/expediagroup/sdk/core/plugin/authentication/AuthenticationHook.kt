@@ -17,6 +17,7 @@ package com.expediagroup.sdk.core.plugin.authentication
 
 import com.expediagroup.sdk.core.client.Client
 import com.expediagroup.sdk.core.constant.Header
+import com.expediagroup.sdk.core.constant.LoggingMessage.TOKEN_EXPIRED
 import com.expediagroup.sdk.core.plugin.Hook
 import com.expediagroup.sdk.core.plugin.HookBuilder
 import com.expediagroup.sdk.core.plugin.HookConfigsBuilder
@@ -26,6 +27,7 @@ import io.ktor.client.plugins.plugin
 import io.ktor.client.request.HttpRequestBuilder
 import kotlinx.atomicfu.atomic
 import kotlinx.coroutines.delay
+import org.slf4j.LoggerFactory
 
 internal const val AUTHORIZATION_REQUEST_LOCK_DELAY = 20L
 
@@ -42,6 +44,7 @@ internal class AuthenticationHook(
 }
 
 private object AuthenticationHookBuilder : HookBuilder<AuthenticationConfiguration> {
+    private val log = LoggerFactory.getLogger(javaClass)
     private val isLock = atomic(false)
 
     override fun build(client: Client, configs: AuthenticationConfiguration) {
@@ -49,6 +52,7 @@ private object AuthenticationHookBuilder : HookBuilder<AuthenticationConfigurati
 
         httpClient.plugin(HttpSend).intercept { request ->
             if (isNotIdentityRequest(request, configs) && AuthenticationPlugin.isTokenAboutToExpire()) {
+                log.info(TOKEN_EXPIRED)
                 if (!isLock.getAndSet(true)) {
                     AuthenticationPlugin.renewToken(httpClient, configs)
                     isLock.compareAndSet(expect = true, update = false)

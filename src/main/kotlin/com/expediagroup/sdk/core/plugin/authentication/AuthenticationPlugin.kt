@@ -16,8 +16,13 @@
 package com.expediagroup.sdk.core.plugin.authentication
 
 import com.expediagroup.sdk.core.configuration.Credentials
+import com.expediagroup.sdk.core.constant.ExceptionMessage.AUTHENTICATION_FAILURE
 import com.expediagroup.sdk.core.constant.Header
-import com.expediagroup.sdk.core.constant.Message.UNABLE_TO_AUTHENTICATE
+import com.expediagroup.sdk.core.constant.LoggingMessage.TOKEN_CLEARING_IN_PROCESS
+import com.expediagroup.sdk.core.constant.LoggingMessage.TOKEN_CLEARING_SUCCESSFUL
+import com.expediagroup.sdk.core.constant.LoggingMessage.TOKEN_RENEWAL_IN_PROCESS
+import com.expediagroup.sdk.core.constant.LoggingMessage.TOKEN_RENEWAL_SUCCESSFUL
+import com.expediagroup.sdk.core.constant.provider.LoggingMessageProvider.getTokenExpiresInMessage
 import com.expediagroup.sdk.core.model.exception.ClientException
 import com.expediagroup.sdk.core.plugin.Plugin
 import io.ktor.client.HttpClient
@@ -34,9 +39,12 @@ import io.ktor.client.request.url
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.Parameters
+import org.slf4j.LoggerFactory
 
 internal object AuthenticationPlugin : Plugin<AuthenticationConfiguration> {
+    private val log = LoggerFactory.getLogger(javaClass)
     private var bearerTokenStorage = BearerTokensInfo.emptyBearerTokenInfo
+
     override fun install(configurations: AuthenticationConfiguration) {
         configurations.httpClientConfiguration.install(Auth) {
             bearer {
@@ -58,6 +66,7 @@ internal object AuthenticationPlugin : Plugin<AuthenticationConfiguration> {
         request.url.buildString() != configs.authUrl
 
     suspend fun renewToken(client: HttpClient, configs: AuthenticationConfiguration) {
+        log.info(TOKEN_RENEWAL_IN_PROCESS)
         clearTokens(client)
         val renewTokenResponse = client.request {
             method = HttpMethod.Post
@@ -66,12 +75,11 @@ internal object AuthenticationPlugin : Plugin<AuthenticationConfiguration> {
             basicAuth(configs.credentials)
         }
         if (renewTokenResponse.status != HttpStatusCode.OK) {
-            throw ClientException(
-                renewTokenResponse.status,
-                UNABLE_TO_AUTHENTICATE
-            )
+            throw ClientException(renewTokenResponse.status, AUTHENTICATION_FAILURE)
         }
         val renewedTokenInfo: TokenResponse = renewTokenResponse.body()
+        log.info(TOKEN_RENEWAL_SUCCESSFUL)
+        log.info(getTokenExpiresInMessage(renewedTokenInfo.expiresIn))
         bearerTokenStorage = BearerTokensInfo(
             BearerTokens(renewedTokenInfo.accessToken, renewedTokenInfo.accessToken),
             renewedTokenInfo.expiresIn
@@ -80,8 +88,10 @@ internal object AuthenticationPlugin : Plugin<AuthenticationConfiguration> {
     }
 
     private fun clearTokens(client: HttpClient) {
+        log.info(TOKEN_CLEARING_IN_PROCESS)
         client.plugin(Auth).providers.filterIsInstance<BearerAuthProvider>().first().clearToken()
         bearerTokenStorage = BearerTokensInfo.emptyBearerTokenInfo
+        log.info(TOKEN_CLEARING_SUCCESSFUL)
     }
 
     fun getToken(): BearerTokens {

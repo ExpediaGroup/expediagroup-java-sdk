@@ -23,6 +23,8 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.ValueSource
 
 class ConfigurationDefinitionTest {
 
@@ -44,10 +46,10 @@ class ConfigurationDefinitionTest {
 
         assertDoesNotThrow {
             val configurationKey = definition.get(configurationKeyName)
-            assertEquals(configurationKey.name, configurationKeyName)
-            assertEquals(configurationKey.documentation, configurationKeyDocumentation)
-            assertEquals(configurationKey.type, configurationKeyType)
-            assertEquals(configurationKey.importance, configurationKeyImportance)
+            assertEquals(configurationKeyName, configurationKey.name)
+            assertEquals(configurationKeyDocumentation, configurationKey.documentation)
+            assertEquals(configurationKeyType, configurationKey.type)
+            assertEquals(configurationKeyImportance, configurationKey.importance)
             assertNull(configurationKey.defaultValue)
             assertNull(configurationKey.validator)
         }
@@ -80,7 +82,7 @@ class ConfigurationDefinitionTest {
             val mappedConfigurations = configurationDefinition.parse(mapOf(configurationKeyName to configurationValue))
             assertNotNull(mappedConfigurations)
             assertTrue(mappedConfigurations[configurationKeyName] is Int)
-            assertEquals(mappedConfigurations[configurationKeyName], configurationValue)
+            assertEquals(configurationValue, mappedConfigurations[configurationKeyName])
         }
     }
 
@@ -104,7 +106,7 @@ class ConfigurationDefinitionTest {
             val mappedConfigurations = configurationDefinition.parse(mapOf(configurationKeyName to ""))
             assertNotNull(mappedConfigurations)
             assertTrue(mappedConfigurations[configurationKeyName] is List<*>)
-            assertEquals(mappedConfigurations[configurationKeyName], emptyList<String>())
+            assertEquals(emptyList<String>(), mappedConfigurations[configurationKeyName])
         }
     }
 
@@ -128,9 +130,10 @@ class ConfigurationDefinitionTest {
             val mappedConfigurations = configurationDefinition.parse(mapOf(configurationKeyName to "25"))
             assertNotNull(mappedConfigurations)
             assertTrue(mappedConfigurations[configurationKeyName] is Int)
-            assertEquals(mappedConfigurations[configurationKeyName], 25)
+            assertEquals(25, mappedConfigurations[configurationKeyName])
         }
     }
+
     @Test
     fun `successfully parses configurations of type double when the configuration value is an integer`() {
 
@@ -151,7 +154,7 @@ class ConfigurationDefinitionTest {
             val mappedConfigurations = configurationDefinition.parse(mapOf(configurationKeyName to 25))
             assertNotNull(mappedConfigurations)
             assertTrue(mappedConfigurations[configurationKeyName] is Double)
-            assertEquals(mappedConfigurations[configurationKeyName], 25.0)
+            assertEquals(25.0, mappedConfigurations[configurationKeyName])
         }
     }
 
@@ -175,7 +178,7 @@ class ConfigurationDefinitionTest {
             val mappedConfigurations = configurationDefinition.parse(mapOf(configurationKeyName to "25.5"))
             assertNotNull(mappedConfigurations)
             assertTrue(mappedConfigurations[configurationKeyName] is Double)
-            assertEquals(mappedConfigurations[configurationKeyName], 25.5)
+            assertEquals(25.5, mappedConfigurations[configurationKeyName])
         }
     }
 
@@ -200,7 +203,7 @@ class ConfigurationDefinitionTest {
             val mappedConfigurations = configurationDefinition.parse(mapOf(configurationKeyName to configurationValue))
             assertNotNull(mappedConfigurations)
             assertTrue(mappedConfigurations[configurationKeyName] is ConfigurationKey.Password)
-            assertEquals(mappedConfigurations[configurationKeyName], configurationValue)
+            assertEquals(configurationValue, mappedConfigurations[configurationKeyName])
         }
     }
 
@@ -229,6 +232,25 @@ class ConfigurationDefinitionTest {
     }
 
     @Test
+    fun `throws an exception when required configurations are not defined`() {
+        val configurationDefinition = ConfigurationDefinition()
+        val configurationName = "test_configuration_key"
+        val configurationDocumentation = "This is a test configuration key of integer type"
+        val configurationType = ConfigurationKey.Type.INT
+        val configurationImportance = ConfigurationKey.Importance.HIGH
+        configurationDefinition.define(
+            name = configurationName,
+            documentation = configurationDocumentation,
+            type = configurationType,
+            importance = configurationImportance
+        )
+        val throwable = assertThrows<ConfigurationException> {
+            configurationDefinition.parse(mapOf())
+        }
+        assertEquals("Some required configurations are not defined: $configurationName", throwable.message)
+    }
+
+    @Test
     fun `throws an exception when same configuration is defined more than once`() {
 
         val configurationDefinition = ConfigurationDefinition()
@@ -250,11 +272,11 @@ class ConfigurationDefinitionTest {
                 importance = configurationImportance
             )
         }
-        assertEquals(throwable.message, "Configuration $configurationName is defined twice")
+        assertEquals("Configuration $configurationName is defined multiple times", throwable.message)
     }
 
     @Test
-    fun `throws an exception when configuration value doesn't match type for boolean`() {
+    fun `throws an exception when configuration value doesn't match value for boolean string`() {
 
         val configurationDefinition = ConfigurationDefinition()
         val booleanConfigurationName = "boolean_configuration"
@@ -271,16 +293,31 @@ class ConfigurationDefinitionTest {
             configurationDefinition.parse(mapOf(booleanConfigurationName to "invalid"))
         }
         assertEquals(
-            throwableWhenInvalidString.message,
-            "Expected value to be either true or false, name:$booleanConfigurationName, value:invalid"
+            "Expected value to be a boolean, name: $booleanConfigurationName, value: invalid",
+            throwableWhenInvalidString.message
+        )
+    }
+
+    @Test
+    fun `throws an exception when configuration value doesn't match type for boolean`() {
+
+        val configurationDefinition = ConfigurationDefinition()
+        val booleanConfigurationName = "boolean_configuration"
+        val configurationDocumentation = "This is a test configuration documentation"
+        val configurationImportance = ConfigurationKey.Importance.HIGH
+        configurationDefinition.define(
+            name = booleanConfigurationName,
+            documentation = configurationDocumentation,
+            type = ConfigurationKey.Type.BOOLEAN,
+            importance = configurationImportance
         )
 
         val throwableWhenInvalidInt = assertThrows<ConfigurationException> {
             configurationDefinition.parse(mapOf(booleanConfigurationName to 213))
         }
         assertEquals(
-            throwableWhenInvalidInt.message,
-            "Expected value to be either true or false, name:$booleanConfigurationName, value:213"
+            "Expected value to be a boolean, name: $booleanConfigurationName, value: 213",
+            throwableWhenInvalidInt.message
         )
     }
 
@@ -303,8 +340,8 @@ class ConfigurationDefinitionTest {
             configurationDefinition.parse(props)
         }
         assertEquals(
-            throwable.message,
-            "Expected value to be a string, but it was a java.lang.Integer, name:$passwordConfigurationName, value:123"
+            "Expected value to be a string, but it was a java.lang.Integer, name: $passwordConfigurationName, value: 123",
+            throwable.message
         )
     }
 
@@ -327,15 +364,15 @@ class ConfigurationDefinitionTest {
             configurationDefinition.parse(props)
         }
         assertEquals(
-            throwableWhenInvalidString.message,
-            "Expected value to be a  32-bit integer, but it was a java.lang.String, name:$configurationName, value:invalid"
+            "Expected value to be a 32-bit integer, but it was a java.lang.String, name: $configurationName, value: invalid",
+            throwableWhenInvalidString.message
         )
         val throwableWhenInvalidBoolean = assertThrows<ConfigurationException> {
             configurationDefinition.parse(mapOf(configurationName to true))
         }
         assertEquals(
-            throwableWhenInvalidBoolean.message,
-            "Expected value to be a  32-bit integer, but it was a java.lang.Boolean, name:$configurationName, value:true"
+            "Expected value to be a 32-bit integer, but it was a java.lang.Boolean, name: $configurationName, value: true",
+            throwableWhenInvalidBoolean.message
         )
     }
 
@@ -356,15 +393,15 @@ class ConfigurationDefinitionTest {
             configurationDefinition.parse(mapOf(configurationName to "invalid"))
         }
         assertEquals(
-            throwableWhenInvalidString.message,
-            "Expected value to be a double, but it was a java.lang.String, name:$configurationName, value:invalid"
+            "Expected value to be a double, but it was a java.lang.String, name: $configurationName, value: invalid",
+            throwableWhenInvalidString.message
         )
         val throwableWhenInvalidBoolean = assertThrows<ConfigurationException> {
             configurationDefinition.parse(mapOf(configurationName to true))
         }
         assertEquals(
-            throwableWhenInvalidBoolean.message,
-            "Expected value to be a double, but it was a java.lang.Boolean, name:$configurationName, value:true"
+            "Expected value to be a double, but it was a java.lang.Boolean, name: $configurationName, value: true",
+            throwableWhenInvalidBoolean.message
         )
     }
 
@@ -387,8 +424,8 @@ class ConfigurationDefinitionTest {
             configurationDefinition.parse(props)
         }
         assertEquals(
-            throwable.message,
-            "Expected value to be a string, but it was a java.lang.Integer, name:$stringConfigurationName, value:123"
+            "Expected value to be a string, but it was a java.lang.Integer, name: $stringConfigurationName, value: 123",
+            throwable.message
         )
     }
 
@@ -410,7 +447,10 @@ class ConfigurationDefinitionTest {
         val throwable = assertThrows<ConfigurationException> {
             configurationDefinition.parse(props)
         }
-        assertEquals(throwable.message, "Expected a comma separated list, name:$listConfigurationName, value:123")
+        assertEquals(
+            "Expected value to be a comma-separated list, name: $listConfigurationName, value: 123",
+            throwable.message
+        )
     }
 
     @Test
@@ -422,7 +462,7 @@ class ConfigurationDefinitionTest {
         val throwable = assertThrows<ConfigurationException> {
             configurationDefinition.get(listConfigurationName)
         }
-        assertEquals(throwable.message, "configuration key not defined, name:$listConfigurationName")
+        assertEquals("Configuration key not defined, name: $listConfigurationName", throwable.message)
     }
 
     @Test
@@ -453,6 +493,50 @@ class ConfigurationDefinitionTest {
         val throwable = assertThrows<ConfigurationException> {
             configurationDefinition.parse(props)
         }
-        assertEquals(throwable.message, "value is not uppercase")
+        assertEquals("value is not uppercase", throwable.message)
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = [true, false])
+    fun `maps correct value when configuration value is boolean`(value: Boolean) {
+        val configurationDefinition = ConfigurationDefinition()
+        val booleanConfigurationName = "boolean_configuration"
+        val configurationDocumentation = "This is a test configuration documentation"
+        val configurationImportance = ConfigurationKey.Importance.HIGH
+        configurationDefinition.define(
+            name = booleanConfigurationName,
+            documentation = configurationDocumentation,
+            type = ConfigurationKey.Type.BOOLEAN,
+            importance = configurationImportance
+        )
+
+        assertDoesNotThrow {
+            val mappedConfigurations = configurationDefinition.parse(mapOf(booleanConfigurationName to value))
+            assertNotNull(mappedConfigurations)
+            assertTrue(mappedConfigurations[booleanConfigurationName] is Boolean)
+            assertEquals(value, mappedConfigurations[booleanConfigurationName])
+        }
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = ["true", "false", "TRUE", "FALSE"])
+    fun `maps correct value when configuration value is string containing boolean`(value: String) {
+        val configurationDefinition = ConfigurationDefinition()
+        val booleanConfigurationName = "boolean_configuration"
+        val configurationDocumentation = "This is a test configuration documentation"
+        val configurationImportance = ConfigurationKey.Importance.HIGH
+        configurationDefinition.define(
+            name = booleanConfigurationName,
+            documentation = configurationDocumentation,
+            type = ConfigurationKey.Type.BOOLEAN,
+            importance = configurationImportance
+        )
+
+        assertDoesNotThrow {
+            val mappedConfigurations = configurationDefinition.parse(mapOf(booleanConfigurationName to value))
+            assertNotNull(mappedConfigurations)
+            assertTrue(mappedConfigurations[booleanConfigurationName] is Boolean)
+            assertEquals(value.toBoolean(), mappedConfigurations[booleanConfigurationName])
+        }
     }
 }

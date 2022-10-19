@@ -25,9 +25,10 @@ import io.ktor.client.plugins.logging.Logger
 internal data class LoggingConfiguration(
     override val httpClientConfiguration: HttpClientConfig<out HttpClientEngineConfig>,
     val logger: Logger = Logger.DEFAULT,
-    val level: LogLevel = LogLevel.INFO
+    val level: LogLevel = LogLevel.ALL
 ) : KtorPluginConfiguration(httpClientConfiguration) {
     companion object {
-        fun from(httpClientConfig: HttpClientConfig<out HttpClientEngineConfig>) = LoggingConfiguration(httpClientConfig)
+        fun from(httpClientConfig: HttpClientConfig<out HttpClientEngineConfig>) =
+            LoggingConfiguration(httpClientConfig)
     }
 }

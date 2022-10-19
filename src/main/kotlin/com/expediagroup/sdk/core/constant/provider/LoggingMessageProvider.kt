@@ -13,8 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.constant
+package com.expediagroup.sdk.core.constant.provider
 
-internal object Message {
-    const val UNABLE_TO_AUTHENTICATE = "Unable to authenticate"
+import io.ktor.http.HttpStatusCode
+
+internal object LoggingMessageProvider {
+    fun getTokenExpiresInMessage(expiresIn: Int) = "New token expires in $expiresIn seconds"
+    fun getResponseUnsuccessfulMessage(httpStatusCode: HttpStatusCode) = "Unsuccessful response [$httpStatusCode]"
 }

@@ -16,6 +16,7 @@
 package com.expediagroup.sdk.core.config
 
 import com.expediagroup.sdk.core.config.provider.ConfigurationData
+import com.expediagroup.sdk.core.constant.provider.ExceptionMessageProvider.getConfigurationUnknownMessage
 import com.expediagroup.sdk.core.model.exception.ConfigurationException
 
 /**
@@ -39,7 +40,9 @@ class Config(
      * @return - the value without casting it
      */
     operator fun get(key: String): Any {
-        if (!configurations.containsKey(key)) throw ConfigurationException("Unknown configuration $key")
+        if (!configurations.containsKey(key)) {
+            throw ConfigurationException(getConfigurationUnknownMessage(key))
+        }
 
         return configurations[key]!!
     }
