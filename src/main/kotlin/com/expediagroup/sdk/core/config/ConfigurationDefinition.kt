@@ -16,7 +16,7 @@
 package com.expediagroup.sdk.core.config
 
 import com.expediagroup.sdk.core.model.exception.ConfigurationException
-import com.expediagroup.sdk.core.utils.ExceptionMessageProvider.configurationDefinedTwice
+import com.expediagroup.sdk.core.utils.ExceptionMessageProvider.configurationDefinedMultipleTimes
 import com.expediagroup.sdk.core.utils.ExceptionMessageProvider.configurationKeyNotDefined
 import com.expediagroup.sdk.core.utils.ExceptionMessageProvider.expectedActualNameValue
 import com.expediagroup.sdk.core.utils.ExceptionMessageProvider.expectedNameValue
@@ -35,9 +35,10 @@ class ConfigurationDefinition {
     }
 
     private fun define(key: ConfigurationKey): ConfigurationDefinition {
-        if (configKeys.containsKey(key.name))
-            throw ConfigurationException(configurationDefinedTwice(key.name))
+        if (configKeys.containsKey(key.name)) {
+            throw ConfigurationException(configurationDefinedMultipleTimes(key.name))
                 .also { log.error(it.message) }
+        }
         configKeys[key.name] = key
         return this
     }

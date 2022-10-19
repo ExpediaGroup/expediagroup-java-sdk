@@ -16,7 +16,8 @@
 package com.expediagroup.sdk.core.utils
 
 internal object ExceptionMessageProvider {
-    fun configurationDefinedTwice(configurationName: String) = "Configuration $configurationName is defined twice"
+    fun configurationDefinedMultipleTimes(configurationName: String) =
+        "Configuration $configurationName is defined multiple times"
 
     fun propertyNotFound(path: Any) = "Could not read properties from file [$path]"
 

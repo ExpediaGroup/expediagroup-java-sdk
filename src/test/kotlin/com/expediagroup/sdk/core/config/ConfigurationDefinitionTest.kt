@@ -272,7 +272,7 @@ class ConfigurationDefinitionTest {
                 importance = configurationImportance
             )
         }
-        assertEquals("Configuration $configurationName is defined twice", throwable.message)
+        assertEquals("Configuration $configurationName is defined multiple times", throwable.message)
     }
 
     @Test
