@@ -94,9 +94,7 @@ internal object AuthenticationPlugin : Plugin<AuthenticationConfiguration> {
         log.info(TOKEN_CLEARING_SUCCESSFUL)
     }
 
-    fun getToken(): BearerTokens {
-        return bearerTokenStorage.bearerTokens
-    }
+    fun getToken(): BearerTokens = bearerTokenStorage.bearerTokens
 
     private fun HttpRequestBuilder.basicAuth(credentials: Credentials) {
         basicAuth(
