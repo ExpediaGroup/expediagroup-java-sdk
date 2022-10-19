@@ -519,7 +519,7 @@ class ConfigurationDefinitionTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["true", "false", "TRUE", "FALSE", "TruE", "FalsE"])
+    @ValueSource(strings = ["true", "false", "TRUE", "FALSE"])
     fun `maps correct value when configuration value is string containing boolean`(value: String) {
         val configurationDefinition = ConfigurationDefinition()
         val booleanConfigurationName = "boolean_configuration"
