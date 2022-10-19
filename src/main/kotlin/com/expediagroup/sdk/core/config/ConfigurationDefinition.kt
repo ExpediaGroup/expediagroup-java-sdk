@@ -15,11 +15,11 @@
  */
 package com.expediagroup.sdk.core.config
 
-import com.expediagroup.sdk.core.constant.ExceptionMessageProvider.configurationDefinedMultipleTimes
-import com.expediagroup.sdk.core.constant.ExceptionMessageProvider.configurationKeyNotDefined
-import com.expediagroup.sdk.core.constant.ExceptionMessageProvider.expectedActualNameValue
-import com.expediagroup.sdk.core.constant.ExceptionMessageProvider.expectedNameValue
-import com.expediagroup.sdk.core.constant.ExceptionMessageProvider.requiredConfigurationsNotDefined
+import com.expediagroup.sdk.core.constant.provider.ExceptionMessageProvider.getConfigurationDefinedMultipleTimesMessage
+import com.expediagroup.sdk.core.constant.provider.ExceptionMessageProvider.getConfigurationKeyNotDefinedMessage
+import com.expediagroup.sdk.core.constant.provider.ExceptionMessageProvider.getExpectedActualNameValueMessage
+import com.expediagroup.sdk.core.constant.provider.ExceptionMessageProvider.getExpectedNameValueMessage
+import com.expediagroup.sdk.core.constant.provider.ExceptionMessageProvider.getRequiredConfigurationsNotDefinedMessage
 import com.expediagroup.sdk.core.model.exception.ConfigurationException
 import java.util.Locale
 
@@ -31,7 +31,7 @@ class ConfigurationDefinition {
 
     private fun define(key: ConfigurationKey): ConfigurationDefinition {
         if (configKeys.containsKey(key.name)) {
-            throw ConfigurationException(configurationDefinedMultipleTimes(key.name))
+            throw ConfigurationException(getConfigurationDefinedMultipleTimesMessage(key.name))
         }
         configKeys[key.name] = key
         return this
@@ -77,7 +77,7 @@ class ConfigurationDefinition {
      * @return - configuration key
      */
     fun get(name: String): ConfigurationKey =
-        configKeys[name] ?: throw ConfigurationException(configurationKeyNotDefined(name))
+        configKeys[name] ?: throw ConfigurationException(getConfigurationKeyNotDefinedMessage(name))
 
     /**
      * Parses the configuration values based on the defined keys.
@@ -89,7 +89,7 @@ class ConfigurationDefinition {
         // Check all configurations are defined
         val undefinedConfigKeys: List<String> = undefinedConfigs(props)
         if (undefinedConfigKeys.isNotEmpty()) {
-            throw ConfigurationException(requiredConfigurationsNotDefined(undefinedConfigKeys.joinToString(",")))
+            throw ConfigurationException(getRequiredConfigurationsNotDefinedMessage(undefinedConfigKeys.joinToString(",")))
         }
         // parse all known keys
         val values: MutableMap<String, Any> = HashMap()
@@ -128,37 +128,37 @@ class ConfigurationDefinition {
     private fun parseBoolean(value: Any, name: String): Boolean {
         toBooleanOrNull(value)?.let { return it }
 
-        throw ConfigurationException(expectedNameValue("boolean", name, value))
+        throw ConfigurationException(getExpectedNameValueMessage("boolean", name, value))
     }
 
     private fun parsePassword(value: Any, name: String): ConfigurationKey.Password {
         toPasswordOrNull(value)?.let { return it }
 
-        throw ConfigurationException(expectedActualNameValue("string", value.javaClass.name, name, value))
+        throw ConfigurationException(getExpectedActualNameValueMessage("string", value.javaClass.name, name, value))
     }
 
     private fun parseString(value: Any, name: String): String {
         toStringOrNull(value)?.let { return it }
 
-        throw ConfigurationException(expectedActualNameValue("string", value.javaClass.name, name, value))
+        throw ConfigurationException(getExpectedActualNameValueMessage("string", value.javaClass.name, name, value))
     }
 
     private fun parseInt(value: Any, name: String): Int {
         toIntOrNull(value)?.let { return it }
 
-        throw ConfigurationException(expectedActualNameValue("32-bit integer", value.javaClass.name, name, value))
+        throw ConfigurationException(getExpectedActualNameValueMessage("32-bit integer", value.javaClass.name, name, value))
     }
 
     private fun parseDouble(value: Any, name: String): Double {
         toDoubleOrNull(value)?.let { return it }
 
-        throw ConfigurationException(expectedActualNameValue("double", value.javaClass.name, name, value))
+        throw ConfigurationException(getExpectedActualNameValueMessage("double", value.javaClass.name, name, value))
     }
 
     private fun parseList(value: Any, name: String): List<*> {
         toListOrNull(value)?.let { return it }
 
-        throw ConfigurationException(expectedNameValue("comma-separated list", name, value))
+        throw ConfigurationException(getExpectedNameValueMessage("comma-separated list", name, value))
     }
 
     private fun toBooleanOrNull(value: Any) = when (value) {

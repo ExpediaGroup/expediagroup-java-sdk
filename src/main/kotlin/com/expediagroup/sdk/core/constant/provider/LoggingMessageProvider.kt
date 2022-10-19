@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.constant
+package com.expediagroup.sdk.core.constant.provider
 
 import io.ktor.http.HttpStatusCode
 
 internal object LoggingMessageProvider {
-    fun tokenExpiresIn(expiresIn: Int) = "New token expires in $expiresIn seconds"
-    fun responseUnsuccessful(httpStatusCode: HttpStatusCode) = "Unsuccessful response [$httpStatusCode]"
+    fun getTokenExpiresInMessage(expiresIn: Int) = "New token expires in $expiresIn seconds"
+    fun getResponseUnsuccessfulMessage(httpStatusCode: HttpStatusCode) = "Unsuccessful response [$httpStatusCode]"
 }

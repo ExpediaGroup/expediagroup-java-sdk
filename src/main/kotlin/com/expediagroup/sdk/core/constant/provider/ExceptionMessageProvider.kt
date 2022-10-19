@@ -13,24 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.constant
+package com.expediagroup.sdk.core.constant.provider
 
 internal object ExceptionMessageProvider {
-    fun configurationDefinedMultipleTimes(configurationName: String) =
+    fun getConfigurationDefinedMultipleTimesMessage(configurationName: String) =
         "Configuration $configurationName is defined multiple times"
 
-    fun propertyNotFound(path: Any) = "Could not read properties from file [$path]"
+    fun getPropertyNotFoundMessage(path: Any) = "Could not read properties from file [$path]"
 
-    fun requiredConfigurationsNotDefined(configurations: String) =
+    fun getRequiredConfigurationsNotDefinedMessage(configurations: String) =
         "Some required configurations are not defined: $configurations"
 
-    fun expectedActualNameValue(expected: String, actual: String, name: String, value: Any) =
+    fun getExpectedActualNameValueMessage(expected: String, actual: String, name: String, value: Any) =
         "Expected value to be a $expected, but it was a $actual, name: $name, value: $value"
 
-    fun expectedNameValue(expected: String, name: String, value: Any) =
+    fun getExpectedNameValueMessage(expected: String, name: String, value: Any) =
         "Expected value to be a $expected, name: $name, value: $value"
 
-    fun configurationKeyNotDefined(name: String) = "Configuration key not defined, name: $name"
+    fun getConfigurationKeyNotDefinedMessage(name: String) = "Configuration key not defined, name: $name"
 
-    fun configurationUnknown(key: String) = "Unknown configuration $key"
+    fun getConfigurationUnknownMessage(key: String) = "Unknown configuration $key"
 }

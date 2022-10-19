@@ -22,7 +22,7 @@ import com.expediagroup.sdk.core.constant.LoggingMessage.TOKEN_CLEARING_IN_PROCE
 import com.expediagroup.sdk.core.constant.LoggingMessage.TOKEN_CLEARING_SUCCESSFUL
 import com.expediagroup.sdk.core.constant.LoggingMessage.TOKEN_RENEWAL_IN_PROCESS
 import com.expediagroup.sdk.core.constant.LoggingMessage.TOKEN_RENEWAL_SUCCESSFUL
-import com.expediagroup.sdk.core.constant.LoggingMessageProvider.tokenExpiresIn
+import com.expediagroup.sdk.core.constant.provider.LoggingMessageProvider.getTokenExpiresInMessage
 import com.expediagroup.sdk.core.model.exception.ClientException
 import com.expediagroup.sdk.core.plugin.Plugin
 import io.ktor.client.HttpClient
@@ -79,7 +79,7 @@ internal object AuthenticationPlugin : Plugin<AuthenticationConfiguration> {
         }
         val renewedTokenInfo: TokenResponse = renewTokenResponse.body()
         log.info(TOKEN_RENEWAL_SUCCESSFUL)
-        log.info(tokenExpiresIn(renewedTokenInfo.expiresIn))
+        log.info(getTokenExpiresInMessage(renewedTokenInfo.expiresIn))
         bearerTokenStorage = BearerTokensInfo(
             BearerTokens(renewedTokenInfo.accessToken, renewedTokenInfo.accessToken),
             renewedTokenInfo.expiresIn

@@ -17,7 +17,7 @@ package com.expediagroup.sdk.core.client.openapi
 
 import com.expediagroup.sdk.core.client.Client
 import com.expediagroup.sdk.core.configuration.ClientConfiguration
-import com.expediagroup.sdk.core.constant.LoggingMessageProvider.responseUnsuccessful
+import com.expediagroup.sdk.core.constant.provider.LoggingMessageProvider.getResponseUnsuccessfulMessage
 import com.expediagroup.sdk.core.model.error.Error
 import com.expediagroup.sdk.core.model.exception.ServiceException
 import io.ktor.client.call.body
@@ -60,7 +60,7 @@ abstract class OpenApiStub(
      */
     protected suspend fun throwIfError(response: HttpResponse) {
         if (isNotSuccessfulResponse(response)) {
-            log.info(responseUnsuccessful(response.status))
+            log.info(getResponseUnsuccessfulMessage(response.status))
             // Make sure we read the body to avoid resource leaks
             runCatching {
                 response.body<Error>()
