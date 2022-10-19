@@ -16,8 +16,8 @@
 package com.expediagroup.sdk.core.config
 
 import com.expediagroup.sdk.core.config.provider.ConfigurationData
-import com.expediagroup.sdk.core.model.exception.ConfigurationException
 import com.expediagroup.sdk.core.constant.ExceptionMessageProvider.configurationUnknown
+import com.expediagroup.sdk.core.model.exception.ConfigurationException
 
 /**
  * @property configurationData deserialized configuration data which needs to be parsed

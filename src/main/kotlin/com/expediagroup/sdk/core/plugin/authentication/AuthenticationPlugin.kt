@@ -22,9 +22,9 @@ import com.expediagroup.sdk.core.constant.LoggingMessage.TOKEN_CLEARING_IN_PROCE
 import com.expediagroup.sdk.core.constant.LoggingMessage.TOKEN_CLEARING_SUCCESSFUL
 import com.expediagroup.sdk.core.constant.LoggingMessage.TOKEN_RENEWAL_IN_PROCESS
 import com.expediagroup.sdk.core.constant.LoggingMessage.TOKEN_RENEWAL_SUCCESSFUL
+import com.expediagroup.sdk.core.constant.LoggingMessageProvider.tokenExpiresIn
 import com.expediagroup.sdk.core.model.exception.ClientException
 import com.expediagroup.sdk.core.plugin.Plugin
-import com.expediagroup.sdk.core.constant.LoggingMessageProvider.tokenExpiresIn
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.auth.Auth
