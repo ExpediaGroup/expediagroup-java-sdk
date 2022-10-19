@@ -19,6 +19,5 @@ import io.ktor.http.HttpStatusCode
 
 object LoggingMessageProvider {
     fun tokenExpiresIn(expiresIn: Int) = "New token expires in $expiresIn seconds"
-    fun responseStatusCode(statusCode: HttpStatusCode) = ":Response status code [$statusCode]"
     fun responseUnsuccessful(httpStatusCode: HttpStatusCode) = "Unsuccessful response [$httpStatusCode]"
 }
