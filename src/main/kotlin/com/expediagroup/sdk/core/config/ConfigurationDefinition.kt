@@ -16,11 +16,11 @@
 package com.expediagroup.sdk.core.config
 
 import com.expediagroup.sdk.core.model.exception.ConfigurationException
-import com.expediagroup.sdk.core.utils.ExceptionMessageProvider.configurationDefinedMultipleTimes
-import com.expediagroup.sdk.core.utils.ExceptionMessageProvider.configurationKeyNotDefined
-import com.expediagroup.sdk.core.utils.ExceptionMessageProvider.expectedActualNameValue
-import com.expediagroup.sdk.core.utils.ExceptionMessageProvider.expectedNameValue
-import com.expediagroup.sdk.core.utils.ExceptionMessageProvider.requiredConfigurationsNotDefined
+import com.expediagroup.sdk.core.constant.ExceptionMessageProvider.configurationDefinedMultipleTimes
+import com.expediagroup.sdk.core.constant.ExceptionMessageProvider.configurationKeyNotDefined
+import com.expediagroup.sdk.core.constant.ExceptionMessageProvider.expectedActualNameValue
+import com.expediagroup.sdk.core.constant.ExceptionMessageProvider.expectedNameValue
+import com.expediagroup.sdk.core.constant.ExceptionMessageProvider.requiredConfigurationsNotDefined
 import java.util.Locale
 
 /**

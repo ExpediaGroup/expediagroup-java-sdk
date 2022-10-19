@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.utils
+package com.expediagroup.sdk.core.constant
 
 internal object ExceptionMessageProvider {
     fun configurationDefinedMultipleTimes(configurationName: String) =

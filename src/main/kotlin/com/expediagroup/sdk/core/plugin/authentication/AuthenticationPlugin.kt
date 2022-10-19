@@ -24,7 +24,7 @@ import com.expediagroup.sdk.core.constant.LoggingMessage.TOKEN_RENEWAL_IN_PROCES
 import com.expediagroup.sdk.core.constant.LoggingMessage.TOKEN_RENEWAL_SUCCESSFUL
 import com.expediagroup.sdk.core.model.exception.ClientException
 import com.expediagroup.sdk.core.plugin.Plugin
-import com.expediagroup.sdk.core.utils.LoggingMessageProvider.tokenExpiresIn
+import com.expediagroup.sdk.core.constant.LoggingMessageProvider.tokenExpiresIn
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.auth.Auth
