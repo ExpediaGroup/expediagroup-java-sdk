@@ -94,9 +94,10 @@ class ConfigurationDefinition {
     fun parse(props: Map<String, Any>): Map<String, Any> {
         // Check all configurations are defined
         val undefinedConfigKeys: List<String> = undefinedConfigs(props)
-        if (undefinedConfigKeys.isNotEmpty())
+        if (undefinedConfigKeys.isNotEmpty()) {
             throw ConfigurationException(requiredConfigurationsNotDefined(undefinedConfigKeys.joinToString(",")))
                 .also { log.error(it.message) }
+        }
         // parse all known keys
         val values: MutableMap<String, Any> = HashMap()
         for (key in configKeys.values) values[key.name] =
