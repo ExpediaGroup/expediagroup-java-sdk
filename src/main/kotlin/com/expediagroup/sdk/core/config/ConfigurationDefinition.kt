@@ -34,12 +34,6 @@ class ConfigurationDefinition {
         private val log = LoggerFactory.getLogger(ConfigurationDefinition::class.java)
     }
 
-    /**
-     * Define a new configuration which is required by the SDK.
-     *
-     * @param key key which needs to be defined
-     * @return ConfigurationDefinition object after adding the configuration key
-     */
     private fun define(key: ConfigurationKey): ConfigurationDefinition {
         if (configKeys.containsKey(key.name))
             throw ConfigurationException(configurationDefinedTwice(key.name))
