@@ -40,8 +40,9 @@ class Config(
      * @return - the value without casting it
      */
     operator fun get(key: String): Any {
-        if (!configurations.containsKey(key))
+        if (!configurations.containsKey(key)) {
             throw ConfigurationException(getConfigurationUnknownMessage(key))
+        }
 
         return configurations[key]!!
     }
