@@ -18,7 +18,6 @@ package com.expediagroup.sdk.core.config
 import com.expediagroup.sdk.core.config.provider.ConfigurationData
 import com.expediagroup.sdk.core.model.exception.ConfigurationException
 import com.expediagroup.sdk.core.utils.ExceptionMessageProvider.configurationUnknown
-import org.slf4j.LoggerFactory
 
 /**
  * @property configurationData deserialized configuration data which needs to be parsed
@@ -29,10 +28,6 @@ class Config(
     private val configurationDefinition: ConfigurationDefinition
 ) {
     private var configurations = mapOf<String, Any>()
-
-    companion object {
-        private val log = LoggerFactory.getLogger(Config::class.java)
-    }
 
     init {
         configurations = configurationDefinition.parse(configurationData.data())
@@ -47,7 +42,6 @@ class Config(
     operator fun get(key: String): Any {
         if (!configurations.containsKey(key))
             throw ConfigurationException(configurationUnknown(key))
-                .also { log.error(it.message) }
 
         return configurations[key]!!
     }

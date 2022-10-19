@@ -17,7 +17,6 @@ package com.expediagroup.sdk.core.client.openapi
 
 import com.expediagroup.sdk.core.client.Client
 import com.expediagroup.sdk.core.configuration.ClientConfiguration
-import com.expediagroup.sdk.core.constant.LoggingMessage.RESPONSE_PAYLOAD_RECEPTION_FAILURE
 import com.expediagroup.sdk.core.model.error.Error
 import com.expediagroup.sdk.core.model.exception.ServiceException
 import com.expediagroup.sdk.core.utils.LoggingMessageProvider.responseUnsuccessful
@@ -67,12 +66,11 @@ abstract class OpenApiStub(
                 response.body<Error>()
             }.onSuccess {
                 throw ServiceException(response.status, it)
-                    .also { exception -> log.error(exception.message) }
             }.onFailure {
                 throw ServiceException(
                     response.status,
                     Error(response.request.url.toURI(), response.status.description)
-                ).also { log.error(RESPONSE_PAYLOAD_RECEPTION_FAILURE) }
+                )
             }
         }
     }

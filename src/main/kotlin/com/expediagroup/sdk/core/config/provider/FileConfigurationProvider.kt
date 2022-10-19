@@ -54,10 +54,9 @@ class FileConfigurationProvider : ConfigurationProvider {
         runCatching {
             return readPropsFileIntoConfigurationData(getReader(path))
         }.getOrElse {
-            if (optional) return emptyConfigurationData
+            if (!optional) throw ConfigurationException(propertyNotFound(path))
 
-            throw ConfigurationException(propertyNotFound(path))
-                .also { log.error(it.message) }
+            return emptyConfigurationData
         }
     }
 
@@ -73,10 +72,9 @@ class FileConfigurationProvider : ConfigurationProvider {
         return runCatching {
             readPropsFileIntoConfigurationData(getReader(url))
         }.getOrElse {
-            if (optional) return emptyConfigurationData
+            if (!optional) throw ConfigurationException(propertyNotFound(url))
 
-            throw ConfigurationException(propertyNotFound(url))
-                .also { log.error(it.message) }
+            return emptyConfigurationData
         }
     }
 
@@ -122,10 +120,9 @@ class FileConfigurationProvider : ConfigurationProvider {
                 return ConfigurationData(data)
             }
         } catch (e: IOException) {
-            if (optional) return emptyConfigurationData
+            if (!optional) throw ConfigurationException(propertyNotFound(path), e)
 
-            throw ConfigurationException(propertyNotFound(path), e)
-                .also { log.error(it.message) }
+            return emptyConfigurationData
         }
     }
 

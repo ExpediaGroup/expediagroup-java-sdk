@@ -20,12 +20,10 @@ import com.expediagroup.sdk.core.constant.ExceptionMessage.AUTHENTICATION_FAILUR
 import com.expediagroup.sdk.core.constant.Header
 import com.expediagroup.sdk.core.constant.LoggingMessage.TOKEN_CLEARING_IN_PROCESS
 import com.expediagroup.sdk.core.constant.LoggingMessage.TOKEN_CLEARING_SUCCESSFUL
-import com.expediagroup.sdk.core.constant.LoggingMessage.TOKEN_RENEWAL_FAILED
 import com.expediagroup.sdk.core.constant.LoggingMessage.TOKEN_RENEWAL_IN_PROCESS
 import com.expediagroup.sdk.core.constant.LoggingMessage.TOKEN_RENEWAL_SUCCESSFUL
 import com.expediagroup.sdk.core.model.exception.ClientException
 import com.expediagroup.sdk.core.plugin.Plugin
-import com.expediagroup.sdk.core.utils.LoggingMessageProvider.responseStatusCode
 import com.expediagroup.sdk.core.utils.LoggingMessageProvider.tokenExpiresIn
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -76,12 +74,9 @@ internal object AuthenticationPlugin : Plugin<AuthenticationConfiguration> {
             buildTokenRequest()
             basicAuth(configs.credentials)
         }
-        if (renewTokenResponse.status != HttpStatusCode.OK)
+        if (renewTokenResponse.status != HttpStatusCode.OK) {
             throw ClientException(renewTokenResponse.status, AUTHENTICATION_FAILURE)
-                .also {
-                    log.error(responseStatusCode(renewTokenResponse.status))
-                    log.error(TOKEN_RENEWAL_FAILED)
-                }
+        }
         val renewedTokenInfo: TokenResponse = renewTokenResponse.body()
         log.info(TOKEN_RENEWAL_SUCCESSFUL)
         log.info(tokenExpiresIn(renewedTokenInfo.expiresIn))
