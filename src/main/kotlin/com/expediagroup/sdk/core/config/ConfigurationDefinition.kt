@@ -26,6 +26,7 @@ import java.util.Locale
 /**
  * A definition of a configuration property.
  */
+@SuppressWarnings("TooManyFunctions")
 class ConfigurationDefinition {
     private var configKeys = mutableMapOf<String, ConfigurationKey>()
 
@@ -50,7 +51,7 @@ class ConfigurationDefinition {
      */
 
     // TODO: Fix the cause and remove the suppression warning.
-    @Suppress("LongParameterList")
+    @Suppress("LongParameterList", "ForbiddenComment")
     fun define(
         name: String,
         documentation: String,
@@ -112,8 +113,6 @@ class ConfigurationDefinition {
             .let { key.validator?.ensureValid(key.name, it) ?: it }
     }
 
-    // TODO: Fix the causes and remove the suppression warning.
-    @Suppress("ComplexMethod", "ThrowsCount")
     private fun parseType(name: String, value: Any, type: ConfigurationKey.Type): Any {
         return when (type) {
             ConfigurationKey.Type.BOOLEAN -> parseBoolean(value, name)

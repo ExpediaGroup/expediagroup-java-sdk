@@ -65,19 +65,21 @@ internal class AuthenticationPluginTest {
     }
 
     @Test
-    fun `making any http call should invoke the authorized token`(): Unit = runBlocking {
-        val httpClient = ClientFactory.createClient().httpClient
-        val testRequest = httpClient.get(ANY_URL)
+    fun `making any http call should invoke the authorized token`() {
+        runBlocking {
+            val httpClient = ClientFactory.createClient().httpClient
+            val testRequest = httpClient.get(ANY_URL)
 
-        assertThat(testRequest.request.headers["Authorization"]).isEqualTo(
-            "Bearer $ACCESS_TOKEN"
-        )
+            assertThat(testRequest.request.headers["Authorization"]).isEqualTo(
+                "Bearer $ACCESS_TOKEN"
+            )
 
-        clearAuthorizationTokens(httpClient)
+            clearAuthorizationTokens(httpClient)
+        }
     }
 
     @Test
-    fun `refresh auth token should throw client exception if the the credentials are invalid`(): Unit =
+    fun `refresh auth token should throw client exception if the the credentials are invalid`() {
         runBlocking {
             val httpClient = ClientFactory.createClient().httpClient
 
@@ -97,9 +99,10 @@ internal class AuthenticationPluginTest {
 
             clearAuthorizationTokens(httpClient)
         }
+    }
 
     @Test
-    fun `make parallel should run the single refresh token only`(): Unit =
+    fun `make parallel should run the single refresh token only`() {
         runBlocking {
             mockkObject(AuthenticationPlugin)
             val httpClient = ClientFactory.createClient().httpClient
@@ -120,83 +123,92 @@ internal class AuthenticationPluginTest {
 
             clearAuthorizationTokens(httpClient)
         }
+    }
 
     @ParameterizedTest
     @ValueSource(ints = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
-    fun `given request when token almost or is expired then should renew token`(expiresIn: Int): Unit = runBlocking {
-        val mockEngine = createMockEngineExpiresInPerCall(expiresIn, 1000)
-        val httpClient = ClientFactory.createClient(mockEngine).httpClient
-        renewToken(httpClient)
+    fun `given request when token almost or is expired then should renew token`(expiresIn: Int) {
+        runBlocking {
+            val mockEngine = createMockEngineExpiresInPerCall(expiresIn, 1000)
+            val httpClient = ClientFactory.createClient(mockEngine).httpClient
+            renewToken(httpClient)
 
-        mockkObject(AuthenticationPlugin)
-        httpClient.get(ANY_URL)
+            mockkObject(AuthenticationPlugin)
+            httpClient.get(ANY_URL)
 
-        coVerify(exactly = 1) {
-            AuthenticationPlugin.renewToken(httpClient, any())
+            coVerify(exactly = 1) {
+                AuthenticationPlugin.renewToken(httpClient, any())
+            }
+
+            clearAuthorizationTokens(httpClient)
         }
-
-        clearAuthorizationTokens(httpClient)
     }
 
     @Test
-    fun `given request when token not almost and not expired then should not renew token`(): Unit = runBlocking {
-        val mockEngine = createMockEngineExpiresInPerCall(1000)
-        val httpClient = ClientFactory.createClient(mockEngine).httpClient
-        renewToken(httpClient)
+    fun `given request when token not almost and not expired then should not renew token`() {
+        runBlocking {
+            val mockEngine = createMockEngineExpiresInPerCall(1000)
+            val httpClient = ClientFactory.createClient(mockEngine).httpClient
+            renewToken(httpClient)
 
-        mockkObject(AuthenticationPlugin)
-        httpClient.get(ANY_URL)
+            mockkObject(AuthenticationPlugin)
+            httpClient.get(ANY_URL)
 
-        coVerify(exactly = 0) {
-            AuthenticationPlugin.renewToken(httpClient, any())
+            coVerify(exactly = 0) {
+                AuthenticationPlugin.renewToken(httpClient, any())
+            }
+
+            clearAuthorizationTokens(httpClient)
         }
-
-        clearAuthorizationTokens(httpClient)
     }
 
     @Test
-    fun `given identity request when token almost expired then should not renew token`(): Unit = runBlocking {
-        val mockEngine = createMockEngineExpiresInPerCall(6, 1000)
-        val httpClient = ClientFactory.createClient(mockEngine).httpClient
-        mockkObject(AuthenticationPlugin)
+    fun `given identity request when token almost expired then should not renew token`() {
+        runBlocking {
+            val mockEngine = createMockEngineExpiresInPerCall(6, 1000)
+            val httpClient = ClientFactory.createClient(mockEngine).httpClient
+            mockkObject(AuthenticationPlugin)
 
-        val configs = getAuthenticationConfiguration()
-        httpClient.request {
-            method = HttpMethod.Post
-            url(configs.authUrl)
+            val configs = getAuthenticationConfiguration()
+            httpClient.request {
+                method = HttpMethod.Post
+                url(configs.authUrl)
+            }
+
+            coVerify(exactly = 0) {
+                AuthenticationPlugin.renewToken(httpClient, any())
+            }
+
+            clearAuthorizationTokens(httpClient)
         }
-
-        coVerify(exactly = 0) {
-            AuthenticationPlugin.renewToken(httpClient, any())
-        }
-
-        clearAuthorizationTokens(httpClient)
     }
 
     @Test
-    fun `given multiple requests when token expired then no requests should be unauthorized`(): Unit = runBlocking {
-        mockkObject(AuthenticationPlugin)
-        val httpClient = ClientFactory.createClient().httpClient
+    fun `given multiple requests when token expired then no requests should be unauthorized`() {
+        runBlocking {
+            mockkObject(AuthenticationPlugin)
+            val httpClient = ClientFactory.createClient().httpClient
 
-        launch {
-            val request = httpClient.get(ANY_URL)
-            assertThat(request.status != HttpStatusCode.Unauthorized)
-        }
-        launch {
-            val request = httpClient.get(ANY_URL)
-            assertThat(request.status != HttpStatusCode.Unauthorized)
-        }
-        launch {
-            val request = httpClient.get(ANY_URL)
-            assertThat(request.status != HttpStatusCode.Unauthorized)
-        }
+            launch {
+                val request = httpClient.get(ANY_URL)
+                assertThat(request.status != HttpStatusCode.Unauthorized)
+            }
+            launch {
+                val request = httpClient.get(ANY_URL)
+                assertThat(request.status != HttpStatusCode.Unauthorized)
+            }
+            launch {
+                val request = httpClient.get(ANY_URL)
+                assertThat(request.status != HttpStatusCode.Unauthorized)
+            }
 
-        delay(1000)
-        coVerify(exactly = 1) {
-            AuthenticationPlugin.renewToken(httpClient, any())
-        }
+            delay(1000)
+            coVerify(exactly = 1) {
+                AuthenticationPlugin.renewToken(httpClient, any())
+            }
 
-        clearAuthorizationTokens(httpClient)
+            clearAuthorizationTokens(httpClient)
+        }
     }
 
     /*

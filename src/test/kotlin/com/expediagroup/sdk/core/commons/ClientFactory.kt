@@ -32,7 +32,5 @@ internal object ClientFactory {
 
     fun createClient(): Client = Client.from(MockEngineFactory.createDefaultEngine(), configuration)
 
-    fun createClient(mockEngine: MockEngine): Client {
-        return Client.from(mockEngine, configuration)
-    }
+    fun createClient(mockEngine: MockEngine): Client = Client.from(mockEngine, configuration)
 }
