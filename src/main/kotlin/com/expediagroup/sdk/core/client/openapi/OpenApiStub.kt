@@ -17,6 +17,7 @@ package com.expediagroup.sdk.core.client.openapi
 
 import com.expediagroup.sdk.core.client.Client
 import com.expediagroup.sdk.core.configuration.ClientConfiguration
+import com.expediagroup.sdk.core.constant.Constant
 import com.expediagroup.sdk.core.constant.provider.LoggingMessageProvider.getResponseUnsuccessfulMessage
 import com.expediagroup.sdk.core.model.error.Error
 import com.expediagroup.sdk.core.model.exception.ServiceException
@@ -30,6 +31,7 @@ import org.slf4j.LoggerFactory
 /**
  * Base class used by generated OpenAPI APIs to perform the heavy lifting of actually sending requests.
  */
+@SuppressWarnings("UnnecessaryAbstractClass")
 abstract class OpenApiStub(
     private val clientConfiguration: ClientConfiguration = ClientConfiguration.EMPTY
 ) {
@@ -75,5 +77,5 @@ abstract class OpenApiStub(
         }
     }
 
-    private fun isNotSuccessfulResponse(response: HttpResponse) = response.status.value !in 200..299
+    private fun isNotSuccessfulResponse(response: HttpResponse) = response.status.value !in Constant.OK_STATUS_CODES_RANGE
 }

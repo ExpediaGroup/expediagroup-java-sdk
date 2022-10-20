@@ -160,16 +160,19 @@ class ConfigurationDefinition {
         throw ConfigurationException(getExpectedNameValueMessage("comma-separated list", name, value))
     }
 
-    private fun toBooleanOrNull(value: Any) = when (value) {
+    private fun toBooleanOrNull(value: Any): Boolean? = when (value) {
         is String -> value.lowercase(Locale.getDefault()).toBooleanStrictOrNull()
         is Boolean -> value
         else -> null
     }
 
-    private fun toPasswordOrNull(value: Any) =
-        (value as? ConfigurationKey.Password) ?: if (value is String) ConfigurationKey.Password(value.trim()) else null
+    private fun toPasswordOrNull(value: Any): ConfigurationKey.Password? = when (value) {
+        is ConfigurationKey.Password -> value
+        is String -> ConfigurationKey.Password(value.trim())
+        else -> null
+    }
 
-    private fun toStringOrNull(value: Any) = if (value is String) value.trim() else null
+    private fun toStringOrNull(value: Any): String? = if (value is String) value.trim() else null
 
     private fun toIntOrNull(value: Any) = when (value) {
         is Number -> value.toInt()
@@ -177,12 +180,20 @@ class ConfigurationDefinition {
         else -> null
     }
 
-    private fun toDoubleOrNull(value: Any) = when (value) {
+    private fun toDoubleOrNull(value: Any): Double? = when (value) {
         is Number -> value.toDouble()
         is String -> value.toDoubleOrNull()
         else -> null
     }
 
-    private fun toListOrNull(value: Any) = (value as? List<*>)
-        ?: if (value is String) if (value.isEmpty()) emptyList<Any>() else value.split(",") else null
+    private fun toListOrNull(value: Any): List<Any?>? = when (value) {
+        is List<*> -> value
+        is String -> if (value.isBlank()) {
+            emptyList()
+        } else {
+            value.split(",").map { it.trim() }
+        }
+
+        else -> null
+    }
 }

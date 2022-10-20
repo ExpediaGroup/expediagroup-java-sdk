@@ -30,7 +30,6 @@ class ConfigurationDefinitionTest {
 
     @Test
     fun `configuration definition lets you define configuration keys for a given type`() {
-
         val configurationDefinition = ConfigurationDefinition()
         val configurationKeyName = "test_configuration_key"
         val configurationKeyDocumentation = "This is a test configuration key of integer type"
@@ -57,7 +56,6 @@ class ConfigurationDefinitionTest {
 
     @Test
     fun `successfully parses configurations when the configuration value matches the configuration type and validator`() {
-
         val configurationDefinition = ConfigurationDefinition()
         val configurationKeyName = "test_configuration_key"
         val configurationValue = 20
@@ -88,7 +86,6 @@ class ConfigurationDefinitionTest {
 
     @Test
     fun `successfully parses configurations of type list when the configuration value is empty`() {
-
         val configurationDefinition = ConfigurationDefinition()
         val configurationKeyName = "test_configuration_key"
         val configurationKeyDocumentation = "This is a test configuration key of list type"
@@ -112,7 +109,6 @@ class ConfigurationDefinitionTest {
 
     @Test
     fun `successfully parses configurations of type int when the configuration value is a string-integer`() {
-
         val configurationDefinition = ConfigurationDefinition()
         val configurationKeyName = "test_configuration_key"
         val configurationKeyDocumentation = "This is a test configuration key of Int type"
@@ -136,7 +132,6 @@ class ConfigurationDefinitionTest {
 
     @Test
     fun `successfully parses configurations of type double when the configuration value is an integer`() {
-
         val configurationDefinition = ConfigurationDefinition()
         val configurationKeyName = "test_configuration_key"
         val configurationKeyDocumentation = "This is a test configuration key of Double type"
@@ -160,7 +155,6 @@ class ConfigurationDefinitionTest {
 
     @Test
     fun `successfully parses configurations of type double when the configuration value is a string-integer`() {
-
         val configurationDefinition = ConfigurationDefinition()
         val configurationKeyName = "test_configuration_key"
         val configurationKeyDocumentation = "This is a test configuration key of Double type"
@@ -184,7 +178,6 @@ class ConfigurationDefinitionTest {
 
     @Test
     fun `successfully parses configurations of type password`() {
-
         val configurationDefinition = ConfigurationDefinition()
         val configurationKeyName = "test_configuration_key"
         val configurationKeyDocumentation = "This is a test configuration key of Double type"
@@ -209,7 +202,6 @@ class ConfigurationDefinitionTest {
 
     @Test
     fun `sets default value when configuration value is not present`() {
-
         val configurationDefinition = ConfigurationDefinition()
         val configurationKeyName = "test_configuration_key"
         val configurationKeyDocumentation = "This is a test configuration key of integer type"
@@ -252,7 +244,6 @@ class ConfigurationDefinitionTest {
 
     @Test
     fun `throws an exception when same configuration is defined more than once`() {
-
         val configurationDefinition = ConfigurationDefinition()
         val configurationName = "test_configuration_key"
         val configurationDocumentation = "This is a test configuration key of integer type"
@@ -277,7 +268,6 @@ class ConfigurationDefinitionTest {
 
     @Test
     fun `throws an exception when configuration value doesn't match value for boolean string`() {
-
         val configurationDefinition = ConfigurationDefinition()
         val booleanConfigurationName = "boolean_configuration"
         val configurationDocumentation = "This is a test configuration documentation"
@@ -300,7 +290,6 @@ class ConfigurationDefinitionTest {
 
     @Test
     fun `throws an exception when configuration value doesn't match type for boolean`() {
-
         val configurationDefinition = ConfigurationDefinition()
         val booleanConfigurationName = "boolean_configuration"
         val configurationDocumentation = "This is a test configuration documentation"
@@ -323,7 +312,6 @@ class ConfigurationDefinitionTest {
 
     @Test
     fun `throws an exception when configuration value doesn't match type for password`() {
-
         val configurationDefinition = ConfigurationDefinition()
         val passwordConfigurationName = "password_configuration"
         val configurationDocumentation = "This is a test configuration documentation"
@@ -347,7 +335,6 @@ class ConfigurationDefinitionTest {
 
     @Test
     fun `throws an exception when configuration value doesn't match type for integer`() {
-
         val configurationDefinition = ConfigurationDefinition()
         val configurationName = "test_configuration"
         val configurationDocumentation = "This is a test configuration documentation"
@@ -378,7 +365,6 @@ class ConfigurationDefinitionTest {
 
     @Test
     fun `throws an exception when configuration value doesn't match type for double`() {
-
         val configurationDefinition = ConfigurationDefinition()
         val configurationName = "test_configuration"
         val configurationDocumentation = "This is a test configuration documentation"
@@ -407,7 +393,6 @@ class ConfigurationDefinitionTest {
 
     @Test
     fun `throws an exception when configuration value doesn't match type for string`() {
-
         val configurationDefinition = ConfigurationDefinition()
         val stringConfigurationName = "string_configuration"
         val configurationDocumentation = "This is a test configuration documentation"
@@ -431,7 +416,6 @@ class ConfigurationDefinitionTest {
 
     @Test
     fun `throws an exception when configuration value doesn't match type for list`() {
-
         val configurationDefinition = ConfigurationDefinition()
         val listConfigurationName = "list_configuration"
         val configurationDocumentation = "This is a test configuration documentation"
@@ -455,7 +439,6 @@ class ConfigurationDefinitionTest {
 
     @Test
     fun `throws an exception when configuration key is not defined`() {
-
         val configurationDefinition = ConfigurationDefinition()
         val listConfigurationName = "list_configuration"
 
@@ -467,7 +450,6 @@ class ConfigurationDefinitionTest {
 
     @Test
     fun `throws an exception when configuration value doesn't pass the custom validator`() {
-
         val configurationDefinition = ConfigurationDefinition()
         val stringConfigurationName = "string_configuration"
         val configurationDocumentation = "This is a test configuration documentation"
