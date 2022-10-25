@@ -8,15 +8,14 @@ updates:
       interval: "daily"
       time: "11:30"
       timezone: "UTC"
-    target-branch: develop
+    target-branch: main
     reviewers:
-      - anssari1
-      - hamzanael
-      - mohnoor94
+      - ExpediaGroup/openworld-committers
     labels:
       - configuration
       - update
       - github-actions-lib
+      
   # Maintain dependencies for maven
   - package-ecosystem: maven
     directory: "/"
@@ -25,11 +24,9 @@ updates:
       time: "11:30"
       timezone: "UTC"
     open-pull-requests-limit: 10
-    target-branch: develop
+    target-branch: main
     reviewers:
-      - anssari1
-      - hamzanael
-      - mohnoor94
+      - ExpediaGroup/openworld-committers
     labels:
       - configuration
       - update
