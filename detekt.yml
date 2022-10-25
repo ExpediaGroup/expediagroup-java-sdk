@@ -1,0 +1,11 @@
+style:
+  MaxLineLength:
+    maxLineLength: 200
+  ClassOrdering:
+    active: false
+  ReturnCount:
+    max: 3
+
+naming:
+  FunctionMaxLength:
+    active: false
