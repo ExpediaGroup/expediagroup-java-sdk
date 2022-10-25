@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.expediagroup.openworld.sdk</groupId>
         <artifactId>openworld-java-sdk-pom</artifactId>
-        <version>0.0.1-alpha.4</version>
+        <version>0.0.1-alpha.5</version>
         <relativePath/>
     </parent>
 
@@ -90,12 +90,90 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>${maven.antrun.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <!-- this can be run separately with mvn clean antrun:run@detekt -->
+                        <id>detekt</id>
+                        <phase>validate</phase>
+                        <configuration>
+                            <target name="detekt">
+                                <java taskname="detekt" dir="${project.basedir}" fork="true" failonerror="true"
+                                      classname="io.gitlab.arturbosch.detekt.cli.Main" classpathref="maven.plugin.classpath">
+                                    <arg value="--input"/>
+                                    <arg value="${project.basedir}${file.separator}src"/>
+                                    <arg value="--config"/>
+                                    <arg value="${project.basedir}${file.separator}detekt.yml"/>
+                                    <arg value="--report"/>
+                                    <arg value="html:${project.basedir}${file.separator}target${file.separator}site${file.separator}detekt.html"/>
+                                    <arg value="--report"/>
+                                    <arg value="xml:${project.basedir}${file.separator}target${file.separator}site${file.separator}detekt.xml"/>
+                                    <arg value="--fail-fast"/>
+                                </java>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                    <!-- this can be run separately with mvn clean antrun:run@ktlint-format -->
+                    <execution>
+                        <id>ktlint-format</id>
+                        <phase>compile</phase>
+                        <configuration>
+                            <target name="ktlint">
+                                <java taskname="ktlint" dir="${project.basedir}" fork="true" failonerror="true"
+                                      classname="com.pinterest.ktlint.Main" classpathref="maven.plugin.classpath">
+                                    <arg value="-F"/>
+                                    <arg value="src/**/*.kt"/>
+                                </java>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <!-- this can be run separately with mvn clean antrun:run@ktlint -->
+                        <id>ktlint</id>
+                        <phase>validate</phase>
+                        <configuration>
+                            <target name="ktlint">
+                                <java taskname="ktlint" dir="${project.basedir}" fork="true" failonerror="true"
+                                      classname="com.pinterest.ktlint.Main" classpathref="maven.plugin.classpath">
+                                    <arg value="src/**/*.kt"/>
+                                    <arg value="--reporter=plain"/>
+                                    <arg value="--reporter=checkstyle,output=${project.build.directory}/ktlint.xml"/>
+                                </java>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>io.gitlab.arturbosch.detekt</groupId>
+                        <artifactId>detekt-cli</artifactId>
+                        <version>${detekt.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.pinterest</groupId>
+                        <artifactId>ktlint</artifactId>
+                        <version>${ktlint.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
         </plugins>
     </build>
 
     <dependencies>
 
-        <!-- SDK Http client -->
         <dependency>
             <groupId>io.ktor</groupId>
             <artifactId>ktor-client-core-jvm</artifactId>
@@ -132,8 +210,6 @@
             <groupId>io.ktor</groupId>
             <artifactId>ktor-io-jvm</artifactId>
         </dependency>
-
-        <!-- Serialization dependencies -->
         <dependency>
             <groupId>io.ktor</groupId>
             <artifactId>ktor-serialization-jvm</artifactId>
@@ -147,7 +223,6 @@
             <artifactId>gson</artifactId>
         </dependency>
 
-        <!-- Logging -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -157,19 +232,11 @@
             <artifactId>log4j-api</artifactId>
             <scope>test</scope>
         </dependency>
-
-        <!-- Kotlin Atomic -->
         <dependency>
             <groupId>org.jetbrains.kotlinx</groupId>
             <artifactId>atomicfu-jvm</artifactId>
         </dependency>
 
-        <!-- Kotlin reelections -->
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-reflect</artifactId>
-            <scope>test</scope>
-        </dependency>
         <!-- Test Dependencies -->
         <dependency>
             <groupId>io.ktor</groupId>
@@ -205,6 +272,11 @@
         <dependency>
             <groupId>io.mockk</groupId>
             <artifactId>mockk</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-reflect</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
