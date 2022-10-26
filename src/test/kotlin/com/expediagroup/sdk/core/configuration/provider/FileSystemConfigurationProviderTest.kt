@@ -23,6 +23,8 @@ import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.ValueSource
 import java.io.File
 
 internal class FileSystemConfigurationProviderTest {
@@ -50,10 +52,25 @@ internal class FileSystemConfigurationProviderTest {
     }
 
     @Test
-    fun `should return configurations when paths are set and files exist`() {
+    fun `should return null configurations when paths are set and files exist but empty`() {
+        FileSystemConfigurationProvider(
+            credentialsFilePath = "src/test/resources/credentials-empty.properties",
+            configurationsFilePath = "src/test/resources/configurations-empty.properties"
+        ).let {
+            assertNotNull(it)
+            assertNull(it.key)
+            assertNull(it.secret)
+            assertNull(it.endpoint)
+            assertNull(it.authEndpoint)
+        }
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = ["configurations", "configurations-without-slash"])
+    fun `should return configurations when paths are set and files exist`(configurationsFileName: String) {
         FileSystemConfigurationProvider(
             credentialsFilePath = "src/test/resources/credentials.properties",
-            configurationsFilePath = "src/test/resources/configurations.properties"
+            configurationsFilePath = "src/test/resources/$configurationsFileName.properties"
         ).let {
             assertNotNull(it)
             assertEquals("abc123", it.key)
