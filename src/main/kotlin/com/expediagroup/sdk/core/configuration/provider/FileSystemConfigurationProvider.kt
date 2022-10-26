@@ -37,5 +37,6 @@ internal class FileSystemConfigurationProvider(
     override val secret: String? by lazy { credentials[Key.CLIENT_SECRET] }
     override val endpoint: String? by lazy { configurations[Key.ENDPOINT]?.let { appendSlashIfRequired(it) } }
     override val authEndpoint: String? by lazy { configurations[Key.AUTH_ENDPOINT] }
-    private fun appendSlashIfRequired(string: String) = if ('/' != string.last()) "$string/" else string
+
+    private fun appendSlashIfRequired(url: String) = if ('/' != url.last()) "$url/" else url
 }
