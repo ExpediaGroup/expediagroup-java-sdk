@@ -12,9 +12,7 @@ updates:
     reviewers:
       - ExpediaGroup/openworld-committers
     labels:
-      - configuration
-      - update
-      - github-actions-lib
+      - Dependabot
       
   # Maintain dependencies for maven
   - package-ecosystem: maven
@@ -28,6 +26,4 @@ updates:
     reviewers:
       - ExpediaGroup/openworld-committers
     labels:
-      - configuration
-      - update
-      - dependencies
+      - Dependabot
