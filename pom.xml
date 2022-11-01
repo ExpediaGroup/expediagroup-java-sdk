@@ -6,14 +6,14 @@
     <parent>
         <groupId>com.expediagroup.openworld.sdk</groupId>
         <artifactId>openworld-java-sdk-pom</artifactId>
-        <version>0.0.1-alpha.5</version>
+        <version>0.0.2-alpha.1</version>
         <relativePath/>
     </parent>
 
     <artifactId>openworld-java-sdk-core</artifactId>
     <name>EG Open World SDK :: Core</name>
     <description>Core Modules of EG Travel SDK</description>
-    <version>0.0.2-alpha.2</version>
+    <version>0.0.2-alpha.3</version>
 
     <build>
         <plugins>
@@ -266,12 +266,12 @@
 
         <dependency>
             <groupId>io.mockk</groupId>
-            <artifactId>mockk-dsl-jvm</artifactId>
+            <artifactId>mockk-jvm</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.mockk</groupId>
-            <artifactId>mockk</artifactId>
+            <artifactId>mockk-dsl-jvm</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
