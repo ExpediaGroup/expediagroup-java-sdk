@@ -65,7 +65,7 @@ private object AuthenticationHookBuilder : HookBuilder<AuthenticationConfigurati
     }
 
     private fun assignNewToken(request: HttpRequestBuilder) {
-        request.headers[Header.AUTHORIZATION] = "Bearer ${AuthenticationPlugin.getToken().accessToken}"
+        request.headers[Header.AUTHORIZATION] = AuthenticationPlugin.getAuthorizationHeader()
     }
 
     private suspend fun waitForTokenRenewal() {

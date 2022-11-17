@@ -13,10 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.constant
+package com.expediagroup.sdk.core.plugin.authentication.strategies.bearer
 
-internal object Authentication {
-    const val RAPID_TOKEN_LIFETIME = 300 // In seconds
-    const val expiryDateMargin: Long = 10 // In seconds
-    const val rapidRenewSignatureMargin: Long = 20 // In seconds
-}
+internal data class TokenResponse(
+    val accessToken: String,
+    val expiresIn: Int,
+    val token: String? = null,
+    val scope: String,
+    val tokenType: String,
+    val idToken: String? = null
+)

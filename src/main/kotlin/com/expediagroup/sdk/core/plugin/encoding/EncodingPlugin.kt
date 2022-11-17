@@ -13,10 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.constant
+package com.expediagroup.sdk.core.plugin.encoding
 
-internal object Authentication {
-    const val RAPID_TOKEN_LIFETIME = 300 // In seconds
-    const val expiryDateMargin: Long = 10 // In seconds
-    const val rapidRenewSignatureMargin: Long = 20 // In seconds
+import com.expediagroup.sdk.core.plugin.Plugin
+import io.ktor.client.plugins.compression.ContentEncoding
+
+internal object EncodingPlugin : Plugin<EncodingConfiguration> {
+    override fun install(configurations: EncodingConfiguration) {
+        configurations.httpClientConfiguration.install(ContentEncoding) {
+            gzip()
+        }
+    }
 }

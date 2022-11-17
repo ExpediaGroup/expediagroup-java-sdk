@@ -21,4 +21,8 @@ object TestConstants {
     const val CLIENT_SECRET_TEST_CREDENTIAL = "any client secret"
     const val ACCESS_TOKEN = "test-access-token"
     const val BAD_REQUEST_ATTRIBUTE = "bad-request"
+    const val SIGNATURE = "signature"
+    const val MANUALLY_CALCULATED_SIGNATURE =
+        "apikey=any client key,signature=497c9934cbfed8ccaeaf6a242d4eec88866f00965c641f68afe1f428d101b50aabacb7f8769fcad15cba8aff0970044c5cd51d022f5b0817007a58b545ff4d0d,timestamp=918943200"
+    const val TEST_VALUE = "test-value"
 }

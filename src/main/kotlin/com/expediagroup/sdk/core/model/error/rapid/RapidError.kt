@@ -13,13 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.plugin.authentication
+package com.expediagroup.sdk.core.model.error.rapid
 
-internal data class TokenResponse(
-    val accessToken: String,
-    val expiresIn: Int,
-    val token: String? = null,
-    val scope: String,
-    val tokenType: String,
-    val idToken: String? = null
+internal data class RapidError(
+    val type: String? = null,
+    val message: String? = null,
+    val fields: List<Field>? = null,
+    val errors: List<ErrorIndividual>? = null
 )

@@ -30,7 +30,9 @@ internal object ClientFactory {
         .authEndpoint(DefaultConfigurationProvider.authEndpoint)
         .build()
 
-    fun createClient(): Client = Client.from(MockEngineFactory.createDefaultEngine(), configuration)
+    fun createClient(): Client = Client.from(MockEngineFactory.createDefaultEngine(), configuration, false)
 
-    fun createClient(mockEngine: MockEngine): Client = Client.from(mockEngine, configuration)
+    fun createClient(mockEngine: MockEngine): Client = Client.from(mockEngine, configuration, false)
+
+    fun createRapidClient(): Client = Client.from(MockEngineFactory.createDefaultEngine(), configuration, true)
 }

@@ -21,6 +21,7 @@ import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_KEY_TEST_CREDENTIA
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.commons.TestConstants.TEST_URL
 import com.expediagroup.sdk.core.configuration.provider.DefaultConfigurationProvider
+import com.expediagroup.sdk.core.constant.Constant.BEARER
 import com.expediagroup.sdk.core.constant.Header
 import com.expediagroup.sdk.core.model.exception.ClientException
 import io.ktor.client.engine.HttpClientEngine
@@ -66,13 +67,13 @@ object MockEngineFactory {
     }"
 
     private fun isAuthorizedHeader(request: HttpRequestData) =
-        request.headers[Header.AUTHORIZATION] == "Bearer $ACCESS_TOKEN"
+        request.headers[Header.AUTHORIZATION] == "$BEARER $ACCESS_TOKEN"
 
     private fun MockRequestHandleScope.tokenResponse() = respond(
         content = ByteReadChannel(
             """
                 {
-                    "access_token": $ACCESS_TOKEN,
+                    "access_token": "$ACCESS_TOKEN",
                     "token_type": "bearer",
                     "expires_in": 1800,
                     "scope": "any-scope"

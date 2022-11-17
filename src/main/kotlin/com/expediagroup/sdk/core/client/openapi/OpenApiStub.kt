@@ -44,7 +44,7 @@ abstract class OpenApiStub(
     /**
      * Create a new [Client] instance to be used by the generated OpenAPI APIs.
      */
-    protected open fun createClient(): Client = Client.from(OkHttp.create(), clientConfiguration)
+    protected open fun createClient(): Client = Client.from(OkHttp.create(), clientConfiguration, false)
 
     protected fun collectionDelimiter(format: String): String {
         return when (format) {
@@ -64,16 +64,20 @@ abstract class OpenApiStub(
         if (isNotSuccessfulResponse(response)) {
             log.info(getResponseUnsuccessfulMessage(response.status))
             // Make sure we read the body to avoid resource leaks
-            runCatching {
-                response.body<Error>()
-            }.onSuccess {
-                throw ServiceException(response.status, it)
-            }.onFailure {
-                throw ServiceException(
-                    response.status,
-                    Error(response.request.url.toURI(), response.status.description)
-                )
-            }
+            throwServiceException(response)
+        }
+    }
+
+    protected open suspend fun throwServiceException(response: HttpResponse) {
+        runCatching {
+            response.body<Error>()
+        }.onSuccess {
+            throw ServiceException(response.status, it)
+        }.onFailure {
+            throw ServiceException(
+                response.status,
+                Error(response.request.url.toURI(), response.status.description)
+            )
         }
     }
 

@@ -13,7 +13,7 @@
     <artifactId>openworld-java-sdk-core</artifactId>
     <name>EG Open World SDK :: Core</name>
     <description>Core Modules of EG Travel SDK</description>
-    <version>0.0.2-alpha.3</version>
+    <version>0.0.2-alpha.4</version>
 
     <build>
         <plugins>
@@ -25,6 +25,7 @@
                         <exclude>**/constant/**</exclude>
 
                         <exclude>**/client/openapi/OpenApiStub*</exclude>
+                        <exclude>**/client/openapi/RapidOpenApiStub*</exclude>
                         <exclude>**/client/Client*</exclude>
 
                         <exclude>**/configuration/NetworkConfiguration*</exclude>
@@ -38,10 +39,12 @@
                         <exclude>**/plugin/PluginConfiguration*</exclude>
                         <exclude>**/plugin/KtorPluginConfiguration*</exclude>
 
-                        <exclude>**/authentication/TokenResponse*</exclude>
+                        <exclude>**/authentication/strategies/bearer/TokenResponse*</exclude>
                         <exclude>**/authentication/AuthenticationConfiguration*</exclude>
                         <exclude>**/authentication/AuthenticationHook*</exclude>
                         <exclude>**/authentication/AuthenticationPlugin*</exclude>
+                        <exclude>**/authentication/strategies/signature/SignatureAuthConfig*</exclude>
+                        <exclude>**/authentication/strategies/AuthenticationStrategy*</exclude>
 
                         <exclude>**/logging/**</exclude>
                         <exclude>**/serialization/**</exclude>
@@ -173,7 +176,19 @@
     </build>
 
     <dependencies>
-
+        <dependency>
+            <groupId>io.ktor</groupId>
+            <artifactId>ktor-serialization-jackson-jvm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <scope>runtime</scope>
+        </dependency>
         <dependency>
             <groupId>io.ktor</groupId>
             <artifactId>ktor-client-core-jvm</artifactId>
@@ -216,11 +231,7 @@
         </dependency>
         <dependency>
             <groupId>io.ktor</groupId>
-            <artifactId>ktor-serialization-gson-jvm</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
+            <artifactId>ktor-client-encoding-jvm</artifactId>
         </dependency>
 
         <dependency>

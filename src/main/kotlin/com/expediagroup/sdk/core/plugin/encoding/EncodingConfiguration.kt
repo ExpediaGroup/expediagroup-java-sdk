@@ -13,25 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.plugin.authentication
+package com.expediagroup.sdk.core.plugin.encoding
 
-import com.expediagroup.sdk.core.configuration.Credentials
 import com.expediagroup.sdk.core.plugin.KtorPluginConfiguration
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.HttpClientEngineConfig
 
-internal data class AuthenticationConfiguration(
-    override val httpClientConfiguration: HttpClientConfig<out HttpClientEngineConfig>,
-    val credentials: Credentials,
-    val authUrl: String,
-    val isRapid: Boolean
+internal data class EncodingConfiguration(
+    override val httpClientConfiguration: HttpClientConfig<out HttpClientEngineConfig>
 ) : KtorPluginConfiguration(httpClientConfiguration) {
     companion object {
-        fun from(
-            httpClientConfig: HttpClientConfig<out HttpClientEngineConfig>,
-            credentials: Credentials,
-            authUrl: String,
-            isRapid: Boolean = false
-        ) = AuthenticationConfiguration(httpClientConfig, credentials, authUrl, isRapid)
+        fun from(httpClientConfig: HttpClientConfig<out HttpClientEngineConfig>) = EncodingConfiguration(httpClientConfig)
     }
 }
