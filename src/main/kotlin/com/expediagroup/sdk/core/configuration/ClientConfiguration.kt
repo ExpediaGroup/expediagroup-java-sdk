@@ -25,7 +25,7 @@ import com.expediagroup.sdk.core.configuration.provider.RuntimeConfigurationProv
  * @property endpoint The API endpoint to use for requests.
  * @property authEndpoint The API endpoint to use for authentication.
  */
-class ClientConfiguration private constructor(
+data class ClientConfiguration constructor(
     val key: String? = null,
     val secret: String? = null,
     val endpoint: String? = null,
@@ -33,7 +33,6 @@ class ClientConfiguration private constructor(
 ) {
 
     companion object {
-
         /** An empty configuration. */
         @JvmField
         val EMPTY = ClientConfiguration()
