@@ -13,17 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.constant
+package com.expediagroup.sdk.core.plugin.encoding
 
-internal object Header {
-    const val AUTHORIZATION = "Authorization"
+import com.expediagroup.sdk.core.plugin.KtorPluginConfiguration
+import io.ktor.client.HttpClientConfig
+import io.ktor.client.engine.HttpClientEngineConfig
 
-    const val CAPITALIZED_AUTHENTICATE = "WWW-Authenticate"
-
-    const val AUTHENTICATE = "www-authenticate"
-
-    const val GRANT_TYPE = "grant_type"
-
-    const val CLIENT_CREDENTIALS = "client_credentials"
-    const val ACCEPT_ENCODING = "Accept-Encoding"
+internal data class EncodingConfiguration(
+    override val httpClientConfiguration: HttpClientConfig<out HttpClientEngineConfig>
+) : KtorPluginConfiguration(httpClientConfiguration) {
+    companion object {
+        fun from(httpClientConfig: HttpClientConfig<out HttpClientEngineConfig>) = EncodingConfiguration(httpClientConfig)
+    }
 }
