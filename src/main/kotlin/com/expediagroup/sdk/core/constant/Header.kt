@@ -25,4 +25,5 @@ internal object Header {
     const val GRANT_TYPE = "grant_type"
 
     const val CLIENT_CREDENTIALS = "client_credentials"
+    const val ACCEPT_ENCODING = "Accept-Encoding"
 }
