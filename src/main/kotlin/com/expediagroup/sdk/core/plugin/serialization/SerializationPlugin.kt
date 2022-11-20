@@ -16,33 +16,21 @@
 package com.expediagroup.sdk.core.plugin.serialization
 
 import com.expediagroup.sdk.core.plugin.Plugin
-import com.google.gson.FieldNamingPolicy
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializer
+import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.PropertyNamingStrategies
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.http.ContentType
-import io.ktor.serialization.gson.gson
-import java.time.OffsetDateTime
+import io.ktor.serialization.jackson.jackson
+import java.text.SimpleDateFormat
 
 internal object SerializationPlugin : Plugin<SerializationConfiguration> {
     override fun install(configurations: SerializationConfiguration) {
         configurations.httpClientConfiguration.install(ContentNegotiation) {
-            when (configurations.contentType.contentSubtype) {
-                ContentType.Application.Json.contentSubtype -> gson {
-                    setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                    setPrettyPrinting().registerTypeAdapter(
-                        OffsetDateTime::class.java,
-                        JsonDeserializer { json, _, _ ->
-                            OffsetDateTime.parse(json.asString)
-                        }
-                    ).registerTypeAdapter(
-                        OffsetDateTime::class.java,
-                        JsonSerializer<OffsetDateTime> { time, _, _ ->
-                            JsonPrimitive(time.toString())
-                        }
-                    )
-                }
+            jackson {
+                this.enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS)
+                this.propertyNamingStrategy = PropertyNamingStrategies.SNAKE_CASE
+                this.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+                this.dateFormat = SimpleDateFormat()
+                findAndRegisterModules()
             }
         }
     }
