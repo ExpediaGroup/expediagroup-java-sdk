@@ -25,6 +25,7 @@
                         <exclude>**/constant/**</exclude>
 
                         <exclude>**/client/openapi/OpenApiStub*</exclude>
+                        <exclude>**/client/openapi/RapidOpenApiStub*</exclude>
                         <exclude>**/client/Client*</exclude>
 
                         <exclude>**/configuration/NetworkConfiguration*</exclude>
