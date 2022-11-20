@@ -17,6 +17,7 @@ package com.expediagroup.sdk.core.plugin.authentication
 
 import com.expediagroup.sdk.core.commons.ClientFactory
 import com.expediagroup.sdk.core.commons.TestConstants.ACCESS_TOKEN
+import com.expediagroup.sdk.core.commons.TestConstants.ANY_URL
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_KEY_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.configuration.Credentials
@@ -259,9 +260,5 @@ internal class AuthenticationPluginTest {
             }
         }
         return mockEngine
-    }
-
-    companion object {
-        private const val ANY_URL = "http://any-ucrl"
     }
 }
