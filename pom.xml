@@ -226,6 +226,10 @@
             <groupId>io.ktor</groupId>
             <artifactId>ktor-serialization-jvm</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.ktor</groupId>
+            <artifactId>ktor-client-encoding-jvm</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.slf4j</groupId>

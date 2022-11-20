@@ -25,6 +25,8 @@ import com.expediagroup.sdk.core.plugin.Hooks
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationConfiguration
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationHook
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationPlugin
+import com.expediagroup.sdk.core.plugin.encoding.EncodingConfiguration
+import com.expediagroup.sdk.core.plugin.encoding.EncodingPlugin
 import com.expediagroup.sdk.core.plugin.hooks
 import com.expediagroup.sdk.core.plugin.logging.LoggingConfiguration
 import com.expediagroup.sdk.core.plugin.logging.LoggingPlugin
@@ -72,6 +74,7 @@ class Client private constructor(
                 use(SerializationPlugin).with(SerializationConfiguration.from(this))
                 use(AuthenticationPlugin).with(authenticationConfiguration)
                 use(DefaultRequestPlugin).with(DefaultRequestConfiguration.from(this, configurationCollector.endpoint))
+                use(EncodingPlugin).with(EncodingConfiguration.from(this))
             }
 
             hooks {
