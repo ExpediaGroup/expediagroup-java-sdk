@@ -26,10 +26,10 @@ internal object SerializationPlugin : Plugin<SerializationConfiguration> {
     override fun install(configurations: SerializationConfiguration) {
         configurations.httpClientConfiguration.install(ContentNegotiation) {
             jackson {
-                this.enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS)
-                this.propertyNamingStrategy = PropertyNamingStrategies.SNAKE_CASE
-                this.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-                this.dateFormat = SimpleDateFormat()
+                enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS)
+                propertyNamingStrategy = PropertyNamingStrategies.SNAKE_CASE
+                configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+                dateFormat = SimpleDateFormat()
                 findAndRegisterModules()
             }
         }

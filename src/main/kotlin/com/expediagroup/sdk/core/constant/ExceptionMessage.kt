@@ -17,5 +17,6 @@ package com.expediagroup.sdk.core.constant
 
 internal object ExceptionMessage {
     const val AUTHENTICATION_FAILURE = "Unable to authenticate"
+
     const val NOT_YET_IMPLEMENTED = "Not yet implemented"
 }

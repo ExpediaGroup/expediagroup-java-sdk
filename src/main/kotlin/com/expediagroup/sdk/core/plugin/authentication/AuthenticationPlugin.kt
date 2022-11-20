@@ -17,7 +17,8 @@ package com.expediagroup.sdk.core.plugin.authentication
 
 import com.expediagroup.sdk.core.configuration.Credentials
 import com.expediagroup.sdk.core.constant.ExceptionMessage.AUTHENTICATION_FAILURE
-import com.expediagroup.sdk.core.constant.Header
+import com.expediagroup.sdk.core.constant.HeaderKey
+import com.expediagroup.sdk.core.constant.HeaderValue
 import com.expediagroup.sdk.core.constant.LoggingMessage.TOKEN_CLEARING_IN_PROCESS
 import com.expediagroup.sdk.core.constant.LoggingMessage.TOKEN_CLEARING_SUCCESSFUL
 import com.expediagroup.sdk.core.constant.LoggingMessage.TOKEN_RENEWAL_IN_PROCESS
@@ -105,7 +106,7 @@ internal object AuthenticationPlugin : Plugin<AuthenticationConfiguration> {
 
     private fun buildTokenRequest(): Parameters {
         return Parameters.build {
-            append(Header.GRANT_TYPE, Header.CLIENT_CREDENTIALS)
+            append(HeaderKey.GRANT_TYPE, HeaderValue.CLIENT_CREDENTIALS)
         }
     }
 

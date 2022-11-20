@@ -21,7 +21,7 @@ import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_KEY_TEST_CREDENTIA
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.commons.TestConstants.TEST_URL
 import com.expediagroup.sdk.core.configuration.provider.DefaultConfigurationProvider
-import com.expediagroup.sdk.core.constant.Header
+import com.expediagroup.sdk.core.constant.HeaderKey
 import com.expediagroup.sdk.core.model.exception.ClientException
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.mock.MockEngine
@@ -57,7 +57,7 @@ object MockEngineFactory {
 
     private fun isBadRequest(request: HttpRequestData) = request.attributes.getOrNull(AttributeKey(BAD_REQUEST_ATTRIBUTE)) != null
 
-    private fun isValidCredentialsRequest(request: HttpRequestData) = request.headers[Header.AUTHORIZATION] == "Basic ${
+    private fun isValidCredentialsRequest(request: HttpRequestData) = request.headers[HeaderKey.AUTHORIZATION] == "Basic ${
     String(
         Base64.getEncoder().encode(
             "$CLIENT_KEY_TEST_CREDENTIAL:$CLIENT_SECRET_TEST_CREDENTIAL".toByteArray()
@@ -66,7 +66,7 @@ object MockEngineFactory {
     }"
 
     private fun isAuthorizedHeader(request: HttpRequestData) =
-        request.headers[Header.AUTHORIZATION] == "Bearer $ACCESS_TOKEN"
+        request.headers[HeaderKey.AUTHORIZATION] == "Bearer $ACCESS_TOKEN"
 
     private fun MockRequestHandleScope.tokenResponse() = respond(
         content = ByteReadChannel(

@@ -16,7 +16,8 @@
 package com.expediagroup.sdk.core.plugin.authentication
 
 import com.expediagroup.sdk.core.client.Client
-import com.expediagroup.sdk.core.constant.Header
+import com.expediagroup.sdk.core.constant.Constant.BEARER
+import com.expediagroup.sdk.core.constant.HeaderKey
 import com.expediagroup.sdk.core.constant.LoggingMessage.TOKEN_EXPIRED
 import com.expediagroup.sdk.core.plugin.Hook
 import com.expediagroup.sdk.core.plugin.HookBuilder
@@ -65,7 +66,7 @@ private object AuthenticationHookBuilder : HookBuilder<AuthenticationConfigurati
     }
 
     private fun assignNewToken(request: HttpRequestBuilder) {
-        request.headers[Header.AUTHORIZATION] = "Bearer ${AuthenticationPlugin.getToken().accessToken}"
+        request.headers[HeaderKey.AUTHORIZATION] = "$BEARER ${AuthenticationPlugin.getToken().accessToken}"
     }
 
     private suspend fun waitForTokenRenewal() {

@@ -15,6 +15,6 @@
  */
 package com.expediagroup.sdk.core.constant
 
-internal object Authentication {
-    const val EXPIRY_DATE_MARGIN: Long = 10 // In seconds
+internal object HeaderValue {
+    const val CLIENT_CREDENTIALS = "client_credentials"
 }
