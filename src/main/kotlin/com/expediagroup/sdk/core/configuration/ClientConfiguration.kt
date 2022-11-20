@@ -25,7 +25,7 @@ import com.expediagroup.sdk.core.configuration.provider.RuntimeConfigurationProv
  * @property endpoint The API endpoint to use for requests.
  * @property authEndpoint The API endpoint to use for authentication.
  */
-data class ClientConfiguration constructor(
+data class ClientConfiguration(
     val key: String? = null,
     val secret: String? = null,
     val endpoint: String? = null,
