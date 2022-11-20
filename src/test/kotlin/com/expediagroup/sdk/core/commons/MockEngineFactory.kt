@@ -72,7 +72,7 @@ object MockEngineFactory {
         content = ByteReadChannel(
             """
                 {
-                    "access_token": $ACCESS_TOKEN,
+                    "access_token": "$ACCESS_TOKEN",
                     "token_type": "bearer",
                     "expires_in": 1800,
                     "scope": "any-scope"

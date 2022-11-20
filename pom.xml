@@ -13,7 +13,7 @@
     <artifactId>openworld-java-sdk-core</artifactId>
     <name>EG Open World SDK :: Core</name>
     <description>Core Modules of EG Travel SDK</description>
-    <version>0.0.2-alpha.3</version>
+    <version>0.0.2-alpha.4</version>
 
     <build>
         <plugins>
@@ -173,7 +173,19 @@
     </build>
 
     <dependencies>
-
+        <dependency>
+            <groupId>io.ktor</groupId>
+            <artifactId>ktor-serialization-jackson-jvm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <scope>runtime</scope>
+        </dependency>
         <dependency>
             <groupId>io.ktor</groupId>
             <artifactId>ktor-client-core-jvm</artifactId>
@@ -213,14 +225,6 @@
         <dependency>
             <groupId>io.ktor</groupId>
             <artifactId>ktor-serialization-jvm</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.ktor</groupId>
-            <artifactId>ktor-serialization-gson-jvm</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
         </dependency>
         <dependency>
             <groupId>io.ktor</groupId>

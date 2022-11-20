@@ -224,7 +224,7 @@ internal class AuthenticationPluginTest {
         content = ByteReadChannel(
             """
                     {
-                        "access_token": $ACCESS_TOKEN,
+                        "access_token": "$ACCESS_TOKEN",
                         "token_type": "bearer",
                         "expires_in": $expiresIn,
                         "scope": "any-scope"
