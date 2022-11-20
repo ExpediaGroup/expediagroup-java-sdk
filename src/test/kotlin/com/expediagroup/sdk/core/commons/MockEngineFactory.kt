@@ -16,9 +16,11 @@
 package com.expediagroup.sdk.core.commons
 
 import com.expediagroup.sdk.core.commons.TestConstants.ACCESS_TOKEN
+import com.expediagroup.sdk.core.commons.TestConstants.APPLICATION_JSON
 import com.expediagroup.sdk.core.commons.TestConstants.BAD_REQUEST_ATTRIBUTE
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_KEY_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
+import com.expediagroup.sdk.core.commons.TestConstants.SUCCESSFUL_DUMMY_REQUEST
 import com.expediagroup.sdk.core.commons.TestConstants.TEST_URL
 import com.expediagroup.sdk.core.configuration.provider.DefaultConfigurationProvider
 import com.expediagroup.sdk.core.constant.Constant.BEARER
@@ -81,13 +83,11 @@ object MockEngineFactory {
                 """
         ),
         status = HttpStatusCode.OK,
-        headers = headersOf(HttpHeaders.ContentType, "application/json")
+        headers = headersOf(HttpHeaders.ContentType, APPLICATION_JSON)
     )
 
     private fun MockRequestHandleScope.successfulRespond() = respond(
-        content = ByteReadChannel(
-            "successful dummy request"
-        ),
+        content = ByteReadChannel(SUCCESSFUL_DUMMY_REQUEST),
         status = HttpStatusCode.OK,
         headers = headersOf(HttpHeaders.ContentType, "text/plain")
     )
@@ -136,6 +136,6 @@ object MockEngineFactory {
                  """
         ),
         status = HttpStatusCode.BadRequest,
-        headersOf(HttpHeaders.ContentType, "application/json")
+        headersOf(HttpHeaders.ContentType, APPLICATION_JSON)
     )
 }

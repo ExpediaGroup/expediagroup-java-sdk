@@ -80,7 +80,7 @@ internal class EncodingPluginTest {
             status = HttpStatusCode.OK,
             headers = headersOf(
                 Pair(HttpHeaders.ContentType, listOf("text/plain")),
-                Pair(HttpHeaders.ContentEncoding, listOf("gzip"))
+                Pair(HttpHeaders.ContentEncoding, listOf(GZIP))
             )
         )
     }
