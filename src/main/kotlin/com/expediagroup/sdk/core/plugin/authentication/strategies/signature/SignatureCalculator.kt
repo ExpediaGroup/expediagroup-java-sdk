@@ -20,16 +20,8 @@ import java.math.BigInteger.ONE
 import java.nio.charset.StandardCharsets.UTF_8
 import java.security.MessageDigest
 import java.security.spec.MGF1ParameterSpec.SHA512
-import java.time.LocalDateTime
-import java.time.ZoneId
 
-internal fun calculateSignature(apiKey: String, sharedSecret: String, localDateTime: LocalDateTime): String {
-    val timestamp: Long = localDateTime.atZone(ZoneId.systemDefault()).toEpochSecond()
-    val signature: String = generateSignature(apiKey, sharedSecret, timestamp)
-    return "${SignatureValues.API_KEY}=$apiKey,${SignatureValues.SIGNATURE}=$signature,${SignatureValues.TIMESTAMP}=$timestamp"
-}
-
-private fun generateSignature(apiKey: String, secret: String, timestamp: Long): String {
+internal fun calculateSignature(apiKey: String, secret: String, timestamp: Long): String {
     val toBeHashed = apiKey + secret + timestamp
     val md = MessageDigest.getInstance(SHA512.digestAlgorithm)
     val bytes = md.digest(toBeHashed.toByteArray(UTF_8))
@@ -37,5 +29,6 @@ private fun generateSignature(apiKey: String, secret: String, timestamp: Long): 
     for (aByte in bytes) {
         sb.append(((aByte.toInt() and SignatureValues.ONE_BYTE_MASK) + SignatureValues.INCREMENT).toString(SignatureValues.RADIX).substring(ONE.toInt()))
     }
-    return sb.toString()
+    val signature = sb.toString()
+    return "${SignatureValues.API_KEY}=$apiKey,${SignatureValues.SIGNATURE}=$signature,${SignatureValues.TIMESTAMP}=$timestamp"
 }

@@ -21,7 +21,7 @@ import com.expediagroup.sdk.core.plugin.authentication.strategies.signature.Sign
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.auth.Auth
 import io.ktor.client.request.HttpRequestBuilder
-import java.time.LocalDateTime
+import java.time.Instant
 
 internal object SignatureStrategy : AuthenticationStrategy {
     private var signatureHolder: SignatureHolder = SignatureHolder.emptySignatureHolder
@@ -38,9 +38,9 @@ internal object SignatureStrategy : AuthenticationStrategy {
     override fun isTokenAboutToExpire() = signatureHolder.isAboutToExpire()
 
     override suspend fun renewToken(client: HttpClient, configs: AuthenticationConfiguration) {
-        val now = LocalDateTime.now()
+        val now = Instant.now()
         val credentials = configs.credentials
-        val signature = calculateSignature(credentials.key, credentials.secret, now)
+        val signature = calculateSignature(credentials.key, credentials.secret, now.epochSecond)
         signatureHolder = SignatureHolder(signature, now)
     }
 

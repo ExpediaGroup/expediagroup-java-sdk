@@ -22,7 +22,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
-import java.time.LocalDateTime
+import java.time.Instant
 
 internal class SignatureHolderTest {
     companion object {
@@ -31,7 +31,7 @@ internal class SignatureHolderTest {
 
     @Test
     fun `given time is now when calling isAboutToExpire should return false`() {
-        val signatureHolder = SignatureHolder(SIGNATURE_VALUE, LocalDateTime.now())
+        val signatureHolder = SignatureHolder(SIGNATURE_VALUE, Instant.now())
 
         assertThat(signatureHolder.isAboutToExpire()).isFalse
     }
@@ -39,7 +39,7 @@ internal class SignatureHolderTest {
     @ParameterizedTest
     @ValueSource(longs = [MARGIN, MARGIN + 5, MARGIN + 20, MARGIN + 30])
     fun `given time is (now - (margin value or more)) when calling isAboutToExpire should return true`(seconds: Long) {
-        val signatureHolder = SignatureHolder(SIGNATURE_VALUE, LocalDateTime.now().minusSeconds(seconds))
+        val signatureHolder = SignatureHolder(SIGNATURE_VALUE, Instant.now().minusSeconds(seconds))
 
         assertThat(signatureHolder.isAboutToExpire()).isTrue
     }

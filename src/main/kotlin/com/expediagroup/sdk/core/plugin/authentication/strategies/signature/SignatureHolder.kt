@@ -17,17 +17,17 @@ package com.expediagroup.sdk.core.plugin.authentication.strategies.signature
 
 import com.expediagroup.sdk.core.constant.Authentication
 import com.expediagroup.sdk.core.constant.Constant.EMPTY_STRING
-import java.time.LocalDateTime
+import java.time.Instant
 
 internal open class SignatureHolder(
     val signature: String,
-    private val timestamp: LocalDateTime
+    private val timestamp: Instant
 ) {
     companion object {
-        internal val emptySignatureHolder = object : SignatureHolder(EMPTY_STRING, LocalDateTime.MIN) {
+        internal val emptySignatureHolder = object : SignatureHolder(EMPTY_STRING, Instant.MIN) {
             override fun isAboutToExpire() = true
         }
     }
 
-    internal open fun isAboutToExpire() = timestamp.plusSeconds(Authentication.RAPID_TOKEN_LIFETIME - Authentication.RAPID_RENEW_SIGNATURE_MARGIN).isBefore(LocalDateTime.now())
+    internal open fun isAboutToExpire() = timestamp.plusSeconds(Authentication.RAPID_TOKEN_LIFETIME - Authentication.RAPID_RENEW_SIGNATURE_MARGIN).isBefore(Instant.now())
 }

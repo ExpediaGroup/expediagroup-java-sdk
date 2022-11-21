@@ -21,9 +21,6 @@ import com.expediagroup.sdk.core.commons.TestConstants.MANUALLY_CALCULATED_SIGNA
 import com.expediagroup.sdk.core.commons.TestConstants.SIGNATURE_TIMESTAMP_UTC
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import java.math.BigInteger.ZERO
-import java.time.LocalDateTime
-import java.time.ZoneOffset
 
 internal class SignatureCalculatorTest {
     @Test
@@ -31,7 +28,7 @@ internal class SignatureCalculatorTest {
         val signature = calculateSignature(
             CLIENT_KEY_TEST_CREDENTIAL,
             CLIENT_SECRET_TEST_CREDENTIAL,
-            LocalDateTime.ofEpochSecond(SIGNATURE_TIMESTAMP_UTC, ZERO.toInt(), ZoneOffset.ofHours(2))
+            SIGNATURE_TIMESTAMP_UTC
         )
 
         assertThat(signature).isEqualTo(MANUALLY_CALCULATED_SIGNATURE)
