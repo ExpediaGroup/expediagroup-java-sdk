@@ -63,12 +63,12 @@ abstract class OpenApiStub(
     protected suspend fun throwIfError(response: HttpResponse) {
         if (isNotSuccessfulResponse(response)) {
             log.info(getResponseUnsuccessfulMessage(response.status))
-            // Make sure we read the body to avoid resource leaks
             throwServiceException(response)
         }
     }
 
     protected open suspend fun throwServiceException(response: HttpResponse) {
+        // Make sure we read the body to avoid resource leaks
         runCatching {
             response.body<Error>()
         }.onSuccess {
