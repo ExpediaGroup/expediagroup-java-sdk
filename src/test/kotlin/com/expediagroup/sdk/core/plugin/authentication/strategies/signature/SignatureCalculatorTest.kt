@@ -18,11 +18,12 @@ package com.expediagroup.sdk.core.plugin.authentication.strategies.signature
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_KEY_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.commons.TestConstants.MANUALLY_CALCULATED_SIGNATURE
+import com.expediagroup.sdk.core.commons.TestConstants.SIGNATURE_TIMESTAMP_UTC
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import java.time.LocalDate
+import java.math.BigInteger.ZERO
 import java.time.LocalDateTime
-import java.time.LocalTime
+import java.time.ZoneOffset
 
 internal class SignatureCalculatorTest {
     @Test
@@ -30,7 +31,7 @@ internal class SignatureCalculatorTest {
         val signature = calculateSignature(
             CLIENT_KEY_TEST_CREDENTIAL,
             CLIENT_SECRET_TEST_CREDENTIAL,
-            LocalDateTime.of(LocalDate.of(1999, 2, 14), LocalTime.of(0, 0, 0))
+            LocalDateTime.ofEpochSecond(SIGNATURE_TIMESTAMP_UTC, ZERO.toInt(), ZoneOffset.UTC)
         )
 
         assertThat(signature).isEqualTo(MANUALLY_CALCULATED_SIGNATURE)
