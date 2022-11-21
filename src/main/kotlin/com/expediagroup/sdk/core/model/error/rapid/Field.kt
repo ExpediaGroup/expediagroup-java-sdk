@@ -15,7 +15,14 @@
  */
 package com.expediagroup.sdk.core.model.error.rapid
 
-internal data class Field(
+/**
+ * An individual field that had an error.
+ *
+ * @property name The field that had an error.
+ * @property type The type of the field that had an error.
+ * @property value The value of the field that had an error.
+ */
+data class Field(
     val name: String? = null,
     val type: String? = null,
     val value: String? = null

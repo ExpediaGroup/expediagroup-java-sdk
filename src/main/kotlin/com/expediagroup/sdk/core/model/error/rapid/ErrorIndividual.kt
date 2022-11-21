@@ -15,7 +15,14 @@
  */
 package com.expediagroup.sdk.core.model.error.rapid
 
-internal data class ErrorIndividual(
+/**
+ * An individual Rapid error.
+ *
+ * @property type The error type.
+ * @property message A human-readable message giving details about this error.
+ * @property fields  Details about the specific fields that had an error.
+ */
+data class ErrorIndividual(
     val type: String? = null,
     val message: String? = null,
     val fields: List<Field>? = null

@@ -22,7 +22,7 @@ import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_SECRET_TEST_CREDEN
 import com.expediagroup.sdk.core.commons.TestConstants.TEST_URL
 import com.expediagroup.sdk.core.configuration.provider.DefaultConfigurationProvider
 import com.expediagroup.sdk.core.constant.HeaderKey
-import com.expediagroup.sdk.core.model.exception.ClientException
+import com.expediagroup.sdk.core.model.exception.AuthException
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.MockRequestHandleScope
@@ -49,7 +49,7 @@ object MockEngineFactory {
         } else if (isBadRequest(request)) {
             errorResponse()
         } else {
-            throw ClientException(HttpStatusCode.InternalServerError, "unsupported case in the mock engine")
+            throw AuthException(HttpStatusCode.InternalServerError, "unsupported case in the mock engine")
         }
     }
 

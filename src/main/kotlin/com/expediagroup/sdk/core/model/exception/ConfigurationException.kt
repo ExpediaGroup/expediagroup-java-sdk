@@ -15,4 +15,10 @@
  */
 package com.expediagroup.sdk.core.model.exception
 
-internal class ConfigurationException(message: String?, cause: Throwable? = null) : BaseException(message, cause)
+/**
+ * An exception that is thrown when a configuration error occurs.
+ *
+ * @param message An optional error message.
+ * @param cause An optional cause of the error.
+ */
+class ConfigurationException(message: String?, cause: Throwable? = null) : BaseException(message, cause)

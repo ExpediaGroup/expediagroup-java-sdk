@@ -17,4 +17,10 @@ package com.expediagroup.sdk.core.model.exception
 
 import io.ktor.http.HttpStatusCode
 
-internal class ClientException(errorStatusCode: HttpStatusCode, errorMessage: String) : BaseException("[${errorStatusCode.value}] $errorMessage")
+/**
+ * An exception that is thrown when an authentication error occurs.
+ *
+ * @param statusCode The HTTP status code of the error.
+ * @param message The error message.
+ */
+class AuthException(statusCode: HttpStatusCode, message: String) : BaseException("[${statusCode.value}] $message")

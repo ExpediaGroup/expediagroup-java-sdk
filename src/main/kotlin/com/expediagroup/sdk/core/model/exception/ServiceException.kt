@@ -18,7 +18,13 @@ package com.expediagroup.sdk.core.model.exception
 import com.expediagroup.sdk.core.model.error.Error
 import io.ktor.http.HttpStatusCode
 
-internal class ServiceException(
+/**
+ * An exception that is thrown when a service error occurs.
+ *
+ * @param errorCode The HTTP status code of the error.
+ * @param error The error details.
+ */
+class ServiceException(
     errorCode: HttpStatusCode,
     error: Error
 ) : BaseException("[${errorCode.value}] $error")

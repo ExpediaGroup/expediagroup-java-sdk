@@ -18,7 +18,13 @@ package com.expediagroup.sdk.core.model.exception
 import com.expediagroup.sdk.core.model.error.rapid.RapidError
 import io.ktor.http.HttpStatusCode
 
-internal class RapidServiceException(
+/**
+ *  An exception that is thrown when a Rapid service error occurs.
+ *
+ *  @param errorCode The HTTP status code of the error.
+ *  @param error The error details.
+ */
+class RapidServiceException(
     errorCode: HttpStatusCode,
     error: RapidError
 ) : BaseException("[${errorCode.value}] $error")

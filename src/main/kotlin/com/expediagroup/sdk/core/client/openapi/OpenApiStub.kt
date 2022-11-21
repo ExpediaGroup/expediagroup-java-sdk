@@ -59,6 +59,7 @@ abstract class OpenApiStub(
      * Examines the status code for errors and throws the appropriate exception.
      *
      * @param response The response to examine
+     * @throws ServiceException if an error response is received from the server.
      */
     protected suspend fun throwIfError(response: HttpResponse) {
         if (isNotSuccessfulResponse(response)) {
