@@ -19,7 +19,7 @@ import com.expediagroup.sdk.core.commons.ClientFactory
 import com.expediagroup.sdk.core.commons.TestConstants.ANY_URL
 import com.expediagroup.sdk.core.commons.TestConstants.GZIP
 import com.expediagroup.sdk.core.commons.TestConstants.SUCCESSFUL_DUMMY_REQUEST
-import com.expediagroup.sdk.core.constant.Header
+import com.expediagroup.sdk.core.constant.HeaderKey
 import io.ktor.client.call.body
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.MockRequestHandleScope
@@ -45,7 +45,7 @@ internal class EncodingPluginTest {
             val httpClient = ClientFactory.createClient().httpClient
             val testRequest = httpClient.get(ANY_URL)
 
-            Assertions.assertThat(testRequest.request.headers[Header.ACCEPT_ENCODING]).isEqualTo(
+            Assertions.assertThat(testRequest.request.headers[HeaderKey.ACCEPT_ENCODING]).isEqualTo(
                 GZIP
             )
         }

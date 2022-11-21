@@ -22,6 +22,8 @@ internal object Constant {
     const val EAN = "EAN"
     const val BEARER = "Bearer"
 
+    const val BEARER = "Bearer"
+
     private const val OK_STATUS_CODES_RANGE_START = 200
     private const val OK_STATUS_CODES_RANGE_END = 299
     val OK_STATUS_CODES_RANGE: IntRange = OK_STATUS_CODES_RANGE_START..OK_STATUS_CODES_RANGE_END

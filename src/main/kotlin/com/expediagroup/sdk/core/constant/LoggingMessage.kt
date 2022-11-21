@@ -17,8 +17,12 @@ package com.expediagroup.sdk.core.constant
 
 internal object LoggingMessage {
     const val TOKEN_RENEWAL_IN_PROCESS = "Renewing token"
+
     const val TOKEN_RENEWAL_SUCCESSFUL = "Token renewal successful"
+
     const val TOKEN_CLEARING_IN_PROCESS = "Clearing tokens"
+
     const val TOKEN_CLEARING_SUCCESSFUL = "Tokens successfully cleared"
+
     const val TOKEN_EXPIRED = "Token expired or is about to expire: Request will wait until token is renewed"
 }

@@ -15,15 +15,10 @@
  */
 package com.expediagroup.sdk.core.constant
 
-internal object Header {
+internal object HeaderKey {
     const val AUTHORIZATION = "Authorization"
-
-    const val CAPITALIZED_AUTHENTICATE = "WWW-Authenticate"
-
-    const val AUTHENTICATE = "www-authenticate"
 
     const val GRANT_TYPE = "grant_type"
 
-    const val CLIENT_CREDENTIALS = "client_credentials"
     const val ACCEPT_ENCODING = "Accept-Encoding"
 }
