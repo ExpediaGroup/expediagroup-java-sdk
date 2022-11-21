@@ -16,9 +16,10 @@
 package com.expediagroup.sdk.core.plugin.authentication.strategies.bearer
 
 import com.expediagroup.sdk.core.configuration.Credentials
-import com.expediagroup.sdk.core.constant.Constant.BEARER
+import com.expediagroup.sdk.core.constant.Authentication
 import com.expediagroup.sdk.core.constant.ExceptionMessage
-import com.expediagroup.sdk.core.constant.Header
+import com.expediagroup.sdk.core.constant.HeaderKey
+import com.expediagroup.sdk.core.constant.HeaderValue
 import com.expediagroup.sdk.core.constant.LoggingMessage
 import com.expediagroup.sdk.core.constant.provider.LoggingMessageProvider
 import com.expediagroup.sdk.core.model.exception.ClientException
@@ -103,11 +104,11 @@ internal object BearerStrategy : AuthenticationStrategy {
         configs: AuthenticationConfiguration
     ): Boolean = request.url.buildString() != configs.authUrl
 
-    override fun getAuthorizationHeader() = "$BEARER ${getTokens().accessToken}"
+    override fun getAuthorizationHeader() = "${Authentication.BEARER} ${getTokens().accessToken}"
 
     private fun buildTokenRequest(): Parameters {
         return Parameters.build {
-            append(Header.GRANT_TYPE, Header.CLIENT_CREDENTIALS)
+            append(HeaderKey.GRANT_TYPE, HeaderValue.CLIENT_CREDENTIALS)
         }
     }
 }

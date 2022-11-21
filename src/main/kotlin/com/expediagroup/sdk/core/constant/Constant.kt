@@ -19,10 +19,6 @@ import java.io.File
 
 internal object Constant {
     const val EMPTY_STRING = ""
-    const val EAN = "EAN"
-    const val BEARER = "Bearer"
-
-    const val BEARER = "Bearer"
 
     private const val OK_STATUS_CODES_RANGE_START = 200
     private const val OK_STATUS_CODES_RANGE_END = 299

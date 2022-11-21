@@ -15,9 +15,7 @@
  */
 package com.expediagroup.sdk.core.plugin.authentication.strategies.signature
 
-import com.expediagroup.sdk.core.constant.Signature.INCREMENT
-import com.expediagroup.sdk.core.constant.Signature.ONE_BYTE_MASK
-import com.expediagroup.sdk.core.constant.Signature.RADIX
+import com.expediagroup.sdk.core.constant.SignatureValues
 import java.math.BigInteger.ONE
 import java.nio.charset.StandardCharsets.UTF_8
 import java.security.MessageDigest
@@ -28,7 +26,7 @@ import java.time.ZoneId
 internal fun calculateSignature(apiKey: String, sharedSecret: String, localDateTime: LocalDateTime): String {
     val timestamp: Long = localDateTime.atZone(ZoneId.systemDefault()).toEpochSecond()
     val signature: String = generateSignature(apiKey, sharedSecret, timestamp)
-    return "apikey=$apiKey,signature=$signature,timestamp=$timestamp"
+    return "${SignatureValues.API_KEY}=$apiKey,${SignatureValues.SIGNATURE}=$signature,${SignatureValues.TIMESTAMP}=$timestamp"
 }
 
 private fun generateSignature(apiKey: String, secret: String, timestamp: Long): String {
@@ -37,7 +35,7 @@ private fun generateSignature(apiKey: String, secret: String, timestamp: Long): 
     val bytes = md.digest(toBeHashed.toByteArray(UTF_8))
     val sb = StringBuilder()
     for (aByte in bytes) {
-        sb.append(((aByte.toInt() and ONE_BYTE_MASK) + INCREMENT).toString(RADIX).substring(ONE.toInt()))
+        sb.append(((aByte.toInt() and SignatureValues.ONE_BYTE_MASK) + SignatureValues.INCREMENT).toString(SignatureValues.RADIX).substring(ONE.toInt()))
     }
     return sb.toString()
 }

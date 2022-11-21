@@ -15,7 +15,7 @@
  */
 package com.expediagroup.sdk.core.plugin.authentication.strategies.bearer
 
-import com.expediagroup.sdk.core.constant.Authentication.expiryDateMargin
+import com.expediagroup.sdk.core.constant.Authentication
 import com.expediagroup.sdk.core.constant.Constant
 import io.ktor.client.plugins.auth.providers.BearerTokens
 import java.time.LocalDateTime
@@ -35,5 +35,5 @@ internal open class BearerTokensInfo(val bearerTokens: BearerTokens, expiresIn: 
 
     private fun calculateExpiryDate(expiresIn: Int) = LocalDateTime.now().plusSeconds(expiresIn.toLong())
 
-    internal open fun isAboutToExpire() = LocalDateTime.now().isAfter(expiryDate.minusSeconds(expiryDateMargin))
+    internal open fun isAboutToExpire() = LocalDateTime.now().isAfter(expiryDate.minusSeconds(Authentication.BEARER_EXPIRY_DATE_MARGIN))
 }

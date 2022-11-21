@@ -15,6 +15,10 @@
  */
 package com.expediagroup.sdk.core.commons
 
+import com.expediagroup.sdk.core.constant.SignatureValues.API_KEY
+import com.expediagroup.sdk.core.constant.SignatureValues.SIGNATURE
+import com.expediagroup.sdk.core.constant.SignatureValues.TIMESTAMP
+
 object TestConstants {
     const val TEST_URL = "https://example.com"
 
@@ -31,10 +35,15 @@ object TestConstants {
     const val GZIP = "gzip"
 
     const val SUCCESSFUL_DUMMY_REQUEST = "successful dummy request"
-    const val SIGNATURE = "signature"
-    const val MANUALLY_CALCULATED_SIGNATURE =
-        "apikey=any client key,signature=497c9934cbfed8ccaeaf6a242d4eec88866f00965c641f68afe1f428d101b50aabacb7f8769fcad15cba8aff0970044c5cd51d022f5b0817007a58b545ff4d0d,timestamp=918943200"
+
+    const val SIGNATURE_VALUE = "signature-value"
+
+    private const val SIGNATURE_MANUALLY_CALCULATED_VALUE = "497c9934cbfed8ccaeaf6a242d4eec88866f00965c641f68afe1f428d101b50aabacb7f8769fcad15cba8aff0970044c5cd51d022f5b0817007a58b545ff4d0d"
+    const val MANUALLY_CALCULATED_SIGNATURE = "$API_KEY=any client key,$SIGNATURE=$SIGNATURE_MANUALLY_CALCULATED_VALUE,$TIMESTAMP=918943200"
+
     const val TEST_VALUE = "test-value"
+
     const val BASIC = "Basic"
+
     const val APPLICATION_JSON = "application/json"
 }

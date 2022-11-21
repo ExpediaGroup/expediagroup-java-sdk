@@ -15,8 +15,16 @@
  */
 package com.expediagroup.sdk.core.constant
 
-internal object Signature {
+internal object SignatureValues {
     const val ONE_BYTE_MASK = 0xFF
+
     const val INCREMENT = 0x100
+
     const val RADIX = 16
+
+    const val API_KEY = "apikey"
+
+    const val SIGNATURE = "signature"
+
+    const val TIMESTAMP = "timestamp"
 }

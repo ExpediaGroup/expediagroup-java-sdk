@@ -15,7 +15,7 @@
  */
 package com.expediagroup.sdk.core.plugin.authentication.strategies.signature
 
-import com.expediagroup.sdk.core.constant.Constant.EAN
+import com.expediagroup.sdk.core.constant.Authentication
 import io.ktor.client.plugins.auth.Auth
 import io.ktor.client.plugins.auth.AuthProvider
 import io.ktor.client.request.HttpRequestBuilder
@@ -58,11 +58,11 @@ internal class SignatureAuthProvider(
         }
     }
 
-    override fun isApplicable(auth: HttpAuthHeader): Boolean = auth.authScheme == EAN
+    override fun isApplicable(auth: HttpAuthHeader): Boolean = auth.authScheme == Authentication.EAN
 
     override fun sendWithoutRequest(request: HttpRequestBuilder): Boolean = false
 
     companion object {
-        fun createAuthorizationHeader(signature: String?): String = "$EAN $signature"
+        fun createAuthorizationHeader(signature: String?): String = "${Authentication.EAN} $signature"
     }
 }

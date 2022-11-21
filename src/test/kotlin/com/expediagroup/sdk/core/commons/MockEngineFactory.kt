@@ -18,13 +18,14 @@ package com.expediagroup.sdk.core.commons
 import com.expediagroup.sdk.core.commons.TestConstants.ACCESS_TOKEN
 import com.expediagroup.sdk.core.commons.TestConstants.APPLICATION_JSON
 import com.expediagroup.sdk.core.commons.TestConstants.BAD_REQUEST_ATTRIBUTE
+import com.expediagroup.sdk.core.commons.TestConstants.BASIC
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_KEY_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.commons.TestConstants.SUCCESSFUL_DUMMY_REQUEST
 import com.expediagroup.sdk.core.commons.TestConstants.TEST_URL
 import com.expediagroup.sdk.core.configuration.provider.DefaultConfigurationProvider
+import com.expediagroup.sdk.core.constant.Authentication.BEARER
 import com.expediagroup.sdk.core.constant.HeaderKey
-import com.expediagroup.sdk.core.constant.Constant.BEARER
 import com.expediagroup.sdk.core.model.exception.ClientException
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.mock.MockEngine
@@ -60,7 +61,7 @@ object MockEngineFactory {
 
     private fun isBadRequest(request: HttpRequestData) = request.attributes.getOrNull(AttributeKey(BAD_REQUEST_ATTRIBUTE)) != null
 
-    private fun isValidCredentialsRequest(request: HttpRequestData) = request.headers[HeaderKey.AUTHORIZATION] == "Basic ${
+    private fun isValidCredentialsRequest(request: HttpRequestData) = request.headers[HeaderKey.AUTHORIZATION] == "$BASIC ${
     String(
         Base64.getEncoder().encode(
             "$CLIENT_KEY_TEST_CREDENTIAL:$CLIENT_SECRET_TEST_CREDENTIAL".toByteArray()

@@ -15,9 +15,9 @@
  */
 package com.expediagroup.sdk.core.plugin.authentication.strategies.signature
 
-import com.expediagroup.sdk.core.commons.TestConstants.SIGNATURE
+import com.expediagroup.sdk.core.commons.TestConstants.SIGNATURE_VALUE
+import com.expediagroup.sdk.core.constant.Authentication.RAPID_RENEW_SIGNATURE_MARGIN
 import com.expediagroup.sdk.core.constant.Authentication.RAPID_TOKEN_LIFETIME
-import com.expediagroup.sdk.core.constant.Authentication.rapidRenewSignatureMargin
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -26,12 +26,12 @@ import java.time.LocalDateTime
 
 internal class SignatureHolderTest {
     companion object {
-        private const val MARGIN: Long = RAPID_TOKEN_LIFETIME - rapidRenewSignatureMargin
+        private const val MARGIN: Long = RAPID_TOKEN_LIFETIME - RAPID_RENEW_SIGNATURE_MARGIN
     }
 
     @Test
     fun `given time is now when calling isAboutToExpire should return false`() {
-        val signatureHolder = SignatureHolder(SIGNATURE, LocalDateTime.now())
+        val signatureHolder = SignatureHolder(SIGNATURE_VALUE, LocalDateTime.now())
 
         assertThat(signatureHolder.isAboutToExpire()).isFalse
     }
@@ -39,7 +39,7 @@ internal class SignatureHolderTest {
     @ParameterizedTest
     @ValueSource(longs = [MARGIN, MARGIN + 5, MARGIN + 20, MARGIN + 30])
     fun `given time is (now - (margin value or more)) when calling isAboutToExpire should return true`(seconds: Long) {
-        val signatureHolder = SignatureHolder(SIGNATURE, LocalDateTime.now().minusSeconds(seconds))
+        val signatureHolder = SignatureHolder(SIGNATURE_VALUE, LocalDateTime.now().minusSeconds(seconds))
 
         assertThat(signatureHolder.isAboutToExpire()).isTrue
     }

@@ -21,12 +21,12 @@ import com.expediagroup.sdk.core.commons.TestConstants.ANY_URL
 import com.expediagroup.sdk.core.commons.TestConstants.APPLICATION_JSON
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_KEY_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
-import com.expediagroup.sdk.core.commons.TestConstants.SIGNATURE
+import com.expediagroup.sdk.core.commons.TestConstants.SIGNATURE_VALUE
 import com.expediagroup.sdk.core.configuration.Credentials
 import com.expediagroup.sdk.core.configuration.provider.DefaultConfigurationProvider
-import com.expediagroup.sdk.core.constant.Constant.BEARER
-import com.expediagroup.sdk.core.constant.Constant.EAN
-import com.expediagroup.sdk.core.constant.Header
+import com.expediagroup.sdk.core.constant.Authentication.BEARER
+import com.expediagroup.sdk.core.constant.Authentication.EAN
+import com.expediagroup.sdk.core.constant.HeaderKey
 import com.expediagroup.sdk.core.model.exception.ClientException
 import com.expediagroup.sdk.core.plugin.authentication.strategies.bearer.BearerStrategy
 import com.expediagroup.sdk.core.plugin.authentication.strategies.signature.SignatureStrategy
@@ -87,8 +87,8 @@ internal class AuthenticationPluginTest {
                 val httpClient = ClientFactory.createRapidClient().httpClient
                 val testRequest = httpClient.get(ANY_URL)
 
-                assertThat(testRequest.request.headers[Header.AUTHORIZATION]).isEqualTo(
-                    "$EAN $SIGNATURE"
+                assertThat(testRequest.request.headers[HeaderKey.AUTHORIZATION]).isEqualTo(
+                    "$EAN $SIGNATURE_VALUE"
                 )
             }
         }
@@ -104,8 +104,8 @@ internal class AuthenticationPluginTest {
                 delay(1000)
                 val secondRequest = httpClient.get(ANY_URL)
 
-                assertThat(firstRequest.request.headers[Header.AUTHORIZATION]).isNotEqualTo(
-                    secondRequest.request.headers[Header.AUTHORIZATION]
+                assertThat(firstRequest.request.headers[HeaderKey.AUTHORIZATION]).isNotEqualTo(
+                    secondRequest.request.headers[HeaderKey.AUTHORIZATION]
                 )
             }
         }
@@ -119,8 +119,8 @@ internal class AuthenticationPluginTest {
                 delay(1000)
                 val secondRequest = httpClient.get(ANY_URL)
 
-                assertThat(firstRequest.request.headers[Header.AUTHORIZATION]).isEqualTo(
-                    secondRequest.request.headers[Header.AUTHORIZATION]
+                assertThat(firstRequest.request.headers[HeaderKey.AUTHORIZATION]).isEqualTo(
+                    secondRequest.request.headers[HeaderKey.AUTHORIZATION]
                 )
             }
         }
@@ -158,7 +158,7 @@ internal class AuthenticationPluginTest {
 
         private fun mockSignatureCalculator() {
             mockkStatic("com.expediagroup.sdk.core.plugin.authentication.strategies.signature.SignatureCalculatorKt")
-            every { calculateSignature(any(), any(), any()) } returns SIGNATURE
+            every { calculateSignature(any(), any(), any()) } returns SIGNATURE_VALUE
         }
     }
 
@@ -170,7 +170,7 @@ internal class AuthenticationPluginTest {
                 val httpClient = ClientFactory.createClient().httpClient
                 val testRequest = httpClient.get(ANY_URL)
 
-                assertThat(testRequest.request.headers[Header.AUTHORIZATION]).isEqualTo(
+                assertThat(testRequest.request.headers[HeaderKey.AUTHORIZATION]).isEqualTo(
                     "$BEARER $ACCESS_TOKEN"
                 )
 

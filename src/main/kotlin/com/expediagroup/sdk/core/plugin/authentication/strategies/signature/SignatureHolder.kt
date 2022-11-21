@@ -15,8 +15,7 @@
  */
 package com.expediagroup.sdk.core.plugin.authentication.strategies.signature
 
-import com.expediagroup.sdk.core.constant.Authentication.RAPID_TOKEN_LIFETIME
-import com.expediagroup.sdk.core.constant.Authentication.rapidRenewSignatureMargin
+import com.expediagroup.sdk.core.constant.Authentication
 import com.expediagroup.sdk.core.constant.Constant.EMPTY_STRING
 import java.time.LocalDateTime
 
@@ -30,5 +29,5 @@ internal open class SignatureHolder(
         }
     }
 
-    internal open fun isAboutToExpire() = timestamp.plusSeconds(RAPID_TOKEN_LIFETIME - rapidRenewSignatureMargin).isBefore(LocalDateTime.now())
+    internal open fun isAboutToExpire() = timestamp.plusSeconds(Authentication.RAPID_TOKEN_LIFETIME - Authentication.RAPID_RENEW_SIGNATURE_MARGIN).isBefore(LocalDateTime.now())
 }

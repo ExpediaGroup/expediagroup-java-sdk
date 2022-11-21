@@ -15,10 +15,10 @@
  */
 package com.expediagroup.sdk.core.plugin.authentication.strategies.signature
 
-import com.expediagroup.sdk.core.commons.TestConstants.SIGNATURE
+import com.expediagroup.sdk.core.commons.TestConstants.SIGNATURE_VALUE
 import com.expediagroup.sdk.core.commons.TestConstants.TEST_VALUE
-import com.expediagroup.sdk.core.constant.Constant.BEARER
-import com.expediagroup.sdk.core.constant.Constant.EAN
+import com.expediagroup.sdk.core.constant.Authentication.BEARER
+import com.expediagroup.sdk.core.constant.Authentication.EAN
 import io.ktor.client.request.headers
 import io.ktor.client.request.request
 import io.ktor.http.HttpHeaders.Authorization
@@ -91,7 +91,7 @@ internal class SignatureAuthProviderTest {
     fun `given auth scheme EAN when isApplicable then return false`() {
         runBlocking {
             val signatureAuthProvider = SignatureAuthProvider { TEST_VALUE }
-            val httpAuthHeader = HttpAuthHeader.Single(EAN, SIGNATURE)
+            val httpAuthHeader = HttpAuthHeader.Single(EAN, SIGNATURE_VALUE)
 
             assertThat(signatureAuthProvider.isApplicable(httpAuthHeader)).isTrue
         }
