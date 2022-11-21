@@ -31,7 +31,7 @@ internal class SignatureCalculatorTest {
         val signature = calculateSignature(
             CLIENT_KEY_TEST_CREDENTIAL,
             CLIENT_SECRET_TEST_CREDENTIAL,
-            LocalDateTime.ofEpochSecond(SIGNATURE_TIMESTAMP_UTC, ZERO.toInt(), ZoneOffset.UTC)
+            LocalDateTime.ofEpochSecond(SIGNATURE_TIMESTAMP_UTC, ZERO.toInt(), ZoneOffset.ofHours(2))
         )
 
         assertThat(signature).isEqualTo(MANUALLY_CALCULATED_SIGNATURE)
