@@ -37,7 +37,7 @@ open class {{classname}}(clientConfiguration: ClientConfiguration = ClientConfig
             method = HttpMethod.parse("{{httpMethod}}")
             url(removeLeadingSlash("{{path}}"){{#pathParams}}.replace("{" + "{{baseName}}" + "}", {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}"${{{paramName}}}"{{/isContainer}}){{/pathParams}})
             headers.append("x-sdk-title", loader.data()["sdk-title"]!!)
-            headers.append("User-agent", "open-world-sdk/${loader.data()["sdk-version"]!!}")
+    headers.append("User-agent", "open-world-sdk-{{#isKotlin}}kotlin{{/isKotlin}}{{^isKotlin}}java{{/isKotlin}}/${loader.data()["sdk-version"]!!}")
             transactionId?.let {
                  headers.append("transaction-id", it.toString())
             }
