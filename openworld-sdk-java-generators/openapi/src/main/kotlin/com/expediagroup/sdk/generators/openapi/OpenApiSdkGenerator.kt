@@ -61,6 +61,9 @@ class OpenApiSdkGenerator {
     @Option(name = ["-v", "--version"])
     lateinit var version: String
 
+    @Option(name = ["-k", "--isKotlin"])
+    lateinit var isKotlin: String
+
     fun run() {
         try {
             val config = CodegenConfigurator().apply {
@@ -87,8 +90,9 @@ class OpenApiSdkGenerator {
                 // Configure serialization library
                 addAdditionalProperty("serializationLibrary", "gson")
                 addAdditionalProperty("sortParamsByRequiredFlag", true)
+                addAdditionalProperty("isKotlin", isKotlin.toBoolean())
                 // Configure SDK Artifact Coordinates
-                setArtifactId("openworld-java-sdk-$namespace")
+                setArtifactId("openworld-${getSdkLanguage()}-sdk-$namespace")
                 setArtifactVersion(version)
                 // Configure package details
                 setPackageName("com.expediagroup.openworld.sdk.$packageName")
@@ -117,6 +121,8 @@ class OpenApiSdkGenerator {
             e.printStackTrace()
         }
     }
+
+    private fun getSdkLanguage() = if (isKotlin.toBoolean()) "kotlin" else "java"
 
     private fun prepareSpecFile(): String {
         val buffer = ByteArray(1024)

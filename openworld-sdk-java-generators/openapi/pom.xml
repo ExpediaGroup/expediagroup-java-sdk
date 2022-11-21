@@ -23,6 +23,7 @@
         <out>${project.build.directory}/sdk/</out>
         <namespace>exemplar</namespace>
         <sdkVersion>0.0.1-SNAPSHOT</sdkVersion>
+        <isKotlin>false</isKotlin>
 
         <!-- Versions -->
         <openapi-generator.version>6.0.1</openapi-generator.version>
@@ -119,6 +120,8 @@
                                 <argument>${namespace}</argument>
                                 <argument>--version</argument>
                                 <argument>${sdkVersion}</argument>
+                                <argument>--isKotlin</argument>
+                                <argument>${isKotlin}</argument>
                             </arguments>
                         </configuration>
                     </execution>

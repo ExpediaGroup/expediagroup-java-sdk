@@ -4,7 +4,7 @@
     * @param {{{name}}} {{{description}}}
 {{/vars}}
 */
-{{#nonPublicApi}}internal {{/nonPublicApi}}{{#discriminator}}interface{{/discriminator}}{{^discriminator}}data class{{/discriminator}} {{classname}} {{^discriminator}} (
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{#discriminator}}interface {{/discriminator}}{{^discriminator}}data class {{/discriminator}}{{classname}} {{^discriminator}}(
 {{#allVars}}
     {{#required}}{{>data_class_req_var}}{{/required}}{{^required}}{{>data_class_opt_var}}{{/required}}{{^-last}},{{/-last}}
 {{/allVars}}
@@ -12,10 +12,10 @@
 {{#discriminator}}{{#vars}}{{#required}}
     {{>interface_req_var}}{{/required}}{{^required}}
     {{>interface_opt_var}}{{/required}}{{/vars}}{{/discriminator}}
-{{^discriminator}}
+{{^isKotlin}}{{^discriminator}}
     companion object {
-         @JvmStatic
-        fun builder() = Builder()
+    @JvmStatic
+    fun builder() = Builder()
     }
 
     class Builder(
@@ -30,22 +30,22 @@
     {{#hasRequired}}
         // check required params
         validateNullity()
-     {{/hasRequired}}
-     return {{classname}}({{#allVars}}{{{name}}} = {{{name}}}{{#required}}!!{{/required}}{{^-last}},{{/-last}}{{/allVars}})
+    {{/hasRequired}}
+    return {{classname}}({{#allVars}}{{{name}}} = {{{name}}}{{#required}}!!{{/required}}{{^-last}},{{/-last}}{{/allVars}})
     }
     {{#hasRequired}}
-    private fun validateNullity() {
-    {{#allVars}}
-        {{#required}}
-        if ({{{name}}} == null) {
-            throw NullPointerException("Required parameter {{{name}}} is missing")
+        private fun validateNullity() {
+        {{#allVars}}
+            {{#required}}
+                if ({{{name}}} == null) {
+                throw NullPointerException("Required parameter {{{name}}} is missing")
+                }
+            {{/required}}
+        {{/allVars}}
         }
-        {{/required}}
-    {{/allVars}}
-    }
     {{/hasRequired}}
     }
-{{/discriminator}}
+{{/discriminator}}{{/isKotlin}}
 {{#hasEnums}}
     {{#vars}}
         {{#isEnum}}
