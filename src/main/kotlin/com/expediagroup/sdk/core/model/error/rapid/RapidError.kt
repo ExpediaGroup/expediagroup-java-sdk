@@ -16,7 +16,7 @@
 package com.expediagroup.sdk.core.model.error.rapid
 
 /**
- * The object used to describe an error, containing both human-readable and in machine-readable information.
+ * The object used to describe an error, containing both human-readable and machine-readable information.
  *
  * @property type The type of error.
  * @property message A human-readable message giving details about this error.

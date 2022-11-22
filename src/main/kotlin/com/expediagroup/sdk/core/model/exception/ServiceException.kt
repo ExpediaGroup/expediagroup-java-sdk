@@ -27,4 +27,4 @@ import io.ktor.http.HttpStatusCode
 class ServiceException(
     errorCode: HttpStatusCode,
     error: Error
-) : BaseException("[${errorCode.value}] $error")
+) : OpenWorldException("[${errorCode.value}] $error")

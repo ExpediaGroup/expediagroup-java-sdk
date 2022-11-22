@@ -27,4 +27,4 @@ import io.ktor.http.HttpStatusCode
 class RapidServiceException(
     errorCode: HttpStatusCode,
     error: RapidError
-) : BaseException("[${errorCode.value}] $error")
+) : OpenWorldException("[${errorCode.value}] $error")

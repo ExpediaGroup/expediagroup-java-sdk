@@ -21,4 +21,4 @@ package com.expediagroup.sdk.core.model.exception
  * @param message An optional error message.
  * @param cause An optional cause of the error.
  */
-class ConfigurationException(message: String?, cause: Throwable? = null) : BaseException(message, cause)
+class ConfigurationException(message: String?, cause: Throwable? = null) : OpenWorldException(message, cause)
