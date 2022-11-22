@@ -15,7 +15,10 @@
  */
 package com.expediagroup.sdk.core.model.exception
 
-internal open class BaseException : RuntimeException {
+/**
+ * A base exception for all SDK exceptions.
+ */
+open class OpenWorldException : RuntimeException {
     constructor(message: String?) : super(message)
     constructor(message: String?, cause: Throwable?) : super(message, cause)
 }

@@ -35,7 +35,7 @@ import java.net.URI
  * @property value A string representation of the erroneous value of the element identified in `name`, perceived to be the cause of the error. When specified, the `location` and `name` should be
  * specified as well. This value may be omitted in cases where it cannot be provided (e.g. missing require field), or the erroneous value cannot be represented as a string.
  */
-internal data class ErrorCause(
+data class ErrorCause(
     val type: URI,
     val detail: String,
     val location: Location? = null,
@@ -44,18 +44,20 @@ internal data class ErrorCause(
 ) {
     /**
      * The location of the element in the request that identifies this specific cause. When specified, the `name` will be specified and when applicable, the `value` as well.
-     * Can be one of:
-     * * `HEADER` - When an error has been identified in one of the request headers.
-     * * `PATH` - When an error has been identified in one of the path parameters.
-     * * `QUERY` - When an error has been identified in one of the query parameters.
-     * * `BODY` - When an error has been identified in the request body.
      *
-     * Values: HEADER, PATH, QUERY, BODY
+     * @property value the text value of the location.
      */
     enum class Location(val value: String) {
+        /** When an error has been identified in one of the request headers. */
         HEADER("HEADER"),
+
+        /** When an error has been identified in one of the path parameters. */
         PATH("PATH"),
+
+        /** When an error has been identified in one of the query parameters. */
         QUERY("QUERY"),
+
+        /** When an error has been identified in the request body. */
         BODY("BODY");
     }
 }
