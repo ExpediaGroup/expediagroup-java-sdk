@@ -26,6 +26,8 @@ import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_SECRET_TEST_CREDEN
 import com.expediagroup.sdk.core.configuration.Credentials
 import com.expediagroup.sdk.core.configuration.provider.DefaultConfigurationProvider
 import com.expediagroup.sdk.core.model.exception.AuthException
+import com.expediagroup.sdk.core.plugin.Hooks
+import com.expediagroup.sdk.core.plugin.authentication.strategies.bearer.BearerStrategy
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.request.get
@@ -52,7 +54,9 @@ import org.junit.jupiter.params.provider.MethodSource
 import org.junit.jupiter.params.provider.ValueSource
 import java.util.stream.Stream
 import kotlin.reflect.full.declaredMemberFunctions
+import kotlin.reflect.full.memberProperties
 import kotlin.reflect.jvm.isAccessible
+import kotlin.reflect.jvm.javaField
 
 internal class AuthenticationPluginTest {
 
@@ -64,6 +68,16 @@ internal class AuthenticationPluginTest {
     @AfterEach
     internal fun tearDown() {
         clearAllMocks()
+        clearHooks()
+    }
+
+    private fun clearHooks() {
+        val property = Hooks::class.memberProperties.find { it.name == "hooksCollection" }
+        property?.let {
+            it.isAccessible = true
+            val hooksCollection = it.javaField?.get(Hooks) as MutableList<*>
+            hooksCollection.clear()
+        }
     }
 
     @Test
@@ -76,7 +90,7 @@ internal class AuthenticationPluginTest {
                 "Bearer $ACCESS_TOKEN"
             )
 
-            clearAuthorizationTokens(httpClient)
+            clearBearerTokens(httpClient)
         }
     }
 
@@ -100,7 +114,7 @@ internal class AuthenticationPluginTest {
                 )
             }
 
-            clearAuthorizationTokens(httpClient)
+            clearBearerTokens(httpClient)
         }
     }
 
@@ -124,7 +138,7 @@ internal class AuthenticationPluginTest {
                 )
             }
 
-            clearAuthorizationTokens(httpClient)
+            clearBearerTokens(httpClient)
         }
     }
 
@@ -133,7 +147,7 @@ internal class AuthenticationPluginTest {
         runBlocking {
             mockkObject(AuthenticationPlugin)
             val httpClient = ClientFactory.createClient().httpClient
-            clearAuthorizationTokens(httpClient)
+            clearBearerTokens(httpClient)
 
             launch {
                 httpClient.get(ANY_URL)
@@ -147,7 +161,7 @@ internal class AuthenticationPluginTest {
                 AuthenticationPlugin.renewToken(httpClient, any())
             }
 
-            clearAuthorizationTokens(httpClient)
+            clearBearerTokens(httpClient)
         }
     }
 
@@ -166,7 +180,7 @@ internal class AuthenticationPluginTest {
                 AuthenticationPlugin.renewToken(httpClient, any())
             }
 
-            clearAuthorizationTokens(httpClient)
+            clearBearerTokens(httpClient)
         }
     }
 
@@ -184,7 +198,7 @@ internal class AuthenticationPluginTest {
                 AuthenticationPlugin.renewToken(httpClient, any())
             }
 
-            clearAuthorizationTokens(httpClient)
+            clearBearerTokens(httpClient)
         }
     }
 
@@ -205,7 +219,7 @@ internal class AuthenticationPluginTest {
                 AuthenticationPlugin.renewToken(httpClient, any())
             }
 
-            clearAuthorizationTokens(httpClient)
+            clearBearerTokens(httpClient)
         }
     }
 
@@ -233,18 +247,18 @@ internal class AuthenticationPluginTest {
                 AuthenticationPlugin.renewToken(httpClient, any())
             }
 
-            clearAuthorizationTokens(httpClient)
+            clearBearerTokens(httpClient)
         }
     }
 
     /*
-    * AuthorizationTokens need to be cleared after each test due to problems with clearing mocked Singletons
-    * https://stackoverflow.com/a/28028662
-    * */
-    private fun clearAuthorizationTokens(client: HttpClient) = AuthenticationPlugin::class.declaredMemberFunctions
+        * BearerTokens need to be cleared after each test due to problems with clearing mocked Singletons
+        * https://stackoverflow.com/a/28028662
+        */
+    private fun clearBearerTokens(client: HttpClient) = BearerStrategy::class.declaredMemberFunctions
         .firstOrNull { it.name == "clearTokens" }
         ?.apply { isAccessible = true }
-        ?.call(AuthenticationPlugin, client)
+        ?.call(BearerStrategy, client)
 
     private suspend fun renewToken(httpClient: HttpClient) {
         AuthenticationPlugin.renewToken(httpClient, getAuthenticationConfiguration())
