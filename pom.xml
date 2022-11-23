@@ -42,7 +42,6 @@
                         <exclude>**/authentication/strategies/bearer/TokenResponse*</exclude>
                         <exclude>**/authentication/AuthenticationConfiguration*</exclude>
                         <exclude>**/authentication/AuthenticationHook*</exclude>
-                        <exclude>**/authentication/strategies/signature/SignatureAuthConfig*</exclude>
                         <exclude>**/authentication/strategies/AuthenticationStrategy*</exclude>
 
                         <exclude>**/logging/**</exclude>
