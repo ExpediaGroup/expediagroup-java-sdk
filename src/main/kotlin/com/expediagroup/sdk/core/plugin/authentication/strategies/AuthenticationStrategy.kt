@@ -15,7 +15,6 @@
  */
 package com.expediagroup.sdk.core.plugin.authentication.strategies
 
-import com.expediagroup.sdk.core.constant.Constant.EMPTY_STRING
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationConfiguration
 import com.expediagroup.sdk.core.plugin.authentication.strategies.bearer.BearerStrategy
 import io.ktor.client.HttpClient
@@ -23,13 +22,6 @@ import io.ktor.client.plugins.auth.Auth
 import io.ktor.client.request.HttpRequestBuilder
 
 internal interface AuthenticationStrategy {
-    object EmptyStrategy : AuthenticationStrategy {
-        override fun isTokenAboutToExpire(): Boolean = true
-        override suspend fun renewToken(client: HttpClient, configs: AuthenticationConfiguration) {}
-        override fun isNotIdentityRequest(request: HttpRequestBuilder, configs: AuthenticationConfiguration) = true
-        override fun getAuthorizationHeader() = EMPTY_STRING
-    }
-
     fun loadAuth(configurations: AuthenticationConfiguration, auth: Auth) {}
 
     fun isTokenAboutToExpire(): Boolean

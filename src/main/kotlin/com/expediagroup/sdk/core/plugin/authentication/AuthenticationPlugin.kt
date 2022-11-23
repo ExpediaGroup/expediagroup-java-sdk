@@ -22,7 +22,8 @@ import io.ktor.client.plugins.auth.Auth
 import io.ktor.client.request.HttpRequestBuilder
 
 internal object AuthenticationPlugin : Plugin<AuthenticationConfiguration> {
-    private var strategy: AuthenticationStrategy = AuthenticationStrategy.EmptyStrategy
+    @Suppress("LateinitUsage")
+    private lateinit var strategy: AuthenticationStrategy
 
     override fun install(configurations: AuthenticationConfiguration) {
         strategy = AuthenticationStrategy.from()
