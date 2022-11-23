@@ -44,7 +44,7 @@ import org.slf4j.LoggerFactory
 internal object BearerStrategy : AuthenticationStrategy {
     private val log = LoggerFactory.getLogger(javaClass)
     private var bearerTokenStorage = BearerTokensInfo.emptyBearerTokenInfo
-    private val loadTokensBlock: () -> BearerTokens? = {
+    private val loadTokensBlock: () -> BearerTokens = {
         getTokens()
     }
 

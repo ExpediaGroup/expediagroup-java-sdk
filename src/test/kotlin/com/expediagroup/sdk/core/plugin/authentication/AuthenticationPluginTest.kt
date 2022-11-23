@@ -28,8 +28,8 @@ import com.expediagroup.sdk.core.constant.Authentication.BEARER
 import com.expediagroup.sdk.core.constant.Authentication.EAN
 import com.expediagroup.sdk.core.constant.HeaderKey
 import com.expediagroup.sdk.core.model.exception.ClientException
+import com.expediagroup.sdk.core.plugin.Hooks
 import com.expediagroup.sdk.core.plugin.authentication.strategies.bearer.BearerStrategy
-import com.expediagroup.sdk.core.plugin.authentication.strategies.signature.SignatureStrategy
 import com.expediagroup.sdk.core.plugin.authentication.strategies.signature.calculateSignature
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
@@ -62,7 +62,9 @@ import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 import kotlin.reflect.full.declaredMemberFunctions
+import kotlin.reflect.full.memberProperties
 import kotlin.reflect.jvm.isAccessible
+import kotlin.reflect.jvm.javaField
 
 internal class AuthenticationPluginTest {
 
@@ -74,6 +76,16 @@ internal class AuthenticationPluginTest {
     @AfterEach
     internal fun tearDown() {
         clearAllMocks()
+        clearHooks()
+    }
+
+    private fun clearHooks() {
+        val property = Hooks::class.memberProperties.find { it.name == "hooksCollection" }
+        property?.let {
+            it.isAccessible = true
+            val hooksCollection = it.javaField?.get(Hooks) as MutableList<*>
+            hooksCollection.clear()
+        }
     }
 
     @Nested
@@ -81,23 +93,20 @@ internal class AuthenticationPluginTest {
         @Test
         fun `making any http call should invoke the authorized signature`() {
             runBlocking {
-                mockSignatureStrategy()
                 mockSignatureCalculator()
 
                 val httpClient = ClientFactory.createRapidClient().httpClient
-                val testRequest = httpClient.get(ANY_URL)
+                val request = httpClient.get(ANY_URL)
 
-                assertThat(testRequest.request.headers[HeaderKey.AUTHORIZATION]).isEqualTo(
+                assertThat(request.request.headers[HeaderKey.AUTHORIZATION]).isEqualTo(
                     "$EAN $SIGNATURE_VALUE"
                 )
             }
         }
 
         @Test
-        fun `given request when signature almost or is expired then should renew signature`() {
+        fun `given new request then should renew token`() {
             runBlocking {
-                mockSignatureStrategy()
-
                 val httpClient = ClientFactory.createRapidClient().httpClient
 
                 val firstRequest = httpClient.get(ANY_URL)
@@ -111,49 +120,26 @@ internal class AuthenticationPluginTest {
         }
 
         @Test
-        fun `given request when token not almost and not expired then should not renew token`() {
-            runBlocking {
-                val httpClient = ClientFactory.createRapidClient().httpClient
-
-                val firstRequest = httpClient.get(ANY_URL)
-                delay(1000)
-                val secondRequest = httpClient.get(ANY_URL)
-
-                assertThat(firstRequest.request.headers[HeaderKey.AUTHORIZATION]).isEqualTo(
-                    secondRequest.request.headers[HeaderKey.AUTHORIZATION]
-                )
-            }
-        }
-
-        @Test
-        fun `given multiple requests when token expired then no requests should be unauthorized`() {
+        fun `given multiple requests then no requests should be unauthorized`() {
             runBlocking {
                 mockkObject(AuthenticationPlugin)
                 val httpClient = ClientFactory.createRapidClient().httpClient
 
                 launch {
-                    val request = httpClient.get(ANY_URL)
-                    assertThat(request.status != HttpStatusCode.Unauthorized)
+                    httpClient.get(ANY_URL)
                 }
                 launch {
-                    val request = httpClient.get(ANY_URL)
-                    assertThat(request.status != HttpStatusCode.Unauthorized)
+                    httpClient.get(ANY_URL)
                 }
                 launch {
-                    val request = httpClient.get(ANY_URL)
-                    assertThat(request.status != HttpStatusCode.Unauthorized)
+                    httpClient.get(ANY_URL)
                 }
 
                 delay(1000)
-                coVerify(exactly = 1) {
+                coVerify(exactly = 3) {
                     AuthenticationPlugin.renewToken(httpClient, any())
                 }
             }
-        }
-
-        private fun mockSignatureStrategy() {
-            mockkObject(SignatureStrategy)
-            every { SignatureStrategy.isTokenAboutToExpire() } returns true
         }
 
         private fun mockSignatureCalculator() {
@@ -311,7 +297,7 @@ internal class AuthenticationPluginTest {
         }
 
         /*
-        * AuthorizationTokens need to be cleared after each test due to problems with clearing mocked Singletons
+        * BearerTokens need to be cleared after each test due to problems with clearing mocked Singletons
         * https://stackoverflow.com/a/28028662
         */
         private fun clearBearerTokens(client: HttpClient) = BearerStrategy::class.declaredMemberFunctions

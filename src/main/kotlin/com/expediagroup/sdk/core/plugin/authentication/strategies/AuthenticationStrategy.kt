@@ -25,14 +25,13 @@ import io.ktor.client.request.HttpRequestBuilder
 
 internal interface AuthenticationStrategy {
     object EmptyStrategy : AuthenticationStrategy {
-        override fun loadAuth(configurations: AuthenticationConfiguration, auth: Auth) {}
         override fun isTokenAboutToExpire(): Boolean = true
         override suspend fun renewToken(client: HttpClient, configs: AuthenticationConfiguration) {}
         override fun isNotIdentityRequest(request: HttpRequestBuilder, configs: AuthenticationConfiguration) = true
         override fun getAuthorizationHeader() = EMPTY_STRING
     }
 
-    fun loadAuth(configurations: AuthenticationConfiguration, auth: Auth)
+    fun loadAuth(configurations: AuthenticationConfiguration, auth: Auth) {}
 
     fun isTokenAboutToExpire(): Boolean
 

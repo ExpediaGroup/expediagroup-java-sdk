@@ -34,5 +34,5 @@ internal object ClientFactory {
 
     fun createClient(mockEngine: MockEngine): Client = Client.from(mockEngine, configuration, false)
 
-    fun createRapidClient(): Client = Client.from(MockEngineFactory.createDefaultEngine(), configuration, true)
+    fun createRapidClient(): Client = Client.from(MockEngineFactory.createEmptyResponseEngine(), configuration, true)
 }

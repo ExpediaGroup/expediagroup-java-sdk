@@ -25,6 +25,7 @@ import com.expediagroup.sdk.core.commons.TestConstants.SUCCESSFUL_DUMMY_REQUEST
 import com.expediagroup.sdk.core.commons.TestConstants.TEST_URL
 import com.expediagroup.sdk.core.configuration.provider.DefaultConfigurationProvider
 import com.expediagroup.sdk.core.constant.Authentication.BEARER
+import com.expediagroup.sdk.core.constant.Constant.EMPTY_STRING
 import com.expediagroup.sdk.core.constant.HeaderKey
 import com.expediagroup.sdk.core.model.exception.ClientException
 import io.ktor.client.engine.HttpClientEngine
@@ -55,6 +56,12 @@ object MockEngineFactory {
         } else {
             throw ClientException(HttpStatusCode.InternalServerError, "unsupported case in the mock engine")
         }
+    }
+
+    fun createEmptyResponseEngine() = MockEngine {
+        respond(
+            content = EMPTY_STRING
+        )
     }
 
     private fun isIdentityRequest(request: HttpRequestData) = request.url.toString() == DefaultConfigurationProvider.authEndpoint
