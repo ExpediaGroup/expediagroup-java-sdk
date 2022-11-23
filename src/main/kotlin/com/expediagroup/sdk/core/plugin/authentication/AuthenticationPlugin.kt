@@ -16,6 +16,7 @@
 package com.expediagroup.sdk.core.plugin.authentication
 
 import com.expediagroup.sdk.core.configuration.Credentials
+import com.expediagroup.sdk.core.constant.Constant.SUCCESSFUL_STATUS_CODES_RANGE
 import com.expediagroup.sdk.core.constant.ExceptionMessage.AUTHENTICATION_FAILURE
 import com.expediagroup.sdk.core.constant.HeaderKey
 import com.expediagroup.sdk.core.constant.HeaderValue
@@ -38,7 +39,6 @@ import io.ktor.client.request.basicAuth
 import io.ktor.client.request.request
 import io.ktor.client.request.url
 import io.ktor.http.HttpMethod
-import io.ktor.http.HttpStatusCode
 import io.ktor.http.Parameters
 import org.slf4j.LoggerFactory
 
@@ -75,7 +75,7 @@ internal object AuthenticationPlugin : Plugin<AuthenticationConfiguration> {
             buildTokenRequest()
             basicAuth(configs.credentials)
         }
-        if (renewTokenResponse.status != HttpStatusCode.OK) {
+        if (renewTokenResponse.status.value !in SUCCESSFUL_STATUS_CODES_RANGE) {
             throw AuthException(renewTokenResponse.status, AUTHENTICATION_FAILURE)
         }
         val renewedTokenInfo: TokenResponse = renewTokenResponse.body()
