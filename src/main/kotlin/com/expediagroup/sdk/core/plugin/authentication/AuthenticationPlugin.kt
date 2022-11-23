@@ -26,7 +26,7 @@ internal object AuthenticationPlugin : Plugin<AuthenticationConfiguration> {
     private lateinit var strategy: AuthenticationStrategy
 
     override fun install(configurations: AuthenticationConfiguration) {
-        strategy = AuthenticationStrategy.from(false)
+        strategy = AuthenticationStrategy.getStrategy(false)
         configurations.httpClientConfiguration.install(Auth) {
             strategy.loadAuth(configurations, this)
         }

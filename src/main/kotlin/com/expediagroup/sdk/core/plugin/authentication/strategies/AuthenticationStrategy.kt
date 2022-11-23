@@ -34,6 +34,6 @@ internal interface AuthenticationStrategy {
     fun getAuthorizationHeader(): String
 
     companion object {
-        fun from(isSignature: Boolean): AuthenticationStrategy = if (isSignature) SignatureStrategy else BearerStrategy
+        fun getStrategy(isSignature: Boolean): AuthenticationStrategy = if (isSignature) SignatureStrategy else BearerStrategy
     }
 }
