@@ -27,7 +27,7 @@ import com.expediagroup.sdk.core.configuration.provider.DefaultConfigurationProv
 import com.expediagroup.sdk.core.constant.Authentication.BEARER
 import com.expediagroup.sdk.core.constant.Authentication.EAN
 import com.expediagroup.sdk.core.constant.HeaderKey
-import com.expediagroup.sdk.core.model.exception.ClientException
+import com.expediagroup.sdk.core.model.exception.AuthException
 import com.expediagroup.sdk.core.plugin.Hooks
 import com.expediagroup.sdk.core.plugin.authentication.strategies.bearer.BearerStrategy
 import com.expediagroup.sdk.core.plugin.authentication.strategies.signature.calculateSignature
@@ -169,7 +169,7 @@ internal class AuthenticationPluginTest {
             runBlocking {
                 val httpClient = ClientFactory.createClient().httpClient
 
-                assertThrows<ClientException> {
+                assertThrows<AuthException> {
                     AuthenticationPlugin.renewToken(
                         httpClient,
                         AuthenticationConfiguration.from(
