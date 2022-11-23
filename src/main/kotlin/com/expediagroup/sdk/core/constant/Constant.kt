@@ -20,9 +20,11 @@ import java.io.File
 internal object Constant {
     const val EMPTY_STRING = ""
 
-    private const val OK_STATUS_CODES_RANGE_START = 200
-    private const val OK_STATUS_CODES_RANGE_END = 299
-    val OK_STATUS_CODES_RANGE: IntRange = OK_STATUS_CODES_RANGE_START..OK_STATUS_CODES_RANGE_END
+    const val BEARER = "Bearer"
+
+    private const val SUCCESSFUL_STATUS_CODES_RANGE_START = 200
+    private const val SUCCESSFUL_STATUS_CODES_RANGE_END = 299
+    val SUCCESSFUL_STATUS_CODES_RANGE: IntRange = SUCCESSFUL_STATUS_CODES_RANGE_START..SUCCESSFUL_STATUS_CODES_RANGE_END
 
     private val OPEN_WORLD_HOME_PATH = "${System.getProperty("user.home")}${File.separator}.openworld${File.separator}"
 
