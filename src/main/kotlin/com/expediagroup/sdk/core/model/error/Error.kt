@@ -25,7 +25,7 @@ import java.net.URI
  * @property detail A human-readable explanation of the error, specific to this error occurrence.
  * @property causes An array of cause objects, that identify the specific causes of the error.
  */
-internal data class Error(
+data class Error(
     val type: URI,
     val detail: String,
     val causes: List<ErrorCause>? = null
