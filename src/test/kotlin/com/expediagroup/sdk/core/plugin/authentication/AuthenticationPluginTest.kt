@@ -21,7 +21,6 @@ import com.expediagroup.sdk.core.commons.MockEngineFactory.createTokenMockEngine
 import com.expediagroup.sdk.core.commons.MockEngineFactory.createUnauthorizedMockEngineWithStatusCode
 import com.expediagroup.sdk.core.commons.TestConstants.ACCESS_TOKEN
 import com.expediagroup.sdk.core.commons.TestConstants.ANY_URL
-import com.expediagroup.sdk.core.commons.TestConstants.APPLICATION_JSON
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_KEY_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.commons.TestConstants.SIGNATURE_VALUE
@@ -32,6 +31,8 @@ import com.expediagroup.sdk.core.constant.Authentication.EAN
 import com.expediagroup.sdk.core.constant.HeaderKey
 import com.expediagroup.sdk.core.model.exception.AuthException
 import com.expediagroup.sdk.core.plugin.Hooks
+import com.expediagroup.sdk.core.plugin.authentication.helper.SuccessfulStatusCodesArgumentProvider
+import com.expediagroup.sdk.core.plugin.authentication.helper.UnsuccessfulStatusCodesArgumentProvider
 import com.expediagroup.sdk.core.plugin.authentication.strategies.bearer.BearerStrategy
 import com.expediagroup.sdk.core.plugin.authentication.strategies.signature.calculateSignature
 import io.ktor.client.HttpClient
@@ -58,10 +59,8 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.Arguments
-import org.junit.jupiter.params.provider.MethodSource
+import org.junit.jupiter.params.provider.ArgumentsSource
 import org.junit.jupiter.params.provider.ValueSource
-import java.util.stream.Stream
 import kotlin.reflect.full.declaredMemberFunctions
 import kotlin.reflect.full.memberProperties
 import kotlin.reflect.jvm.isAccessible
@@ -166,7 +165,7 @@ internal class AuthenticationPluginTest {
         }
 
         @ParameterizedTest
-        @MethodSource("unsuccessfulStatusCodes")
+        @ArgumentsSource(UnsuccessfulStatusCodesArgumentProvider::class)
         fun `refresh auth token should throw client exception if the the credentials are invalid`(httpStatusCode: HttpStatusCode) {
             runBlocking {
                 val httpClient = ClientFactory.createClient(createUnauthorizedMockEngineWithStatusCode(httpStatusCode)).httpClient
@@ -190,7 +189,7 @@ internal class AuthenticationPluginTest {
         }
 
         @ParameterizedTest
-        @MethodSource("successfulStatusCodes")
+        @ArgumentsSource(SuccessfulStatusCodesArgumentProvider::class)
         fun `refresh auth token should not throw client exception if the the credentials are valid`(httpStatusCode: HttpStatusCode) {
             runBlocking {
                 val httpClient = ClientFactory.createClient(createTokenMockEngineWithStatusCode(httpStatusCode)).httpClient
@@ -342,24 +341,6 @@ internal class AuthenticationPluginTest {
                 CLIENT_SECRET_TEST_CREDENTIAL
             ),
             DefaultConfigurationProvider.authEndpoint
-        )
-    }
-
-    companion object {
-        @JvmStatic
-        fun successfulStatusCodes(): Stream<Arguments> = Stream.of(
-            Arguments.of(HttpStatusCode.OK),
-            Arguments.of(HttpStatusCode.Accepted),
-            Arguments.of(HttpStatusCode.NoContent)
-        )
-
-        @JvmStatic
-        fun unsuccessfulStatusCodes(): Stream<Arguments> = Stream.of(
-            Arguments.of(HttpStatusCode.Unauthorized),
-            Arguments.of(HttpStatusCode.BadRequest),
-            Arguments.of(HttpStatusCode.InternalServerError),
-            Arguments.of(HttpStatusCode.fromValue(199)),
-            Arguments.of(HttpStatusCode.fromValue(300))
         )
     }
 }

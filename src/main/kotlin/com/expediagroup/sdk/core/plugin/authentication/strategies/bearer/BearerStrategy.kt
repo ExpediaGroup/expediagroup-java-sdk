@@ -17,6 +17,7 @@ package com.expediagroup.sdk.core.plugin.authentication.strategies.bearer
 
 import com.expediagroup.sdk.core.configuration.Credentials
 import com.expediagroup.sdk.core.constant.Authentication
+import com.expediagroup.sdk.core.constant.Constant
 import com.expediagroup.sdk.core.constant.ExceptionMessage
 import com.expediagroup.sdk.core.constant.HeaderKey
 import com.expediagroup.sdk.core.constant.HeaderValue
@@ -37,7 +38,6 @@ import io.ktor.client.request.basicAuth
 import io.ktor.client.request.request
 import io.ktor.client.request.url
 import io.ktor.http.HttpMethod
-import io.ktor.http.HttpStatusCode
 import io.ktor.http.Parameters
 import org.slf4j.LoggerFactory
 
@@ -70,7 +70,7 @@ internal object BearerStrategy : AuthenticationStrategy {
             buildTokenRequest()
             basicAuth(configs.credentials)
         }
-        if (renewTokenResponse.status != HttpStatusCode.OK) {
+        if (renewTokenResponse.status.value !in Constant.SUCCESSFUL_STATUS_CODES_RANGE) {
             throw AuthException(renewTokenResponse.status, ExceptionMessage.AUTHENTICATION_FAILURE)
         }
         val renewedTokenInfo: TokenResponse = renewTokenResponse.body()
