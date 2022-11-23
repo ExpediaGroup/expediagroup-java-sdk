@@ -252,9 +252,9 @@ internal class AuthenticationPluginTest {
     }
 
     /*
-        * BearerTokens need to be cleared after each test due to problems with clearing mocked Singletons
-        * https://stackoverflow.com/a/28028662
-        */
+     * BearerTokens need to be cleared after each test due to problems with clearing mocked Singletons
+     * https://stackoverflow.com/a/28028662
+     */
     private fun clearBearerTokens(client: HttpClient) = BearerStrategy::class.declaredMemberFunctions
         .firstOrNull { it.name == "clearTokens" }
         ?.apply { isAccessible = true }
