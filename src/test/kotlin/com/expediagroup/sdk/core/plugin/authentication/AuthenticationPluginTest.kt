@@ -261,19 +261,19 @@ internal class AuthenticationPluginTest {
 
     companion object {
         @JvmStatic
+        fun successfulStatusCodes(): Stream<Arguments> = Stream.of(
+            Arguments.of(HttpStatusCode.OK),
+            Arguments.of(HttpStatusCode.Accepted),
+            Arguments.of(HttpStatusCode.NoContent)
+        )
+
+        @JvmStatic
         fun unsuccessfulStatusCodes(): Stream<Arguments> = Stream.of(
             Arguments.of(HttpStatusCode.Unauthorized),
             Arguments.of(HttpStatusCode.BadRequest),
             Arguments.of(HttpStatusCode.InternalServerError),
             Arguments.of(HttpStatusCode.fromValue(199)),
             Arguments.of(HttpStatusCode.fromValue(300))
-        )
-
-        @JvmStatic
-        fun successfulStatusCodes(): Stream<Arguments> = Stream.of(
-            Arguments.of(HttpStatusCode.OK),
-            Arguments.of(HttpStatusCode.Accepted),
-            Arguments.of(HttpStatusCode.NoContent)
         )
     }
 }
