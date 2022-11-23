@@ -16,6 +16,9 @@
 package com.expediagroup.sdk.core.plugin.authentication
 
 import com.expediagroup.sdk.core.commons.ClientFactory
+import com.expediagroup.sdk.core.commons.MockEngineFactory.createMockEngineExpiresInPerCall
+import com.expediagroup.sdk.core.commons.MockEngineFactory.createTokenMockEngineWithStatusCode
+import com.expediagroup.sdk.core.commons.MockEngineFactory.createUnauthorizedMockEngineWithStatusCode
 import com.expediagroup.sdk.core.commons.TestConstants.ACCESS_TOKEN
 import com.expediagroup.sdk.core.commons.TestConstants.ANY_URL
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_KEY_TEST_CREDENTIAL
@@ -25,18 +28,12 @@ import com.expediagroup.sdk.core.configuration.provider.DefaultConfigurationProv
 import com.expediagroup.sdk.core.model.exception.AuthException
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
-import io.ktor.client.engine.mock.MockEngine
-import io.ktor.client.engine.mock.MockRequestHandleScope
-import io.ktor.client.engine.mock.respond
 import io.ktor.client.request.get
 import io.ktor.client.request.request
 import io.ktor.client.request.url
 import io.ktor.client.statement.request
-import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
-import io.ktor.http.headersOf
-import io.ktor.utils.io.ByteReadChannel
 import io.mockk.clearAllMocks
 import io.mockk.coVerify
 import io.mockk.mockkObject
@@ -47,9 +44,13 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.MethodSource
 import org.junit.jupiter.params.provider.ValueSource
+import java.util.stream.Stream
 import kotlin.reflect.full.declaredMemberFunctions
 import kotlin.reflect.jvm.isAccessible
 
@@ -79,10 +80,11 @@ internal class AuthenticationPluginTest {
         }
     }
 
-    @Test
-    fun `refresh auth token should throw client exception if the the credentials are invalid`() {
+    @ParameterizedTest
+    @MethodSource("unsuccessfulStatusCodes")
+    fun `refresh auth token should throw client exception if the the credentials are invalid`(httpStatusCode: HttpStatusCode) {
         runBlocking {
-            val httpClient = ClientFactory.createClient().httpClient
+            val httpClient = ClientFactory.createClient(createUnauthorizedMockEngineWithStatusCode(httpStatusCode)).httpClient
 
             assertThrows<AuthException> {
                 AuthenticationPlugin.renewToken(
@@ -102,6 +104,30 @@ internal class AuthenticationPluginTest {
         }
     }
 
+    @ParameterizedTest
+    @MethodSource("successfulStatusCodes")
+    fun `refresh auth token should not throw client exception if the the credentials are valid`(httpStatusCode: HttpStatusCode) {
+        runBlocking {
+            val httpClient = ClientFactory.createClient(createTokenMockEngineWithStatusCode(httpStatusCode)).httpClient
+
+            assertDoesNotThrow {
+                AuthenticationPlugin.renewToken(
+                    httpClient,
+                    AuthenticationConfiguration.from(
+                        HttpClientConfig(),
+                        Credentials(
+                            CLIENT_KEY_TEST_CREDENTIAL,
+                            CLIENT_SECRET_TEST_CREDENTIAL
+                        ),
+                        DefaultConfigurationProvider.authEndpoint
+                    )
+                )
+            }
+
+            clearAuthorizationTokens(httpClient)
+        }
+    }
+
     @Test
     fun `make parallel should run the single refresh token only`() {
         runBlocking {
@@ -109,7 +135,6 @@ internal class AuthenticationPluginTest {
             val httpClient = ClientFactory.createClient().httpClient
             clearAuthorizationTokens(httpClient)
 
-            println(AuthenticationPlugin.getToken().accessToken)
             launch {
                 httpClient.get(ANY_URL)
             }
@@ -221,21 +246,6 @@ internal class AuthenticationPluginTest {
         ?.apply { isAccessible = true }
         ?.call(AuthenticationPlugin, client)
 
-    private fun MockRequestHandleScope.createTokenResponse(expiresIn: Int) = respond(
-        content = ByteReadChannel(
-            """
-                    {
-                        "access_token": "$ACCESS_TOKEN",
-                        "token_type": "bearer",
-                        "expires_in": $expiresIn,
-                        "scope": "any-scope"
-                    }
-                    """
-        ),
-        status = HttpStatusCode.OK,
-        headers = headersOf(HttpHeaders.ContentType, "application/json")
-    )
-
     private suspend fun renewToken(httpClient: HttpClient) {
         AuthenticationPlugin.renewToken(httpClient, getAuthenticationConfiguration())
     }
@@ -249,16 +259,21 @@ internal class AuthenticationPluginTest {
         DefaultConfigurationProvider.authEndpoint
     )
 
-    private fun createMockEngineExpiresInPerCall(vararg expiresIn: Int): MockEngine {
-        var timesCalled = -1
-        val mockEngine = MockEngine {
-            timesCalled++
-            if (timesCalled in expiresIn.indices) {
-                createTokenResponse(expiresIn[timesCalled])
-            } else {
-                createTokenResponse(1000)
-            }
-        }
-        return mockEngine
+    companion object {
+        @JvmStatic
+        fun unsuccessfulStatusCodes(): Stream<Arguments> = Stream.of(
+            Arguments.of(HttpStatusCode.Unauthorized),
+            Arguments.of(HttpStatusCode.BadRequest),
+            Arguments.of(HttpStatusCode.InternalServerError),
+            Arguments.of(HttpStatusCode.fromValue(199)),
+            Arguments.of(HttpStatusCode.fromValue(300))
+        )
+
+        @JvmStatic
+        fun successfulStatusCodes(): Stream<Arguments> = Stream.of(
+            Arguments.of(HttpStatusCode.OK),
+            Arguments.of(HttpStatusCode.Accepted),
+            Arguments.of(HttpStatusCode.NoContent)
+        )
     }
 }

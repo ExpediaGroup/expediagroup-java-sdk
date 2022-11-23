@@ -82,5 +82,5 @@ abstract class OpenApiStub(
         }
     }
 
-    private fun isNotSuccessfulResponse(response: HttpResponse) = response.status.value !in Constant.OK_STATUS_CODES_RANGE
+    private fun isNotSuccessfulResponse(response: HttpResponse) = response.status.value !in Constant.SUCCESSFUL_STATUS_CODES_RANGE
 }
