@@ -16,11 +16,16 @@
 package com.expediagroup.sdk.core.commons
 
 import com.expediagroup.sdk.core.commons.TestConstants.ACCESS_TOKEN
+import com.expediagroup.sdk.core.commons.TestConstants.APPLICATION_JSON
 import com.expediagroup.sdk.core.commons.TestConstants.BAD_REQUEST_ATTRIBUTE
+import com.expediagroup.sdk.core.commons.TestConstants.BASIC
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_KEY_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
+import com.expediagroup.sdk.core.commons.TestConstants.SUCCESSFUL_DUMMY_REQUEST
 import com.expediagroup.sdk.core.commons.TestConstants.TEST_URL
 import com.expediagroup.sdk.core.configuration.provider.DefaultConfigurationProvider
+import com.expediagroup.sdk.core.constant.Authentication.BEARER
+import com.expediagroup.sdk.core.constant.Constant.EMPTY_STRING
 import com.expediagroup.sdk.core.constant.HeaderKey
 import com.expediagroup.sdk.core.model.exception.AuthException
 import io.ktor.client.engine.HttpClientEngine
@@ -88,11 +93,17 @@ object MockEngineFactory {
         headers = headersOf(HttpHeaders.ContentType, "application/json")
     )
 
+    fun createEmptyResponseEngine() = MockEngine {
+        respond(
+            content = EMPTY_STRING
+        )
+    }
+
     private fun isIdentityRequest(request: HttpRequestData) = request.url.toString() == DefaultConfigurationProvider.authEndpoint
 
     private fun isBadRequest(request: HttpRequestData) = request.attributes.getOrNull(AttributeKey(BAD_REQUEST_ATTRIBUTE)) != null
 
-    private fun isValidCredentialsRequest(request: HttpRequestData) = request.headers[HeaderKey.AUTHORIZATION] == "Basic ${
+    private fun isValidCredentialsRequest(request: HttpRequestData) = request.headers[HeaderKey.AUTHORIZATION] == "$BASIC ${
     String(
         Base64.getEncoder().encode(
             "$CLIENT_KEY_TEST_CREDENTIAL:$CLIENT_SECRET_TEST_CREDENTIAL".toByteArray()
@@ -101,7 +112,7 @@ object MockEngineFactory {
     }"
 
     private fun isAuthorizedHeader(request: HttpRequestData) =
-        request.headers[HeaderKey.AUTHORIZATION] == "Bearer $ACCESS_TOKEN"
+        request.headers[HeaderKey.AUTHORIZATION] == "$BEARER $ACCESS_TOKEN"
 
     private fun MockRequestHandleScope.tokenResponse(httpStatusCode: HttpStatusCode) = respond(
         content = ByteReadChannel(
@@ -115,13 +126,11 @@ object MockEngineFactory {
                 """
         ),
         status = httpStatusCode,
-        headers = headersOf(HttpHeaders.ContentType, "application/json")
+        headers = headersOf(HttpHeaders.ContentType, APPLICATION_JSON)
     )
 
     private fun MockRequestHandleScope.successfulRespond() = respond(
-        content = ByteReadChannel(
-            "successful dummy request"
-        ),
+        content = ByteReadChannel(SUCCESSFUL_DUMMY_REQUEST),
         status = HttpStatusCode.OK,
         headers = headersOf(HttpHeaders.ContentType, "text/plain")
     )
@@ -170,6 +179,6 @@ object MockEngineFactory {
                  """
         ),
         status = HttpStatusCode.BadRequest,
-        headersOf(HttpHeaders.ContentType, "application/json")
+        headersOf(HttpHeaders.ContentType, APPLICATION_JSON)
     )
 }

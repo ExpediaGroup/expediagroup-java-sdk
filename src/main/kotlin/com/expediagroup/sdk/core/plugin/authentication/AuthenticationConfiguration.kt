@@ -23,13 +23,15 @@ import io.ktor.client.engine.HttpClientEngineConfig
 internal data class AuthenticationConfiguration(
     override val httpClientConfiguration: HttpClientConfig<out HttpClientEngineConfig>,
     val credentials: Credentials,
-    val authUrl: String
+    val authUrl: String,
+    val isSignature: Boolean
 ) : KtorPluginConfiguration(httpClientConfiguration) {
     companion object {
         fun from(
             httpClientConfig: HttpClientConfig<out HttpClientEngineConfig>,
             credentials: Credentials,
-            authUrl: String
-        ) = AuthenticationConfiguration(httpClientConfig, credentials, authUrl)
+            authUrl: String,
+            isSignature: Boolean = false
+        ) = AuthenticationConfiguration(httpClientConfig, credentials, authUrl, isSignature)
     }
 }

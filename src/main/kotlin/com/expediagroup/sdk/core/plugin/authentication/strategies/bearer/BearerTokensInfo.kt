@@ -20,9 +20,11 @@ import com.expediagroup.sdk.core.constant.Constant
 import io.ktor.client.plugins.auth.providers.BearerTokens
 import java.time.LocalDateTime
 
-internal class BearerTokensInfo(val bearerTokens: BearerTokens, expiresIn: Int) {
+internal open class BearerTokensInfo(val bearerTokens: BearerTokens, expiresIn: Int) {
     companion object {
-        val emptyBearerTokenInfo = BearerTokensInfo(BearerTokens(Constant.EMPTY_STRING, Constant.EMPTY_STRING), -1)
+        internal val emptyBearerTokenInfo = object : BearerTokensInfo(BearerTokens(Constant.EMPTY_STRING, Constant.EMPTY_STRING), -1) {
+            override fun isAboutToExpire() = true
+        }
     }
 
     private val expiryDate: LocalDateTime
@@ -33,5 +35,5 @@ internal class BearerTokensInfo(val bearerTokens: BearerTokens, expiresIn: Int) 
 
     private fun calculateExpiryDate(expiresIn: Int) = LocalDateTime.now().plusSeconds(expiresIn.toLong())
 
-    fun isAboutToExpire() = LocalDateTime.now().isAfter(expiryDate.minusSeconds(Authentication.EXPIRY_DATE_MARGIN))
+    internal open fun isAboutToExpire() = LocalDateTime.now().isAfter(expiryDate.minusSeconds(Authentication.BEARER_EXPIRY_DATE_MARGIN))
 }
