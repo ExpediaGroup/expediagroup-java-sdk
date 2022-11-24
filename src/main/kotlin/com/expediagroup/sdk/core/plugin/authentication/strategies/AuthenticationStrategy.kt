@@ -17,6 +17,7 @@ package com.expediagroup.sdk.core.plugin.authentication.strategies
 
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationConfiguration
 import com.expediagroup.sdk.core.plugin.authentication.strategies.bearer.BearerStrategy
+import com.expediagroup.sdk.core.plugin.authentication.strategies.signature.SignatureStrategy
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.auth.Auth
 import io.ktor.client.request.HttpRequestBuilder
@@ -33,6 +34,6 @@ internal interface AuthenticationStrategy {
     fun getAuthorizationHeader(): String
 
     companion object {
-        fun from(): AuthenticationStrategy = BearerStrategy
+        fun getStrategy(isSignature: Boolean): AuthenticationStrategy = if (isSignature) SignatureStrategy else BearerStrategy
     }
 }
