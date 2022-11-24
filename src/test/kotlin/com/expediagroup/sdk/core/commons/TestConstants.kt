@@ -34,6 +34,8 @@ object TestConstants {
 
     const val GZIP = "gzip"
 
+    const val TEXT_PLAIN = "text/plain"
+
     const val SUCCESSFUL_DUMMY_REQUEST = "successful dummy request"
 
     const val SIGNATURE_VALUE = "signature-value"

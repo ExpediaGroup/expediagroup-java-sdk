@@ -19,6 +19,7 @@ import com.expediagroup.sdk.core.commons.ClientFactory
 import com.expediagroup.sdk.core.commons.TestConstants.ANY_URL
 import com.expediagroup.sdk.core.commons.TestConstants.GZIP
 import com.expediagroup.sdk.core.commons.TestConstants.SUCCESSFUL_DUMMY_REQUEST
+import com.expediagroup.sdk.core.commons.TestConstants.TEXT_PLAIN
 import com.expediagroup.sdk.core.constant.HeaderKey
 import io.ktor.client.call.body
 import io.ktor.client.engine.mock.MockEngine
@@ -79,7 +80,7 @@ internal class EncodingPluginTest {
             ),
             status = HttpStatusCode.OK,
             headers = headersOf(
-                Pair(HttpHeaders.ContentType, listOf("text/plain")),
+                Pair(HttpHeaders.ContentType, listOf(TEXT_PLAIN)),
                 Pair(HttpHeaders.ContentEncoding, listOf(GZIP))
             )
         )
