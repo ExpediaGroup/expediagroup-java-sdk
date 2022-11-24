@@ -25,6 +25,7 @@ import com.expediagroup.sdk.core.plugin.Hooks
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationConfiguration
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationHook
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationPlugin
+import com.expediagroup.sdk.core.plugin.authentication.strategies.AuthenticationStrategy.AuthenticationType
 import com.expediagroup.sdk.core.plugin.encoding.EncodingConfiguration
 import com.expediagroup.sdk.core.plugin.encoding.EncodingPlugin
 import com.expediagroup.sdk.core.plugin.hooks
@@ -69,7 +70,7 @@ class Client private constructor(
                 this,
                 Credentials.from(configurationCollector.key, configurationCollector.secret),
                 configurationCollector.authEndpoint,
-                isRapid
+                AuthenticationType.from(isRapid)
             )
 
             plugins {
