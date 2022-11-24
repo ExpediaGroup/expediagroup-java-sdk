@@ -15,10 +15,16 @@
  */
 package com.expediagroup.sdk.core.constant
 
-internal object Authentication {
-    const val BEARER_EXPIRY_DATE_MARGIN: Long = 10 // In seconds
+internal object SignatureValues {
+    const val ONE_BYTE_MASK = 0xFF
 
-    const val EAN = "EAN"
+    const val INCREMENT = 0x100
 
-    const val BEARER = "Bearer"
+    const val RADIX = 16
+
+    const val API_KEY = "apikey"
+
+    const val SIGNATURE = "signature"
+
+    const val TIMESTAMP = "timestamp"
 }

@@ -25,6 +25,7 @@ import com.expediagroup.sdk.core.plugin.Hooks
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationConfiguration
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationHook
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationPlugin
+import com.expediagroup.sdk.core.plugin.authentication.strategies.AuthenticationStrategy.AuthenticationType
 import com.expediagroup.sdk.core.plugin.encoding.EncodingConfiguration
 import com.expediagroup.sdk.core.plugin.encoding.EncodingPlugin
 import com.expediagroup.sdk.core.plugin.hooks
@@ -45,10 +46,12 @@ import io.ktor.client.engine.HttpClientEngine
  *
  * @param httpClientEngine The HTTP client engine to use.
  * @param clientConfiguration The configuration for the client.
+ * @param isRapid If the client is RapidApi
  */
 class Client private constructor(
     httpClientEngine: HttpClientEngine,
-    clientConfiguration: ClientConfiguration
+    clientConfiguration: ClientConfiguration,
+    isRapid: Boolean
 ) {
     /**
      * The HTTP client to perform requests with.
@@ -66,7 +69,8 @@ class Client private constructor(
             val authenticationConfiguration = AuthenticationConfiguration.from(
                 this,
                 Credentials.from(configurationCollector.key, configurationCollector.secret),
-                configurationCollector.authEndpoint
+                configurationCollector.authEndpoint,
+                AuthenticationType.from(isRapid)
             )
 
             plugins {
@@ -91,13 +95,15 @@ class Client private constructor(
          *
          * @param httpClientEngine The HttpClientEngine to use.
          * @param clientConfiguration The ClientConfiguration to use.
+         * @param isRapid If the client is RapidApi
          * @return A Client.
          */
         @JvmOverloads
         fun from(
             httpClientEngine: HttpClientEngine,
-            clientConfiguration: ClientConfiguration = ClientConfiguration.EMPTY
-        ): Client = Client(httpClientEngine, clientConfiguration)
+            clientConfiguration: ClientConfiguration = ClientConfiguration.EMPTY,
+            isRapid: Boolean
+        ): Client = Client(httpClientEngine, clientConfiguration, isRapid)
     }
 }
 
