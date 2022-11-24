@@ -39,10 +39,9 @@
                         <exclude>**/plugin/PluginConfiguration*</exclude>
                         <exclude>**/plugin/KtorPluginConfiguration*</exclude>
 
-                        <exclude>**/authentication/strategies/bearer/TokenResponse*</exclude>
                         <exclude>**/authentication/AuthenticationConfiguration*</exclude>
-                        <exclude>**/authentication/AuthenticationHook*</exclude>
-                        <exclude>**/authentication/strategies/AuthenticationStrategy*</exclude>
+                        <exclude>**/authentication/AuthenticationPlugin*</exclude>
+                        <exclude>**/authentication/strategies/bearer/TokenResponse*</exclude>
 
                         <exclude>**/logging/**</exclude>
                         <exclude>**/serialization/**</exclude>

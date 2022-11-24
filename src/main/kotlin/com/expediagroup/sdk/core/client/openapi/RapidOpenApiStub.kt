@@ -35,6 +35,7 @@ abstract class RapidOpenApiStub(
     override fun createClient(): Client = Client.from(OkHttp.create(), clientConfiguration, true)
 
     override suspend fun throwServiceException(response: HttpResponse) {
+        // Make sure we read the body to avoid resource leaks
         runCatching {
             response.body<RapidError>()
         }.onSuccess {

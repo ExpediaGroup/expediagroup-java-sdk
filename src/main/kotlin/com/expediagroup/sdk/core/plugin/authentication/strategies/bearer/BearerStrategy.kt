@@ -52,7 +52,6 @@ internal object BearerStrategy : AuthenticationStrategy {
         auth.bearer {
             loadTokens(loadTokensBlock)
 
-            // Auth is always needed to request a token except for identity
             sendWithoutRequest { request ->
                 isNotIdentityRequest(request, configurations)
             }

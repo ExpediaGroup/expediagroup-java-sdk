@@ -24,14 +24,14 @@ internal data class AuthenticationConfiguration(
     override val httpClientConfiguration: HttpClientConfig<out HttpClientEngineConfig>,
     val credentials: Credentials,
     val authUrl: String,
-    val isRapid: Boolean
+    val isSignature: Boolean
 ) : KtorPluginConfiguration(httpClientConfiguration) {
     companion object {
         fun from(
             httpClientConfig: HttpClientConfig<out HttpClientEngineConfig>,
             credentials: Credentials,
             authUrl: String,
-            isRapid: Boolean = false
-        ) = AuthenticationConfiguration(httpClientConfig, credentials, authUrl, isRapid)
+            isSignature: Boolean = false
+        ) = AuthenticationConfiguration(httpClientConfig, credentials, authUrl, isSignature)
     }
 }
