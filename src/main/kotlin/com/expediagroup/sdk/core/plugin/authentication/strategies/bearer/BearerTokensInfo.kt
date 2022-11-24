@@ -35,5 +35,5 @@ internal open class BearerTokensInfo(val bearerTokens: BearerTokens, expiresIn: 
 
     private fun calculateExpiryDate(expiresIn: Int) = LocalDateTime.now().plusSeconds(expiresIn.toLong())
 
-    internal open fun isAboutToExpire() = LocalDateTime.now().isAfter(expiryDate.minusSeconds(Authentication.BEARER_EXPIRY_DATE_MARGIN))
+    open fun isAboutToExpire() = LocalDateTime.now().isAfter(expiryDate.minusSeconds(Authentication.BEARER_EXPIRY_DATE_MARGIN))
 }
