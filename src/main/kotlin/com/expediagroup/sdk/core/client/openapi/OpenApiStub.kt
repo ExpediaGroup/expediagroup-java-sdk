@@ -20,7 +20,7 @@ import com.expediagroup.sdk.core.configuration.ClientConfiguration
 import com.expediagroup.sdk.core.constant.Constant
 import com.expediagroup.sdk.core.constant.provider.LoggingMessageProvider.getResponseUnsuccessfulMessage
 import com.expediagroup.sdk.core.model.error.Error
-import com.expediagroup.sdk.core.model.exception.ServiceException
+import com.expediagroup.sdk.core.model.exception.service.OpenWorldServiceException
 import io.ktor.client.call.body
 import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.statement.HttpResponse
@@ -59,7 +59,7 @@ abstract class OpenApiStub(
      * Examines the status code for errors and throws the appropriate exception.
      *
      * @param response The response to examine
-     * @throws ServiceException if an error response is received from the service.
+     * @throws OpenWorldServiceException if an error response is received from the service.
      */
     protected suspend fun throwIfError(response: HttpResponse) {
         if (isNotSuccessfulResponse(response)) {
@@ -73,9 +73,9 @@ abstract class OpenApiStub(
         runCatching {
             response.body<Error>()
         }.onSuccess {
-            throw ServiceException(response.status, it)
+            throw OpenWorldServiceException(response.status, it)
         }.onFailure {
-            throw ServiceException(
+            throw OpenWorldServiceException(
                 response.status,
                 Error(response.request.url.toURI(), response.status.description)
             )

@@ -16,7 +16,7 @@
 package com.expediagroup.sdk.core.config.provider
 
 import com.expediagroup.sdk.core.constant.Constant.EMPTY_STRING
-import com.expediagroup.sdk.core.model.exception.ConfigurationException
+import com.expediagroup.sdk.core.model.exception.client.OpenWorldConfigurationException
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -69,7 +69,7 @@ class FileConfigurationProviderTest {
     @Test
     fun `file configuration provider should throw configuration exception if the file is not found`() {
         val provider: ConfigurationProvider = FileConfigurationProvider()
-        assertThrows<ConfigurationException> {
+        assertThrows<OpenWorldConfigurationException> {
             provider[INVALID_RESOURCE_FILE_NAME]
         }
     }
@@ -77,7 +77,7 @@ class FileConfigurationProviderTest {
     @Test
     fun `file configuration provider with specific keys should throw configuration exception if the file is not found`() {
         val provider: ConfigurationProvider = FileConfigurationProvider()
-        assertThrows<ConfigurationException> {
+        assertThrows<OpenWorldConfigurationException> {
             provider[INVALID_RESOURCE_FILE_NAME, setOf(API_CLIENT_SECRET_KEY_NAME)]
         }
     }
@@ -85,7 +85,7 @@ class FileConfigurationProviderTest {
     @Test
     fun `file configuration provider should throw configuration exception if the file url is not found`() {
         val provider: ConfigurationProvider = FileConfigurationProvider()
-        assertThrows<ConfigurationException> {
+        assertThrows<OpenWorldConfigurationException> {
             provider[INVALID_URL]
         }
     }
@@ -100,7 +100,7 @@ class FileConfigurationProviderTest {
     fun `file configuration provider should throw an exception when the optional flag is not set and file doesn't exists`() {
         val provider: ConfigurationProvider = FileConfigurationProvider()
 
-        assertThrows<ConfigurationException> {
+        assertThrows<OpenWorldConfigurationException> {
             provider[INVALID_URL].data()
         }
     }

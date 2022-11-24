@@ -17,7 +17,7 @@ package com.expediagroup.sdk.core.configuration.provider
 
 import com.expediagroup.sdk.core.constant.Constant
 import com.expediagroup.sdk.core.constant.Constant.EMPTY_STRING
-import com.expediagroup.sdk.core.model.exception.ConfigurationException
+import com.expediagroup.sdk.core.model.exception.client.OpenWorldConfigurationException
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
@@ -43,7 +43,7 @@ internal class FileSystemConfigurationProviderTest {
 
     @Test
     fun `should throw an exception when paths are set but files do not exist`() {
-        assertThrows<ConfigurationException> {
+        assertThrows<OpenWorldConfigurationException> {
             FileSystemConfigurationProvider(
                 credentialsFilePath = "invalid_path",
                 configurationsFilePath = "invalid_path"
@@ -84,7 +84,7 @@ internal class FileSystemConfigurationProviderTest {
     fun `test default configurations if default files do not exist`() {
         if (File(Constant.CREDENTIALS_FILE_PATH).exists() && File(Constant.CLIENT_CONFIGS_FILE_PATH).exists()) return
 
-        assertThrows<ConfigurationException> {
+        assertThrows<OpenWorldConfigurationException> {
             FileSystemConfigurationProvider().key
         }
     }

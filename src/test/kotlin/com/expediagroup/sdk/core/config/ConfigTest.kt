@@ -16,7 +16,7 @@
 package com.expediagroup.sdk.core.config
 
 import com.expediagroup.sdk.core.config.provider.FileConfigurationProvider
-import com.expediagroup.sdk.core.model.exception.ConfigurationException
+import com.expediagroup.sdk.core.model.exception.client.OpenWorldConfigurationException
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
@@ -130,7 +130,7 @@ class ConfigTest {
             importance = ConfigurationKey.Importance.HIGH
         )
         val provider = FileConfigurationProvider()
-        val throwable = assertThrows<ConfigurationException> {
+        val throwable = assertThrows<OpenWorldConfigurationException> {
             Config(provider[filePath], configurationDefinition)
         }
         assertEquals(throwable.message, "Some required configurations are not defined: missing_configuration")
@@ -143,7 +143,7 @@ class ConfigTest {
         val provider = FileConfigurationProvider()
         val configuration = Config(provider[filePath], configurationDefinition)
 
-        val throwable = assertThrows<ConfigurationException> {
+        val throwable = assertThrows<OpenWorldConfigurationException> {
             configuration.getDouble(EXEMPLAR_API_CLIENT_VERSION_NAME)
         }
         assertEquals(throwable.message, "Unknown configuration exemplar_api.client.version")
@@ -167,7 +167,7 @@ class ConfigTest {
             importance = ConfigurationKey.Importance.HIGH
         )
         val provider = FileConfigurationProvider()
-        val throwable = assertThrows<ConfigurationException> {
+        val throwable = assertThrows<OpenWorldConfigurationException> {
             Config(provider[filePath], configurationDefinition)
         }
         assertEquals(throwable.message, "Expected value to be a 32-bit integer, but it was a java.lang.String, name: api_credentials.client_key, value: test-client")

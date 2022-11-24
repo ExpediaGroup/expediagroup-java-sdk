@@ -13,15 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.model.exception
+package com.expediagroup.sdk.core.model.exception.service
+
+import io.ktor.http.HttpStatusCode
 
 /**
- * A base exception for all SDK exceptions.
+ * An exception that is thrown when an authentication error occurs.
  *
- * @param message An optional error message.
- * @param cause An optional cause of the error.
+ * @param errorCode The HTTP status code of the error.
+ * @param message The error message.
  */
-open class OpenWorldException(
-    message: String?,
-    cause: Throwable? = null
-) : RuntimeException(message, cause)
+class OpenWorldAuthException(errorCode: HttpStatusCode, message: String) : OpenWorldServiceException("[${errorCode.value}] $message")

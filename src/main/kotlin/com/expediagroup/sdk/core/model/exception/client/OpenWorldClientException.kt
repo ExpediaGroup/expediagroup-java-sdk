@@ -13,12 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.model.exception
+package com.expediagroup.sdk.core.model.exception.client
+
+import com.expediagroup.sdk.core.model.exception.OpenWorldException
 
 /**
- * An exception that is thrown when a configuration error occurs.
- *
- * @param message An optional error message.
- * @param cause An optional cause of the error.
+ * An exception that is thrown when a client error occurs.
  */
-class ConfigurationException(message: String?, cause: Throwable? = null) : OpenWorldException(message, cause)
+sealed class OpenWorldClientException(
+    message: String?,
+    cause: Throwable? = null
+) : OpenWorldException(message, cause)

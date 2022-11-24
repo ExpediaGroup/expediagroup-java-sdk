@@ -29,7 +29,7 @@ import com.expediagroup.sdk.core.configuration.provider.DefaultConfigurationProv
 import com.expediagroup.sdk.core.constant.Authentication.BEARER
 import com.expediagroup.sdk.core.constant.Authentication.EAN
 import com.expediagroup.sdk.core.constant.HeaderKey
-import com.expediagroup.sdk.core.model.exception.AuthException
+import com.expediagroup.sdk.core.model.exception.service.OpenWorldAuthException
 import com.expediagroup.sdk.core.plugin.Hooks
 import com.expediagroup.sdk.core.plugin.authentication.helper.SuccessfulStatusCodesArgumentProvider
 import com.expediagroup.sdk.core.plugin.authentication.helper.UnsuccessfulStatusCodesArgumentProvider
@@ -170,7 +170,7 @@ internal class AuthenticationPluginTest {
             runBlocking {
                 val httpClient = ClientFactory.createClient(createUnauthorizedMockEngineWithStatusCode(httpStatusCode)).httpClient
 
-                assertThrows<AuthException> {
+                assertThrows<OpenWorldAuthException> {
                     AuthenticationPlugin.renewToken(
                         httpClient,
                         AuthenticationConfiguration.from(

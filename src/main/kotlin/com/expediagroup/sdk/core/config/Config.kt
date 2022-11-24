@@ -17,7 +17,7 @@ package com.expediagroup.sdk.core.config
 
 import com.expediagroup.sdk.core.config.provider.ConfigurationData
 import com.expediagroup.sdk.core.constant.provider.ExceptionMessageProvider.getConfigurationUnknownMessage
-import com.expediagroup.sdk.core.model.exception.ConfigurationException
+import com.expediagroup.sdk.core.model.exception.client.OpenWorldConfigurationException
 
 /**
  * @property configurationData deserialized configuration data which needs to be parsed
@@ -41,7 +41,7 @@ class Config(
      */
     operator fun get(key: String): Any {
         if (!configurations.containsKey(key)) {
-            throw ConfigurationException(getConfigurationUnknownMessage(key))
+            throw OpenWorldConfigurationException(getConfigurationUnknownMessage(key))
         }
 
         return configurations[key]!!

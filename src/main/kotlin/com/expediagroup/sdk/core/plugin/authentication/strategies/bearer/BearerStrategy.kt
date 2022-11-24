@@ -23,7 +23,7 @@ import com.expediagroup.sdk.core.constant.HeaderKey
 import com.expediagroup.sdk.core.constant.HeaderValue
 import com.expediagroup.sdk.core.constant.LoggingMessage
 import com.expediagroup.sdk.core.constant.provider.LoggingMessageProvider
-import com.expediagroup.sdk.core.model.exception.AuthException
+import com.expediagroup.sdk.core.model.exception.service.OpenWorldAuthException
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationConfiguration
 import com.expediagroup.sdk.core.plugin.authentication.strategies.AuthenticationStrategy
 import io.ktor.client.HttpClient
@@ -70,7 +70,7 @@ internal object BearerStrategy : AuthenticationStrategy {
             basicAuth(configs.credentials)
         }
         if (renewTokenResponse.status.value !in Constant.SUCCESSFUL_STATUS_CODES_RANGE) {
-            throw AuthException(renewTokenResponse.status, ExceptionMessage.AUTHENTICATION_FAILURE)
+            throw OpenWorldAuthException(renewTokenResponse.status, ExceptionMessage.AUTHENTICATION_FAILURE)
         }
         val renewedTokenInfo: TokenResponse = renewTokenResponse.body()
         log.info(LoggingMessage.TOKEN_RENEWAL_SUCCESSFUL)

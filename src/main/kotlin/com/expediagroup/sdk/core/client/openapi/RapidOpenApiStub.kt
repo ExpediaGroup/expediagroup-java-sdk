@@ -18,7 +18,7 @@ package com.expediagroup.sdk.core.client.openapi
 import com.expediagroup.sdk.core.client.Client
 import com.expediagroup.sdk.core.configuration.ClientConfiguration
 import com.expediagroup.sdk.core.model.error.rapid.RapidError
-import com.expediagroup.sdk.core.model.exception.RapidServiceException
+import com.expediagroup.sdk.core.model.exception.rapid.RapidServiceException
 import io.ktor.client.call.body
 import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.statement.HttpResponse
