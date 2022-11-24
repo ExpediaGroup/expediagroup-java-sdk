@@ -16,7 +16,7 @@
 package com.expediagroup.sdk.core.constant
 
 internal object Authentication {
-    const val EXPIRY_DATE_MARGIN: Long = 10 // In seconds
+    const val BEARER_EXPIRY_DATE_MARGIN: Long = 10 // In seconds
 
     const val EAN = "EAN"
 

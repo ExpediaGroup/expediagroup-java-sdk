@@ -38,7 +38,15 @@ object TestConstants {
 
     const val SUCCESSFUL_DUMMY_REQUEST = "successful dummy request"
 
+    const val SIGNATURE_VALUE = "signature-value"
+
     private const val SIGNATURE_MANUALLY_CALCULATED_VALUE = "497c9934cbfed8ccaeaf6a242d4eec88866f00965c641f68afe1f428d101b50aabacb7f8769fcad15cba8aff0970044c5cd51d022f5b0817007a58b545ff4d0d"
     const val SIGNATURE_TIMESTAMP_UTC: Long = 918_943_200
     const val MANUALLY_CALCULATED_SIGNATURE = "$API_KEY=any client key,$SIGNATURE=$SIGNATURE_MANUALLY_CALCULATED_VALUE,$TIMESTAMP=$SIGNATURE_TIMESTAMP_UTC"
+
+    const val TEST_VALUE = "test-value"
+
+    const val BASIC = "Basic"
+
+    const val APPLICATION_JSON = "application/json"
 }
