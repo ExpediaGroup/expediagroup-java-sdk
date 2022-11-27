@@ -15,7 +15,7 @@
  */
 package com.expediagroup.sdk.core.config
 
-import com.expediagroup.sdk.core.model.exception.ConfigurationException
+import com.expediagroup.sdk.core.model.exception.client.OpenWorldConfigurationException
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
@@ -236,7 +236,7 @@ class ConfigurationDefinitionTest {
             type = configurationType,
             importance = configurationImportance
         )
-        val throwable = assertThrows<ConfigurationException> {
+        val throwable = assertThrows<OpenWorldConfigurationException> {
             configurationDefinition.parse(mapOf())
         }
         assertEquals("Some required configurations are not defined: $configurationName", throwable.message)
@@ -255,7 +255,7 @@ class ConfigurationDefinitionTest {
             type = configurationType,
             importance = configurationImportance
         )
-        val throwable = assertThrows<ConfigurationException> {
+        val throwable = assertThrows<OpenWorldConfigurationException> {
             configurationDefinition.define(
                 name = configurationName,
                 documentation = configurationDocumentation,
@@ -279,7 +279,7 @@ class ConfigurationDefinitionTest {
             importance = configurationImportance
         )
 
-        val throwableWhenInvalidString = assertThrows<ConfigurationException> {
+        val throwableWhenInvalidString = assertThrows<OpenWorldConfigurationException> {
             configurationDefinition.parse(mapOf(booleanConfigurationName to "invalid"))
         }
         assertEquals(
@@ -301,7 +301,7 @@ class ConfigurationDefinitionTest {
             importance = configurationImportance
         )
 
-        val throwableWhenInvalidInt = assertThrows<ConfigurationException> {
+        val throwableWhenInvalidInt = assertThrows<OpenWorldConfigurationException> {
             configurationDefinition.parse(mapOf(booleanConfigurationName to 213))
         }
         assertEquals(
@@ -324,7 +324,7 @@ class ConfigurationDefinitionTest {
             importance = configurationImportance
         )
 
-        val throwable = assertThrows<ConfigurationException> {
+        val throwable = assertThrows<OpenWorldConfigurationException> {
             configurationDefinition.parse(props)
         }
         assertEquals(
@@ -347,14 +347,14 @@ class ConfigurationDefinitionTest {
             importance = configurationImportance
         )
 
-        val throwableWhenInvalidString = assertThrows<ConfigurationException> {
+        val throwableWhenInvalidString = assertThrows<OpenWorldConfigurationException> {
             configurationDefinition.parse(props)
         }
         assertEquals(
             "Expected value to be a 32-bit integer, but it was a java.lang.String, name: $configurationName, value: invalid",
             throwableWhenInvalidString.message
         )
-        val throwableWhenInvalidBoolean = assertThrows<ConfigurationException> {
+        val throwableWhenInvalidBoolean = assertThrows<OpenWorldConfigurationException> {
             configurationDefinition.parse(mapOf(configurationName to true))
         }
         assertEquals(
@@ -375,14 +375,14 @@ class ConfigurationDefinitionTest {
             type = ConfigurationKey.Type.DOUBLE,
             importance = configurationImportance
         )
-        val throwableWhenInvalidString = assertThrows<ConfigurationException> {
+        val throwableWhenInvalidString = assertThrows<OpenWorldConfigurationException> {
             configurationDefinition.parse(mapOf(configurationName to "invalid"))
         }
         assertEquals(
             "Expected value to be a double, but it was a java.lang.String, name: $configurationName, value: invalid",
             throwableWhenInvalidString.message
         )
-        val throwableWhenInvalidBoolean = assertThrows<ConfigurationException> {
+        val throwableWhenInvalidBoolean = assertThrows<OpenWorldConfigurationException> {
             configurationDefinition.parse(mapOf(configurationName to true))
         }
         assertEquals(
@@ -405,7 +405,7 @@ class ConfigurationDefinitionTest {
             importance = configurationImportance
         )
 
-        val throwable = assertThrows<ConfigurationException> {
+        val throwable = assertThrows<OpenWorldConfigurationException> {
             configurationDefinition.parse(props)
         }
         assertEquals(
@@ -428,7 +428,7 @@ class ConfigurationDefinitionTest {
             importance = configurationImportance
         )
 
-        val throwable = assertThrows<ConfigurationException> {
+        val throwable = assertThrows<OpenWorldConfigurationException> {
             configurationDefinition.parse(props)
         }
         assertEquals(
@@ -442,7 +442,7 @@ class ConfigurationDefinitionTest {
         val configurationDefinition = ConfigurationDefinition()
         val listConfigurationName = "list_configuration"
 
-        val throwable = assertThrows<ConfigurationException> {
+        val throwable = assertThrows<OpenWorldConfigurationException> {
             configurationDefinition.get(listConfigurationName)
         }
         assertEquals("Configuration key not defined, name: $listConfigurationName", throwable.message)
@@ -461,7 +461,7 @@ class ConfigurationDefinitionTest {
                 if (regex.matches(value as String)) {
                     return value
                 }
-                throw ConfigurationException("value is not uppercase")
+                throw OpenWorldConfigurationException("value is not uppercase")
             }
         }
         configurationDefinition.define(
@@ -472,7 +472,7 @@ class ConfigurationDefinitionTest {
             validator = validator
         )
 
-        val throwable = assertThrows<ConfigurationException> {
+        val throwable = assertThrows<OpenWorldConfigurationException> {
             configurationDefinition.parse(props)
         }
         assertEquals("value is not uppercase", throwable.message)

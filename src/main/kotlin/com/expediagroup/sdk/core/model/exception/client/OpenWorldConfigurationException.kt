@@ -13,18 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.model.exception
-
-import com.expediagroup.sdk.core.model.error.rapid.RapidError
-import io.ktor.http.HttpStatusCode
+package com.expediagroup.sdk.core.model.exception.client
 
 /**
- *  An exception that is thrown when a Rapid service error occurs.
+ * An exception that is thrown when a configuration error occurs.
  *
- *  @param errorCode The HTTP status code of the error.
- *  @param error The error details.
+ * @param message An optional error message.
+ * @param cause An optional cause of the error.
  */
-class RapidServiceException(
-    errorCode: HttpStatusCode,
-    error: RapidError
-) : OpenWorldException("[${errorCode.value}] $error")
+class OpenWorldConfigurationException(message: String?, cause: Throwable? = null) : OpenWorldClientException(message, cause)

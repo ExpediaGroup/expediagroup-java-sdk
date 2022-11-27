@@ -30,7 +30,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import java.net.URI
 
-class ServiceExceptionTest {
+class OpenWorldOpenWorldServiceExceptionTest {
 
     @Test
     internal fun `request with invalid body should throw an exception`() {

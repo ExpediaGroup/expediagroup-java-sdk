@@ -27,7 +27,7 @@ import com.expediagroup.sdk.core.configuration.provider.DefaultConfigurationProv
 import com.expediagroup.sdk.core.constant.Authentication.BEARER
 import com.expediagroup.sdk.core.constant.Constant.EMPTY_STRING
 import com.expediagroup.sdk.core.constant.HeaderKey
-import com.expediagroup.sdk.core.model.exception.AuthException
+import com.expediagroup.sdk.core.model.exception.service.OpenWorldAuthException
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.MockRequestHandleScope
@@ -53,7 +53,7 @@ object MockEngineFactory {
         } else if (isBadRequest(request)) {
             errorResponse()
         } else {
-            throw AuthException(HttpStatusCode.InternalServerError, "unsupported case in the mock engine")
+            throw OpenWorldAuthException(HttpStatusCode.InternalServerError, "unsupported case in the mock engine")
         }
     }
 

@@ -13,14 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.model.exception
+package com.expediagroup.sdk.core.model.exception.rapid
 
+import com.expediagroup.sdk.core.model.error.rapid.RapidError
+import com.expediagroup.sdk.core.model.exception.OpenWorldException
 import io.ktor.http.HttpStatusCode
 
 /**
- * An exception that is thrown when an authentication error occurs.
+ *  An exception that is thrown when a Rapid service error occurs.
  *
- * @param statusCode The HTTP status code of the error.
- * @param message The error message.
+ *  @param errorCode The HTTP status code of the error.
+ *  @param error The error details.
  */
-class AuthException(statusCode: HttpStatusCode, message: String) : OpenWorldException("[${statusCode.value}] $message")
+class RapidServiceException(
+    errorCode: HttpStatusCode,
+    error: RapidError
+) : OpenWorldException("[${errorCode.value}] $error")

@@ -17,7 +17,7 @@ package com.expediagroup.sdk.core.config.provider
 
 import com.expediagroup.sdk.core.constant.ExceptionMessage.NOT_YET_IMPLEMENTED
 import com.expediagroup.sdk.core.constant.provider.ExceptionMessageProvider.getPropertyNotFoundMessage
-import com.expediagroup.sdk.core.model.exception.ConfigurationException
+import com.expediagroup.sdk.core.model.exception.client.OpenWorldConfigurationException
 import org.slf4j.LoggerFactory
 import java.io.BufferedReader
 import java.io.IOException
@@ -55,7 +55,7 @@ class FileConfigurationProvider : ConfigurationProvider {
             return readPropsFileIntoConfigurationData(getReader(path))
         }.getOrElse {
             if (!optional) {
-                throw ConfigurationException(getPropertyNotFoundMessage(path))
+                throw OpenWorldConfigurationException(getPropertyNotFoundMessage(path))
             }
 
             return emptyConfigurationData
@@ -74,7 +74,7 @@ class FileConfigurationProvider : ConfigurationProvider {
         return runCatching {
             readPropsFileIntoConfigurationData(getReader(url))
         }.getOrElse {
-            if (!optional) throw ConfigurationException(getPropertyNotFoundMessage(url))
+            if (!optional) throw OpenWorldConfigurationException(getPropertyNotFoundMessage(url))
 
             return emptyConfigurationData
         }
@@ -123,7 +123,7 @@ class FileConfigurationProvider : ConfigurationProvider {
             }
         } catch (e: IOException) {
             if (!optional) {
-                throw ConfigurationException(getPropertyNotFoundMessage(path), e)
+                throw OpenWorldConfigurationException(getPropertyNotFoundMessage(path), e)
             }
 
             return emptyConfigurationData
