@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.expediagroup.openworld.sdk</groupId>
         <artifactId>openworld-java-sdk-pom</artifactId>
-        <version>0.0.1-alpha.4</version>
+        <version>0.1.0</version>
         <relativePath/>
     </parent>
 
@@ -26,7 +26,7 @@
         <isKotlin>false</isKotlin>
 
         <!-- Versions -->
-        <openapi-generator.version>6.0.1</openapi-generator.version>
+        <openapi-generator.version>6.2.1</openapi-generator.version>
     </properties>
 
     <dependencies>
@@ -38,6 +38,16 @@
             <groupId>org.openapitools</groupId>
             <artifactId>openapi-generator</artifactId>
             <version>${openapi-generator.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.yaml</groupId>
+                    <artifactId>snakeyaml</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
         </dependency>
         <dependency>
             <groupId>org.openapitools</groupId>

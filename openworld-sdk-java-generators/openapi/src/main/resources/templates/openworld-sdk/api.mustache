@@ -8,6 +8,10 @@ package {{apiPackage}}
 import com.expediagroup.sdk.core.client.openapi.OpenApiStub
 import com.expediagroup.sdk.core.config.provider.FileConfigurationProvider
 import com.expediagroup.sdk.core.configuration.ClientConfiguration
+import com.expediagroup.sdk.core.model.exception.OpenWorldException
+import com.expediagroup.sdk.core.model.exception.client.*
+import com.expediagroup.sdk.core.model.exception.service.*
+
 import io.ktor.client.call.body
 {{#hasFormParams}}import io.ktor.client.request.forms.formData{{/hasFormParams}}
 import io.ktor.client.request.request
@@ -15,10 +19,10 @@ import io.ktor.client.request.setBody
 import io.ktor.client.request.url
 import io.ktor.http.HttpMethod
 {{#hasFormParams}}import io.ktor.http.ParametersBuilder{{/hasFormParams}}
+import java.util.UUID
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.future.future
-import java.util.UUID
 
 /**
 * {{{description}}}
@@ -30,14 +34,14 @@ open class {{classname}}(clientConfiguration: ClientConfiguration = ClientConfig
     private fun removeLeadingSlash(path: String): String {
          return path.slice(1 until path.length)
     }
-    {{#operation}}
 
-    {{^isKotlin}}private {{/isKotlin}}suspend {{^isKotlin}}inline {{/isKotlin}}fun {{^isKotlin}}k{{/isKotlin}}{{operationId}}({{#queryParams}}{{{paramName}}}: {{{dataType}}}{{#required}}{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{/required}}{{^required}}?{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^-last}},{{/-last}}{{/queryParams}}{{#hasQueryParams}}{{#hasBodyparam}},{{/hasBodyparam}}{{/hasQueryParams}}{{#bodyParams}}{{{paramName}}}: {{{dataType}}}{{#required}}{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{/required}}{{^required}}?{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^-last}},{{/-last}}{{/bodyParams}}{{#hasBodyparam}}{{#hasFormParams}},{{/hasFormParams}}{{/hasBodyparam}}{{#formParams}}{{{paramName}}}: {{{dataType}}}{{#required}}{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{/required}}{{^required}}?{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^-last}},{{/-last}}{{/formParams}}{{#hasParams}},{{/hasParams}}transactionId: UUID?{{#isKotlin}} = null{{/isKotlin}}): {{{returnType}}}{{^returnType}}Void?{{/returnType}} {
+    {{#operation}}
+    {{^isKotlin}}private {{/isKotlin}}suspend {{^isKotlin}}inline {{/isKotlin}}fun {{^isKotlin}}k{{/isKotlin}}{{operationId}}({{#queryParams}}{{{paramName}}}: {{{dataType}}}{{#required}}{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{/required}}{{^required}}?{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^-last}},{{/-last}}{{/queryParams}}{{#hasQueryParams}}{{#hasBodyparam}},{{/hasBodyparam}}{{/hasQueryParams}}{{#bodyParams}}{{{paramName}}}: {{{dataType}}}{{#required}}{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{/required}}{{^required}}?{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^-last}},{{/-last}}{{/bodyParams}}{{#hasBodyparam}}{{#hasFormParams}},{{/hasFormParams}}{{/hasBodyparam}}{{#formParams}}{{{paramName}}}: {{{dataType}}}{{#required}}{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{/required}}{{^required}}?{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^-last}},{{/-last}}{{/formParams}}{{#hasParams}} ,{{/hasParams}}transactionId: UUID?{{#isKotlin}} = null{{/isKotlin}}): {{{returnType}}}{{^returnType}}Void?{{/returnType}} {
         val response = client.httpClient.request {
             method = HttpMethod.parse("{{httpMethod}}")
             url(removeLeadingSlash("{{path}}"){{#pathParams}}.replace("{" + "{{baseName}}" + "}", {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}"${{{paramName}}}"{{/isContainer}}){{/pathParams}})
             headers.append("x-sdk-title", loader.data()["sdk-title"]!!)
-    headers.append("User-agent", "open-world-sdk-{{#isKotlin}}kotlin{{/isKotlin}}{{^isKotlin}}java{{/isKotlin}}/${loader.data()["sdk-version"]!!}")
+            headers.append("User-agent", "open-world-sdk-{{#isKotlin}}kotlin{{/isKotlin}}{{^isKotlin}}java{{/isKotlin}}/${loader.data()["sdk-version"]!!}")
             transactionId?.let {
                  headers.append("transaction-id", it.toString())
             }
@@ -80,8 +84,19 @@ open class {{classname}}(clientConfiguration: ClientConfiguration = ClientConfig
     {{/formParams}}* @return {{{returnType}}}{{^returnType}}void{{/returnType}}
     */
     @JvmOverloads
-    fun {{operationId}}({{#queryParams}}{{{paramName}}}: {{{dataType}}}{{#required}}{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{/required}}{{^required}}?{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^-last}},{{/-last}}{{/queryParams}}{{#hasQueryParams}}{{#hasBodyparam}},{{/hasBodyparam}}{{/hasQueryParams}}{{#bodyParams}}{{{paramName}}}: {{{dataType}}}{{#required}}{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{/required}}{{^required}}?{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^-last}},{{/-last}}{{/bodyParams}}{{#hasBodyparam}}{{#hasFormParams}},{{/hasFormParams}}{{/hasBodyparam}}{{#formParams}}{{{paramName}}}: {{{dataType}}}{{#required}}{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{/required}}{{^required}}?{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^-last}},{{/-last}}{{/formParams}}{{#hasParams}},{{/hasParams}} transactionId: UUID? = null) = GlobalScope.future(Dispatchers.IO) {
-        k{{operationId}}({{#queryParams}}{{{paramName}}}{{^-last}},{{/-last}}{{/queryParams}}{{#hasQueryParams}}{{#hasBodyparam}},{{/hasBodyparam}}{{/hasQueryParams}}{{#bodyParams}}{{{paramName}}}{{^-last}},{{/-last}}{{/bodyParams}}{{#hasBodyparam}}{{#hasQueryParams}},{{/hasQueryParams}}{{/hasBodyparam}}{{#queryParam}}{{{paramName}}}{{^-last}},{{/-last}}{{/queryParam}}{{#hasParams}},{{/hasParams}} transactionId)
+    fun {{operationId}}({{#queryParams}}{{{paramName}}}: {{{dataType}}}{{#required}}{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{/required}}{{^required}}?{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^-last}},{{/-last}}{{/queryParams}}{{#hasQueryParams}}{{#hasBodyparam}},{{/hasBodyparam}}{{/hasQueryParams}}{{#bodyParams}}{{{paramName}}}: {{{dataType}}}{{#required}}{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{/required}}{{^required}}?{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^-last}},{{/-last}}{{/bodyParams}}{{#hasBodyparam}}{{#hasFormParams}},{{/hasFormParams}}{{/hasBodyparam}}{{#formParams}}{{{paramName}}}: {{{dataType}}}{{#required}}{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{/required}}{{^required}}?{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^-last}},{{/-last}}{{/formParams}}{{#hasParams}},{{/hasParams}} transactionId: UUID? = null): {{{returnType}}}{{^returnType}}Void?{{/returnType}} {
+        try {
+            return GlobalScope.future(Dispatchers.IO) {
+                k{{operationId}}({{#queryParams}}{{{paramName}}}{{^-last}},{{/-last}}{{/queryParams}}{{#hasQueryParams}}{{#hasBodyparam}},{{/hasBodyparam}}{{/hasQueryParams}}{{#bodyParams}}{{{paramName}}}{{^-last}},{{/-last}}{{/bodyParams}}{{#hasBodyparam}}{{#hasQueryParams}},{{/hasQueryParams}}{{/hasBodyparam}}{{#queryParam}}{{{paramName}}}{{^-last}},{{/-last}}{{/queryParam}}{{#hasParams}},{{/hasParams}} transactionId)
+            }.get()
+        } catch (e: Exception) {
+            if (e is OpenWorldException) throw e
+
+            when (val cause = e.cause) {
+                is OpenWorldException -> throw cause
+                else -> throw OpenWorldException("OpenWorld Error", e)
+            }
+        }
     }
     {{/isKotlin}}
     {{/operation}}
