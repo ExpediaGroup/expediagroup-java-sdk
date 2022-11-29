@@ -5,7 +5,12 @@ package {{apiPackage}}
 {{#imports}}import {{import}}
 {{/imports}}
 
+{{#isRapid}}
+import com.expediagroup.sdk.core.client.openapi.RapidOpenApiStub
+{{/isRapid}}
+{{^isRapid}}
 import com.expediagroup.sdk.core.client.openapi.OpenApiStub
+{{/isRapid}}
 import com.expediagroup.sdk.core.config.provider.FileConfigurationProvider
 import com.expediagroup.sdk.core.configuration.ClientConfiguration
 import com.expediagroup.sdk.core.model.exception.OpenWorldException
@@ -13,13 +18,15 @@ import com.expediagroup.sdk.core.model.exception.client.*
 import com.expediagroup.sdk.core.model.exception.service.*
 
 import io.ktor.client.call.body
-{{#hasFormParams}}import io.ktor.client.request.forms.formData{{/hasFormParams}}
+import io.ktor.client.request.HttpRequestBuilder
+import io.ktor.client.request.forms.formData
 import io.ktor.client.request.request
 import io.ktor.client.request.setBody
 import io.ktor.client.request.url
 import io.ktor.http.HttpMethod
-{{#hasFormParams}}import io.ktor.http.ParametersBuilder{{/hasFormParams}}
-import java.util.UUID
+import io.ktor.http.contentType
+import io.ktor.http.ContentType
+import io.ktor.http.ParametersBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.future.future
@@ -28,47 +35,55 @@ import kotlinx.coroutines.future.future
 * {{{description}}}
 */
 {{#operations}}
-open class {{classname}}(clientConfiguration: ClientConfiguration = ClientConfiguration.EMPTY) : OpenApiStub(clientConfiguration) {
+open class {{classname}}(clientConfiguration: ClientConfiguration = ClientConfiguration.EMPTY) : {{#isRapid}}RapidOpenApiStub{{/isRapid}}{{^isRapid}}OpenApiStub{{/isRapid}}(clientConfiguration) {
     private val loader = FileConfigurationProvider()[javaClass.classLoader.getResource("sdk.properties")!!]
 
     private fun removeLeadingSlash(path: String): String {
-         return path.slice(1 until path.length)
+        return path.slice(1 until path.length)
     }
 
-    {{#operation}}
-    {{^isKotlin}}private {{/isKotlin}}suspend {{^isKotlin}}inline {{/isKotlin}}fun {{^isKotlin}}k{{/isKotlin}}{{operationId}}({{#queryParams}}{{{paramName}}}: {{{dataType}}}{{#required}}{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{/required}}{{^required}}?{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^-last}},{{/-last}}{{/queryParams}}{{#hasQueryParams}}{{#hasBodyparam}},{{/hasBodyparam}}{{/hasQueryParams}}{{#bodyParams}}{{{paramName}}}: {{{dataType}}}{{#required}}{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{/required}}{{^required}}?{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^-last}},{{/-last}}{{/bodyParams}}{{#hasBodyparam}}{{#hasFormParams}},{{/hasFormParams}}{{/hasBodyparam}}{{#formParams}}{{{paramName}}}: {{{dataType}}}{{#required}}{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{/required}}{{^required}}?{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^-last}},{{/-last}}{{/formParams}}{{#hasParams}} ,{{/hasParams}}transactionId: UUID?{{#isKotlin}} = null{{/isKotlin}}): {{{returnType}}}{{^returnType}}Void?{{/returnType}} {
+    private fun HttpRequestBuilder.appendHeaders() {
+        headers.append("x-sdk-title", loader.data()["sdk-title"]!!)
+        headers.append("User-agent", "open-world-sdk-{{#isKotlin}}kotlin{{/isKotlin}}{{^isKotlin}}java{{/isKotlin}}/${loader.data()["sdk-version"]!!}")
+    }
+
+{{#operation}}
+    {{^isKotlin}}private {{/isKotlin}}suspend {{^isKotlin}}inline {{/isKotlin}}fun {{^isKotlin}}k{{/isKotlin}}{{operationId}}({{>apiParamsDecleration}}): {{{returnType}}}{{^returnType}}Void?{{/returnType}} {
         val response = client.httpClient.request {
             method = HttpMethod.parse("{{httpMethod}}")
             url(removeLeadingSlash("{{path}}"){{#pathParams}}.replace("{" + "{{baseName}}" + "}", {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}"${{{paramName}}}"{{/isContainer}}){{/pathParams}})
-            headers.append("x-sdk-title", loader.data()["sdk-title"]!!)
-            headers.append("User-agent", "open-world-sdk-{{#isKotlin}}kotlin{{/isKotlin}}{{^isKotlin}}java{{/isKotlin}}/${loader.data()["sdk-version"]!!}")
-            transactionId?.let {
-                 headers.append("transaction-id", it.toString())
-            }
-            {{#headerParams}}
-            headers.append("{{baseName}}", {{#consumes}}"{{{mediaType}}}"{{/consumes}}{{#isCollection}}.joinToString(separator = collectionDelimiter("{{collectionFormat}}"){{/isCollection}})
-            {{/headerParams}}{{#queryParams}}
-                {{{paramName}}}?.also { url.parameters.{{#isCollection}}appendAll("{{baseName}}", it){{/isCollection}}{{^isCollection}}append("{{baseName}}", it){{/isCollection}} }
-            {{/queryParams}}{{#hasBodyParam}}
-            setBody({{#bodyParam}}{{{paramName}}}{{/bodyParam}}){{/hasBodyParam}}
-            {{^hasBodyParam}}
-                {{#hasFormParams}}
-                    {{#isMultipart}}
+            appendHeaders()
+
+        {{#headerParams}}
+            {{paramName}}{{^required}}?{{/required}}.also{ headers.append("{{baseName}}", it) }
+        {{/headerParams}}
+
+        {{#queryParams}}
+            {{{paramName}}}{{^required}}?{{/required}}.also { url.parameters.{{#isContainer}}appendAll("{{{baseName}}}", it){{/isContainer}}{{^isContainer}}append("{{{baseName}}}", it.toString()){{/isContainer}} }
+        {{/queryParams}}
+
+        {{#hasBodyParam}}
+            contentType(ContentType.Application.Json)
+            setBody({{#bodyParam}}{{{paramName}}}{{/bodyParam}})
+        {{/hasBodyParam}}
+        {{^hasBodyParam}}
+            {{#hasFormParams}}
+                {{#isMultipart}}
             setBody(MultiPartFormDataContent(formData {
-                        {{#formParams}}
-            {{{paramName}}}?.apply { append("{{{baseName}}}", {{{paramName}}}) }
-                        {{/formParams}}
+                {{#formParams}}
+                {{{paramName}}}?.apply { append("{{{baseName}}}", {{{paramName}}}) }
+                {{/formParams}}
             })
-                    {{/isMultipart}}
-                    {{^isMultipart}}
+                {{/isMultipart}}
+                {{^isMultipart}}
             url.parameters.appendAll(ParametersBuilder().also {
-                        {{#formParams}}
-            {{{paramName}}}?.apply { it.append("{{{baseName}}}", {{{paramName}}}.toString()) }
-                        {{/formParams}}
-            })
-                    {{/isMultipart}}
-                {{/hasFormParams}}
-            {{/hasBodyParam}}
+                {{#formParams}}
+                {{{paramName}}}?.apply { it.append("{{{baseName}}}", {{{paramName}}}.toString()) }
+                {{/formParams}}
+            }.build())
+                {{/isMultipart}}
+            {{/hasFormParams}}
+        {{/hasBodyParam}}
         }
         throwIfError(response)
         return {{^returnType}}null{{/returnType}}{{#returnType}}response.body(){{/returnType}}
@@ -76,29 +91,29 @@ open class {{classname}}(clientConfiguration: ClientConfiguration = ClientConfig
     {{^isKotlin}}
 
     /**
-     * {{summary}}
-     * {{notes}}
+    * {{summary}}
+    * {{notes}}
     {{#queryParams}} * @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}
     {{/queryParams}}{{#bodyParams}} * @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}
     {{/bodyParams}} {{#formParams}} * @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}
     {{/formParams}}* @return {{{returnType}}}{{^returnType}}void{{/returnType}}
     */
     @JvmOverloads
-    fun {{operationId}}({{#queryParams}}{{{paramName}}}: {{{dataType}}}{{#required}}{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{/required}}{{^required}}?{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^-last}},{{/-last}}{{/queryParams}}{{#hasQueryParams}}{{#hasBodyparam}},{{/hasBodyparam}}{{/hasQueryParams}}{{#bodyParams}}{{{paramName}}}: {{{dataType}}}{{#required}}{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{/required}}{{^required}}?{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^-last}},{{/-last}}{{/bodyParams}}{{#hasBodyparam}}{{#hasFormParams}},{{/hasFormParams}}{{/hasBodyparam}}{{#formParams}}{{{paramName}}}: {{{dataType}}}{{#required}}{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{/required}}{{^required}}?{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^-last}},{{/-last}}{{/formParams}}{{#hasParams}},{{/hasParams}} transactionId: UUID? = null): {{{returnType}}}{{^returnType}}Void?{{/returnType}} {
+    fun {{operationId}}({{>apiParamsDecleration}}) : {{{returnType}}}{{^returnType}}Void?{{/returnType}} {
         try {
             return GlobalScope.future(Dispatchers.IO) {
-                k{{operationId}}({{#queryParams}}{{{paramName}}}{{^-last}},{{/-last}}{{/queryParams}}{{#hasQueryParams}}{{#hasBodyparam}},{{/hasBodyparam}}{{/hasQueryParams}}{{#bodyParams}}{{{paramName}}}{{^-last}},{{/-last}}{{/bodyParams}}{{#hasBodyparam}}{{#hasQueryParams}},{{/hasQueryParams}}{{/hasBodyparam}}{{#queryParam}}{{{paramName}}}{{^-last}},{{/-last}}{{/queryParam}}{{#hasParams}},{{/hasParams}} transactionId)
+                k{{operationId}}({{>apiParamsPassed}})
             }.get()
-        } catch (e: Exception) {
-            if (e is OpenWorldException) throw e
+        } catch (exception: Exception) {
+            if (exception is OpenWorldException) throw exception
 
-            when (val cause = e.cause) {
+            when (val cause = exception.cause) {
                 is OpenWorldException -> throw cause
-                else -> throw OpenWorldException("OpenWorld Error", e)
+                else -> throw OpenWorldException("OpenWorld Error", exception)
             }
         }
     }
     {{/isKotlin}}
-    {{/operation}}
+{{/operation}}
 }
 {{/operations}}

@@ -24,6 +24,7 @@
         <namespace>exemplar</namespace>
         <sdkVersion>0.0.1-SNAPSHOT</sdkVersion>
         <isKotlin>false</isKotlin>
+        <isRapid>false</isRapid>
 
         <!-- Versions -->
         <openapi-generator.version>6.2.1</openapi-generator.version>
@@ -132,6 +133,8 @@
                                 <argument>${sdkVersion}</argument>
                                 <argument>--isKotlin</argument>
                                 <argument>${isKotlin}</argument>
+                                <argument>--isRapid</argument>
+                                <argument>${isRapid}</argument>
                             </arguments>
                         </configuration>
                     </execution>

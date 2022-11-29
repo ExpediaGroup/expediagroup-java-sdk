@@ -25,7 +25,7 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.nio.file.Files
-import java.util.Base64
+import java.util.*
 import java.util.zip.ZipInputStream
 import kotlin.io.path.writeBytes
 
@@ -64,6 +64,9 @@ class OpenApiSdkGenerator {
     @Option(name = ["-k", "--isKotlin"])
     lateinit var isKotlin: String
 
+    @Option(name = ["-r", "--isRapid"])
+    lateinit var isRapid: String
+
     fun run() {
         try {
             val config = CodegenConfigurator().apply {
@@ -88,9 +91,10 @@ class OpenApiSdkGenerator {
                 // Configure CodeGen Language
                 addAdditionalProperty("library", "jvm-ktor")
                 // Configure serialization library
-                addAdditionalProperty("serializationLibrary", "gson")
+                addAdditionalProperty("serializationLibrary", "jackson")
                 addAdditionalProperty("sortParamsByRequiredFlag", true)
                 addAdditionalProperty("isKotlin", isKotlin.toBoolean())
+                addAdditionalProperty("isRapid", isRapid.toBoolean())
                 // Configure SDK Artifact Coordinates
                 setArtifactId("openworld-${getSdkLanguage()}-sdk-$namespace")
                 setArtifactVersion(version)

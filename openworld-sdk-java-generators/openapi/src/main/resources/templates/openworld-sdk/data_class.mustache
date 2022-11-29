@@ -1,21 +1,42 @@
+import com.fasterxml.jackson.annotation.JsonProperty
+{{#discriminator}}
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonSubTypes
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type
+import com.fasterxml.jackson.annotation.JsonTypeInfo
+{{/discriminator}}
+
 /**
 * {{{description}}}
 {{#vars}}
     * @param {{{name}}} {{{description}}}
 {{/vars}}
 */
+{{#discriminator}}
+@JsonIgnoreProperties(ignoreUnknown = true, value = ["{{discriminator.propertyName}}"])
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "{{discriminator.propertyName}}", visible = true)
+@JsonSubTypes(
+    {{#discriminator.mappedModels}}
+    Type(value = {{modelName}}::class, name = "{{mappingName}}"){{^-last}},{{/-last}}
+    {{/discriminator.mappedModels}}
+)
+{{/discriminator}}
 {{#nonPublicApi}}internal {{/nonPublicApi}}{{#discriminator}}interface {{/discriminator}}{{^discriminator}}data class {{/discriminator}}{{classname}} {{^discriminator}}(
 {{#allVars}}
     {{#required}}{{>data_class_req_var}}{{/required}}{{^required}}{{>data_class_opt_var}}{{/required}}{{^-last}},{{/-last}}
+{{^-last}}
+
+{{/-last}}
 {{/allVars}}
-){{/discriminator}}{{#parent}}{{^serializableModel}}{{^parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{#serializableModel}}{{^parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Serializable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{^serializableModel}}{{#parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{#serializableModel}}{{#parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Serializable, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{#serializableModel}}{{^parcelizeModels}} : Serializable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{^serializableModel}}{{#parcelizeModels}} : Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{#serializableModel}}{{#parcelizeModels}} : Serializable, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}} {
+){{/discriminator}}{{#parent}}{{^serializableModel}}{{^parcelizeModels}}{{^isMap}} : {{{parent}}}{{#isArray}}(){{/isArray}}{{/isMap}}{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{#serializableModel}}{{^parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Serializable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{^serializableModel}}{{#parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{#serializableModel}}{{#parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Serializable, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{#serializableModel}}{{^parcelizeModels}} : Serializable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{^serializableModel}}{{#parcelizeModels}} : Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{#serializableModel}}{{#parcelizeModels}} : Serializable, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}} {
 {{#discriminator}}{{#vars}}{{#required}}
     {{>interface_req_var}}{{/required}}{{^required}}
     {{>interface_opt_var}}{{/required}}{{/vars}}{{/discriminator}}
-{{^isKotlin}}{{^discriminator}}
+{{^isKotlin}}
+    {{^discriminator}}
     companion object {
-    @JvmStatic
-    fun builder() = Builder()
+         @JvmStatic
+        fun builder() = Builder()
     }
 
     class Builder(
@@ -26,26 +47,28 @@
     {{#allVars}}
         fun {{{name}}} ({{{name}}} : {{#isEnum}}{{^isArray}}{{^isInherited}}{{classname}}.{{{nameInCamelCase}}}{{/isInherited}}{{/isArray}}{{^isArray}}{{#isInherited}}{{{parent}}}.{{{nameInCamelCase}}}{{/isInherited}}{{/isArray}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}) = apply { this.{{{name}}} = {{{name}}} }
     {{/allVars}}
-    fun build(): {{classname}} {
-    {{#hasRequired}}
-        // check required params
-        validateNullity()
-    {{/hasRequired}}
-    return {{classname}}({{#allVars}}{{{name}}} = {{{name}}}{{#required}}!!{{/required}}{{^-last}},{{/-last}}{{/allVars}})
-    }
+
+        fun build(): {{classname}} {
+        {{#hasRequired}}
+            // Check required params
+            validateNullity()
+         {{/hasRequired}}
+         return {{classname}}({{#allVars}}{{{name}}} = {{{name}}}{{#required}}!!{{/required}}{{^-last}},{{/-last}}{{/allVars}})
+        }
     {{#hasRequired}}
         private fun validateNullity() {
         {{#allVars}}
             {{#required}}
-                if ({{{name}}} == null) {
+            if ({{{name}}} == null) {
                 throw NullPointerException("Required parameter {{{name}}} is missing")
-                }
+            }
             {{/required}}
         {{/allVars}}
         }
     {{/hasRequired}}
     }
-{{/discriminator}}{{/isKotlin}}
+    {{/discriminator}}
+{{/isKotlin}}
 {{#hasEnums}}
     {{#vars}}
         {{#isEnum}}
@@ -56,6 +79,7 @@
             enum class {{&nameInCamelCase}}(val value: {{dataType}}){
             {{#allowableValues}}
                 {{#enumVars}}
+                    @JsonProperty({{{value}}})
                     {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
                 {{/enumVars}}
             {{/allowableValues}}
@@ -63,5 +87,4 @@
         {{/isEnum}}
     {{/vars}}
 {{/hasEnums}}
-
 }
