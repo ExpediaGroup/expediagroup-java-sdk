@@ -30,6 +30,7 @@
 
                         <exclude>**/configuration/NetworkConfiguration*</exclude>
                         <exclude>**/configuration/LoggingConfiguration*</exclude>
+                        <exclude>**/configuration/ClientConfiguration$Companion*</exclude>
                         <exclude>**/config/provider/ConfigurationData*</exclude>
 
                         <exclude>**/model/**</exclude>

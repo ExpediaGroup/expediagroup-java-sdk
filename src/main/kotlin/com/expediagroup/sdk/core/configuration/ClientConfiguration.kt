@@ -36,6 +36,10 @@ data class ClientConfiguration(
         /** An empty configuration. */
         @JvmField
         val EMPTY = ClientConfiguration()
+
+        /** Creates a new ClientConfigurations.Builder instance. */
+        @JvmStatic
+        fun builder() = Builder()
     }
 
     /**
