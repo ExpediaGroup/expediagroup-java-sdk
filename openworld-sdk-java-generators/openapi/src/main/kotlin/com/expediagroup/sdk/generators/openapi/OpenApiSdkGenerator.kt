@@ -15,6 +15,7 @@
  */
 package com.expediagroup.sdk.generators.openapi
 
+import com.expediagroup.sdk.generators.openapi.processor.YamlProcessor
 import com.github.rvesse.airline.SingleCommand
 import com.github.rvesse.airline.annotations.Command
 import com.github.rvesse.airline.annotations.Option
@@ -36,7 +37,6 @@ import kotlin.io.path.writeBytes
 @Command(name = "generate", description = "Let's build an EG Travel SDK!")
 class OpenApiSdkGenerator {
     companion object {
-
         /**
          * Main Entry Point
          *
@@ -69,15 +69,15 @@ class OpenApiSdkGenerator {
 
     fun run() {
         try {
+            // Adjust namespace to fit with JVM package naming conventions
+            val packageName = namespace.lowercase().replace(Constant.NON_ALPHANUMERIC_REGEX, "")
             val config = CodegenConfigurator().apply {
-                // Adjust namespace to fit with JVM package naming conventions
-                val packageName = namespace.lowercase().replace(Regex("[^a-z0-9]"), "")
                 // specify the target language
                 setGeneratorName("kotlin")
                 setTemplateDir("templates/openworld-sdk")
-                setInputSpec(
-                    prepareSpecFile()
-                )
+                val path = prepareSpecFile()
+                val processedFilePath = preProcessSpecFile(path)
+                setInputSpec(processedFilePath)
                 setOutputDir(outputDirectory)
                 // Configure CodeGen Components
                 addGlobalProperty("models", "")
@@ -96,7 +96,7 @@ class OpenApiSdkGenerator {
                 addAdditionalProperty("isKotlin", isKotlin.toBoolean())
                 addAdditionalProperty("isRapid", isRapid.toBoolean())
                 // Configure SDK Artifact Coordinates
-                setArtifactId("openworld-${getSdkLanguage()}-sdk-$namespace")
+                setArtifactId("openworld-${getSdkLanguage()}-sdk-${namespace.lowercase()}")
                 setArtifactVersion(version)
                 // Configure package details
                 setPackageName("com.expediagroup.openworld.sdk.$packageName")
@@ -109,9 +109,7 @@ class OpenApiSdkGenerator {
                         TemplateDefinition("README.mustache", "README.md"),
                         TemplateDefinition(
                             "factory.mustache",
-                            "src/main/kotlin/com/expediagroup/openworld/sdk/${
-                            namespace.lowercase().replace(Regex("[^a-z0-9]"), "")
-                            }/configs"
+                            "src/main/kotlin/com/expediagroup/openworld/sdk/$packageName/configs"
                         )
                     )
                 )
@@ -127,6 +125,11 @@ class OpenApiSdkGenerator {
     }
 
     private fun getSdkLanguage() = if (isKotlin.toBoolean()) "kotlin" else "java"
+
+    private fun preProcessSpecFile(path: String): String {
+        val yamlProcessor = YamlProcessor(path, namespace)
+        return yamlProcessor.process()
+    }
 
     private fun prepareSpecFile(): String {
         val buffer = ByteArray(1024)
