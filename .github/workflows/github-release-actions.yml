@@ -44,14 +44,3 @@ jobs:
         run: |
           mvn deploy --settings $GITHUB_WORKSPACE/settings.xml -B -U -P release -DskipTests=true
           echo "::set-output name=version::$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)"
-  update-bom:
-    needs: deploy
-    runs-on: ubuntu-latest
-    steps:
-      - name: Update BOM
-        uses: fjogeleit/http-request-action@v1
-        with:
-          url: 'https://api.github.com/repos/ExpediaGroup/openworld-sdk-java/actions/workflows/update-bom-version-actions.yml/dispatches'
-          method: 'POST'
-          customHeaders: '{"Authorization": "${{secrets.CUSTOM_TOKEN}}","Accept": "application/vnd.github+json"}'
-          data: '{"ref":"main","inputs":{"sdk-version":"${{needs.deploy.outputs.version}}","sdk-name":"openworld-java-sdk-core"}}'
