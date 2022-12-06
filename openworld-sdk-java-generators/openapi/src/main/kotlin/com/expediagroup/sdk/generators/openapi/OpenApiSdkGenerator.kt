@@ -70,7 +70,8 @@ class OpenApiSdkGenerator {
     fun run() {
         try {
             // Adjust namespace to fit with JVM package naming conventions
-            val packageName = namespace.lowercase().replace(Constant.NON_ALPHANUMERIC_REGEX, "")
+            val lowercaseNamespace = namespace.lowercase()
+            val packageName = lowercaseNamespace.replace(Constant.NON_ALPHANUMERIC_REGEX, "")
             val config = CodegenConfigurator().apply {
                 // specify the target language
                 setGeneratorName("kotlin")
@@ -93,10 +94,11 @@ class OpenApiSdkGenerator {
                 // Configure serialization library
                 addAdditionalProperty("serializationLibrary", "jackson")
                 addAdditionalProperty("sortParamsByRequiredFlag", true)
+                addAdditionalProperty("namespace", lowercaseNamespace)
                 addAdditionalProperty("isKotlin", isKotlin.toBoolean())
                 addAdditionalProperty("isRapid", isRapid.toBoolean())
                 // Configure SDK Artifact Coordinates
-                setArtifactId("openworld-${getSdkLanguage()}-sdk-${namespace.lowercase()}")
+                setArtifactId("openworld-${getSdkLanguage()}-sdk-$lowercaseNamespace")
                 setArtifactVersion(version)
                 // Configure package details
                 setPackageName("com.expediagroup.openworld.sdk.$packageName")

@@ -37,6 +37,10 @@ import kotlinx.coroutines.future.future
 {{#operations}}
 open class {{classname}}(clientConfiguration: ClientConfiguration = ClientConfiguration.EMPTY) : {{#isRapid}}RapidOpenApiStub{{/isRapid}}{{^isRapid}}OpenApiStub{{/isRapid}}(clientConfiguration) {
     private val loader = FileConfigurationProvider()[javaClass.classLoader.getResource("sdk.properties")!!]
+    private val javaVersion = System.getProperty("java.version")
+    private val operatingSystemName = System.getProperty("os.name")
+    private val operatingSystemVersion = System.getProperty("os.version")
+    private val userAgent = "open-world-sdk-{{#isKotlin}}kotlin{{/isKotlin}}{{^isKotlin}}java{{/isKotlin}}-{{namespace}}/${loader.data()["sdk-version"]!!} (Java $javaVersion; $operatingSystemName $operatingSystemVersion)"
 
     private fun removeLeadingSlash(path: String): String {
         return path.slice(1 until path.length)
@@ -44,7 +48,7 @@ open class {{classname}}(clientConfiguration: ClientConfiguration = ClientConfig
 
     private fun HttpRequestBuilder.appendHeaders() {
         headers.append("x-sdk-title", loader.data()["sdk-title"]!!)
-        headers.append("User-agent", "open-world-sdk-{{#isKotlin}}kotlin{{/isKotlin}}{{^isKotlin}}java{{/isKotlin}}/${loader.data()["sdk-version"]!!}")
+        headers.append("User-agent", userAgent)
     }
 
 {{#operation}}
