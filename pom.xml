@@ -41,7 +41,9 @@
 
                         <exclude>**/authentication/AuthenticationConfiguration*</exclude>
                         <exclude>**/authentication/AuthenticationPlugin*</exclude>
+                        <exclude>**/authentication/AuthenticationStrategy*</exclude>
                         <exclude>**/authentication/strategies/bearer/TokenResponse*</exclude>
+                        <exclude>**/authentication/strategies/**</exclude>
 
                         <exclude>**/logging/**</exclude>
                         <exclude>**/serialization/**</exclude>
