@@ -23,7 +23,6 @@ import com.expediagroup.sdk.core.commons.TestConstants.ACCESS_TOKEN
 import com.expediagroup.sdk.core.commons.TestConstants.ANY_URL
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_KEY_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
-import com.expediagroup.sdk.core.commons.TestConstants.SIGNATURE_VALUE
 import com.expediagroup.sdk.core.configuration.Credentials
 import com.expediagroup.sdk.core.configuration.provider.DefaultConfigurationProvider
 import com.expediagroup.sdk.core.constant.Authentication.BEARER
@@ -33,7 +32,6 @@ import com.expediagroup.sdk.core.plugin.Hooks
 import com.expediagroup.sdk.core.plugin.authentication.helper.SuccessfulStatusCodesArgumentProvider
 import com.expediagroup.sdk.core.plugin.authentication.helper.UnsuccessfulStatusCodesArgumentProvider
 import com.expediagroup.sdk.core.plugin.authentication.strategies.bearer.BearerStrategy
-import com.expediagroup.sdk.core.plugin.authentication.strategies.signature.calculateSignature
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.request.get
@@ -44,9 +42,7 @@ import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.mockk.clearAllMocks
 import io.mockk.coVerify
-import io.mockk.every
 import io.mockk.mockkObject
-import io.mockk.mockkStatic
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -84,15 +80,6 @@ internal class AuthenticationPluginTest {
             it.isAccessible = true
             val hooksCollection = it.javaField?.get(Hooks) as MutableList<*>
             hooksCollection.clear()
-        }
-    }
-
-    @Nested
-    inner class SignatureStrategyTest {
-
-        private fun mockSignatureCalculator() {
-            mockkStatic("com.expediagroup.sdk.core.plugin.authentication.strategies.signature.SignatureCalculatorKt")
-            every { calculateSignature(any(), any(), any()) } returns SIGNATURE_VALUE
         }
     }
 
