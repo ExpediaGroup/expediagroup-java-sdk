@@ -22,12 +22,12 @@ import com.expediagroup.sdk.core.plugin.Hook
 import com.expediagroup.sdk.core.plugin.HookBuilder
 import com.expediagroup.sdk.core.plugin.HookConfigsBuilder
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationPlugin.isNotIdentityRequest
+import com.expediagroup.sdk.core.plugin.logging.DecoratedLoggerFactory
 import io.ktor.client.plugins.HttpSend
 import io.ktor.client.plugins.plugin
 import io.ktor.client.request.HttpRequestBuilder
 import kotlinx.atomicfu.atomic
 import kotlinx.coroutines.delay
-import org.slf4j.LoggerFactory
 
 internal const val AUTHORIZATION_REQUEST_LOCK_DELAY = 20L
 
@@ -44,7 +44,7 @@ internal class AuthenticationHook(
 }
 
 private object AuthenticationHookBuilder : HookBuilder<AuthenticationConfiguration> {
-    private val log = LoggerFactory.getLogger(javaClass)
+    private val log = DecoratedLoggerFactory.getLogger(javaClass)
     private val isLock = atomic(false)
 
     override fun build(client: Client, configs: AuthenticationConfiguration) {

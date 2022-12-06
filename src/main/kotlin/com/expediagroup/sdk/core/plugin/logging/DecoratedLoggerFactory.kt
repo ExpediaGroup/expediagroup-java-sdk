@@ -13,18 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.constant
+package com.expediagroup.sdk.core.plugin.logging
 
-internal object LoggingMessage {
-    const val LOGGING_PREFIX = "ExpediaSDK:"
+import org.slf4j.LoggerFactory
 
-    const val TOKEN_RENEWAL_IN_PROCESS = "Renewing token"
-
-    const val TOKEN_RENEWAL_SUCCESSFUL = "Token renewal successful"
-
-    const val TOKEN_CLEARING_IN_PROCESS = "Clearing tokens"
-
-    const val TOKEN_CLEARING_SUCCESSFUL = "Tokens successfully cleared"
-
-    const val TOKEN_EXPIRED = "Token expired or is about to expire: Request will wait until token is renewed"
+internal object DecoratedLoggerFactory {
+    fun getLogger(clazz: Class<*>) = DecoratedLogger(LoggerFactory.getLogger(clazz))
 }
