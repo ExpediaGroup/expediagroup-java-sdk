@@ -19,5 +19,5 @@ internal object Constant {
     const val INDENTATION_LENGTH = 2
     const val INDICATOR_INDENTATION_LENGTH = 2
     const val INDENT_WITH_INDICATOR = true
-    val NON_ALPHANUMERIC_REGEX = Regex("[^a-z0-9]")
+    val NON_ALPHANUMERIC_REGEX = Regex("[^a-zA-Z0-9]")
 }
