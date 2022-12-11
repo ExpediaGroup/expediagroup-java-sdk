@@ -22,14 +22,14 @@ import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.slf4j.Logger
 
-class DecoratedLoggerTest {
+class OpenWorldLoggerTest {
     @Test
     fun `should prepend info logging`() {
         val mockedLogger = createMockedLogger()
-        val decoratedLogger = DecoratedLogger(mockedLogger)
+        val openWorldLogger = OpenWorldLogger(mockedLogger)
 
         val message = "message"
-        decoratedLogger.info(message)
+        openWorldLogger.info(message)
 
         verify(exactly = 1) { mockedLogger.info("$LOGGING_PREFIX $message") }
     }
@@ -37,10 +37,10 @@ class DecoratedLoggerTest {
     @Test
     fun `should prepend warn logging`() {
         val mockedLogger = createMockedLogger()
-        val decoratedLogger = DecoratedLogger(mockedLogger)
+        val openWorldLogger = OpenWorldLogger(mockedLogger)
 
         val message = "message"
-        decoratedLogger.warn(message)
+        openWorldLogger.warn(message)
 
         verify(exactly = 1) { mockedLogger.warn("$LOGGING_PREFIX $message") }
     }

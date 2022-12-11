@@ -15,13 +15,8 @@
  */
 package com.expediagroup.sdk.core.plugin.logging
 
-import com.expediagroup.sdk.core.constant.LoggingMessage.LOGGING_PREFIX
-import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
-internal class DecoratedLogger(private val logger: Logger) : Logger by logger {
-    override fun info(msg: String?) = logger.info(decorate(msg))
-
-    override fun warn(msg: String?) = logger.warn(decorate(msg))
-
-    private fun decorate(msg: String?) = "$LOGGING_PREFIX $msg"
+internal object OpenWorldLoggerFactory {
+    fun getLogger(clazz: Class<*>) = OpenWorldLogger(LoggerFactory.getLogger(clazz))
 }

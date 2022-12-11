@@ -35,6 +35,6 @@ internal data class LoggingConfiguration(
 
 internal val Logger.Companion.CUSTOM: Logger
     get() = object : Logger {
-        private val delegate = DecoratedLoggerFactory.getLogger(HttpClient::class.java)
+        private val delegate = OpenWorldLoggerFactory.getLogger(HttpClient::class.java)
         override fun log(message: String) = delegate.info(message)
     }

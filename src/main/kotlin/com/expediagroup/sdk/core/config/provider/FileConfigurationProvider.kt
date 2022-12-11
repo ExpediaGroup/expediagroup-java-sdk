@@ -18,7 +18,7 @@ package com.expediagroup.sdk.core.config.provider
 import com.expediagroup.sdk.core.constant.ExceptionMessage.NOT_YET_IMPLEMENTED
 import com.expediagroup.sdk.core.constant.provider.ExceptionMessageProvider.getPropertyNotFoundMessage
 import com.expediagroup.sdk.core.model.exception.client.OpenWorldConfigurationException
-import com.expediagroup.sdk.core.plugin.logging.DecoratedLoggerFactory
+import com.expediagroup.sdk.core.plugin.logging.OpenWorldLoggerFactory
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
@@ -36,7 +36,7 @@ class FileConfigurationProvider : ConfigurationProvider {
     private val emptyConfigurationData = ConfigurationData(emptyMap())
 
     companion object {
-        private val log = DecoratedLoggerFactory.getLogger(FileConfigurationProvider::class.java)
+        private val log = OpenWorldLoggerFactory.getLogger(FileConfigurationProvider::class.java)
     }
 
     /**

@@ -22,7 +22,7 @@ import com.expediagroup.sdk.core.plugin.Hook
 import com.expediagroup.sdk.core.plugin.HookBuilder
 import com.expediagroup.sdk.core.plugin.HookConfigsBuilder
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationPlugin.isNotIdentityRequest
-import com.expediagroup.sdk.core.plugin.logging.DecoratedLoggerFactory
+import com.expediagroup.sdk.core.plugin.logging.OpenWorldLoggerFactory
 import io.ktor.client.plugins.HttpSend
 import io.ktor.client.plugins.plugin
 import io.ktor.client.request.HttpRequestBuilder
@@ -44,7 +44,7 @@ internal class AuthenticationHook(
 }
 
 private object AuthenticationHookBuilder : HookBuilder<AuthenticationConfiguration> {
-    private val log = DecoratedLoggerFactory.getLogger(javaClass)
+    private val log = OpenWorldLoggerFactory.getLogger(javaClass)
     private val isLock = atomic(false)
 
     override fun build(client: Client, configs: AuthenticationConfiguration) {
