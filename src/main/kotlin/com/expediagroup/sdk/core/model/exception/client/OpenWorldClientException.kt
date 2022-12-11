@@ -20,7 +20,7 @@ import com.expediagroup.sdk.core.model.exception.OpenWorldException
 /**
  * An exception that is thrown when a client error occurs.
  */
-sealed class OpenWorldClientException(
+class OpenWorldClientException(
     message: String?,
     cause: Throwable? = null
 ) : OpenWorldException(message, cause)
