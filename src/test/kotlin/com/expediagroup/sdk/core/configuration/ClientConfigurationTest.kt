@@ -46,8 +46,20 @@ class ClientConfigurationTest {
                 .let {
                     assertEquals("key", it.key)
                     assertEquals("secret", it.secret)
-                    assertEquals("endpoint", it.endpoint)
+                    assertEquals("endpoint/", it.endpoint)
                     assertEquals("authEndpoint", it.authEndpoint)
+                }
+        }
+
+        @Test
+        fun `Verify a builder with null values`() {
+            ClientConfiguration.Builder()
+                .build()
+                .let {
+                    assertNull(it.key)
+                    assertNull(it.secret)
+                    assertNull(it.endpoint)
+                    assertNull(it.authEndpoint)
                 }
         }
     }
@@ -67,7 +79,7 @@ class ClientConfigurationTest {
                 .let {
                     assertEquals("key", it.key)
                     assertEquals("secret", it.secret)
-                    assertEquals("endpoint", it.endpoint)
+                    assertEquals("endpoint/", it.endpoint)
                     assertEquals("authEndpoint", it.authEndpoint)
                 }
         }

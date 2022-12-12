@@ -32,7 +32,7 @@ internal class DefaultRequestPluginTest {
             val testRequest = client.httpClient.get("/any-url")
 
             Assertions.assertThat(testRequest.request.url.toString()).isEqualTo(
-                "${DefaultConfigurationProvider.endpoint}/any-url"
+                "${DefaultConfigurationProvider.endpoint}any-url"
             )
         }
     }
