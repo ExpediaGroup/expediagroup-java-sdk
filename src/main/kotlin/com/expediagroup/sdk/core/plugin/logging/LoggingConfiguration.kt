@@ -16,15 +16,15 @@
 package com.expediagroup.sdk.core.plugin.logging
 
 import com.expediagroup.sdk.core.plugin.KtorPluginConfiguration
+import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.HttpClientEngineConfig
-import io.ktor.client.plugins.logging.DEFAULT
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 
 internal data class LoggingConfiguration(
     override val httpClientConfiguration: HttpClientConfig<out HttpClientEngineConfig>,
-    val logger: Logger = Logger.DEFAULT,
+    val logger: Logger = Logger.CUSTOM,
     val level: LogLevel = LogLevel.ALL
 ) : KtorPluginConfiguration(httpClientConfiguration) {
     companion object {
@@ -32,3 +32,9 @@ internal data class LoggingConfiguration(
             LoggingConfiguration(httpClientConfig)
     }
 }
+
+internal val Logger.Companion.CUSTOM: Logger
+    get() = object : Logger {
+        private val delegate = OpenWorldLoggerFactory.getLogger(HttpClient::class.java)
+        override fun log(message: String) = delegate.info(message)
+    }

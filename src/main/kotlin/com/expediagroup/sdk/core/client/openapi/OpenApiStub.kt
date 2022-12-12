@@ -21,12 +21,12 @@ import com.expediagroup.sdk.core.constant.Constant
 import com.expediagroup.sdk.core.constant.provider.LoggingMessageProvider.getResponseUnsuccessfulMessage
 import com.expediagroup.sdk.core.model.error.Error
 import com.expediagroup.sdk.core.model.exception.service.OpenWorldServiceException
+import com.expediagroup.sdk.core.plugin.logging.OpenWorldLoggerFactory
 import io.ktor.client.call.body
 import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.request
 import io.ktor.http.toURI
-import org.slf4j.LoggerFactory
 
 /**
  * Base class used by generated OpenAPI APIs to perform the heavy lifting of actually sending requests.
@@ -38,7 +38,7 @@ abstract class OpenApiStub(
     protected val client: Client by lazy { createClient() }
 
     companion object {
-        private val log = LoggerFactory.getLogger(OpenApiStub::class.java)
+        private val log = OpenWorldLoggerFactory.getLogger(OpenApiStub::class.java)
     }
 
     /**

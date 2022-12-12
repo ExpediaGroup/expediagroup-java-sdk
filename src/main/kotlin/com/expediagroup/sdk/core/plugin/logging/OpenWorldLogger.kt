@@ -13,18 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.constant
+package com.expediagroup.sdk.core.plugin.logging
 
-internal object LoggingMessage {
-    const val LOGGING_PREFIX = "ExpediaSDK:"
+import com.expediagroup.sdk.core.constant.LoggingMessage.LOGGING_PREFIX
+import org.slf4j.Logger
 
-    const val TOKEN_RENEWAL_IN_PROCESS = "Renewing token"
+internal class OpenWorldLogger(private val logger: Logger) : Logger by logger {
+    override fun info(msg: String?) = logger.info(decorate(msg))
 
-    const val TOKEN_RENEWAL_SUCCESSFUL = "Token renewal successful"
+    override fun warn(msg: String?) = logger.warn(decorate(msg))
 
-    const val TOKEN_CLEARING_IN_PROCESS = "Clearing tokens"
-
-    const val TOKEN_CLEARING_SUCCESSFUL = "Tokens successfully cleared"
-
-    const val TOKEN_EXPIRED = "Token expired or is about to expire: Request will wait until token is renewed"
+    private fun decorate(msg: String?) = "$LOGGING_PREFIX $msg"
 }

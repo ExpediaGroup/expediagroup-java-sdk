@@ -26,6 +26,7 @@ import com.expediagroup.sdk.core.constant.provider.LoggingMessageProvider
 import com.expediagroup.sdk.core.model.exception.service.OpenWorldAuthException
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationConfiguration
 import com.expediagroup.sdk.core.plugin.authentication.strategies.AuthenticationStrategy
+import com.expediagroup.sdk.core.plugin.logging.OpenWorldLoggerFactory
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.auth.Auth
@@ -39,10 +40,9 @@ import io.ktor.client.request.request
 import io.ktor.client.request.url
 import io.ktor.http.HttpMethod
 import io.ktor.http.Parameters
-import org.slf4j.LoggerFactory
 
 internal object BearerStrategy : AuthenticationStrategy {
-    private val log = LoggerFactory.getLogger(javaClass)
+    private val log = OpenWorldLoggerFactory.getLogger(javaClass)
     private var bearerTokenStorage = BearerTokensInfo.emptyBearerTokenInfo
     private val loadTokensBlock: () -> BearerTokens = {
         getTokens()
