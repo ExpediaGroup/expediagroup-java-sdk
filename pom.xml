@@ -94,7 +94,7 @@
         <kotlin-logging.version>3.0.4</kotlin-logging.version>
         <kotlin-atomic.version>0.18.5</kotlin-atomic.version>
         <ktlint.version>0.47.1</ktlint.version>
-        <detekt.version>1.21.0</detekt.version>
+        <detekt.version>1.22.0</detekt.version>
 
         <!-- Shared Library Versions -->
         <airline.version>2.9.0</airline.version>
