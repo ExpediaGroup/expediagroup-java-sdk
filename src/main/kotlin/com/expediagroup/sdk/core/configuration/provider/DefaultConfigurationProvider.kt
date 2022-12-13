@@ -28,6 +28,6 @@ import com.expediagroup.sdk.core.constant.Constant.EMPTY_STRING
 internal object DefaultConfigurationProvider : ConfigurationProvider {
     override val key: String = EMPTY_STRING
     override val secret: String = EMPTY_STRING
-    override val endpoint: String = "https://api.expediagroup.com"
-    override val authEndpoint: String = "$endpoint/identity/oauth2/v2/token"
+    override val endpoint: String = "https://api.expediagroup.com/"
+    override val authEndpoint: String = "${endpoint}identity/oauth2/v2/token/"
 }
