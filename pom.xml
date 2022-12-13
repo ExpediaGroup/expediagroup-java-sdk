@@ -421,6 +421,7 @@
                             <exclude>**/configuration/NetworkConfiguration*</exclude>
                             <exclude>**/configuration/LoggingConfiguration*</exclude>
                             <exclude>**/configuration/ClientConfiguration$Companion*</exclude>
+                            <exclude>**/configuration/RapidClientConfiguration$Companion*</exclude>
                             <exclude>**/config/provider/ConfigurationData*</exclude>
                             <exclude>**/configuration/NetworkConfiguration*</exclude>
                             <exclude>**/configuration/LoggingConfiguration*</exclude>
