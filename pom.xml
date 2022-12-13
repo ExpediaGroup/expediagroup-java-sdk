@@ -413,7 +413,6 @@
                             <exclude>**/constant/**</exclude>
 
                             <exclude>**/client/openapi/OpenApiStub*</exclude>
-                            <exclude>**/client/openapi/RapidOpenApiStub*</exclude>
                             <exclude>**/client/Client*</exclude>
                             <exclude>**/client/openapi/OpenApiStub*</exclude>
                             <exclude>**/client/Client*</exclude>
@@ -440,6 +439,8 @@
                             <exclude>**/authentication/AuthenticationConfiguration*</exclude>
                             <exclude>**/authentication/AuthenticationHook*</exclude>
                             <exclude>**/authentication/AuthenticationPlugin*</exclude>
+                            <exclude>**/authentication/AuthenticationStrategy*</exclude>
+                            <exclude>**/authentication/strategies/**</exclude>
 
                             <exclude>**/logging/**</exclude>
                             <exclude>**/serialization/**</exclude>
