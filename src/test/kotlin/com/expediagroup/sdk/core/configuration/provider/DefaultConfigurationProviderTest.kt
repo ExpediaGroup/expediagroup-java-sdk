@@ -25,7 +25,7 @@ internal class DefaultConfigurationProviderTest {
     fun `verify default values`() {
         assertEquals(EMPTY_STRING, DefaultConfigurationProvider.key)
         assertEquals(EMPTY_STRING, DefaultConfigurationProvider.secret)
-        assertEquals("https://api.expediagroup.com", DefaultConfigurationProvider.endpoint)
-        assertEquals("https://api.expediagroup.com/identity/oauth2/v2/token", DefaultConfigurationProvider.authEndpoint)
+        assertEquals("https://api.expediagroup.com/", DefaultConfigurationProvider.endpoint)
+        assertEquals("https://api.expediagroup.com/identity/oauth2/v2/token/", DefaultConfigurationProvider.authEndpoint)
     }
 }
