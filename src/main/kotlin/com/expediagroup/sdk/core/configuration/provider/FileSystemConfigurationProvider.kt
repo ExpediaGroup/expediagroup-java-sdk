@@ -18,6 +18,8 @@ package com.expediagroup.sdk.core.configuration.provider
 import com.expediagroup.sdk.core.config.provider.FileConfigurationProvider
 import com.expediagroup.sdk.core.constant.Constant
 import com.expediagroup.sdk.core.constant.Key
+import com.expediagroup.sdk.core.contract.Contract
+import com.expediagroup.sdk.core.contract.adhereTo
 
 /**
  * File System implementation of [ConfigurationProvider] to fall back to for any missing configuration.
@@ -35,8 +37,6 @@ internal class FileSystemConfigurationProvider(
 
     override val key: String? by lazy { credentials[Key.CLIENT_KEY] }
     override val secret: String? by lazy { credentials[Key.CLIENT_SECRET] }
-    override val endpoint: String? by lazy { configurations[Key.ENDPOINT]?.let { appendSlashIfRequired(it) } }
+    override val endpoint: String? by lazy { configurations[Key.ENDPOINT]?.adhereTo(Contract.TRAILING_SLASH) }
     override val authEndpoint: String? by lazy { configurations[Key.AUTH_ENDPOINT] }
-
-    private fun appendSlashIfRequired(url: String) = if ('/' != url.last()) "$url/" else url
 }

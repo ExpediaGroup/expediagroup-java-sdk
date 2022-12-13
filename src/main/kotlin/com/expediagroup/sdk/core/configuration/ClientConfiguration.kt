@@ -16,6 +16,8 @@
 package com.expediagroup.sdk.core.configuration
 
 import com.expediagroup.sdk.core.configuration.provider.RuntimeConfigurationProvider
+import com.expediagroup.sdk.core.contract.Contract
+import com.expediagroup.sdk.core.contract.adhereTo
 
 /**
  * SDK Client Configurations Provider.
@@ -70,7 +72,7 @@ data class ClientConfiguration(
          * @param endpoint The API endpoint to use for requests.
          * @return The [Builder] instance.
          */
-        fun endpoint(endpoint: String) = apply { this.endpoint = endpoint }
+        fun endpoint(endpoint: String) = apply { this.endpoint = endpoint.adhereTo(Contract.TRAILING_SLASH) }
 
         /** Sets the API auth endpoint to use for requests.
          *
@@ -86,7 +88,7 @@ data class ClientConfiguration(
         fun build() = ClientConfiguration(
             key = key,
             secret = secret,
-            endpoint = endpoint,
+            endpoint = endpoint?.adhereTo(Contract.TRAILING_SLASH),
             authEndpoint = authEndpoint
         )
     }
