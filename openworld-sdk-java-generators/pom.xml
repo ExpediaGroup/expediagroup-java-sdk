@@ -9,7 +9,7 @@
     <version>0.4.0</version>
     <name>EG Open World SDK Tooling :: Generators</name>
     <description>Code generators for building an SDK</description>
-    <url>https://github.com/ExpediaGroup/openworld-sdk-java/travel-sdk-generators</url>
+    <url>https://github.com/ExpediaGroup/openworld-sdk-java-generators</url>
     <inceptionYear>2022</inceptionYear>
 
     <licenses>
@@ -30,9 +30,9 @@
     </developers>
 
     <scm>
-        <connection>scm:git:git@github.com:ExpediaGroup/openworld-sdk-java.git/travel-sdk-generators</connection>
-        <developerConnection>scm:git:git@github.com:ExpediaGroup/openworld-sdk-java.git/travel-sdk-generators</developerConnection>
-        <url>https://github.com/ExpediaGroup/openworld-sdk-java/travel-sdk-generators</url>
+        <connection>scm:git:git@github.com:ExpediaGroup/openworld-sdk-java-generators.git</connection>
+        <developerConnection>scm:git:git@github.com:ExpediaGroup/openworld-sdk-java-generators.git</developerConnection>
+        <url>https://github.com/ExpediaGroup/openworld-sdk-java-generators</url>
     </scm>
 
     <distributionManagement>
