@@ -48,11 +48,3 @@ jobs:
     needs: [ generate_sdk ]
     uses: ./.github/workflows/github-release-actions.yml
     secrets: inherit
-
-  update-bom:
-    needs: [ deploy_sdk, prepare_sdk_version ]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Update BOM
-        run: |
-          curl -X POST https://api.github.com/repos/Expediagroup/openworld-sdk-java/actions/workflows/update-bom-version-actions.yml/dispatches -H 'Content-Type: application/json' -H 'Authorization: ${{secrets.CUSTOM_TOKEN}}' -H  'Accept: application/vnd.github+json' -d  '{"ref":"main","inputs":{"sdk-version": "${{ needs.prepare_sdk_version.outputs.version }}" , "sdk-name":"openworld-java-sdk-${{ github.event.inputs.name }}"}}'
