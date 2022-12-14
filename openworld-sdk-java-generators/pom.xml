@@ -3,15 +3,49 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>com.expediagroup.openworld.sdk</groupId>
-        <artifactId>openworld-java-sdk-pom</artifactId>
-        <version>0.3.0</version>
-        <relativePath/>
-    </parent>
-
+    <groupId>com.expediagroup.openworld.sdk</groupId>
     <artifactId>travel-sdk-generators</artifactId>
     <packaging>pom</packaging>
+    <version>0.4.0</version>
     <name>EG Open World SDK Tooling :: Generators</name>
     <description>Code generators for building an SDK</description>
+    <url>https://github.com/ExpediaGroup/openworld-sdk-java/travel-sdk-generators</url>
+    <inceptionYear>2022</inceptionYear>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+            <comments>A business-friendly OSS license</comments>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Expedia Group Committers</name>
+            <organization>Expedia Group</organization>
+            <organizationUrl>https://expediagroup.com</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git@github.com:ExpediaGroup/openworld-sdk-java.git/travel-sdk-generators</connection>
+        <developerConnection>scm:git:git@github.com:ExpediaGroup/openworld-sdk-java.git/travel-sdk-generators</developerConnection>
+        <url>https://github.com/ExpediaGroup/openworld-sdk-java/travel-sdk-generators</url>
+    </scm>
+
+    <distributionManagement>
+        <repository>
+            <id>oss-sonatype</id>
+            <name>Sonatype Nexus Release Repository</name>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+        <snapshotRepository>
+            <id>oss-sonatype</id>
+            <name>Sonatype Nexus Snapshots Repository</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
 </project>
