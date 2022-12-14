@@ -12,7 +12,7 @@ import com.expediagroup.sdk.core.client.openapi.RapidOpenApiStub
 import com.expediagroup.sdk.core.client.openapi.OpenApiStub
 {{/isRapid}}
 import com.expediagroup.sdk.core.config.provider.FileConfigurationProvider
-import com.expediagroup.sdk.core.configuration.ClientConfiguration
+import com.expediagroup.sdk.core.configuration.{{#isRapid}}Rapid{{/isRapid}}ClientConfiguration
 import com.expediagroup.sdk.core.model.exception.OpenWorldException
 import com.expediagroup.sdk.core.model.exception.client.*
 import com.expediagroup.sdk.core.model.exception.service.*
@@ -35,7 +35,7 @@ import kotlinx.coroutines.future.future
 * {{{description}}}
 */
 {{#operations}}
-open class {{classname}}(clientConfiguration: ClientConfiguration = ClientConfiguration.EMPTY) : {{#isRapid}}RapidOpenApiStub{{/isRapid}}{{^isRapid}}OpenApiStub{{/isRapid}}(clientConfiguration) {
+open class {{classname}}(clientConfiguration: {{#isRapid}}Rapid{{/isRapid}}ClientConfiguration = {{#isRapid}}Rapid{{/isRapid}}ClientConfiguration.EMPTY) : {{#isRapid}}RapidOpenApiStub{{/isRapid}}{{^isRapid}}OpenApiStub{{/isRapid}}(clientConfiguration) {
     private val loader = FileConfigurationProvider()[javaClass.classLoader.getResource("sdk.properties")!!]
     private val javaVersion = System.getProperty("java.version")
     private val operatingSystemName = System.getProperty("os.name")
