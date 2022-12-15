@@ -28,8 +28,8 @@ import io.ktor.http.HttpStatusCode
  * @property error The error object.
  */
 open class OpenWorldServiceException(
-    override val message: String?,
-    override val cause: Throwable? = null,
+    message: String?,
+    cause: Throwable? = null,
     val errorCode: HttpStatusCode,
     val error: Error? = null
 ) : OpenWorldException(message, cause) {
