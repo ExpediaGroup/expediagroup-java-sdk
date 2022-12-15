@@ -28,6 +28,7 @@ import com.expediagroup.sdk.core.configuration.Credentials
 import com.expediagroup.sdk.core.configuration.provider.DefaultConfigurationProvider
 import com.expediagroup.sdk.core.constant.Authentication.BEARER
 import com.expediagroup.sdk.core.constant.Authentication.EAN
+import com.expediagroup.sdk.core.constant.ExceptionMessage
 import com.expediagroup.sdk.core.constant.HeaderKey
 import com.expediagroup.sdk.core.model.exception.service.OpenWorldAuthException
 import com.expediagroup.sdk.core.plugin.Hooks
@@ -170,7 +171,7 @@ internal class AuthenticationPluginTest {
             runBlocking {
                 val httpClient = ClientFactory.createClient(createUnauthorizedMockEngineWithStatusCode(httpStatusCode)).httpClient
 
-                assertThrows<OpenWorldAuthException> {
+                val exception = assertThrows<OpenWorldAuthException> {
                     AuthenticationPlugin.renewToken(
                         httpClient,
                         AuthenticationConfiguration.from(
@@ -183,6 +184,10 @@ internal class AuthenticationPluginTest {
                         )
                     )
                 }
+                assertThat(exception.message).isEqualTo("[${httpStatusCode.value}] ${ExceptionMessage.AUTHENTICATION_FAILURE}")
+                assertThat(exception.cause).isNull()
+                assertThat(exception.errorCode).isEqualTo(httpStatusCode)
+                assertThat(exception.error).isNull()
 
                 clearBearerTokens(httpClient)
             }
