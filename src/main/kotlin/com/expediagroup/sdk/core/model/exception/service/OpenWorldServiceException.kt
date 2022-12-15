@@ -22,8 +22,8 @@ import io.ktor.http.HttpStatusCode
 /**
  * An exception that is thrown when a service error occurs.
  *
- * @property message An optional error message.
- * @property cause An optional cause of the error.
+ * @param message An optional error message.
+ * @param cause An optional cause of the error.
  * @property errorCode The HTTP status code of the error.
  * @property error The error object.
  */
