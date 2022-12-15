@@ -15,15 +15,19 @@
  */
 package com.expediagroup.sdk.core.configuration.provider
 
+import com.expediagroup.sdk.core.constant.Constant.RUNTIME_CONFIGURATION
+
 /**
  * A runtime-built configuration provider.
  *
+ * @property name The name of the provider.
  * @property key The API key to use for authentication.
  * @property secret The API secret to use for authentication.
  * @property endpoint The API endpoint to use for requests.
  * @property authEndpoint The API endpoint to use for authentication.
  */
 class RuntimeConfigurationProvider(
+    override val name: String = RUNTIME_CONFIGURATION,
     override val key: String? = null,
     override val secret: String? = null,
     override val endpoint: String? = null,

@@ -22,6 +22,20 @@ internal object Constant {
 
     const val BEARER = "Bearer"
 
+    const val KEY = "key"
+
+    const val SECRET = "secret"
+
+    const val ENDPOINT = "endpoint"
+
+    const val AUTH_ENDPOINT = "auth endpoint"
+
+    const val DEFAULT = "default"
+
+    const val FILE_SYSTEM = "file system"
+
+    const val RUNTIME_CONFIGURATION = "runtime configuration"
+
     private const val SUCCESSFUL_STATUS_CODES_RANGE_START = 200
     private const val SUCCESSFUL_STATUS_CODES_RANGE_END = 299
     val SUCCESSFUL_STATUS_CODES_RANGE: IntRange = SUCCESSFUL_STATUS_CODES_RANGE_START..SUCCESSFUL_STATUS_CODES_RANGE_END

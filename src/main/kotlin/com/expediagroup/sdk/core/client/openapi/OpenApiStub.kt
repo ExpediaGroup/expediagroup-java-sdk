@@ -35,11 +35,8 @@ import io.ktor.http.toURI
 abstract class OpenApiStub(
     private val clientConfiguration: ClientConfiguration = ClientConfiguration.EMPTY
 ) {
+    private val log = OpenWorldLoggerFactory.getLogger(javaClass)
     protected val client: Client by lazy { createClient() }
-
-    companion object {
-        private val log = OpenWorldLoggerFactory.getLogger(OpenApiStub::class.java)
-    }
 
     /**
      * Create a new [Client] instance to be used by the generated OpenAPI APIs.
