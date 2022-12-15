@@ -36,6 +36,14 @@ import kotlin.io.path.writeBytes
  */
 @Command(name = "generate", description = "Let's build an EG Travel SDK!")
 class OpenApiSdkGenerator {
+    private val supportingFiles = listOf(
+        "pom.xml",
+        "README.md",
+        "PropertyConstraintViolationException.kt",
+        "PropertyConstraintViolation.kt",
+        "PropertyConstraintsValidator.kt"
+    )
+
     companion object {
         /**
          * Main Entry Point
@@ -83,7 +91,7 @@ class OpenApiSdkGenerator {
                 // Configure CodeGen Components
                 addGlobalProperty("models", "")
                 addGlobalProperty("apis", "")
-                addGlobalProperty("supportingFiles", "pom.xml,README.md")
+                addGlobalProperty("supportingFiles", supportingFiles.joinToString(","))
                 // Configure generated client suffix eg: AnyNameClient
                 addAdditionalProperty("apiSuffix", "Client")
                 addAdditionalProperty("apiPackage", "com.expediagroup.openworld.sdk.$packageName.client")
@@ -105,13 +113,29 @@ class OpenApiSdkGenerator {
             }
             // Load Template Customizations
             val generatorInput = config.toClientOptInput().apply {
+                val packagePath = "src/main/kotlin/com/expediagroup/openworld/sdk/$packageName"
                 userDefinedTemplates(
                     listOf(
                         TemplateDefinition("pom.mustache", "pom.xml"),
                         TemplateDefinition("README.mustache", "README.md"),
                         TemplateDefinition(
                             "factory.mustache",
-                            "src/main/kotlin/com/expediagroup/openworld/sdk/$packageName/configs"
+                            "$packagePath/configs"
+                        ),
+                        TemplateDefinition(
+                            "propertyConstraintViolationException.mustache",
+                            "$packagePath/models/exception/",
+                            "PropertyConstraintViolationException.kt"
+                        ),
+                        TemplateDefinition(
+                            "propertyConstraintViolation.mustache",
+                            "$packagePath/models/exception/",
+                            "PropertyConstraintViolation.kt"
+                        ),
+                        TemplateDefinition(
+                            "propertyConstraintsValidator.mustache",
+                            "$packagePath/validation/",
+                            "PropertyConstraintsValidator.kt"
                         )
                     )
                 )

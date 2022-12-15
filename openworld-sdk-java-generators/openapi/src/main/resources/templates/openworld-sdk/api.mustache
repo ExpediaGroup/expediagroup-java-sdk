@@ -2,8 +2,12 @@
 
 package {{apiPackage}}
 
-{{#imports}}import {{import}}
+{{#imports}}
+import {{import}}
 {{/imports}}
+import {{packageName}}.models.exception.PropertyConstraintViolationException
+import {{packageName}}.models.exception.PropertyConstraintViolation
+import {{packageName}}.validation.PropertyConstraintsValidator.validateConstraints
 
 {{#isRapid}}
 import com.expediagroup.sdk.core.client.openapi.RapidOpenApiStub
@@ -17,6 +21,11 @@ import com.expediagroup.sdk.core.model.exception.OpenWorldException
 import com.expediagroup.sdk.core.model.exception.client.*
 import com.expediagroup.sdk.core.model.exception.service.*
 
+
+import jakarta.validation.ConstraintViolation
+import jakarta.validation.Validation
+import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator
+
 import io.ktor.client.call.body
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.forms.formData
@@ -27,9 +36,11 @@ import io.ktor.http.HttpMethod
 import io.ktor.http.contentType
 import io.ktor.http.ContentType
 import io.ktor.http.ParametersBuilder
+import java.util.stream.Collectors
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.future.future
+import kotlin.streams.toList
 
 /**
 * {{{description}}}
@@ -67,6 +78,7 @@ open class {{classname}}(clientConfiguration: {{#isRapid}}Rapid{{/isRapid}}Clien
         {{/queryParams}}
 
         {{#hasBodyParam}}
+            validateConstraints({{#bodyParam}}{{{paramName}}}{{/bodyParam}})
             contentType(ContentType.Application.Json)
             setBody({{#bodyParam}}{{{paramName}}}{{/bodyParam}})
         {{/hasBodyParam}}

@@ -1,4 +1,10 @@
 import com.fasterxml.jackson.annotation.JsonProperty
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+import jakarta.validation.Valid;
+import org.hibernate.validator.constraints.Length;
 {{#discriminator}}
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonSubTypes
@@ -7,11 +13,11 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 {{/discriminator}}
 
 /**
-* {{{description}}}
+ * {{{description}}}
 {{#vars}}
-    * @param {{{name}}} {{{description}}}
+ * @param {{{name}}} {{{description}}}
 {{/vars}}
-*/
+ */
 {{#discriminator}}
 @JsonIgnoreProperties(ignoreUnknown = true, value = ["{{discriminator.propertyName}}"])
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "{{discriminator.propertyName}}", visible = true)
@@ -21,7 +27,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
     {{/discriminator.mappedModels}}
 )
 {{/discriminator}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}{{#discriminator}}interface {{/discriminator}}{{^discriminator}}data class {{/discriminator}}{{classname}} {{^discriminator}}(
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{#discriminator}}interface {{/discriminator}}{{^discriminator}}data class {{/discriminator}}{{classname}}{{^discriminator}}(
 {{#allVars}}
     {{#required}}{{>data_class_req_var}}{{/required}}{{^required}}{{>data_class_opt_var}}{{/required}}{{^-last}},{{/-last}}
 {{^-last}}
@@ -35,17 +41,17 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 {{^isKotlin}}
     {{^discriminator}}
     companion object {
-         @JvmStatic
+        @JvmStatic
         fun builder() = Builder()
     }
 
     class Builder(
     {{#allVars}}
-        var {{{name}}}: {{#isEnum}}{{^isArray}}{{^isInherited}}{{classname}}.{{{nameInCamelCase}}}{{/isInherited}}{{/isArray}}{{^isArray}}{{#isInherited}}{{{parent}}}.{{{nameInCamelCase}}}{{/isInherited}}{{/isArray}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}} ? = null{{^-last}},{{/-last}}
+        private var {{{name}}}: {{#isEnum}}{{^isArray}}{{^isInherited}}{{classname}}.{{{nameInCamelCase}}}{{/isInherited}}{{/isArray}}{{^isArray}}{{#isInherited}}{{{parent}}}.{{{nameInCamelCase}}}{{/isInherited}}{{/isArray}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}? = null{{^-last}},{{/-last}}
     {{/allVars}}
     ) {
     {{#allVars}}
-        fun {{{name}}} ({{{name}}} : {{#isEnum}}{{^isArray}}{{^isInherited}}{{classname}}.{{{nameInCamelCase}}}{{/isInherited}}{{/isArray}}{{^isArray}}{{#isInherited}}{{{parent}}}.{{{nameInCamelCase}}}{{/isInherited}}{{/isArray}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}) = apply { this.{{{name}}} = {{{name}}} }
+        fun {{{name}}}({{{name}}}: {{#isEnum}}{{^isArray}}{{^isInherited}}{{classname}}.{{{nameInCamelCase}}}{{/isInherited}}{{/isArray}}{{^isArray}}{{#isInherited}}{{{parent}}}.{{{nameInCamelCase}}}{{/isInherited}}{{/isArray}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}) = apply { this.{{{name}}} = {{{name}}} }
     {{/allVars}}
 
         fun build(): {{classname}} {
@@ -53,8 +59,13 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
             // Check required params
             validateNullity()
          {{/hasRequired}}
-         return {{classname}}({{#allVars}}{{{name}}} = {{{name}}}{{#required}}!!{{/required}}{{^-last}},{{/-last}}{{/allVars}})
+            return {{classname}}(
+            {{#allVars}}
+                {{{name}}} = {{{name}}}{{#required}}!!{{/required}}{{^-last}},{{/-last}}
+            {{/allVars}}
+            )
         }
+
     {{#hasRequired}}
         private fun validateNullity() {
         {{#allVars}}
@@ -72,18 +83,20 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 {{#hasEnums}}
     {{#vars}}
         {{#isEnum}}
-            /**
-            * {{{description}}}
-            * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
-            */
-            enum class {{&nameInCamelCase}}(val value: {{dataType}}){
-            {{#allowableValues}}
-                {{#enumVars}}
-                    @JsonProperty({{{value}}})
-                    {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
-                {{/enumVars}}
-            {{/allowableValues}}
-            }
+
+    /**
+     * {{{description}}}
+     * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
+     */
+    enum class {{&nameInCamelCase}}(val value: {{dataType}}) {
+    {{#allowableValues}}
+        {{#enumVars}}
+        @JsonProperty({{{value}}})
+        {{&name}}({{{value}}}){{^-last}},
+        {{/-last}}{{#-last}};{{/-last}}
+        {{/enumVars}}
+    {{/allowableValues}}
+    }
         {{/isEnum}}
     {{/vars}}
 {{/hasEnums}}
