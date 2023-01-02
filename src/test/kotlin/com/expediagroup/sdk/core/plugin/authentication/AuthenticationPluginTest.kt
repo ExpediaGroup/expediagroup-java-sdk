@@ -34,8 +34,8 @@ import com.expediagroup.sdk.core.model.exception.service.OpenWorldAuthException
 import com.expediagroup.sdk.core.plugin.Hooks
 import com.expediagroup.sdk.core.plugin.authentication.helper.SuccessfulStatusCodesArgumentProvider
 import com.expediagroup.sdk.core.plugin.authentication.helper.UnsuccessfulStatusCodesArgumentProvider
-import com.expediagroup.sdk.core.plugin.authentication.strategies.bearer.BearerStrategy
-import com.expediagroup.sdk.core.plugin.authentication.strategies.signature.calculateSignature
+import com.expediagroup.sdk.core.plugin.authentication.strategy.bearer.BearerStrategy
+import com.expediagroup.sdk.core.plugin.authentication.strategy.signature.calculateSignature
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.request.get

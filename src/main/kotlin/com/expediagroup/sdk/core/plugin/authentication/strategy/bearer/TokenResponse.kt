@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.plugin.authentication.strategies.bearer
+package com.expediagroup.sdk.core.plugin.authentication.strategy.bearer
 
 internal data class TokenResponse(
     val accessToken: String,
