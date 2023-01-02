@@ -144,7 +144,7 @@ internal class AuthenticationPluginTest {
         }
 
         private fun mockSignatureCalculator() {
-            mockkStatic("com.expediagroup.sdk.core.plugin.authentication.strategies.signature.SignatureCalculatorKt")
+            mockkStatic("com.expediagroup.sdk.core.plugin.authentication.strategy.signature.SignatureCalculatorKt")
             every { calculateSignature(any(), any(), any()) } returns SIGNATURE_VALUE
         }
     }

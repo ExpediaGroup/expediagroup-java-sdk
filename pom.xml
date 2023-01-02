@@ -436,7 +436,7 @@
 
                             <exclude>**/authentication/AuthenticationConfiguration*</exclude>
                             <exclude>**/authentication/AuthenticationPlugin*</exclude>
-                            <exclude>**/authentication/strategies/bearer/TokenResponse*</exclude>
+                            <exclude>**/authentication/strategy/bearer/TokenResponse*</exclude>
                             <exclude>**/authentication/TokenResponse*</exclude>
                             <exclude>**/authentication/AuthenticationConfiguration*</exclude>
                             <exclude>**/authentication/AuthenticationHook*</exclude>
