@@ -24,10 +24,14 @@ import io.ktor.http.HttpStatusCode
  *
  * @param message An optional error message.
  * @param cause An optional cause of the error.
+ * @property errorCode The HTTP status code of the error.
+ * @property error The error object.
  */
 open class OpenWorldServiceException(
     message: String?,
-    cause: Throwable? = null
+    cause: Throwable? = null,
+    val errorCode: HttpStatusCode,
+    val error: Error? = null
 ) : OpenWorldException(message, cause) {
 
     /**
@@ -39,5 +43,5 @@ open class OpenWorldServiceException(
     constructor(
         errorCode: HttpStatusCode,
         error: Error
-    ) : this("[${errorCode.value}] $error")
+    ) : this(message = "[${errorCode.value}] $error", errorCode = errorCode, error = error)
 }
