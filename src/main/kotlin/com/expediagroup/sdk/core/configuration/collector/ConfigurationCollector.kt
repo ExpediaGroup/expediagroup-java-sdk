@@ -29,9 +29,9 @@ import com.expediagroup.sdk.core.plugin.logging.OpenWorldLoggerFactory
  * @param providers A configuration providers queue.
  */
 internal class ConfigurationCollector private constructor(providers: ConfigurationProviderQueue) {
-    private val log = OpenWorldLoggerFactory.getLogger(javaClass)
 
     companion object Factory {
+        private val log = OpenWorldLoggerFactory.getLogger(ConfigurationCollector::class.java)
 
         /**
          * Creates a new [ConfigurationCollector] with the given [providerQueue].

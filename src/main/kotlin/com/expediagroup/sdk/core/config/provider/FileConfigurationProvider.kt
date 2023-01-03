@@ -33,8 +33,11 @@ import java.util.Properties
  * All property keys and values are stored as cleartext.
  */
 class FileConfigurationProvider : ConfigurationProvider {
-    private val log = OpenWorldLoggerFactory.getLogger(javaClass)
     private val emptyConfigurationData = ConfigurationData(emptyMap())
+
+    companion object {
+        private val log = OpenWorldLoggerFactory.getLogger(FileConfigurationProvider::class.java)
+    }
 
     /**
      * Retrieves the data at the given Properties file.
