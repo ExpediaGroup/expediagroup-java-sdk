@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.plugin.authentication.strategies.bearer
+package com.expediagroup.sdk.core.plugin.authentication.strategy.bearer
 
 import com.expediagroup.sdk.core.configuration.Credentials
 import com.expediagroup.sdk.core.constant.Authentication
@@ -25,7 +25,7 @@ import com.expediagroup.sdk.core.constant.LoggingMessage
 import com.expediagroup.sdk.core.constant.provider.LoggingMessageProvider
 import com.expediagroup.sdk.core.model.exception.service.OpenWorldAuthException
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationConfiguration
-import com.expediagroup.sdk.core.plugin.authentication.strategies.AuthenticationStrategy
+import com.expediagroup.sdk.core.plugin.authentication.strategy.AuthenticationStrategy
 import com.expediagroup.sdk.core.plugin.logging.OpenWorldLoggerFactory
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body

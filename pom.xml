@@ -263,7 +263,7 @@
             <dependency>
                 <groupId>com.google.errorprone</groupId>
                 <artifactId>error_prone_annotations</artifactId>
-                <version>2.16</version>
+                <version>2.17.0</version>
             </dependency>
 
         </dependencies>
@@ -436,7 +436,7 @@
 
                             <exclude>**/authentication/AuthenticationConfiguration*</exclude>
                             <exclude>**/authentication/AuthenticationPlugin*</exclude>
-                            <exclude>**/authentication/strategies/bearer/TokenResponse*</exclude>
+                            <exclude>**/authentication/strategy/bearer/TokenResponse*</exclude>
                             <exclude>**/authentication/TokenResponse*</exclude>
                             <exclude>**/authentication/AuthenticationConfiguration*</exclude>
                             <exclude>**/authentication/AuthenticationHook*</exclude>
