@@ -16,10 +16,10 @@
 package com.expediagroup.sdk.core.configuration.collector
 
 import com.expediagroup.sdk.core.configuration.provider.ConfigurationProvider
-import com.expediagroup.sdk.core.constant.Constant.AUTH_ENDPOINT
-import com.expediagroup.sdk.core.constant.Constant.ENDPOINT
-import com.expediagroup.sdk.core.constant.Constant.KEY
-import com.expediagroup.sdk.core.constant.Constant.SECRET
+import com.expediagroup.sdk.core.constant.Configuration.AUTH_ENDPOINT
+import com.expediagroup.sdk.core.constant.Configuration.ENDPOINT
+import com.expediagroup.sdk.core.constant.Configuration.KEY
+import com.expediagroup.sdk.core.constant.Configuration.SECRET
 import com.expediagroup.sdk.core.constant.provider.LoggingMessageProvider
 import com.expediagroup.sdk.core.plugin.logging.OpenWorldLoggerFactory
 
@@ -50,12 +50,12 @@ internal class ConfigurationCollector private constructor(providers: Configurati
         fun create(vararg providers: ConfigurationProvider): ConfigurationCollector = create(ConfigurationProviderQueue.from(providers.asList()))
     }
 
-    val key: String by lazy { providers.firstOf { provider -> provider.key.also { logConfigurationRetrieval(provider, KEY) } } }
-    val secret: String by lazy { providers.firstOf { provider -> provider.secret.also { logConfigurationRetrieval(provider, SECRET) } } }
-    val endpoint: String by lazy { providers.firstOf { provider -> provider.endpoint.also { logConfigurationRetrieval(provider, ENDPOINT) } } }
-    val authEndpoint: String by lazy { providers.firstOf { provider -> provider.authEndpoint.also { logConfigurationRetrieval(provider, AUTH_ENDPOINT) } } }
+    val key: String by lazy { providers.firstOf { provider -> provider.key.also { log(provider, KEY) } } }
+    val secret: String by lazy { providers.firstOf { provider -> provider.secret.also { log(provider, SECRET) } } }
+    val endpoint: String by lazy { providers.firstOf { provider -> provider.endpoint.also { log(provider, ENDPOINT) } } }
+    val authEndpoint: String by lazy { providers.firstOf { provider -> provider.authEndpoint.also { log(provider, AUTH_ENDPOINT) } } }
 
-    private fun logConfigurationRetrieval(provider: ConfigurationProvider, configurationName: String) {
+    private fun log(provider: ConfigurationProvider, configurationName: String) {
         log.info(LoggingMessageProvider.getChosenProviderMessage(configurationName, provider.name))
     }
 }

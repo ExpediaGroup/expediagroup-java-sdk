@@ -15,7 +15,7 @@
  */
 package com.expediagroup.sdk.core.configuration.provider
 
-import com.expediagroup.sdk.core.constant.Constant.DEFAULT
+import com.expediagroup.sdk.core.constant.Configuration.DEFAULT_CONFIGURATION_PROVIDER
 import com.expediagroup.sdk.core.constant.Constant.EMPTY_STRING
 
 /**
@@ -28,7 +28,7 @@ import com.expediagroup.sdk.core.constant.Constant.EMPTY_STRING
  * @property authEndpoint The API endpoint to use for authentication.
  */
 internal object DefaultConfigurationProvider : ConfigurationProvider {
-    override val name: String = DEFAULT
+    override val name: String = DEFAULT_CONFIGURATION_PROVIDER
     override val key: String = EMPTY_STRING
     override val secret: String = EMPTY_STRING
     override val endpoint: String = "https://api.expediagroup.com/"
