@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.plugin.authentication.strategies
+package com.expediagroup.sdk.core.plugin.authentication.strategy
 
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationConfiguration
-import com.expediagroup.sdk.core.plugin.authentication.strategies.AuthenticationStrategy.AuthenticationType.BEARER
-import com.expediagroup.sdk.core.plugin.authentication.strategies.AuthenticationStrategy.AuthenticationType.SIGNATURE
-import com.expediagroup.sdk.core.plugin.authentication.strategies.bearer.BearerStrategy
-import com.expediagroup.sdk.core.plugin.authentication.strategies.signature.SignatureStrategy
+import com.expediagroup.sdk.core.plugin.authentication.strategy.AuthenticationStrategy.AuthenticationType.BEARER
+import com.expediagroup.sdk.core.plugin.authentication.strategy.AuthenticationStrategy.AuthenticationType.SIGNATURE
+import com.expediagroup.sdk.core.plugin.authentication.strategy.bearer.BearerStrategy
+import com.expediagroup.sdk.core.plugin.authentication.strategy.signature.SignatureStrategy
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.auth.Auth
 import io.ktor.client.request.HttpRequestBuilder

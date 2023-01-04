@@ -16,7 +16,7 @@
 package com.expediagroup.sdk.core.plugin.authentication
 
 import com.expediagroup.sdk.core.plugin.Plugin
-import com.expediagroup.sdk.core.plugin.authentication.strategies.AuthenticationStrategy
+import com.expediagroup.sdk.core.plugin.authentication.strategy.AuthenticationStrategy
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.auth.Auth
 import io.ktor.client.request.HttpRequestBuilder
