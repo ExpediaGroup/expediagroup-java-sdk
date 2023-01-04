@@ -7,6 +7,8 @@
     <artifactId>{{artifactId}}</artifactId>
     <version>{{artifactVersion}}</version>
     <name>EG Open World SDK :: {{artifactId}}</name>
+    <description>EG Open World SDK :: {{artifactId}} v{{artifactVersion}}</description>
+    <url>https://github.com/ExpediaGroup/openworld-sdk-java-generators/tree/main/generated</url>
     <inceptionYear>2022</inceptionYear>
 
     <licenses>
@@ -53,14 +55,19 @@
         <dokka-plugin.version>1.7.20</dokka-plugin.version>
 
         <build-helper-maven-plugin.version>3.3.0</build-helper-maven-plugin.version>
+        <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
+        <maven-surefire-plugin.version>3.0.0-M7</maven-surefire-plugin.version>
+        <maven.gpg.plugin.version>3.0.1</maven.gpg.plugin.version>
+        <maven.licence.plugin.version>4.1</maven.licence.plugin.version>
+        <maven.nexus-staging.plugin.version>1.6.13</maven.nexus-staging.plugin.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.expediagroup.openworld.sdk</groupId>
             <artifactId>openworld-java-sdk-core</artifactId>
-            <version>0.4.0</version>
+            <version>0.5.0</version>
         </dependency>
 
         <dependency>
@@ -223,4 +230,84 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>release</id>
+            <properties>
+                <checkstyle.check.skip>true</checkstyle.check.skip>
+                <checkstyle.includeTestSourceDirectory>false</checkstyle.includeTestSourceDirectory>
+                <test.coverage.check.skip>true</test.coverage.check.skip>
+                <javadoc.skip>true</javadoc.skip>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>${maven.gpg.plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                                <configuration>
+                                    <gpgArguments>
+                                        <arg>--pinentry-mode</arg>
+                                        <arg>loopback</arg>
+                                    </gpgArguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>${maven.nexus-staging.plugin.version}</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>oss-sonatype</serverId>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                        </configuration>
+                    </plugin>
+                    <!-- skip some test cases during the release -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>${maven-surefire-plugin.version}</version>
+                        <configuration>
+                            <excludes>
+                                <exclude>**/PerformanceTest.java</exclude>
+                                <argLine>@{argLine}</argLine>
+                            </excludes>
+                        </configuration>
+                    </plugin>
+                    <!-- replace the bean-utils-library javadoc jar file with the one containing all modules -->
+                    <plugin>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <version>${maven-jar-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <configuration>
+                                    <classifier>javadoc</classifier>
+                                    <classesDirectory>${project.parent.basedir}/target/site/apidocs</classesDirectory>
+                                    <includes>**/*</includes>
+                                    <finalName>${project.build.finalName}</finalName>
+                                </configuration>
+                                <id>pack-javadoc</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
 </project>
