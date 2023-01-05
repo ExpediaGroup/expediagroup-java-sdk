@@ -17,7 +17,6 @@ package com.expediagroup.sdk.core.configuration.provider
 
 import com.expediagroup.sdk.core.constant.ConfigurationName.RUNTIME_CONFIGURATION_PROVIDER
 
-
 /**
  * A runtime-built configuration provider.
  *
