@@ -17,6 +17,7 @@ package com.expediagroup.sdk.core.configuration.collector
 
 import com.expediagroup.sdk.core.configuration.provider.ConfigurationProvider
 import com.expediagroup.sdk.core.constant.ConfigurationName.AUTH_ENDPOINT
+import com.expediagroup.sdk.core.constant.ConfigurationName.CONFIGURATION_COLLECTOR
 import com.expediagroup.sdk.core.constant.ConfigurationName.ENDPOINT
 import com.expediagroup.sdk.core.constant.ConfigurationName.KEY
 import com.expediagroup.sdk.core.constant.ConfigurationName.SECRET
@@ -28,7 +29,8 @@ import com.expediagroup.sdk.core.plugin.logging.OpenWorldLoggerFactory
  *
  * @param providers A configuration providers queue.
  */
-internal class ConfigurationCollector private constructor(providers: ConfigurationProviderQueue) {
+internal class ConfigurationCollector private constructor(providers: ConfigurationProviderQueue) : ConfigurationProvider {
+    override val name: String = CONFIGURATION_COLLECTOR
 
     companion object Factory {
         private val log = OpenWorldLoggerFactory.getLogger(ConfigurationCollector::class.java)
@@ -50,10 +52,10 @@ internal class ConfigurationCollector private constructor(providers: Configurati
         fun create(vararg providers: ConfigurationProvider): ConfigurationCollector = create(ConfigurationProviderQueue.from(providers.asList()))
     }
 
-    val key: String by lazy { providers.firstOf { provider -> provider.key.also { log(provider, KEY) } } }
-    val secret: String by lazy { providers.firstOf { provider -> provider.secret.also { log(provider, SECRET) } } }
-    val endpoint: String by lazy { providers.firstOf { provider -> provider.endpoint.also { log(provider, ENDPOINT) } } }
-    val authEndpoint: String by lazy { providers.firstOf { provider -> provider.authEndpoint.also { log(provider, AUTH_ENDPOINT) } } }
+    override val key: String by lazy { providers.firstOf { provider -> provider.key.also { log(provider, KEY) } } }
+    override val secret: String by lazy { providers.firstOf { provider -> provider.secret.also { log(provider, SECRET) } } }
+    override val endpoint: String by lazy { providers.firstOf { provider -> provider.endpoint.also { log(provider, ENDPOINT) } } }
+    override val authEndpoint: String by lazy { providers.firstOf { provider -> provider.authEndpoint.also { log(provider, AUTH_ENDPOINT) } } }
 
     private fun log(provider: ConfigurationProvider, configurationName: String) {
         log.info(LoggingMessageProvider.getChosenProviderMessage(configurationName, provider.name))
