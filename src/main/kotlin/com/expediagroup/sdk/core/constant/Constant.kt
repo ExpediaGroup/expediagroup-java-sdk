@@ -20,8 +20,6 @@ import java.io.File
 internal object Constant {
     const val EMPTY_STRING = ""
 
-    const val RUNTIME_CONFIGURATION = "runtime configuration"
-
     private const val SUCCESSFUL_STATUS_CODES_RANGE_START = 200
     private const val SUCCESSFUL_STATUS_CODES_RANGE_END = 299
     val SUCCESSFUL_STATUS_CODES_RANGE: IntRange = SUCCESSFUL_STATUS_CODES_RANGE_START..SUCCESSFUL_STATUS_CODES_RANGE_END

@@ -1,6 +1,6 @@
 package com.expediagroup.sdk.core.constant
 
-internal object Configuration {
+internal object ConfigurationName {
     const val KEY = "key"
 
     const val SECRET = "secret"
@@ -12,4 +12,6 @@ internal object Configuration {
     const val DEFAULT_CONFIGURATION_PROVIDER = "default"
 
     const val FILE_SYSTEM_CONFIGURATION_PROVIDER = "file system"
+
+    const val RUNTIME_CONFIGURATION_PROVIDER = "runtime configuration"
 }

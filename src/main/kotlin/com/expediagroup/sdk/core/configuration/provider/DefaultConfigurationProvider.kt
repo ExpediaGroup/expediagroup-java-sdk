@@ -15,7 +15,7 @@
  */
 package com.expediagroup.sdk.core.configuration.provider
 
-import com.expediagroup.sdk.core.constant.Configuration.DEFAULT_CONFIGURATION_PROVIDER
+import com.expediagroup.sdk.core.constant.ConfigurationName.DEFAULT_CONFIGURATION_PROVIDER
 import com.expediagroup.sdk.core.constant.Constant.EMPTY_STRING
 
 /**

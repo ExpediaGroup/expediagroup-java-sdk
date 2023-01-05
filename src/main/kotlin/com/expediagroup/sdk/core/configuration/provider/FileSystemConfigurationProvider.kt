@@ -16,7 +16,7 @@
 package com.expediagroup.sdk.core.configuration.provider
 
 import com.expediagroup.sdk.core.config.provider.FileConfigurationProvider
-import com.expediagroup.sdk.core.constant.Configuration.FILE_SYSTEM_CONFIGURATION_PROVIDER
+import com.expediagroup.sdk.core.constant.ConfigurationName.FILE_SYSTEM_CONFIGURATION_PROVIDER
 import com.expediagroup.sdk.core.constant.Constant
 import com.expediagroup.sdk.core.constant.Key
 import com.expediagroup.sdk.core.contract.Contract

@@ -16,10 +16,10 @@
 package com.expediagroup.sdk.core.configuration.collector
 
 import com.expediagroup.sdk.core.configuration.provider.ConfigurationProvider
-import com.expediagroup.sdk.core.constant.Configuration.AUTH_ENDPOINT
-import com.expediagroup.sdk.core.constant.Configuration.ENDPOINT
-import com.expediagroup.sdk.core.constant.Configuration.KEY
-import com.expediagroup.sdk.core.constant.Configuration.SECRET
+import com.expediagroup.sdk.core.constant.ConfigurationName.AUTH_ENDPOINT
+import com.expediagroup.sdk.core.constant.ConfigurationName.ENDPOINT
+import com.expediagroup.sdk.core.constant.ConfigurationName.KEY
+import com.expediagroup.sdk.core.constant.ConfigurationName.SECRET
 import com.expediagroup.sdk.core.constant.provider.LoggingMessageProvider
 import com.expediagroup.sdk.core.plugin.logging.OpenWorldLoggerFactory
 
