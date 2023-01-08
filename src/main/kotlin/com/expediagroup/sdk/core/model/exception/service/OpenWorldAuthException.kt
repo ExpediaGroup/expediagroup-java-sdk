@@ -23,4 +23,4 @@ import io.ktor.http.HttpStatusCode
  * @param errorCode The HTTP status code of the error.
  * @param message The error message.
  */
-class OpenWorldAuthException(errorCode: HttpStatusCode, message: String) : OpenWorldServiceException("[${errorCode.value}] $message")
+class OpenWorldAuthException(errorCode: HttpStatusCode, message: String) : OpenWorldServiceException(message = "[${errorCode.value}] $message", errorCode = errorCode)

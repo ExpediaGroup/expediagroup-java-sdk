@@ -22,10 +22,10 @@ import io.ktor.http.HttpStatusCode
 /**
  *  An exception that is thrown when a Rapid service error occurs.
  *
- *  @param errorCode The HTTP status code of the error.
- *  @param error The error details.
+ *  @property errorCode The HTTP status code of the error.
+ *  @property error The error details.
  */
 class RapidServiceException(
-    errorCode: HttpStatusCode,
-    error: RapidError
+    val errorCode: HttpStatusCode,
+    val error: RapidError
 ) : OpenWorldException("[${errorCode.value}] $error")

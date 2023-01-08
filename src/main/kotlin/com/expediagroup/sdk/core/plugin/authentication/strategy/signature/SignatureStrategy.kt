@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.plugin.authentication.strategies.signature
+package com.expediagroup.sdk.core.plugin.authentication.strategy.signature
 
 import com.expediagroup.sdk.core.constant.Authentication
 import com.expediagroup.sdk.core.constant.Constant
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationConfiguration
-import com.expediagroup.sdk.core.plugin.authentication.strategies.AuthenticationStrategy
+import com.expediagroup.sdk.core.plugin.authentication.strategy.AuthenticationStrategy
 import io.ktor.client.HttpClient
 import io.ktor.client.request.HttpRequestBuilder
 import java.time.Instant

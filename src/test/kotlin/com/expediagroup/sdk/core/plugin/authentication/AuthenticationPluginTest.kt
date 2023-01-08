@@ -28,13 +28,14 @@ import com.expediagroup.sdk.core.configuration.Credentials
 import com.expediagroup.sdk.core.configuration.provider.DefaultConfigurationProvider
 import com.expediagroup.sdk.core.constant.Authentication.BEARER
 import com.expediagroup.sdk.core.constant.Authentication.EAN
+import com.expediagroup.sdk.core.constant.ExceptionMessage
 import com.expediagroup.sdk.core.constant.HeaderKey
 import com.expediagroup.sdk.core.model.exception.service.OpenWorldAuthException
 import com.expediagroup.sdk.core.plugin.Hooks
 import com.expediagroup.sdk.core.plugin.authentication.helper.SuccessfulStatusCodesArgumentProvider
 import com.expediagroup.sdk.core.plugin.authentication.helper.UnsuccessfulStatusCodesArgumentProvider
-import com.expediagroup.sdk.core.plugin.authentication.strategies.bearer.BearerStrategy
-import com.expediagroup.sdk.core.plugin.authentication.strategies.signature.calculateSignature
+import com.expediagroup.sdk.core.plugin.authentication.strategy.bearer.BearerStrategy
+import com.expediagroup.sdk.core.plugin.authentication.strategy.signature.calculateSignature
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.request.get
@@ -143,7 +144,7 @@ internal class AuthenticationPluginTest {
         }
 
         private fun mockSignatureCalculator() {
-            mockkStatic("com.expediagroup.sdk.core.plugin.authentication.strategies.signature.SignatureCalculatorKt")
+            mockkStatic("com.expediagroup.sdk.core.plugin.authentication.strategy.signature.SignatureCalculatorKt")
             every { calculateSignature(any(), any(), any()) } returns SIGNATURE_VALUE
         }
     }
@@ -170,7 +171,7 @@ internal class AuthenticationPluginTest {
             runBlocking {
                 val httpClient = ClientFactory.createClient(createUnauthorizedMockEngineWithStatusCode(httpStatusCode)).httpClient
 
-                assertThrows<OpenWorldAuthException> {
+                val exception = assertThrows<OpenWorldAuthException> {
                     AuthenticationPlugin.renewToken(
                         httpClient,
                         AuthenticationConfiguration.from(
@@ -183,6 +184,10 @@ internal class AuthenticationPluginTest {
                         )
                     )
                 }
+                assertThat(exception.message).isEqualTo("[${httpStatusCode.value}] ${ExceptionMessage.AUTHENTICATION_FAILURE}")
+                assertThat(exception.cause).isNull()
+                assertThat(exception.errorCode).isEqualTo(httpStatusCode)
+                assertThat(exception.error).isNull()
 
                 clearBearerTokens(httpClient)
             }

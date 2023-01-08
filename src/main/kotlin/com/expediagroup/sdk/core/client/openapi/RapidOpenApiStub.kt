@@ -16,7 +16,7 @@
 package com.expediagroup.sdk.core.client.openapi
 
 import com.expediagroup.sdk.core.client.Client
-import com.expediagroup.sdk.core.configuration.ClientConfiguration
+import com.expediagroup.sdk.core.configuration.RapidClientConfiguration
 import com.expediagroup.sdk.core.model.error.rapid.RapidError
 import com.expediagroup.sdk.core.model.exception.rapid.RapidServiceException
 import io.ktor.client.call.body
@@ -29,10 +29,10 @@ import io.ktor.http.toURI
  * Base class for RapidApi used by generated OpenAPI APIs to perform the heavy lifting of actually sending requests.
  */
 abstract class RapidOpenApiStub(
-    private val clientConfiguration: ClientConfiguration = ClientConfiguration.EMPTY
-) : OpenApiStub(clientConfiguration) {
+    private val clientConfiguration: RapidClientConfiguration = RapidClientConfiguration.EMPTY
+) : OpenApiStub(clientConfiguration.toClientConfiguration()) {
 
-    override fun createClient(): Client = Client.from(OkHttp.create(), clientConfiguration, true)
+    override fun createClient(): Client = Client.from(OkHttp.create(), clientConfiguration.toClientConfiguration(), true)
 
     override suspend fun throwServiceException(response: HttpResponse) {
         // Make sure we read the body to avoid resource leaks

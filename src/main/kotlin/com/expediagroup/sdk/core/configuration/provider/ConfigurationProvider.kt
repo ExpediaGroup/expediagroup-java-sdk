@@ -19,6 +19,8 @@ package com.expediagroup.sdk.core.configuration.provider
  * A configuration provider that can be used to provide configuration values.
  */
 internal interface ConfigurationProvider {
+    /** The name of the provider. */
+    val name: String
 
     /* AuthenticationConfiguration */
     /** The API key to use for authentication. */
