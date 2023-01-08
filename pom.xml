@@ -721,7 +721,8 @@
                                     <arg value="html:${project.basedir}${file.separator}target${file.separator}site${file.separator}detekt.html"/>
                                     <arg value="--report"/>
                                     <arg value="xml:${project.basedir}${file.separator}target${file.separator}site${file.separator}detekt.xml"/>
-                                    <arg value="--fail-fast"/>
+                                    <arg value="--build-upon-default-config"/>
+                                    <arg value="--all-rules"/>
                                 </java>
                             </target>
                         </configuration>
