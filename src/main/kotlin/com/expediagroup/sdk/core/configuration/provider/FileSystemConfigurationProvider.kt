@@ -16,6 +16,7 @@
 package com.expediagroup.sdk.core.configuration.provider
 
 import com.expediagroup.sdk.core.config.provider.FileConfigurationProvider
+import com.expediagroup.sdk.core.constant.ConfigurationName.FILE_SYSTEM_CONFIGURATION_PROVIDER
 import com.expediagroup.sdk.core.constant.Constant
 import com.expediagroup.sdk.core.constant.Key
 import com.expediagroup.sdk.core.contract.Contract
@@ -35,6 +36,7 @@ internal class FileSystemConfigurationProvider(
     private val credentials: Map<String, String> by lazy { fileConfigurationProvider[credentialsFilePath].data() }
     private val configurations: Map<String, String> by lazy { fileConfigurationProvider[configurationsFilePath].data() }
 
+    override val name: String = FILE_SYSTEM_CONFIGURATION_PROVIDER
     override val key: String? by lazy { credentials[Key.CLIENT_KEY] }
     override val secret: String? by lazy { credentials[Key.CLIENT_SECRET] }
     override val endpoint: String? by lazy { configurations[Key.ENDPOINT]?.adhereTo(Contract.TRAILING_SLASH) }
