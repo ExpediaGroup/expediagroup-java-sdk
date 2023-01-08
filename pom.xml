@@ -87,7 +87,7 @@
         <maven.antrun.plugin.version>3.1.0</maven.antrun.plugin.version>
 
         <!-- Kotlin Compatible Versions -->
-        <kotlin.version>1.7.22</kotlin.version>
+        <kotlin.version>1.8.0</kotlin.version>
         <kotlinx.coroutines.version>1.6.4</kotlinx.coroutines.version>
         <kotlinx.serialization.version>1.4.1</kotlinx.serialization.version>
         <ktor.version>2.2.2</ktor.version>
@@ -915,10 +915,6 @@
                     <groupId>org.jetbrains.kotlin</groupId>
                     <artifactId>kotlin-stdlib</artifactId>
                 </dependency>
-                <dependency>
-                    <groupId>org.jetbrains.kotlin</groupId>
-                    <artifactId>kotlin-stdlib-jdk8</artifactId>
-                </dependency>
             </dependencies>
 
             <build>
@@ -994,8 +990,6 @@
                                     <ignoredUnusedDeclaredDependencies combine.children="append">
                                         <ignoredUnusedDeclaredDependency>org.jetbrains.kotlin:kotlin-stdlib
                                         </ignoredUnusedDeclaredDependency>
-                                        <ignoreUnusedDeclaredDependency>org.jetbrains.kotlin:kotlin-stdlib-jdk8
-                                        </ignoreUnusedDeclaredDependency>
                                         <ignoreUnusedDeclaredDependency>org.apache.logging.log4j:log4j-api
                                         </ignoreUnusedDeclaredDependency>
                                     </ignoredUnusedDeclaredDependencies>
