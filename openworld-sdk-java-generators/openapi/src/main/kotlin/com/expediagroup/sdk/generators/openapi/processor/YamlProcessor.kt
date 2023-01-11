@@ -19,7 +19,6 @@ import com.expediagroup.sdk.generators.openapi.Constant
 import com.expediagroup.sdk.generators.openapi.Constant.INDENTATION_LENGTH
 import com.expediagroup.sdk.generators.openapi.Constant.INDENT_WITH_INDICATOR
 import com.expediagroup.sdk.generators.openapi.Constant.INDICATOR_INDENTATION_LENGTH
-import com.expediagroup.sdk.generators.openapi.PreProcessingException
 import org.yaml.snakeyaml.DumperOptions
 import org.yaml.snakeyaml.Yaml
 import java.nio.file.Files
@@ -29,62 +28,104 @@ import kotlin.io.path.inputStream
 
 internal class YamlProcessor(path: String, namespace: String) {
     private val yaml = Yaml(dumperOptions)
-    private val rootMap: MutableMap<String, Any>
+    private val rootMap: FunctionalMap
     private val tag: String
 
     init {
         val inputStream = Path(path).inputStream()
-        rootMap = yaml.load<Map<String, Any>>(inputStream).toMutableMap()
+        rootMap = FunctionalMap(yaml.load(inputStream))
         tag = camelCase(namespace)
-    }
-
-    private fun unifyTags() {
-        replaceTagsWith(rootMap, tag)
-        replacePathsTags(rootMap, tag)
-    }
-
-    private fun dump(): String {
-        val tempFile = Files.createTempFile(UUID.randomUUID().toString(), "temp").toFile()
-        yaml.dump(rootMap, tempFile.bufferedWriter())
-        return tempFile.path
-    }
-
-    private fun replacePathsTags(map: MutableMap<String, Any>, tag: String) {
-        val pathsMap = convertToMutableMap(map[PATHS])
-
-        for (pathKey in pathsMap.keys) {
-            val pathMap = convertToMutableMap(pathsMap[pathKey])
-            for (methodKey in pathMap.keys) {
-                val methodMap = convertToMutableMap(pathMap[methodKey])
-                methodMap[TAGS] = listOf(tag)
-                pathMap[methodKey] = methodMap
-            }
-            pathsMap[pathKey] = pathMap
-        }
-        map[PATHS] = pathsMap
-    }
-
-    private fun replaceTagsWith(map: MutableMap<String, Any>, tag: String) {
-        val tagsList = listOf(mapOf(Pair(NAME, tag)))
-        map[TAGS] = tagsList
-    }
-
-    private fun convertToMutableMap(obj: Any?): MutableMap<Any?, Any?> {
-        if (obj is Map<*, *>) {
-            return obj.toMutableMap()
-        }
-        throw PreProcessingException("Could not convert object to map")
     }
 
     fun process(): String {
         unifyTags()
+        removeUnwantedHeaders()
         return dump()
+    }
+
+    private fun unifyTags() {
+        replaceTagsWithTag()
+        replacePathsTags()
+    }
+
+    private fun replaceTagsWithTag() {
+        val tagsList = listOf(mapOf(Pair(NAME, tag)))
+        rootMap.put(TAGS, tagsList)
+    }
+
+    private fun replacePathsTags() {
+        rootMap.mapApply(PATHS) { _, pathsMap ->
+            pathsMap.forEachMap { _, pathMap ->
+                pathMap.forEachMap { _, methodMap ->
+                    methodMap.put(TAGS, listOf(tag))
+                }
+            }
+        }
+    }
+
+    private fun removeUnwantedHeaders() {
+        val unwantedComponentsParameters = getUnwantedComponentsParameters()
+
+        rootMap.mapApply(PATHS) { _, pathsMap ->
+            pathsMap.forEachMap { _, pathMap ->
+                pathMap.forEachMap { _, methodMap ->
+                    methodMap.listApply(PARAMETERS) { parameters ->
+                        parameters.removeIf { parameter ->
+                            isUnwanted(parameter, unwantedComponentsParameters)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getUnwantedComponentsParameters(): MutableList<String> {
+        val unwantedComponentsParameters = mutableListOf<String>()
+        rootMap.mapApply(COMPONENTS) { _, componentsMap ->
+            componentsMap.mapApply(PARAMETERS) { _, parameters ->
+                parameters.forEachMap { key, parameter ->
+                    if (isUnwantedHeader(parameter)) {
+                        unwantedComponentsParameters.add(toComponentsParameterRef(key))
+                    }
+                }
+            }
+        }
+        return unwantedComponentsParameters
+    }
+
+    private fun isUnwanted(parameter: FunctionalMap, unwantedComponentsParameters: MutableList<String>) =
+        isUnwantedComponentsParameter(parameter, unwantedComponentsParameters) || isUnwantedHeader(parameter)
+
+    private fun isUnwantedHeader(parameter: FunctionalMap) =
+        parameter.get(NAME)?.let { UNWANTED_HEADERS.contains((it as String).lowercase()) } ?: false
+
+    private fun isUnwantedComponentsParameter(parameter: FunctionalMap, unwantedDefinedParameters: List<String>) =
+        parameter.get(REF)?.let { unwantedDefinedParameters.contains(it as String) } ?: false
+
+    private fun toComponentsParameterRef(ref: String) = "$COMPONENTS_PARAMETER$ref"
+
+    private fun dump(): String {
+        val tempFile = Files.createTempFile(UUID.randomUUID().toString(), TEMP).toFile()
+        yaml.dump(rootMap.map, tempFile.bufferedWriter())
+        return tempFile.path
     }
 
     companion object {
         private const val NAME = "name"
-        private const val PATHS = "paths"
+        private const val REF = "\$ref"
         private const val TAGS = "tags"
+        private const val TEMP = "temp"
+        private const val PATHS = "paths"
+        private const val COMPONENTS = "components"
+        private const val PARAMETERS = "parameters"
+        private const val COMPONENTS_PARAMETER = "#/components/parameters/"
+        private val UNWANTED_HEADERS = listOf(
+            "accept",
+            "accept-encoding",
+            "user-agent",
+            "authorization",
+            "content-type"
+        )
         private val dumperOptions = DumperOptions()
 
         init {
