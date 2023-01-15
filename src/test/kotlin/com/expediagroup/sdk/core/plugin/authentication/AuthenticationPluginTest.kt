@@ -15,6 +15,7 @@
  */
 package com.expediagroup.sdk.core.plugin.authentication
 
+import com.expediagroup.sdk.core.client.Client
 import com.expediagroup.sdk.core.commons.ClientFactory
 import com.expediagroup.sdk.core.commons.MockEngineFactory.createMockEngineExpiresInPerCall
 import com.expediagroup.sdk.core.commons.MockEngineFactory.createTokenMockEngineWithStatusCode
@@ -34,16 +35,28 @@ import com.expediagroup.sdk.core.model.exception.service.OpenWorldAuthException
 import com.expediagroup.sdk.core.plugin.authentication.helper.SuccessfulStatusCodesArgumentProvider
 import com.expediagroup.sdk.core.plugin.authentication.helper.UnsuccessfulStatusCodesArgumentProvider
 import com.expediagroup.sdk.core.plugin.authentication.strategy.signature.calculateSignature
-import io.ktor.client.*
-import io.ktor.client.request.*
-import io.ktor.client.statement.*
-import io.ktor.http.*
-import io.mockk.*
+import io.ktor.client.HttpClientConfig
+import io.ktor.client.request.get
+import io.ktor.client.request.request
+import io.ktor.client.request.url
+import io.ktor.client.statement.request
+import io.ktor.http.HttpMethod
+import io.ktor.http.HttpStatusCode
+import io.mockk.clearAllMocks
+import io.mockk.coVerify
+import io.mockk.every
+import io.mockk.mockkObject
+import io.mockk.mockkStatic
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.*
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertDoesNotThrow
+import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ArgumentsSource
 import org.junit.jupiter.params.provider.ValueSource
@@ -95,7 +108,8 @@ internal class AuthenticationPluginTest {
         fun `given multiple requests then no requests should be unauthorized`() {
             runBlocking {
                 mockkObject(AuthenticationPlugin)
-                val httpClient = ClientFactory.createRapidClient().httpClient
+                val client = ClientFactory.createRapidClient()
+                val httpClient = client.httpClient
 
                 launch {
                     httpClient.get(ANY_URL)
@@ -109,7 +123,7 @@ internal class AuthenticationPluginTest {
 
                 delay(1000)
                 coVerify(exactly = 3) {
-                    AuthenticationPlugin.renewToken(httpClient, any())
+                    client.authentication().renewToken(httpClient, any())
                 }
             }
         }
@@ -133,10 +147,11 @@ internal class AuthenticationPluginTest {
         @ArgumentsSource(UnsuccessfulStatusCodesArgumentProvider::class)
         fun `refresh auth token should throw client exception if the the credentials are invalid`(httpStatusCode: HttpStatusCode) {
             runBlocking {
-                val httpClient = ClientFactory.createClient(createUnauthorizedMockEngineWithStatusCode(httpStatusCode)).httpClient
+                val client = ClientFactory.createClient(createUnauthorizedMockEngineWithStatusCode(httpStatusCode))
+                val httpClient = client.httpClient
 
                 val exception = assertThrows<OpenWorldAuthException> {
-                    AuthenticationPlugin.renewToken(
+                    client.authentication().renewToken(
                         httpClient,
                         AuthenticationConfiguration.from(
                             HttpClientConfig(),
@@ -152,7 +167,6 @@ internal class AuthenticationPluginTest {
                 assertThat(exception.cause).isNull()
                 assertThat(exception.errorCode).isEqualTo(httpStatusCode)
                 assertThat(exception.error).isNull()
-
             }
         }
 
@@ -160,10 +174,11 @@ internal class AuthenticationPluginTest {
         @ArgumentsSource(SuccessfulStatusCodesArgumentProvider::class)
         fun `refresh auth token should not throw client exception if the the credentials are valid`(httpStatusCode: HttpStatusCode) {
             runBlocking {
-                val httpClient = ClientFactory.createClient(createTokenMockEngineWithStatusCode(httpStatusCode)).httpClient
+                val client = ClientFactory.createClient(createTokenMockEngineWithStatusCode(httpStatusCode))
+                val httpClient = client.httpClient
 
                 assertDoesNotThrow {
-                    AuthenticationPlugin.renewToken(
+                    client.authentication().renewToken(
                         httpClient,
                         AuthenticationConfiguration.from(
                             HttpClientConfig(),
@@ -175,7 +190,6 @@ internal class AuthenticationPluginTest {
                         )
                     )
                 }
-
             }
         }
 
@@ -183,7 +197,8 @@ internal class AuthenticationPluginTest {
         fun `make parallel should run the single refresh token only`() {
             runBlocking {
                 mockkObject(AuthenticationPlugin)
-                val httpClient = ClientFactory.createClient().httpClient
+                val client = ClientFactory.createClient()
+                val httpClient = client.httpClient
 
                 launch {
                     httpClient.get(ANY_URL)
@@ -194,9 +209,8 @@ internal class AuthenticationPluginTest {
 
                 delay(1000)
                 coVerify(exactly = 1) {
-                    AuthenticationPlugin.renewToken(httpClient, any())
+                    client.authentication().renewToken(httpClient, any())
                 }
-
             }
         }
 
@@ -205,16 +219,16 @@ internal class AuthenticationPluginTest {
         fun `given request when token almost or is expired then should renew token`(expiresIn: Int) {
             runBlocking {
                 val mockEngine = createMockEngineExpiresInPerCall(expiresIn, 1000)
-                val httpClient = ClientFactory.createClient(mockEngine).httpClient
-                renewToken(httpClient)
+                val client = ClientFactory.createClient(mockEngine)
+                val httpClient = client.httpClient
+                renewToken(client)
 
                 mockkObject(AuthenticationPlugin)
                 httpClient.get(ANY_URL)
 
                 coVerify(exactly = 1) {
-                    AuthenticationPlugin.renewToken(httpClient, any())
+                    client.authentication().renewToken(httpClient, any())
                 }
-
             }
         }
 
@@ -222,16 +236,16 @@ internal class AuthenticationPluginTest {
         fun `given request when token not almost and not expired then should not renew token`() {
             runBlocking {
                 val mockEngine = createMockEngineExpiresInPerCall(1000)
-                val httpClient = ClientFactory.createClient(mockEngine).httpClient
-                renewToken(httpClient)
+                val client = ClientFactory.createClient(mockEngine)
+                val httpClient = client.httpClient
+                renewToken(client)
 
                 mockkObject(AuthenticationPlugin)
                 httpClient.get(ANY_URL)
 
                 coVerify(exactly = 0) {
-                    AuthenticationPlugin.renewToken(httpClient, any())
+                    client.authentication().renewToken(httpClient, any())
                 }
-
             }
         }
 
@@ -239,7 +253,8 @@ internal class AuthenticationPluginTest {
         fun `given identity request when token almost expired then should not renew token`() {
             runBlocking {
                 val mockEngine = createMockEngineExpiresInPerCall(6, 1000)
-                val httpClient = ClientFactory.createClient(mockEngine).httpClient
+                val client = ClientFactory.createClient(mockEngine)
+                val httpClient = client.httpClient
                 mockkObject(AuthenticationPlugin)
 
                 val configs = getAuthenticationConfiguration()
@@ -249,7 +264,7 @@ internal class AuthenticationPluginTest {
                 }
 
                 coVerify(exactly = 0) {
-                    AuthenticationPlugin.renewToken(httpClient, any())
+                    client.authentication().renewToken(httpClient, any())
                 }
             }
         }
@@ -258,7 +273,8 @@ internal class AuthenticationPluginTest {
         fun `given multiple requests when token expired then no requests should be unauthorized`() {
             runBlocking {
                 mockkObject(AuthenticationPlugin)
-                val httpClient = ClientFactory.createClient().httpClient
+                val client = ClientFactory.createClient()
+                val httpClient = client.httpClient
 
                 launch {
                     val request = httpClient.get(ANY_URL)
@@ -275,13 +291,13 @@ internal class AuthenticationPluginTest {
 
                 delay(1000)
                 coVerify(exactly = 1) {
-                    AuthenticationPlugin.renewToken(httpClient, any())
+                    client.authentication().renewToken(httpClient, any())
                 }
             }
         }
 
-        private suspend fun renewToken(httpClient: HttpClient) {
-            AuthenticationPlugin.renewToken(httpClient, getAuthenticationConfiguration())
+        private suspend fun renewToken(client: Client) {
+            client.authentication().renewToken(client.httpClient, getAuthenticationConfiguration())
         }
 
         private fun getAuthenticationConfiguration() = AuthenticationConfiguration.from(

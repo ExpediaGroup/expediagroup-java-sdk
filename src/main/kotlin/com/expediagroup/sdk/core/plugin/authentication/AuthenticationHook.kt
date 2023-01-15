@@ -22,14 +22,16 @@ import com.expediagroup.sdk.core.plugin.Hook
 import com.expediagroup.sdk.core.plugin.HookBuilder
 import com.expediagroup.sdk.core.plugin.HookCreator
 import com.expediagroup.sdk.core.plugin.logging.OpenWorldLoggerFactory
-import io.ktor.client.plugins.*
-import io.ktor.client.request.*
+import io.ktor.client.plugins.HttpSend
+import io.ktor.client.plugins.plugin
+import io.ktor.client.request.HttpRequestBuilder
 import kotlinx.atomicfu.atomic
 import kotlinx.coroutines.delay
 
 internal const val AUTHORIZATION_REQUEST_LOCK_DELAY = 20L
 
-internal class DaHook(client: Client, configuration: AuthenticationConfiguration) : Hook<AuthenticationConfiguration>(configuration, AuthenticationHookBuilder(client))
+internal class DaHook(client: Client, configuration: AuthenticationConfiguration) :
+    Hook<AuthenticationConfiguration>(configuration, AuthenticationHookBuilder(client))
 
 internal object AuthenticationHook : HookCreator<AuthenticationConfiguration> {
     override fun create(client: Client, configuration: AuthenticationConfiguration): Hook<AuthenticationConfiguration> {
@@ -40,15 +42,16 @@ internal object AuthenticationHook : HookCreator<AuthenticationConfiguration> {
 private class AuthenticationHookBuilder(private val client: Client) : HookBuilder<AuthenticationConfiguration> {
     private val log = OpenWorldLoggerFactory.getLogger(javaClass)
     private val isLock = atomic(false)
+    private val auth = client.authentication()
 
     override fun build(configs: AuthenticationConfiguration) {
         val httpClient = client.httpClient
 
         httpClient.plugin(HttpSend).intercept { request ->
-            if (AuthenticationPlugin.isNotIdentityRequest(request, configs) && AuthenticationPlugin.isTokenAboutToExpire()) {
+            if (auth.isNotIdentityRequest(request, configs) && auth.isTokenAboutToExpire()) {
                 log.info(TOKEN_EXPIRED)
                 if (!isLock.getAndSet(true)) {
-                    AuthenticationPlugin.renewToken(httpClient, configs)
+                    auth.renewToken(httpClient, configs)
                     isLock.compareAndSet(expect = true, update = false)
                 }
                 waitForTokenRenewal()
@@ -59,7 +62,7 @@ private class AuthenticationHookBuilder(private val client: Client) : HookBuilde
     }
 
     private fun assignNewToken(request: HttpRequestBuilder) {
-        request.headers[HeaderKey.AUTHORIZATION] = AuthenticationPlugin.getAuthorizationHeader()
+        request.headers[HeaderKey.AUTHORIZATION] = auth.getAuthorizationHeader()
     }
 
     private suspend fun waitForTokenRenewal() {

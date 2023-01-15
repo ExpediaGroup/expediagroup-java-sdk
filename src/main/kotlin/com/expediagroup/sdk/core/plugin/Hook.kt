@@ -79,4 +79,3 @@ internal class HookLoader(private val client: Client) {
 internal interface HookCreator<C : PluginConfiguration> {
     fun create(client: Client, configuration: C): Hook<C>
 }
-

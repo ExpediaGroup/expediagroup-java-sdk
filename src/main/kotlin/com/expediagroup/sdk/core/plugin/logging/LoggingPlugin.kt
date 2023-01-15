@@ -17,7 +17,7 @@ package com.expediagroup.sdk.core.plugin.logging
 
 import com.expediagroup.sdk.core.client.Client
 import com.expediagroup.sdk.core.plugin.Plugin
-import io.ktor.client.plugins.logging.*
+import io.ktor.client.plugins.logging.Logging
 
 internal object LoggingPlugin : Plugin<LoggingConfiguration> {
     override fun install(client: Client, configurations: LoggingConfiguration) {

@@ -18,25 +18,19 @@ package com.expediagroup.sdk.core.plugin.authentication
 import com.expediagroup.sdk.core.client.Client
 import com.expediagroup.sdk.core.plugin.Plugin
 import com.expediagroup.sdk.core.plugin.authentication.strategy.AuthenticationStrategy
-import io.ktor.client.*
-import io.ktor.client.plugins.auth.*
-import io.ktor.client.request.*
+import io.ktor.client.plugins.auth.Auth
+import kotlin.collections.set
 
 internal object AuthenticationPlugin : Plugin<AuthenticationConfiguration> {
-    @Suppress("LateinitUsage")
-    private lateinit var strategy: AuthenticationStrategy
+    val authenticationStrategiesMap = mutableMapOf<Client, AuthenticationStrategy>()
 
     override fun install(client: Client, configurations: AuthenticationConfiguration) {
-        strategy = AuthenticationStrategy.from(configurations.authType)
+        val strategy = AuthenticationStrategy.from(configurations.authType)
+        authenticationStrategiesMap[client] = strategy
         configurations.httpClientConfiguration.install(Auth) {
             strategy.loadAuth(configurations, this)
         }
     }
-
-    fun isNotIdentityRequest(request: HttpRequestBuilder, configs: AuthenticationConfiguration): Boolean = strategy.isNotIdentityRequest(request, configs)
-
-    suspend fun renewToken(client: HttpClient, configs: AuthenticationConfiguration) = strategy.renewToken(client, configs)
-
-    fun isTokenAboutToExpire(): Boolean = strategy.isTokenAboutToExpire()
-    fun getAuthorizationHeader(): String = strategy.getAuthorizationHeader()
 }
+
+internal fun Client.authentication(): AuthenticationStrategy = AuthenticationPlugin.authenticationStrategiesMap[this]!!

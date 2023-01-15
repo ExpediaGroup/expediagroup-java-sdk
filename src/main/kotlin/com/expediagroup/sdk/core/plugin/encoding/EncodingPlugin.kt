@@ -17,7 +17,7 @@ package com.expediagroup.sdk.core.plugin.encoding
 
 import com.expediagroup.sdk.core.client.Client
 import com.expediagroup.sdk.core.plugin.Plugin
-import io.ktor.client.plugins.compression.*
+import io.ktor.client.plugins.compression.ContentEncoding
 
 internal object EncodingPlugin : Plugin<EncodingConfiguration> {
     override fun install(client: Client, configurations: EncodingConfiguration) {
