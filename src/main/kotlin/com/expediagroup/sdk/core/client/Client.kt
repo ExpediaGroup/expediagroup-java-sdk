@@ -75,12 +75,7 @@ class Client private constructor(
                 use(LoggingPlugin).with(LoggingConfiguration.from(this@HttpClient))
                 use(SerializationPlugin).with(SerializationConfiguration.from(this@HttpClient))
                 use(AuthenticationPlugin).with(authenticationConfiguration)
-                use(DefaultRequestPlugin).with(
-                    DefaultRequestConfiguration.from(
-                        this@HttpClient,
-                        configurationCollector.endpoint
-                    )
-                )
+                use(DefaultRequestPlugin).with(DefaultRequestConfiguration.from(this@HttpClient, configurationCollector.endpoint))
                 use(EncodingPlugin).with(EncodingConfiguration.from(this@HttpClient))
             }
 
