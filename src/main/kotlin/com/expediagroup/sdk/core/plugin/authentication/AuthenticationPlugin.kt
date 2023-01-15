@@ -25,10 +25,10 @@ internal object AuthenticationPlugin : Plugin<AuthenticationConfiguration> {
     val authenticationStrategiesMap = mutableMapOf<Client, AuthenticationStrategy>()
 
     override fun install(client: Client, configurations: AuthenticationConfiguration) {
-        val strategy = AuthenticationStrategy.from(configurations.authType)
+        val strategy = AuthenticationStrategy.from({ client.httpClient }, configurations)
         authenticationStrategiesMap[client] = strategy
         configurations.httpClientConfiguration.install(Auth) {
-            strategy.loadAuth(configurations, this)
+            strategy.loadAuth(this)
         }
     }
 }

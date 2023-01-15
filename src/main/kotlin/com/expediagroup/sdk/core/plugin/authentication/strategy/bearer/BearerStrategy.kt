@@ -41,29 +41,34 @@ import io.ktor.client.request.url
 import io.ktor.http.HttpMethod
 import io.ktor.http.Parameters
 
-internal class BearerStrategy : AuthenticationStrategy {
+internal class BearerStrategy(
+    private val httpClientProvider: () -> HttpClient,
+    private val configs: AuthenticationConfiguration
+) :
+    AuthenticationStrategy {
     private val log = OpenWorldLoggerFactory.getLogger(javaClass)
     private var bearerTokenStorage = BearerTokensInfo.emptyBearerTokenInfo
     private val loadTokensBlock: () -> BearerTokens = {
         getTokens()
     }
 
-    override fun loadAuth(configurations: AuthenticationConfiguration, auth: Auth) {
+    override fun loadAuth(auth: Auth) {
         auth.bearer {
             loadTokens(loadTokensBlock)
 
             sendWithoutRequest { request ->
-                isNotIdentityRequest(request, configurations)
+                isNotIdentityRequest(request)
             }
         }
     }
 
     override fun isTokenAboutToExpire() = bearerTokenStorage.isAboutToExpire()
 
-    override suspend fun renewToken(client: HttpClient, configs: AuthenticationConfiguration) {
+    override suspend fun renewToken() {
+        val httpClient = httpClientProvider()
         log.info(LoggingMessage.TOKEN_RENEWAL_IN_PROCESS)
-        clearTokens(client)
-        val renewTokenResponse = client.request {
+        clearTokens(httpClient)
+        val renewTokenResponse = httpClient.request {
             method = HttpMethod.Post
             url(configs.authUrl)
             buildTokenRequest()
@@ -98,10 +103,8 @@ internal class BearerStrategy : AuthenticationStrategy {
         )
     }
 
-    override fun isNotIdentityRequest(
-        request: HttpRequestBuilder,
-        configs: AuthenticationConfiguration
-    ): Boolean = request.url.buildString() != configs.authUrl
+    override fun isNotIdentityRequest(request: HttpRequestBuilder): Boolean =
+        request.url.buildString() != configs.authUrl
 
     override fun getAuthorizationHeader() = "${Authentication.BEARER} ${getTokens().accessToken}"
 

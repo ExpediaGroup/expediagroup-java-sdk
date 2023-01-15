@@ -25,21 +25,22 @@ import io.ktor.client.plugins.auth.Auth
 import io.ktor.client.request.HttpRequestBuilder
 
 internal interface AuthenticationStrategy {
-    fun loadAuth(configurations: AuthenticationConfiguration, auth: Auth) {}
+    fun loadAuth(auth: Auth) {}
 
     fun isTokenAboutToExpire(): Boolean
 
-    suspend fun renewToken(client: HttpClient, configs: AuthenticationConfiguration)
+    suspend fun renewToken()
 
-    fun isNotIdentityRequest(request: HttpRequestBuilder, configs: AuthenticationConfiguration): Boolean
+    fun isNotIdentityRequest(request: HttpRequestBuilder): Boolean
 
     fun getAuthorizationHeader(): String
 
     companion object {
-        fun from(authType: AuthenticationType): AuthenticationStrategy = when (authType) {
-            BEARER -> BearerStrategy()
-            SIGNATURE -> SignatureStrategy()
-        }
+        fun from(httpClientProvider: () -> HttpClient, configs: AuthenticationConfiguration): AuthenticationStrategy =
+            when (configs.authType) {
+                BEARER -> BearerStrategy(httpClientProvider, configs)
+                SIGNATURE -> SignatureStrategy(configs)
+            }
     }
 
     enum class AuthenticationType {

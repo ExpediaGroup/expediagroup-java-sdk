@@ -25,15 +25,6 @@ internal interface HookBuilder<in C : PluginConfiguration> {
 }
 
 /**
- * A helper to build Hook configs.
- *
- * Ideally, it should be implemented by a companion object in a Hook class.
- */
-internal interface HookConfigsBuilder<in C : PluginConfiguration, out H : Hook<C>> {
-    fun with(configuration: C): H
-}
-
-/**
  * A hook is a post action we need to apply after creating a [Client].
  */
 internal open class Hook<in C : PluginConfiguration>(
@@ -73,7 +64,7 @@ internal class HookLoader(private val client: Client) {
     /**
      * Provides an idiomatic way of configuring a hook.
      */
-    internal fun <C : PluginConfiguration> HookCreator<C>.with(config: C) = create(client, config)
+    internal fun <C : PluginConfiguration> HookCreator<C>.with(config: C) = Hooks.add(client, create(client, config))
 }
 
 internal interface HookCreator<C : PluginConfiguration> {

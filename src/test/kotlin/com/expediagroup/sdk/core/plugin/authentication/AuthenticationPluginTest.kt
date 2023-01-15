@@ -25,6 +25,7 @@ import com.expediagroup.sdk.core.commons.TestConstants.ANY_URL
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_KEY_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.commons.TestConstants.SIGNATURE_VALUE
+import com.expediagroup.sdk.core.configuration.ClientConfiguration
 import com.expediagroup.sdk.core.configuration.Credentials
 import com.expediagroup.sdk.core.configuration.provider.DefaultConfigurationProvider
 import com.expediagroup.sdk.core.constant.Authentication.BEARER
@@ -98,9 +99,12 @@ internal class AuthenticationPluginTest {
                 delay(1000)
                 val secondRequest = httpClient.get(ANY_URL)
 
-                assertThat(firstRequest.request.headers[HeaderKey.AUTHORIZATION]).isNotEqualTo(
-                    secondRequest.request.headers[HeaderKey.AUTHORIZATION]
-                )
+                val firstRequestAuth = firstRequest.request.headers[HeaderKey.AUTHORIZATION]
+                val secondRequestAuth = secondRequest.request.headers[HeaderKey.AUTHORIZATION]
+
+                assertThat(firstRequestAuth).isNotNull
+                assertThat(secondRequestAuth).isNotNull
+                assertThat(firstRequestAuth).isNotEqualTo(secondRequestAuth)
             }
         }
 
@@ -123,7 +127,7 @@ internal class AuthenticationPluginTest {
 
                 delay(1000)
                 coVerify(exactly = 3) {
-                    client.authentication().renewToken(httpClient, any())
+                    client.authentication().renewToken()
                 }
             }
         }
@@ -147,21 +151,20 @@ internal class AuthenticationPluginTest {
         @ArgumentsSource(UnsuccessfulStatusCodesArgumentProvider::class)
         fun `refresh auth token should throw client exception if the the credentials are invalid`(httpStatusCode: HttpStatusCode) {
             runBlocking {
-                val client = ClientFactory.createClient(createUnauthorizedMockEngineWithStatusCode(httpStatusCode))
-                val httpClient = client.httpClient
+                val configuration = ClientConfiguration.Builder()
+                    .key(CLIENT_KEY_TEST_CREDENTIAL + "invalid")
+                    .secret(CLIENT_SECRET_TEST_CREDENTIAL + "invalid")
+                    .endpoint(DefaultConfigurationProvider.endpoint)
+                    .authEndpoint(DefaultConfigurationProvider.authEndpoint)
+                    .build()
+
+                val client = ClientFactory.createClient(
+                    createUnauthorizedMockEngineWithStatusCode(httpStatusCode),
+                    configuration
+                )
 
                 val exception = assertThrows<OpenWorldAuthException> {
-                    client.authentication().renewToken(
-                        httpClient,
-                        AuthenticationConfiguration.from(
-                            HttpClientConfig(),
-                            Credentials(
-                                CLIENT_KEY_TEST_CREDENTIAL + "invalid",
-                                CLIENT_SECRET_TEST_CREDENTIAL + "invalid"
-                            ),
-                            DefaultConfigurationProvider.authEndpoint
-                        )
-                    )
+                    client.authentication().renewToken()
                 }
                 assertThat(exception.message).isEqualTo("[${httpStatusCode.value}] ${ExceptionMessage.AUTHENTICATION_FAILURE}")
                 assertThat(exception.cause).isNull()
@@ -174,21 +177,18 @@ internal class AuthenticationPluginTest {
         @ArgumentsSource(SuccessfulStatusCodesArgumentProvider::class)
         fun `refresh auth token should not throw client exception if the the credentials are valid`(httpStatusCode: HttpStatusCode) {
             runBlocking {
-                val client = ClientFactory.createClient(createTokenMockEngineWithStatusCode(httpStatusCode))
-                val httpClient = client.httpClient
+                val configuration = ClientConfiguration.Builder()
+                    .key(CLIENT_KEY_TEST_CREDENTIAL)
+                    .secret(CLIENT_SECRET_TEST_CREDENTIAL)
+                    .endpoint(DefaultConfigurationProvider.endpoint)
+                    .authEndpoint(DefaultConfigurationProvider.authEndpoint)
+                    .build()
+
+                val client =
+                    ClientFactory.createClient(createTokenMockEngineWithStatusCode(httpStatusCode), configuration)
 
                 assertDoesNotThrow {
-                    client.authentication().renewToken(
-                        httpClient,
-                        AuthenticationConfiguration.from(
-                            HttpClientConfig(),
-                            Credentials(
-                                CLIENT_KEY_TEST_CREDENTIAL,
-                                CLIENT_SECRET_TEST_CREDENTIAL
-                            ),
-                            DefaultConfigurationProvider.authEndpoint
-                        )
-                    )
+                    client.authentication().renewToken()
                 }
             }
         }
@@ -209,7 +209,7 @@ internal class AuthenticationPluginTest {
 
                 delay(1000)
                 coVerify(exactly = 1) {
-                    client.authentication().renewToken(httpClient, any())
+                    client.authentication().renewToken()
                 }
             }
         }
@@ -227,7 +227,7 @@ internal class AuthenticationPluginTest {
                 httpClient.get(ANY_URL)
 
                 coVerify(exactly = 1) {
-                    client.authentication().renewToken(httpClient, any())
+                    client.authentication().renewToken()
                 }
             }
         }
@@ -244,7 +244,7 @@ internal class AuthenticationPluginTest {
                 httpClient.get(ANY_URL)
 
                 coVerify(exactly = 0) {
-                    client.authentication().renewToken(httpClient, any())
+                    client.authentication().renewToken()
                 }
             }
         }
@@ -264,7 +264,7 @@ internal class AuthenticationPluginTest {
                 }
 
                 coVerify(exactly = 0) {
-                    client.authentication().renewToken(httpClient, any())
+                    client.authentication().renewToken()
                 }
             }
         }
@@ -291,13 +291,13 @@ internal class AuthenticationPluginTest {
 
                 delay(1000)
                 coVerify(exactly = 1) {
-                    client.authentication().renewToken(httpClient, any())
+                    client.authentication().renewToken()
                 }
             }
         }
 
         private suspend fun renewToken(client: Client) {
-            client.authentication().renewToken(client.httpClient, getAuthenticationConfiguration())
+            client.authentication().renewToken()
         }
 
         private fun getAuthenticationConfiguration() = AuthenticationConfiguration.from(

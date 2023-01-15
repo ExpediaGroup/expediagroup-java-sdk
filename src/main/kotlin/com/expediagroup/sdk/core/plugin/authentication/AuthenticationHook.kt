@@ -48,10 +48,10 @@ private class AuthenticationHookBuilder(private val client: Client) : HookBuilde
         val httpClient = client.httpClient
 
         httpClient.plugin(HttpSend).intercept { request ->
-            if (auth.isNotIdentityRequest(request, configs) && auth.isTokenAboutToExpire()) {
+            if (auth.isNotIdentityRequest(request) && auth.isTokenAboutToExpire()) {
                 log.info(TOKEN_EXPIRED)
                 if (!isLock.getAndSet(true)) {
-                    auth.renewToken(httpClient, configs)
+                    auth.renewToken()
                     isLock.compareAndSet(expect = true, update = false)
                 }
                 waitForTokenRenewal()
