@@ -29,7 +29,7 @@ internal interface AuthenticationStrategy {
 
     fun isTokenAboutToExpire(): Boolean
 
-    suspend fun renewToken()
+    fun renewToken()
 
     fun isNotIdentityRequest(request: HttpRequestBuilder): Boolean
 

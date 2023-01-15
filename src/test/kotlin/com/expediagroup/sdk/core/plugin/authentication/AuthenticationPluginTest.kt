@@ -111,9 +111,11 @@ internal class AuthenticationPluginTest {
         @Test
         fun `given multiple requests then no requests should be unauthorized`() {
             runBlocking {
-                mockkObject(AuthenticationPlugin)
                 val client = ClientFactory.createRapidClient()
                 val httpClient = client.httpClient
+                val authentication = client.authentication()
+
+                mockkObject(authentication)
 
                 launch {
                     httpClient.get(ANY_URL)
@@ -127,7 +129,7 @@ internal class AuthenticationPluginTest {
 
                 delay(1000)
                 coVerify(exactly = 3) {
-                    client.authentication().renewToken()
+                    authentication.renewToken()
                 }
             }
         }
@@ -196,9 +198,11 @@ internal class AuthenticationPluginTest {
         @Test
         fun `make parallel should run the single refresh token only`() {
             runBlocking {
-                mockkObject(AuthenticationPlugin)
                 val client = ClientFactory.createClient()
                 val httpClient = client.httpClient
+                val authentication = client.authentication()
+
+                mockkObject(authentication)
 
                 launch {
                     httpClient.get(ANY_URL)
@@ -209,7 +213,7 @@ internal class AuthenticationPluginTest {
 
                 delay(1000)
                 coVerify(exactly = 1) {
-                    client.authentication().renewToken()
+                    authentication.renewToken()
                 }
             }
         }
@@ -223,11 +227,13 @@ internal class AuthenticationPluginTest {
                 val httpClient = client.httpClient
                 renewToken(client)
 
-                mockkObject(AuthenticationPlugin)
+                val authentication = client.authentication()
+
+                mockkObject(authentication)
                 httpClient.get(ANY_URL)
 
                 coVerify(exactly = 1) {
-                    client.authentication().renewToken()
+                    authentication.renewToken()
                 }
             }
         }
@@ -240,11 +246,13 @@ internal class AuthenticationPluginTest {
                 val httpClient = client.httpClient
                 renewToken(client)
 
-                mockkObject(AuthenticationPlugin)
+                val authentication = client.authentication()
+
+                mockkObject(authentication)
                 httpClient.get(ANY_URL)
 
                 coVerify(exactly = 0) {
-                    client.authentication().renewToken()
+                    authentication.renewToken()
                 }
             }
         }
@@ -255,7 +263,9 @@ internal class AuthenticationPluginTest {
                 val mockEngine = createMockEngineExpiresInPerCall(6, 1000)
                 val client = ClientFactory.createClient(mockEngine)
                 val httpClient = client.httpClient
-                mockkObject(AuthenticationPlugin)
+                val authentication = client.authentication()
+
+                mockkObject(authentication)
 
                 val configs = getAuthenticationConfiguration()
                 httpClient.request {
@@ -264,7 +274,7 @@ internal class AuthenticationPluginTest {
                 }
 
                 coVerify(exactly = 0) {
-                    client.authentication().renewToken()
+                    authentication.renewToken()
                 }
             }
         }
@@ -272,9 +282,11 @@ internal class AuthenticationPluginTest {
         @Test
         fun `given multiple requests when token expired then no requests should be unauthorized`() {
             runBlocking {
-                mockkObject(AuthenticationPlugin)
                 val client = ClientFactory.createClient()
                 val httpClient = client.httpClient
+                val authentication = client.authentication()
+
+                mockkObject(authentication)
 
                 launch {
                     val request = httpClient.get(ANY_URL)
@@ -291,7 +303,7 @@ internal class AuthenticationPluginTest {
 
                 delay(1000)
                 coVerify(exactly = 1) {
-                    client.authentication().renewToken()
+                    authentication.renewToken()
                 }
             }
         }

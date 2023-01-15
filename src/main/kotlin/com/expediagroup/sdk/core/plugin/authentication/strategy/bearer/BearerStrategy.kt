@@ -40,6 +40,7 @@ import io.ktor.client.request.request
 import io.ktor.client.request.url
 import io.ktor.http.HttpMethod
 import io.ktor.http.Parameters
+import kotlinx.coroutines.runBlocking
 
 internal class BearerStrategy(
     private val httpClientProvider: () -> HttpClient,
@@ -64,20 +65,22 @@ internal class BearerStrategy(
 
     override fun isTokenAboutToExpire() = bearerTokenStorage.isAboutToExpire()
 
-    override suspend fun renewToken() {
+    override fun renewToken() {
         val httpClient = httpClientProvider()
         log.info(LoggingMessage.TOKEN_RENEWAL_IN_PROCESS)
         clearTokens(httpClient)
-        val renewTokenResponse = httpClient.request {
-            method = HttpMethod.Post
-            url(configs.authUrl)
-            buildTokenRequest()
-            basicAuth(configs.credentials)
+        val renewTokenResponse = runBlocking {
+            httpClient.request {
+                method = HttpMethod.Post
+                url(configs.authUrl)
+                buildTokenRequest()
+                basicAuth(configs.credentials)
+            }
         }
         if (renewTokenResponse.status.value !in Constant.SUCCESSFUL_STATUS_CODES_RANGE) {
             throw OpenWorldAuthException(renewTokenResponse.status, ExceptionMessage.AUTHENTICATION_FAILURE)
         }
-        val renewedTokenInfo: TokenResponse = renewTokenResponse.body()
+        val renewedTokenInfo: TokenResponse = runBlocking { renewTokenResponse.body() }
         log.info(LoggingMessage.TOKEN_RENEWAL_SUCCESSFUL)
         log.info(LoggingMessageProvider.getTokenExpiresInMessage(renewedTokenInfo.expiresIn))
         bearerTokenStorage = BearerTokensInfo(

@@ -27,7 +27,7 @@ internal class SignatureStrategy(private val configs: AuthenticationConfiguratio
     private var signature: String = Constant.EMPTY_STRING
     override fun isTokenAboutToExpire(): Boolean = true
 
-    override suspend fun renewToken() {
+    override fun renewToken() {
         val credentials = configs.credentials
         signature = calculateSignature(credentials.key, credentials.secret, Instant.now().epochSecond)
     }
