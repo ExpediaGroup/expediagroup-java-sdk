@@ -53,9 +53,9 @@ internal object Hooks {
 /**
  * Provide an idiomatic scope to define hooks.
  */
-internal fun Client.hooks(block: HookLoader.() -> Unit) = block(HookLoader(this))
+internal fun Client.hooks(block: HookContext.() -> Unit) = block(HookContext(this))
 
-internal class HookLoader(private val client: Client) {
+internal class HookContext(private val client: Client) {
     /**
      * Provides an idiomatic way of defining a hook.
      */

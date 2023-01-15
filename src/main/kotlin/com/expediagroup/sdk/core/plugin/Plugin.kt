@@ -27,9 +27,9 @@ internal interface Plugin<in C : PluginConfiguration> {
 /**
  * Provide an idiomatic scope to define plugins.
  */
-internal fun Client.plugins(block: PluginLoader.() -> Unit) = block(PluginLoader(this))
+internal fun Client.plugins(block: PluginContext.() -> Unit) = block(PluginContext(this))
 
-internal class PluginLoader(private val client: Client) {
+internal class PluginContext(private val client: Client) {
 
     /**
      * Provides an idiomatic way of starting a plugin.

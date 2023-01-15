@@ -30,12 +30,9 @@ import kotlinx.coroutines.delay
 
 internal const val AUTHORIZATION_REQUEST_LOCK_DELAY = 20L
 
-internal class DaHook(client: Client, configuration: AuthenticationConfiguration) :
-    Hook<AuthenticationConfiguration>(configuration, AuthenticationHookBuilder(client))
-
 internal object AuthenticationHook : HookCreator<AuthenticationConfiguration> {
     override fun create(client: Client, configuration: AuthenticationConfiguration): Hook<AuthenticationConfiguration> {
-        return DaHook(client, configuration)
+        return Hook(configuration, AuthenticationHookBuilder(client))
     }
 }
 
