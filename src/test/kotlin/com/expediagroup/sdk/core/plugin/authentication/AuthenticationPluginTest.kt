@@ -308,7 +308,7 @@ internal class AuthenticationPluginTest {
             }
         }
 
-        private suspend fun renewToken(client: Client) {
+        private fun renewToken(client: Client) {
             client.authentication().renewToken()
         }
 
