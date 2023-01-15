@@ -37,8 +37,8 @@ internal interface AuthenticationStrategy {
 
     companion object {
         fun from(authType: AuthenticationType): AuthenticationStrategy = when (authType) {
-            BEARER -> BearerStrategy
-            SIGNATURE -> SignatureStrategy
+            BEARER -> BearerStrategy()
+            SIGNATURE -> SignatureStrategy()
         }
     }
 

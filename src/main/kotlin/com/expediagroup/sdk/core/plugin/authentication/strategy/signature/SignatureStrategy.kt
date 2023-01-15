@@ -19,11 +19,11 @@ import com.expediagroup.sdk.core.constant.Authentication
 import com.expediagroup.sdk.core.constant.Constant
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationConfiguration
 import com.expediagroup.sdk.core.plugin.authentication.strategy.AuthenticationStrategy
-import io.ktor.client.HttpClient
-import io.ktor.client.request.HttpRequestBuilder
+import io.ktor.client.*
+import io.ktor.client.request.*
 import java.time.Instant
 
-internal object SignatureStrategy : AuthenticationStrategy {
+internal class SignatureStrategy : AuthenticationStrategy {
     private var signature: String = Constant.EMPTY_STRING
     override fun isTokenAboutToExpire(): Boolean = true
 

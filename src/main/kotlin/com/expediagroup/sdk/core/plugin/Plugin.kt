@@ -15,24 +15,29 @@
  */
 package com.expediagroup.sdk.core.plugin
 
+import com.expediagroup.sdk.core.client.Client
+
 internal interface Plugin<in C : PluginConfiguration> {
     /**
      * Install a plugin.
      */
-    fun install(configurations: C)
+    fun install(client: Client, configurations: C)
 }
 
 /**
  * Provide an idiomatic scope to define plugins.
  */
-internal fun plugins(block: () -> Unit) = block()
+internal fun Client.plugins(block: PluginLoader.() -> Unit) = block(PluginLoader(this))
 
-/**
- * Provides an idiomatic way of starting a plugin.
- */
-internal fun <C : PluginConfiguration, P : Plugin<C>> use(plugin: P): P = plugin
+internal class PluginLoader(private val client: Client) {
 
-/**
- * Provides an idiomatic way of configuring a plugin.
- */
-internal fun <C : PluginConfiguration> Plugin<C>.with(configs: C) = install(configs)
+    /**
+     * Provides an idiomatic way of starting a plugin.
+     */
+    fun <C : PluginConfiguration, P : Plugin<C>> use(plugin: P): P = plugin
+
+    /**
+     * Provides an idiomatic way of configuring a plugin.
+     */
+    internal fun <C : PluginConfiguration> Plugin<C>.with(configs: C) = install(client, configs)
+}

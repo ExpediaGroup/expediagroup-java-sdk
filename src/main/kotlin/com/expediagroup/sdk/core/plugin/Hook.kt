@@ -21,7 +21,7 @@ import com.expediagroup.sdk.core.client.Client
  * A helper to build a hook.
  */
 internal interface HookBuilder<in C : PluginConfiguration> {
-    fun build(client: Client, configs: C)
+    fun build(configs: C)
 }
 
 /**
@@ -40,30 +40,43 @@ internal open class Hook<in C : PluginConfiguration>(
     private val configuration: C,
     private val builder: HookBuilder<C>
 ) {
-    fun execute(client: Client) = builder.build(client, configuration)
+    fun execute() = builder.build(configuration)
 }
 
 /**
  * A singleton repository of all [Hook]s we need to apply on the [Client].
  */
 internal object Hooks {
-    private var hooksCollection: MutableList<Hook<*>> = mutableListOf()
+    private val hooksMap: MutableMap<Client, MutableList<Hook<*>>> = mutableMapOf()
 
-    fun <C : PluginConfiguration> add(hook: Hook<C>) {
-        hooksCollection += hook
+    fun <C : PluginConfiguration> add(client: Client, hook: Hook<C>) {
+        hooksMap.putIfAbsent(client, mutableListOf())
+        hooksMap[client]!! += hook
     }
 
     fun execute(client: Client) {
-        hooksCollection.forEach { it.execute(client) }
+        hooksMap[client]?.forEach { it.execute() }
     }
 }
 
 /**
  * Provide an idiomatic scope to define hooks.
  */
-internal fun hooks(block: () -> Unit) = block()
+internal fun Client.hooks(block: HookLoader.() -> Unit) = block(HookLoader(this))
 
-/**
- * Provides an idiomatic way of defining a hook.
- */
-internal fun <C : PluginConfiguration> use(hook: Hook<C>) = Hooks.add(hook)
+internal class HookLoader(private val client: Client) {
+    /**
+     * Provides an idiomatic way of defining a hook.
+     */
+    internal fun <C : PluginConfiguration> use(hookCreator: HookCreator<C>) = hookCreator
+
+    /**
+     * Provides an idiomatic way of configuring a hook.
+     */
+    internal fun <C : PluginConfiguration> HookCreator<C>.with(config: C) = create(client, config)
+}
+
+internal interface HookCreator<C : PluginConfiguration> {
+    fun create(client: Client, configuration: C): Hook<C>
+}
+

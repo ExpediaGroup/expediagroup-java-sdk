@@ -31,62 +31,33 @@ import com.expediagroup.sdk.core.constant.Authentication.EAN
 import com.expediagroup.sdk.core.constant.ExceptionMessage
 import com.expediagroup.sdk.core.constant.HeaderKey
 import com.expediagroup.sdk.core.model.exception.service.OpenWorldAuthException
-import com.expediagroup.sdk.core.plugin.Hooks
 import com.expediagroup.sdk.core.plugin.authentication.helper.SuccessfulStatusCodesArgumentProvider
 import com.expediagroup.sdk.core.plugin.authentication.helper.UnsuccessfulStatusCodesArgumentProvider
-import com.expediagroup.sdk.core.plugin.authentication.strategy.bearer.BearerStrategy
 import com.expediagroup.sdk.core.plugin.authentication.strategy.signature.calculateSignature
-import io.ktor.client.HttpClient
-import io.ktor.client.HttpClientConfig
-import io.ktor.client.request.get
-import io.ktor.client.request.request
-import io.ktor.client.request.url
-import io.ktor.client.statement.request
-import io.ktor.http.HttpMethod
-import io.ktor.http.HttpStatusCode
-import io.mockk.clearAllMocks
-import io.mockk.coVerify
-import io.mockk.every
-import io.mockk.mockkObject
-import io.mockk.mockkStatic
+import io.ktor.client.*
+import io.ktor.client.request.*
+import io.ktor.client.statement.*
+import io.ktor.http.*
+import io.mockk.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Nested
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertDoesNotThrow
-import org.junit.jupiter.api.assertThrows
+import org.junit.jupiter.api.*
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ArgumentsSource
 import org.junit.jupiter.params.provider.ValueSource
-import kotlin.reflect.full.declaredMemberFunctions
-import kotlin.reflect.full.memberProperties
-import kotlin.reflect.jvm.isAccessible
-import kotlin.reflect.jvm.javaField
 
 internal class AuthenticationPluginTest {
 
     @BeforeEach
-    internal fun setUp() {
+    fun setUp() {
         clearAllMocks()
     }
 
     @AfterEach
-    internal fun tearDown() {
+    fun tearDown() {
         clearAllMocks()
-        clearHooks()
-    }
-
-    private fun clearHooks() {
-        val property = Hooks::class.memberProperties.find { it.name == "hooksCollection" }
-        property?.let {
-            it.isAccessible = true
-            val hooksCollection = it.javaField?.get(Hooks) as MutableList<*>
-            hooksCollection.clear()
-        }
     }
 
     @Nested
@@ -142,11 +113,6 @@ internal class AuthenticationPluginTest {
                 }
             }
         }
-
-        private fun mockSignatureCalculator() {
-            mockkStatic("com.expediagroup.sdk.core.plugin.authentication.strategy.signature.SignatureCalculatorKt")
-            every { calculateSignature(any(), any(), any()) } returns SIGNATURE_VALUE
-        }
     }
 
     @Nested
@@ -160,8 +126,6 @@ internal class AuthenticationPluginTest {
                 assertThat(testRequest.request.headers[HeaderKey.AUTHORIZATION]).isEqualTo(
                     "$BEARER $ACCESS_TOKEN"
                 )
-
-                clearBearerTokens(httpClient)
             }
         }
 
@@ -189,7 +153,6 @@ internal class AuthenticationPluginTest {
                 assertThat(exception.errorCode).isEqualTo(httpStatusCode)
                 assertThat(exception.error).isNull()
 
-                clearBearerTokens(httpClient)
             }
         }
 
@@ -213,7 +176,6 @@ internal class AuthenticationPluginTest {
                     )
                 }
 
-                clearBearerTokens(httpClient)
             }
         }
 
@@ -222,7 +184,6 @@ internal class AuthenticationPluginTest {
             runBlocking {
                 mockkObject(AuthenticationPlugin)
                 val httpClient = ClientFactory.createClient().httpClient
-                clearBearerTokens(httpClient)
 
                 launch {
                     httpClient.get(ANY_URL)
@@ -236,7 +197,6 @@ internal class AuthenticationPluginTest {
                     AuthenticationPlugin.renewToken(httpClient, any())
                 }
 
-                clearBearerTokens(httpClient)
             }
         }
 
@@ -255,7 +215,6 @@ internal class AuthenticationPluginTest {
                     AuthenticationPlugin.renewToken(httpClient, any())
                 }
 
-                clearBearerTokens(httpClient)
             }
         }
 
@@ -273,7 +232,6 @@ internal class AuthenticationPluginTest {
                     AuthenticationPlugin.renewToken(httpClient, any())
                 }
 
-                clearBearerTokens(httpClient)
             }
         }
 
@@ -293,8 +251,6 @@ internal class AuthenticationPluginTest {
                 coVerify(exactly = 0) {
                     AuthenticationPlugin.renewToken(httpClient, any())
                 }
-
-                clearBearerTokens(httpClient)
             }
         }
 
@@ -321,19 +277,8 @@ internal class AuthenticationPluginTest {
                 coVerify(exactly = 1) {
                     AuthenticationPlugin.renewToken(httpClient, any())
                 }
-
-                clearBearerTokens(httpClient)
             }
         }
-
-        /*
-        * BearerTokens need to be cleared after each test due to problems with clearing mocked Singletons
-        * https://stackoverflow.com/a/28028662
-        */
-        private fun clearBearerTokens(client: HttpClient) = BearerStrategy::class.declaredMemberFunctions
-            .firstOrNull { it.name == "clearTokens" }
-            ?.apply { isAccessible = true }
-            ?.call(BearerStrategy, client)
 
         private suspend fun renewToken(httpClient: HttpClient) {
             AuthenticationPlugin.renewToken(httpClient, getAuthenticationConfiguration())
@@ -347,5 +292,34 @@ internal class AuthenticationPluginTest {
             ),
             DefaultConfigurationProvider.authEndpoint
         )
+    }
+
+    @Nested
+    inner class MultiInstancesTest {
+        @Test
+        fun `given two different-auth instances then each functions independently`() {
+            runBlocking {
+                mockSignatureCalculator()
+
+                val signatureHttpClient = ClientFactory.createRapidClient().httpClient
+                val bearerHttpClient = ClientFactory.createClient().httpClient
+
+                val signatureRequest = signatureHttpClient.get(ANY_URL)
+                val bearerRequest = bearerHttpClient.get(ANY_URL)
+
+                assertThat(bearerRequest.request.headers[HeaderKey.AUTHORIZATION]).isEqualTo(
+                    "$BEARER $ACCESS_TOKEN"
+                )
+
+                assertThat(signatureRequest.request.headers[HeaderKey.AUTHORIZATION]).isEqualTo(
+                    "$EAN $SIGNATURE_VALUE"
+                )
+            }
+        }
+    }
+
+    private fun mockSignatureCalculator() {
+        mockkStatic("com.expediagroup.sdk.core.plugin.authentication.strategy.signature.SignatureCalculatorKt")
+        every { calculateSignature(any(), any(), any()) } returns SIGNATURE_VALUE
     }
 }

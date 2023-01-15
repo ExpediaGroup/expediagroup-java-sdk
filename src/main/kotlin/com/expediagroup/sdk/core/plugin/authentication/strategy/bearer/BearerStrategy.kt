@@ -41,7 +41,7 @@ import io.ktor.client.request.url
 import io.ktor.http.HttpMethod
 import io.ktor.http.Parameters
 
-internal object BearerStrategy : AuthenticationStrategy {
+internal class BearerStrategy : AuthenticationStrategy {
     private val log = OpenWorldLoggerFactory.getLogger(javaClass)
     private var bearerTokenStorage = BearerTokensInfo.emptyBearerTokenInfo
     private val loadTokensBlock: () -> BearerTokens = {

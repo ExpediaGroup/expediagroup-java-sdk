@@ -20,38 +20,32 @@ import com.expediagroup.sdk.core.constant.HeaderKey
 import com.expediagroup.sdk.core.constant.LoggingMessage.TOKEN_EXPIRED
 import com.expediagroup.sdk.core.plugin.Hook
 import com.expediagroup.sdk.core.plugin.HookBuilder
-import com.expediagroup.sdk.core.plugin.HookConfigsBuilder
-import com.expediagroup.sdk.core.plugin.authentication.AuthenticationPlugin.isNotIdentityRequest
+import com.expediagroup.sdk.core.plugin.HookCreator
 import com.expediagroup.sdk.core.plugin.logging.OpenWorldLoggerFactory
-import io.ktor.client.plugins.HttpSend
-import io.ktor.client.plugins.plugin
-import io.ktor.client.request.HttpRequestBuilder
+import io.ktor.client.plugins.*
+import io.ktor.client.request.*
 import kotlinx.atomicfu.atomic
 import kotlinx.coroutines.delay
 
 internal const val AUTHORIZATION_REQUEST_LOCK_DELAY = 20L
 
-internal class AuthenticationHook(
-    configuration: AuthenticationConfiguration
-) : Hook<AuthenticationConfiguration>(
-    configuration,
-    AuthenticationHookBuilder
-) {
-    companion object : HookConfigsBuilder<AuthenticationConfiguration, AuthenticationHook> {
-        override fun with(configuration: AuthenticationConfiguration): AuthenticationHook =
-            AuthenticationHook(configuration)
+internal class DaHook(client: Client, configuration: AuthenticationConfiguration) : Hook<AuthenticationConfiguration>(configuration, AuthenticationHookBuilder(client))
+
+internal object AuthenticationHook : HookCreator<AuthenticationConfiguration> {
+    override fun create(client: Client, configuration: AuthenticationConfiguration): Hook<AuthenticationConfiguration> {
+        return DaHook(client, configuration)
     }
 }
 
-private object AuthenticationHookBuilder : HookBuilder<AuthenticationConfiguration> {
+private class AuthenticationHookBuilder(private val client: Client) : HookBuilder<AuthenticationConfiguration> {
     private val log = OpenWorldLoggerFactory.getLogger(javaClass)
     private val isLock = atomic(false)
 
-    override fun build(client: Client, configs: AuthenticationConfiguration) {
+    override fun build(configs: AuthenticationConfiguration) {
         val httpClient = client.httpClient
 
         httpClient.plugin(HttpSend).intercept { request ->
-            if (isNotIdentityRequest(request, configs) && AuthenticationPlugin.isTokenAboutToExpire()) {
+            if (AuthenticationPlugin.isNotIdentityRequest(request, configs) && AuthenticationPlugin.isTokenAboutToExpire()) {
                 log.info(TOKEN_EXPIRED)
                 if (!isLock.getAndSet(true)) {
                     AuthenticationPlugin.renewToken(httpClient, configs)

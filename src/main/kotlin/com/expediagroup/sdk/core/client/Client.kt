@@ -36,10 +36,8 @@ import com.expediagroup.sdk.core.plugin.request.DefaultRequestConfiguration
 import com.expediagroup.sdk.core.plugin.request.DefaultRequestPlugin
 import com.expediagroup.sdk.core.plugin.serialization.SerializationConfiguration
 import com.expediagroup.sdk.core.plugin.serialization.SerializationPlugin
-import com.expediagroup.sdk.core.plugin.use
-import com.expediagroup.sdk.core.plugin.with
-import io.ktor.client.HttpClient
-import io.ktor.client.engine.HttpClientEngine
+import io.ktor.client.*
+import io.ktor.client.engine.*
 
 /**
  * The integration point between the SDK Core and the product SDKs.
@@ -74,15 +72,15 @@ class Client private constructor(
             )
 
             plugins {
-                use(LoggingPlugin).with(LoggingConfiguration.from(this))
-                use(SerializationPlugin).with(SerializationConfiguration.from(this))
+                use(LoggingPlugin).with(LoggingConfiguration.from(this@HttpClient))
+                use(SerializationPlugin).with(SerializationConfiguration.from(this@HttpClient))
                 use(AuthenticationPlugin).with(authenticationConfiguration)
-                use(DefaultRequestPlugin).with(DefaultRequestConfiguration.from(this, configurationCollector.endpoint))
-                use(EncodingPlugin).with(EncodingConfiguration.from(this))
+                use(DefaultRequestPlugin).with(DefaultRequestConfiguration.from(this@HttpClient, configurationCollector.endpoint))
+                use(EncodingPlugin).with(EncodingConfiguration.from(this@HttpClient))
             }
 
             hooks {
-                use(AuthenticationHook.with(authenticationConfiguration))
+                use(AuthenticationHook).with(authenticationConfiguration)
             }
         }
 

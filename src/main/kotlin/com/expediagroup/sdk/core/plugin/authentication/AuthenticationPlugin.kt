@@ -15,17 +15,18 @@
  */
 package com.expediagroup.sdk.core.plugin.authentication
 
+import com.expediagroup.sdk.core.client.Client
 import com.expediagroup.sdk.core.plugin.Plugin
 import com.expediagroup.sdk.core.plugin.authentication.strategy.AuthenticationStrategy
-import io.ktor.client.HttpClient
-import io.ktor.client.plugins.auth.Auth
-import io.ktor.client.request.HttpRequestBuilder
+import io.ktor.client.*
+import io.ktor.client.plugins.auth.*
+import io.ktor.client.request.*
 
 internal object AuthenticationPlugin : Plugin<AuthenticationConfiguration> {
     @Suppress("LateinitUsage")
     private lateinit var strategy: AuthenticationStrategy
 
-    override fun install(configurations: AuthenticationConfiguration) {
+    override fun install(client: Client, configurations: AuthenticationConfiguration) {
         strategy = AuthenticationStrategy.from(configurations.authType)
         configurations.httpClientConfiguration.install(Auth) {
             strategy.loadAuth(configurations, this)
