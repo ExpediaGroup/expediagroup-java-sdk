@@ -159,14 +159,14 @@ internal class AuthenticationPluginTest {
                     .endpoint(DefaultConfigurationProvider.endpoint)
                     .authEndpoint(DefaultConfigurationProvider.authEndpoint)
                     .build()
-
                 val client = ClientFactory.createClient(
                     createUnauthorizedMockEngineWithStatusCode(httpStatusCode),
                     configuration
                 )
+                val authentication = client.authentication()
 
                 val exception = assertThrows<OpenWorldAuthException> {
-                    client.authentication().renewToken()
+                    authentication.renewToken()
                 }
                 assertThat(exception.message).isEqualTo("[${httpStatusCode.value}] ${ExceptionMessage.AUTHENTICATION_FAILURE}")
                 assertThat(exception.cause).isNull()
@@ -188,9 +188,10 @@ internal class AuthenticationPluginTest {
 
                 val client =
                     ClientFactory.createClient(createTokenMockEngineWithStatusCode(httpStatusCode), configuration)
+                val authentication = client.authentication()
 
                 assertDoesNotThrow {
-                    client.authentication().renewToken()
+                    authentication.renewToken()
                 }
             }
         }
