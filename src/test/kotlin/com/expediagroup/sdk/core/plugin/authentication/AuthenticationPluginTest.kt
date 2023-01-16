@@ -44,10 +44,10 @@ import io.ktor.client.statement.request
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.mockk.clearAllMocks
-import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
+import io.mockk.verify
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -128,7 +128,7 @@ internal class AuthenticationPluginTest {
                 }
 
                 delay(1000)
-                coVerify(exactly = 3) {
+                verify(exactly = 3) {
                     authentication.renewToken()
                 }
             }
@@ -213,7 +213,7 @@ internal class AuthenticationPluginTest {
                 }
 
                 delay(1000)
-                coVerify(exactly = 1) {
+                verify(exactly = 1) {
                     authentication.renewToken()
                 }
             }
@@ -233,7 +233,7 @@ internal class AuthenticationPluginTest {
                 mockkObject(authentication)
                 httpClient.get(ANY_URL)
 
-                coVerify(exactly = 1) {
+                verify(exactly = 1) {
                     authentication.renewToken()
                 }
             }
@@ -252,7 +252,7 @@ internal class AuthenticationPluginTest {
                 mockkObject(authentication)
                 httpClient.get(ANY_URL)
 
-                coVerify(exactly = 0) {
+                verify(exactly = 0) {
                     authentication.renewToken()
                 }
             }
@@ -274,7 +274,7 @@ internal class AuthenticationPluginTest {
                     url(configs.authUrl)
                 }
 
-                coVerify(exactly = 0) {
+                verify(exactly = 0) {
                     authentication.renewToken()
                 }
             }
@@ -303,7 +303,7 @@ internal class AuthenticationPluginTest {
                 }
 
                 delay(1000)
-                coVerify(exactly = 1) {
+                verify(exactly = 1) {
                     authentication.renewToken()
                 }
             }
@@ -343,6 +343,31 @@ internal class AuthenticationPluginTest {
                 assertThat(signatureRequest.request.headers[HeaderKey.AUTHORIZATION]).isEqualTo(
                     "$EAN $SIGNATURE_VALUE"
                 )
+            }
+        }
+
+        @Test
+        fun `given two similar-auth instances then each functions independently`() {
+            runBlocking {
+                val firstClient = ClientFactory.createClient()
+                val firstHttpClient = firstClient.httpClient
+                val firstAuth = firstClient.authentication()
+                mockkObject(firstAuth)
+
+                val secondClient = ClientFactory.createClient()
+                val secondHttpClient = secondClient.httpClient
+                val secondAuth = secondClient.authentication()
+                mockkObject(secondAuth)
+
+                firstHttpClient.get(ANY_URL)
+                secondHttpClient.get(ANY_URL)
+
+                verify(exactly = 1) {
+                    firstAuth.renewToken()
+                }
+                verify(exactly = 1) {
+                    secondAuth.renewToken()
+                }
             }
         }
     }

@@ -16,6 +16,7 @@
 package com.expediagroup.sdk.core.plugin.authentication
 
 import com.expediagroup.sdk.core.client.Client
+import com.expediagroup.sdk.core.constant.Authentication.AUTHORIZATION_REQUEST_LOCK_DELAY
 import com.expediagroup.sdk.core.constant.HeaderKey
 import com.expediagroup.sdk.core.constant.LoggingMessage.TOKEN_EXPIRED
 import com.expediagroup.sdk.core.plugin.Hook
@@ -27,8 +28,6 @@ import io.ktor.client.plugins.plugin
 import io.ktor.client.request.HttpRequestBuilder
 import kotlinx.atomicfu.atomic
 import kotlinx.coroutines.delay
-
-internal const val AUTHORIZATION_REQUEST_LOCK_DELAY = 20L
 
 internal object AuthenticationHook : HookCreator<AuthenticationConfiguration> {
     override fun create(client: Client, configuration: AuthenticationConfiguration): Hook<AuthenticationConfiguration> {
