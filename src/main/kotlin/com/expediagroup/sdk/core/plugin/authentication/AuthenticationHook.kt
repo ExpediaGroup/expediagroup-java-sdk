@@ -21,7 +21,7 @@ import com.expediagroup.sdk.core.constant.HeaderKey
 import com.expediagroup.sdk.core.constant.LoggingMessage.TOKEN_EXPIRED
 import com.expediagroup.sdk.core.plugin.Hook
 import com.expediagroup.sdk.core.plugin.HookBuilder
-import com.expediagroup.sdk.core.plugin.HookCreator
+import com.expediagroup.sdk.core.plugin.HookFactory
 import com.expediagroup.sdk.core.plugin.logging.OpenWorldLoggerFactory
 import io.ktor.client.plugins.HttpSend
 import io.ktor.client.plugins.plugin
@@ -29,7 +29,7 @@ import io.ktor.client.request.HttpRequestBuilder
 import kotlinx.atomicfu.atomic
 import kotlinx.coroutines.delay
 
-internal object AuthenticationHook : HookCreator<AuthenticationConfiguration> {
+internal object AuthenticationHook : HookFactory<AuthenticationConfiguration> {
     override fun create(client: Client, configuration: AuthenticationConfiguration): Hook<AuthenticationConfiguration> {
         return Hook(configuration, AuthenticationHookBuilder(client))
     }
