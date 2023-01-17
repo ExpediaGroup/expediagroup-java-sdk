@@ -38,15 +38,15 @@ internal open class Hook<in C : PluginConfiguration>(
  * A singleton repository of all [Hook]s we need to apply on the [Client].
  */
 internal object Hooks {
-    private val hooksMap: MutableMap<Client, MutableList<Hook<*>>> = mutableMapOf()
+    private val clientsHooks: MutableMap<Client, MutableList<Hook<*>>> = mutableMapOf()
 
     fun <C : PluginConfiguration> add(client: Client, hook: Hook<C>) {
-        hooksMap.putIfAbsent(client, mutableListOf())
-        hooksMap[client]!! += hook
+        clientsHooks.putIfAbsent(client, mutableListOf())
+        clientsHooks[client]!! += hook
     }
 
     fun execute(client: Client) {
-        hooksMap[client]?.forEach { it.execute() }
+        clientsHooks[client]?.forEach { it.execute() }
     }
 }
 
