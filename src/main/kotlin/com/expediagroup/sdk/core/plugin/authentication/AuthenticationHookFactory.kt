@@ -29,7 +29,7 @@ import io.ktor.client.request.HttpRequestBuilder
 import kotlinx.atomicfu.atomic
 import kotlinx.coroutines.delay
 
-internal object AuthenticationHook : HookFactory<AuthenticationConfiguration> {
+internal object AuthenticationHookFactory : HookFactory<AuthenticationConfiguration> {
     override fun create(client: Client, configuration: AuthenticationConfiguration): Hook<AuthenticationConfiguration> {
         return Hook(configuration, AuthenticationHookBuilder(client))
     }

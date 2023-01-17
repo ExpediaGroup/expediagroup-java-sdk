@@ -23,7 +23,7 @@ import com.expediagroup.sdk.core.configuration.provider.FileSystemConfigurationP
 import com.expediagroup.sdk.core.configuration.toProvider
 import com.expediagroup.sdk.core.plugin.Hooks
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationConfiguration
-import com.expediagroup.sdk.core.plugin.authentication.AuthenticationHook
+import com.expediagroup.sdk.core.plugin.authentication.AuthenticationHookFactory
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationPlugin
 import com.expediagroup.sdk.core.plugin.authentication.strategy.AuthenticationStrategy.AuthenticationType
 import com.expediagroup.sdk.core.plugin.encoding.EncodingConfiguration
@@ -82,7 +82,7 @@ class Client private constructor(
             }
 
             hooks {
-                use(AuthenticationHook).with(authenticationConfiguration)
+                use(AuthenticationHookFactory).with(authenticationConfiguration)
             }
         }
 
