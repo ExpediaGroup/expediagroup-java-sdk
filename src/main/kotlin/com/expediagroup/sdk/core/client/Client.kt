@@ -64,19 +64,21 @@ class Client private constructor(
 
     init {
         httpClient = HttpClient(httpClientEngine) {
+            val httpClientConfig = this
+
             val authenticationConfiguration = AuthenticationConfiguration.from(
-                this,
+                httpClientConfig,
                 Credentials.from(configurationCollector.key, configurationCollector.secret),
                 configurationCollector.authEndpoint,
                 AuthenticationType.from(isRapid)
             )
 
             plugins {
-                use(LoggingPlugin).with(LoggingConfiguration.from(this@HttpClient))
-                use(SerializationPlugin).with(SerializationConfiguration.from(this@HttpClient))
+                use(LoggingPlugin).with(LoggingConfiguration.from(httpClientConfig))
+                use(SerializationPlugin).with(SerializationConfiguration.from(httpClientConfig))
                 use(AuthenticationPlugin).with(authenticationConfiguration)
-                use(DefaultRequestPlugin).with(DefaultRequestConfiguration.from(this@HttpClient, configurationCollector.endpoint))
-                use(EncodingPlugin).with(EncodingConfiguration.from(this@HttpClient))
+                use(DefaultRequestPlugin).with(DefaultRequestConfiguration.from(httpClientConfig, configurationCollector.endpoint))
+                use(EncodingPlugin).with(EncodingConfiguration.from(httpClientConfig))
             }
 
             hooks {
