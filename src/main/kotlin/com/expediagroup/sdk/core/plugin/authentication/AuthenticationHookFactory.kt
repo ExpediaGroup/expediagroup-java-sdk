@@ -38,7 +38,7 @@ internal object AuthenticationHookFactory : HookFactory<AuthenticationConfigurat
 private class AuthenticationHookBuilder(private val client: Client) : HookBuilder<AuthenticationConfiguration> {
     private val log = OpenWorldLoggerFactory.getLogger(javaClass)
     private val isLock = atomic(false)
-    private val auth = client.authentication()
+    private val auth = client.getAuthenticationStrategy()
 
     override fun build(configs: AuthenticationConfiguration) {
         val httpClient = client.httpClient

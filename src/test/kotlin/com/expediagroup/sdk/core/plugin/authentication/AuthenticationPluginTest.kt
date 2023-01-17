@@ -113,7 +113,7 @@ internal class AuthenticationPluginTest {
             runBlocking {
                 val client = ClientFactory.createRapidClient()
                 val httpClient = client.httpClient
-                val authentication = client.authentication()
+                val authentication = client.getAuthenticationStrategy()
 
                 mockkObject(authentication)
 
@@ -163,7 +163,7 @@ internal class AuthenticationPluginTest {
                     createUnauthorizedMockEngineWithStatusCode(httpStatusCode),
                     configuration
                 )
-                val authentication = client.authentication()
+                val authentication = client.getAuthenticationStrategy()
 
                 val exception = assertThrows<OpenWorldAuthException> {
                     authentication.renewToken()
@@ -188,7 +188,7 @@ internal class AuthenticationPluginTest {
 
                 val client =
                     ClientFactory.createClient(createTokenMockEngineWithStatusCode(httpStatusCode), configuration)
-                val authentication = client.authentication()
+                val authentication = client.getAuthenticationStrategy()
 
                 assertDoesNotThrow {
                     authentication.renewToken()
@@ -201,7 +201,7 @@ internal class AuthenticationPluginTest {
             runBlocking {
                 val client = ClientFactory.createClient()
                 val httpClient = client.httpClient
-                val authentication = client.authentication()
+                val authentication = client.getAuthenticationStrategy()
 
                 mockkObject(authentication)
 
@@ -228,7 +228,7 @@ internal class AuthenticationPluginTest {
                 val httpClient = client.httpClient
                 renewToken(client)
 
-                val authentication = client.authentication()
+                val authentication = client.getAuthenticationStrategy()
 
                 mockkObject(authentication)
                 httpClient.get(ANY_URL)
@@ -247,7 +247,7 @@ internal class AuthenticationPluginTest {
                 val httpClient = client.httpClient
                 renewToken(client)
 
-                val authentication = client.authentication()
+                val authentication = client.getAuthenticationStrategy()
 
                 mockkObject(authentication)
                 httpClient.get(ANY_URL)
@@ -264,7 +264,7 @@ internal class AuthenticationPluginTest {
                 val mockEngine = createMockEngineExpiresInPerCall(6, 1000)
                 val client = ClientFactory.createClient(mockEngine)
                 val httpClient = client.httpClient
-                val authentication = client.authentication()
+                val authentication = client.getAuthenticationStrategy()
 
                 mockkObject(authentication)
 
@@ -285,7 +285,7 @@ internal class AuthenticationPluginTest {
             runBlocking {
                 val client = ClientFactory.createClient()
                 val httpClient = client.httpClient
-                val authentication = client.authentication()
+                val authentication = client.getAuthenticationStrategy()
 
                 mockkObject(authentication)
 
@@ -310,7 +310,7 @@ internal class AuthenticationPluginTest {
         }
 
         private fun renewToken(client: Client) {
-            client.authentication().renewToken()
+            client.getAuthenticationStrategy().renewToken()
         }
 
         private fun getAuthenticationConfiguration() = AuthenticationConfiguration.from(
@@ -351,12 +351,12 @@ internal class AuthenticationPluginTest {
             runBlocking {
                 val firstClient = ClientFactory.createClient()
                 val firstHttpClient = firstClient.httpClient
-                val firstAuth = firstClient.authentication()
+                val firstAuth = firstClient.getAuthenticationStrategy()
                 mockkObject(firstAuth)
 
                 val secondClient = ClientFactory.createClient()
                 val secondHttpClient = secondClient.httpClient
-                val secondAuth = secondClient.authentication()
+                val secondAuth = secondClient.getAuthenticationStrategy()
                 mockkObject(secondAuth)
 
                 firstHttpClient.get(ANY_URL)
