@@ -41,6 +41,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.future.future
 import kotlin.streams.toList
+import java.util.UUID
 
 /**
 * {{{description}}}
@@ -57,8 +58,9 @@ open class {{classname}}(clientConfiguration: {{#isRapid}}Rapid{{/isRapid}}Clien
         return path.slice(1 until path.length)
     }
 
-    private fun HttpRequestBuilder.appendHeaders() {
+    private fun HttpRequestBuilder.appendHeaders(transactionId: UUID) {
         headers.append("x-sdk-title", loader.data()["sdk-title"]!!)
+        headers.append("transaction-id", transactionId.toString())
         headers.append("User-agent", userAgent)
     }
 
@@ -67,7 +69,7 @@ open class {{classname}}(clientConfiguration: {{#isRapid}}Rapid{{/isRapid}}Clien
         val response = client.httpClient.request {
             method = HttpMethod.parse("{{httpMethod}}")
             url(removeLeadingSlash("{{path}}"){{#pathParams}}.replace("{" + "{{baseName}}" + "}", {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}"${{{paramName}}}"{{/isContainer}}){{/pathParams}})
-            appendHeaders()
+            appendHeaders(transactionId)
 
         {{#headerParams}}
             {{paramName}}{{^required}}?{{/required}}.also{ headers.append("{{baseName}}", it) }
