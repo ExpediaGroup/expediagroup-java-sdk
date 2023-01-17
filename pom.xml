@@ -7,7 +7,7 @@
     <artifactId>openworld-java-sdk-core</artifactId>
     <name>EG Open World SDK :: Core</name>
     <description>Core Modules of EG Travel SDK</description>
-    <version>0.6.0</version>
+    <version>0.7.1</version>
     <inceptionYear>2022</inceptionYear>
     <url>https://github.com/ExpediaGroup/openworld-sdk-java-core</url>
 
