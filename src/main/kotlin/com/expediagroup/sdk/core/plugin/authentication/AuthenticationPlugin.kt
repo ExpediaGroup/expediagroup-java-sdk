@@ -22,15 +22,15 @@ import io.ktor.client.plugins.auth.Auth
 import kotlin.collections.set
 
 internal object AuthenticationPlugin : Plugin<AuthenticationConfiguration> {
-    val authenticationStrategiesMap = mutableMapOf<Client, AuthenticationStrategy>()
+    val clientAuthenticationStrategies = mutableMapOf<Client, AuthenticationStrategy>()
 
     override fun install(client: Client, configurations: AuthenticationConfiguration) {
         val strategy = AuthenticationStrategy.from({ client.httpClient }, configurations)
-        authenticationStrategiesMap[client] = strategy
+        clientAuthenticationStrategies[client] = strategy
         configurations.httpClientConfiguration.install(Auth) {
             strategy.loadAuth(this)
         }
     }
 }
 
-internal fun Client.authentication(): AuthenticationStrategy = AuthenticationPlugin.authenticationStrategiesMap[this]!!
+internal fun Client.authentication(): AuthenticationStrategy = AuthenticationPlugin.clientAuthenticationStrategies[this]!!
