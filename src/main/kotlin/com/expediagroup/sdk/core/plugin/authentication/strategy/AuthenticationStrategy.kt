@@ -36,7 +36,7 @@ internal interface AuthenticationStrategy {
     fun getAuthorizationHeader(): String
 
     companion object {
-        fun from(httpClientProvider: () -> HttpClient, configs: AuthenticationConfiguration): AuthenticationStrategy =
+        fun from(configs: AuthenticationConfiguration, httpClientProvider: () -> HttpClient): AuthenticationStrategy =
             when (configs.authType) {
                 BEARER -> BearerStrategy(httpClientProvider, configs)
                 SIGNATURE -> SignatureStrategy(configs)
