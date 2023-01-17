@@ -16,26 +16,22 @@
 package com.expediagroup.sdk.core.plugin.authentication
 
 import com.expediagroup.sdk.core.plugin.Plugin
-import com.expediagroup.sdk.core.plugin.authentication.strategy.AuthenticationStrategy
+import com.expediagroup.sdk.core.plugin.authentication.strategy.bearer.BearerStrategy
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.auth.Auth
 import io.ktor.client.request.HttpRequestBuilder
 
 internal object AuthenticationPlugin : Plugin<AuthenticationConfiguration> {
-    @Suppress("LateinitUsage")
-    private lateinit var strategy: AuthenticationStrategy
-
     override fun install(configurations: AuthenticationConfiguration) {
-        strategy = AuthenticationStrategy.from(configurations.authType)
         configurations.httpClientConfiguration.install(Auth) {
-            strategy.loadAuth(configurations, this)
+            BearerStrategy.loadAuth(configurations, this)
         }
     }
 
-    fun isNotIdentityRequest(request: HttpRequestBuilder, configs: AuthenticationConfiguration): Boolean = strategy.isNotIdentityRequest(request, configs)
+    fun isNotIdentityRequest(request: HttpRequestBuilder, configs: AuthenticationConfiguration): Boolean = BearerStrategy.isNotIdentityRequest(request, configs)
 
-    suspend fun renewToken(client: HttpClient, configs: AuthenticationConfiguration) = strategy.renewToken(client, configs)
+    suspend fun renewToken(client: HttpClient, configs: AuthenticationConfiguration) = BearerStrategy.renewToken(client, configs)
 
-    fun isTokenAboutToExpire(): Boolean = strategy.isTokenAboutToExpire()
-    fun getAuthorizationHeader(): String = strategy.getAuthorizationHeader()
+    fun isTokenAboutToExpire(): Boolean = BearerStrategy.isTokenAboutToExpire()
+    fun getAuthorizationHeader(): String = BearerStrategy.getAuthorizationHeader()
 }
