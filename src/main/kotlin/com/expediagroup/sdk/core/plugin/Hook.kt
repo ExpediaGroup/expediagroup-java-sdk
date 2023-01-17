@@ -41,8 +41,7 @@ internal object Hooks {
     private val clientsHooks: MutableMap<Client, MutableList<Hook<*>>> = mutableMapOf()
 
     fun <C : PluginConfiguration> add(client: Client, hook: Hook<C>) {
-        clientsHooks.putIfAbsent(client, mutableListOf())
-        clientsHooks[client]!! += hook
+        clientsHooks.getOrPut(client) { mutableListOf() } += hook
     }
 
     fun execute(client: Client) {
