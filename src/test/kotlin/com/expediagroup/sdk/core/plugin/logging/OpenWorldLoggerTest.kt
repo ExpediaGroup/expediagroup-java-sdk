@@ -16,6 +16,7 @@
 package com.expediagroup.sdk.core.plugin.logging
 
 import com.expediagroup.sdk.core.constant.LoggingMessage.LOGGING_PREFIX
+import com.expediagroup.sdk.core.constant.LoggingMessage.OMITTED
 import io.mockk.every
 import io.mockk.mockkClass
 import io.mockk.verify
@@ -67,7 +68,7 @@ class OpenWorldLoggerTest {
                         -> Accept: application/json
                         -> Accept-Charset: UTF-8
                         -> Accept-Encoding: gzip
-                        -> Authorization: Basic <-- omitted -->
+                        -> Authorization: Basic $OMITTED
                         CONTENT HEADERS
                         -> Content-Length: 0
                         BODY Content-Type: null
