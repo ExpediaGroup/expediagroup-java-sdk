@@ -22,5 +22,7 @@ internal object Authentication {
 
     const val EAN = "EAN"
 
+    const val BASIC = "Basic"
+
     const val BEARER = "Bearer"
 }
