@@ -56,7 +56,7 @@ internal class EncodingPluginTest {
     fun `can process content-encoding=gzip responses properly`() {
         runBlocking {
             val mockEngine = createGzipMockEngine()
-            val httpClient = ClientFactory.createClient(mockEngine).httpClient
+            val httpClient = ClientFactory.createRapidClient(mockEngine).httpClient
             val testRequest = httpClient.get(ANY_URL)
 
             Assertions.assertThat(testRequest.body<String>()).isEqualTo(

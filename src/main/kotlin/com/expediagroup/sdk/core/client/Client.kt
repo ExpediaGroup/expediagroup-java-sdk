@@ -23,7 +23,7 @@ import com.expediagroup.sdk.core.configuration.provider.FileSystemConfigurationP
 import com.expediagroup.sdk.core.configuration.toProvider
 import com.expediagroup.sdk.core.plugin.Hooks
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationConfiguration
-import com.expediagroup.sdk.core.plugin.authentication.AuthenticationHook
+import com.expediagroup.sdk.core.plugin.authentication.AuthenticationHookFactory
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationPlugin
 import com.expediagroup.sdk.core.plugin.authentication.strategy.AuthenticationStrategy.AuthenticationType
 import com.expediagroup.sdk.core.plugin.encoding.EncodingConfiguration
@@ -36,8 +36,6 @@ import com.expediagroup.sdk.core.plugin.request.DefaultRequestConfiguration
 import com.expediagroup.sdk.core.plugin.request.DefaultRequestPlugin
 import com.expediagroup.sdk.core.plugin.serialization.SerializationConfiguration
 import com.expediagroup.sdk.core.plugin.serialization.SerializationPlugin
-import com.expediagroup.sdk.core.plugin.use
-import com.expediagroup.sdk.core.plugin.with
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 
@@ -66,23 +64,25 @@ class Client private constructor(
 
     init {
         httpClient = HttpClient(httpClientEngine) {
+            val httpClientConfig = this
+
             val authenticationConfiguration = AuthenticationConfiguration.from(
-                this,
+                httpClientConfig,
                 Credentials.from(configurationCollector.key, configurationCollector.secret),
                 configurationCollector.authEndpoint,
                 AuthenticationType.from(isRapid)
             )
 
             plugins {
-                use(LoggingPlugin).with(LoggingConfiguration.from(this))
-                use(SerializationPlugin).with(SerializationConfiguration.from(this))
+                use(LoggingPlugin).with(LoggingConfiguration.from(httpClientConfig))
+                use(SerializationPlugin).with(SerializationConfiguration.from(httpClientConfig))
                 use(AuthenticationPlugin).with(authenticationConfiguration)
-                use(DefaultRequestPlugin).with(DefaultRequestConfiguration.from(this, configurationCollector.endpoint))
-                use(EncodingPlugin).with(EncodingConfiguration.from(this))
+                use(DefaultRequestPlugin).with(DefaultRequestConfiguration.from(httpClientConfig, configurationCollector.endpoint))
+                use(EncodingPlugin).with(EncodingConfiguration.from(httpClientConfig))
             }
 
             hooks {
-                use(AuthenticationHook.with(authenticationConfiguration))
+                use(AuthenticationHookFactory).with(authenticationConfiguration)
             }
         }
 

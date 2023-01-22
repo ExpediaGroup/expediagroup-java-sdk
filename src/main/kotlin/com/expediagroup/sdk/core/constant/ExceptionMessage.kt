@@ -19,4 +19,6 @@ internal object ExceptionMessage {
     const val AUTHENTICATION_FAILURE = "Unable to authenticate"
 
     const val NOT_YET_IMPLEMENTED = "Not yet implemented"
+
+    const val AUTHENTICATION_NOT_CONFIGURED_FOR_CLIENT = "Authentication is not configured"
 }
