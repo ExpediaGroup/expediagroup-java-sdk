@@ -16,6 +16,7 @@
 package com.expediagroup.sdk.core.plugin.logging
 
 import com.expediagroup.sdk.core.constant.LoggingMessage.LOGGING_PREFIX
+import com.expediagroup.sdk.core.constant.LoggingMessage.OMITTED
 import io.mockk.every
 import io.mockk.mockkClass
 import io.mockk.verify
@@ -43,6 +44,36 @@ class OpenWorldLoggerTest {
         openWorldLogger.warn(message)
 
         verify(exactly = 1) { mockedLogger.warn("$LOGGING_PREFIX $message") }
+    }
+
+    @Test
+    fun `should mask authorization fields`() {
+        val mockedLogger = createMockedLogger()
+        val openWorldLogger = OpenWorldLogger(mockedLogger)
+
+        val message = """METHOD: HttpMethod(value=POST)
+                        COMMON HEADERS
+                        -> Accept: application/json
+                        -> Accept-Charset: UTF-8
+                        -> Accept-Encoding: gzip
+                        -> Authorization: Basic N2E1MGI3ZDQtZjFkMi00NGMyLThiZTgtMWQ2MjIwY2I3MGI2OlZmMH1mc2pQaHVmYTJveFlDZXlhc35Qa2ZmOUpwe0xQ
+                        CONTENT HEADERS
+                        -> Content-Length: 0
+                        BODY Content-Type: null
+                        BODY START"""
+        openWorldLogger.info(message)
+
+        val expectedLog = """$LOGGING_PREFIX METHOD: HttpMethod(value=POST)
+                        COMMON HEADERS
+                        -> Accept: application/json
+                        -> Accept-Charset: UTF-8
+                        -> Accept-Encoding: gzip
+                        -> Authorization: Basic $OMITTED
+                        CONTENT HEADERS
+                        -> Content-Length: 0
+                        BODY Content-Type: null
+                        BODY START"""
+        verify(exactly = 1) { mockedLogger.info(expectedLog) }
     }
 
     private fun createMockedLogger(): Logger {
