@@ -47,12 +47,28 @@ import java.util.UUID
 * {{{description}}}
 */
 {{#operations}}
-open class {{classname}}(clientConfiguration: {{#isRapid}}Rapid{{/isRapid}}ClientConfiguration = {{#isRapid}}Rapid{{/isRapid}}ClientConfiguration.EMPTY) : {{#isRapid}}RapidOpenApiStub{{/isRapid}}{{^isRapid}}OpenApiStub{{/isRapid}}(clientConfiguration) {
+open class {{classname}} : {{#isRapid}}Rapid{{/isRapid}}OpenApiStub {
     private val loader = FileConfigurationProvider()[javaClass.classLoader.getResource("sdk.properties")!!]
     private val javaVersion = System.getProperty("java.version")
     private val operatingSystemName = System.getProperty("os.name")
     private val operatingSystemVersion = System.getProperty("os.version")
     private val userAgent = "open-world-sdk-{{#isKotlin}}kotlin{{/isKotlin}}{{^isKotlin}}java{{/isKotlin}}-{{namespace}}/${loader.data()["sdk-version"]!!} (Java $javaVersion; $operatingSystemName $operatingSystemVersion)"
+
+    @Deprecated("The constructor for '{{classname}}' has been deprecated. Use '{{classname}}.builder()' instead.")
+    constructor(clientConfiguration: {{#isRapid}}Rapid{{/isRapid}}ClientConfiguration = {{#isRapid}}Rapid{{/isRapid}}ClientConfiguration.EMPTY) : super(clientConfiguration)
+
+    companion object {
+        @JvmStatic fun builder() = {{classname}}Builder.builder()
+    }
+
+    class {{classname}}Builder internal constructor() {
+        companion object {
+            fun builder() = {{classname}}Builder()
+        }
+
+        fun defaultClient() = {{classname}}()
+        fun withConfiguration(clientConfiguration: {{#isRapid}}Rapid{{/isRapid}}ClientConfiguration) = {{classname}}(clientConfiguration)
+    }
 
     private fun removeLeadingSlash(path: String): String {
         return path.slice(1 until path.length)
