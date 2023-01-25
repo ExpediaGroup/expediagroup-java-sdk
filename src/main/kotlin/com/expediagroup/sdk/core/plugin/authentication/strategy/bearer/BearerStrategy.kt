@@ -40,39 +40,47 @@ import io.ktor.client.request.request
 import io.ktor.client.request.url
 import io.ktor.http.HttpMethod
 import io.ktor.http.Parameters
+import kotlinx.coroutines.runBlocking
 
-internal object BearerStrategy : AuthenticationStrategy {
+internal class BearerStrategy(
+    private val httpClientProvider: () -> HttpClient,
+    private val configs: AuthenticationConfiguration
+) :
+    AuthenticationStrategy {
     private val log = OpenWorldLoggerFactory.getLogger(javaClass)
     private var bearerTokenStorage = BearerTokensInfo.emptyBearerTokenInfo
     private val loadTokensBlock: () -> BearerTokens = {
         getTokens()
     }
 
-    override fun loadAuth(configurations: AuthenticationConfiguration, auth: Auth) {
+    override fun loadAuth(auth: Auth) {
         auth.bearer {
             loadTokens(loadTokensBlock)
 
             sendWithoutRequest { request ->
-                isNotIdentityRequest(request, configurations)
+                isNotIdentityRequest(request)
             }
         }
     }
 
     override fun isTokenAboutToExpire() = bearerTokenStorage.isAboutToExpire()
 
-    override suspend fun renewToken(client: HttpClient, configs: AuthenticationConfiguration) {
+    override fun renewToken() {
+        val httpClient = httpClientProvider()
         log.info(LoggingMessage.TOKEN_RENEWAL_IN_PROCESS)
-        clearTokens(client)
-        val renewTokenResponse = client.request {
-            method = HttpMethod.Post
-            url(configs.authUrl)
-            buildTokenRequest()
-            basicAuth(configs.credentials)
+        clearTokens(httpClient)
+        val renewTokenResponse = runBlocking {
+            httpClient.request {
+                method = HttpMethod.Post
+                url(configs.authUrl)
+                buildTokenRequest()
+                basicAuth(configs.credentials)
+            }
         }
         if (renewTokenResponse.status.value !in Constant.SUCCESSFUL_STATUS_CODES_RANGE) {
             throw OpenWorldAuthException(renewTokenResponse.status, ExceptionMessage.AUTHENTICATION_FAILURE)
         }
-        val renewedTokenInfo: TokenResponse = renewTokenResponse.body()
+        val renewedTokenInfo: TokenResponse = runBlocking { renewTokenResponse.body() }
         log.info(LoggingMessage.TOKEN_RENEWAL_SUCCESSFUL)
         log.info(LoggingMessageProvider.getTokenExpiresInMessage(renewedTokenInfo.expiresIn))
         bearerTokenStorage = BearerTokensInfo(
@@ -98,10 +106,8 @@ internal object BearerStrategy : AuthenticationStrategy {
         )
     }
 
-    override fun isNotIdentityRequest(
-        request: HttpRequestBuilder,
-        configs: AuthenticationConfiguration
-    ): Boolean = request.url.buildString() != configs.authUrl
+    override fun isNotIdentityRequest(request: HttpRequestBuilder): Boolean =
+        request.url.buildString() != configs.authUrl
 
     override fun getAuthorizationHeader() = "${Authentication.BEARER} ${getTokens().accessToken}"
 

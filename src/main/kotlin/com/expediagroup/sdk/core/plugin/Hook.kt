@@ -21,16 +21,7 @@ import com.expediagroup.sdk.core.client.Client
  * A helper to build a hook.
  */
 internal interface HookBuilder<in C : PluginConfiguration> {
-    fun build(client: Client, configs: C)
-}
-
-/**
- * A helper to build Hook configs.
- *
- * Ideally, it should be implemented by a companion object in a Hook class.
- */
-internal interface HookConfigsBuilder<in C : PluginConfiguration, out H : Hook<C>> {
-    fun with(configuration: C): H
+    fun build(configs: C)
 }
 
 /**
@@ -40,30 +31,41 @@ internal open class Hook<in C : PluginConfiguration>(
     private val configuration: C,
     private val builder: HookBuilder<C>
 ) {
-    fun execute(client: Client) = builder.build(client, configuration)
+    fun execute() = builder.build(configuration)
 }
 
 /**
  * A singleton repository of all [Hook]s we need to apply on the [Client].
  */
 internal object Hooks {
-    private var hooksCollection: MutableList<Hook<*>> = mutableListOf()
+    private val clientsHooks: MutableMap<Client, MutableList<Hook<*>>> = mutableMapOf()
 
-    fun <C : PluginConfiguration> add(hook: Hook<C>) {
-        hooksCollection += hook
+    fun <C : PluginConfiguration> add(client: Client, hook: Hook<C>) {
+        clientsHooks.getOrPut(client) { mutableListOf() } += hook
     }
 
     fun execute(client: Client) {
-        hooksCollection.forEach { it.execute(client) }
+        clientsHooks[client]?.forEach { it.execute() }
     }
 }
 
 /**
  * Provide an idiomatic scope to define hooks.
  */
-internal fun hooks(block: () -> Unit) = block()
+internal fun Client.hooks(block: HookContext.() -> Unit) = block(HookContext(this))
 
-/**
- * Provides an idiomatic way of defining a hook.
- */
-internal fun <C : PluginConfiguration> use(hook: Hook<C>) = Hooks.add(hook)
+internal class HookContext(private val client: Client) {
+    /**
+     * Provides an idiomatic way of defining a hook.
+     */
+    internal fun <C : PluginConfiguration> use(hookFactory: HookFactory<C>) = hookFactory
+
+    /**
+     * Provides an idiomatic way of configuring a hook.
+     */
+    internal fun <C : PluginConfiguration> HookFactory<C>.with(config: C) = Hooks.add(client, create(client, config))
+}
+
+internal interface HookFactory<C : PluginConfiguration> {
+    fun create(client: Client, configuration: C): Hook<C>
+}

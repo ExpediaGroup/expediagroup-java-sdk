@@ -19,20 +19,20 @@ import com.expediagroup.sdk.core.constant.Authentication
 import com.expediagroup.sdk.core.constant.Constant
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationConfiguration
 import com.expediagroup.sdk.core.plugin.authentication.strategy.AuthenticationStrategy
-import io.ktor.client.HttpClient
 import io.ktor.client.request.HttpRequestBuilder
 import java.time.Instant
 
-internal object SignatureStrategy : AuthenticationStrategy {
+internal class SignatureStrategy(private val configs: AuthenticationConfiguration) :
+    AuthenticationStrategy {
     private var signature: String = Constant.EMPTY_STRING
     override fun isTokenAboutToExpire(): Boolean = true
 
-    override suspend fun renewToken(client: HttpClient, configs: AuthenticationConfiguration) {
+    override fun renewToken() {
         val credentials = configs.credentials
         signature = calculateSignature(credentials.key, credentials.secret, Instant.now().epochSecond)
     }
 
-    override fun isNotIdentityRequest(request: HttpRequestBuilder, configs: AuthenticationConfiguration) = true
+    override fun isNotIdentityRequest(request: HttpRequestBuilder) = true
 
     override fun getAuthorizationHeader() = createAuthorizationHeader(signature)
 

@@ -27,4 +27,6 @@ internal object LoggingMessage {
     const val TOKEN_CLEARING_SUCCESSFUL = "Tokens successfully cleared"
 
     const val TOKEN_EXPIRED = "Token expired or is about to expire. Request will wait until token is renewed"
+
+    const val OMITTED = "<-- omitted -->"
 }

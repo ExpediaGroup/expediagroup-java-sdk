@@ -15,6 +15,7 @@
  */
 package com.expediagroup.sdk.core.plugin.serialization
 
+import com.expediagroup.sdk.core.client.Client
 import com.expediagroup.sdk.core.plugin.Plugin
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.PropertyNamingStrategies
@@ -23,7 +24,7 @@ import io.ktor.serialization.jackson.jackson
 import java.text.SimpleDateFormat
 
 internal object SerializationPlugin : Plugin<SerializationConfiguration> {
-    override fun install(configurations: SerializationConfiguration) {
+    override fun install(client: Client, configurations: SerializationConfiguration) {
         configurations.httpClientConfiguration.install(ContentNegotiation) {
             jackson {
                 enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS)
