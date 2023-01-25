@@ -55,19 +55,25 @@ open class {{classname}} : {{#isRapid}}Rapid{{/isRapid}}OpenApiStub {
     private val userAgent = "open-world-sdk-{{#isKotlin}}kotlin{{/isKotlin}}{{^isKotlin}}java{{/isKotlin}}-{{namespace}}/${loader.data()["sdk-version"]!!} (Java $javaVersion; $operatingSystemName $operatingSystemVersion)"
 
     @Deprecated("The constructor for '{{classname}}' has been deprecated. Use '{{classname}}.builder()' instead.")
-    constructor(clientConfiguration: {{#isRapid}}Rapid{{/isRapid}}ClientConfiguration = {{#isRapid}}Rapid{{/isRapid}}ClientConfiguration.EMPTY) : super(clientConfiguration)
+    constructor(clientConfiguration: {{#isRapid}}Rapid{{/isRapid}}ClientConfiguration) : super(clientConfiguration)
 
     companion object {
         @JvmStatic fun builder() = {{classname}}Builder.builder()
     }
 
     class {{classname}}Builder internal constructor() {
+        private var clientConfiguration: {{#isRapid}}Rapid{{/isRapid}}ClientConfiguration = {{#isRapid}}Rapid{{/isRapid}}ClientConfiguration.EMPTY
+
         companion object {
             fun builder() = {{classname}}Builder()
         }
 
-        fun defaultClient() = {{classname}}()
-        fun withConfiguration(clientConfiguration: {{#isRapid}}Rapid{{/isRapid}}ClientConfiguration) = {{classname}}(clientConfiguration)
+        fun withConfiguration(clientConfiguration: {{#isRapid}}Rapid{{/isRapid}}ClientConfiguration): {{classname}}Builder {
+            this.clientConfiguration = clientConfiguration
+            return this
+        }
+
+        fun build() : {{classname}} = {{classname}}(clientConfiguration)
     }
 
     private fun removeLeadingSlash(path: String): String {
