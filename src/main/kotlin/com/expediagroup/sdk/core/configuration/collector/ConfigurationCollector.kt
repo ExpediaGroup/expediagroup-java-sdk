@@ -52,12 +52,12 @@ internal class ConfigurationCollector private constructor(providers: Configurati
         fun create(vararg providers: ConfigurationProvider): ConfigurationCollector = create(ConfigurationProviderQueue.from(providers.asList()))
     }
 
-    override val key: String by lazy { providers.firstOf { provider -> provider.key.also { log(provider, KEY) } } }
-    override val secret: String by lazy { providers.firstOf { provider -> provider.secret.also { log(provider, SECRET) } } }
-    override val endpoint: String by lazy { providers.firstOf { provider -> provider.endpoint.also { log(provider, ENDPOINT) } } }
-    override val authEndpoint: String by lazy { providers.firstOf { provider -> provider.authEndpoint.also { log(provider, AUTH_ENDPOINT) } } }
+    override val key: String by lazy { providers.firstWith { it.key }.also { it.log(KEY) }.retrieve() }
+    override val secret: String by lazy { providers.firstWith { it.secret }.also { it.log(SECRET) }.retrieve() }
+    override val endpoint: String by lazy { providers.firstWith { it.endpoint }.also { it.log(ENDPOINT) }.retrieve() }
+    override val authEndpoint: String by lazy { providers.firstWith { it.authEndpoint }.also { it.log(AUTH_ENDPOINT) }.retrieve() }
 
-    private fun log(provider: ConfigurationProvider, configurationName: String) {
-        log.info(LoggingMessageProvider.getChosenProviderMessage(configurationName, provider.name))
+    private fun <T> ProvidedConfiguration<T>.log(configurationName: String) {
+        log.info(LoggingMessageProvider.getChosenProviderMessage(configurationName, providerName))
     }
 }
