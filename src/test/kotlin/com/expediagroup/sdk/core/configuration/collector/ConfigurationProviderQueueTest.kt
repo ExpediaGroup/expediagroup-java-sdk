@@ -28,10 +28,10 @@ internal class ConfigurationProviderQueueTest {
     @Test
     fun `test a provider queue with only a default provider`() {
         val configurationProviderQueue = ConfigurationProviderQueue.from(listOf(DefaultConfigurationProvider))
-        assertEquals(ProvidedConfiguration(EMPTY_STRING, DefaultConfigurationProvider.name), configurationProviderQueue.firstOf { it.key })
-        assertEquals(ProvidedConfiguration(EMPTY_STRING, DefaultConfigurationProvider.name), configurationProviderQueue.firstOf { it.secret })
-        assertEquals(ProvidedConfiguration(DefaultConfigurationProvider.endpoint, DefaultConfigurationProvider.name), configurationProviderQueue.firstOf { it.endpoint })
-        assertEquals(ProvidedConfiguration(DefaultConfigurationProvider.authEndpoint, DefaultConfigurationProvider.name), configurationProviderQueue.firstOf { it.authEndpoint })
+        assertEquals(ProvidedConfiguration(EMPTY_STRING, DefaultConfigurationProvider.name), configurationProviderQueue.firstWith { it.key })
+        assertEquals(ProvidedConfiguration(EMPTY_STRING, DefaultConfigurationProvider.name), configurationProviderQueue.firstWith { it.secret })
+        assertEquals(ProvidedConfiguration(DefaultConfigurationProvider.endpoint, DefaultConfigurationProvider.name), configurationProviderQueue.firstWith { it.endpoint })
+        assertEquals(ProvidedConfiguration(DefaultConfigurationProvider.authEndpoint, DefaultConfigurationProvider.name), configurationProviderQueue.firstWith { it.authEndpoint })
     }
 
     @Test
@@ -50,9 +50,9 @@ internal class ConfigurationProviderQueueTest {
         assertEquals(runtimeConfigurationProvider, configurationProviderQueue.first { it.key != null })
         assertEquals(runtimeConfigurationProvider, configurationProviderQueue.first { it.key != EMPTY_STRING })
 
-        assertEquals(ProvidedConfiguration(CLIENT_KEY_TEST_CREDENTIAL, runtimeConfigurationProvider.name), configurationProviderQueue.firstOf { it.key })
-        assertEquals(ProvidedConfiguration(CLIENT_SECRET_TEST_CREDENTIAL, runtimeConfigurationProvider.name), configurationProviderQueue.firstOf { it.secret })
-        assertEquals(ProvidedConfiguration(DefaultConfigurationProvider.endpoint, runtimeConfigurationProvider.name), configurationProviderQueue.firstOf { it.endpoint })
-        assertEquals(ProvidedConfiguration(DefaultConfigurationProvider.authEndpoint, runtimeConfigurationProvider.name), configurationProviderQueue.firstOf { it.authEndpoint })
+        assertEquals(ProvidedConfiguration(CLIENT_KEY_TEST_CREDENTIAL, runtimeConfigurationProvider.name), configurationProviderQueue.firstWith { it.key })
+        assertEquals(ProvidedConfiguration(CLIENT_SECRET_TEST_CREDENTIAL, runtimeConfigurationProvider.name), configurationProviderQueue.firstWith { it.secret })
+        assertEquals(ProvidedConfiguration(DefaultConfigurationProvider.endpoint, runtimeConfigurationProvider.name), configurationProviderQueue.firstWith { it.endpoint })
+        assertEquals(ProvidedConfiguration(DefaultConfigurationProvider.authEndpoint, runtimeConfigurationProvider.name), configurationProviderQueue.firstWith { it.authEndpoint })
     }
 }

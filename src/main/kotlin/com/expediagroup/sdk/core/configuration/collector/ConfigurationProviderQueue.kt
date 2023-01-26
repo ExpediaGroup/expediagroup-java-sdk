@@ -34,7 +34,7 @@ internal class ConfigurationProviderQueue private constructor(private val provid
      *
      * @throws NullPointerException if an instance of the given type [T] is not found in all providers.
      */
-    fun <T> firstOf(
+    fun <T> firstWith(
         predicate: (provider: ConfigurationProvider) -> T?
     ): ProvidedConfiguration<T> = first { predicate(it) != null }!!.let { ProvidedConfiguration(predicate(it)!!, it.name) }
 
@@ -48,4 +48,6 @@ internal class ConfigurationProviderQueue private constructor(private val provid
     }
 }
 
-internal data class ProvidedConfiguration<T>(val configuration: T, val providerName: String)
+internal data class ProvidedConfiguration<T>(private val configuration: T, val providerName: String) {
+    fun retrieve(): T = configuration
+}
