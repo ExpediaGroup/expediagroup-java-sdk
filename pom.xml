@@ -101,7 +101,7 @@
         <assertj.version>3.24.2</assertj.version>
         <junit5.version>5.9.2</junit5.version>
         <mockk.version>1.13.3</mockk.version>
-        <mockito.version>5.0.0</mockito.version>
+        <mockito.version>5.1.0</mockito.version>
         <slf4j.version>2.0.6</slf4j.version>
         <log4j.version>2.19.0</log4j.version>
 
