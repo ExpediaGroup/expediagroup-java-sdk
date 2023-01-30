@@ -55,8 +55,11 @@
         <kotlin.version>1.8.0</kotlin.version>
         <dokka-plugin.version>1.7.20</dokka-plugin.version>
 
+        <shadePrefix>com.expediagroup.openworld.sdk.dependencies</shadePrefix>
+
         <build-helper-maven-plugin.version>3.3.0</build-helper-maven-plugin.version>
         <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
+        <maven-shade-plugin.version>3.4.1</maven-shade-plugin.version>
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
         <maven-surefire-plugin.version>3.0.0-M7</maven-surefire-plugin.version>
         <maven.gpg.plugin.version>3.0.1</maven.gpg.plugin.version>
@@ -232,6 +235,78 @@
                         <goals>
                             <goal>test-jar-no-fork</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>${maven-shade-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <useDependencyReducedPomInJar>true</useDependencyReducedPomInJar>
+                            <promoteTransitiveDependencies>true</promoteTransitiveDependencies>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                            </transformers>
+
+                            <artifactSet>
+                                <excludes>
+                                    <exclude>org.jetbrains.kotlin:*</exclude>
+                                    <exclude>org.jetbrains.kotlinx:*</exclude>
+                                    <exclude>org.slf4j:slf4j-api</exclude>
+                                </excludes>
+                            </artifactSet>
+
+                            <relocations>
+
+                                <relocation>
+                                    <pattern>org</pattern>
+                                    <shadedPattern>${shadePrefix}.org</shadedPattern>
+                                    <!-- Don't relocate shared component APIs -->
+                                    <excludes>
+                                        <exclude>org.slf4j.*</exclude>
+                                    </excludes>
+                                </relocation>
+
+                                <!-- Temp fix for the SDK Core path -->
+                                <relocation>
+                                    <pattern>com.expediagroup.sdk.core</pattern>
+                                    <shadedPattern>com.expediagroup.openworld.sdk.core</shadedPattern>
+                                </relocation>
+
+                                <!-- Everything else gets relocated -->
+                                <relocation>
+                                    <pattern>io</pattern>
+                                    <shadedPattern>${shadePrefix}.io</shadedPattern>
+                                </relocation>
+
+                                <relocation>
+                                    <pattern>okio</pattern>
+                                    <shadedPattern>${shadePrefix}.okio</shadedPattern>
+                                </relocation>
+
+                                <relocation>
+                                    <pattern>okhttp</pattern>
+                                    <shadedPattern>${shadePrefix}.okhttp</shadedPattern>
+                                </relocation>
+
+                                <relocation>
+                                    <pattern>jakarta</pattern>
+                                    <shadedPattern>${shadePrefix}.jakarta</shadedPattern>
+                                </relocation>
+
+                                <relocation>
+                                    <pattern>com.fasterxml</pattern>
+                                    <shadedPattern>${shadePrefix}.com.fasterxml</shadedPattern>
+                                </relocation>
+                            </relocations>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
