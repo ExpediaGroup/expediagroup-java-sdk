@@ -65,7 +65,7 @@ open class {{classname}} : {{#isRapid}}Rapid{{/isRapid}}OpenApiStub {
         private var clientConfiguration: {{#isRapid}}Rapid{{/isRapid}}ClientConfiguration = {{#isRapid}}Rapid{{/isRapid}}ClientConfiguration.EMPTY
 
         companion object {
-            fun builder() = {{classname}}Builder()
+            @JvmStatic fun builder() = {{classname}}Builder()
         }
 
         fun withConfiguration(clientConfiguration: {{#isRapid}}Rapid{{/isRapid}}ClientConfiguration): {{classname}}Builder {
