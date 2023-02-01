@@ -24,18 +24,15 @@ import com.expediagroup.sdk.core.commons.TestConstants.ACCESS_TOKEN
 import com.expediagroup.sdk.core.commons.TestConstants.ANY_URL
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_KEY_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.commons.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
-import com.expediagroup.sdk.core.commons.TestConstants.SIGNATURE_VALUE
 import com.expediagroup.sdk.core.configuration.ClientConfiguration
 import com.expediagroup.sdk.core.configuration.Credentials
 import com.expediagroup.sdk.core.configuration.provider.DefaultConfigurationProvider
 import com.expediagroup.sdk.core.constant.Authentication.BEARER
-import com.expediagroup.sdk.core.constant.Authentication.EAN
 import com.expediagroup.sdk.core.constant.ExceptionMessage
 import com.expediagroup.sdk.core.constant.HeaderKey
 import com.expediagroup.sdk.core.model.exception.service.OpenWorldAuthException
 import com.expediagroup.sdk.core.plugin.authentication.helper.SuccessfulStatusCodesArgumentProvider
 import com.expediagroup.sdk.core.plugin.authentication.helper.UnsuccessfulStatusCodesArgumentProvider
-import com.expediagroup.sdk.core.plugin.authentication.strategy.signature.calculateSignature
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.request.get
 import io.ktor.client.request.request
@@ -44,9 +41,7 @@ import io.ktor.client.statement.request
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.mockk.clearAllMocks
-import io.mockk.every
 import io.mockk.mockkObject
-import io.mockk.mockkStatic
 import io.mockk.verify
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -72,67 +67,6 @@ internal class AuthenticationPluginTest {
     @AfterEach
     fun tearDown() {
         clearAllMocks()
-    }
-
-    @Nested
-    inner class SignatureStrategyTest {
-        @Test
-        fun `making any http call should invoke the authorized signature`() {
-            runBlocking {
-                mockSignatureCalculator()
-
-                val httpClient = ClientFactory.createRapidClient().httpClient
-                val request = httpClient.get(ANY_URL)
-
-                assertThat(request.request.headers[HeaderKey.AUTHORIZATION]).isEqualTo(
-                    "$EAN $SIGNATURE_VALUE"
-                )
-            }
-        }
-
-        @Test
-        fun `given new request then should renew token`() {
-            runBlocking {
-                val httpClient = ClientFactory.createRapidClient().httpClient
-
-                val firstRequest = httpClient.get(ANY_URL)
-                delay(1000)
-                val secondRequest = httpClient.get(ANY_URL)
-
-                val firstRequestAuth = firstRequest.request.headers[HeaderKey.AUTHORIZATION]
-                val secondRequestAuth = secondRequest.request.headers[HeaderKey.AUTHORIZATION]
-
-                assertThat(firstRequestAuth).isNotNull
-                assertThat(secondRequestAuth).isNotNull
-                assertThat(firstRequestAuth).isNotEqualTo(secondRequestAuth)
-            }
-        }
-
-        @Test
-        fun `given multiple requests then no requests should be unauthorized`() {
-            runBlocking {
-                val client = ClientFactory.createRapidClient()
-                val httpClient = client.httpClient
-                val authentication = client.getAuthenticationStrategy()
-
-                mockkObject(authentication)
-
-                launch {
-                    httpClient.get(ANY_URL)
-                }
-                launch {
-                    httpClient.get(ANY_URL)
-                }
-                launch {
-                    httpClient.get(ANY_URL)
-                }
-
-                delay(1000)
-                verify(exactly = 3) {
-                    authentication.renewToken()
-                }
-            }
-        }
     }
 
     @Nested
@@ -323,57 +257,28 @@ internal class AuthenticationPluginTest {
         )
     }
 
-    @Nested
-    inner class MultiInstancesTest {
-        @Test
-        fun `given two different-auth instances then each functions independently`() {
-            runBlocking {
-                mockSignatureCalculator()
+    @Test
+    fun `given two similar-auth instances then each functions independently`() {
+        runBlocking {
+            val firstClient = ClientFactory.createClient()
+            val firstHttpClient = firstClient.httpClient
+            val firstAuth = firstClient.getAuthenticationStrategy()
+            mockkObject(firstAuth)
 
-                val signatureHttpClient = ClientFactory.createRapidClient().httpClient
-                val bearerHttpClient = ClientFactory.createClient().httpClient
+            val secondClient = ClientFactory.createClient()
+            val secondHttpClient = secondClient.httpClient
+            val secondAuth = secondClient.getAuthenticationStrategy()
+            mockkObject(secondAuth)
 
-                val signatureRequest = signatureHttpClient.get(ANY_URL)
-                val bearerRequest = bearerHttpClient.get(ANY_URL)
+            firstHttpClient.get(ANY_URL)
+            secondHttpClient.get(ANY_URL)
 
-                assertThat(bearerRequest.request.headers[HeaderKey.AUTHORIZATION]).isEqualTo(
-                    "$BEARER $ACCESS_TOKEN"
-                )
-
-                assertThat(signatureRequest.request.headers[HeaderKey.AUTHORIZATION]).isEqualTo(
-                    "$EAN $SIGNATURE_VALUE"
-                )
+            verify(exactly = 1) {
+                firstAuth.renewToken()
+            }
+            verify(exactly = 1) {
+                secondAuth.renewToken()
             }
         }
-
-        @Test
-        fun `given two similar-auth instances then each functions independently`() {
-            runBlocking {
-                val firstClient = ClientFactory.createClient()
-                val firstHttpClient = firstClient.httpClient
-                val firstAuth = firstClient.getAuthenticationStrategy()
-                mockkObject(firstAuth)
-
-                val secondClient = ClientFactory.createClient()
-                val secondHttpClient = secondClient.httpClient
-                val secondAuth = secondClient.getAuthenticationStrategy()
-                mockkObject(secondAuth)
-
-                firstHttpClient.get(ANY_URL)
-                secondHttpClient.get(ANY_URL)
-
-                verify(exactly = 1) {
-                    firstAuth.renewToken()
-                }
-                verify(exactly = 1) {
-                    secondAuth.renewToken()
-                }
-            }
-        }
-    }
-
-    private fun mockSignatureCalculator() {
-        mockkStatic("com.expediagroup.sdk.core.plugin.authentication.strategy.signature.SignatureCalculatorKt")
-        every { calculateSignature(any(), any(), any()) } returns SIGNATURE_VALUE
     }
 }

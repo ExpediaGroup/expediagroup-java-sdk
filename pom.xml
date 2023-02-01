@@ -7,7 +7,7 @@
     <artifactId>openworld-java-sdk-core</artifactId>
     <name>EG Open World SDK :: Core</name>
     <description>Core Modules of EG Travel SDK</description>
-    <version>0.8.3</version>
+    <version>0.9.0</version>
     <inceptionYear>2022</inceptionYear>
     <url>https://github.com/ExpediaGroup/openworld-sdk-java-core</url>
 
@@ -413,7 +413,6 @@
                             <exclude>**/constant/**</exclude>
 
                             <exclude>**/client/openapi/OpenApiStub*</exclude>
-                            <exclude>**/client/openapi/RapidOpenApiStub*</exclude>
                             <exclude>**/client/Client*</exclude>
                             <exclude>**/client/openapi/OpenApiStub*</exclude>
                             <exclude>**/client/Client*</exclude>
@@ -421,7 +420,6 @@
                             <exclude>**/configuration/NetworkConfiguration*</exclude>
                             <exclude>**/configuration/LoggingConfiguration*</exclude>
                             <exclude>**/configuration/ClientConfiguration$Companion*</exclude>
-                            <exclude>**/configuration/RapidClientConfiguration$Companion*</exclude>
                             <exclude>**/config/provider/ConfigurationData*</exclude>
                             <exclude>**/configuration/NetworkConfiguration*</exclude>
                             <exclude>**/configuration/LoggingConfiguration*</exclude>
@@ -444,6 +442,9 @@
 
                             <exclude>**/logging/**</exclude>
                             <exclude>**/serialization/**</exclude>
+
+                            <exclude>**/authentication/AuthenticationStrategy*</exclude>
+                            <exclude>**/authentication/strategy/**</exclude>
                         </excludes>
                     </configuration>
                     <executions>
