@@ -4,10 +4,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.expediagroup.openworld.sdk</groupId>
-    <artifactId>{{artifactId}}</artifactId>
-    <version>{{artifactVersion}}</version>
-    <name>EG Open World SDK :: {{artifactId}}</name>
-    <description>EG Open World SDK :: {{artifactId}} v{{artifactVersion}}</description>
+    <artifactId>openworld-java-sdk-fraudprevention</artifactId>
+    <version>0.7.2</version>
+    <name>EG Open World SDK :: openworld-java-sdk-fraudprevention</name>
+    <description>EG Open World SDK :: openworld-java-sdk-fraudprevention v0.7.2</description>
     <url>https://github.com/ExpediaGroup/openworld-sdk-java-generators/tree/main/generated</url>
     <inceptionYear>2022</inceptionYear>
 
