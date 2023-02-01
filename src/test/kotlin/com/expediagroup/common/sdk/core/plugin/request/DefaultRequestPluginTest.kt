@@ -28,7 +28,7 @@ internal class DefaultRequestPluginTest {
     @Test
     fun `making any http call with relative url should invoke the endpoint from the configuration`() {
         runBlocking {
-            val client = ClientFactory.createClient()
+            val client = ClientFactory.createOpenWorldClient()
             val testRequest = client.httpClient.get("/any-url")
 
             Assertions.assertThat(testRequest.request.url.toString()).isEqualTo(

@@ -46,9 +46,5 @@ internal interface AuthenticationStrategy {
     enum class AuthenticationType {
         BEARER,
         SIGNATURE;
-
-        companion object {
-            fun from(isRapid: Boolean) = if (isRapid) SIGNATURE else BEARER
-        }
     }
 }

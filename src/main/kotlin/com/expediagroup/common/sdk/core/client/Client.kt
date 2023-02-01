@@ -21,40 +21,46 @@ import com.expediagroup.common.sdk.core.configuration.collector.ConfigurationCol
 import com.expediagroup.common.sdk.core.configuration.provider.DefaultConfigurationProvider
 import com.expediagroup.common.sdk.core.configuration.provider.FileSystemConfigurationProvider
 import com.expediagroup.common.sdk.core.configuration.toProvider
+import com.expediagroup.common.sdk.core.constant.Constant
+import com.expediagroup.common.sdk.core.constant.provider.LoggingMessageProvider
 import com.expediagroup.common.sdk.core.plugin.Hooks
 import com.expediagroup.common.sdk.core.plugin.authentication.AuthenticationConfiguration
 import com.expediagroup.common.sdk.core.plugin.authentication.AuthenticationHookFactory
 import com.expediagroup.common.sdk.core.plugin.authentication.AuthenticationPlugin
-import com.expediagroup.common.sdk.core.plugin.authentication.strategy.AuthenticationStrategy.AuthenticationType
+import com.expediagroup.common.sdk.core.plugin.authentication.strategy.AuthenticationStrategy
 import com.expediagroup.common.sdk.core.plugin.encoding.EncodingConfiguration
 import com.expediagroup.common.sdk.core.plugin.encoding.EncodingPlugin
 import com.expediagroup.common.sdk.core.plugin.hooks
 import com.expediagroup.common.sdk.core.plugin.logging.LoggingConfiguration
 import com.expediagroup.common.sdk.core.plugin.logging.LoggingPlugin
+import com.expediagroup.common.sdk.core.plugin.logging.OpenWorldLoggerFactory
 import com.expediagroup.common.sdk.core.plugin.plugins
 import com.expediagroup.common.sdk.core.plugin.request.DefaultRequestConfiguration
 import com.expediagroup.common.sdk.core.plugin.request.DefaultRequestPlugin
 import com.expediagroup.common.sdk.core.plugin.serialization.SerializationConfiguration
 import com.expediagroup.common.sdk.core.plugin.serialization.SerializationPlugin
+import com.expediagroup.openworld.sdk.core.client.RapidClient
+import com.expediagroup.rapid.sdk.core.client.OpenWorldClient
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
+import io.ktor.client.engine.okhttp.OkHttp
+import io.ktor.client.statement.HttpResponse
 
 /**
- * The integration point between the SDK Core and the product SDKs.
+ * The base integration point between the SDK Core and the product SDKs.
  *
  * @param httpClientEngine The HTTP client engine to use.
  * @param clientConfiguration The configuration for the client.
- * @param isRapid If the client is RapidApi
  */
-class Client private constructor(
-    httpClientEngine: HttpClientEngine,
-    clientConfiguration: ClientConfiguration,
-    isRapid: Boolean
+abstract class Client(
+    private val httpClientEngine: HttpClientEngine,
+    clientConfiguration: ClientConfiguration
 ) {
+
     /**
      * The HTTP client to perform requests with.
      */
-    val httpClient: HttpClient
+    abstract val httpClient: HttpClient
 
     private val configurationCollector: ConfigurationCollector = ConfigurationCollector.create(
         clientConfiguration.toProvider(),
@@ -62,49 +68,63 @@ class Client private constructor(
         DefaultConfigurationProvider
     )
 
-    init {
-        httpClient = HttpClient(httpClientEngine) {
-            val httpClientConfig = this
+    internal fun buildHttpClient(
+        authenticationType: AuthenticationStrategy.AuthenticationType
+    ): HttpClient = HttpClient(httpClientEngine) {
+        val httpClientConfig = this
 
-            val authenticationConfiguration = AuthenticationConfiguration.from(
-                httpClientConfig,
-                Credentials.from(configurationCollector.key, configurationCollector.secret),
-                configurationCollector.authEndpoint,
-                AuthenticationType.from(isRapid)
-            )
+        val authenticationConfiguration = AuthenticationConfiguration.from(
+            httpClientConfig,
+            Credentials.from(configurationCollector.key, configurationCollector.secret),
+            configurationCollector.authEndpoint,
+            authenticationType
+        )
 
-            plugins {
-                use(LoggingPlugin).with(LoggingConfiguration.from(httpClientConfig))
-                use(SerializationPlugin).with(SerializationConfiguration.from(httpClientConfig))
-                use(AuthenticationPlugin).with(authenticationConfiguration)
-                use(DefaultRequestPlugin).with(DefaultRequestConfiguration.from(httpClientConfig, configurationCollector.endpoint))
-                use(EncodingPlugin).with(EncodingConfiguration.from(httpClientConfig))
-            }
-
-            hooks {
-                use(AuthenticationHookFactory).with(authenticationConfiguration)
-            }
+        plugins {
+            use(LoggingPlugin).with(LoggingConfiguration.from(httpClientConfig))
+            use(SerializationPlugin).with(SerializationConfiguration.from(httpClientConfig))
+            use(AuthenticationPlugin).with(authenticationConfiguration)
+            use(DefaultRequestPlugin).with(DefaultRequestConfiguration.from(httpClientConfig, configurationCollector.endpoint))
+            use(EncodingPlugin).with(EncodingConfiguration.from(httpClientConfig))
         }
 
-        finalize()
+        hooks {
+            use(AuthenticationHookFactory).with(authenticationConfiguration)
+        }
     }
 
+    private fun isNotSuccessfulResponse(response: HttpResponse) = response.status.value !in Constant.SUCCESSFUL_STATUS_CODES_RANGE
+
+    @Suppress("unused") // This is used by the product SDKs.
+    suspend fun throwIfError(response: HttpResponse) {
+        if (isNotSuccessfulResponse(response)) {
+            log.info(LoggingMessageProvider.getResponseUnsuccessfulMessage(response.status))
+            throwServiceException(response)
+        }
+    }
+
+    abstract suspend fun throwServiceException(response: HttpResponse)
+
     companion object {
+        private val log = OpenWorldLoggerFactory.getLogger(this::class.java)
+
         /**
-         * Create a Client.
+         * Creates a new instance of the client.
          *
-         * @param httpClientEngine The HttpClientEngine to use.
-         * @param clientConfiguration The ClientConfiguration to use.
-         * @param isRapid If the client is RapidApi
-         * @return A Client.
+         * @param httpClientEngine The HTTP client engine to use.
+         * @param clientConfiguration The configuration for the client.
+         * @return The new instance of the client.
          */
-        @JvmOverloads
-        fun from(
-            httpClientEngine: HttpClientEngine,
-            clientConfiguration: ClientConfiguration = ClientConfiguration.EMPTY,
-            isRapid: Boolean
-        ): Client = Client(httpClientEngine, clientConfiguration, isRapid)
+        inline fun <reified T : Client> create(
+            clientConfiguration: ClientConfiguration,
+            httpClientEngine: HttpClientEngine = OkHttp.create()
+        ): T = when (T::class) {
+            OpenWorldClient::class -> OpenWorldClient(httpClientEngine, clientConfiguration) as T
+            RapidClient::class -> RapidClient(httpClientEngine, clientConfiguration) as T
+            else -> throw IllegalArgumentException("Unsupported client type: ${T::class.simpleName}")
+        }
     }
 }
 
-private fun Client.finalize() = Hooks.execute(this)
+/** Executes the hooks for the client. */
+fun <T : Client> T.finalize() = Hooks.execute(this)

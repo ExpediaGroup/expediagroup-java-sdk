@@ -21,19 +21,19 @@ import io.ktor.client.plugins.auth.providers.BearerTokens
 import java.time.LocalDateTime
 
 internal open class BearerTokensInfo(val bearerTokens: BearerTokens, expiresIn: Int) {
-    companion object {
-        internal val emptyBearerTokenInfo = object : BearerTokensInfo(BearerTokens(Constant.EMPTY_STRING, Constant.EMPTY_STRING), -1) {
-            override fun isAboutToExpire() = true
-        }
-    }
-
     private val expiryDate: LocalDateTime
 
     init {
         this.expiryDate = calculateExpiryDate(expiresIn)
     }
 
-    private fun calculateExpiryDate(expiresIn: Int) = LocalDateTime.now().plusSeconds(expiresIn.toLong())
+    private fun calculateExpiryDate(expiresIn: Int): LocalDateTime = LocalDateTime.now().plusSeconds(expiresIn.toLong())
 
-    open fun isAboutToExpire() = LocalDateTime.now().isAfter(expiryDate.minusSeconds(Authentication.BEARER_EXPIRY_DATE_MARGIN))
+    open fun isAboutToExpire(): Boolean = LocalDateTime.now().isAfter(expiryDate.minusSeconds(Authentication.BEARER_EXPIRY_DATE_MARGIN))
+
+    companion object {
+        internal val emptyBearerTokenInfo = object : BearerTokensInfo(BearerTokens(Constant.EMPTY_STRING, Constant.EMPTY_STRING), -1) {
+            override fun isAboutToExpire() = true
+        }
+    }
 }
