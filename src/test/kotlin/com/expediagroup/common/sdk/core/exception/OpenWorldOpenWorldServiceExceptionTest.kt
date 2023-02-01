@@ -35,7 +35,7 @@ class OpenWorldOpenWorldServiceExceptionTest {
     @Test
     internal fun `request with invalid body should throw an exception`() {
         runBlocking {
-            val httpClient = ClientFactory.createClient().httpClient
+            val httpClient = ClientFactory.createOpenWorldClient().httpClient
             val response = httpClient.get {
                 url("http://anyurl")
                 setAttributes {
@@ -54,7 +54,7 @@ class OpenWorldOpenWorldServiceExceptionTest {
     @Test
     internal fun `request with invalid body with PROD profile should throw an exception`() {
         runBlocking {
-            val httpClient = ClientFactory.createClient().httpClient
+            val httpClient = ClientFactory.createOpenWorldClient().httpClient
             val response = httpClient.get {
                 url("http://anyurl")
                 setAttributes {

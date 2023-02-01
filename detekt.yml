@@ -5,6 +5,8 @@ style:
     active: false
   ReturnCount:
     max: 3
+  ForbiddenComment:
+    values: [FIXME:', 'STOPSHIP:']
 
 naming:
   FunctionMaxLength:

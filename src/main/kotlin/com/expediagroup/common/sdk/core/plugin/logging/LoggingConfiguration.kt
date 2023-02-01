@@ -15,8 +15,8 @@
  */
 package com.expediagroup.common.sdk.core.plugin.logging
 
+import com.expediagroup.common.sdk.core.client.Client
 import com.expediagroup.common.sdk.core.plugin.KtorPluginConfiguration
-import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.HttpClientEngineConfig
 import io.ktor.client.plugins.logging.LogLevel
@@ -28,13 +28,12 @@ internal data class LoggingConfiguration(
     val level: LogLevel = LogLevel.ALL
 ) : KtorPluginConfiguration(httpClientConfiguration) {
     companion object {
-        fun from(httpClientConfig: HttpClientConfig<out HttpClientEngineConfig>) =
-            LoggingConfiguration(httpClientConfig)
+        fun from(httpClientConfig: HttpClientConfig<out HttpClientEngineConfig>) = LoggingConfiguration(httpClientConfig)
     }
 }
 
 internal val Logger.Companion.CUSTOM: Logger
     get() = object : Logger {
-        private val delegate = OpenWorldLoggerFactory.getLogger(HttpClient::class.java)
+        private val delegate = OpenWorldLoggerFactory.getLogger(Client::class.java) // TODO: OpenWorldClient or RapidClient should be passed in here
         override fun log(message: String) = delegate.info(message)
     }

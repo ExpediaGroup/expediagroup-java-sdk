@@ -13,29 +13,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.common.sdk.core.client.openapi
+package com.expediagroup.rapid.sdk.core.client
 
 import com.expediagroup.common.sdk.core.client.Client
-import com.expediagroup.common.sdk.core.configuration.RapidClientConfiguration
+import com.expediagroup.common.sdk.core.client.finalize
+import com.expediagroup.common.sdk.core.configuration.ClientConfiguration
 import com.expediagroup.common.sdk.core.model.error.rapid.RapidError
 import com.expediagroup.common.sdk.core.model.exception.rapid.RapidServiceException
+import com.expediagroup.common.sdk.core.plugin.authentication.strategy.AuthenticationStrategy
+import io.ktor.client.HttpClient
 import io.ktor.client.call.body
-import io.ktor.client.engine.okhttp.OkHttp
+import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.request
 import io.ktor.http.toURI
 
 /**
- * Base class for RapidApi used by generated OpenAPI APIs to perform the heavy lifting of actually sending requests.
+ * The integration point between the SDK Core and the product SDKs.
+ *
+ * @param httpClientEngine The HTTP client engine to use.
+ * @param clientConfiguration The configuration for the client.
  */
-abstract class RapidOpenApiStub(
-    private val clientConfiguration: RapidClientConfiguration = RapidClientConfiguration.EMPTY
-) : OpenApiStub(clientConfiguration.toClientConfiguration()) {
+class OpenWorldClient(
+    httpClientEngine: HttpClientEngine,
+    clientConfiguration: ClientConfiguration
+) : Client(httpClientEngine, clientConfiguration) {
+    private val _httpClient: HttpClient = buildHttpClient(AuthenticationStrategy.AuthenticationType.BEARER)
 
-    override fun createClient(): Client = Client.from(OkHttp.create(), clientConfiguration.toClientConfiguration(), true)
+    init {
+        finalize()
+    }
+
+    override val httpClient: HttpClient
+        get() = _httpClient
 
     override suspend fun throwServiceException(response: HttpResponse) {
-        // Make sure we read the body to avoid resource leaks
         runCatching {
             response.body<RapidError>()
         }.onSuccess {
