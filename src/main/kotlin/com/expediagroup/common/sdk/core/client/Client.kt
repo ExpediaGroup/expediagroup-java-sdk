@@ -1,0 +1,110 @@
+/*
+ * Copyright (C) 2022 Expedia, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.expediagroup.common.sdk.core.client
+
+import com.expediagroup.common.sdk.core.configuration.ClientConfiguration
+import com.expediagroup.common.sdk.core.configuration.Credentials
+import com.expediagroup.common.sdk.core.configuration.collector.ConfigurationCollector
+import com.expediagroup.common.sdk.core.configuration.provider.DefaultConfigurationProvider
+import com.expediagroup.common.sdk.core.configuration.provider.FileSystemConfigurationProvider
+import com.expediagroup.common.sdk.core.configuration.toProvider
+import com.expediagroup.common.sdk.core.plugin.Hooks
+import com.expediagroup.common.sdk.core.plugin.authentication.AuthenticationConfiguration
+import com.expediagroup.common.sdk.core.plugin.authentication.AuthenticationHookFactory
+import com.expediagroup.common.sdk.core.plugin.authentication.AuthenticationPlugin
+import com.expediagroup.common.sdk.core.plugin.authentication.strategy.AuthenticationStrategy.AuthenticationType
+import com.expediagroup.common.sdk.core.plugin.encoding.EncodingConfiguration
+import com.expediagroup.common.sdk.core.plugin.encoding.EncodingPlugin
+import com.expediagroup.common.sdk.core.plugin.hooks
+import com.expediagroup.common.sdk.core.plugin.logging.LoggingConfiguration
+import com.expediagroup.common.sdk.core.plugin.logging.LoggingPlugin
+import com.expediagroup.common.sdk.core.plugin.plugins
+import com.expediagroup.common.sdk.core.plugin.request.DefaultRequestConfiguration
+import com.expediagroup.common.sdk.core.plugin.request.DefaultRequestPlugin
+import com.expediagroup.common.sdk.core.plugin.serialization.SerializationConfiguration
+import com.expediagroup.common.sdk.core.plugin.serialization.SerializationPlugin
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.HttpClientEngine
+
+/**
+ * The integration point between the SDK Core and the product SDKs.
+ *
+ * @param httpClientEngine The HTTP client engine to use.
+ * @param clientConfiguration The configuration for the client.
+ * @param isRapid If the client is RapidApi
+ */
+class Client private constructor(
+    httpClientEngine: HttpClientEngine,
+    clientConfiguration: ClientConfiguration,
+    isRapid: Boolean
+) {
+    /**
+     * The HTTP client to perform requests with.
+     */
+    val httpClient: HttpClient
+
+    private val configurationCollector: ConfigurationCollector = ConfigurationCollector.create(
+        clientConfiguration.toProvider(),
+        FileSystemConfigurationProvider(),
+        DefaultConfigurationProvider
+    )
+
+    init {
+        httpClient = HttpClient(httpClientEngine) {
+            val httpClientConfig = this
+
+            val authenticationConfiguration = AuthenticationConfiguration.from(
+                httpClientConfig,
+                Credentials.from(configurationCollector.key, configurationCollector.secret),
+                configurationCollector.authEndpoint,
+                AuthenticationType.from(isRapid)
+            )
+
+            plugins {
+                use(LoggingPlugin).with(LoggingConfiguration.from(httpClientConfig))
+                use(SerializationPlugin).with(SerializationConfiguration.from(httpClientConfig))
+                use(AuthenticationPlugin).with(authenticationConfiguration)
+                use(DefaultRequestPlugin).with(DefaultRequestConfiguration.from(httpClientConfig, configurationCollector.endpoint))
+                use(EncodingPlugin).with(EncodingConfiguration.from(httpClientConfig))
+            }
+
+            hooks {
+                use(AuthenticationHookFactory).with(authenticationConfiguration)
+            }
+        }
+
+        finalize()
+    }
+
+    companion object {
+        /**
+         * Create a Client.
+         *
+         * @param httpClientEngine The HttpClientEngine to use.
+         * @param clientConfiguration The ClientConfiguration to use.
+         * @param isRapid If the client is RapidApi
+         * @return A Client.
+         */
+        @JvmOverloads
+        fun from(
+            httpClientEngine: HttpClientEngine,
+            clientConfiguration: ClientConfiguration = ClientConfiguration.EMPTY,
+            isRapid: Boolean
+        ): Client = Client(httpClientEngine, clientConfiguration, isRapid)
+    }
+}
+
+private fun Client.finalize() = Hooks.execute(this)
