@@ -44,8 +44,6 @@ object TestConstants {
     const val SIGNATURE_TIMESTAMP_UTC: Long = 918_943_200
     const val MANUALLY_CALCULATED_SIGNATURE = "$API_KEY=any client key,$SIGNATURE=$SIGNATURE_MANUALLY_CALCULATED_VALUE,$TIMESTAMP=$SIGNATURE_TIMESTAMP_UTC"
 
-    const val TEST_VALUE = "test-value"
-
     const val BASIC = "Basic"
 
     const val APPLICATION_JSON = "application/json"

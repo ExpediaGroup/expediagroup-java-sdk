@@ -45,8 +45,7 @@ import kotlinx.coroutines.runBlocking
 internal class BearerStrategy(
     private val httpClientProvider: () -> HttpClient,
     private val configs: AuthenticationConfiguration
-) :
-    AuthenticationStrategy {
+) : AuthenticationStrategy {
     private val log = OpenWorldLoggerFactory.getLogger(javaClass)
     private var bearerTokenStorage = BearerTokensInfo.emptyBearerTokenInfo
     private val loadTokensBlock: () -> BearerTokens = {
@@ -63,7 +62,7 @@ internal class BearerStrategy(
         }
     }
 
-    override fun isTokenAboutToExpire() = bearerTokenStorage.isAboutToExpire()
+    override fun isTokenAboutToExpire(): Boolean = bearerTokenStorage.isAboutToExpire()
 
     override fun renewToken() {
         val httpClient = httpClientProvider()
@@ -106,8 +105,7 @@ internal class BearerStrategy(
         )
     }
 
-    override fun isNotIdentityRequest(request: HttpRequestBuilder): Boolean =
-        request.url.buildString() != configs.authUrl
+    override fun isNotIdentityRequest(request: HttpRequestBuilder): Boolean = request.url.buildString() != configs.authUrl
 
     override fun getAuthorizationHeader() = "${Authentication.BEARER} ${getTokens().accessToken}"
 
