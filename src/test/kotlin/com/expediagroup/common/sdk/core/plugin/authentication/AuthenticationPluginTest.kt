@@ -16,7 +16,6 @@
 package com.expediagroup.common.sdk.core.plugin.authentication
 
 import com.expediagroup.common.sdk.core.client.Client
-import com.expediagroup.common.sdk.core.configuration.ClientConfiguration
 import com.expediagroup.common.sdk.core.configuration.Credentials
 import com.expediagroup.common.sdk.core.configuration.provider.DefaultConfigurationProvider
 import com.expediagroup.common.sdk.core.constant.Authentication.BEARER
@@ -36,6 +35,7 @@ import com.expediagroup.common.sdk.core.test.TestConstants.ANY_URL
 import com.expediagroup.common.sdk.core.test.TestConstants.CLIENT_KEY_TEST_CREDENTIAL
 import com.expediagroup.common.sdk.core.test.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
 import com.expediagroup.common.sdk.core.test.TestConstants.SIGNATURE_VALUE
+import com.expediagroup.openworld.sdk.core.configuration.OpenWorldClientConfiguration
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.request.get
 import io.ktor.client.request.request
@@ -153,12 +153,12 @@ internal class AuthenticationPluginTest {
         @ArgumentsSource(UnsuccessfulStatusCodesArgumentProvider::class)
         fun `refresh auth token should throw client exception if the the credentials are invalid`(httpStatusCode: HttpStatusCode) {
             runBlocking {
-                val configuration = ClientConfiguration.Builder()
-                    .key(CLIENT_KEY_TEST_CREDENTIAL + "invalid")
-                    .secret(CLIENT_SECRET_TEST_CREDENTIAL + "invalid")
-                    .endpoint(DefaultConfigurationProvider.endpoint)
-                    .authEndpoint(DefaultConfigurationProvider.authEndpoint)
-                    .build()
+                val configuration = OpenWorldClientConfiguration(
+                    key = CLIENT_KEY_TEST_CREDENTIAL + "invalid",
+                    secret = CLIENT_SECRET_TEST_CREDENTIAL + "invalid",
+                    endpoint = DefaultConfigurationProvider.endpoint,
+                    authEndpoint = DefaultConfigurationProvider.authEndpoint
+                )
                 val client = ClientFactory.createOpenWorldClient(
                     createUnauthorizedMockEngineWithStatusCode(httpStatusCode),
                     configuration
@@ -179,14 +179,7 @@ internal class AuthenticationPluginTest {
         @ArgumentsSource(SuccessfulStatusCodesArgumentProvider::class)
         fun `refresh auth token should not throw client exception if the the credentials are valid`(httpStatusCode: HttpStatusCode) {
             runBlocking {
-                val configuration = ClientConfiguration.Builder()
-                    .key(CLIENT_KEY_TEST_CREDENTIAL)
-                    .secret(CLIENT_SECRET_TEST_CREDENTIAL)
-                    .endpoint(DefaultConfigurationProvider.endpoint)
-                    .authEndpoint(DefaultConfigurationProvider.authEndpoint)
-                    .build()
-
-                val client = ClientFactory.createOpenWorldClient(createTokenMockEngineWithStatusCode(httpStatusCode), configuration)
+                val client = ClientFactory.createOpenWorldClient(createTokenMockEngineWithStatusCode(httpStatusCode), ClientFactory.openWorldConfiguration)
                 val authentication = client.getAuthenticationStrategy()
 
                 assertDoesNotThrow {

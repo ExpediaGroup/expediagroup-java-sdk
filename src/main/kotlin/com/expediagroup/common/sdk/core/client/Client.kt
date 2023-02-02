@@ -20,7 +20,6 @@ import com.expediagroup.common.sdk.core.configuration.Credentials
 import com.expediagroup.common.sdk.core.configuration.collector.ConfigurationCollector
 import com.expediagroup.common.sdk.core.configuration.provider.DefaultConfigurationProvider
 import com.expediagroup.common.sdk.core.configuration.provider.FileSystemConfigurationProvider
-import com.expediagroup.common.sdk.core.configuration.toProvider
 import com.expediagroup.common.sdk.core.constant.Constant
 import com.expediagroup.common.sdk.core.constant.provider.LoggingMessageProvider
 import com.expediagroup.common.sdk.core.plugin.Hooks
@@ -40,7 +39,9 @@ import com.expediagroup.common.sdk.core.plugin.request.DefaultRequestPlugin
 import com.expediagroup.common.sdk.core.plugin.serialization.SerializationConfiguration
 import com.expediagroup.common.sdk.core.plugin.serialization.SerializationPlugin
 import com.expediagroup.openworld.sdk.core.client.OpenWorldClient
+import com.expediagroup.openworld.sdk.core.configuration.OpenWorldClientConfiguration
 import com.expediagroup.rapid.sdk.core.client.RapidClient
+import com.expediagroup.rapid.sdk.core.configuration.RapidClientConfiguration
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.okhttp.OkHttp
@@ -53,14 +54,14 @@ import io.ktor.client.statement.HttpResponse
  * @param clientConfiguration The configuration for the client.
  */
 abstract class Client(
-    private val httpClientEngine: HttpClientEngine,
-    clientConfiguration: ClientConfiguration
+    clientConfiguration: ClientConfiguration,
+    private val httpClientEngine: HttpClientEngine = Constant.DEFAULT_HTTP_CLIENT_ENGINE
 ) {
 
     /**
      * The HTTP client to perform requests with.
      */
-    abstract val httpClient: HttpClient
+    internal abstract val httpClient: HttpClient
 
     private val configurationCollector: ConfigurationCollector = ConfigurationCollector.create(
         clientConfiguration.toProvider(),
@@ -115,13 +116,13 @@ abstract class Client(
          * @param clientConfiguration The configuration for the client.
          * @return The new instance of the client.
          */
-        inline fun <reified T : Client> create(
-            clientConfiguration: ClientConfiguration,
+        inline fun <reified C : Client, CC : ClientConfiguration> create(
+            clientConfiguration: CC,
             httpClientEngine: HttpClientEngine = OkHttp.create()
-        ): T = when (T::class) {
-            RapidClient::class -> RapidClient(httpClientEngine, clientConfiguration) as T
-            OpenWorldClient::class -> OpenWorldClient(httpClientEngine, clientConfiguration) as T
-            else -> throw IllegalArgumentException("Unsupported client type: ${T::class.simpleName}")
+        ): C = when (C::class) {
+            OpenWorldClient::class -> OpenWorldClient(clientConfiguration as OpenWorldClientConfiguration, httpClientEngine) as C
+            RapidClient::class -> RapidClient(clientConfiguration as RapidClientConfiguration, httpClientEngine) as C
+            else -> throw IllegalArgumentException("Unsupported client type: ${C::class.simpleName}")
         }
     }
 }

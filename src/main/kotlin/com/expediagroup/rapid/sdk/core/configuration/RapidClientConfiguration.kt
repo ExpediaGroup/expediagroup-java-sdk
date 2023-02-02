@@ -13,19 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.common.sdk.core.configuration
+package com.expediagroup.rapid.sdk.core.configuration
 
-import com.expediagroup.common.sdk.core.configuration.provider.RuntimeConfigurationProvider
+import com.expediagroup.common.sdk.core.configuration.ClientConfiguration
 
-interface ClientConfiguration {
-    val key: String?
-    val secret: String?
-    val endpoint: String?
-
-    /** Build a [RuntimeConfigurationProvider] from a [ClientConfiguration]. */
-    fun toProvider(): RuntimeConfigurationProvider = RuntimeConfigurationProvider(
-        key = key,
-        secret = secret,
-        endpoint = endpoint
-    )
-}
+data class RapidClientConfiguration(
+    override val key: String? = null,
+    override val secret: String? = null,
+    override val endpoint: String? = null
+) : ClientConfiguration
