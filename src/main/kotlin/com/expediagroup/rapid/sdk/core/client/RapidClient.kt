@@ -34,11 +34,11 @@ import io.ktor.http.toURI
  * @param httpClientEngine The HTTP client engine to use.
  * @param clientConfiguration The configuration for the client.
  */
-class OpenWorldClient(
+class RapidClient(
     httpClientEngine: HttpClientEngine,
     clientConfiguration: ClientConfiguration
 ) : Client(httpClientEngine, clientConfiguration) {
-    private val _httpClient: HttpClient = buildHttpClient(AuthenticationStrategy.AuthenticationType.BEARER)
+    private val _httpClient: HttpClient = buildHttpClient(AuthenticationStrategy.AuthenticationType.SIGNATURE)
 
     init {
         finalize()

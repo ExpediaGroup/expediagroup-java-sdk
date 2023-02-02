@@ -20,8 +20,8 @@ import com.expediagroup.common.sdk.core.configuration.ClientConfiguration
 import com.expediagroup.common.sdk.core.configuration.provider.DefaultConfigurationProvider
 import com.expediagroup.common.sdk.core.test.TestConstants.CLIENT_KEY_TEST_CREDENTIAL
 import com.expediagroup.common.sdk.core.test.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
-import com.expediagroup.openworld.sdk.core.client.RapidClient
-import com.expediagroup.rapid.sdk.core.client.OpenWorldClient
+import com.expediagroup.openworld.sdk.core.client.OpenWorldClient
+import com.expediagroup.rapid.sdk.core.client.RapidClient
 import io.ktor.client.engine.HttpClientEngine
 
 internal object ClientFactory {

@@ -39,8 +39,8 @@ import com.expediagroup.common.sdk.core.plugin.request.DefaultRequestConfigurati
 import com.expediagroup.common.sdk.core.plugin.request.DefaultRequestPlugin
 import com.expediagroup.common.sdk.core.plugin.serialization.SerializationConfiguration
 import com.expediagroup.common.sdk.core.plugin.serialization.SerializationPlugin
-import com.expediagroup.openworld.sdk.core.client.RapidClient
-import com.expediagroup.rapid.sdk.core.client.OpenWorldClient
+import com.expediagroup.openworld.sdk.core.client.OpenWorldClient
+import com.expediagroup.rapid.sdk.core.client.RapidClient
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.okhttp.OkHttp
@@ -119,8 +119,8 @@ abstract class Client(
             clientConfiguration: ClientConfiguration,
             httpClientEngine: HttpClientEngine = OkHttp.create()
         ): T = when (T::class) {
-            OpenWorldClient::class -> OpenWorldClient(httpClientEngine, clientConfiguration) as T
             RapidClient::class -> RapidClient(httpClientEngine, clientConfiguration) as T
+            OpenWorldClient::class -> OpenWorldClient(httpClientEngine, clientConfiguration) as T
             else -> throw IllegalArgumentException("Unsupported client type: ${T::class.simpleName}")
         }
     }
