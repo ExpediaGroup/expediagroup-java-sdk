@@ -412,11 +412,7 @@
                         <excludes>
                             <exclude>**/constant/**</exclude>
 
-                            <exclude>**/client/openapi/OpenApiStub*</exclude>
-                            <exclude>**/client/openapi/RapidOpenApiStub*</exclude>
-                            <exclude>**/client/Client*</exclude>
-                            <exclude>**/client/openapi/OpenApiStub*</exclude>
-                            <exclude>**/client/Client*</exclude>
+                            <exclude>**/client/*Client*</exclude>
 
                             <exclude>**/configuration/NetworkConfiguration*</exclude>
                             <exclude>**/configuration/LoggingConfiguration*</exclude>
@@ -698,6 +694,10 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
             </plugin>
 
             <plugin>

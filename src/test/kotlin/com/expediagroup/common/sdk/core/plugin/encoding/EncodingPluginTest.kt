@@ -43,7 +43,7 @@ internal class EncodingPluginTest {
     @Test
     fun `adds accept-encoding=gzip to request headers`() {
         runBlocking {
-            val httpClient = ClientFactory.createClient().httpClient
+            val httpClient = ClientFactory.createOpenWorldClient().httpClient
             val testRequest = httpClient.get(ANY_URL)
 
             Assertions.assertThat(testRequest.request.headers[HeaderKey.ACCEPT_ENCODING]).isEqualTo(

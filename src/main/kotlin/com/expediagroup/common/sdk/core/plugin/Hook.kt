@@ -34,9 +34,7 @@ internal open class Hook<in C : PluginConfiguration>(
     fun execute() = builder.build(configuration)
 }
 
-/**
- * A singleton repository of all [Hook]s we need to apply on the [Client].
- */
+/** A singleton repository of all [Hook]s we need to apply on the [Client]. */
 internal object Hooks {
     private val clientsHooks: MutableMap<Client, MutableList<Hook<*>>> = mutableMapOf()
 
@@ -58,12 +56,12 @@ internal class HookContext(private val client: Client) {
     /**
      * Provides an idiomatic way of defining a hook.
      */
-    internal fun <C : PluginConfiguration> use(hookFactory: HookFactory<C>) = hookFactory
+    fun <C : PluginConfiguration> use(hookFactory: HookFactory<C>) = hookFactory
 
     /**
      * Provides an idiomatic way of configuring a hook.
      */
-    internal fun <C : PluginConfiguration> HookFactory<C>.with(config: C) = Hooks.add(client, create(client, config))
+    fun <C : PluginConfiguration> HookFactory<C>.with(config: C) = Hooks.add(client, create(client, config))
 }
 
 internal interface HookFactory<C : PluginConfiguration> {

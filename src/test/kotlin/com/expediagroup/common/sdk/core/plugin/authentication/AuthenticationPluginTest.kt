@@ -140,7 +140,7 @@ internal class AuthenticationPluginTest {
         @Test
         fun `making any http call should invoke the authorized token`() {
             runBlocking {
-                val httpClient = ClientFactory.createClient().httpClient
+                val httpClient = ClientFactory.createOpenWorldClient().httpClient
                 val testRequest = httpClient.get(ANY_URL)
 
                 assertThat(testRequest.request.headers[HeaderKey.AUTHORIZATION]).isEqualTo(
@@ -159,7 +159,7 @@ internal class AuthenticationPluginTest {
                     .endpoint(DefaultConfigurationProvider.endpoint)
                     .authEndpoint(DefaultConfigurationProvider.authEndpoint)
                     .build()
-                val client = ClientFactory.createClient(
+                val client = ClientFactory.createOpenWorldClient(
                     createUnauthorizedMockEngineWithStatusCode(httpStatusCode),
                     configuration
                 )
@@ -186,8 +186,7 @@ internal class AuthenticationPluginTest {
                     .authEndpoint(DefaultConfigurationProvider.authEndpoint)
                     .build()
 
-                val client =
-                    ClientFactory.createClient(createTokenMockEngineWithStatusCode(httpStatusCode), configuration)
+                val client = ClientFactory.createOpenWorldClient(createTokenMockEngineWithStatusCode(httpStatusCode), configuration)
                 val authentication = client.getAuthenticationStrategy()
 
                 assertDoesNotThrow {
@@ -199,7 +198,7 @@ internal class AuthenticationPluginTest {
         @Test
         fun `make parallel should run the single refresh token only`() {
             runBlocking {
-                val client = ClientFactory.createClient()
+                val client = ClientFactory.createOpenWorldClient()
                 val httpClient = client.httpClient
                 val authentication = client.getAuthenticationStrategy()
 
@@ -224,7 +223,7 @@ internal class AuthenticationPluginTest {
         fun `given request when token almost or is expired then should renew token`(expiresIn: Int) {
             runBlocking {
                 val mockEngine = createMockEngineExpiresInPerCall(expiresIn, 1000)
-                val client = ClientFactory.createClient(mockEngine)
+                val client = ClientFactory.createOpenWorldClient(mockEngine)
                 val httpClient = client.httpClient
                 renewToken(client)
 
@@ -243,7 +242,7 @@ internal class AuthenticationPluginTest {
         fun `given request when token not almost and not expired then should not renew token`() {
             runBlocking {
                 val mockEngine = createMockEngineExpiresInPerCall(1000)
-                val client = ClientFactory.createClient(mockEngine)
+                val client = ClientFactory.createOpenWorldClient(mockEngine)
                 val httpClient = client.httpClient
                 renewToken(client)
 
@@ -262,7 +261,7 @@ internal class AuthenticationPluginTest {
         fun `given identity request when token almost expired then should not renew token`() {
             runBlocking {
                 val mockEngine = createMockEngineExpiresInPerCall(6, 1000)
-                val client = ClientFactory.createClient(mockEngine)
+                val client = ClientFactory.createOpenWorldClient(mockEngine)
                 val httpClient = client.httpClient
                 val authentication = client.getAuthenticationStrategy()
 
@@ -283,7 +282,7 @@ internal class AuthenticationPluginTest {
         @Test
         fun `given multiple requests when token expired then no requests should be unauthorized`() {
             runBlocking {
-                val client = ClientFactory.createClient()
+                val client = ClientFactory.createOpenWorldClient()
                 val httpClient = client.httpClient
                 val authentication = client.getAuthenticationStrategy()
 
@@ -309,7 +308,7 @@ internal class AuthenticationPluginTest {
             }
         }
 
-        private fun renewToken(client: Client) {
+        private fun <T : Client> renewToken(client: T) {
             client.getAuthenticationStrategy().renewToken()
         }
 
@@ -331,7 +330,7 @@ internal class AuthenticationPluginTest {
                 mockSignatureCalculator()
 
                 val signatureHttpClient = ClientFactory.createRapidClient().httpClient
-                val bearerHttpClient = ClientFactory.createClient().httpClient
+                val bearerHttpClient = ClientFactory.createOpenWorldClient().httpClient
 
                 val signatureRequest = signatureHttpClient.get(ANY_URL)
                 val bearerRequest = bearerHttpClient.get(ANY_URL)
@@ -349,12 +348,12 @@ internal class AuthenticationPluginTest {
         @Test
         fun `given two similar-auth instances then each functions independently`() {
             runBlocking {
-                val firstClient = ClientFactory.createClient()
+                val firstClient = ClientFactory.createOpenWorldClient()
                 val firstHttpClient = firstClient.httpClient
                 val firstAuth = firstClient.getAuthenticationStrategy()
                 mockkObject(firstAuth)
 
-                val secondClient = ClientFactory.createClient()
+                val secondClient = ClientFactory.createOpenWorldClient()
                 val secondHttpClient = secondClient.httpClient
                 val secondAuth = secondClient.getAuthenticationStrategy()
                 mockkObject(secondAuth)
