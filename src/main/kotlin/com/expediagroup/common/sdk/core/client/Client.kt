@@ -19,7 +19,6 @@ import com.expediagroup.common.sdk.core.configuration.ClientConfiguration
 import com.expediagroup.common.sdk.core.configuration.Credentials
 import com.expediagroup.common.sdk.core.configuration.collector.ConfigurationCollector
 import com.expediagroup.common.sdk.core.configuration.provider.DefaultConfigurationProvider
-import com.expediagroup.common.sdk.core.configuration.provider.FileSystemConfigurationProvider
 import com.expediagroup.common.sdk.core.constant.Constant
 import com.expediagroup.common.sdk.core.constant.provider.LoggingMessageProvider
 import com.expediagroup.common.sdk.core.plugin.Hooks
@@ -65,7 +64,6 @@ abstract class Client(
 
     private val configurationCollector: ConfigurationCollector = ConfigurationCollector.create(
         clientConfiguration.toProvider(),
-        FileSystemConfigurationProvider(),
         DefaultConfigurationProvider
     )
 
