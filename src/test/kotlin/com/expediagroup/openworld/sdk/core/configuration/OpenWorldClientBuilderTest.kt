@@ -15,22 +15,17 @@
  */
 package com.expediagroup.openworld.sdk.core.configuration
 
-import com.expediagroup.common.sdk.core.model.exception.client.OpenWorldConfigurationException
 import com.expediagroup.common.sdk.core.test.TestConstants.ANY_URL
 import com.expediagroup.common.sdk.core.test.TestConstants.CLIENT_KEY_TEST_CREDENTIAL
 import com.expediagroup.common.sdk.core.test.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class OpenWorldClientBuilderTest {
 
-    // TODO: Update test once [SDK-228] is done.
     @Test
     fun `verify typical behaviour with no configurations`() {
-        assertThrows<OpenWorldConfigurationException> {
-            OpenWorldClientBuilder().build().httpClient
-        }
+        assertNotNull(OpenWorldClientBuilder().build().httpClient)
     }
 
     @Test
