@@ -15,6 +15,8 @@
  */
 package com.expediagroup.common.sdk.core.constant
 
+import io.ktor.client.engine.HttpClientEngine
+import io.ktor.client.engine.okhttp.OkHttp
 import java.io.File
 
 internal object Constant {
@@ -29,4 +31,6 @@ internal object Constant {
     val CREDENTIALS_FILE_PATH = "${OPEN_WORLD_HOME_PATH}credentials"
 
     val CLIENT_CONFIGS_FILE_PATH = "${OPEN_WORLD_HOME_PATH}configuration"
+
+    val DEFAULT_HTTP_CLIENT_ENGINE: HttpClientEngine = OkHttp.create()
 }

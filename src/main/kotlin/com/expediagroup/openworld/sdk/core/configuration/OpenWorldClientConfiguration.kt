@@ -13,23 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.common.sdk.core.configuration.provider
+package com.expediagroup.openworld.sdk.core.configuration
 
-import com.expediagroup.common.sdk.core.constant.ConfigurationName.RUNTIME_CONFIGURATION_PROVIDER
+import com.expediagroup.common.sdk.core.configuration.ClientConfiguration
+import com.expediagroup.common.sdk.core.configuration.provider.RuntimeConfigurationProvider
+import com.expediagroup.openworld.sdk.core.client.OpenWorldClient
 
 /**
- * A runtime-built configuration provider.
+ * Configuration for the [OpenWorldClient].
  *
- * @property name The name of the provider.
  * @property key The API key to use for authentication.
  * @property secret The API secret to use for authentication.
  * @property endpoint The API endpoint to use for requests.
  * @property authEndpoint The API endpoint to use for authentication.
  */
-data class RuntimeConfigurationProvider(
-    override val name: String = RUNTIME_CONFIGURATION_PROVIDER,
+data class OpenWorldClientConfiguration(
     override val key: String? = null,
     override val secret: String? = null,
     override val endpoint: String? = null,
-    override val authEndpoint: String? = null
-) : ConfigurationProvider
+    val authEndpoint: String? = null
+) : ClientConfiguration {
+
+    /** Build a [RuntimeConfigurationProvider] from an [OpenWorldClientConfiguration]. */
+    override fun toProvider(): RuntimeConfigurationProvider = super.toProvider().copy(authEndpoint = authEndpoint)
+}

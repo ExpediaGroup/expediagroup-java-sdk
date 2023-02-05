@@ -13,23 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.common.sdk.core.configuration.provider
+package com.expediagroup.rapid.sdk.core.configuration
 
-import com.expediagroup.common.sdk.core.constant.ConfigurationName.RUNTIME_CONFIGURATION_PROVIDER
+import com.expediagroup.common.sdk.core.client.Client
+import com.expediagroup.common.sdk.core.configuration.ClientBuilder
+import com.expediagroup.common.sdk.core.contract.Contract
+import com.expediagroup.common.sdk.core.contract.adhereTo
+import com.expediagroup.rapid.sdk.core.client.RapidClient
 
 /**
- * A runtime-built configuration provider.
+ * A [RapidClient] builder.
  *
- * @property name The name of the provider.
  * @property key The API key to use for authentication.
  * @property secret The API secret to use for authentication.
  * @property endpoint The API endpoint to use for requests.
- * @property authEndpoint The API endpoint to use for authentication.
  */
-data class RuntimeConfigurationProvider(
-    override val name: String = RUNTIME_CONFIGURATION_PROVIDER,
-    override val key: String? = null,
-    override val secret: String? = null,
-    override val endpoint: String? = null,
-    override val authEndpoint: String? = null
-) : ConfigurationProvider
+class RapidClientBuilder : ClientBuilder<RapidClientBuilder>() {
+
+    /** Create a [RapidClient] instance. */
+    override fun build(): RapidClient = Client.create(
+        RapidClientConfiguration(
+            key = key,
+            secret = secret,
+            endpoint = endpoint?.adhereTo(Contract.TRAILING_SLASH)
+        )
+    )
+}

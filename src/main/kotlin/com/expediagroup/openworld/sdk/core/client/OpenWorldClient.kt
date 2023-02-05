@@ -17,10 +17,12 @@ package com.expediagroup.openworld.sdk.core.client
 
 import com.expediagroup.common.sdk.core.client.Client
 import com.expediagroup.common.sdk.core.client.finalize
-import com.expediagroup.common.sdk.core.configuration.ClientConfiguration
+import com.expediagroup.common.sdk.core.constant.Constant
 import com.expediagroup.common.sdk.core.model.error.Error
 import com.expediagroup.common.sdk.core.model.exception.service.OpenWorldServiceException
 import com.expediagroup.common.sdk.core.plugin.authentication.strategy.AuthenticationStrategy
+import com.expediagroup.openworld.sdk.core.configuration.OpenWorldClientBuilder
+import com.expediagroup.openworld.sdk.core.configuration.OpenWorldClientConfiguration
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.HttpClientEngine
@@ -34,10 +36,10 @@ import io.ktor.http.toURI
  * @param httpClientEngine The HTTP client engine to use.
  * @param clientConfiguration The configuration for the client.
  */
-class OpenWorldClient(
-    httpClientEngine: HttpClientEngine,
-    clientConfiguration: ClientConfiguration
-) : Client(httpClientEngine, clientConfiguration) {
+open class OpenWorldClient(
+    clientConfiguration: OpenWorldClientConfiguration,
+    httpClientEngine: HttpClientEngine = Constant.DEFAULT_HTTP_CLIENT_ENGINE
+) : Client(clientConfiguration, httpClientEngine) {
     private val _httpClient: HttpClient = buildHttpClient(AuthenticationStrategy.AuthenticationType.BEARER)
 
     init {
@@ -58,5 +60,13 @@ class OpenWorldClient(
                 Error(response.request.url.toURI(), response.status.description)
             )
         }
+    }
+
+    companion object {
+
+        /** Creates a new ClientConfigurations.Builder instance. */
+        @JvmStatic
+        @Suppress("unused") // Used by the product SDKs.
+        fun builder() = OpenWorldClientBuilder()
     }
 }
