@@ -16,33 +16,40 @@
 package com.expediagroup.common.sdk.core.test
 
 import com.expediagroup.common.sdk.core.client.Client
-import com.expediagroup.common.sdk.core.configuration.ClientConfiguration
 import com.expediagroup.common.sdk.core.configuration.provider.DefaultConfigurationProvider
 import com.expediagroup.common.sdk.core.test.TestConstants.CLIENT_KEY_TEST_CREDENTIAL
 import com.expediagroup.common.sdk.core.test.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
 import com.expediagroup.openworld.sdk.core.client.OpenWorldClient
+import com.expediagroup.openworld.sdk.core.configuration.OpenWorldClientConfiguration
 import com.expediagroup.rapid.sdk.core.client.RapidClient
+import com.expediagroup.rapid.sdk.core.configuration.RapidClientConfiguration
 import io.ktor.client.engine.HttpClientEngine
 
 internal object ClientFactory {
-    private val configuration = ClientConfiguration.Builder()
-        .key(CLIENT_KEY_TEST_CREDENTIAL)
-        .secret(CLIENT_SECRET_TEST_CREDENTIAL)
-        .endpoint(DefaultConfigurationProvider.endpoint)
-        .authEndpoint(DefaultConfigurationProvider.authEndpoint)
-        .build()
+    val openWorldConfiguration = OpenWorldClientConfiguration(
+        key = CLIENT_KEY_TEST_CREDENTIAL,
+        secret = CLIENT_SECRET_TEST_CREDENTIAL,
+        endpoint = DefaultConfigurationProvider.endpoint,
+        authEndpoint = DefaultConfigurationProvider.authEndpoint
+    )
 
-    fun createOpenWorldClient(): OpenWorldClient = Client.create(configuration, MockEngineFactory.createDefaultEngine())
+    private val rapidConfiguration = RapidClientConfiguration(
+        key = CLIENT_KEY_TEST_CREDENTIAL,
+        secret = CLIENT_SECRET_TEST_CREDENTIAL,
+        endpoint = DefaultConfigurationProvider.endpoint
+    )
+
+    fun createOpenWorldClient(): OpenWorldClient = Client.create(openWorldConfiguration, MockEngineFactory.createDefaultEngine())
 
     fun createOpenWorldClient(mockEngine: HttpClientEngine): OpenWorldClient = Client.create(
-        configuration,
+        openWorldConfiguration,
         mockEngine
     )
 
-    fun createOpenWorldClient(mockEngine: HttpClientEngine, configuration: ClientConfiguration): OpenWorldClient = Client.create(configuration, mockEngine)
+    fun createOpenWorldClient(mockEngine: HttpClientEngine, configuration: OpenWorldClientConfiguration): OpenWorldClient = Client.create(configuration, mockEngine)
 
     fun createRapidClient(mockEngine: HttpClientEngine): RapidClient = Client.create(
-        configuration,
+        rapidConfiguration,
         mockEngine
     )
 
