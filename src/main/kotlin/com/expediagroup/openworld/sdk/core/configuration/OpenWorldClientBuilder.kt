@@ -16,25 +16,33 @@
 package com.expediagroup.openworld.sdk.core.configuration
 
 import com.expediagroup.common.sdk.core.client.Client
-import com.expediagroup.common.sdk.core.configuration.Configurator
+import com.expediagroup.common.sdk.core.configuration.ClientBuilder
 import com.expediagroup.common.sdk.core.contract.Contract
 import com.expediagroup.common.sdk.core.contract.adhereTo
 import com.expediagroup.openworld.sdk.core.client.OpenWorldClient
 
-class OpenWorldConfigrator : Configurator<OpenWorldConfigrator>() {
+/**
+ * An [OpenWorldClient] builder.
+ *
+ * @property key The API key to use for requests.
+ * @property secret The API secret to use for requests.
+ * @property endpoint The API endpoint to use for requests.
+ * @property authEndpoint The API auth endpoint to use for requests.
+ */
+class OpenWorldClientBuilder : ClientBuilder<OpenWorldClientBuilder>() {
     private var authEndpoint: String? = null
 
     /** Sets the API auth endpoint to use for requests.
      *
      * @param authEndpoint The API auth endpoint to use for requests.
-     * @return The [OpenWorldConfigrator] instance.
+     * @return The [OpenWorldClientBuilder] instance.
      */
-    fun authEndpoint(authEndpoint: String): OpenWorldConfigrator {
+    fun authEndpoint(authEndpoint: String): OpenWorldClientBuilder {
         this.authEndpoint = authEndpoint
         return self()
     }
 
-    /** Builds the [OpenWorldClientConfiguration] object. */
+    /** Create an [OpenWorldClient] instance. */
     override fun build(): OpenWorldClient = Client.create(
         OpenWorldClientConfiguration(
             key = key,
@@ -43,6 +51,4 @@ class OpenWorldConfigrator : Configurator<OpenWorldConfigrator>() {
             authEndpoint = authEndpoint
         )
     )
-
-    override fun self(): OpenWorldConfigrator = this
 }

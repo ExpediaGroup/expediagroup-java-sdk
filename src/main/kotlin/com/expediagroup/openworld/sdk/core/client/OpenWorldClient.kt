@@ -21,8 +21,8 @@ import com.expediagroup.common.sdk.core.constant.Constant
 import com.expediagroup.common.sdk.core.model.error.Error
 import com.expediagroup.common.sdk.core.model.exception.service.OpenWorldServiceException
 import com.expediagroup.common.sdk.core.plugin.authentication.strategy.AuthenticationStrategy
+import com.expediagroup.openworld.sdk.core.configuration.OpenWorldClientBuilder
 import com.expediagroup.openworld.sdk.core.configuration.OpenWorldClientConfiguration
-import com.expediagroup.openworld.sdk.core.configuration.OpenWorldConfigrator
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.HttpClientEngine
@@ -66,6 +66,7 @@ open class OpenWorldClient(
 
         /** Creates a new ClientConfigurations.Builder instance. */
         @JvmStatic
-        fun builder() = OpenWorldConfigrator()
+        @Suppress("unused") // Used by the product SDKs.
+        fun builder() = OpenWorldClientBuilder()
     }
 }

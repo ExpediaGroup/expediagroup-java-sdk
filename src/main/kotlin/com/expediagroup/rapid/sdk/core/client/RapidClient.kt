@@ -21,8 +21,8 @@ import com.expediagroup.common.sdk.core.constant.Constant
 import com.expediagroup.common.sdk.core.model.error.rapid.RapidError
 import com.expediagroup.common.sdk.core.model.exception.rapid.RapidServiceException
 import com.expediagroup.common.sdk.core.plugin.authentication.strategy.AuthenticationStrategy
+import com.expediagroup.rapid.sdk.core.configuration.RapidClientBuilder
 import com.expediagroup.rapid.sdk.core.configuration.RapidClientConfiguration
-import com.expediagroup.rapid.sdk.core.configuration.RapidConfigrator
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.HttpClientEngine
@@ -66,6 +66,7 @@ class RapidClient(
 
         /** Creates a new RapidClient instance. */
         @JvmStatic
-        fun builder() = RapidConfigrator()
+        @Suppress("unused") // Used by the product SDKs.
+        fun builder() = RapidClientBuilder()
     }
 }

@@ -16,7 +16,15 @@
 package com.expediagroup.rapid.sdk.core.configuration
 
 import com.expediagroup.common.sdk.core.configuration.ClientConfiguration
+import com.expediagroup.rapid.sdk.core.client.RapidClient
 
+/**
+ * Configuration for the [RapidClient].
+ *
+ * @property key The API key to use for authentication.
+ * @property secret The API secret to use for authentication.
+ * @property endpoint The API endpoint to use for requests.
+ */
 data class RapidClientConfiguration(
     override val key: String? = null,
     override val secret: String? = null,

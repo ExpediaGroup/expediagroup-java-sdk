@@ -16,14 +16,21 @@
 package com.expediagroup.rapid.sdk.core.configuration
 
 import com.expediagroup.common.sdk.core.client.Client
-import com.expediagroup.common.sdk.core.configuration.Configurator
+import com.expediagroup.common.sdk.core.configuration.ClientBuilder
 import com.expediagroup.common.sdk.core.contract.Contract
 import com.expediagroup.common.sdk.core.contract.adhereTo
 import com.expediagroup.rapid.sdk.core.client.RapidClient
 
-class RapidConfigrator : Configurator<RapidConfigrator>() {
+/**
+ * A [RapidClient] builder.
+ *
+ * @property key The API key to use for authentication.
+ * @property secret The API secret to use for authentication.
+ * @property endpoint The API endpoint to use for requests.
+ */
+class RapidClientBuilder : ClientBuilder<RapidClientBuilder>() {
 
-    /** Builds the [RapidClient] object. */
+    /** Create a [RapidClient] instance. */
     override fun build(): RapidClient = Client.create(
         RapidClientConfiguration(
             key = key,
@@ -31,6 +38,4 @@ class RapidConfigrator : Configurator<RapidConfigrator>() {
             endpoint = endpoint?.adhereTo(Contract.TRAILING_SLASH)
         )
     )
-
-    override fun self(): RapidConfigrator = this
 }

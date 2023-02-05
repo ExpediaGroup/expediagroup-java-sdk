@@ -17,9 +17,10 @@ package com.expediagroup.openworld.sdk.core.configuration
 
 import com.expediagroup.common.sdk.core.configuration.ClientConfiguration
 import com.expediagroup.common.sdk.core.configuration.provider.RuntimeConfigurationProvider
+import com.expediagroup.openworld.sdk.core.client.OpenWorldClient
 
 /**
- * SDK Client Configurations Provider.
+ * Configuration for the [OpenWorldClient].
  *
  * @property key The API key to use for authentication.
  * @property secret The API secret to use for authentication.

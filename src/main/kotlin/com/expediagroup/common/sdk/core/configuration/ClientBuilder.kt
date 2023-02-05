@@ -19,7 +19,14 @@ import com.expediagroup.common.sdk.core.client.Client
 import com.expediagroup.common.sdk.core.contract.Contract
 import com.expediagroup.common.sdk.core.contract.adhereTo
 
-abstract class Configurator<SELF : Configurator<SELF>> {
+/**
+ * A [Client] builder.
+ *
+ * @property key The API key to use for authentication.
+ * @property secret The API secret to use for authentication.
+ * @property endpoint The API endpoint to use for requests.
+ */
+abstract class ClientBuilder<SELF : ClientBuilder<SELF>> {
     protected var key: String? = null
     protected var secret: String? = null
     protected var endpoint: String? = null
@@ -27,7 +34,7 @@ abstract class Configurator<SELF : Configurator<SELF>> {
     /** Sets the API key to use for authentication.
      *
      * @param key The API key to use for authentication.
-     * @return The [Builder] instance.
+     * @return The [ClientBuilder] instance.
      */
     fun key(key: String): SELF {
         this.key = key
@@ -37,7 +44,7 @@ abstract class Configurator<SELF : Configurator<SELF>> {
     /** Sets the API secret to use for authentication.
      *
      * @param secret The API secret to use for authentication.
-     * @return The [Builder] instance.
+     * @return The [ClientBuilder] instance.
      */
     fun secret(secret: String): SELF {
         this.secret = secret
@@ -47,14 +54,14 @@ abstract class Configurator<SELF : Configurator<SELF>> {
     /** Sets the API endpoint to use for requests.
      *
      * @param endpoint The API endpoint to use for requests.
-     * @return The [Builder] instance.
+     * @return The [ClientBuilder] instance.
      */
     fun endpoint(endpoint: String): SELF {
         this.endpoint = endpoint.adhereTo(Contract.TRAILING_SLASH)
         return self()
     }
 
-    /** Builds the [Client] object. */
+    /** Create a [Client] object. */
     abstract fun build(): Client
 
     @Suppress("UNCHECKED_CAST") // This is safe because of the type parameter
