@@ -15,20 +15,15 @@
  */
 package com.expediagroup.rapid.sdk.core.configuration
 
-import com.expediagroup.common.sdk.core.model.exception.client.OpenWorldConfigurationException
 import com.expediagroup.common.sdk.core.test.TestConstants
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class RapidClientBuilderTest {
 
-    // TODO: Update test once [SDK-228] is done.
     @Test
     fun `verify typical behaviour with no configurations`() {
-        assertThrows<OpenWorldConfigurationException> {
-            RapidClientBuilder().build().httpClient
-        }
+        assertNotNull(RapidClientBuilder().build().httpClient)
     }
 
     @Test
