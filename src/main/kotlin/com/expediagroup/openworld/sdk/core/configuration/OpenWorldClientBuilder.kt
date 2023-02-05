@@ -29,7 +29,7 @@ import com.expediagroup.openworld.sdk.core.client.OpenWorldClient
  * @property endpoint The API endpoint to use for requests.
  * @property authEndpoint The API auth endpoint to use for requests.
  */
-class OpenWorldClientBuilder : ClientBuilder<OpenWorldClientBuilder>() {
+open class OpenWorldClientBuilder<SELF : OpenWorldClientBuilder<SELF>> : ClientBuilder<SELF>() {
     private var authEndpoint: String? = null
 
     /** Sets the API auth endpoint to use for requests.
@@ -37,7 +37,7 @@ class OpenWorldClientBuilder : ClientBuilder<OpenWorldClientBuilder>() {
      * @param authEndpoint The API auth endpoint to use for requests.
      * @return The [OpenWorldClientBuilder] instance.
      */
-    fun authEndpoint(authEndpoint: String): OpenWorldClientBuilder {
+    fun authEndpoint(authEndpoint: String): SELF {
         this.authEndpoint = authEndpoint
         return self()
     }
