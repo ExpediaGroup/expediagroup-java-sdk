@@ -16,13 +16,14 @@
 package com.expediagroup.rapid.sdk.core.client
 
 import com.expediagroup.common.sdk.core.client.Client
+import com.expediagroup.common.sdk.core.client.DEFAULT_HTTP_CLIENT_ENGINE
 import com.expediagroup.common.sdk.core.client.finalize
-import com.expediagroup.common.sdk.core.constant.Constant
-import com.expediagroup.common.sdk.core.model.error.rapid.RapidError
-import com.expediagroup.common.sdk.core.model.exception.rapid.RapidServiceException
+import com.expediagroup.common.sdk.core.constant.Constant.EMPTY_STRING
 import com.expediagroup.common.sdk.core.plugin.authentication.strategy.AuthenticationStrategy
 import com.expediagroup.rapid.sdk.core.configuration.RapidClientBuilder
 import com.expediagroup.rapid.sdk.core.configuration.RapidClientConfiguration
+import com.expediagroup.rapid.sdk.core.model.error.RapidError
+import com.expediagroup.rapid.sdk.core.model.exception.service.RapidServiceException
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.HttpClientEngine
@@ -38,9 +39,9 @@ import io.ktor.http.toURI
  */
 class RapidClient(
     clientConfiguration: RapidClientConfiguration,
-    httpClientEngine: HttpClientEngine = Constant.DEFAULT_HTTP_CLIENT_ENGINE
+    httpClientEngine: HttpClientEngine = DEFAULT_HTTP_CLIENT_ENGINE
 ) : Client(clientConfiguration, httpClientEngine) {
-    private val _httpClient: HttpClient = buildHttpClient(AuthenticationStrategy.AuthenticationType.SIGNATURE)
+    private val _httpClient: HttpClient = buildHttpClient(EMPTY_STRING, AuthenticationStrategy.AuthenticationType.SIGNATURE)
 
     init {
         finalize()

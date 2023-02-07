@@ -13,10 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.common.sdk.core.constant
+package com.expediagroup.openworld.sdk.core.model.exception.client
 
-internal object ExceptionMessage {
-    const val AUTHENTICATION_FAILURE = "Unable to authenticate"
+import com.expediagroup.openworld.sdk.core.model.exception.OpenWorldException
 
-    const val AUTHENTICATION_NOT_CONFIGURED_FOR_CLIENT = "Authentication is not configured"
-}
+/**
+ * An exception that is thrown when a client error occurs.
+ */
+open class OpenWorldClientException(
+    message: String? = null,
+    cause: Throwable? = null
+) : OpenWorldException(message, cause)

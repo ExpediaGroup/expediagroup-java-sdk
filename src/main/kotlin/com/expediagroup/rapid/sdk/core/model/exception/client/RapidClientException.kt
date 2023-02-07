@@ -13,10 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.common.sdk.core.constant
+package com.expediagroup.rapid.sdk.core.model.exception.client
 
-internal object ExceptionMessage {
-    const val AUTHENTICATION_FAILURE = "Unable to authenticate"
+import com.expediagroup.rapid.sdk.core.model.exception.RapidException
 
-    const val AUTHENTICATION_NOT_CONFIGURED_FOR_CLIENT = "Authentication is not configured"
-}
+/**
+ * An exception that is thrown when a client error occurs.
+ */
+open class RapidClientException(
+    message: String? = null,
+    cause: Throwable? = null
+) : RapidException(message, cause)

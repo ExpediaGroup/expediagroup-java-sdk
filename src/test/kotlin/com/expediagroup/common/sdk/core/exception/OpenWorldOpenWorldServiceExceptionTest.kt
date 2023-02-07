@@ -15,11 +15,11 @@
  */
 package com.expediagroup.common.sdk.core.exception
 
-import com.expediagroup.common.sdk.core.model.error.Error
-import com.expediagroup.common.sdk.core.model.error.ErrorCause
 import com.expediagroup.common.sdk.core.test.ClientFactory
 import com.expediagroup.common.sdk.core.test.TestConstants.BAD_REQUEST_ATTRIBUTE
 import com.expediagroup.common.sdk.core.test.TestConstants.TEST_URL
+import com.expediagroup.openworld.sdk.core.model.error.Error
+import com.expediagroup.openworld.sdk.core.model.error.ErrorCause
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.url

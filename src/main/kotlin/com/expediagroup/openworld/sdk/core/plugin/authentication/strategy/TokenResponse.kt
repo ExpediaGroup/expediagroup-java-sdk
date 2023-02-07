@@ -13,10 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.common.sdk.core.constant
+package com.expediagroup.openworld.sdk.core.plugin.authentication.strategy
 
-internal object ExceptionMessage {
-    const val AUTHENTICATION_FAILURE = "Unable to authenticate"
-
-    const val AUTHENTICATION_NOT_CONFIGURED_FOR_CLIENT = "Authentication is not configured"
-}
+internal data class TokenResponse(
+    val accessToken: String,
+    val expiresIn: Int,
+    val token: String? = null,
+    val scope: String,
+    val tokenType: String,
+    val idToken: String? = null
+)

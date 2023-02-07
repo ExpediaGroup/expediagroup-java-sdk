@@ -15,7 +15,7 @@
  */
 package com.expediagroup.common.sdk.core.config
 
-import com.expediagroup.common.sdk.core.model.exception.client.OpenWorldConfigurationException
+import com.expediagroup.openworld.sdk.core.model.exception.client.OpenWorldConfigurationException
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull

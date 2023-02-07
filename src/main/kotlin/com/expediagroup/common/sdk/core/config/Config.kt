@@ -17,7 +17,7 @@ package com.expediagroup.common.sdk.core.config
 
 import com.expediagroup.common.sdk.core.config.provider.ConfigurationData
 import com.expediagroup.common.sdk.core.constant.provider.ExceptionMessageProvider.getConfigurationUnknownMessage
-import com.expediagroup.common.sdk.core.model.exception.client.OpenWorldConfigurationException
+import com.expediagroup.openworld.sdk.core.model.exception.client.OpenWorldConfigurationException
 
 /**
  * @property configurationData deserialized configuration data which needs to be parsed

@@ -20,7 +20,7 @@ import com.expediagroup.common.sdk.core.constant.provider.ExceptionMessageProvid
 import com.expediagroup.common.sdk.core.constant.provider.ExceptionMessageProvider.getExpectedActualNameValueMessage
 import com.expediagroup.common.sdk.core.constant.provider.ExceptionMessageProvider.getExpectedNameValueMessage
 import com.expediagroup.common.sdk.core.constant.provider.ExceptionMessageProvider.getRequiredConfigurationsNotDefinedMessage
-import com.expediagroup.common.sdk.core.model.exception.client.OpenWorldConfigurationException
+import com.expediagroup.openworld.sdk.core.model.exception.client.OpenWorldConfigurationException
 import java.util.Locale
 
 /**

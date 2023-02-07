@@ -13,10 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.common.sdk.core.constant
+package com.expediagroup.rapid.sdk.core.model.error
 
-internal object ExceptionMessage {
-    const val AUTHENTICATION_FAILURE = "Unable to authenticate"
-
-    const val AUTHENTICATION_NOT_CONFIGURED_FOR_CLIENT = "Authentication is not configured"
-}
+/**
+ * An individual field that had an error.
+ *
+ * @property name The field that had an error.
+ * @property type The type of the field that had an error.
+ * @property value The value of the field that had an error.
+ */
+data class Field(
+    val name: String? = null,
+    val type: String? = null,
+    val value: String? = null
+)

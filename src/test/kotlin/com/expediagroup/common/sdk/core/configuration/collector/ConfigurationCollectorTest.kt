@@ -21,8 +21,8 @@ import com.expediagroup.common.sdk.core.constant.Constant.EMPTY_STRING
 import com.expediagroup.common.sdk.core.test.TestConstants.CLIENT_KEY_TEST_CREDENTIAL
 import com.expediagroup.common.sdk.core.test.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 internal class ConfigurationCollectorTest {
 
@@ -30,9 +30,10 @@ internal class ConfigurationCollectorTest {
     fun `verify configuration collector with no providers`() {
         val collector = ConfigurationCollector.create()
 
-        assertThrows<NullPointerException> {
-            collector.key
-        }
+        assertNull(collector.key)
+        assertNull(collector.secret)
+        assertNull(collector.endpoint)
+        assertNull(collector.authEndpoint)
     }
 
     @Test
@@ -79,10 +80,7 @@ internal class ConfigurationCollectorTest {
         assertEquals(CLIENT_KEY_TEST_CREDENTIAL, collector.key)
         assertEquals(CLIENT_SECRET_TEST_CREDENTIAL, collector.secret)
         assertEquals(DefaultConfigurationProvider.endpoint, collector.endpoint)
-
-        assertThrows<NullPointerException> {
-            collector.authEndpoint
-        }
+        assertNull(collector.authEndpoint)
     }
 
     @Test

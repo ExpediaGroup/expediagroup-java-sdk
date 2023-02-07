@@ -19,6 +19,7 @@ import com.expediagroup.common.sdk.core.configuration.ClientConfiguration
 import com.expediagroup.common.sdk.core.configuration.Credentials
 import com.expediagroup.common.sdk.core.configuration.collector.ConfigurationCollector
 import com.expediagroup.common.sdk.core.configuration.provider.DefaultConfigurationProvider
+import com.expediagroup.common.sdk.core.constant.ConfigurationName
 import com.expediagroup.common.sdk.core.constant.Constant
 import com.expediagroup.common.sdk.core.constant.provider.LoggingMessageProvider
 import com.expediagroup.common.sdk.core.plugin.Hooks
@@ -46,6 +47,8 @@ import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.statement.HttpResponse
 
+val DEFAULT_HTTP_CLIENT_ENGINE: HttpClientEngine = OkHttp.create()
+
 /**
  * The base integration point between the SDK Core and the product SDKs.
  *
@@ -54,7 +57,7 @@ import io.ktor.client.statement.HttpResponse
  */
 abstract class Client(
     clientConfiguration: ClientConfiguration,
-    private val httpClientEngine: HttpClientEngine = Constant.DEFAULT_HTTP_CLIENT_ENGINE
+    private val httpClientEngine: HttpClientEngine = DEFAULT_HTTP_CLIENT_ENGINE
 ) {
 
     /**
@@ -62,20 +65,25 @@ abstract class Client(
      */
     internal abstract val httpClient: HttpClient
 
-    private val configurationCollector: ConfigurationCollector = ConfigurationCollector.create(
+    internal val configurationCollector: ConfigurationCollector = ConfigurationCollector.create(
         clientConfiguration.toProvider(),
         DefaultConfigurationProvider
     )
 
+    private val key: String = configurationCollector.key ?: fireMissingConfigurationIssue(ConfigurationName.KEY)
+    private val secret: String = configurationCollector.secret ?: fireMissingConfigurationIssue(ConfigurationName.SECRET)
+    private val endpoint: String = configurationCollector.endpoint ?: fireMissingConfigurationIssue(ConfigurationName.ENDPOINT)
+
     internal fun buildHttpClient(
+        authEndpoint: String,
         authenticationType: AuthenticationStrategy.AuthenticationType
     ): HttpClient = HttpClient(httpClientEngine) {
         val httpClientConfig = this
 
         val authenticationConfiguration = AuthenticationConfiguration.from(
             httpClientConfig,
-            Credentials.from(configurationCollector.key, configurationCollector.secret),
-            configurationCollector.authEndpoint,
+            Credentials.from(key, secret),
+            authEndpoint,
             authenticationType
         )
 
@@ -83,7 +91,7 @@ abstract class Client(
             use(LoggingPlugin).with(LoggingConfiguration.from(httpClientConfig))
             use(SerializationPlugin).with(SerializationConfiguration.from(httpClientConfig))
             use(AuthenticationPlugin).with(authenticationConfiguration)
-            use(DefaultRequestPlugin).with(DefaultRequestConfiguration.from(httpClientConfig, configurationCollector.endpoint))
+            use(DefaultRequestPlugin).with(DefaultRequestConfiguration.from(httpClientConfig, endpoint))
             use(EncodingPlugin).with(EncodingConfiguration.from(httpClientConfig))
         }
 
@@ -116,7 +124,7 @@ abstract class Client(
          */
         inline fun <reified C : Client, CC : ClientConfiguration> create(
             clientConfiguration: CC,
-            httpClientEngine: HttpClientEngine = OkHttp.create()
+            httpClientEngine: HttpClientEngine = DEFAULT_HTTP_CLIENT_ENGINE
         ): C = when (C::class) {
             OpenWorldClient::class -> OpenWorldClient(clientConfiguration as OpenWorldClientConfiguration, httpClientEngine) as C
             RapidClient::class -> RapidClient(clientConfiguration as RapidClientConfiguration, httpClientEngine) as C

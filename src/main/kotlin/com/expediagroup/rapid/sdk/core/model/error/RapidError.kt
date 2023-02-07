@@ -13,10 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.common.sdk.core.constant
+package com.expediagroup.rapid.sdk.core.model.error
 
-internal object ExceptionMessage {
-    const val AUTHENTICATION_FAILURE = "Unable to authenticate"
-
-    const val AUTHENTICATION_NOT_CONFIGURED_FOR_CLIENT = "Authentication is not configured"
-}
+/**
+ * The object used to describe an error, containing both human-readable and machine-readable information.
+ *
+ * @property type The type of error.
+ * @property message A human-readable message giving details about this error.
+ * @property fields Details about the specific fields that had an error.
+ * @property errors Details about the specific errors.
+ */
+data class RapidError(
+    val type: String? = null,
+    val message: String? = null,
+    val fields: List<Field>? = null,
+    val errors: List<ErrorIndividual>? = null
+)
