@@ -19,6 +19,8 @@ internal object ExceptionMessageProvider {
     fun getConfigurationDefinedMultipleTimesMessage(configurationName: String): String =
         "Configuration $configurationName is defined multiple times"
 
+    fun getPropertyNotFoundMessage(path: Any): String = "Could not read properties from file [$path]"
+
     fun getRequiredConfigurationsNotDefinedMessage(configurations: String): String =
         "Some required configurations are not defined: $configurations"
 
