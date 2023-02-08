@@ -414,8 +414,7 @@
 
                             <exclude>**/client/*Client*</exclude>
 
-                            <exclude>**/configuration/ClientBuilder*</exclude>
-                            <exclude>**/configuration/NetworkConfiguration*</exclude>
+                            <exclude>**/configuration/**ClientBuilder*</exclude>
                             <exclude>**/configuration/NetworkConfiguration*</exclude>
                             <exclude>**/config/**</exclude>
 
