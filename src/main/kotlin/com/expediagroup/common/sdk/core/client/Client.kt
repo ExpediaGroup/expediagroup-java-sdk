@@ -63,7 +63,7 @@ abstract class Client(
     /**
      * The HTTP client to perform requests with.
      */
-    internal abstract val httpClient: HttpClient
+    abstract val httpClient: HttpClient
 
     internal val configurationCollector: ConfigurationCollector = ConfigurationCollector.create(
         clientConfiguration.toProvider(),
