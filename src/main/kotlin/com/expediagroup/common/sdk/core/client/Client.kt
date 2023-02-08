@@ -50,12 +50,8 @@ val DEFAULT_HTTP_CLIENT_ENGINE: HttpClientEngine = OkHttp.create()
 
 /**
  * The base integration point between the SDK Core and the product SDKs.
- *
- * @property httpClientEngine The HTTP client engine to use.
  */
-abstract class Client(
-    private val httpClientEngine: HttpClientEngine = DEFAULT_HTTP_CLIENT_ENGINE
-) {
+abstract class Client {
 
     /**
      * The HTTP client to perform requests with.
@@ -64,7 +60,8 @@ abstract class Client(
 
     internal fun buildHttpClient(
         configurationProvider: ConfigurationProvider,
-        authenticationType: AuthenticationStrategy.AuthenticationType
+        authenticationType: AuthenticationStrategy.AuthenticationType,
+        httpClientEngine: HttpClientEngine = DEFAULT_HTTP_CLIENT_ENGINE
     ): HttpClient = HttpClient(httpClientEngine) {
         val httpClientConfig = this
 
@@ -92,6 +89,12 @@ abstract class Client(
             use(AuthenticationHookFactory).with(authenticationConfiguration)
         }
     }
+
+    /** Throw an exception if the configuration is missing. */
+    abstract fun fireMissingConfigurationIssue(configurationKey: String): Nothing
+
+    /** Throw an exception if the authentication fails. */
+    abstract fun fireAuthIssue(message: String): Nothing
 
     private fun isNotSuccessfulResponse(response: HttpResponse) = response.status.value !in Constant.SUCCESSFUL_STATUS_CODES_RANGE
 

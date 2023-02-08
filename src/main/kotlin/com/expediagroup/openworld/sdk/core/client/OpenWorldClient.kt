@@ -20,11 +20,14 @@ import com.expediagroup.common.sdk.core.client.DEFAULT_HTTP_CLIENT_ENGINE
 import com.expediagroup.common.sdk.core.client.finalize
 import com.expediagroup.common.sdk.core.configuration.collector.ConfigurationCollector
 import com.expediagroup.common.sdk.core.configuration.provider.ConfigurationProvider
+import com.expediagroup.common.sdk.core.constant.provider.ExceptionMessageProvider.getMissingRequiredConfigurationMessage
 import com.expediagroup.common.sdk.core.plugin.authentication.strategy.AuthenticationStrategy
 import com.expediagroup.openworld.sdk.core.configuration.OpenWorldClientBuilder
 import com.expediagroup.openworld.sdk.core.configuration.OpenWorldClientConfiguration
 import com.expediagroup.openworld.sdk.core.configuration.provider.OpenWorldConfigurationProvider
 import com.expediagroup.openworld.sdk.core.model.error.Error
+import com.expediagroup.openworld.sdk.core.model.exception.client.OpenWorldConfigurationException
+import com.expediagroup.openworld.sdk.core.model.exception.service.OpenWorldAuthException
 import com.expediagroup.openworld.sdk.core.model.exception.service.OpenWorldServiceException
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -42,12 +45,12 @@ import io.ktor.http.toURI
 open class OpenWorldClient(
     clientConfiguration: OpenWorldClientConfiguration,
     httpClientEngine: HttpClientEngine = DEFAULT_HTTP_CLIENT_ENGINE
-) : Client(httpClientEngine) {
+) : Client() {
     private val configurationProvider: ConfigurationProvider = ConfigurationCollector.create(
         clientConfiguration.toProvider(),
         OpenWorldConfigurationProvider
     )
-    private val _httpClient: HttpClient = buildHttpClient(configurationProvider, AuthenticationStrategy.AuthenticationType.BEARER)
+    private val _httpClient: HttpClient = buildHttpClient(configurationProvider, AuthenticationStrategy.AuthenticationType.BEARER, httpClientEngine)
 
     init {
         finalize()
@@ -55,6 +58,9 @@ open class OpenWorldClient(
 
     override val httpClient: HttpClient
         get() = _httpClient
+
+    override fun fireMissingConfigurationIssue(configurationKey: String): Nothing = throw OpenWorldConfigurationException(getMissingRequiredConfigurationMessage(configurationKey))
+    override fun fireAuthIssue(message: String): Nothing = throw OpenWorldAuthException(message)
 
     override suspend fun throwServiceException(response: HttpResponse) {
         runCatching {
