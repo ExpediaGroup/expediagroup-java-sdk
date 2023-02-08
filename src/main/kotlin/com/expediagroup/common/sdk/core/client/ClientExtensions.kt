@@ -30,7 +30,7 @@ import com.expediagroup.rapid.sdk.core.model.exception.service.RapidAuthExceptio
  *  @param message The error message.
  *  @param cause The cause of the error.
  */
-inline fun <reified C : Client> C.fireAuthIssue(message: String, cause: Throwable? = null): Nothing = when (C::class) {
+internal inline fun <reified C : Client> C.fireAuthIssue(message: String, cause: Throwable? = null): Nothing = when (C::class) {
     OpenWorldClient::class -> throw OpenWorldAuthException(message, cause)
     RapidClient::class -> throw RapidAuthException(message, cause)
     else -> throw BaseException("Unknown client type: ${C::class}")
@@ -42,7 +42,7 @@ inline fun <reified C : Client> C.fireAuthIssue(message: String, cause: Throwabl
  * @param message The error message.
  * @param cause The cause of the error.
  */
-inline fun <reified C : Client> C.fireConfigurationIssue(message: String, cause: Throwable? = null): Nothing = when (C::class) {
+internal inline fun <reified C : Client> C.fireConfigurationIssue(message: String, cause: Throwable? = null): Nothing = when (C::class) {
     OpenWorldClient::class -> throw OpenWorldConfigurationException(message, cause)
     RapidClient::class -> throw RapidConfigurationException(message, cause)
     else -> throw BaseException("Unknown client type: ${C::class}")

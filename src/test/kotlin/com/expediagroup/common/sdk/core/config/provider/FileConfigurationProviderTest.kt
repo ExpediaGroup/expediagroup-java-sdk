@@ -16,7 +16,7 @@
 package com.expediagroup.common.sdk.core.config.provider
 
 import com.expediagroup.common.sdk.core.constant.Constant.EMPTY_STRING
-import com.expediagroup.openworld.sdk.core.model.exception.client.OpenWorldConfigurationException
+import com.expediagroup.common.sdk.core.model.exception.BaseException
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -68,7 +68,7 @@ class FileConfigurationProviderTest {
     @Test
     fun `file configuration provider should throw configuration exception if the file is not found`() {
         val provider: ConfigurationProvider = FileConfigurationProvider()
-        assertThrows<OpenWorldConfigurationException> {
+        assertThrows<BaseException> {
             provider[INVALID_RESOURCE_FILE_NAME]
         }
     }
@@ -76,7 +76,7 @@ class FileConfigurationProviderTest {
     @Test
     fun `file configuration provider should throw configuration exception if the file url is not found`() {
         val provider: ConfigurationProvider = FileConfigurationProvider()
-        assertThrows<OpenWorldConfigurationException> {
+        assertThrows<BaseException> {
             provider[INVALID_URL]
         }
     }
@@ -91,7 +91,7 @@ class FileConfigurationProviderTest {
     fun `file configuration provider should throw an exception when the optional flag is not set and file doesn't exists`() {
         val provider: ConfigurationProvider = FileConfigurationProvider()
 
-        assertThrows<OpenWorldConfigurationException> {
+        assertThrows<BaseException> {
             provider[INVALID_URL].data()
         }
     }

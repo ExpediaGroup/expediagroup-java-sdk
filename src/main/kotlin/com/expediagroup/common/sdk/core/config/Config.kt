@@ -17,6 +17,7 @@ package com.expediagroup.common.sdk.core.config
 
 import com.expediagroup.common.sdk.core.config.provider.ConfigurationData
 import com.expediagroup.common.sdk.core.constant.provider.ExceptionMessageProvider.getConfigurationUnknownMessage
+import com.expediagroup.common.sdk.core.model.exception.BaseException
 
 /**
  * @property configurationData deserialized configuration data which needs to be parsed
@@ -40,8 +41,7 @@ class Config(
      */
     operator fun get(key: String): Any {
         if (!configurations.containsKey(key)) {
-            @Suppress("TooGenericExceptionThrown")
-            throw RuntimeException(getConfigurationUnknownMessage(key))
+            throw BaseException(getConfigurationUnknownMessage(key))
         }
 
         return configurations[key]!!

@@ -39,7 +39,7 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.headersOf
 import io.ktor.util.AttributeKey
 import io.ktor.utils.io.ByteReadChannel
-import java.util.*
+import java.util.Base64
 
 object MockEngineFactory {
     fun createDefaultEngine(): HttpClientEngine = MockEngine { request ->

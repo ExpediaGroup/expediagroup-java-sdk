@@ -16,14 +16,14 @@
 package com.expediagroup.common.sdk.core.config.provider
 
 import com.expediagroup.common.sdk.core.constant.provider.ExceptionMessageProvider.getPropertyNotFoundMessage
-import com.expediagroup.openworld.sdk.core.model.exception.client.OpenWorldConfigurationException
+import com.expediagroup.common.sdk.core.model.exception.BaseException
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.io.Reader
 import java.net.URL
 import java.nio.file.Files
 import java.nio.file.Paths
-import java.util.*
+import java.util.Properties
 
 /**
  * An implementation of [ConfigurationProvider] that represents a Properties file.
@@ -48,7 +48,7 @@ class FileConfigurationProvider : ConfigurationProvider {
             return readPropsFileIntoConfigurationData(Files.newBufferedReader(Paths.get(path)))
         }.getOrElse {
             if (!optional) {
-                throw OpenWorldConfigurationException(getPropertyNotFoundMessage(path))
+                throw BaseException(getPropertyNotFoundMessage(path))
             }
 
             return emptyConfigurationData
@@ -67,7 +67,7 @@ class FileConfigurationProvider : ConfigurationProvider {
         return runCatching {
             readPropsFileIntoConfigurationData(BufferedReader(InputStreamReader(url.openStream())))
         }.getOrElse {
-            if (!optional) throw OpenWorldConfigurationException(getPropertyNotFoundMessage(url))
+            if (!optional) throw BaseException(getPropertyNotFoundMessage(url))
 
             return emptyConfigurationData
         }
