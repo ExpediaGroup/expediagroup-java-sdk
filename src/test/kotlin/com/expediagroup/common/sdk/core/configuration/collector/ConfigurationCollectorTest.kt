@@ -15,11 +15,11 @@
  */
 package com.expediagroup.common.sdk.core.configuration.collector
 
-import com.expediagroup.common.sdk.core.configuration.provider.DefaultConfigurationProvider
 import com.expediagroup.common.sdk.core.configuration.provider.RuntimeConfigurationProvider
 import com.expediagroup.common.sdk.core.constant.Constant.EMPTY_STRING
 import com.expediagroup.common.sdk.core.test.TestConstants.CLIENT_KEY_TEST_CREDENTIAL
 import com.expediagroup.common.sdk.core.test.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
+import com.expediagroup.openworld.sdk.core.configuration.provider.OpenWorldConfigurationProvider
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
@@ -38,12 +38,12 @@ internal class ConfigurationCollectorTest {
 
     @Test
     fun `verify configuration collector with default configuration only`() {
-        val collector = ConfigurationCollector.create(DefaultConfigurationProvider)
+        val collector = ConfigurationCollector.create(OpenWorldConfigurationProvider)
 
         assertEquals(EMPTY_STRING, collector.key)
         assertEquals(EMPTY_STRING, collector.secret)
-        assertEquals(DefaultConfigurationProvider.endpoint, collector.endpoint)
-        assertEquals(DefaultConfigurationProvider.authEndpoint, collector.authEndpoint)
+        assertEquals(OpenWorldConfigurationProvider.endpoint, collector.endpoint)
+        assertEquals(OpenWorldConfigurationProvider.authEndpoint, collector.authEndpoint)
     }
 
     @Test
@@ -51,8 +51,8 @@ internal class ConfigurationCollectorTest {
         val runtimeConfigurationProvider = RuntimeConfigurationProvider(
             key = CLIENT_KEY_TEST_CREDENTIAL,
             secret = CLIENT_SECRET_TEST_CREDENTIAL,
-            endpoint = DefaultConfigurationProvider.endpoint,
-            authEndpoint = DefaultConfigurationProvider.authEndpoint
+            endpoint = OpenWorldConfigurationProvider.endpoint,
+            authEndpoint = OpenWorldConfigurationProvider.authEndpoint
         )
 
         val collector = ConfigurationCollector.create(
@@ -61,8 +61,8 @@ internal class ConfigurationCollectorTest {
 
         assertEquals(CLIENT_KEY_TEST_CREDENTIAL, collector.key)
         assertEquals(CLIENT_SECRET_TEST_CREDENTIAL, collector.secret)
-        assertEquals(DefaultConfigurationProvider.endpoint, collector.endpoint)
-        assertEquals(DefaultConfigurationProvider.authEndpoint, collector.authEndpoint)
+        assertEquals(OpenWorldConfigurationProvider.endpoint, collector.endpoint)
+        assertEquals(OpenWorldConfigurationProvider.authEndpoint, collector.authEndpoint)
     }
 
     @Test
@@ -70,7 +70,7 @@ internal class ConfigurationCollectorTest {
         val runtimeConfigurationProvider = RuntimeConfigurationProvider(
             key = CLIENT_KEY_TEST_CREDENTIAL,
             secret = CLIENT_SECRET_TEST_CREDENTIAL,
-            endpoint = DefaultConfigurationProvider.endpoint
+            endpoint = OpenWorldConfigurationProvider.endpoint
         )
 
         val collector = ConfigurationCollector.create(
@@ -79,7 +79,7 @@ internal class ConfigurationCollectorTest {
 
         assertEquals(CLIENT_KEY_TEST_CREDENTIAL, collector.key)
         assertEquals(CLIENT_SECRET_TEST_CREDENTIAL, collector.secret)
-        assertEquals(DefaultConfigurationProvider.endpoint, collector.endpoint)
+        assertEquals(OpenWorldConfigurationProvider.endpoint, collector.endpoint)
         assertNull(collector.authEndpoint)
     }
 
@@ -87,17 +87,17 @@ internal class ConfigurationCollectorTest {
     fun `verify configuration collector with runtime and default providers`() {
         val runtimeConfigurationProvider = RuntimeConfigurationProvider(
             secret = CLIENT_SECRET_TEST_CREDENTIAL,
-            endpoint = DefaultConfigurationProvider.endpoint
+            endpoint = OpenWorldConfigurationProvider.endpoint
         )
 
         val collector = ConfigurationCollector.create(
             runtimeConfigurationProvider,
-            DefaultConfigurationProvider
+            OpenWorldConfigurationProvider
         )
 
         assertEquals(EMPTY_STRING, collector.key) // from default provider
         assertEquals(CLIENT_SECRET_TEST_CREDENTIAL, collector.secret) // from client configuration
-        assertEquals(DefaultConfigurationProvider.endpoint, collector.endpoint) // from client configuration
-        assertEquals(DefaultConfigurationProvider.authEndpoint, collector.authEndpoint) // from default provider
+        assertEquals(OpenWorldConfigurationProvider.endpoint, collector.endpoint) // from client configuration
+        assertEquals(OpenWorldConfigurationProvider.authEndpoint, collector.authEndpoint) // from default provider
     }
 }

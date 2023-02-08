@@ -16,27 +16,28 @@
 package com.expediagroup.common.sdk.core.test
 
 import com.expediagroup.common.sdk.core.client.Client
-import com.expediagroup.common.sdk.core.configuration.provider.DefaultConfigurationProvider
 import com.expediagroup.common.sdk.core.test.TestConstants.CLIENT_KEY_TEST_CREDENTIAL
 import com.expediagroup.common.sdk.core.test.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
 import com.expediagroup.openworld.sdk.core.client.OpenWorldClient
 import com.expediagroup.openworld.sdk.core.configuration.OpenWorldClientConfiguration
+import com.expediagroup.openworld.sdk.core.configuration.provider.OpenWorldConfigurationProvider
 import com.expediagroup.rapid.sdk.core.client.RapidClient
 import com.expediagroup.rapid.sdk.core.configuration.RapidClientConfiguration
+import com.expediagroup.rapid.sdk.core.configuration.provider.RapidConfigurationProvider
 import io.ktor.client.engine.HttpClientEngine
 
 internal object ClientFactory {
     val openWorldConfiguration = OpenWorldClientConfiguration(
         key = CLIENT_KEY_TEST_CREDENTIAL,
         secret = CLIENT_SECRET_TEST_CREDENTIAL,
-        endpoint = DefaultConfigurationProvider.endpoint,
-        authEndpoint = DefaultConfigurationProvider.authEndpoint
+        endpoint = OpenWorldConfigurationProvider.endpoint,
+        authEndpoint = OpenWorldConfigurationProvider.authEndpoint
     )
 
     private val rapidConfiguration = RapidClientConfiguration(
         key = CLIENT_KEY_TEST_CREDENTIAL,
         secret = CLIENT_SECRET_TEST_CREDENTIAL,
-        endpoint = DefaultConfigurationProvider.endpoint
+        endpoint = RapidConfigurationProvider.endpoint
     )
 
     fun createOpenWorldClient(): OpenWorldClient = Client.create(openWorldConfiguration, MockEngineFactory.createDefaultEngine())

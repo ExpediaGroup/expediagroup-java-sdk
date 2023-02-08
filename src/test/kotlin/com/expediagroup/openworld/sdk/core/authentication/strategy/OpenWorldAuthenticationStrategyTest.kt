@@ -17,7 +17,6 @@ package com.expediagroup.openworld.sdk.core.authentication.strategy
 
 import com.expediagroup.common.sdk.core.client.Client
 import com.expediagroup.common.sdk.core.configuration.Credentials
-import com.expediagroup.common.sdk.core.configuration.provider.DefaultConfigurationProvider
 import com.expediagroup.common.sdk.core.constant.Authentication.BEARER
 import com.expediagroup.common.sdk.core.constant.ExceptionMessage
 import com.expediagroup.common.sdk.core.constant.HeaderKey
@@ -35,6 +34,7 @@ import com.expediagroup.common.sdk.core.test.TestConstants.ANY_URL
 import com.expediagroup.common.sdk.core.test.TestConstants.CLIENT_KEY_TEST_CREDENTIAL
 import com.expediagroup.common.sdk.core.test.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
 import com.expediagroup.openworld.sdk.core.configuration.OpenWorldClientConfiguration
+import com.expediagroup.openworld.sdk.core.configuration.provider.OpenWorldConfigurationProvider
 import com.expediagroup.openworld.sdk.core.model.exception.service.OpenWorldAuthException
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.request.get
@@ -77,8 +77,8 @@ internal class OpenWorldAuthenticationStrategyTest : AuthenticationPluginTest() 
             val configuration = OpenWorldClientConfiguration(
                 key = CLIENT_KEY_TEST_CREDENTIAL + "invalid",
                 secret = CLIENT_SECRET_TEST_CREDENTIAL + "invalid",
-                endpoint = DefaultConfigurationProvider.endpoint,
-                authEndpoint = DefaultConfigurationProvider.authEndpoint
+                endpoint = OpenWorldConfigurationProvider.endpoint,
+                authEndpoint = OpenWorldConfigurationProvider.authEndpoint
             )
             val client = ClientFactory.createOpenWorldClient(
                 createUnauthorizedMockEngineWithStatusCode(httpStatusCode),
@@ -228,6 +228,6 @@ internal class OpenWorldAuthenticationStrategyTest : AuthenticationPluginTest() 
             CLIENT_KEY_TEST_CREDENTIAL,
             CLIENT_SECRET_TEST_CREDENTIAL
         ),
-        DefaultConfigurationProvider.authEndpoint
+        OpenWorldConfigurationProvider.authEndpoint
     )
 }
