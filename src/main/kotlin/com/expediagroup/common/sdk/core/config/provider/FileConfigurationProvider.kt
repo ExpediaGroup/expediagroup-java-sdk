@@ -15,12 +15,9 @@
  */
 package com.expediagroup.common.sdk.core.config.provider
 
-import com.expediagroup.common.sdk.core.constant.ExceptionMessage.NOT_YET_IMPLEMENTED
 import com.expediagroup.common.sdk.core.constant.provider.ExceptionMessageProvider.getPropertyNotFoundMessage
-import com.expediagroup.common.sdk.core.model.exception.client.OpenWorldConfigurationException
-import com.expediagroup.common.sdk.core.plugin.logging.OpenWorldLoggerFactory
+import com.expediagroup.common.sdk.core.model.exception.BaseException
 import java.io.BufferedReader
-import java.io.IOException
 import java.io.InputStreamReader
 import java.io.Reader
 import java.net.URL
@@ -35,10 +32,6 @@ import java.util.Properties
 class FileConfigurationProvider : ConfigurationProvider {
     private val emptyConfigurationData = ConfigurationData(emptyMap())
 
-    companion object {
-        private val log = OpenWorldLoggerFactory.getLogger(FileConfigurationProvider::class.java)
-    }
-
     /**
      * Retrieves the data at the given Properties file.
      *
@@ -52,10 +45,10 @@ class FileConfigurationProvider : ConfigurationProvider {
         }
 
         runCatching {
-            return readPropsFileIntoConfigurationData(getReader(path))
+            return readPropsFileIntoConfigurationData(Files.newBufferedReader(Paths.get(path)))
         }.getOrElse {
             if (!optional) {
-                throw OpenWorldConfigurationException(getPropertyNotFoundMessage(path))
+                throw BaseException(getPropertyNotFoundMessage(path))
             }
 
             return emptyConfigurationData
@@ -72,59 +65,9 @@ class FileConfigurationProvider : ConfigurationProvider {
      */
     override fun get(url: URL, optional: Boolean): ConfigurationData {
         return runCatching {
-            readPropsFileIntoConfigurationData(getReader(url))
+            readPropsFileIntoConfigurationData(BufferedReader(InputStreamReader(url.openStream())))
         }.getOrElse {
-            if (!optional) throw OpenWorldConfigurationException(getPropertyNotFoundMessage(url))
-
-            return emptyConfigurationData
-        }
-    }
-
-    @Suppress("NotImplementedDeclaration")
-    override fun subscribe(path: String, keys: Set<String>, callback: ConfigurationChangeCallback) {
-        log.warn(NOT_YET_IMPLEMENTED)
-        TODO(NOT_YET_IMPLEMENTED)
-    }
-
-    @Suppress("NotImplementedDeclaration")
-    override fun unsubscribe(path: String, keys: Set<String>, callback: ConfigurationChangeCallback) {
-        log.warn(NOT_YET_IMPLEMENTED)
-        TODO(NOT_YET_IMPLEMENTED)
-    }
-
-    @Suppress("NotImplementedDeclaration")
-    override fun unsubscribeAll() {
-        log.warn(NOT_YET_IMPLEMENTED)
-        TODO(NOT_YET_IMPLEMENTED)
-    }
-
-    /**
-     * Retrieves the data with the given keys at the given Properties file.
-     *
-     * @param path the file where the data resides
-     * @param keys the keys whose values will be retrieved
-     * @param optional whether these configurations are optional or not
-     * @return the configuration data
-     */
-    override fun get(path: String, keys: Set<String>, optional: Boolean): ConfigurationData {
-        val data: MutableMap<String, String> = HashMap()
-        if (path.isEmpty()) {
-            return emptyConfigurationData
-        }
-        try {
-            getReader(path).use { reader ->
-                val properties = Properties()
-                properties.load(reader)
-                for (key in keys) {
-                    val value = properties.getProperty(key)
-                    data[key] = value
-                }
-                return ConfigurationData(data)
-            }
-        } catch (e: IOException) {
-            if (!optional) {
-                throw OpenWorldConfigurationException(getPropertyNotFoundMessage(path), e)
-            }
+            if (!optional) throw BaseException(getPropertyNotFoundMessage(url))
 
             return emptyConfigurationData
         }
@@ -144,10 +87,4 @@ class FileConfigurationProvider : ConfigurationProvider {
             return ConfigurationData(data)
         }
     }
-
-    @Throws(IOException::class)
-    private fun getReader(path: String): Reader = Files.newBufferedReader(Paths.get(path))
-
-    @Throws(IOException::class)
-    private fun getReader(url: URL): Reader = BufferedReader(InputStreamReader(url.openStream()))
 }

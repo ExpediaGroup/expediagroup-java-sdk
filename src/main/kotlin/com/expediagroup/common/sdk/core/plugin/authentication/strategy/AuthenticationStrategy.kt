@@ -18,8 +18,8 @@ package com.expediagroup.common.sdk.core.plugin.authentication.strategy
 import com.expediagroup.common.sdk.core.plugin.authentication.AuthenticationConfiguration
 import com.expediagroup.common.sdk.core.plugin.authentication.strategy.AuthenticationStrategy.AuthenticationType.BEARER
 import com.expediagroup.common.sdk.core.plugin.authentication.strategy.AuthenticationStrategy.AuthenticationType.SIGNATURE
-import com.expediagroup.common.sdk.core.plugin.authentication.strategy.bearer.BearerStrategy
-import com.expediagroup.common.sdk.core.plugin.authentication.strategy.signature.SignatureStrategy
+import com.expediagroup.openworld.sdk.core.plugin.authentication.strategy.OpenWorldAuthenticationStrategy
+import com.expediagroup.rapid.sdk.core.plugin.authentication.strategy.RapidAuthenticationStrategy
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.auth.Auth
 import io.ktor.client.request.HttpRequestBuilder
@@ -36,11 +36,10 @@ internal interface AuthenticationStrategy {
     fun getAuthorizationHeader(): String
 
     companion object {
-        fun from(configs: AuthenticationConfiguration, httpClientProvider: () -> HttpClient): AuthenticationStrategy =
-            when (configs.authType) {
-                BEARER -> BearerStrategy(httpClientProvider, configs)
-                SIGNATURE -> SignatureStrategy(configs)
-            }
+        fun from(configs: AuthenticationConfiguration, httpClientProvider: () -> HttpClient): AuthenticationStrategy = when (configs.authType) {
+            BEARER -> OpenWorldAuthenticationStrategy(httpClientProvider, configs)
+            SIGNATURE -> RapidAuthenticationStrategy(configs)
+        }
     }
 
     enum class AuthenticationType {

@@ -16,6 +16,8 @@
 package com.expediagroup.common.sdk.core.plugin.authentication
 
 import com.expediagroup.common.sdk.core.client.Client
+import com.expediagroup.common.sdk.core.client.fireAuthIssue
+import com.expediagroup.common.sdk.core.constant.ExceptionMessage.AUTHENTICATION_NOT_CONFIGURED_FOR_CLIENT
 import com.expediagroup.common.sdk.core.plugin.Plugin
 import com.expediagroup.common.sdk.core.plugin.authentication.strategy.AuthenticationStrategy
 import io.ktor.client.plugins.auth.Auth
@@ -33,4 +35,4 @@ internal object AuthenticationPlugin : Plugin<AuthenticationConfiguration> {
     }
 }
 
-internal fun Client.getAuthenticationStrategy(): AuthenticationStrategy = AuthenticationPlugin.clientAuthenticationStrategies[this]!! // TODO Exceptions
+internal fun Client.getAuthenticationStrategy(): AuthenticationStrategy = AuthenticationPlugin.clientAuthenticationStrategies[this] ?: fireAuthIssue(AUTHENTICATION_NOT_CONFIGURED_FOR_CLIENT)

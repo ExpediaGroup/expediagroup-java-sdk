@@ -19,7 +19,6 @@ import com.expediagroup.common.sdk.core.configuration.provider.DefaultConfigurat
 import com.expediagroup.common.sdk.core.constant.Authentication.BEARER
 import com.expediagroup.common.sdk.core.constant.Constant.EMPTY_STRING
 import com.expediagroup.common.sdk.core.constant.HeaderKey
-import com.expediagroup.common.sdk.core.model.exception.service.OpenWorldAuthException
 import com.expediagroup.common.sdk.core.test.TestConstants.ACCESS_TOKEN
 import com.expediagroup.common.sdk.core.test.TestConstants.APPLICATION_JSON
 import com.expediagroup.common.sdk.core.test.TestConstants.BAD_REQUEST_ATTRIBUTE
@@ -28,6 +27,7 @@ import com.expediagroup.common.sdk.core.test.TestConstants.CLIENT_KEY_TEST_CREDE
 import com.expediagroup.common.sdk.core.test.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
 import com.expediagroup.common.sdk.core.test.TestConstants.SUCCESSFUL_DUMMY_REQUEST
 import com.expediagroup.common.sdk.core.test.TestConstants.TEST_URL
+import com.expediagroup.openworld.sdk.core.model.exception.service.OpenWorldAuthException
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.MockRequestHandleScope
@@ -39,7 +39,7 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.headersOf
 import io.ktor.util.AttributeKey
 import io.ktor.utils.io.ByteReadChannel
-import java.util.*
+import java.util.Base64
 
 object MockEngineFactory {
     fun createDefaultEngine(): HttpClientEngine = MockEngine { request ->

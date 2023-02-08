@@ -16,11 +16,10 @@
 package com.expediagroup.common.sdk.core.config.provider
 
 import com.expediagroup.common.sdk.core.constant.Constant.EMPTY_STRING
-import com.expediagroup.common.sdk.core.model.exception.client.OpenWorldConfigurationException
+import com.expediagroup.common.sdk.core.model.exception.BaseException
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
-import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import java.net.URL
@@ -69,23 +68,15 @@ class FileConfigurationProviderTest {
     @Test
     fun `file configuration provider should throw configuration exception if the file is not found`() {
         val provider: ConfigurationProvider = FileConfigurationProvider()
-        assertThrows<OpenWorldConfigurationException> {
+        assertThrows<BaseException> {
             provider[INVALID_RESOURCE_FILE_NAME]
-        }
-    }
-
-    @Test
-    fun `file configuration provider with specific keys should throw configuration exception if the file is not found`() {
-        val provider: ConfigurationProvider = FileConfigurationProvider()
-        assertThrows<OpenWorldConfigurationException> {
-            provider[INVALID_RESOURCE_FILE_NAME, setOf(API_CLIENT_SECRET_KEY_NAME)]
         }
     }
 
     @Test
     fun `file configuration provider should throw configuration exception if the file url is not found`() {
         val provider: ConfigurationProvider = FileConfigurationProvider()
-        assertThrows<OpenWorldConfigurationException> {
+        assertThrows<BaseException> {
             provider[INVALID_URL]
         }
     }
@@ -100,7 +91,7 @@ class FileConfigurationProviderTest {
     fun `file configuration provider should throw an exception when the optional flag is not set and file doesn't exists`() {
         val provider: ConfigurationProvider = FileConfigurationProvider()
 
-        assertThrows<OpenWorldConfigurationException> {
+        assertThrows<BaseException> {
             provider[INVALID_URL].data()
         }
     }
@@ -109,51 +100,5 @@ class FileConfigurationProviderTest {
     fun `file configuration provider return empty data when the optional flag is active and file path doesn't exists`() {
         val provider: ConfigurationProvider = FileConfigurationProvider()
         assertEquals(provider[INVALID_RESOURCE_FILE_NAME, true].data(), emptyMap<String, String>())
-    }
-
-    @Test
-    fun `file configuration provider should load empty configuration keys if passed with an invalid path and optional flag`() {
-        val provider = FileConfigurationProvider()
-        val configurationData = provider[INVALID_RESOURCE_FILE_NAME, setOf(API_CLIENT_KEY_NAME), true]
-        assertEquals(configurationData.data(), emptyMap<String, String>())
-    }
-
-    @Test
-    fun `file configuration provider should load specific configuration keys if passed`() {
-        val provider = FileConfigurationProvider()
-        val filePath = this::class.java.getResource(RESOURCE_FILE_PATH)?.file.orEmpty()
-        val configurationData = provider[filePath, setOf(API_CLIENT_KEY_NAME)]
-        assertNotNull(configurationData)
-        assertEquals(configurationData.data()[API_CLIENT_KEY_NAME], API_CLIENT_KEY_VALUE)
-        assertNull(configurationData.data()[API_CLIENT_SECRET_KEY_NAME])
-    }
-
-    @Test
-    fun `file configuration provider should load empty configuration keys if passed with an empty path`() {
-        val provider = FileConfigurationProvider()
-        val configurationData = provider[EMPTY_STRING, setOf(API_CLIENT_KEY_NAME)]
-        assertNotNull(configurationData)
-        assertNull(configurationData.data()[API_CLIENT_KEY_NAME])
-        assertNull(configurationData.data()[API_CLIENT_SECRET_KEY_NAME])
-    }
-
-    @Test
-    fun `all subscribers method should throw an exception`() {
-        val provider: ConfigurationProvider = FileConfigurationProvider()
-        assertThrows<NotImplementedError> {
-            provider.subscribe(
-                EMPTY_STRING,
-                setOf()
-            ) { _, _ -> }
-        }
-        assertThrows<NotImplementedError> {
-            provider.unsubscribe(
-                EMPTY_STRING,
-                setOf()
-            ) { _, _ -> }
-        }
-        assertThrows<NotImplementedError> {
-            provider.unsubscribeAll()
-        }
     }
 }
