@@ -16,7 +16,11 @@
 package com.expediagroup.common.sdk.core.config.provider
 
 import com.expediagroup.common.sdk.core.constant.provider.ExceptionMessageProvider.getPropertyNotFoundMessage
+import com.expediagroup.openworld.sdk.core.model.exception.client.OpenWorldConfigurationException
+import java.io.BufferedReader
+import java.io.InputStreamReader
 import java.io.Reader
+import java.net.URL
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.*
@@ -44,9 +48,26 @@ class FileConfigurationProvider : ConfigurationProvider {
             return readPropsFileIntoConfigurationData(Files.newBufferedReader(Paths.get(path)))
         }.getOrElse {
             if (!optional) {
-                @Suppress("TooGenericExceptionThrown")
-                throw RuntimeException(getPropertyNotFoundMessage(path))
+                throw OpenWorldConfigurationException(getPropertyNotFoundMessage(path))
             }
+
+            return emptyConfigurationData
+        }
+    }
+
+    /**
+     * Retrieves the data at the given Properties file.
+     *
+     * We used it with getting the files within jar file.
+     * @param url the file url where the data resides
+     * @param optional whether these configurations are optional or not
+     * @return the configuration data
+     */
+    override fun get(url: URL, optional: Boolean): ConfigurationData {
+        return runCatching {
+            readPropsFileIntoConfigurationData(BufferedReader(InputStreamReader(url.openStream())))
+        }.getOrElse {
+            if (!optional) throw OpenWorldConfigurationException(getPropertyNotFoundMessage(url))
 
             return emptyConfigurationData
         }
