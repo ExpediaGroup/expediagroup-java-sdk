@@ -19,19 +19,19 @@ import com.expediagroup.common.sdk.core.client.Client
 import com.expediagroup.common.sdk.core.configuration.ClientBuilder
 import com.expediagroup.common.sdk.core.contract.Contract
 import com.expediagroup.common.sdk.core.contract.adhereTo
-import com.expediagroup.rapid.sdk.core.client.RapidClient
+import com.expediagroup.rapid.sdk.core.client.BaseRapidClient
 
 /**
- * A [RapidClient] builder.
+ * A [BaseRapidClient] builder.
  *
  * @property key The API key to use for authentication.
  * @property secret The API secret to use for authentication.
  * @property endpoint The API endpoint to use for requests.
  */
-class RapidClientBuilder : ClientBuilder<RapidClientBuilder>() {
+open class BaseRapidClientBuilder<SELF : BaseRapidClientBuilder<SELF>> : ClientBuilder<SELF>() {
 
-    /** Create a [RapidClient] instance. */
-    override fun build(): RapidClient = Client.create(
+    /** Create a [BaseRapidClient] instance. */
+    override fun build(): BaseRapidClient = Client.create(
         RapidClientConfiguration(
             key = key,
             secret = secret,

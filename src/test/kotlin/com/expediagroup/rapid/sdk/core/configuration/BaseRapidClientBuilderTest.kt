@@ -19,17 +19,17 @@ import com.expediagroup.common.sdk.core.test.TestConstants
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
 
-class RapidClientBuilderTest {
+class BaseRapidClientBuilderTest {
 
     @Test
     fun `verify typical behaviour with no configurations`() {
-        assertNotNull(RapidClientBuilder().build().httpClient)
+        assertNotNull(BaseRapidClientBuilder().build().httpClient)
     }
 
     @Test
     fun `verify typical behaviour with configurations`() {
         assertNotNull(
-            RapidClientBuilder()
+            BaseRapidClientBuilder()
                 .key(TestConstants.CLIENT_KEY_TEST_CREDENTIAL)
                 .secret(TestConstants.CLIENT_SECRET_TEST_CREDENTIAL)
                 .endpoint(TestConstants.ANY_URL)
