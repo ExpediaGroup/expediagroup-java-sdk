@@ -13,19 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.common.sdk.core.configuration.provider
+package com.expediagroup.rapid.sdk.core.configuration.provider
 
 import com.expediagroup.common.sdk.core.constant.Constant.EMPTY_STRING
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-internal class DefaultConfigurationProviderTest {
+internal class RapidConfigurationProviderTest {
 
     @Test
     fun `verify default values`() {
-        assertEquals(EMPTY_STRING, DefaultConfigurationProvider.key)
-        assertEquals(EMPTY_STRING, DefaultConfigurationProvider.secret)
-        assertEquals("https://api.expediagroup.com/", DefaultConfigurationProvider.endpoint)
-        assertEquals("https://api.expediagroup.com/identity/oauth2/v2/token/", DefaultConfigurationProvider.authEndpoint)
+        assertEquals(EMPTY_STRING, RapidConfigurationProvider.key)
+        assertEquals(EMPTY_STRING, RapidConfigurationProvider.secret)
+        assertEquals("https://api.ean.com/v3", RapidConfigurationProvider.endpoint)
+        assertEquals(EMPTY_STRING, RapidConfigurationProvider.authEndpoint)
     }
 }

@@ -15,11 +15,11 @@
  */
 package com.expediagroup.common.sdk.core.configuration.collector
 
-import com.expediagroup.common.sdk.core.configuration.provider.DefaultConfigurationProvider
 import com.expediagroup.common.sdk.core.configuration.provider.RuntimeConfigurationProvider
 import com.expediagroup.common.sdk.core.constant.Constant.EMPTY_STRING
 import com.expediagroup.common.sdk.core.test.TestConstants.CLIENT_KEY_TEST_CREDENTIAL
 import com.expediagroup.common.sdk.core.test.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
+import com.expediagroup.openworld.sdk.core.configuration.provider.OpenWorldConfigurationProvider
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -27,11 +27,11 @@ internal class ConfigurationProviderQueueTest {
 
     @Test
     fun `test a provider queue with only a default provider`() {
-        val configurationProviderQueue = ConfigurationProviderQueue.from(listOf(DefaultConfigurationProvider))
-        assertEquals(ProvidedConfiguration(EMPTY_STRING, DefaultConfigurationProvider.name), configurationProviderQueue.firstWith { it.key })
-        assertEquals(ProvidedConfiguration(EMPTY_STRING, DefaultConfigurationProvider.name), configurationProviderQueue.firstWith { it.secret })
-        assertEquals(ProvidedConfiguration(DefaultConfigurationProvider.endpoint, DefaultConfigurationProvider.name), configurationProviderQueue.firstWith { it.endpoint })
-        assertEquals(ProvidedConfiguration(DefaultConfigurationProvider.authEndpoint, DefaultConfigurationProvider.name), configurationProviderQueue.firstWith { it.authEndpoint })
+        val configurationProviderQueue = ConfigurationProviderQueue.from(listOf(OpenWorldConfigurationProvider))
+        assertEquals(ProvidedConfiguration(EMPTY_STRING, OpenWorldConfigurationProvider.name), configurationProviderQueue.firstWith { it.key })
+        assertEquals(ProvidedConfiguration(EMPTY_STRING, OpenWorldConfigurationProvider.name), configurationProviderQueue.firstWith { it.secret })
+        assertEquals(ProvidedConfiguration(OpenWorldConfigurationProvider.endpoint, OpenWorldConfigurationProvider.name), configurationProviderQueue.firstWith { it.endpoint })
+        assertEquals(ProvidedConfiguration(OpenWorldConfigurationProvider.authEndpoint, OpenWorldConfigurationProvider.name), configurationProviderQueue.firstWith { it.authEndpoint })
     }
 
     @Test
@@ -39,8 +39,8 @@ internal class ConfigurationProviderQueueTest {
         val runtimeConfigurationProvider = RuntimeConfigurationProvider(
             key = CLIENT_KEY_TEST_CREDENTIAL,
             secret = CLIENT_SECRET_TEST_CREDENTIAL,
-            endpoint = DefaultConfigurationProvider.endpoint,
-            authEndpoint = DefaultConfigurationProvider.authEndpoint
+            endpoint = OpenWorldConfigurationProvider.endpoint,
+            authEndpoint = OpenWorldConfigurationProvider.authEndpoint
         )
         val configurationProviderQueue = ConfigurationProviderQueue.from(
             listOf(runtimeConfigurationProvider)
@@ -52,7 +52,7 @@ internal class ConfigurationProviderQueueTest {
 
         assertEquals(ProvidedConfiguration(CLIENT_KEY_TEST_CREDENTIAL, runtimeConfigurationProvider.name), configurationProviderQueue.firstWith { it.key })
         assertEquals(ProvidedConfiguration(CLIENT_SECRET_TEST_CREDENTIAL, runtimeConfigurationProvider.name), configurationProviderQueue.firstWith { it.secret })
-        assertEquals(ProvidedConfiguration(DefaultConfigurationProvider.endpoint, runtimeConfigurationProvider.name), configurationProviderQueue.firstWith { it.endpoint })
-        assertEquals(ProvidedConfiguration(DefaultConfigurationProvider.authEndpoint, runtimeConfigurationProvider.name), configurationProviderQueue.firstWith { it.authEndpoint })
+        assertEquals(ProvidedConfiguration(OpenWorldConfigurationProvider.endpoint, runtimeConfigurationProvider.name), configurationProviderQueue.firstWith { it.endpoint })
+        assertEquals(ProvidedConfiguration(OpenWorldConfigurationProvider.authEndpoint, runtimeConfigurationProvider.name), configurationProviderQueue.firstWith { it.authEndpoint })
     }
 }

@@ -15,8 +15,8 @@
  */
 package com.expediagroup.common.sdk.core.plugin.request
 
-import com.expediagroup.common.sdk.core.configuration.provider.DefaultConfigurationProvider
 import com.expediagroup.common.sdk.core.test.ClientFactory
+import com.expediagroup.openworld.sdk.core.configuration.provider.OpenWorldConfigurationProvider
 import io.ktor.client.request.get
 import io.ktor.client.statement.request
 import kotlinx.coroutines.runBlocking
@@ -32,7 +32,7 @@ internal class DefaultRequestPluginTest {
             val testRequest = client.httpClient.get("/any-url")
 
             Assertions.assertThat(testRequest.request.url.toString()).isEqualTo(
-                "${DefaultConfigurationProvider.endpoint}any-url"
+                "${OpenWorldConfigurationProvider.endpoint}any-url"
             )
         }
     }

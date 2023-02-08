@@ -15,6 +15,8 @@
  */
 package com.expediagroup.common.sdk.core.configuration.provider
 
+import com.expediagroup.common.sdk.core.constant.Constant
+
 /**
  * A configuration provider that can be used to provide configuration values.
  */
@@ -25,9 +27,11 @@ internal interface ConfigurationProvider {
     /* AuthenticationConfiguration */
     /** The API key to use for authentication. */
     val key: String?
+        get() = Constant.EMPTY_STRING
 
     /** The API secret to use for authentication. */
     val secret: String?
+        get() = Constant.EMPTY_STRING
 
     /* NetworkConfiguration */
     /** The API endpoint to use for requests. */
@@ -35,4 +39,5 @@ internal interface ConfigurationProvider {
 
     /** The API endpoint to use for authentication. */
     val authEndpoint: String?
+        get() = Constant.EMPTY_STRING
 }
