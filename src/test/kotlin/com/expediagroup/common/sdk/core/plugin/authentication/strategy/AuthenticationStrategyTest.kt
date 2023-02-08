@@ -18,8 +18,8 @@ package com.expediagroup.common.sdk.core.plugin.authentication.strategy
 import com.expediagroup.common.sdk.core.configuration.Credentials
 import com.expediagroup.common.sdk.core.configuration.provider.DefaultConfigurationProvider
 import com.expediagroup.common.sdk.core.plugin.authentication.AuthenticationConfiguration
-import com.expediagroup.common.sdk.core.plugin.authentication.strategy.bearer.BearerStrategy
 import com.expediagroup.common.sdk.core.test.TestConstants
+import com.expediagroup.openworld.sdk.core.plugin.authentication.strategy.OpenWorldAuthenticationStrategy
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.okhttp.OkHttp
@@ -43,7 +43,7 @@ internal class AuthenticationStrategyTest {
             )
 
             val strategy = AuthenticationStrategy.from(configuration) { HttpClient(OkHttp.create()) }
-            assertThat(strategy is BearerStrategy)
+            assertThat(strategy is OpenWorldAuthenticationStrategy)
         }
     }
 }

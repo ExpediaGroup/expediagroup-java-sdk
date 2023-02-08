@@ -20,7 +20,7 @@ import com.expediagroup.common.sdk.core.constant.provider.ExceptionMessageProvid
 import com.expediagroup.common.sdk.core.constant.provider.ExceptionMessageProvider.getExpectedActualNameValueMessage
 import com.expediagroup.common.sdk.core.constant.provider.ExceptionMessageProvider.getExpectedNameValueMessage
 import com.expediagroup.common.sdk.core.constant.provider.ExceptionMessageProvider.getRequiredConfigurationsNotDefinedMessage
-import com.expediagroup.common.sdk.core.model.exception.client.OpenWorldConfigurationException
+import com.expediagroup.common.sdk.core.model.exception.BaseException
 import java.util.Locale
 
 /**
@@ -32,7 +32,7 @@ class ConfigurationDefinition {
 
     private fun define(key: ConfigurationKey): ConfigurationDefinition {
         if (configKeys.containsKey(key.name)) {
-            throw OpenWorldConfigurationException(getConfigurationDefinedMultipleTimesMessage(key.name))
+            throw BaseException(getConfigurationDefinedMultipleTimesMessage(key.name))
         }
         configKeys[key.name] = key
         return this
@@ -77,8 +77,9 @@ class ConfigurationDefinition {
      * @param name - identifier for the configuration key
      * @return - configuration key
      */
+
     fun get(name: String): ConfigurationKey =
-        configKeys[name] ?: throw OpenWorldConfigurationException(getConfigurationKeyNotDefinedMessage(name))
+        configKeys[name] ?: throw BaseException(getConfigurationKeyNotDefinedMessage(name))
 
     /**
      * Parses the configuration values based on the defined keys.
@@ -90,7 +91,7 @@ class ConfigurationDefinition {
         // Check all configurations are defined
         val undefinedConfigKeys: List<String> = undefinedConfigs(props)
         if (undefinedConfigKeys.isNotEmpty()) {
-            throw OpenWorldConfigurationException(getRequiredConfigurationsNotDefinedMessage(undefinedConfigKeys.joinToString(",")))
+            throw BaseException(getRequiredConfigurationsNotDefinedMessage(undefinedConfigKeys.joinToString(",")))
         }
         // parse all known keys
         val values: MutableMap<String, Any> = HashMap()
@@ -127,37 +128,37 @@ class ConfigurationDefinition {
     private fun parseBoolean(value: Any, name: String): Boolean {
         toBooleanOrNull(value)?.let { return it }
 
-        throw OpenWorldConfigurationException(getExpectedNameValueMessage("boolean", name, value))
+        throw BaseException(getExpectedNameValueMessage("boolean", name, value))
     }
 
     private fun parsePassword(value: Any, name: String): ConfigurationKey.Password {
         toPasswordOrNull(value)?.let { return it }
 
-        throw OpenWorldConfigurationException(getExpectedActualNameValueMessage("string", value.javaClass.name, name, value))
+        throw BaseException(getExpectedActualNameValueMessage("string", value.javaClass.name, name, value))
     }
 
     private fun parseString(value: Any, name: String): String {
         toStringOrNull(value)?.let { return it }
 
-        throw OpenWorldConfigurationException(getExpectedActualNameValueMessage("string", value.javaClass.name, name, value))
+        throw BaseException(getExpectedActualNameValueMessage("string", value.javaClass.name, name, value))
     }
 
     private fun parseInt(value: Any, name: String): Int {
         toIntOrNull(value)?.let { return it }
 
-        throw OpenWorldConfigurationException(getExpectedActualNameValueMessage("32-bit integer", value.javaClass.name, name, value))
+        throw BaseException(getExpectedActualNameValueMessage("32-bit integer", value.javaClass.name, name, value))
     }
 
     private fun parseDouble(value: Any, name: String): Double {
         toDoubleOrNull(value)?.let { return it }
 
-        throw OpenWorldConfigurationException(getExpectedActualNameValueMessage("double", value.javaClass.name, name, value))
+        throw BaseException(getExpectedActualNameValueMessage("double", value.javaClass.name, name, value))
     }
 
     private fun parseList(value: Any, name: String): List<*> {
         toListOrNull(value)?.let { return it }
 
-        throw OpenWorldConfigurationException(getExpectedNameValueMessage("comma-separated list", name, value))
+        throw BaseException(getExpectedNameValueMessage("comma-separated list", name, value))
     }
 
     private fun toBooleanOrNull(value: Any): Boolean? = when (value) {

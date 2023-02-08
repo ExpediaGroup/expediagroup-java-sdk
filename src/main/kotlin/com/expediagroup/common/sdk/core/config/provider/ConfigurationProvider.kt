@@ -39,41 +39,4 @@ interface ConfigurationProvider {
      * @return the configuration data
      */
     operator fun get(url: URL, optional: Boolean = false): ConfigurationData
-
-    /**
-     * Retrieves the data with the given keys at the given path.
-     *
-     * @param path the path where the data resides
-     * @param keys the keys whose values will be retrieved
-     * @param optional will not throw an exception if optional field is set to true
-     * @return the configuration data
-     */
-    operator fun get(path: String, keys: Set<String>, optional: Boolean = false): ConfigurationData
-
-    /**
-     * Subscribes to changes for the given keys at the given path (optional operation).
-     *
-     * @param path the path where the data resides
-     * @param keys the keys whose values will be retrieved
-     * @param callback the callback to invoke upon change
-     * @throws [UnsupportedOperationException] if the subscribe operation is not supported
-     */
-    fun subscribe(path: String, keys: Set<String>, callback: ConfigurationChangeCallback)
-
-    /**
-     * Unsubscribes to changes for the given keys at the given path (optional operation).
-     *
-     * @param path the path where the data resides
-     * @param keys the keys whose values will be retrieved
-     * @param callback the callback to be unsubscribed from changes
-     * @throws [UnsupportedOperationException] if the unsubscribe operation is not supported
-     */
-    fun unsubscribe(path: String, keys: Set<String>, callback: ConfigurationChangeCallback)
-
-    /**
-     * Clears all subscribers (optional operation).
-     *
-     * @throws [UnsupportedOperationException] if the unsubscribeAll operation is not supported
-     */
-    fun unsubscribeAll()
 }
