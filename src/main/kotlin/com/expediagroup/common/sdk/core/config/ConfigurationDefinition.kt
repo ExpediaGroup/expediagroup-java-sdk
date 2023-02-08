@@ -20,8 +20,7 @@ import com.expediagroup.common.sdk.core.constant.provider.ExceptionMessageProvid
 import com.expediagroup.common.sdk.core.constant.provider.ExceptionMessageProvider.getExpectedActualNameValueMessage
 import com.expediagroup.common.sdk.core.constant.provider.ExceptionMessageProvider.getExpectedNameValueMessage
 import com.expediagroup.common.sdk.core.constant.provider.ExceptionMessageProvider.getRequiredConfigurationsNotDefinedMessage
-import com.expediagroup.openworld.sdk.core.model.exception.client.OpenWorldConfigurationException
-import java.util.Locale
+import java.util.*
 
 /**
  * A definition of a configuration property.
@@ -32,7 +31,8 @@ class ConfigurationDefinition {
 
     private fun define(key: ConfigurationKey): ConfigurationDefinition {
         if (configKeys.containsKey(key.name)) {
-            throw OpenWorldConfigurationException(getConfigurationDefinedMultipleTimesMessage(key.name))
+            @Suppress("TooGenericExceptionThrown")
+            throw RuntimeException(getConfigurationDefinedMultipleTimesMessage(key.name))
         }
         configKeys[key.name] = key
         return this
@@ -77,8 +77,9 @@ class ConfigurationDefinition {
      * @param name - identifier for the configuration key
      * @return - configuration key
      */
+    @Suppress("TooGenericExceptionThrown")
     fun get(name: String): ConfigurationKey =
-        configKeys[name] ?: throw OpenWorldConfigurationException(getConfigurationKeyNotDefinedMessage(name))
+        configKeys[name] ?: throw RuntimeException(getConfigurationKeyNotDefinedMessage(name))
 
     /**
      * Parses the configuration values based on the defined keys.
@@ -90,7 +91,8 @@ class ConfigurationDefinition {
         // Check all configurations are defined
         val undefinedConfigKeys: List<String> = undefinedConfigs(props)
         if (undefinedConfigKeys.isNotEmpty()) {
-            throw OpenWorldConfigurationException(getRequiredConfigurationsNotDefinedMessage(undefinedConfigKeys.joinToString(",")))
+            @Suppress("TooGenericExceptionThrown")
+            throw RuntimeException(getRequiredConfigurationsNotDefinedMessage(undefinedConfigKeys.joinToString(",")))
         }
         // parse all known keys
         val values: MutableMap<String, Any> = HashMap()
@@ -127,37 +129,43 @@ class ConfigurationDefinition {
     private fun parseBoolean(value: Any, name: String): Boolean {
         toBooleanOrNull(value)?.let { return it }
 
-        throw OpenWorldConfigurationException(getExpectedNameValueMessage("boolean", name, value))
+        @Suppress("TooGenericExceptionThrown")
+        throw RuntimeException(getExpectedNameValueMessage("boolean", name, value))
     }
 
     private fun parsePassword(value: Any, name: String): ConfigurationKey.Password {
         toPasswordOrNull(value)?.let { return it }
 
-        throw OpenWorldConfigurationException(getExpectedActualNameValueMessage("string", value.javaClass.name, name, value))
+        @Suppress("TooGenericExceptionThrown")
+        throw RuntimeException(getExpectedActualNameValueMessage("string", value.javaClass.name, name, value))
     }
 
     private fun parseString(value: Any, name: String): String {
         toStringOrNull(value)?.let { return it }
 
-        throw OpenWorldConfigurationException(getExpectedActualNameValueMessage("string", value.javaClass.name, name, value))
+        @Suppress("TooGenericExceptionThrown")
+        throw RuntimeException(getExpectedActualNameValueMessage("string", value.javaClass.name, name, value))
     }
 
     private fun parseInt(value: Any, name: String): Int {
         toIntOrNull(value)?.let { return it }
 
-        throw OpenWorldConfigurationException(getExpectedActualNameValueMessage("32-bit integer", value.javaClass.name, name, value))
+        @Suppress("TooGenericExceptionThrown")
+        throw RuntimeException(getExpectedActualNameValueMessage("32-bit integer", value.javaClass.name, name, value))
     }
 
     private fun parseDouble(value: Any, name: String): Double {
         toDoubleOrNull(value)?.let { return it }
 
-        throw OpenWorldConfigurationException(getExpectedActualNameValueMessage("double", value.javaClass.name, name, value))
+        @Suppress("TooGenericExceptionThrown")
+        throw RuntimeException(getExpectedActualNameValueMessage("double", value.javaClass.name, name, value))
     }
 
     private fun parseList(value: Any, name: String): List<*> {
         toListOrNull(value)?.let { return it }
 
-        throw OpenWorldConfigurationException(getExpectedNameValueMessage("comma-separated list", name, value))
+        @Suppress("TooGenericExceptionThrown")
+        throw RuntimeException(getExpectedNameValueMessage("comma-separated list", name, value))
     }
 
     private fun toBooleanOrNull(value: Any): Boolean? = when (value) {
