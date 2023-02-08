@@ -18,11 +18,12 @@ package com.expediagroup.openworld.sdk.core.client
 import com.expediagroup.common.sdk.core.client.Client
 import com.expediagroup.common.sdk.core.client.DEFAULT_HTTP_CLIENT_ENGINE
 import com.expediagroup.common.sdk.core.client.finalize
-import com.expediagroup.common.sdk.core.client.fireMissingConfigurationIssue
-import com.expediagroup.common.sdk.core.constant.ConfigurationName
+import com.expediagroup.common.sdk.core.configuration.collector.ConfigurationCollector
+import com.expediagroup.common.sdk.core.configuration.provider.ConfigurationProvider
 import com.expediagroup.common.sdk.core.plugin.authentication.strategy.AuthenticationStrategy
 import com.expediagroup.openworld.sdk.core.configuration.OpenWorldClientBuilder
 import com.expediagroup.openworld.sdk.core.configuration.OpenWorldClientConfiguration
+import com.expediagroup.openworld.sdk.core.configuration.provider.OpenWorldConfigurationProvider
 import com.expediagroup.openworld.sdk.core.model.error.Error
 import com.expediagroup.openworld.sdk.core.model.exception.service.OpenWorldServiceException
 import io.ktor.client.HttpClient
@@ -42,8 +43,11 @@ open class OpenWorldClient(
     clientConfiguration: OpenWorldClientConfiguration,
     httpClientEngine: HttpClientEngine = DEFAULT_HTTP_CLIENT_ENGINE
 ) : Client(clientConfiguration, httpClientEngine) {
-    private val authEndpoint = configurationCollector.authEndpoint ?: fireMissingConfigurationIssue(ConfigurationName.AUTH_ENDPOINT)
-    private val _httpClient: HttpClient = buildHttpClient(authEndpoint, AuthenticationStrategy.AuthenticationType.BEARER)
+    private val configurationProvider: ConfigurationProvider = ConfigurationCollector.create(
+        clientConfiguration.toProvider(),
+        OpenWorldConfigurationProvider
+    )
+    private val _httpClient: HttpClient = buildHttpClient(configurationProvider, AuthenticationStrategy.AuthenticationType.BEARER)
 
     init {
         finalize()
