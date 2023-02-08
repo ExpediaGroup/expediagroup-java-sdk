@@ -21,7 +21,7 @@ import com.expediagroup.common.sdk.core.test.TestConstants.CLIENT_SECRET_TEST_CR
 import com.expediagroup.openworld.sdk.core.client.OpenWorldClient
 import com.expediagroup.openworld.sdk.core.configuration.OpenWorldClientConfiguration
 import com.expediagroup.openworld.sdk.core.configuration.provider.OpenWorldConfigurationProvider
-import com.expediagroup.rapid.sdk.core.client.RapidClient
+import com.expediagroup.rapid.sdk.core.client.BaseRapidClient
 import com.expediagroup.rapid.sdk.core.configuration.RapidClientConfiguration
 import com.expediagroup.rapid.sdk.core.configuration.provider.RapidConfigurationProvider
 import io.ktor.client.engine.HttpClientEngine
@@ -49,10 +49,10 @@ internal object ClientFactory {
 
     fun createOpenWorldClient(mockEngine: HttpClientEngine, configuration: OpenWorldClientConfiguration): OpenWorldClient = Client.create(configuration, mockEngine)
 
-    fun createRapidClient(mockEngine: HttpClientEngine): RapidClient = Client.create(
+    fun createRapidClient(mockEngine: HttpClientEngine): BaseRapidClient = Client.create(
         rapidConfiguration,
         mockEngine
     )
 
-    fun createRapidClient(): RapidClient = createRapidClient(MockEngineFactory.createEmptyResponseEngine())
+    fun createRapidClient(): BaseRapidClient = createRapidClient(MockEngineFactory.createEmptyResponseEngine())
 }

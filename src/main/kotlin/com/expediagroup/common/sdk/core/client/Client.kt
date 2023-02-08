@@ -39,7 +39,7 @@ import com.expediagroup.common.sdk.core.plugin.serialization.SerializationConfig
 import com.expediagroup.common.sdk.core.plugin.serialization.SerializationPlugin
 import com.expediagroup.openworld.sdk.core.client.OpenWorldClient
 import com.expediagroup.openworld.sdk.core.configuration.OpenWorldClientConfiguration
-import com.expediagroup.rapid.sdk.core.client.RapidClient
+import com.expediagroup.rapid.sdk.core.client.BaseRapidClient
 import com.expediagroup.rapid.sdk.core.configuration.RapidClientConfiguration
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
@@ -123,7 +123,7 @@ abstract class Client {
             httpClientEngine: HttpClientEngine = DEFAULT_HTTP_CLIENT_ENGINE
         ): C = when (C::class) {
             OpenWorldClient::class -> OpenWorldClient(clientConfiguration as OpenWorldClientConfiguration, httpClientEngine) as C
-            RapidClient::class -> RapidClient(clientConfiguration as RapidClientConfiguration, httpClientEngine) as C
+            BaseRapidClient::class -> BaseRapidClient(clientConfiguration as RapidClientConfiguration, httpClientEngine) as C
             else -> throw IllegalArgumentException("Unsupported client type: ${C::class.simpleName}")
         }
     }

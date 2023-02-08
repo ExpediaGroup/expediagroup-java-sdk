@@ -16,10 +16,10 @@
 package com.expediagroup.rapid.sdk.core.configuration
 
 import com.expediagroup.common.sdk.core.configuration.ClientConfiguration
-import com.expediagroup.rapid.sdk.core.client.RapidClient
+import com.expediagroup.rapid.sdk.core.client.BaseRapidClient
 
 /**
- * Configuration for the [RapidClient].
+ * Configuration for the [BaseRapidClient].
  *
  * @property key The API key to use for authentication.
  * @property secret The API secret to use for authentication.
