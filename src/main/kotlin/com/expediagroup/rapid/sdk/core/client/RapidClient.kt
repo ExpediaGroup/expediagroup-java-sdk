@@ -18,11 +18,16 @@ package com.expediagroup.rapid.sdk.core.client
 import com.expediagroup.common.sdk.core.client.Client
 import com.expediagroup.common.sdk.core.client.DEFAULT_HTTP_CLIENT_ENGINE
 import com.expediagroup.common.sdk.core.client.finalize
-import com.expediagroup.common.sdk.core.constant.Constant.EMPTY_STRING
+import com.expediagroup.common.sdk.core.configuration.collector.ConfigurationCollector
+import com.expediagroup.common.sdk.core.configuration.provider.ConfigurationProvider
+import com.expediagroup.common.sdk.core.constant.provider.ExceptionMessageProvider
 import com.expediagroup.common.sdk.core.plugin.authentication.strategy.AuthenticationStrategy
 import com.expediagroup.rapid.sdk.core.configuration.RapidClientBuilder
 import com.expediagroup.rapid.sdk.core.configuration.RapidClientConfiguration
+import com.expediagroup.rapid.sdk.core.configuration.provider.RapidConfigurationProvider
 import com.expediagroup.rapid.sdk.core.model.error.RapidError
+import com.expediagroup.rapid.sdk.core.model.exception.client.RapidConfigurationException
+import com.expediagroup.rapid.sdk.core.model.exception.service.RapidAuthException
 import com.expediagroup.rapid.sdk.core.model.exception.service.RapidServiceException
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -40,8 +45,12 @@ import io.ktor.http.toURI
 class RapidClient(
     clientConfiguration: RapidClientConfiguration,
     httpClientEngine: HttpClientEngine = DEFAULT_HTTP_CLIENT_ENGINE
-) : Client(clientConfiguration, httpClientEngine) {
-    private val _httpClient: HttpClient = buildHttpClient(EMPTY_STRING, AuthenticationStrategy.AuthenticationType.SIGNATURE)
+) : Client() {
+    private val configurationProvider: ConfigurationProvider = ConfigurationCollector.create(
+        clientConfiguration.toProvider(),
+        RapidConfigurationProvider
+    )
+    private val _httpClient: HttpClient = buildHttpClient(configurationProvider, AuthenticationStrategy.AuthenticationType.SIGNATURE, httpClientEngine)
 
     init {
         finalize()
@@ -49,6 +58,9 @@ class RapidClient(
 
     override val httpClient: HttpClient
         get() = _httpClient
+
+    override fun fireMissingConfigurationIssue(configurationKey: String): Nothing = throw RapidConfigurationException(ExceptionMessageProvider.getMissingRequiredConfigurationMessage(configurationKey))
+    override fun fireAuthIssue(message: String): Nothing = throw RapidAuthException(message)
 
     override suspend fun throwServiceException(response: HttpResponse) {
         runCatching {

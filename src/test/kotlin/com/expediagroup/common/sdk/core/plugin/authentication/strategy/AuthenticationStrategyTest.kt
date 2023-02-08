@@ -16,7 +16,6 @@
 package com.expediagroup.common.sdk.core.plugin.authentication.strategy
 
 import com.expediagroup.common.sdk.core.configuration.Credentials
-import com.expediagroup.common.sdk.core.configuration.provider.DefaultConfigurationProvider
 import com.expediagroup.common.sdk.core.plugin.authentication.AuthenticationConfiguration
 import com.expediagroup.common.sdk.core.test.TestConstants
 import com.expediagroup.openworld.sdk.core.plugin.authentication.strategy.OpenWorldAuthenticationStrategy
@@ -39,7 +38,7 @@ internal class AuthenticationStrategyTest {
                     TestConstants.CLIENT_KEY_TEST_CREDENTIAL,
                     TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
                 ),
-                DefaultConfigurationProvider.authEndpoint
+                "authEndpoint"
             )
 
             val strategy = AuthenticationStrategy.from(configuration) { HttpClient(OkHttp.create()) }

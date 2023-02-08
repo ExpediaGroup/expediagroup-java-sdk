@@ -17,8 +17,7 @@ package com.expediagroup.common.sdk.core.client
 
 import com.expediagroup.common.sdk.core.configuration.ClientConfiguration
 import com.expediagroup.common.sdk.core.configuration.Credentials
-import com.expediagroup.common.sdk.core.configuration.collector.ConfigurationCollector
-import com.expediagroup.common.sdk.core.configuration.provider.DefaultConfigurationProvider
+import com.expediagroup.common.sdk.core.configuration.provider.ConfigurationProvider
 import com.expediagroup.common.sdk.core.constant.ConfigurationName
 import com.expediagroup.common.sdk.core.constant.Constant
 import com.expediagroup.common.sdk.core.constant.provider.LoggingMessageProvider
@@ -51,34 +50,25 @@ val DEFAULT_HTTP_CLIENT_ENGINE: HttpClientEngine = OkHttp.create()
 
 /**
  * The base integration point between the SDK Core and the product SDKs.
- *
- * @param httpClientEngine The HTTP client engine to use.
- * @param clientConfiguration The configuration for the client.
  */
-abstract class Client(
-    clientConfiguration: ClientConfiguration,
-    private val httpClientEngine: HttpClientEngine = DEFAULT_HTTP_CLIENT_ENGINE
-) {
+abstract class Client {
 
     /**
      * The HTTP client to perform requests with.
      */
     abstract val httpClient: HttpClient
 
-    internal val configurationCollector: ConfigurationCollector = ConfigurationCollector.create(
-        clientConfiguration.toProvider(),
-        DefaultConfigurationProvider
-    )
-
-    private val key: String = configurationCollector.key ?: fireMissingConfigurationIssue(ConfigurationName.KEY)
-    private val secret: String = configurationCollector.secret ?: fireMissingConfigurationIssue(ConfigurationName.SECRET)
-    private val endpoint: String = configurationCollector.endpoint ?: fireMissingConfigurationIssue(ConfigurationName.ENDPOINT)
-
     internal fun buildHttpClient(
-        authEndpoint: String,
-        authenticationType: AuthenticationStrategy.AuthenticationType
+        configurationProvider: ConfigurationProvider,
+        authenticationType: AuthenticationStrategy.AuthenticationType,
+        httpClientEngine: HttpClientEngine = DEFAULT_HTTP_CLIENT_ENGINE
     ): HttpClient = HttpClient(httpClientEngine) {
         val httpClientConfig = this
+
+        val key: String = configurationProvider.key ?: fireMissingConfigurationIssue(ConfigurationName.KEY)
+        val secret: String = configurationProvider.secret ?: fireMissingConfigurationIssue(ConfigurationName.SECRET)
+        val endpoint: String = configurationProvider.endpoint ?: fireMissingConfigurationIssue(ConfigurationName.ENDPOINT)
+        val authEndpoint: String = configurationProvider.authEndpoint ?: fireMissingConfigurationIssue(ConfigurationName.AUTH_ENDPOINT)
 
         val authenticationConfiguration = AuthenticationConfiguration.from(
             httpClientConfig,
@@ -99,6 +89,12 @@ abstract class Client(
             use(AuthenticationHookFactory).with(authenticationConfiguration)
         }
     }
+
+    /** Throw an exception if the configuration is missing. */
+    abstract fun fireMissingConfigurationIssue(configurationKey: String): Nothing
+
+    /** Throw an exception if the authentication fails. */
+    abstract fun fireAuthIssue(message: String): Nothing
 
     private fun isNotSuccessfulResponse(response: HttpResponse) = response.status.value !in Constant.SUCCESSFUL_STATUS_CODES_RANGE
 
