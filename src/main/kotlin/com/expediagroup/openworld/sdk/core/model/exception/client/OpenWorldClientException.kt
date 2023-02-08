@@ -19,6 +19,9 @@ import com.expediagroup.openworld.sdk.core.model.exception.OpenWorldException
 
 /**
  * An exception that is thrown when a client error occurs.
+ *
+ * @param An optional message.
+ * @param An optional cause.
  */
 open class OpenWorldClientException(
     message: String? = null,
