@@ -412,20 +412,11 @@
                         <excludes>
                             <exclude>**/constant/**</exclude>
 
-                            <exclude>**/client/openapi/OpenApiStub*</exclude>
-                            <exclude>**/client/openapi/RapidOpenApiStub*</exclude>
-                            <exclude>**/client/Client*</exclude>
-                            <exclude>**/client/openapi/OpenApiStub*</exclude>
-                            <exclude>**/client/Client*</exclude>
+                            <exclude>**/client/*Client*</exclude>
 
+                            <exclude>**/configuration/**ClientBuilder*</exclude>
                             <exclude>**/configuration/NetworkConfiguration*</exclude>
-                            <exclude>**/configuration/LoggingConfiguration*</exclude>
-                            <exclude>**/configuration/ClientConfiguration$Companion*</exclude>
-                            <exclude>**/configuration/RapidClientConfiguration$Companion*</exclude>
-                            <exclude>**/config/provider/ConfigurationData*</exclude>
-                            <exclude>**/configuration/NetworkConfiguration*</exclude>
-                            <exclude>**/configuration/LoggingConfiguration*</exclude>
-                            <exclude>**/config/provider/ConfigurationData*</exclude>
+                            <exclude>**/config/**</exclude>
 
                             <exclude>**/model/**</exclude>
 
@@ -436,9 +427,7 @@
 
                             <exclude>**/authentication/AuthenticationConfiguration*</exclude>
                             <exclude>**/authentication/AuthenticationPlugin*</exclude>
-                            <exclude>**/authentication/strategy/bearer/TokenResponse*</exclude>
-                            <exclude>**/authentication/TokenResponse*</exclude>
-                            <exclude>**/authentication/AuthenticationConfiguration*</exclude>
+                            <exclude>**/authentication/strategy/TokenResponse*</exclude>
                             <exclude>**/authentication/AuthenticationHook*</exclude>
                             <exclude>**/authentication/AuthenticationPlugin*</exclude>
 
@@ -698,6 +687,10 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
             </plugin>
 
             <plugin>
