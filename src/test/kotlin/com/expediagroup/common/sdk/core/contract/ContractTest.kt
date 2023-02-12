@@ -22,9 +22,13 @@ class ContractTest {
 
     @Test
     fun `Test adhering to a trailing slash`() {
-        val input = "https://api.expediagroup.com"
-        val expected = "https://api.expediagroup.com/"
-        val actual: String = input.adhereTo(Contract.TRAILING_SLASH)
-        assertEquals(expected, actual)
+        assertEquals("https://api.expediagroup.com/", "https://api.expediagroup.com/".adhereTo(Contract.TRAILING_SLASH))
+        assertEquals("https://api.expediagroup.com/", "https://api.expediagroup.com".adhereTo(Contract.TRAILING_SLASH))
+    }
+
+    @Test
+    fun `Test adhering to No leading slash`() {
+        assertEquals("api.expediagroup.com", "/api.expediagroup.com".adhereTo(Contract.NO_LEADING_SLASH))
+        assertEquals("api.expediagroup.com", "api.expediagroup.com".adhereTo(Contract.NO_LEADING_SLASH))
     }
 }
