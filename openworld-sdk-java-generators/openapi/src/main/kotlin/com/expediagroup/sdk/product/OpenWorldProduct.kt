@@ -36,7 +36,7 @@ data class OpenWorldProduct(
         get() = "com.expediagroup.openworld.sdk.$normalizedNamespace.client"
 
     override val artifactId: String
-        get() = "openworld-${programmingLanguage.name}-sdk-$normalizedNamespace"
+        get() = "openworld-${programmingLanguage.id}-sdk-$normalizedNamespace"
 
     override val packagePath: String
         get() = "src/main/kotlin/com/expediagroup/openworld/sdk/$normalizedNamespace"
