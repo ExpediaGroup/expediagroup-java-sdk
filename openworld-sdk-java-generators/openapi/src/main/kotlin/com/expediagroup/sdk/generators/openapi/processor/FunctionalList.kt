@@ -15,8 +15,8 @@
  */
 package com.expediagroup.sdk.generators.openapi.processor
 
-import com.expediagroup.sdk.generators.openapi.PreProcessingException
 import com.expediagroup.sdk.generators.openapi.processor.FunctionalMap.Companion.toMutableMap
+import com.expediagroup.sdk.model.PreProcessingException
 
 internal class FunctionalList(private val list: MutableList<Any?>) {
     fun removeIf(predicate: (FunctionalMap) -> Boolean) {

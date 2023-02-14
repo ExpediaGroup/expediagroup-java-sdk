@@ -6,7 +6,7 @@
     <groupId>com.expediagroup.openworld.sdk</groupId>
     <artifactId>travel-sdk-generators</artifactId>
     <packaging>pom</packaging>
-    <version>0.4.0</version>
+    <version>1.0.0</version>
     <name>EG Open World SDK Tooling :: Generators</name>
     <description>Code generators for building an SDK</description>
     <url>https://github.com/ExpediaGroup/openworld-sdk-java-generators</url>

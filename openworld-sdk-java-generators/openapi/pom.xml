@@ -64,8 +64,8 @@
         <out>${project.build.directory}/sdk/</out>
         <namespace>example</namespace>
         <sdkVersion>0.0.1-SNAPSHOT</sdkVersion>
-        <isKotlin>false</isKotlin>
-        <isRapid>false</isRapid>
+        <productFamily>openworld</productFamily>
+        <language>java</language>
 
         <!-- Versions -->
         <kotlin.version>1.8.0</kotlin.version>
@@ -353,10 +353,10 @@
                                 <argument>${namespace}</argument>
                                 <argument>--version</argument>
                                 <argument>${sdkVersion}</argument>
-                                <argument>--isKotlin</argument>
-                                <argument>${isKotlin}</argument>
-                                <argument>--isRapid</argument>
-                                <argument>${isRapid}</argument>
+                                <argument>--productFamily</argument>
+                                <argument>${productFamily}</argument>
+                                <argument>--language</argument>
+                                <argument>${language}</argument>
                             </arguments>
                         </configuration>
                     </execution>

@@ -16,9 +16,14 @@
 package com.expediagroup.sdk.generators.openapi
 
 import com.expediagroup.sdk.generators.openapi.processor.YamlProcessor
+import com.expediagroup.sdk.model.ClientGenerationException
+import com.expediagroup.sdk.product.Product
+import com.expediagroup.sdk.product.ProductFamily
+import com.expediagroup.sdk.product.ProgrammingLanguage
 import com.github.rvesse.airline.SingleCommand
 import com.github.rvesse.airline.annotations.Command
 import com.github.rvesse.airline.annotations.Option
+import kotlin.io.path.writeBytes
 import org.openapitools.codegen.DefaultGenerator
 import org.openapitools.codegen.api.TemplateDefinition
 import org.openapitools.codegen.config.CodegenConfigurator
@@ -28,7 +33,6 @@ import java.io.FileOutputStream
 import java.nio.file.Files
 import java.util.*
 import java.util.zip.ZipInputStream
-import kotlin.io.path.writeBytes
 
 /**
  * Configures the OpenAPI Generator based on command line parameters to generate an EG Travel SDK project
@@ -69,51 +73,55 @@ class OpenApiSdkGenerator {
     @Option(name = ["-v", "--version"])
     lateinit var version: String
 
-    @Option(name = ["-k", "--isKotlin"])
-    lateinit var isKotlin: String
+    @Option(name = ["-l", "--language"])
+    lateinit var programmingLanguage: String
 
-    @Option(name = ["-r", "--isRapid"])
-    lateinit var isRapid: String
+    @Option(name = ["-f", "--productFamily"])
+    lateinit var productFamily: String
 
     fun run() {
         try {
-            // Adjust namespace to fit with JVM package naming conventions
-            val lowercaseNamespace = namespace.lowercase()
-            val packageName = lowercaseNamespace.replace(Constant.NON_ALPHANUMERIC_REGEX, "")
+            val product = Product.from(productFamily, programmingLanguage, namespace)
             val config = CodegenConfigurator().apply {
-                // specify the target language
-                setGeneratorName("kotlin")
-                setTemplateDir("templates/openworld-sdk")
                 val path = prepareSpecFile()
                 val processedFilePath = preProcessSpecFile(path)
+
+                setGeneratorName("kotlin")
+                setTemplateDir("templates/openworld-sdk")
                 setInputSpec(processedFilePath)
                 setOutputDir(outputDirectory)
-                // Configure CodeGen Components
+                setArtifactId(product.artifactId)
+                setArtifactVersion(version)
+                setGroupId(product.groupId)
+                setPackageName(product.packageName)
+
                 addGlobalProperty("models", "")
                 addGlobalProperty("apis", "")
                 addGlobalProperty("supportingFiles", supportingFiles.joinToString(","))
-                // Configure generated client suffix eg: AnyNameClient
+
                 addAdditionalProperty("apiSuffix", "Client")
-                addAdditionalProperty("apiPackage", "com.expediagroup.openworld.sdk.$packageName.client")
-                // Configure generated Enum class names
+                addAdditionalProperty("apiPackage", product.apiPackage)
                 addAdditionalProperty("enumPropertyNaming", "UPPERCASE")
-                // Configure CodeGen Language
                 addAdditionalProperty("library", "jvm-ktor")
-                // Configure serialization library
                 addAdditionalProperty("serializationLibrary", "jackson")
                 addAdditionalProperty("sortParamsByRequiredFlag", true)
-                addAdditionalProperty("namespace", lowercaseNamespace)
-                addAdditionalProperty("isKotlin", isKotlin.toBoolean())
-                addAdditionalProperty("isRapid", isRapid.toBoolean())
-                // Configure SDK Artifact Coordinates
-                setArtifactId("openworld-${getSdkLanguage()}-sdk-$lowercaseNamespace")
-                setArtifactVersion(version)
-                // Configure package details
-                setPackageName("com.expediagroup.openworld.sdk.$packageName")
+                addAdditionalProperty("shadePrefix", product.shadePrefix)
+                addAdditionalProperty("namespace", product.namespace)
+                addAdditionalProperty("language", product.programmingLanguage.id)
+                addAdditionalProperty("productFamily", product.productFamily.id)
+                addAdditionalProperty("excludesPath", product.excludesPath)
+
+                // Template specific properties
+                addAdditionalProperty("isKotlin", ProgrammingLanguage.isKotlin(product.programmingLanguage))
+                addAdditionalProperty("isRapid", ProductFamily.isRapid(product.productFamily))
+                addAdditionalProperty("isOpenWorld", ProductFamily.isOpenWorld(product.productFamily))
+
+                // Mustache Helpers
+                mustacheHelpers.forEach { (name, function) -> addAdditionalProperty(name, function()) }
             }
-            // Load Template Customizations
+
             val generatorInput = config.toClientOptInput().apply {
-                val packagePath = "src/main/kotlin/com/expediagroup/openworld/sdk/$packageName"
+                val packagePath = product.packagePath
                 userDefinedTemplates(
                     listOf(
                         TemplateDefinition("pom.mustache", "pom.xml"),
@@ -140,17 +148,13 @@ class OpenApiSdkGenerator {
                     )
                 )
             }
-            // Ready To Form Voltron! Activate Interlock! Dynatherms Connected! Infracells Up! Megathrusters Are Go!
+
             val generator = DefaultGenerator(false).apply { opts(generatorInput) }
             generator.generate()
         } catch (e: Exception) {
-            System.err.println("Failed to generate SDK")
-            System.err.println(e.message)
-            e.printStackTrace()
+            throw ClientGenerationException("Failed to generate SDK", e)
         }
     }
-
-    private fun getSdkLanguage() = if (isKotlin.toBoolean()) "kotlin" else "java"
 
     private fun preProcessSpecFile(path: String): String {
         val yamlProcessor = YamlProcessor(path, namespace)

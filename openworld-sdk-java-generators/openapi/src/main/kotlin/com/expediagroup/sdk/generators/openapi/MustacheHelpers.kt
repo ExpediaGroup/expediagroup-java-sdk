@@ -15,5 +15,10 @@
  */
 package com.expediagroup.sdk.generators.openapi
 
-class PreProcessingException(override val message: String, override val cause: Throwable? = null) :
-    RuntimeException(message, cause)
+import com.samskivert.mustache.Mustache
+
+val mustacheHelpers = mapOf(
+    "removeLeadingSlash" to {
+        Mustache.Lambda { fragment, writer -> writer.write(fragment.execute().removePrefix("/")) }
+    }
+)

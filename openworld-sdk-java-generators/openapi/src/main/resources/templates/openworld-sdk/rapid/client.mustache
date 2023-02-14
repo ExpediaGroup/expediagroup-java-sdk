@@ -1,0 +1,123 @@
+package {{apiPackage}}
+
+{{#imports}}
+import {{import}}
+{{/imports}}
+import {{packageName}}.validation.PropertyConstraintsValidator.validateConstraints
+
+import com.expediagroup.common.sdk.core.config.provider.FileConfigurationProvider
+
+import com.expediagroup.rapid.sdk.core.client.BaseRapidClient
+import com.expediagroup.rapid.sdk.core.configuration.BaseRapidClientBuilder
+import com.expediagroup.rapid.sdk.core.configuration.RapidClientConfiguration
+import com.expediagroup.rapid.sdk.core.model.exception.RapidException
+
+import io.ktor.client.call.body
+import io.ktor.client.request.HttpRequestBuilder
+import io.ktor.client.request.request
+import io.ktor.client.request.setBody
+import io.ktor.client.request.url
+import io.ktor.http.HttpMethod
+import io.ktor.http.contentType
+import io.ktor.http.ContentType
+import io.ktor.http.ParametersBuilder
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.future.future
+import java.util.UUID
+
+/**
+* {{{description}}}
+*/
+{{#operations}}
+ class {{classname}} private constructor(clientConfiguration: RapidClientConfiguration) : BaseRapidClient(clientConfiguration){
+    private val loader = FileConfigurationProvider()[javaClass.classLoader.getResource("sdk.properties")!!]
+    private val javaVersion = System.getProperty("java.version")
+    private val operatingSystemName = System.getProperty("os.name")
+    private val operatingSystemVersion = System.getProperty("os.version")
+    private val userAgent = "rapid-{{#isKotlin}}kotlin{{/isKotlin}}{{^isKotlin}}java{{/isKotlin}}-sdk-{{namespace}}/${loader.data()["sdk-version"]!!} (Java $javaVersion; $operatingSystemName $operatingSystemVersion)"
+
+    class {{classname}}Builder : BaseRapidClientBuilder<{{classname}}Builder>() {
+        override fun build(): {{classname}} = {{classname}}(
+            RapidClientConfiguration(key, secret, endpoint)
+        )
+    }
+
+    companion object {
+        @JvmStatic fun builder() = {{classname}}Builder()
+    }
+
+    private fun HttpRequestBuilder.appendHeaders(transactionId: UUID) {
+        headers.append("x-sdk-title", loader.data()["sdk-title"]!!)
+        headers.append("transaction-id", transactionId.toString())
+        headers.append("User-agent", userAgent)
+    }
+
+{{#operation}}
+    {{^isKotlin}}private {{/isKotlin}}suspend {{^isKotlin}}inline {{/isKotlin}}fun {{^isKotlin}}k{{/isKotlin}}{{operationId}}({{>apiParamsDecleration}}): {{{returnType}}}{{^returnType}}Void?{{/returnType}} {
+        val response = httpClient.request {
+            method = HttpMethod.parse("{{httpMethod}}")
+            url("{{#removeLeadingSlash}}{{path}}{{/removeLeadingSlash}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}"${{{paramName}}}"{{/isContainer}}){{/pathParams}})
+            appendHeaders(transactionId)
+        {{#headerParams}}
+            {{paramName}}{{^required}}?{{/required}}.also{ headers.append("{{baseName}}", it) }
+        {{/headerParams}}
+        {{#queryParams}}
+            {{{paramName}}}{{^required}}?{{/required}}.also { url.parameters.{{#isContainer}}appendAll("{{{baseName}}}", it){{/isContainer}}{{^isContainer}}append("{{{baseName}}}", it.toString()){{/isContainer}} }
+        {{/queryParams}}
+        {{#hasBodyParam}}
+            validateConstraints({{#bodyParam}}{{{paramName}}}{{/bodyParam}})
+            contentType(ContentType.Application.Json)
+            setBody({{#bodyParam}}{{{paramName}}}{{/bodyParam}})
+        {{/hasBodyParam}}
+        {{^hasBodyParam}}
+            {{#hasFormParams}}
+                {{#isMultipart}}
+            setBody(MultiPartFormDataContent(formData {
+                {{#formParams}}
+                {{{paramName}}}?.apply { append("{{{baseName}}}", {{{paramName}}}) }
+                {{/formParams}}
+            })
+                {{/isMultipart}}
+                {{^isMultipart}}
+            url.parameters.appendAll(ParametersBuilder().also {
+                {{#formParams}}
+                {{{paramName}}}?.apply { it.append("{{{baseName}}}", {{{paramName}}}.toString()) }
+                {{/formParams}}
+            }.build())
+                {{/isMultipart}}
+            {{/hasFormParams}}
+        {{/hasBodyParam}}
+        }
+        throwIfError(response)
+        return {{^returnType}}null{{/returnType}}{{#returnType}}response.body(){{/returnType}}
+    }
+    {{^isKotlin}}
+
+    /**
+    * {{summary}}
+    * {{notes}}
+    {{#queryParams}} * @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}
+    {{/queryParams}}{{#bodyParams}} * @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}
+    {{/bodyParams}} {{#formParams}} * @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}
+    {{/formParams}}* @return {{{returnType}}}{{^returnType}}void{{/returnType}}
+    */
+    @JvmOverloads
+    fun {{operationId}}({{>apiParamsDecleration}}) : {{{returnType}}}{{^returnType}}Void?{{/returnType}} {
+        try {
+            return GlobalScope.future(Dispatchers.IO) {
+                k{{operationId}}({{>apiParamsPassed}})
+            }.get()
+        } catch (exception: Exception) {
+            if (exception is RapidException) throw exception
+
+            when (val cause = exception.cause) {
+                is RapidException -> throw cause
+                else -> throw RapidException("Rapid Error", exception)
+            }
+        }
+    }
+    {{/isKotlin}}
+{{/operation}}
+}
+{{/operations}}

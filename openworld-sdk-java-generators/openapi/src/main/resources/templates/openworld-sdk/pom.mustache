@@ -3,11 +3,18 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.expediagroup.openworld.sdk</groupId>
-    <artifactId>{{artifactId}}</artifactId>
-    <version>{{artifactVersion}}</version>
+    {{#isRapid}}
+    <name>EG Rapid SDK for Java</name>
+    <description>EG Rapid SDK v{{artifactVersion}}</description>
+    {{/isRapid}}
+    {{#isOpenWorld}}
     <name>EG Open World SDK :: {{artifactId}}</name>
     <description>EG Open World SDK :: {{artifactId}} v{{artifactVersion}}</description>
+    {{/isOpenWorld}}
+
+    <groupId>{{groupId}}</groupId>
+    <artifactId>{{artifactId}}</artifactId>
+    <version>{{artifactVersion}}</version>
     <url>https://github.com/ExpediaGroup/openworld-sdk-java-generators/tree/main/generated</url>
     <inceptionYear>2022</inceptionYear>
 
@@ -55,7 +62,7 @@
         <kotlin.version>1.8.0</kotlin.version>
         <dokka-plugin.version>1.7.20</dokka-plugin.version>
 
-        <shadePrefix>com.expediagroup.openworld.sdk.dependencies</shadePrefix>
+        <shadePrefix>{{shadePrefix}}</shadePrefix>
 
         <build-helper-maven-plugin.version>3.3.0</build-helper-maven-plugin.version>
         <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
@@ -71,7 +78,7 @@
         <dependency>
             <groupId>com.expediagroup.openworld.sdk</groupId>
             <artifactId>openworld-java-sdk-core</artifactId>
-            <version>0.10.0</version>
+            <version>1.0.0</version>
         </dependency>
 
         <dependency>
@@ -263,49 +270,14 @@
                                 </excludes>
                             </artifactSet>
 
-                            <relocations>
-
-<!--                                <relocation>-->
-<!--                                    <pattern>org</pattern>-->
-<!--                                    <shadedPattern>${shadePrefix}.org</shadedPattern>-->
-<!--                                    &lt;!&ndash; Don't relocate shared component APIs &ndash;&gt;-->
-<!--                                    <excludes>-->
-<!--                                        <exclude>org.slf4j.*</exclude>>-->
-<!--                                    </excludes>-->
-<!--                                </relocation>-->
-
-                                <!-- Temp fix for the SDK Core path -->
-<!--                                <relocation>-->
-<!--                                    <pattern>com.expediagroup.sdk.core</pattern>-->
-<!--                                    <shadedPattern>com.expediagroup.openworld.sdk.core</shadedPattern>-->
-<!--                                </relocation>-->
-
-                                <!-- Everything else gets relocated -->
-                                <relocation>
-                                    <pattern>io</pattern>
-                                    <shadedPattern>${shadePrefix}.io</shadedPattern>
-                                </relocation>
-
-                                <relocation>
-                                    <pattern>okio</pattern>
-                                    <shadedPattern>${shadePrefix}.okio</shadedPattern>
-                                </relocation>
-
-                                <relocation>
-                                    <pattern>okhttp</pattern>
-                                    <shadedPattern>${shadePrefix}.okhttp</shadedPattern>
-                                </relocation>
-
-                                <relocation>
-                                    <pattern>jakarta</pattern>
-                                    <shadedPattern>${shadePrefix}.jakarta</shadedPattern>
-                                </relocation>
-
-                                <relocation>
-                                    <pattern>com.fasterxml</pattern>
-                                    <shadedPattern>${shadePrefix}.com.fasterxml</shadedPattern>
-                                </relocation>
-                            </relocations>
+                            <filters>
+                                <filter>
+                                    <artifact>com.expediagroup.openworld.sdk:openworld-java-sdk-core</artifact>
+                                    <excludes>
+                                        <exclude>{{excludesPath}}</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
                         </configuration>
                     </execution>
                 </executions>

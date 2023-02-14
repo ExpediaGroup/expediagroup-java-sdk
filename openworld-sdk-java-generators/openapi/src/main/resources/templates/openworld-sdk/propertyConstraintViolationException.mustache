@@ -1,6 +1,8 @@
+{{>licenseInfo}}
 package {{packageName}}.models.exception
 
-import com.expediagroup.sdk.core.model.exception.client.OpenWorldClientException
+import com.expediagroup.openworld.sdk.core.model.exception.client.OpenWorldClientException
+import com.expediagroup.rapid.sdk.core.model.exception.client.RapidClientException
 
 /**
  * An exception to be thrown when a constraint on some property has been violated.
@@ -11,4 +13,4 @@ import com.expediagroup.sdk.core.model.exception.client.OpenWorldClientException
 class PropertyConstraintViolationException(
     message: String,
     val constraintViolations: List<PropertyConstraintViolation>
-) : OpenWorldClientException(message)
+) : {{#isRapid}}RapidClientException{{/isRapid}}{{#isOpenWorld}}OpenWorldClientException{{/isOpenWorld}}(message)
