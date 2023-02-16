@@ -15,17 +15,19 @@
  */
 package com.expediagroup.openworld.sdk.core.configuration.provider
 
-import com.expediagroup.openworld.sdk.core.constant.Constant.EMPTY_STRING
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 
-internal class OpenWorldConfigurationProviderTest {
+internal class RuntimeConfigurationProviderTest {
 
     @Test
     fun `verify default values`() {
-        assertEquals(EMPTY_STRING, OpenWorldConfigurationProvider.key)
-        assertEquals(EMPTY_STRING, OpenWorldConfigurationProvider.secret)
-        assertEquals("https://api.expediagroup.com/", OpenWorldConfigurationProvider.endpoint)
-        assertEquals("https://api.expediagroup.com/identity/oauth2/v2/token/", OpenWorldConfigurationProvider.authEndpoint)
+        val emptyRuntimeConfigurationProvider = RuntimeConfigurationProvider()
+        assertNotNull(emptyRuntimeConfigurationProvider)
+        assertNull(emptyRuntimeConfigurationProvider.key)
+        assertNull(emptyRuntimeConfigurationProvider.secret)
+        assertNull(emptyRuntimeConfigurationProvider.endpoint)
+        assertNull(emptyRuntimeConfigurationProvider.authEndpoint)
     }
 }

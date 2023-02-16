@@ -13,19 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.openworld.sdk.core.configuration.provider
+package com.expediagroup.openworld.sdk.core.contract
 
-import com.expediagroup.openworld.sdk.core.constant.Constant.EMPTY_STRING
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-internal class OpenWorldConfigurationProviderTest {
+class ContractTest {
 
     @Test
-    fun `verify default values`() {
-        assertEquals(EMPTY_STRING, OpenWorldConfigurationProvider.key)
-        assertEquals(EMPTY_STRING, OpenWorldConfigurationProvider.secret)
-        assertEquals("https://api.expediagroup.com/", OpenWorldConfigurationProvider.endpoint)
-        assertEquals("https://api.expediagroup.com/identity/oauth2/v2/token/", OpenWorldConfigurationProvider.authEndpoint)
+    fun `Test adhering to a trailing slash`() {
+        assertEquals("https://api.expediagroup.com/", "https://api.expediagroup.com".adhereTo(Contract.TRAILING_SLASH))
+        assertEquals("https://api.expediagroup.com/", "https://api.expediagroup.com/".adhereTo(Contract.TRAILING_SLASH))
     }
 }
