@@ -13,15 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.openworld.sdk.core.model.exception
+package com.expediagroup.openworld.sdk.core.config.provider
 
 /**
- * A base exception for all Open World exceptions.
- *
- * @param message An optional error message.
- * @param cause An optional cause of the error.
+ * A callback passed to [ConfigurationProvider] for subscribing to changes.
  */
-open class OpenWorldException(
-    message: String? = null,
-    cause: Throwable? = null
-) : RuntimeException(message, cause)
+fun interface ConfigurationChangeCallback {
+    /**
+     * Performs an action when configuration data changes.
+     *
+     * @param path the path at which the data resides
+     * @param data the configuration data
+     */
+    fun onChange(path: String, data: ConfigurationData)
+}

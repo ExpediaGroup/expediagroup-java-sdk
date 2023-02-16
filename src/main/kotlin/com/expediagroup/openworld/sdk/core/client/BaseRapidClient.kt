@@ -15,10 +15,10 @@
  */
 package com.expediagroup.openworld.sdk.core.client
 
-import com.expediagroup.openworld.sdk.core.configuration.OpenWorldClientConfiguration
+import com.expediagroup.openworld.sdk.core.configuration.RapidClientConfiguration
 import com.expediagroup.openworld.sdk.core.configuration.collector.ConfigurationCollector
 import com.expediagroup.openworld.sdk.core.configuration.provider.ConfigurationProvider
-import com.expediagroup.openworld.sdk.core.configuration.provider.OpenWorldConfigurationProvider
+import com.expediagroup.openworld.sdk.core.configuration.provider.RapidConfigurationProvider
 import com.expediagroup.openworld.sdk.core.plugin.authentication.strategy.AuthenticationStrategy
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
@@ -29,15 +29,15 @@ import io.ktor.client.engine.HttpClientEngine
  * @param httpClientEngine The HTTP client engine to use.
  * @param clientConfiguration The configuration for the client.
  */
-abstract class OpenWorldClient(
-    clientConfiguration: OpenWorldClientConfiguration,
+abstract class BaseRapidClient(
+    clientConfiguration: RapidClientConfiguration,
     httpClientEngine: HttpClientEngine = DEFAULT_HTTP_CLIENT_ENGINE
 ) : Client() {
     private val configurationProvider: ConfigurationProvider = ConfigurationCollector.create(
         clientConfiguration.toProvider(),
-        OpenWorldConfigurationProvider
+        RapidConfigurationProvider
     )
-    private val _httpClient: HttpClient = buildHttpClient(configurationProvider, AuthenticationStrategy.AuthenticationType.BEARER, httpClientEngine)
+    private val _httpClient: HttpClient = buildHttpClient(configurationProvider, AuthenticationStrategy.AuthenticationType.SIGNATURE, httpClientEngine)
 
     init {
         finalize()
@@ -47,25 +47,12 @@ abstract class OpenWorldClient(
         get() = _httpClient
 
     /**
-     * An [OpenWorldClient] builder.
+     * A [BaseRapidClient] builder.
      *
-     * @property key The API key to use for requests.
-     * @property secret The API secret to use for requests.
+     * @property key The API key to use for authentication.
+     * @property secret The API secret to use for authentication.
      * @property endpoint The API endpoint to use for requests.
-     * @property authEndpoint The API auth endpoint to use for requests.
      */
-    @Suppress("unused") // This is used by the generated SDK clients.
-    abstract class Builder<SELF : Builder<SELF>> : Client.Builder<SELF>() {
-        protected var authEndpoint: String? = null
-
-        /** Sets the API auth endpoint to use for requests.
-         *
-         * @param authEndpoint The API auth endpoint to use for requests.
-         * @return The [Builder] instance.
-         */
-        fun authEndpoint(authEndpoint: String): SELF {
-            this.authEndpoint = authEndpoint
-            return self()
-        }
-    }
+    @Suppress("unused", "UnnecessaryAbstractClass") // This is used by the generated SDK clients.
+    abstract class Builder<SELF : Builder<SELF>> : Client.Builder<SELF>()
 }

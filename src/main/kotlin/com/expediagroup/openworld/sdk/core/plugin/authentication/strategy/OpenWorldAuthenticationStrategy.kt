@@ -15,18 +15,17 @@
  */
 package com.expediagroup.openworld.sdk.core.plugin.authentication.strategy
 
-import com.expediagroup.common.sdk.core.configuration.Credentials
-import com.expediagroup.common.sdk.core.constant.Authentication
-import com.expediagroup.common.sdk.core.constant.Constant
-import com.expediagroup.common.sdk.core.constant.ExceptionMessage
-import com.expediagroup.common.sdk.core.constant.HeaderKey
-import com.expediagroup.common.sdk.core.constant.HeaderValue
-import com.expediagroup.common.sdk.core.constant.LoggingMessage
-import com.expediagroup.common.sdk.core.constant.provider.LoggingMessageProvider
-import com.expediagroup.common.sdk.core.plugin.authentication.AuthenticationConfiguration
-import com.expediagroup.common.sdk.core.plugin.authentication.strategy.AuthenticationStrategy
-import com.expediagroup.common.sdk.core.plugin.logging.OpenWorldLoggerFactory
+import com.expediagroup.openworld.sdk.core.configuration.Credentials
+import com.expediagroup.openworld.sdk.core.constant.Authentication
+import com.expediagroup.openworld.sdk.core.constant.Constant
+import com.expediagroup.openworld.sdk.core.constant.ExceptionMessage
+import com.expediagroup.openworld.sdk.core.constant.HeaderKey
+import com.expediagroup.openworld.sdk.core.constant.HeaderValue
+import com.expediagroup.openworld.sdk.core.constant.LoggingMessage
+import com.expediagroup.openworld.sdk.core.constant.provider.LoggingMessageProvider
 import com.expediagroup.openworld.sdk.core.model.exception.service.OpenWorldAuthException
+import com.expediagroup.openworld.sdk.core.plugin.authentication.AuthenticationConfiguration
+import com.expediagroup.openworld.sdk.core.plugin.logging.OpenWorldLoggerFactory
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.auth.Auth
@@ -41,6 +40,7 @@ import io.ktor.client.request.url
 import io.ktor.http.HttpMethod
 import io.ktor.http.Parameters
 import kotlinx.coroutines.runBlocking
+import java.time.LocalDateTime
 
 internal class OpenWorldAuthenticationStrategy(
     private val httpClientProvider: () -> HttpClient,
@@ -114,4 +114,31 @@ internal class OpenWorldAuthenticationStrategy(
             append(HeaderKey.GRANT_TYPE, HeaderValue.CLIENT_CREDENTIALS)
         }
     }
+
+    internal open class BearerTokensInfo(val bearerTokens: BearerTokens, expiresIn: Int) {
+        private val expiryDate: LocalDateTime
+
+        init {
+            this.expiryDate = calculateExpiryDate(expiresIn)
+        }
+
+        private fun calculateExpiryDate(expiresIn: Int): LocalDateTime = LocalDateTime.now().plusSeconds(expiresIn.toLong())
+
+        open fun isAboutToExpire(): Boolean = LocalDateTime.now().isAfter(expiryDate.minusSeconds(Authentication.BEARER_EXPIRY_DATE_MARGIN))
+
+        companion object {
+            internal val emptyBearerTokenInfo = object : BearerTokensInfo(BearerTokens(Constant.EMPTY_STRING, Constant.EMPTY_STRING), -1) {
+                override fun isAboutToExpire() = true
+            }
+        }
+    }
+
+    internal data class TokenResponse(
+        val accessToken: String,
+        val expiresIn: Int,
+        val token: String? = null,
+        val scope: String,
+        val tokenType: String,
+        val idToken: String? = null
+    )
 }

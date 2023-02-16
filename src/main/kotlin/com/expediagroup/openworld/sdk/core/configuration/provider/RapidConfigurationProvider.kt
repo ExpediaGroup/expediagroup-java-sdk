@@ -15,19 +15,16 @@
  */
 package com.expediagroup.openworld.sdk.core.configuration.provider
 
-import com.expediagroup.openworld.sdk.core.configuration.provider.OpenWorldConfigurationProvider.authEndpoint
-import com.expediagroup.openworld.sdk.core.configuration.provider.OpenWorldConfigurationProvider.endpoint
-import com.expediagroup.openworld.sdk.core.configuration.provider.OpenWorldConfigurationProvider.name
+import com.expediagroup.openworld.sdk.core.configuration.provider.RapidConfigurationProvider.endpoint
+import com.expediagroup.openworld.sdk.core.configuration.provider.RapidConfigurationProvider.name
 
 /**
- * Default configuration provider for OpenWorld.
+ * Default configuration provider for Rapid.
  *
  * @property name The name of the provider.
  * @property endpoint The API endpoint to use for requests.
- * @property authEndpoint The API endpoint to use for authentication.
  */
-internal object OpenWorldConfigurationProvider : ConfigurationProvider {
-    override val name: String = "OpenWorld Configuration Provider"
-    override val endpoint: String = "https://api.expediagroup.com/"
-    override val authEndpoint: String = "${endpoint}identity/oauth2/v2/token/"
+internal object RapidConfigurationProvider : ConfigurationProvider {
+    override val name: String = "Rapid Configuration Provider"
+    override val endpoint: String = "https://api.ean.com/v3"
 }

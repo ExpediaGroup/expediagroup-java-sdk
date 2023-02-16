@@ -13,15 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.openworld.sdk.core.model.exception
+package com.expediagroup.openworld.sdk.core.plugin.encoding
 
-/**
- * A base exception for all Open World exceptions.
- *
- * @param message An optional error message.
- * @param cause An optional cause of the error.
- */
-open class OpenWorldException(
-    message: String? = null,
-    cause: Throwable? = null
-) : RuntimeException(message, cause)
+import com.expediagroup.openworld.sdk.core.client.Client
+import com.expediagroup.openworld.sdk.core.plugin.Plugin
+import io.ktor.client.plugins.compression.ContentEncoding
+
+internal object EncodingPlugin : Plugin<EncodingConfiguration> {
+    override fun install(client: Client, configurations: EncodingConfiguration) {
+        configurations.httpClientConfiguration.install(ContentEncoding) {
+            gzip()
+        }
+    }
+}

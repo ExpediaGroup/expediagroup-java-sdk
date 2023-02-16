@@ -15,9 +15,8 @@
  */
 package com.expediagroup.openworld.sdk.core.configuration
 
-import com.expediagroup.common.sdk.core.configuration.ClientConfiguration
-import com.expediagroup.common.sdk.core.configuration.provider.RuntimeConfigurationProvider
 import com.expediagroup.openworld.sdk.core.client.OpenWorldClient
+import com.expediagroup.openworld.sdk.core.configuration.provider.RuntimeConfigurationProvider
 
 /**
  * Configuration for the [OpenWorldClient].
