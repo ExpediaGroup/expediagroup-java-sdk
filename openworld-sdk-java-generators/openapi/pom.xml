@@ -5,7 +5,7 @@
 
     <groupId>com.expediagroup.openworld.sdk</groupId>
     <artifactId>travel-sdk-generators-openapi</artifactId>
-    <version>0.4.0</version>
+    <version>1.1.0</version>
     <name>EG Open World SDK Tooling :: Generators :: OpenAPI</name>
     <description>SDK Generator for building SDKs based on OpenAPI specs</description>
     <url>https://github.com/ExpediaGroup/openworld-sdk-java-generators/tree/main/openapi</url>
@@ -64,7 +64,6 @@
         <out>${project.build.directory}/sdk/</out>
         <namespace>example</namespace>
         <sdkVersion>0.0.1-SNAPSHOT</sdkVersion>
-        <productFamily>openworld</productFamily>
         <language>java</language>
 
         <!-- Versions -->
@@ -353,8 +352,6 @@
                                 <argument>${namespace}</argument>
                                 <argument>--version</argument>
                                 <argument>${sdkVersion}</argument>
-                                <argument>--productFamily</argument>
-                                <argument>${productFamily}</argument>
                                 <argument>--language</argument>
                                 <argument>${language}</argument>
                             </arguments>

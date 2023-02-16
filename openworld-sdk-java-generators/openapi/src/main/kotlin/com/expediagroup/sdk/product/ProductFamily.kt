@@ -21,19 +21,19 @@ enum class ProductFamily(val id: String) {
 
     companion object {
         /**
-         * Returns if the given ProductFamily is Rapid.
+         * Returns true if the product family is Rapid.
          *
-         * @param productFamily the ProductFamily to check
-         * @return true if the ProductFamily is Rapid
+         * @param productFamily The product family to check.
+         * @return True if the product family is Rapid.
          */
-        fun isRapid(productFamily: ProductFamily): Boolean = productFamily == RAPID
+        fun isRapid(productFamily: String): Boolean = productFamily == RAPID.id
 
         /**
-         * Returns if the given ProductFamily is OpenWorld.
+         * Returns true if the product family is OpenWorld.
          *
-         * @param productFamily the ProductFamily to check
-         * @return true if the ProductFamily is OpenWorld
+         * @param productFamily The product family to check.
+         * @return True if the product family is OpenWorld.
          */
-        fun isOpenWorld(productFamily: ProductFamily): Boolean = productFamily == OPEN_WORLD
+        fun isOpenWorld(productFamily: String): Boolean = productFamily != RAPID.id
     }
 }

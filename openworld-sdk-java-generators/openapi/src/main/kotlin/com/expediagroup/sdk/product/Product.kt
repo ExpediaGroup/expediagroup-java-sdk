@@ -17,37 +17,32 @@ package com.expediagroup.sdk.product
 
 import com.expediagroup.sdk.generators.openapi.Constant
 
-interface Product {
-    val productFamily: ProductFamily
+class Product(
+    inputNamespace: String,
+    val programmingLanguage: ProgrammingLanguage = ProgrammingLanguage.JAVA
+) {
+    constructor(inputNamespace: String, programmingLanguage: String = "java") : this(
+        inputNamespace,
+        ProgrammingLanguage.from(programmingLanguage)
+    )
 
-    val name: String
-        get() = productFamily.id
-
-    val programmingLanguage: ProgrammingLanguage
-
-    val namespace: String
+    val namespace: String = inputNamespace.replace(Constant.NON_ALPHANUMERIC_REGEX, "").lowercase()
 
     val apiPackage: String
+        get() = "com.expediagroup.openworld.sdk.$namespace.client"
 
     val artifactId: String
+        get() = "openworld-${programmingLanguage.id}-sdk-$namespace"
 
     val packagePath: String
+        get() = "src/main/kotlin/com/expediagroup/openworld/sdk/$namespace"
 
     val packageName: String
+        get() = "com.expediagroup.openworld.sdk.$namespace"
 
     val groupId: String
+        get() = "com.expediagroup.openworld.sdk"
 
     val shadePrefix: String
-
-    val excludesPath: String
-
-    fun normalizeNamespace(namespace: String): String = namespace.replace(Constant.NON_ALPHANUMERIC_REGEX, "")
-
-    companion object {
-        fun from(productFamily: String, programmingLanguage: String, namespace: String): Product = when (productFamily) {
-            ProductFamily.OPEN_WORLD.id -> OpenWorldProduct(namespace, programmingLanguage)
-            ProductFamily.RAPID.id -> RapidProduct(namespace, programmingLanguage)
-            else -> throw IllegalArgumentException("Invalid product family: $productFamily")
-        }
-    }
+        get() = "com.expediagroup.openworld.sdk"
 }

@@ -5,18 +5,18 @@ import {{import}}
 {{/imports}}
 import {{packageName}}.validation.PropertyConstraintsValidator.validateConstraints
 
-import com.expediagroup.common.sdk.core.config.provider.FileConfigurationProvider
-
 import com.expediagroup.openworld.sdk.core.client.OpenWorldClient
-import com.expediagroup.openworld.sdk.core.configuration.OpenWorldClientBuilder
+import com.expediagroup.openworld.sdk.core.config.provider.FileConfigurationProvider
 import com.expediagroup.openworld.sdk.core.configuration.OpenWorldClientConfiguration
 import com.expediagroup.openworld.sdk.core.model.exception.OpenWorldException
+import com.expediagroup.openworld.sdk.core.model.exception.service.OpenWorldServiceException
 
 import io.ktor.client.call.body
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.request
 import io.ktor.client.request.setBody
 import io.ktor.client.request.url
+import io.ktor.client.statement.HttpResponse
 import io.ktor.http.HttpMethod
 import io.ktor.http.contentType
 import io.ktor.http.ContentType
@@ -37,14 +37,14 @@ import java.util.UUID
     private val operatingSystemVersion = System.getProperty("os.version")
     private val userAgent = "open-world-sdk-{{#isKotlin}}kotlin{{/isKotlin}}{{^isKotlin}}java{{/isKotlin}}-{{namespace}}/${loader.data()["sdk-version"]!!} (Java $javaVersion; $operatingSystemName $operatingSystemVersion)"
 
-    class {{classname}}Builder : OpenWorldClientBuilder<{{classname}}Builder>() {
+    class Builder : OpenWorldClient.Builder<Builder>() {
         override fun build(): {{classname}} = {{classname}}(
             OpenWorldClientConfiguration(key, secret, endpoint, authEndpoint)
         )
     }
 
     companion object {
-        @JvmStatic fun builder() = {{classname}}Builder()
+        @JvmStatic fun builder() = Builder()
     }
 
     private fun HttpRequestBuilder.appendHeaders(transactionId: UUID) {
@@ -52,6 +52,14 @@ import java.util.UUID
         headers.append("transaction-id", transactionId.toString())
         headers.append("User-agent", userAgent)
     }
+
+     override suspend fun throwServiceException(response: HttpResponse) {
+         runCatching {
+            response.body<Error>()
+         }.getOrThrow().let {
+            throw OpenWorldServiceException(it.toString())
+         }
+     }
 
 {{#operation}}
     {{^isKotlin}}private {{/isKotlin}}suspend {{^isKotlin}}inline {{/isKotlin}}fun {{^isKotlin}}k{{/isKotlin}}{{operationId}}({{>apiParamsDecleration}}): {{{returnType}}}{{^returnType}}Void?{{/returnType}} {

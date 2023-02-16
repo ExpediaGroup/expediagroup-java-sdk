@@ -5,18 +5,19 @@ import {{import}}
 {{/imports}}
 import {{packageName}}.validation.PropertyConstraintsValidator.validateConstraints
 
-import com.expediagroup.common.sdk.core.config.provider.FileConfigurationProvider
+import com.expediagroup.openworld.sdk.core.client.BaseRapidClient
+import com.expediagroup.openworld.sdk.core.config.provider.FileConfigurationProvider
+import com.expediagroup.openworld.sdk.core.configuration.RapidClientConfiguration
+import com.expediagroup.openworld.sdk.core.model.exception.OpenWorldException
+import com.expediagroup.openworld.sdk.core.model.exception.service.OpenWorldServiceException
 
-import com.expediagroup.rapid.sdk.core.client.BaseRapidClient
-import com.expediagroup.rapid.sdk.core.configuration.BaseRapidClientBuilder
-import com.expediagroup.rapid.sdk.core.configuration.RapidClientConfiguration
-import com.expediagroup.rapid.sdk.core.model.exception.RapidException
 
 import io.ktor.client.call.body
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.request
 import io.ktor.client.request.setBody
 import io.ktor.client.request.url
+import io.ktor.client.statement.HttpResponse
 import io.ktor.http.HttpMethod
 import io.ktor.http.contentType
 import io.ktor.http.ContentType
@@ -35,22 +36,30 @@ import java.util.UUID
     private val javaVersion = System.getProperty("java.version")
     private val operatingSystemName = System.getProperty("os.name")
     private val operatingSystemVersion = System.getProperty("os.version")
-    private val userAgent = "rapid-{{#isKotlin}}kotlin{{/isKotlin}}{{^isKotlin}}java{{/isKotlin}}-sdk-{{namespace}}/${loader.data()["sdk-version"]!!} (Java $javaVersion; $operatingSystemName $operatingSystemVersion)"
+    private val userAgent = "open-world-sdk-{{#isKotlin}}kotlin{{/isKotlin}}{{^isKotlin}}java{{/isKotlin}}-{{namespace}}/${loader.data()["sdk-version"]!!} (Java $javaVersion; $operatingSystemName $operatingSystemVersion)"
 
-    class {{classname}}Builder : BaseRapidClientBuilder<{{classname}}Builder>() {
+    class Builder : BaseRapidClient.Builder<Builder>() {
         override fun build(): {{classname}} = {{classname}}(
             RapidClientConfiguration(key, secret, endpoint)
         )
     }
 
     companion object {
-        @JvmStatic fun builder() = {{classname}}Builder()
+        @JvmStatic fun builder() = Builder()
     }
 
     private fun HttpRequestBuilder.appendHeaders(transactionId: UUID) {
         headers.append("x-sdk-title", loader.data()["sdk-title"]!!)
         headers.append("transaction-id", transactionId.toString())
         headers.append("User-agent", userAgent)
+    }
+
+    override suspend fun throwServiceException(response: HttpResponse) {
+        runCatching {
+            response.body<Error>()
+        }.getOrThrow().let {
+            throw OpenWorldServiceException(it.toString())
+        }
     }
 
 {{#operation}}
@@ -109,11 +118,11 @@ import java.util.UUID
                 k{{operationId}}({{>apiParamsPassed}})
             }.get()
         } catch (exception: Exception) {
-            if (exception is RapidException) throw exception
+            if (exception is OpenWorldException) throw exception
 
             when (val cause = exception.cause) {
-                is RapidException -> throw cause
-                else -> throw RapidException("Rapid Error", exception)
+                is OpenWorldException -> throw cause
+                else -> throw OpenWorldException("OpenWorld Error", exception)
             }
         }
     }
