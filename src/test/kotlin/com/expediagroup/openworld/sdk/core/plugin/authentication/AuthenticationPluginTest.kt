@@ -24,14 +24,27 @@ import com.expediagroup.openworld.sdk.core.test.TestConstants.ANY_URL
 import com.expediagroup.openworld.sdk.core.test.TestConstants.CLIENT_KEY_TEST_CREDENTIAL
 import io.ktor.client.request.get
 import io.ktor.client.statement.request
+import io.mockk.clearAllMocks
 import io.mockk.mockkObject
 import io.mockk.verify
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 internal open class AuthenticationPluginTest {
+
+    @BeforeEach
+    open fun setUp() {
+        clearAllMocks()
+    }
+
+    @AfterEach
+    open fun tearDown() {
+        clearAllMocks()
+    }
 
     @Nested
     inner class MultiInstancesTest {

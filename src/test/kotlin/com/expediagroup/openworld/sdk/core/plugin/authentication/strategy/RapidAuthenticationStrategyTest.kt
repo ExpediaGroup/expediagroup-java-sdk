@@ -38,12 +38,12 @@ import org.junit.jupiter.api.Test
 internal class RapidAuthenticationStrategyTest : AuthenticationPluginTest() {
 
     @BeforeEach
-    fun setUp() {
+    override fun setUp() {
         clearAllMocks()
     }
 
     @AfterEach
-    fun tearDown() {
+    override fun tearDown() {
         clearAllMocks()
     }
 

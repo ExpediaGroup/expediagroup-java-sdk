@@ -62,12 +62,12 @@ import org.junit.jupiter.params.provider.ValueSource
 internal class OpenWorldAuthenticationStrategyTest : AuthenticationPluginTest() {
 
     @BeforeEach
-    fun setUp() {
+    override fun setUp() {
         clearAllMocks()
     }
 
     @AfterEach
-    fun tearDown() {
+    override fun tearDown() {
         clearAllMocks()
     }
 
