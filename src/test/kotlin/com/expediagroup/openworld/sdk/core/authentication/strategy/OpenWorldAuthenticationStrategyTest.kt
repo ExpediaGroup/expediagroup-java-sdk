@@ -43,15 +43,14 @@ import io.ktor.client.request.url
 import io.ktor.client.statement.request
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
-import io.mockk.clearAllMocks
 import io.mockk.mockkObject
 import io.mockk.verify
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
@@ -60,16 +59,6 @@ import org.junit.jupiter.params.provider.ArgumentsSource
 import org.junit.jupiter.params.provider.ValueSource
 
 internal class OpenWorldAuthenticationStrategyTest : AuthenticationPluginTest() {
-
-    @BeforeEach
-    override fun setUp() {
-        clearAllMocks()
-    }
-
-    @AfterEach
-    override fun tearDown() {
-        clearAllMocks()
-    }
 
     @Test
     fun `making any http call should invoke the authorized token`() {
@@ -129,14 +118,11 @@ internal class OpenWorldAuthenticationStrategyTest : AuthenticationPluginTest() 
 
             mockkObject(authentication)
 
-            launch {
-                httpClient.get(ANY_URL)
-            }
-            launch {
-                httpClient.get(ANY_URL)
-            }
+            listOf(
+                launch(Dispatchers.IO) { httpClient.get(ANY_URL) },
+                launch(Dispatchers.IO) { httpClient.get(ANY_URL) }
+            ).joinAll()
 
-            delay(1000)
             verify(exactly = 1) {
                 authentication.renewToken()
             }

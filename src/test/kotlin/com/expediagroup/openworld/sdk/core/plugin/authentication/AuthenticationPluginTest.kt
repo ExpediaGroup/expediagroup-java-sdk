@@ -37,12 +37,12 @@ import org.junit.jupiter.api.Test
 internal open class AuthenticationPluginTest {
 
     @BeforeEach
-    open fun setUp() {
+    fun setUp() {
         clearAllMocks()
     }
 
     @AfterEach
-    open fun tearDown() {
+    fun tearDown() {
         clearAllMocks()
     }
 
