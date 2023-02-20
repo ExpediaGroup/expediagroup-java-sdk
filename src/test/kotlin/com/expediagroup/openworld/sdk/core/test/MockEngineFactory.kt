@@ -104,13 +104,8 @@ object MockEngineFactory {
 
     private fun isBadRequest(request: HttpRequestData): Boolean = request.attributes.getOrNull(AttributeKey(BAD_REQUEST_ATTRIBUTE)) != null
 
-    private fun isValidCredentialsRequest(request: HttpRequestData) = request.headers[HeaderKey.AUTHORIZATION] == "$BASIC ${
-    String(
-        Base64.getEncoder().encode(
-            "$CLIENT_KEY_TEST_CREDENTIAL:$CLIENT_SECRET_TEST_CREDENTIAL".toByteArray()
-        )
-    )
-    }"
+    private fun isValidCredentialsRequest(request: HttpRequestData) =
+        request.headers[HeaderKey.AUTHORIZATION] == "$BASIC ${String(Base64.getEncoder().encode("$CLIENT_KEY_TEST_CREDENTIAL:$CLIENT_SECRET_TEST_CREDENTIAL".toByteArray()))}"
 
     private fun isAuthorizedHeader(request: HttpRequestData): Boolean = request.headers[HeaderKey.AUTHORIZATION] == "$BEARER $ACCESS_TOKEN"
 

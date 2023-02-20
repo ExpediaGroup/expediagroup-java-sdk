@@ -42,6 +42,6 @@ internal interface AuthenticationStrategy {
 
     enum class AuthenticationType {
         BEARER,
-        SIGNATURE;
+        SIGNATURE
     }
 }
