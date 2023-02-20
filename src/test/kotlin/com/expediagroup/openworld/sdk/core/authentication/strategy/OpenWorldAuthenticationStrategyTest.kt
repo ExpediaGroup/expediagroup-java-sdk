@@ -15,27 +15,27 @@
  */
 package com.expediagroup.openworld.sdk.core.authentication.strategy
 
-import com.expediagroup.common.sdk.core.client.Client
-import com.expediagroup.common.sdk.core.configuration.Credentials
-import com.expediagroup.common.sdk.core.constant.Authentication.BEARER
-import com.expediagroup.common.sdk.core.constant.ExceptionMessage
-import com.expediagroup.common.sdk.core.constant.HeaderKey
-import com.expediagroup.common.sdk.core.plugin.authentication.AuthenticationConfiguration
-import com.expediagroup.common.sdk.core.plugin.authentication.AuthenticationPluginTest
-import com.expediagroup.common.sdk.core.plugin.authentication.getAuthenticationStrategy
-import com.expediagroup.common.sdk.core.plugin.authentication.helper.SuccessfulStatusCodesArgumentProvider
-import com.expediagroup.common.sdk.core.plugin.authentication.helper.UnsuccessfulStatusCodesArgumentProvider
-import com.expediagroup.common.sdk.core.test.ClientFactory
-import com.expediagroup.common.sdk.core.test.MockEngineFactory.createMockEngineExpiresInPerCall
-import com.expediagroup.common.sdk.core.test.MockEngineFactory.createTokenMockEngineWithStatusCode
-import com.expediagroup.common.sdk.core.test.MockEngineFactory.createUnauthorizedMockEngineWithStatusCode
-import com.expediagroup.common.sdk.core.test.TestConstants.ACCESS_TOKEN
-import com.expediagroup.common.sdk.core.test.TestConstants.ANY_URL
-import com.expediagroup.common.sdk.core.test.TestConstants.CLIENT_KEY_TEST_CREDENTIAL
-import com.expediagroup.common.sdk.core.test.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
+import com.expediagroup.openworld.sdk.core.client.Client
+import com.expediagroup.openworld.sdk.core.configuration.Credentials
 import com.expediagroup.openworld.sdk.core.configuration.OpenWorldClientConfiguration
 import com.expediagroup.openworld.sdk.core.configuration.provider.OpenWorldConfigurationProvider
+import com.expediagroup.openworld.sdk.core.constant.Authentication.BEARER
+import com.expediagroup.openworld.sdk.core.constant.ExceptionMessage
+import com.expediagroup.openworld.sdk.core.constant.HeaderKey
 import com.expediagroup.openworld.sdk.core.model.exception.service.OpenWorldAuthException
+import com.expediagroup.openworld.sdk.core.plugin.authentication.AuthenticationConfiguration
+import com.expediagroup.openworld.sdk.core.plugin.authentication.AuthenticationPluginTest
+import com.expediagroup.openworld.sdk.core.plugin.authentication.getAuthenticationStrategy
+import com.expediagroup.openworld.sdk.core.plugin.authentication.helper.SuccessfulStatusCodesArgumentProvider
+import com.expediagroup.openworld.sdk.core.plugin.authentication.helper.UnsuccessfulStatusCodesArgumentProvider
+import com.expediagroup.openworld.sdk.core.test.ClientFactory
+import com.expediagroup.openworld.sdk.core.test.MockEngineFactory.createMockEngineExpiresInPerCall
+import com.expediagroup.openworld.sdk.core.test.MockEngineFactory.createTokenMockEngineWithStatusCode
+import com.expediagroup.openworld.sdk.core.test.MockEngineFactory.createUnauthorizedMockEngineWithStatusCode
+import com.expediagroup.openworld.sdk.core.test.TestConstants.ACCESS_TOKEN
+import com.expediagroup.openworld.sdk.core.test.TestConstants.ANY_URL
+import com.expediagroup.openworld.sdk.core.test.TestConstants.CLIENT_KEY_TEST_CREDENTIAL
+import com.expediagroup.openworld.sdk.core.test.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.request.get
 import io.ktor.client.request.request
@@ -45,7 +45,9 @@ import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.mockk.mockkObject
 import io.mockk.verify
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
@@ -116,14 +118,11 @@ internal class OpenWorldAuthenticationStrategyTest : AuthenticationPluginTest() 
 
             mockkObject(authentication)
 
-            launch {
-                httpClient.get(ANY_URL)
-            }
-            launch {
-                httpClient.get(ANY_URL)
-            }
+            listOf(
+                launch(Dispatchers.IO) { httpClient.get(ANY_URL) },
+                launch(Dispatchers.IO) { httpClient.get(ANY_URL) }
+            ).joinAll()
 
-            delay(1000)
             verify(exactly = 1) {
                 authentication.renewToken()
             }

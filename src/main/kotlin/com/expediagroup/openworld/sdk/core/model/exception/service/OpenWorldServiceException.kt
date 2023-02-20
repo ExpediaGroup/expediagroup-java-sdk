@@ -15,9 +15,7 @@
  */
 package com.expediagroup.openworld.sdk.core.model.exception.service
 
-import com.expediagroup.openworld.sdk.core.model.error.Error
 import com.expediagroup.openworld.sdk.core.model.exception.OpenWorldException
-import io.ktor.http.HttpStatusCode
 
 /**
  * An exception that is thrown when a service error occurs.
@@ -28,16 +26,4 @@ import io.ktor.http.HttpStatusCode
 open class OpenWorldServiceException(
     message: String? = null,
     cause: Throwable? = null
-) : OpenWorldException(message, cause) {
-
-    /**
-     * An exception that is thrown when a service error occurs.
-     *
-     * @param errorCode The HTTP status code of the error.
-     * @param error The error object.
-     */
-    constructor(
-        errorCode: HttpStatusCode,
-        error: Error
-    ) : this(message = "[${errorCode.value}] $error")
-}
+) : OpenWorldException(message, cause)

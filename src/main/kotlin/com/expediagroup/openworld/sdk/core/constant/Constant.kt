@@ -13,15 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.openworld.sdk.core.model.exception
+package com.expediagroup.openworld.sdk.core.constant
 
-/**
- * A base exception for all Open World exceptions.
- *
- * @param message An optional error message.
- * @param cause An optional cause of the error.
- */
-open class OpenWorldException(
-    message: String? = null,
-    cause: Throwable? = null
-) : RuntimeException(message, cause)
+internal object Constant {
+    const val EMPTY_STRING = ""
+
+    private const val SUCCESSFUL_STATUS_CODES_RANGE_START = 200
+    private const val SUCCESSFUL_STATUS_CODES_RANGE_END = 299
+    val SUCCESSFUL_STATUS_CODES_RANGE: IntRange = SUCCESSFUL_STATUS_CODES_RANGE_START..SUCCESSFUL_STATUS_CODES_RANGE_END
+}

@@ -13,15 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.openworld.sdk.core.model.exception
+package com.expediagroup.openworld.sdk.core.configuration
+
+import com.expediagroup.openworld.sdk.core.client.BaseRapidClient
 
 /**
- * A base exception for all Open World exceptions.
+ * Configuration for the [BaseRapidClient].
  *
- * @param message An optional error message.
- * @param cause An optional cause of the error.
+ * @property key The API key to use for authentication.
+ * @property secret The API secret to use for authentication.
+ * @property endpoint The API endpoint to use for requests.
  */
-open class OpenWorldException(
-    message: String? = null,
-    cause: Throwable? = null
-) : RuntimeException(message, cause)
+data class RapidClientConfiguration(
+    override val key: String? = null,
+    override val secret: String? = null,
+    override val endpoint: String? = null
+) : ClientConfiguration

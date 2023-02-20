@@ -13,15 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.openworld.sdk.core.model.exception
+package com.expediagroup.openworld.sdk.core.configuration
 
-/**
- * A base exception for all Open World exceptions.
- *
- * @param message An optional error message.
- * @param cause An optional cause of the error.
- */
-open class OpenWorldException(
-    message: String? = null,
-    cause: Throwable? = null
-) : RuntimeException(message, cause)
+internal data class NetworkConfiguration(
+    val connectionTimeout: Long = 10_000,
+    val readTimeout: Long = 10_000,
+    val writeTimeout: Long = 10_000
+)

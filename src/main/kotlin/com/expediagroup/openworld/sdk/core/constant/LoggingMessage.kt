@@ -13,15 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.openworld.sdk.core.model.exception
+package com.expediagroup.openworld.sdk.core.constant
 
-/**
- * A base exception for all Open World exceptions.
- *
- * @param message An optional error message.
- * @param cause An optional cause of the error.
- */
-open class OpenWorldException(
-    message: String? = null,
-    cause: Throwable? = null
-) : RuntimeException(message, cause)
+internal object LoggingMessage {
+    const val LOGGING_PREFIX = "ExpediaSDK:"
+
+    const val TOKEN_RENEWAL_IN_PROCESS = "Renewing token"
+
+    const val TOKEN_RENEWAL_SUCCESSFUL = "Token renewal successful"
+
+    const val TOKEN_CLEARING_IN_PROCESS = "Clearing tokens"
+
+    const val TOKEN_CLEARING_SUCCESSFUL = "Tokens successfully cleared"
+
+    const val TOKEN_EXPIRED = "Token expired or is about to expire. Request will wait until token is renewed"
+
+    const val OMITTED = "<-- omitted -->"
+}

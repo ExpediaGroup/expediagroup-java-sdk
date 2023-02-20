@@ -15,19 +15,21 @@
  */
 package com.expediagroup.openworld.sdk.core.configuration.provider
 
-import com.expediagroup.openworld.sdk.core.configuration.provider.OpenWorldConfigurationProvider.authEndpoint
-import com.expediagroup.openworld.sdk.core.configuration.provider.OpenWorldConfigurationProvider.endpoint
-import com.expediagroup.openworld.sdk.core.configuration.provider.OpenWorldConfigurationProvider.name
+import com.expediagroup.openworld.sdk.core.constant.ConfigurationName.RUNTIME_CONFIGURATION_PROVIDER
 
 /**
- * Default configuration provider for OpenWorld.
+ * A runtime-built configuration provider.
  *
  * @property name The name of the provider.
+ * @property key The API key to use for authentication.
+ * @property secret The API secret to use for authentication.
  * @property endpoint The API endpoint to use for requests.
  * @property authEndpoint The API endpoint to use for authentication.
  */
-internal object OpenWorldConfigurationProvider : ConfigurationProvider {
-    override val name: String = "OpenWorld Configuration Provider"
-    override val endpoint: String = "https://api.expediagroup.com/"
-    override val authEndpoint: String = "${endpoint}identity/oauth2/v2/token/"
-}
+data class RuntimeConfigurationProvider(
+    override val name: String = RUNTIME_CONFIGURATION_PROVIDER,
+    override val key: String? = null,
+    override val secret: String? = null,
+    override val endpoint: String? = null,
+    override val authEndpoint: String? = null
+) : ConfigurationProvider
