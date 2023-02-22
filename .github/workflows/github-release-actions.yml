@@ -2,9 +2,9 @@ name: Open World Core Release
 on:
   workflow_dispatch:
     inputs:
-      confirmation:
-        description: 'confirmation to release on maven central'
-        required: true
+      test:
+        description: 'Release snapshot?'
+        required: false
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -42,5 +42,11 @@ jobs:
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PRIVATE_KEY_PASSPHRASE }}
         run: |
-          mvn deploy --settings $GITHUB_WORKSPACE/settings.xml -B -U -P release -DskipTests=true
-          echo "::set-output name=version::$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)"
+          if [ -z "${{ github.event.inputs.test }}" ]; then
+            VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+            SNAPSHOT_VERSION = "${VERSION%-SNAPSHOT}-SNAPSHOT"
+            mvn deploy --settings $GITHUB_WORKSPACE/settings.xml -B -U -P release -DskipTests=true -Drevision=$SNAPSHOT_VERSION
+          else
+            mvn deploy --settings $GITHUB_WORKSPACE/settings.xml -B -U -P release -DskipTests=true
+          fi
+          echo "{version}=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_OUTPUT
