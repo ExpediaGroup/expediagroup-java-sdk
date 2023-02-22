@@ -2,11 +2,8 @@ name: Open World Core Release
 on:
   workflow_dispatch:
     inputs:
-      confirmation:
-        description: 'confirmation to release on maven central'
-        required: true
-      version:
-        description: 'override version in pom.xml'
+      test:
+        description: 'Release snapshot?'
         required: false
 jobs:
   test:
