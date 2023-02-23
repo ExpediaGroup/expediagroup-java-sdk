@@ -1,0 +1,37 @@
+name: Commit
+on:
+  workflow_call:
+    inputs:
+      version:
+        description: 'Generated SDK version'
+        required: true
+        type: string
+      name:
+        description: 'Generated SDK name'
+        required: true
+        type: string
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v2
+        with:
+          name: sdk
+          path: sdk
+      - name: Copy
+        run: |
+          git config --global user.email "oss@expediagroup.com"
+          git config --global user.name "Expedia Group Open Source"
+          git checkout -b "${{github.event.inputs.name}}-${{github.event.inputs.version}}"
+          mkdir -p ./generated/"${{github.event.inputs.name}}/${{github.event.inputs.version}}"/sdk
+          cp -r ./sdk/src ./generated/"${{github.event.inputs.name}}/${{github.event.inputs.version}}"/sdk/
+          cp ./sdk/pom.xml ./generated/"${{github.event.inputs.name}}/${{github.event.inputs.version}}"/sdk/
+          cp ./sdk/README.md ./generated/"${{github.event.inputs.name}}/${{github.event.inputs.version}}"/sdk/
+          rm -r ./sdk
+          git add --all
+          git commit -m "chore: Publish ${{github.event.inputs.name}}-${{github.event.inputs.version}} generated SDK"
+          git push --set-upstream origin "${{github.event.inputs.name}}-${{github.event.inputs.version}}"
+          gh pr create -B main -H "${{github.event.inputs.name}}-${{github.event.inputs.version}}" --title 'Publish ${{github.event.inputs.name}}-${{github.event.inputs.version}} Generated SDK' --body 'Publish ${{github.event.inputs.name}}-${{github.event.inputs.version}} generated SDK'
+        env:
+          GH_TOKEN: ${{ github.token }}

@@ -1,4 +1,4 @@
-name: Build SDK
+name: Generate
 on:
   workflow_call:
     inputs:
@@ -28,10 +28,10 @@ jobs:
         run: mvn clean install
       - name: Generate_SDK_Files
         working-directory: openapi
-        run: |
-          mvn clean install
-          mvn exec:java "-Dnamespace=${{ inputs.name }}" -DsdkVersion=${{ inputs.version }} "-Dspec=${{ inputs.fileAsBase64 }}"
       - uses: actions/upload-artifact@v2
         with:
           name: sdk
           path: ./openapi/target/sdk
+        run: |
+          mvn clean install
+          mvn exec:java "-Dnamespace=${{ inputs.name }}" -DsdkVersion=${{ inputs.version }} "-Dspec=${{ inputs.fileAsBase64 }}"

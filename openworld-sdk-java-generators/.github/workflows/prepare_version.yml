@@ -1,0 +1,35 @@
+name: Prepare Version
+on:
+  workflow_call:
+    inputs:
+      version:
+        description: 'Generated SDK version'
+        required: true
+        type: string
+      name:
+        description: 'Generated SDK name'
+        required: true
+        type: string
+jobs:
+  prepare_version:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.get_version.outputs.version }}
+    steps:
+      - id: get_version
+        run: |
+          if [ -z "${{ github.event.inputs.version }}" ]; then
+              sudo apt-get update
+              sudo apt-get -y install libxml2-utils
+              CURRENT_VERSION=$(curl --silent https://repo1.maven.org/maven2/com/expediagroup/openworld/sdk/openworld-java-sdk-${{ github.event.inputs.name }}/maven-metadata.xml | xmllint --xpath "/metadata/versioning/latest/text()" -) || CURRENT_VERSION=0.1.0
+              LAST_CHARACTER=${CURRENT_VERSION: -1}
+              REGEX='^[0-9]+$'
+              if ! [[ $LAST_CHARACTER =~ $REGEX ]]; then
+                CURRENT_VERSION="${CURRENT_VERSION}.1"
+              else
+                CURRENT_VERSION="${CURRENT_VERSION%?}$((LAST_CHARACTER+1))"
+              fi
+              echo "{version}=${CURRENT_VERSION}" >> $GITHUB_OUTPUT
+          else
+              echo "{version}=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+          fi

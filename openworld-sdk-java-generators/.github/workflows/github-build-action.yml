@@ -8,7 +8,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   generate-sdk:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 11
@@ -28,7 +28,7 @@ jobs:
           name: sdk
           path: ./openapi/target/sdk
   verify-generated-sdk:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     needs: generate-sdk
     steps:
       - uses: actions/download-artifact@v2

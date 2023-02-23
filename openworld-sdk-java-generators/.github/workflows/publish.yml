@@ -1,9 +1,15 @@
-name: Open World SDK Release
+name: Publish
 on:
   workflow_call:
+    inputs:
+      test:
+        description: 'Release snapshot?'
+        required: false
 jobs:
   job:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.publish.outputs.version }}
     steps:
       - uses: actions/download-artifact@v2
         with:
@@ -28,4 +34,11 @@ jobs:
           GPG_PASSPHRASE: ${{ secrets.GPG_PRIVATE_KEY_PASSPHRASE }}
         run: |
           cd sdk
-          mvn deploy --settings $GITHUB_WORKSPACE/settings.xml -B -U -P release -DskipTests=true
+          if [ -z "${{ github.event.inputs.test }}" ]; then
+            mvn deploy --settings $GITHUB_WORKSPACE/settings.xml -B -U -P release -DskipTests=true
+          else
+            VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+            SNAPSHOT_VERSION="${VERSION%-SNAPSHOT}-SNAPSHOT"
+            mvn deploy --settings $GITHUB_WORKSPACE/settings.xml -B -U -P release -DskipTests=true -Drevision=$SNAPSHOT_VERSION
+          fi
+          echo "{version}=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_OUTPUT
