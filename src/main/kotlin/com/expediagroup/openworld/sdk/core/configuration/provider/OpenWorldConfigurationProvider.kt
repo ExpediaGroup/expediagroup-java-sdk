@@ -30,4 +30,5 @@ internal object OpenWorldConfigurationProvider : ConfigurationProvider {
     override val name: String = "OpenWorld Configuration Provider"
     override val endpoint: String = "https://api.expediagroup.com/"
     override val authEndpoint: String = "${endpoint}identity/oauth2/v2/token/"
+    override val requestTimeoutMillis: Long = 10_000
 }

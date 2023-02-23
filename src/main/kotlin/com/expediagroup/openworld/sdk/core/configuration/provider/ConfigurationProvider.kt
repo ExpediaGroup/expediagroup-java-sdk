@@ -40,4 +40,7 @@ internal interface ConfigurationProvider {
     /** The API endpoint to use for authentication. */
     val authEndpoint: String?
         get() = Constant.EMPTY_STRING
+
+    val requestTimeoutMillis: Long?
+        get() = Constant.ZERO_LONG
 }

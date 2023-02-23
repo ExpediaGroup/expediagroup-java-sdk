@@ -24,6 +24,8 @@ internal object ConfigurationName {
 
     const val AUTH_ENDPOINT = "auth endpoint"
 
+    const val REQUEST_TIMEOUT_MILLIS = "request timeout in milliseconds"
+
     const val RUNTIME_CONFIGURATION_PROVIDER = "runtime configuration"
 
     const val CONFIGURATION_COLLECTOR = "configuration collector"

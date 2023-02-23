@@ -20,6 +20,7 @@ import com.expediagroup.openworld.sdk.core.constant.ConfigurationName.AUTH_ENDPO
 import com.expediagroup.openworld.sdk.core.constant.ConfigurationName.CONFIGURATION_COLLECTOR
 import com.expediagroup.openworld.sdk.core.constant.ConfigurationName.ENDPOINT
 import com.expediagroup.openworld.sdk.core.constant.ConfigurationName.KEY
+import com.expediagroup.openworld.sdk.core.constant.ConfigurationName.REQUEST_TIMEOUT_MILLIS
 import com.expediagroup.openworld.sdk.core.constant.ConfigurationName.SECRET
 import com.expediagroup.openworld.sdk.core.constant.provider.LoggingMessageProvider
 import com.expediagroup.openworld.sdk.core.plugin.logging.OpenWorldLoggerFactory
@@ -56,6 +57,7 @@ internal class ConfigurationCollector private constructor(providers: Configurati
     override val secret: String? = providers.firstWith { it.secret }.also { it?.log(SECRET) }?.retrieve()
     override val endpoint: String? = providers.firstWith { it.endpoint }.also { it?.log(ENDPOINT) }?.retrieve()
     override val authEndpoint: String? = providers.firstWith { it.authEndpoint }.also { it?.log(AUTH_ENDPOINT) }?.retrieve()
+    override val requestTimeoutMillis: Long? = providers.firstWith { it.requestTimeoutMillis }.also { it?.log(REQUEST_TIMEOUT_MILLIS) }?.retrieve()
 
     private fun <T> ProvidedConfiguration<T>.log(configurationName: String) {
         log.info(LoggingMessageProvider.getChosenProviderMessage(configurationName, providerName))

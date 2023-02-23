@@ -17,6 +17,7 @@ package com.expediagroup.openworld.sdk.core.constant
 
 internal object Constant {
     const val EMPTY_STRING = ""
+    const val ZERO_LONG = 0.toLong()
 
     private const val SUCCESSFUL_STATUS_CODES_RANGE_START = 200
     private const val SUCCESSFUL_STATUS_CODES_RANGE_END = 299

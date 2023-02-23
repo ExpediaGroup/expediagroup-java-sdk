@@ -27,5 +27,6 @@ import com.expediagroup.openworld.sdk.core.client.BaseRapidClient
 data class RapidClientConfiguration(
     override val key: String? = null,
     override val secret: String? = null,
-    override val endpoint: String? = null
+    override val endpoint: String? = null,
+    override val requestTimeoutMillis: Long? = null
 ) : ClientConfiguration
