@@ -42,5 +42,4 @@ internal interface ConfigurationProvider {
         get() = Constant.EMPTY_STRING
 
     val requestTimeoutMillis: Long?
-        get() = Constant.ZERO_LONG
 }
