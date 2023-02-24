@@ -34,6 +34,7 @@ internal class ConfigurationCollectorTest {
         assertNull(collector.secret)
         assertNull(collector.endpoint)
         assertNull(collector.authEndpoint)
+        assertNull(collector.requestTimeoutMillis)
     }
 
     @Test
@@ -44,6 +45,7 @@ internal class ConfigurationCollectorTest {
         assertEquals(EMPTY_STRING, collector.secret)
         assertEquals(OpenWorldConfigurationProvider.endpoint, collector.endpoint)
         assertEquals(OpenWorldConfigurationProvider.authEndpoint, collector.authEndpoint)
+        assertEquals(OpenWorldConfigurationProvider.requestTimeoutMillis, collector.requestTimeoutMillis)
     }
 
     @Test
@@ -52,7 +54,8 @@ internal class ConfigurationCollectorTest {
             key = CLIENT_KEY_TEST_CREDENTIAL,
             secret = CLIENT_SECRET_TEST_CREDENTIAL,
             endpoint = OpenWorldConfigurationProvider.endpoint,
-            authEndpoint = OpenWorldConfigurationProvider.authEndpoint
+            authEndpoint = OpenWorldConfigurationProvider.authEndpoint,
+            requestTimeoutMillis = OpenWorldConfigurationProvider.requestTimeoutMillis
         )
 
         val collector = ConfigurationCollector.create(
@@ -63,6 +66,7 @@ internal class ConfigurationCollectorTest {
         assertEquals(CLIENT_SECRET_TEST_CREDENTIAL, collector.secret)
         assertEquals(OpenWorldConfigurationProvider.endpoint, collector.endpoint)
         assertEquals(OpenWorldConfigurationProvider.authEndpoint, collector.authEndpoint)
+        assertEquals(OpenWorldConfigurationProvider.requestTimeoutMillis, collector.requestTimeoutMillis)
     }
 
     @Test
@@ -81,6 +85,7 @@ internal class ConfigurationCollectorTest {
         assertEquals(CLIENT_SECRET_TEST_CREDENTIAL, collector.secret)
         assertEquals(OpenWorldConfigurationProvider.endpoint, collector.endpoint)
         assertNull(collector.authEndpoint)
+        assertNull(collector.requestTimeoutMillis)
     }
 
     @Test
@@ -99,5 +104,6 @@ internal class ConfigurationCollectorTest {
         assertEquals(CLIENT_SECRET_TEST_CREDENTIAL, collector.secret) // from client configuration
         assertEquals(OpenWorldConfigurationProvider.endpoint, collector.endpoint) // from client configuration
         assertEquals(OpenWorldConfigurationProvider.authEndpoint, collector.authEndpoint) // from default provider
+        assertEquals(OpenWorldConfigurationProvider.requestTimeoutMillis, collector.requestTimeoutMillis)
     }
 }

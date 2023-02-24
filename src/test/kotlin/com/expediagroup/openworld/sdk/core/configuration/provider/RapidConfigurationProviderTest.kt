@@ -16,6 +16,7 @@
 package com.expediagroup.openworld.sdk.core.configuration.provider
 
 import com.expediagroup.openworld.sdk.core.constant.Constant.EMPTY_STRING
+import com.expediagroup.openworld.sdk.core.constant.Constant.TEN_SECONDS_IN_MILLIS
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -27,5 +28,6 @@ internal class RapidConfigurationProviderTest {
         assertEquals(EMPTY_STRING, RapidConfigurationProvider.secret)
         assertEquals("https://api.ean.com/v3", RapidConfigurationProvider.endpoint)
         assertEquals(EMPTY_STRING, RapidConfigurationProvider.authEndpoint)
+        assertEquals(TEN_SECONDS_IN_MILLIS, RapidConfigurationProvider.requestTimeoutMillis)
     }
 }
