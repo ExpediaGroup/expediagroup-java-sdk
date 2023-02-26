@@ -3,20 +3,21 @@ on:
   workflow_call:
     inputs:
       version:
-        description: 'Generated SDK version'
         required: true
         type: string
       name:
-        description: 'Generated SDK name'
         required: true
         type: string
+    outputs:
+      version:
+        value: ${{ jobs.prepare_version.outputs.version }}
 jobs:
   prepare_version:
     runs-on: ubuntu-latest
     outputs:
-      version: ${{ steps.get_version.outputs.version }}
+      version: ${{ steps.prepare_version.outputs.version }}
     steps:
-      - id: get_version
+      - id: prepare_version
         run: |
           if [ -z "${{ github.event.inputs.version }}" ]; then
               sudo apt-get update
@@ -29,7 +30,7 @@ jobs:
               else
                 CURRENT_VERSION="${CURRENT_VERSION%?}$((LAST_CHARACTER+1))"
               fi
-              echo "{version}=${CURRENT_VERSION}" >> $GITHUB_OUTPUT
+              echo "version=${CURRENT_VERSION}" >> $GITHUB_OUTPUT
           else
-              echo "{version}=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+              echo "version=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
           fi

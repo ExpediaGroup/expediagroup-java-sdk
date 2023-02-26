@@ -4,6 +4,7 @@ on:
     inputs:
       test:
         description: 'Release snapshot?'
+        type: string
         required: false
 jobs:
   job:
@@ -11,7 +12,7 @@ jobs:
     outputs:
       version: ${{ steps.publish.outputs.version }}
     steps:
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
         with:
           name: sdk
           path: sdk
@@ -41,4 +42,4 @@ jobs:
             SNAPSHOT_VERSION="${VERSION%-SNAPSHOT}-SNAPSHOT"
             mvn deploy --settings $GITHUB_WORKSPACE/settings.xml -B -U -P release -DskipTests=true -Drevision=$SNAPSHOT_VERSION
           fi
-          echo "{version}=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_OUTPUT
+          echo "version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_OUTPUT

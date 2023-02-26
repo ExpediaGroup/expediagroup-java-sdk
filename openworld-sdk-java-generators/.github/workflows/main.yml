@@ -3,38 +3,41 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'generated sdk version'
+        description: 'Generated SDK version'
         required: false
         default: ''
       name:
-        description: 'generated sdk name'
+        description: 'Generated SDK name'
         required: true
       fileAsBase64:
-        description: 'generated sdk file as base64 encoded'
+        description: 'Generated SDK file as base64 encoded'
         required: true
+      test:
+        description: 'Release snapshot?'
+        required: false
 jobs:
   prepare_version:
     uses: ./.github/workflows/prepare_version.yml
-    runs-on: ubuntu-latest
-    outputs:
-      version: ${{ steps.get_version.outputs.version }}
-
+    with:
+      version: ${{ github.event.inputs.version }}
+      name: ${{ github.event.inputs.name }}
   generate:
-    uses: ./.github/workflows/generate.yml
     needs: [ prepare_version ]
+    uses: ./.github/workflows/generate.yml
     with:
       version: ${{ needs.prepare_version.outputs.version }}
       name: ${{ github.event.inputs.name }}
       fileAsBase64: ${{ github.event.inputs.fileAsBase64 }}
-
   commit:
-    uses: ./.github/workflows/commit.yml
+    if: ${{ github.event.inputs.test == '' }}
     needs: [ generate ]
+    uses: ./.github/workflows/commit.yml
     with:
       version: ${{ needs.prepare_sdk_version.outputs.version }}
       name: ${{ github.event.inputs.name }}
-
   publish:
     needs: [ generate ]
     uses: ./.github/workflows/publish.yml
     secrets: inherit
+    with:
+      test: ${{ github.event.inputs.test }}
