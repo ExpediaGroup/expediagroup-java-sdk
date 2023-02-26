@@ -28,13 +28,6 @@ jobs:
       version: ${{ needs.prepare_version.outputs.version }}
       name: ${{ github.event.inputs.name }}
       fileAsBase64: ${{ github.event.inputs.fileAsBase64 }}
-  commit:
-    if: ${{ github.event.inputs.test == '' }}
-    needs: [ generate ]
-    uses: ./.github/workflows/commit.yml
-    with:
-      version: ${{ needs.prepare_sdk_version.outputs.version }}
-      name: ${{ github.event.inputs.name }}
   publish:
     needs: [ generate ]
     uses: ./.github/workflows/publish.yml
