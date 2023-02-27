@@ -72,6 +72,8 @@
         <maven.gpg.plugin.version>3.0.1</maven.gpg.plugin.version>
         <maven.licence.plugin.version>4.1</maven.licence.plugin.version>
         <maven.nexus-staging.plugin.version>1.6.13</maven.nexus-staging.plugin.version>
+
+        <ktlint-plugin.version>1.16.0</ktlint-plugin.version>
     </properties>
 
     <dependencies>
@@ -271,6 +273,21 @@
                                 </excludes>
                             </artifactSet>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Configure Kotlin Linting -->
+            <plugin>
+                <groupId>com.github.gantsign.maven</groupId>
+                <artifactId>ktlint-maven-plugin</artifactId>
+                <version>${ktlint-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>format</id>
+                        <goals>
+                            <goal>format</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
