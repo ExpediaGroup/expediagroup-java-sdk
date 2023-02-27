@@ -90,7 +90,7 @@
         <!-- Kotlin Compatible Versions -->
         <kotlin.version>1.8.10</kotlin.version>
         <kotlinx.coroutines.version>1.6.4</kotlinx.coroutines.version>
-        <kotlinx.serialization.version>1.4.1</kotlinx.serialization.version>
+        <kotlinx.serialization.version>1.5.0</kotlinx.serialization.version>
         <ktor.version>2.2.3</ktor.version>
         <kotlin-logging.version>3.0.5</kotlin-logging.version>
         <kotlin-atomic.version>0.20.0</kotlin-atomic.version>
