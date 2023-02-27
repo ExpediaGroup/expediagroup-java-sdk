@@ -18,8 +18,7 @@ package com.expediagroup.openworld.sdk.core.configuration.provider
 import com.expediagroup.openworld.sdk.core.configuration.provider.OpenWorldConfigurationProvider.authEndpoint
 import com.expediagroup.openworld.sdk.core.configuration.provider.OpenWorldConfigurationProvider.endpoint
 import com.expediagroup.openworld.sdk.core.configuration.provider.OpenWorldConfigurationProvider.name
-import com.expediagroup.openworld.sdk.core.configuration.provider.OpenWorldConfigurationProvider.requestTimeoutMillis
-import com.expediagroup.openworld.sdk.core.constant.Constant
+import com.expediagroup.openworld.sdk.core.configuration.provider.OpenWorldConfigurationProvider.requestTimeout
 
 /**
  * Default configuration provider for OpenWorld.
@@ -27,11 +26,10 @@ import com.expediagroup.openworld.sdk.core.constant.Constant
  * @property name The name of the provider.
  * @property endpoint The API endpoint to use for requests.
  * @property authEndpoint The API endpoint to use for authentication.
- * @property requestTimeoutMillis The API response timeout to use for requests.
+ * @property requestTimeout The API response timeout to use for requests.
  */
 internal object OpenWorldConfigurationProvider : ConfigurationProvider {
     override val name: String = "OpenWorld Configuration Provider"
     override val endpoint: String = "https://api.expediagroup.com/"
     override val authEndpoint: String = "${endpoint}identity/oauth2/v2/token/"
-    override val requestTimeoutMillis: Long = Constant.TEN_SECONDS_IN_MILLIS
 }

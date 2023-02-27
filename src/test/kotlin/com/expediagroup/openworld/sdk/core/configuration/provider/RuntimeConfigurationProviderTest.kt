@@ -29,6 +29,6 @@ internal class RuntimeConfigurationProviderTest {
         assertNull(emptyRuntimeConfigurationProvider.secret)
         assertNull(emptyRuntimeConfigurationProvider.endpoint)
         assertNull(emptyRuntimeConfigurationProvider.authEndpoint)
-        assertNull(emptyRuntimeConfigurationProvider.requestTimeoutMillis)
+        assertNull(emptyRuntimeConfigurationProvider.requestTimeout)
     }
 }

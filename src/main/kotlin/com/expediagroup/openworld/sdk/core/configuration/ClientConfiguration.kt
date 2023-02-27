@@ -21,13 +21,13 @@ interface ClientConfiguration {
     val key: String?
     val secret: String?
     val endpoint: String?
-    val requestTimeoutMillis: Long?
+    val requestTimeout: Long?
 
     /** Build a [RuntimeConfigurationProvider] from a [ClientConfiguration]. */
     fun toProvider(): RuntimeConfigurationProvider = RuntimeConfigurationProvider(
         key = key,
         secret = secret,
         endpoint = endpoint,
-        requestTimeoutMillis = requestTimeoutMillis
+        requestTimeout = requestTimeout
     )
 }

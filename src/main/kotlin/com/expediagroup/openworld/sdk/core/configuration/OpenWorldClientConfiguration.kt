@@ -30,8 +30,8 @@ data class OpenWorldClientConfiguration(
     override val key: String? = null,
     override val secret: String? = null,
     override val endpoint: String? = null,
-    val authEndpoint: String? = null,
-    override val requestTimeoutMillis: Long? = null
+    override val requestTimeout: Long? = null,
+    val authEndpoint: String? = null
 ) : ClientConfiguration {
 
     /** Build a [RuntimeConfigurationProvider] from an [OpenWorldClientConfiguration]. */

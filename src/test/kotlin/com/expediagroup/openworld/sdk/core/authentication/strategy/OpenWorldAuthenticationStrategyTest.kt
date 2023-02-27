@@ -81,7 +81,7 @@ internal class OpenWorldAuthenticationStrategyTest : AuthenticationPluginTest() 
                 secret = CLIENT_SECRET_TEST_CREDENTIAL + "invalid",
                 endpoint = OpenWorldConfigurationProvider.endpoint,
                 authEndpoint = OpenWorldConfigurationProvider.authEndpoint,
-                requestTimeoutMillis = OpenWorldConfigurationProvider.requestTimeoutMillis
+                requestTimeout = OpenWorldConfigurationProvider.requestTimeout
             )
             val client = ClientFactory.createOpenWorldClient(
                 createUnauthorizedMockEngineWithStatusCode(httpStatusCode),

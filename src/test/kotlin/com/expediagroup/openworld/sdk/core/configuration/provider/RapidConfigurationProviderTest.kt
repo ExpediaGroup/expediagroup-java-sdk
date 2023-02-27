@@ -28,6 +28,6 @@ internal class RapidConfigurationProviderTest {
         assertEquals(EMPTY_STRING, RapidConfigurationProvider.secret)
         assertEquals("https://api.ean.com/v3", RapidConfigurationProvider.endpoint)
         assertEquals(EMPTY_STRING, RapidConfigurationProvider.authEndpoint)
-        assertEquals(TEN_SECONDS_IN_MILLIS, RapidConfigurationProvider.requestTimeoutMillis)
+        assertEquals(TEN_SECONDS_IN_MILLIS, RapidConfigurationProvider.requestTimeout)
     }
 }

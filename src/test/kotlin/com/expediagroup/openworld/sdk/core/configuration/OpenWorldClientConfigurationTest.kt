@@ -28,7 +28,7 @@ class OpenWorldClientConfigurationTest {
             assertNull(it.secret)
             assertNull(it.endpoint)
             assertNull(it.authEndpoint)
-            assertNull(it.requestTimeoutMillis)
+            assertNull(it.requestTimeout)
         }
     }
 
@@ -39,13 +39,13 @@ class OpenWorldClientConfigurationTest {
             secret = "secret",
             endpoint = "endpoint",
             authEndpoint = "authEndpoint",
-            requestTimeoutMillis = 10_000
+            requestTimeout = 10_000
         ).let {
             assertEquals("key", it.key)
             assertEquals("secret", it.secret)
             assertEquals("endpoint", it.endpoint)
             assertEquals("authEndpoint", it.authEndpoint)
-            assertEquals(10_000, it.requestTimeoutMillis)
+            assertEquals(10_000, it.requestTimeout)
         }
     }
 
@@ -56,7 +56,7 @@ class OpenWorldClientConfigurationTest {
             assertNull(it.secret)
             assertNull(it.endpoint)
             assertNull(it.authEndpoint)
-            assertNull(it.requestTimeoutMillis)
+            assertNull(it.requestTimeout)
         }
     }
 
@@ -67,13 +67,13 @@ class OpenWorldClientConfigurationTest {
             secret = "secret",
             endpoint = "endpoint",
             authEndpoint = "authEndpoint",
-            requestTimeoutMillis = 10_000
+            requestTimeout = 10_000
         ).toProvider().let {
             assertEquals("key", it.key)
             assertEquals("secret", it.secret)
             assertEquals("endpoint", it.endpoint)
             assertEquals("authEndpoint", it.authEndpoint)
-            assertEquals(10_000, it.requestTimeoutMillis)
+            assertEquals(10_000, it.requestTimeout)
         }
     }
 }

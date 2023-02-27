@@ -34,7 +34,7 @@ internal object ClientFactory {
         secret = CLIENT_SECRET_TEST_CREDENTIAL,
         endpoint = OpenWorldConfigurationProvider.endpoint,
         authEndpoint = OpenWorldConfigurationProvider.authEndpoint,
-        requestTimeoutMillis = OpenWorldConfigurationProvider.requestTimeoutMillis
+        requestTimeout = OpenWorldConfigurationProvider.requestTimeout
     )
 
     private val rapidConfiguration = RapidClientConfiguration(

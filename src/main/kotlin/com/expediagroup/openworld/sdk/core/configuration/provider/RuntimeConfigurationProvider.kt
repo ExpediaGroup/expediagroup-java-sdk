@@ -31,6 +31,6 @@ data class RuntimeConfigurationProvider(
     override val key: String? = null,
     override val secret: String? = null,
     override val endpoint: String? = null,
-    override val authEndpoint: String? = null,
-    override val requestTimeoutMillis: Long? = null
+    override val requestTimeout: Long? = null,
+    override val authEndpoint: String? = null
 ) : ConfigurationProvider

@@ -13,20 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.openworld.sdk.core.configuration
+package com.expediagroup.openworld.sdk.core.plugin.httptimeout
 
-import com.expediagroup.openworld.sdk.core.client.BaseRapidClient
+import com.expediagroup.openworld.sdk.core.client.Client
+import com.expediagroup.openworld.sdk.core.plugin.Plugin
+import io.ktor.client.plugins.HttpTimeout
 
-/**
- * Configuration for the [BaseRapidClient].
- *
- * @property key The API key to use for authentication.
- * @property secret The API secret to use for authentication.
- * @property endpoint The API endpoint to use for requests.
- */
-data class RapidClientConfiguration(
-    override val key: String? = null,
-    override val secret: String? = null,
-    override val endpoint: String? = null,
-    override val requestTimeout: Long? = null
-) : ClientConfiguration
+internal object HttpTimeoutPlugin : Plugin<HttpTimeoutConfiguration> {
+    override fun install(client: Client, configurations: HttpTimeoutConfiguration) {
+        configurations.httpClientConfiguration.install(HttpTimeout) {
+            requestTimeoutMillis = configurations.milliseconds
+        }
+    }
+}

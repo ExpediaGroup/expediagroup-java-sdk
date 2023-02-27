@@ -32,7 +32,7 @@ internal class ConfigurationProviderQueueTest {
         assertEquals(ProvidedConfiguration(EMPTY_STRING, OpenWorldConfigurationProvider.name), configurationProviderQueue.firstWith { it.secret })
         assertEquals(ProvidedConfiguration(OpenWorldConfigurationProvider.endpoint, OpenWorldConfigurationProvider.name), configurationProviderQueue.firstWith { it.endpoint })
         assertEquals(ProvidedConfiguration(OpenWorldConfigurationProvider.authEndpoint, OpenWorldConfigurationProvider.name), configurationProviderQueue.firstWith { it.authEndpoint })
-        assertEquals(ProvidedConfiguration(OpenWorldConfigurationProvider.requestTimeoutMillis, OpenWorldConfigurationProvider.name), configurationProviderQueue.firstWith { it.requestTimeoutMillis })
+        assertEquals(ProvidedConfiguration(OpenWorldConfigurationProvider.requestTimeout, OpenWorldConfigurationProvider.name), configurationProviderQueue.firstWith { it.requestTimeout })
     }
 
     @Test
@@ -42,7 +42,7 @@ internal class ConfigurationProviderQueueTest {
             secret = CLIENT_SECRET_TEST_CREDENTIAL,
             endpoint = OpenWorldConfigurationProvider.endpoint,
             authEndpoint = OpenWorldConfigurationProvider.authEndpoint,
-            requestTimeoutMillis = OpenWorldConfigurationProvider.requestTimeoutMillis
+            requestTimeout = OpenWorldConfigurationProvider.requestTimeout
         )
         val configurationProviderQueue = ConfigurationProviderQueue.from(
             listOf(runtimeConfigurationProvider)
@@ -56,6 +56,6 @@ internal class ConfigurationProviderQueueTest {
         assertEquals(ProvidedConfiguration(CLIENT_SECRET_TEST_CREDENTIAL, runtimeConfigurationProvider.name), configurationProviderQueue.firstWith { it.secret })
         assertEquals(ProvidedConfiguration(OpenWorldConfigurationProvider.endpoint, runtimeConfigurationProvider.name), configurationProviderQueue.firstWith { it.endpoint })
         assertEquals(ProvidedConfiguration(OpenWorldConfigurationProvider.authEndpoint, runtimeConfigurationProvider.name), configurationProviderQueue.firstWith { it.authEndpoint })
-        assertEquals(ProvidedConfiguration(OpenWorldConfigurationProvider.requestTimeoutMillis, runtimeConfigurationProvider.name), configurationProviderQueue.firstWith { it.requestTimeoutMillis })
+        assertEquals(ProvidedConfiguration(OpenWorldConfigurationProvider.requestTimeout, runtimeConfigurationProvider.name), configurationProviderQueue.firstWith { it.requestTimeout })
     }
 }

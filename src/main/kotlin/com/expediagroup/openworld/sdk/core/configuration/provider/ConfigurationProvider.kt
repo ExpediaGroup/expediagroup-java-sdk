@@ -41,5 +41,6 @@ internal interface ConfigurationProvider {
     val authEndpoint: String?
         get() = Constant.EMPTY_STRING
 
-    val requestTimeoutMillis: Long?
+    val requestTimeout: Long?
+        get() = Constant.TEN_SECONDS_IN_MILLIS
 }
