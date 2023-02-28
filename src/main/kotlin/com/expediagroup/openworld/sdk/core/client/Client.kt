@@ -33,6 +33,8 @@ import com.expediagroup.openworld.sdk.core.plugin.authentication.strategy.Authen
 import com.expediagroup.openworld.sdk.core.plugin.encoding.EncodingConfiguration
 import com.expediagroup.openworld.sdk.core.plugin.encoding.EncodingPlugin
 import com.expediagroup.openworld.sdk.core.plugin.hooks
+import com.expediagroup.openworld.sdk.core.plugin.httptimeout.HttpTimeoutConfiguration
+import com.expediagroup.openworld.sdk.core.plugin.httptimeout.HttpTimeoutPlugin
 import com.expediagroup.openworld.sdk.core.plugin.logging.LoggingConfiguration
 import com.expediagroup.openworld.sdk.core.plugin.logging.LoggingPlugin
 import com.expediagroup.openworld.sdk.core.plugin.logging.OpenWorldLoggerFactory
@@ -72,6 +74,7 @@ abstract class Client {
         val secret: String = configurationProvider.secret ?: fireMissingConfigurationIssue(ConfigurationName.SECRET)
         val endpoint: String = configurationProvider.endpoint ?: fireMissingConfigurationIssue(ConfigurationName.ENDPOINT)
         val authEndpoint: String = configurationProvider.authEndpoint ?: fireMissingConfigurationIssue(ConfigurationName.AUTH_ENDPOINT)
+        val requestTimeout: Long = configurationProvider.requestTimeout ?: fireMissingConfigurationIssue(ConfigurationName.REQUEST_TIMEOUT_MILLIS)
 
         val authenticationConfiguration = AuthenticationConfiguration.from(
             httpClientConfig,
@@ -86,6 +89,7 @@ abstract class Client {
             use(AuthenticationPlugin).with(authenticationConfiguration)
             use(DefaultRequestPlugin).with(DefaultRequestConfiguration.from(httpClientConfig, endpoint))
             use(EncodingPlugin).with(EncodingConfiguration.from(httpClientConfig))
+            use(HttpTimeoutPlugin).with(HttpTimeoutConfiguration.from(httpClientConfig, requestTimeout))
         }
 
         hooks {
@@ -122,6 +126,7 @@ abstract class Client {
         protected var key: String? = null
         protected var secret: String? = null
         protected var endpoint: String? = null
+        protected var requestTimeout: Long? = null
 
         /** Sets the API key to use for authentication.
          *
@@ -150,6 +155,17 @@ abstract class Client {
          */
         fun endpoint(endpoint: String): SELF {
             this.endpoint = endpoint.adhereTo(Contract.TRAILING_SLASH)
+            return self()
+        }
+
+        /**
+         * Sets the request timeout in milliseconds.
+         *
+         * @param milliseconds The request timeout to be used.
+         * @return The [Builder] instance.
+         */
+        fun requestTimeout(milliseconds: Long): SELF {
+            this.requestTimeout = milliseconds
             return self()
         }
 

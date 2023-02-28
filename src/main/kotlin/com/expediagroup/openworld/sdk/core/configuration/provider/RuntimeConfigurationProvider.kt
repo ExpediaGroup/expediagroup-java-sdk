@@ -24,6 +24,7 @@ import com.expediagroup.openworld.sdk.core.constant.ConfigurationName.RUNTIME_CO
  * @property key The API key to use for authentication.
  * @property secret The API secret to use for authentication.
  * @property endpoint The API endpoint to use for requests.
+ * @param requestTimeout The request timeout to be used in milliseconds.
  * @property authEndpoint The API endpoint to use for authentication.
  */
 data class RuntimeConfigurationProvider(
@@ -31,5 +32,6 @@ data class RuntimeConfigurationProvider(
     override val key: String? = null,
     override val secret: String? = null,
     override val endpoint: String? = null,
+    override val requestTimeout: Long? = null,
     override val authEndpoint: String? = null
 ) : ConfigurationProvider

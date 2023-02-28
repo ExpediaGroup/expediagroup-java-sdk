@@ -26,6 +26,7 @@ class BaseRapidClientConfigurationTest {
             assertNull(it.key)
             assertNull(it.secret)
             assertNull(it.endpoint)
+            assertNull(it.requestTimeout)
         }
     }
 
@@ -34,11 +35,13 @@ class BaseRapidClientConfigurationTest {
         RapidClientConfiguration(
             key = "key",
             secret = "secret",
-            endpoint = "endpoint"
+            endpoint = "endpoint",
+            requestTimeout = 10_000
         ).let {
             assertEquals("key", it.key)
             assertEquals("secret", it.secret)
             assertEquals("endpoint", it.endpoint)
+            assertEquals(10_000, it.requestTimeout)
         }
     }
 
@@ -49,6 +52,7 @@ class BaseRapidClientConfigurationTest {
             assertNull(it.secret)
             assertNull(it.endpoint)
             assertNull(it.authEndpoint)
+            assertNull(it.requestTimeout)
         }
     }
 
@@ -57,11 +61,13 @@ class BaseRapidClientConfigurationTest {
         RapidClientConfiguration(
             key = "key",
             secret = "secret",
-            endpoint = "endpoint"
+            endpoint = "endpoint",
+            requestTimeout = 10_000
         ).toProvider().let {
             assertEquals("key", it.key)
             assertEquals("secret", it.secret)
             assertEquals("endpoint", it.endpoint)
+            assertEquals(10_000, it.requestTimeout)
             assertNull(it.authEndpoint)
         }
     }

@@ -13,13 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.openworld.sdk.core.constant
+package com.expediagroup.openworld.sdk.core.plugin.httptimeout
 
-internal object Constant {
-    const val EMPTY_STRING = ""
-    const val TEN_SECONDS_IN_MILLIS = 10_000.toLong()
+import com.expediagroup.openworld.sdk.core.client.Client
+import com.expediagroup.openworld.sdk.core.plugin.Plugin
+import io.ktor.client.plugins.HttpTimeout
 
-    private const val SUCCESSFUL_STATUS_CODES_RANGE_START = 200
-    private const val SUCCESSFUL_STATUS_CODES_RANGE_END = 299
-    val SUCCESSFUL_STATUS_CODES_RANGE: IntRange = SUCCESSFUL_STATUS_CODES_RANGE_START..SUCCESSFUL_STATUS_CODES_RANGE_END
+internal object HttpTimeoutPlugin : Plugin<HttpTimeoutConfiguration> {
+    override fun install(client: Client, configurations: HttpTimeoutConfiguration) {
+        configurations.httpClientConfiguration.install(HttpTimeout) {
+            requestTimeoutMillis = configurations.requestTimeout
+        }
+    }
 }

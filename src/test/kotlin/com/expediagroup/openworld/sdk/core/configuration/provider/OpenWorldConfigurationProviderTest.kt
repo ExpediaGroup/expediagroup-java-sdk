@@ -16,6 +16,7 @@
 package com.expediagroup.openworld.sdk.core.configuration.provider
 
 import com.expediagroup.openworld.sdk.core.constant.Constant.EMPTY_STRING
+import com.expediagroup.openworld.sdk.core.constant.Constant.TEN_SECONDS_IN_MILLIS
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -27,5 +28,6 @@ internal class OpenWorldConfigurationProviderTest {
         assertEquals(EMPTY_STRING, OpenWorldConfigurationProvider.secret)
         assertEquals("https://api.expediagroup.com/", OpenWorldConfigurationProvider.endpoint)
         assertEquals("https://api.expediagroup.com/identity/oauth2/v2/token/", OpenWorldConfigurationProvider.authEndpoint)
+        assertEquals(TEN_SECONDS_IN_MILLIS, OpenWorldConfigurationProvider.requestTimeout)
     }
 }

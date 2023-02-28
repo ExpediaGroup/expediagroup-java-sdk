@@ -39,7 +39,9 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.headersOf
 import io.ktor.util.AttributeKey
 import io.ktor.utils.io.ByteReadChannel
-import java.util.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.util.Base64
 
 object MockEngineFactory {
     fun createDefaultEngine(): HttpClientEngine = MockEngine { request ->
@@ -69,6 +71,29 @@ object MockEngineFactory {
             }
         }
         return mockEngine
+    }
+
+    fun createMockEngineDelayedResponse(milliseconds: Long): MockEngine {
+        return MockEngine {
+            withContext(Dispatchers.IO) {
+                Thread.sleep(milliseconds)
+            }
+
+            respond(
+                content = ByteReadChannel(
+                    """
+                {
+                    "access_token": "$ACCESS_TOKEN",
+                    "token_type": "bearer",
+                    "expires_in": 1800,
+                    "scope": "any-scope"
+                }
+                """
+                ),
+                status = HttpStatusCode.OK,
+                headers = headersOf(HttpHeaders.ContentType, APPLICATION_JSON)
+            )
+        }
     }
 
     fun createUnauthorizedMockEngineWithStatusCode(statusCode: HttpStatusCode): HttpClientEngine = MockEngine {
