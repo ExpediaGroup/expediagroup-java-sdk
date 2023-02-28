@@ -40,7 +40,7 @@ import java.util.UUID
 
     class Builder : BaseRapidClient.Builder<Builder>() {
         override fun build(): {{classname}} = {{classname}}(
-            RapidClientConfiguration(key, secret, endpoint)
+            RapidClientConfiguration(key, secret, endpoint, requestTimeout)
         )
     }
 
