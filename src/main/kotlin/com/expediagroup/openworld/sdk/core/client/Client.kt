@@ -158,6 +158,12 @@ abstract class Client {
             return self()
         }
 
+        /**
+         * Sets the request timeout in milliseconds.
+         *
+         * @param milliseconds The request timeout to be used.
+         * @return The [Builder] instance.
+         */
         fun requestTimeout(milliseconds: Long): SELF {
             this.requestTimeout = milliseconds
             return self()

@@ -24,6 +24,7 @@ import com.expediagroup.openworld.sdk.core.configuration.provider.RuntimeConfigu
  * @property key The API key to use for authentication.
  * @property secret The API secret to use for authentication.
  * @property endpoint The API endpoint to use for requests.
+ * @param requestTimeout The request timeout to be used in milliseconds.
  * @property authEndpoint The API endpoint to use for authentication.
  */
 data class OpenWorldClientConfiguration(
