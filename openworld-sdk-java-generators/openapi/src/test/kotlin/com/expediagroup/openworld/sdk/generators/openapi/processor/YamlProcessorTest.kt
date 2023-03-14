@@ -1,4 +1,4 @@
-package com.expediagroup.sdk.generators.openapi.processor
+package com.expediagroup.openworld.sdk.generators.openapi.processor
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest

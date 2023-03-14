@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.product
+package com.expediagroup.openworld.sdk.product
 
 enum class ProgrammingLanguage(val id: String) {
     JAVA("java"),

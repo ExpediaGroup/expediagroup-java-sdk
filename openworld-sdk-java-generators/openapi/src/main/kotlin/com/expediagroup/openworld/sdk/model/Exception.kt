@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.generators.openapi
+package com.expediagroup.openworld.sdk.model
 
-internal object Constant {
-    const val INDENTATION_LENGTH = 2
-    const val INDICATOR_INDENTATION_LENGTH = 2
-    const val INDENT_WITH_INDICATOR = true
-    val NON_ALPHANUMERIC_REGEX = Regex("[^a-zA-Z0-9]")
-}
+open class GeneratorException(message: String, cause: Throwable? = null) : RuntimeException(message, cause)
+
+class ClientGenerationException(message: String, cause: Throwable? = null) : GeneratorException(message, cause)
+
+class PreProcessingException(message: String, cause: Throwable? = null) : GeneratorException(message, cause)

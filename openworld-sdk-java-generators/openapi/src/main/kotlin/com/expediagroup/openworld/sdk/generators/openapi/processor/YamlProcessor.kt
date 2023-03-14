@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.generators.openapi.processor
+package com.expediagroup.openworld.sdk.generators.openapi.processor
 
-import com.expediagroup.sdk.generators.openapi.Constant
-import com.expediagroup.sdk.generators.openapi.Constant.INDENTATION_LENGTH
-import com.expediagroup.sdk.generators.openapi.Constant.INDENT_WITH_INDICATOR
-import com.expediagroup.sdk.generators.openapi.Constant.INDICATOR_INDENTATION_LENGTH
+import com.expediagroup.openworld.sdk.generators.openapi.Constant
+import com.expediagroup.openworld.sdk.generators.openapi.Constant.INDENTATION_LENGTH
+import com.expediagroup.openworld.sdk.generators.openapi.Constant.INDENT_WITH_INDICATOR
+import com.expediagroup.openworld.sdk.generators.openapi.Constant.INDICATOR_INDENTATION_LENGTH
 import org.yaml.snakeyaml.DumperOptions
 import org.yaml.snakeyaml.Yaml
 import java.nio.file.Files

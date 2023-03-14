@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.generators.openapi
+package com.expediagroup.openworld.sdk.generators.openapi
 
-import com.expediagroup.sdk.generators.openapi.processor.YamlProcessor
-import com.expediagroup.sdk.model.ClientGenerationException
-import com.expediagroup.sdk.product.Product
-import com.expediagroup.sdk.product.ProductFamily
-import com.expediagroup.sdk.product.ProgrammingLanguage
+import com.expediagroup.openworld.sdk.generators.openapi.processor.YamlProcessor
+import com.expediagroup.openworld.sdk.model.ClientGenerationException
+import com.expediagroup.openworld.sdk.product.Product
+import com.expediagroup.openworld.sdk.product.ProductFamily
+import com.expediagroup.openworld.sdk.product.ProgrammingLanguage
 import com.github.rvesse.airline.SingleCommand
 import com.github.rvesse.airline.annotations.Command
 import com.github.rvesse.airline.annotations.Option

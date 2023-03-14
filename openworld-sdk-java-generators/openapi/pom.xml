@@ -57,7 +57,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!-- Generator executable class -->
-        <mainClass>com.expediagroup.sdk.generators.openapi.OpenApiSdkGenerator</mainClass>
+        <mainClass>com.expediagroup.openworld.sdk.generators.openapi.OpenApiSdkGenerator</mainClass>
 
         <!-- Test/Develop Default Arguments -->
         <spec>${project.basedir}/src/test/resources/specs.yaml</spec>

@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.generators.openapi.processor
+package com.expediagroup.openworld.sdk.generators.openapi.processor
 
-import com.expediagroup.sdk.generators.openapi.processor.FunctionalMap.Companion.toMutableMap
-import com.expediagroup.sdk.model.PreProcessingException
+import com.expediagroup.openworld.sdk.generators.openapi.processor.FunctionalMap.Companion.toMutableMap
+import com.expediagroup.openworld.sdk.model.PreProcessingException
 
 internal class FunctionalList(private val list: MutableList<Any?>) {
     fun removeIf(predicate: (FunctionalMap) -> Boolean) {

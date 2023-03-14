@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.product
+package com.expediagroup.openworld.sdk.product
 
-import com.expediagroup.sdk.generators.openapi.Constant
+import com.expediagroup.openworld.sdk.generators.openapi.Constant
 
 class Product(
     inputNamespace: String,

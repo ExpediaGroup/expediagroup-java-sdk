@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.product
+package com.expediagroup.openworld.sdk.product
 
 enum class ProductFamily(val id: String) {
     OPEN_WORLD("openworld"),

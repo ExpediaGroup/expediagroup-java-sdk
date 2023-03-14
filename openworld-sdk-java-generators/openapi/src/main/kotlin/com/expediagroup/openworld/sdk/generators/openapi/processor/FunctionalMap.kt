@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.generators.openapi.processor
+package com.expediagroup.openworld.sdk.generators.openapi.processor
 
-import com.expediagroup.sdk.generators.openapi.processor.FunctionalList.Companion.toMutableList
-import com.expediagroup.sdk.model.PreProcessingException
+import com.expediagroup.openworld.sdk.generators.openapi.processor.FunctionalList.Companion.toMutableList
+import com.expediagroup.openworld.sdk.model.PreProcessingException
 
 internal class FunctionalMap(val map: MutableMap<Any?, Any?>) {
     fun get(key: String) = map[key]
