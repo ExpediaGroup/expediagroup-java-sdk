@@ -18,12 +18,15 @@ package com.expediagroup.openworld.sdk.core.plugin.authentication
 import com.expediagroup.openworld.sdk.core.constant.Authentication.BEARER
 import com.expediagroup.openworld.sdk.core.constant.Authentication.EAN
 import com.expediagroup.openworld.sdk.core.constant.HeaderKey
+import com.expediagroup.openworld.sdk.core.model.exception.service.OpenWorldAuthException
 import com.expediagroup.openworld.sdk.core.test.ClientFactory
+import com.expediagroup.openworld.sdk.core.test.MockEngineFactory
 import com.expediagroup.openworld.sdk.core.test.TestConstants.ACCESS_TOKEN
 import com.expediagroup.openworld.sdk.core.test.TestConstants.ANY_URL
 import com.expediagroup.openworld.sdk.core.test.TestConstants.CLIENT_KEY_TEST_CREDENTIAL
 import io.ktor.client.request.get
 import io.ktor.client.statement.request
+import io.ktor.http.HttpStatusCode
 import io.mockk.clearAllMocks
 import io.mockk.mockkObject
 import io.mockk.verify
@@ -33,6 +36,7 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 
 internal open class AuthenticationPluginTest {
 
@@ -88,6 +92,33 @@ internal open class AuthenticationPluginTest {
                 }
                 verify(exactly = 1) {
                     secondAuth.renewToken()
+                }
+            }
+        }
+    }
+
+    @Nested
+    inner class LockTest {
+        @Test
+        fun `given two requests when authentication fails then renew token should be called for both of them`() {
+            runBlocking {
+                val client = ClientFactory.createOpenWorldClient(
+                    MockEngineFactory.createUnauthorizedMockEngineWithStatusCode(HttpStatusCode.Unauthorized),
+                    ClientFactory.openWorldConfiguration
+                )
+                val httpClient = client.httpClient
+                val auth = client.getAuthenticationStrategy()
+                mockkObject(auth)
+
+                assertThrows<OpenWorldAuthException> {
+                    httpClient.get(ANY_URL)
+                }
+                assertThrows<OpenWorldAuthException> {
+                    httpClient.get(ANY_URL)
+                }
+
+                verify(exactly = 2) {
+                    auth.renewToken()
                 }
             }
         }

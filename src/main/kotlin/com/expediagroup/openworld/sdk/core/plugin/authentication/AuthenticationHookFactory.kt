@@ -47,8 +47,11 @@ private class AuthenticationHookBuilder(private val client: Client) : HookBuilde
             if (authenticationStrategy.isNotIdentityRequest(request) && authenticationStrategy.isTokenAboutToExpire()) {
                 log.info(TOKEN_EXPIRED)
                 if (!isLock.getAndSet(true)) {
-                    authenticationStrategy.renewToken()
-                    isLock.compareAndSet(expect = true, update = false)
+                    try {
+                        authenticationStrategy.renewToken()
+                    } finally {
+                        isLock.compareAndSet(expect = true, update = false)
+                    }
                 }
                 waitForTokenRenewal()
                 assignNewToken(request)
