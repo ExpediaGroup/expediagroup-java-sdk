@@ -1,8 +1,12 @@
-name: Open World Core Test
+name: Verify
 on:
   pull_request:
     branches:
       - 'main'
+  push:
+    branches:
+      - 'main'
+  workflow_dispatch:
 jobs:
   build_and_test:
     runs-on: ubuntu-latest
@@ -14,3 +18,7 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
       - run: mvn verify
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          fail_ci_if_error: true
