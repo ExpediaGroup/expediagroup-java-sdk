@@ -428,9 +428,6 @@
 
                             <exclude>**/authentication/AuthenticationConfiguration*</exclude>
                             <exclude>**/authentication/AuthenticationPlugin*</exclude>
-                            <exclude>**/authentication/strategy/OpenWorldAuthenticationStrategy*</exclude>
-                            <exclude>**/authentication/AuthenticationHook*</exclude>
-                            <exclude>**/authentication/AuthenticationPlugin*</exclude>
 
                             <exclude>**/logging/**</exclude>
                             <exclude>**/serialization/**</exclude>
