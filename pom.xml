@@ -526,7 +526,7 @@
                     </configuration>
                 </plugin>
 
-                <!-- Add Licence Header-->
+                <!-- Add Licence Header -->
                 <plugin>
                     <groupId>com.mycila</groupId>
                     <artifactId>license-maven-plugin</artifactId>
@@ -547,7 +547,8 @@
                     </configuration>
                     <executions>
                         <execution>
-                            <phase>install</phase>
+                            <id>add-license-header</id>
+                            <phase>validate</phase>
                             <goals>
                                 <goal>format</goal>
                             </goals>
@@ -703,7 +704,8 @@
                         <configuration>
                             <target name="detekt">
                                 <java taskname="detekt" dir="${project.basedir}" fork="true" failonerror="true"
-                                      classname="io.gitlab.arturbosch.detekt.cli.Main" classpathref="maven.plugin.classpath">
+                                      classname="io.gitlab.arturbosch.detekt.cli.Main"
+                                      classpathref="maven.plugin.classpath">
                                     <arg value="--input"/>
                                     <arg value="${project.basedir}${file.separator}src"/>
                                     <arg value="--config"/>
@@ -1076,6 +1078,55 @@
                         </executions>
                     </plugin>
                 </plugins>
+            </build>
+        </profile>
+
+        <!-- GitHub verify action profile -->
+        <profile>
+            <id>github-verify-action-profile</id>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>com.mycila</groupId>
+                            <artifactId>license-maven-plugin</artifactId>
+                            <version>${maven.licence.plugin.version}</version>
+                            <configuration>
+                                <properties>
+                                    <year>2022</year>
+                                    <owner>Expedia, Inc.</owner>
+                                </properties>
+                                <licenseSets>
+                                    <licenseSet>
+                                        <header>LICENSE-HEADER.txt</header>
+                                        <includes>
+                                            <include>**/*.kt</include>
+                                        </includes>
+                                    </licenseSet>
+                                </licenseSets>
+                            </configuration>
+                            <executions>
+                                <execution>
+                                    <id>add-license-header</id>
+                                    <phase>validate</phase>
+                                    <goals>
+                                        <goal>format</goal>
+                                    </goals>
+                                    <configuration>
+                                        <skip>true</skip>
+                                    </configuration>
+                                </execution>
+                                <execution>
+                                    <id>check-for-license-header</id>
+                                    <phase>compile</phase>
+                                    <goals>
+                                        <goal>check</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
             </build>
         </profile>
     </profiles>
