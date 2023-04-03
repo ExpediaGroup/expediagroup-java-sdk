@@ -556,13 +556,6 @@
                                 <goal>format</goal>
                             </goals>
                         </execution>
-                        <execution>
-                            <id>check-for-license-header</id>
-                            <phase>verify</phase>
-                            <goals>
-                                <goal>check</goal>
-                            </goals>
-                        </execution>
                     </executions>
                 </plugin>
 
@@ -1125,6 +1118,13 @@
                                     <configuration>
                                         <skip>true</skip>
                                     </configuration>
+                                </execution>
+                                <execution>
+                                    <id>check-for-license-header</id>
+                                    <phase>compile</phase>
+                                    <goals>
+                                        <goal>check</goal>
+                                    </goals>
                                 </execution>
                             </executions>
                         </plugin>
