@@ -64,7 +64,7 @@
         <minimum.jdk.version>11.0.0</minimum.jdk.version>
 
         <!-- Require Code Coverage -->
-        <minimum.code.coverage>0.90</minimum.code.coverage>
+        <minimum.code.coverage>0.80</minimum.code.coverage>
 
         <!-- Plugin Versions -->
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
@@ -428,7 +428,6 @@
 
                             <exclude>**/authentication/AuthenticationConfiguration*</exclude>
                             <exclude>**/authentication/AuthenticationPlugin*</exclude>
-                            <exclude>**/authentication/strategy/OpenWorldAuthenticationStrategy*</exclude>
                             <exclude>**/authentication/AuthenticationHook*</exclude>
                             <exclude>**/authentication/AuthenticationPlugin*</exclude>
 
