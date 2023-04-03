@@ -427,7 +427,6 @@
                             <exclude>**/plugin/KtorPluginConfiguration*</exclude>
 
                             <exclude>**/authentication/AuthenticationConfiguration*</exclude>
-                            <exclude>**/authentication/AuthenticationHook*</exclude>
                             <exclude>**/authentication/AuthenticationPlugin*</exclude>
 
                             <exclude>**/logging/**</exclude>
