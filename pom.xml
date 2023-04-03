@@ -529,7 +529,7 @@
                     </configuration>
                 </plugin>
 
-                <!-- Add Licence Header-->
+                <!-- Check for Licence Header-->
                 <plugin>
                     <groupId>com.mycila</groupId>
                     <artifactId>license-maven-plugin</artifactId>
@@ -550,9 +550,8 @@
                     </configuration>
                     <executions>
                         <execution>
-                            <phase>install</phase>
                             <goals>
-                                <goal>format</goal>
+                                <goal>check</goal>
                             </goals>
                         </execution>
                     </executions>
