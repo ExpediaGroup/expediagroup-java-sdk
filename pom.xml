@@ -526,7 +526,7 @@
                     </configuration>
                 </plugin>
 
-                <!-- Check for Licence Header-->
+                <!-- Add Licence Header-->
                 <plugin>
                     <groupId>com.mycila</groupId>
                     <artifactId>license-maven-plugin</artifactId>
