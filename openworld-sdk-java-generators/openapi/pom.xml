@@ -68,7 +68,7 @@
 
         <!-- Versions -->
         <kotlin.version>1.8.0</kotlin.version>
-        <openapi-generator.version>6.2.1</openapi-generator.version>
+        <openapi-generator.version>6.5.0</openapi-generator.version>
 
         <!-- Plugin Versions -->
         <exec-maven-plugin.version>3.1.0</exec-maven-plugin.version>
@@ -94,12 +94,6 @@
                 <groupId>com.github.rvesse</groupId>
                 <artifactId>airline</artifactId>
                 <version>2.9.0</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.yaml</groupId>
-                <artifactId>snakeyaml</artifactId>
-                <version>1.33</version>
             </dependency>
 
             <!-- Test Dependencies -->
@@ -132,16 +126,6 @@
             <groupId>org.openapitools</groupId>
             <artifactId>openapi-generator</artifactId>
             <version>${openapi-generator.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.yaml</groupId>
-                    <artifactId>snakeyaml</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.yaml</groupId>
-            <artifactId>snakeyaml</artifactId>
         </dependency>
         <dependency>
             <groupId>org.openapitools</groupId>
