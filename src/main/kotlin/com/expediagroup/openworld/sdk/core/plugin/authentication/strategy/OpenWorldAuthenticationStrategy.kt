@@ -133,12 +133,9 @@ internal class OpenWorldAuthenticationStrategy(
         }
     }
 
+    //
     internal data class TokenResponse(
         val accessToken: String,
-        val expiresIn: Int,
-        val token: String? = null,
-        val scope: String,
-        val tokenType: String,
-        val idToken: String? = null
+        val expiresIn: Int
     )
 }
