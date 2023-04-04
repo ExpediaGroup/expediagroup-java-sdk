@@ -17,7 +17,7 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
       - id: build-with-maven
-        run: mvn clean install
+        run: mvn clean install -P github-generate-action-profile
       - name: Generate SDK Files
         working-directory: ./openapi
         run: |
