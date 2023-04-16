@@ -5,7 +5,7 @@ class Paginator<T>(
     private val getBody: suspend (HttpResponse) -> T
 ) : Iterator<T> {
     private var state: ResponseState<T>
-    var paginationTotalResults: Long?
+    val paginationTotalResults: Long?
 
     init {
         state = FirstResponseState(firstResponse)
