@@ -1,7 +1,16 @@
 {{>licenseInfo}}
+package {{apiPackage}}
+
+import kotlinx.coroutines.runBlocking
+import java.util.stream.Collectors
+import kotlin.collections.Map.Entry
+
 {{#isRapid}}
     {{>rapid/client}}
 {{/isRapid}}
 {{#isOpenWorld}}
     {{>openworld/client}}
 {{/isOpenWorld}}
+
+{{>paginator}}
+{{>responseDeclaration}}

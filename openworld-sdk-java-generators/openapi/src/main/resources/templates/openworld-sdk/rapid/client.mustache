@@ -1,5 +1,3 @@
-package {{apiPackage}}
-
 {{#imports}}
 import {{import}}
 {{/imports}}
@@ -10,7 +8,6 @@ import com.expediagroup.openworld.sdk.core.config.provider.FileConfigurationProv
 import com.expediagroup.openworld.sdk.core.configuration.RapidClientConfiguration
 import com.expediagroup.openworld.sdk.core.model.exception.OpenWorldException
 import com.expediagroup.openworld.sdk.core.model.exception.service.OpenWorldServiceException
-
 
 import io.ktor.client.call.body
 import io.ktor.client.request.HttpRequestBuilder
@@ -64,6 +61,10 @@ import java.util.UUID
 
 {{#operation}}
     {{^isKotlin}}private {{/isKotlin}}suspend {{^isKotlin}}inline {{/isKotlin}}fun {{^isKotlin}}k{{/isKotlin}}{{operationId}}({{>apiParamsDecleration}}): {{{returnType}}}{{^returnType}}Void?{{/returnType}} {
+        return {{^isKotlin}}k{{/isKotlin}}{{operationId}}WithResponse({{>apiParamsPassed}}){{#returnType}}.body{{/returnType}}
+    }
+
+    internal suspend {{^isKotlin}}inline {{/isKotlin}}fun {{^isKotlin}}k{{/isKotlin}}{{operationId}}WithResponse({{>apiParamsDecleration}}): {{#returnType}}Response<{{{returnType}}}>{{/returnType}}{{^returnType}}Void?{{/returnType}} {
         val response = httpClient.request {
             method = HttpMethod.parse("{{httpMethod}}")
             url("{{#removeLeadingSlash}}{{path}}{{/removeLeadingSlash}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}"${{{paramName}}}"{{/isContainer}}){{/pathParams}})
@@ -99,7 +100,7 @@ import java.util.UUID
         {{/hasBodyParam}}
         }
         throwIfError(response)
-        return {{^returnType}}null{{/returnType}}{{#returnType}}response.body(){{/returnType}}
+        return {{^returnType}}null{{/returnType}}{{#returnType}}Response(response.body<{{{returnType}}}>(), toHeadersMap(response.headers.entries())){{/returnType}}
     }
     {{^isKotlin}}
 
@@ -113,9 +114,13 @@ import java.util.UUID
     */
     @JvmOverloads
     fun {{operationId}}({{>apiParamsDecleration}}) : {{{returnType}}}{{^returnType}}Void?{{/returnType}} {
+        return {{operationId}}WithResponse({{>apiParamsPassed}}){{#returnType}}.body{{/returnType}}
+    }
+
+    internal fun {{operationId}}WithResponse({{>apiParamsDecleration}}) : {{#returnType}}Response<{{{returnType}}}>{{/returnType}}{{^returnType}}Void?{{/returnType}} {
         try {
             return GlobalScope.future(Dispatchers.IO) {
-                k{{operationId}}({{>apiParamsPassed}})
+                k{{operationId}}WithResponse({{>apiParamsPassed}})
             }.get()
         } catch (exception: Exception) {
             if (exception is OpenWorldException) throw exception
@@ -128,5 +133,15 @@ import java.util.UUID
     }
     {{/isKotlin}}
 {{/operation}}
+
+    internal suspend fun getFromLink(link: String): HttpResponse {
+        return httpClient.request {
+            method = HttpMethod.parse("GET")
+            url(link)
+            appendHeaders(UUID.randomUUID())
+        }
+    }
+
+    {{>paginatorMethods}}
 }
 {{/operations}}

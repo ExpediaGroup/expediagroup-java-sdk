@@ -23,16 +23,17 @@ import com.expediagroup.openworld.sdk.product.ProgrammingLanguage
 import com.github.rvesse.airline.SingleCommand
 import com.github.rvesse.airline.annotations.Command
 import com.github.rvesse.airline.annotations.Option
-import kotlin.io.path.writeBytes
+import org.openapitools.codegen.CodegenConstants
 import org.openapitools.codegen.DefaultGenerator
-import org.openapitools.codegen.api.TemplateDefinition
+import org.openapitools.codegen.SupportingFile
 import org.openapitools.codegen.config.CodegenConfigurator
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.nio.file.Files
-import java.util.*
+import java.util.Base64
 import java.util.zip.ZipInputStream
+import kotlin.io.path.writeBytes
 
 /**
  * Configures the OpenAPI Generator based on command line parameters to generate an EG Travel SDK project
@@ -43,9 +44,9 @@ class OpenApiSdkGenerator {
     private val supportingFiles = listOf(
         "pom.xml",
         "README.md",
-        "PropertyConstraintViolationException.kt",
         "PropertyConstraintViolation.kt",
-        "PropertyConstraintsValidator.kt"
+        "PropertyConstraintsValidator.kt",
+        "PropertyConstraintViolationException.kt"
     )
 
     companion object {
@@ -92,21 +93,21 @@ class OpenApiSdkGenerator {
                 setGroupId(product.groupId)
                 setPackageName(product.packageName)
 
-                addGlobalProperty("models", "")
-                addGlobalProperty("apis", "")
-                addGlobalProperty("supportingFiles", supportingFiles.joinToString(","))
+                addGlobalProperty(CodegenConstants.APIS, "")
+                addGlobalProperty(CodegenConstants.MODELS, "")
+                addGlobalProperty(CodegenConstants.SUPPORTING_FILES, supportingFiles.joinToString(","))
 
-                addAdditionalProperty("apiSuffix", "Client")
-                addAdditionalProperty("apiPackage", product.apiPackage)
-                addAdditionalProperty("enumPropertyNaming", "UPPERCASE")
-                addAdditionalProperty("library", "jvm-ktor")
-                addAdditionalProperty("serializationLibrary", "jackson")
-                addAdditionalProperty("sortParamsByRequiredFlag", true)
+                addAdditionalProperty(CodegenConstants.API_SUFFIX, "Client")
+                addAdditionalProperty(CodegenConstants.API_PACKAGE, product.apiPackage)
+                addAdditionalProperty(CodegenConstants.ENUM_PROPERTY_NAMING, "UPPERCASE")
+                addAdditionalProperty(CodegenConstants.LIBRARY, "jvm-ktor")
+                addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "jackson")
+                addAdditionalProperty(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, true)
+
+                // Template specific properties
                 addAdditionalProperty("shadePrefix", product.shadePrefix)
                 addAdditionalProperty("namespace", product.namespace)
                 addAdditionalProperty("language", product.programmingLanguage.id)
-
-                // Template specific properties
                 addAdditionalProperty("isKotlin", ProgrammingLanguage.isKotlin(product.programmingLanguage))
                 addAdditionalProperty("isRapid", ProductFamily.isRapid(product.namespace))
                 addAdditionalProperty("isOpenWorld", ProductFamily.isOpenWorld(product.namespace))
@@ -119,23 +120,19 @@ class OpenApiSdkGenerator {
                 val packagePath = product.packagePath
                 userDefinedTemplates(
                     listOf(
-                        TemplateDefinition("pom.mustache", "pom.xml"),
-                        TemplateDefinition("README.mustache", "README.md"),
-                        TemplateDefinition(
-                            "factory.mustache",
-                            "$packagePath/configs"
-                        ),
-                        TemplateDefinition(
+                        SupportingFile("pom.mustache", "pom.xml"),
+                        SupportingFile("README.mustache", "README.md"),
+                        SupportingFile(
                             "propertyConstraintViolationException.mustache",
                             "$packagePath/models/exception/",
                             "PropertyConstraintViolationException.kt"
                         ),
-                        TemplateDefinition(
+                        SupportingFile(
                             "propertyConstraintViolation.mustache",
                             "$packagePath/models/exception/",
                             "PropertyConstraintViolation.kt"
                         ),
-                        TemplateDefinition(
+                        SupportingFile(
                             "propertyConstraintsValidator.mustache",
                             "$packagePath/validation/",
                             "PropertyConstraintsValidator.kt"
