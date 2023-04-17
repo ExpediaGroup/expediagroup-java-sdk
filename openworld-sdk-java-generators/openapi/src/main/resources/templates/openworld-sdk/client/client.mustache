@@ -3,9 +3,9 @@ import {{import}}
 {{/imports}}
 import {{packageName}}.validation.PropertyConstraintsValidator.validateConstraints
 
-import com.expediagroup.openworld.sdk.core.client.BaseRapidClient
+import com.expediagroup.openworld.sdk.core.client.{{>client/clientBase}}
 import com.expediagroup.openworld.sdk.core.config.provider.FileConfigurationProvider
-import com.expediagroup.openworld.sdk.core.configuration.RapidClientConfiguration
+import com.expediagroup.openworld.sdk.core.configuration.{{>client/clientConfiguration}}
 import com.expediagroup.openworld.sdk.core.model.exception.OpenWorldException
 import com.expediagroup.openworld.sdk.core.model.exception.service.OpenWorldServiceException
 
@@ -28,16 +28,16 @@ import java.util.UUID
 * {{{description}}}
 */
 {{#operations}}
- class {{classname}} private constructor(clientConfiguration: RapidClientConfiguration) : BaseRapidClient(clientConfiguration){
+ class {{classname}} private constructor(clientConfiguration: {{>client/clientConfiguration}}) : {{>client/clientBase}}(clientConfiguration){
     private val loader = FileConfigurationProvider()[javaClass.classLoader.getResource("sdk.properties")!!]
     private val javaVersion = System.getProperty("java.version")
     private val operatingSystemName = System.getProperty("os.name")
     private val operatingSystemVersion = System.getProperty("os.version")
     private val userAgent = "open-world-sdk-{{#isKotlin}}kotlin{{/isKotlin}}{{^isKotlin}}java{{/isKotlin}}-{{namespace}}/${loader.data()["sdk-version"]!!} (Java $javaVersion; $operatingSystemName $operatingSystemVersion)"
 
-    class Builder : BaseRapidClient.Builder<Builder>() {
+    class Builder : {{>client/clientBase}}.Builder<Builder>() {
         override fun build(): {{classname}} = {{classname}}(
-            RapidClientConfiguration(key, secret, endpoint, requestTimeout)
+            {{>client/clientConfiguration}}(key, secret, endpoint, requestTimeout {{>client/authEndpoint}})
         )
     }
 
@@ -60,11 +60,11 @@ import java.util.UUID
     }
 
 {{#operation}}
-    {{^isKotlin}}private {{/isKotlin}}suspend {{^isKotlin}}inline {{/isKotlin}}fun {{^isKotlin}}k{{/isKotlin}}{{operationId}}({{>apiParamsDecleration}}): {{{returnType}}}{{^returnType}}Void?{{/returnType}} {
-        return {{^isKotlin}}k{{/isKotlin}}{{operationId}}WithResponse({{>apiParamsPassed}}){{#returnType}}.body{{/returnType}}
+    {{^isKotlin}}private {{/isKotlin}}suspend {{^isKotlin}}inline {{/isKotlin}}fun {{^isKotlin}}k{{/isKotlin}}{{operationId}}({{>client/apiParamsDecleration}}): {{{returnType}}}{{^returnType}}Void?{{/returnType}} {
+        return {{^isKotlin}}k{{/isKotlin}}{{operationId}}WithResponse({{>client/apiParamsPassed}}){{#returnType}}.body{{/returnType}}
     }
 
-    internal suspend {{^isKotlin}}inline {{/isKotlin}}fun {{^isKotlin}}k{{/isKotlin}}{{operationId}}WithResponse({{>apiParamsDecleration}}): {{#returnType}}Response<{{{returnType}}}>{{/returnType}}{{^returnType}}Void?{{/returnType}} {
+    private suspend {{^isKotlin}}inline {{/isKotlin}}fun {{^isKotlin}}k{{/isKotlin}}{{operationId}}WithResponse({{>client/apiParamsDecleration}}): {{#returnType}}Response<{{{returnType}}}>{{/returnType}}{{^returnType}}Void?{{/returnType}} {
         val response = httpClient.request {
             method = HttpMethod.parse("{{httpMethod}}")
             url("{{#removeLeadingSlash}}{{path}}{{/removeLeadingSlash}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}"${{{paramName}}}"{{/isContainer}}){{/pathParams}})
@@ -113,14 +113,14 @@ import java.util.UUID
     {{/formParams}}* @return {{{returnType}}}{{^returnType}}void{{/returnType}}
     */
     @JvmOverloads
-    fun {{operationId}}({{>apiParamsDecleration}}) : {{{returnType}}}{{^returnType}}Void?{{/returnType}} {
-        return {{operationId}}WithResponse({{>apiParamsPassed}}){{#returnType}}.body{{/returnType}}
+    fun {{operationId}}({{>client/apiParamsDecleration}}) : {{{returnType}}}{{^returnType}}Void?{{/returnType}} {
+        return {{operationId}}WithResponse({{>client/apiParamsPassed}}){{#returnType}}.body{{/returnType}}
     }
 
-    internal fun {{operationId}}WithResponse({{>apiParamsDecleration}}) : {{#returnType}}Response<{{{returnType}}}>{{/returnType}}{{^returnType}}Void?{{/returnType}} {
+    private fun {{operationId}}WithResponse({{>client/apiParamsDecleration}}) : {{#returnType}}Response<{{{returnType}}}>{{/returnType}}{{^returnType}}Void?{{/returnType}} {
         try {
             return GlobalScope.future(Dispatchers.IO) {
-                k{{operationId}}WithResponse({{>apiParamsPassed}})
+                k{{operationId}}WithResponse({{>client/apiParamsPassed}})
             }.get()
         } catch (exception: Exception) {
             if (exception is OpenWorldException) throw exception
@@ -142,6 +142,6 @@ import java.util.UUID
         }
     }
 
-    {{>paginatorMethods}}
+    {{>client/paginatorMethods}}
 }
 {{/operations}}

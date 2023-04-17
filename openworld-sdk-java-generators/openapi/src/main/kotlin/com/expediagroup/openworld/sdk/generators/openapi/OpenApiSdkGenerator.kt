@@ -123,17 +123,17 @@ class OpenApiSdkGenerator {
                         SupportingFile("pom.mustache", "pom.xml"),
                         SupportingFile("README.mustache", "README.md"),
                         SupportingFile(
-                            "propertyConstraintViolationException.mustache",
+                            "validation/propertyConstraintViolationException.mustache",
                             "$packagePath/models/exception/",
                             "PropertyConstraintViolationException.kt"
                         ),
                         SupportingFile(
-                            "propertyConstraintViolation.mustache",
+                            "validation/propertyConstraintViolation.mustache",
                             "$packagePath/models/exception/",
                             "PropertyConstraintViolation.kt"
                         ),
                         SupportingFile(
-                            "propertyConstraintsValidator.mustache",
+                            "validation/propertyConstraintsValidator.mustache",
                             "$packagePath/validation/",
                             "PropertyConstraintsValidator.kt"
                         )
