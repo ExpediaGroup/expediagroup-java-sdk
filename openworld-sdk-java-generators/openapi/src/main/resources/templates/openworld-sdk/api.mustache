@@ -1,0 +1,11 @@
+{{>licenseInfo}}
+package {{apiPackage}}
+
+import kotlinx.coroutines.runBlocking
+import java.util.stream.Collectors
+import kotlin.collections.Map.Entry
+
+{{>client/client}}
+
+{{>client/paginator}}
+{{>client/responseDeclaration}}

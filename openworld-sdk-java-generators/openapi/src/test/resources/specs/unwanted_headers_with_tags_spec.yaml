@@ -1,0 +1,171 @@
+openapi: 3.0.0
+info:
+  title: My API
+  version: 1.0.0
+tags:
+  - name: Users
+    description: Operations related to users
+  - name: Orders
+    description: Operations related to orders
+  - name: Payments
+    description: Operations related to payments
+paths:
+  /users:
+    get:
+      tags:
+        - Users
+      summary: Retrieve a list of users
+      parameters:
+        - name: wanted-header
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: accept
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: accept-encoding
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: user-agent
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: content-type
+          in: header
+          required: true
+          schema:
+            type: string
+      operationId: getUsers
+      responses:
+        '200':
+          description: A list of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+  /users/{id}:
+    get:
+      tags:
+        - Users
+      summary: Retrieve a user by ID
+      operationId: getUserById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the user to retrieve
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A single user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  /orders:
+    get:
+      tags:
+        - Orders
+      summary: Retrieve a list of orders
+      operationId: getOrders
+      responses:
+        '200':
+          description: A list of orders
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Order'
+  /orders/{id}:
+    get:
+      tags:
+        - Orders
+      summary: Retrieve an order by ID
+      operationId: getOrderById
+      parameters:
+        - name: accept
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: accept-encoding
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: user-agent
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: content-type
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A single order
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+  /payments:
+    get:
+      tags:
+        - Payments
+      summary: Retrieve a list of payments
+      operationId: getPayments
+      responses:
+        '200':
+          description: A list of payments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Payment'
+  /payments/{id}:
+    get:
+      tags:
+        - Payments
+      summary: Retrieve a payment by ID
+      operationId: getPaymentById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the payment to retrieve
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A single payment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+components:
+  schemas:
+    User:
+      type: object
