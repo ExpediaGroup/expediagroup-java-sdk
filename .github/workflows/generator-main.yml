@@ -23,7 +23,7 @@ jobs:
       name: ${{ github.event.inputs.name }}
   generate:
     needs: [ prepare_version ]
-    uses: ./.github/workflows/generate.yml
+    uses: ./.github/workflows/generator-generate.yml
     with:
       version: ${{ needs.prepare_version.outputs.version }}
       name: ${{ github.event.inputs.name }}
