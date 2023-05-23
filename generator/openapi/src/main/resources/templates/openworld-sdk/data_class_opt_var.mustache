@@ -1,0 +1,9 @@
+{{#description}}
+/* {{{.}}} */
+{{/description}}
+{{#deprecated}}
+    @Deprecated(message = "This property is deprecated.")
+{{/deprecated}}
+{{#lambda.indented}}@JsonProperty("{{baseName}}"){{/lambda.indented}}
+{{^format}}{{#lambda.indented}}{{>models/constraints}}{{/lambda.indented}}{{/format}}{{#format}}{{#isString}}{{#lambda.indented}}{{>models/constraints}}{{/lambda.indented}}{{/isString}}{{/format}}
+    {{#isInherited}}override {{/isInherited}}{{>modelMutable}} {{{name}}}: {{#isArray}}{{#isList}}{{#uniqueItems}}kotlin.collections.{{#modelMutable}}Mutable{{/modelMutable}}Set{{/uniqueItems}}{{^uniqueItems}}kotlin.collections.{{#modelMutable}}Mutable{{/modelMutable}}List{{/uniqueItems}}{{/isList}}{{^isList}}kotlin.Array{{/isList}}<{{^items.isEnum}}{{{items.dataType}}}{{/items.isEnum}}{{#items.isEnum}}{{classname}}.{{{nameInCamelCase}}}{{/items.isEnum}}>{{/isArray}}{{^isEnum}}{{^isArray}}{{{dataType}}}{{/isArray}}{{/isEnum}}{{#isEnum}}{{^isArray}}{{^isInherited}}{{classname}}.{{{nameInCamelCase}}}{{/isInherited}}{{/isArray}}{{^isArray}}{{#isInherited}}{{{parent}}}.{{{nameInCamelCase}}}{{/isInherited}}{{/isArray}}{{/isEnum}}? = {{^defaultValue}}null{{/defaultValue}}{{#defaultValue}}{{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{^multiplatform}}{{{dataType}}}("{{{defaultValue}}}"){{/multiplatform}}{{#multiplatform}}({{{defaultValue}}}).toDouble(){{/multiplatform}}{{/isNumber}}{{/defaultValue}}

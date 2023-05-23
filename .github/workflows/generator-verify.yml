@@ -1,0 +1,46 @@
+name: Verify generated SDK
+on:
+  pull_request:
+    branches:
+      - 'main'
+concurrency:
+  group: ${{ github.head_ref }}
+  cancel-in-progress: true
+jobs:
+  generate-sdk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+      - id: build-with-maven
+        working-directory: generator
+        run: mvn clean install -P github-generate-action-profile
+      - name: Generate SDK Files
+        working-directory: generator/openapi
+        run: |
+          mvn clean install
+          mvn exec:java "-Dnamespace=exemplar" "-DsdkVersion=0.0.1-exemplar" "-Dspec=${{ secrets.SPEC_FILE }}"
+      - uses: actions/upload-artifact@v2
+        with:
+          name: sdk
+          path: generator/openapi/target/sdk
+  verify-generated-sdk:
+    runs-on: ubuntu-latest
+    needs: generate-sdk
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: sdk
+          path: generator/sdk
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+      - name: verify generated sdk
+        working-directory: generator/sdk
+        run: mvn verify
