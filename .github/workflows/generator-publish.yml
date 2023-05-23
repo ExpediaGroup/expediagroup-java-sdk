@@ -15,7 +15,7 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: sdk
-          path: sdk
+          path: generator/sdk
       - name: "JDK set-up"
         uses: actions/setup-java@v3
         with:
@@ -34,7 +34,7 @@ jobs:
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PRIVATE_KEY_PASSPHRASE }}
         run: |
-          cd sdk
+          cd generator/sdk
           if [ -z "${{ github.event.inputs.test }}" ]; then
             mvn deploy --settings $GITHUB_WORKSPACE/settings.xml -B -U -P release -DskipTests=true
           else

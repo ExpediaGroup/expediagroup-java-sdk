@@ -25,13 +25,14 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
       - id: build
+        working-directory: generator
         run: mvn clean install
       - name: generate
-        working-directory: openapi
+        working-directory: generator/openapi
         run: |
           mvn clean install
           mvn exec:java "-Dnamespace=${{ inputs.name }}" -DsdkVersion=${{ inputs.version }} "-Dspec=${{ inputs.fileAsBase64 }}"
       - uses: actions/upload-artifact@v3
         with:
           name: sdk
-          path: ./openapi/target/sdk
+          path: generator/openapi/target/sdk
