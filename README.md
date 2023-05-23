@@ -1,21 +1,11 @@
-# Open World <sup>TM</sup> SDK for Java - Core
-The core component of the Open World<sup>TM</sup> SDK for Java.
+# Open World <sup>TM</sup> SDK for Java
 
-## Building From Source
-
-1. Build the Project:
-    ```
-    ./mvnw clean install
-    ```
-
-2. (Optional) Generate Documentation:
-   ```
-   ./mvnw dokka:dokka
-   ```
+The Open World SDK for Java allows Expedia Group partners to easily build Java applications that leverage the Open World<sup>TM</sup> platform.
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
+Please refer to [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## License
-This project is licensed under the Apache License - see the [LICENSE](LICENSE) file for details.
+
+This project is licensed under the Apache License v2.0 - see the [LICENSE](LICENSE) for details.
