@@ -1,4 +1,4 @@
-name: Main
+name: Generate SDK - Main
 on:
   workflow_dispatch:
     inputs:
@@ -17,7 +17,7 @@ on:
         required: false
 jobs:
   prepare_version:
-    uses: ./.github/workflows/prepare_version.yml
+    uses: ./.github/workflows/generator-prepare-version.yml
     with:
       version: ${{ github.event.inputs.version }}
       name: ${{ github.event.inputs.name }}
@@ -30,7 +30,7 @@ jobs:
       fileAsBase64: ${{ github.event.inputs.fileAsBase64 }}
   publish:
     needs: [ generate ]
-    uses: ./.github/workflows/publish.yml
+    uses: ./.github/workflows/generator-publish.yml
     secrets: inherit
     with:
       test: ${{ github.event.inputs.test }}

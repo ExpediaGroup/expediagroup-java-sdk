@@ -1,4 +1,4 @@
-name: Publish
+name: Generate SDK - Publish
 on:
   workflow_call:
     inputs:

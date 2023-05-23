@@ -1,4 +1,4 @@
-name: Generate
+name: Generate SDK - Generate
 on:
   workflow_call:
     inputs:

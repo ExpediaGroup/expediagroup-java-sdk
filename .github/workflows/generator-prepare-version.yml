@@ -1,4 +1,4 @@
-name: Prepare Version
+name: Generate SDK - Prepare Version
 on:
   workflow_call:
     inputs:

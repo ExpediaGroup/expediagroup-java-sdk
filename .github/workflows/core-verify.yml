@@ -1,4 +1,4 @@
-name: Verify
+name: Verify Core
 on:
   pull_request:
     branches:
