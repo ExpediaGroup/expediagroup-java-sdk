@@ -37,20 +37,22 @@ internal object AuthenticationHookFactory : HookFactory<AuthenticationConfigurat
 
 private class AuthenticationHookBuilder(private val client: Client) : HookBuilder<AuthenticationConfiguration> {
     private val log = OpenWorldLoggerFactory.getLogger(javaClass)
-    private val isLock = atomic(false)
+    private val lock = atomic(false)
     private val authenticationStrategy = client.getAuthenticationStrategy()
 
     override fun build(configs: AuthenticationConfiguration) {
         val httpClient = client.httpClient
 
         httpClient.plugin(HttpSend).intercept { request ->
-            if (authenticationStrategy.isNotIdentityRequest(request) && authenticationStrategy.isTokenAboutToExpire()) {
-                log.info(TOKEN_EXPIRED)
-                if (!isLock.getAndSet(true)) {
-                    try {
-                        authenticationStrategy.renewToken()
-                    } finally {
-                        isLock.compareAndSet(expect = true, update = false)
+            if (authenticationStrategy.isNotIdentityRequest(request)) {
+                if (authenticationStrategy.isTokenAboutToExpire()) {
+                    log.info(TOKEN_EXPIRED)
+                    if (!lock.getAndSet(true)) {
+                        try {
+                            authenticationStrategy.renewToken()
+                        } finally {
+                            lock.compareAndSet(expect = true, update = false)
+                        }
                     }
                 }
                 waitForTokenRenewal()
@@ -65,6 +67,6 @@ private class AuthenticationHookBuilder(private val client: Client) : HookBuilde
     }
 
     private suspend fun waitForTokenRenewal() {
-        while (isLock.value) delay(AUTHORIZATION_REQUEST_LOCK_DELAY)
+        while (lock.value) delay(AUTHORIZATION_REQUEST_LOCK_DELAY)
     }
 }
