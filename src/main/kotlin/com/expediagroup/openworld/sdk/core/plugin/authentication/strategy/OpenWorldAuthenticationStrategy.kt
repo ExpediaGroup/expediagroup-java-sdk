@@ -52,7 +52,7 @@ internal class OpenWorldAuthenticationStrategy(
     override fun loadAuth(auth: Auth) {
         auth.bearer {
             sendWithoutRequest { request ->
-                isNotIdentityRequest(request)
+                isIdentityRequest(request)
             }
         }
     }
@@ -100,7 +100,7 @@ internal class OpenWorldAuthenticationStrategy(
         )
     }
 
-    override fun isNotIdentityRequest(request: HttpRequestBuilder): Boolean = request.url.buildString() != configs.authUrl
+    override fun isIdentityRequest(request: HttpRequestBuilder): Boolean = request.url.buildString() == configs.authUrl
 
     override fun getAuthorizationHeader() = "${Authentication.BEARER} ${getTokens().accessToken}"
 

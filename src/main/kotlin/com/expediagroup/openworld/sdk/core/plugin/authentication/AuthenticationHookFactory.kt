@@ -44,7 +44,7 @@ private class AuthenticationHookBuilder(private val client: Client) : HookBuilde
         val httpClient = client.httpClient
 
         httpClient.plugin(HttpSend).intercept { request ->
-            if (authenticationStrategy.isNotIdentityRequest(request)) {
+            if (!authenticationStrategy.isIdentityRequest(request)) {
                 if (authenticationStrategy.isTokenAboutToExpire()) {
                     log.info(TOKEN_EXPIRED)
                     if (!lock.getAndSet(true)) {

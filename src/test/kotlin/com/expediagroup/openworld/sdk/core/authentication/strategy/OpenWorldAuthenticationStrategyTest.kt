@@ -137,7 +137,7 @@ internal class OpenWorldAuthenticationStrategyTest : AuthenticationPluginTest() 
     }
 
     @Test
-    fun `make parallel should run the single refresh token only and authorize all`() {
+    fun `given requests constructed during token renewal then get assigned the new token`() {
         runBlocking {
             val client = ClientFactory.createOpenWorldClient()
             val httpClient = client.httpClient
