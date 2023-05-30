@@ -20,6 +20,7 @@ import com.expediagroup.openworld.sdk.core.configuration.Credentials
 import com.expediagroup.openworld.sdk.core.configuration.OpenWorldClientConfiguration
 import com.expediagroup.openworld.sdk.core.configuration.provider.OpenWorldConfigurationProvider
 import com.expediagroup.openworld.sdk.core.constant.Authentication.BEARER
+import com.expediagroup.openworld.sdk.core.constant.Constant.SUCCESSFUL_STATUS_CODES_RANGE
 import com.expediagroup.openworld.sdk.core.constant.ExceptionMessage
 import com.expediagroup.openworld.sdk.core.constant.HeaderKey
 import com.expediagroup.openworld.sdk.core.model.exception.service.OpenWorldAuthException
@@ -40,6 +41,7 @@ import io.ktor.client.HttpClientConfig
 import io.ktor.client.request.get
 import io.ktor.client.request.request
 import io.ktor.client.request.url
+import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.request
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
@@ -57,6 +59,10 @@ import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ArgumentsSource
 import org.junit.jupiter.params.provider.ValueSource
+import java.util.concurrent.Callable
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
+import java.util.concurrent.Future
 
 internal class OpenWorldAuthenticationStrategyTest : AuthenticationPluginTest() {
 
@@ -123,6 +129,32 @@ internal class OpenWorldAuthenticationStrategyTest : AuthenticationPluginTest() 
                 launch(Dispatchers.IO) { httpClient.get(ANY_URL) },
                 launch(Dispatchers.IO) { httpClient.get(ANY_URL) }
             ).joinAll()
+
+            verify(exactly = 1) {
+                authentication.renewToken()
+            }
+        }
+    }
+
+    @Test
+    fun `given requests constructed during token renewal then get assigned the new token`() {
+        runBlocking {
+            val client = ClientFactory.createOpenWorldClient()
+            val httpClient = client.httpClient
+            val authentication = client.getAuthenticationStrategy()
+            mockkObject(authentication)
+
+            val numberOfThreads = 8
+            val threadPool: ExecutorService = Executors.newFixedThreadPool(numberOfThreads)
+            val futures: MutableList<Future<HttpResponse>> = mutableListOf()
+            repeat(numberOfThreads + 5) {
+                futures.add(threadPool.submit(Callable { runBlocking { httpClient.get(ANY_URL) } }))
+            }
+
+            val failedRequests: List<HttpResponse> = futures.map { it.get() }.filter {
+                it.status.value !in SUCCESSFUL_STATUS_CODES_RANGE
+            }
+            assertThat(failedRequests).isEmpty()
 
             verify(exactly = 1) {
                 authentication.renewToken()
