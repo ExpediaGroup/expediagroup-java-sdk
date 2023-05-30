@@ -55,18 +55,14 @@ private class AuthenticationHookBuilder(private val client: Client) : HookBuilde
                         }
                     }
                 }
-                waitForTokenRenewal()
-                assignNewToken(request)
+                while (lock.value) delay(AUTHORIZATION_REQUEST_LOCK_DELAY)
+                assignLatestToken(request)
             }
             execute(request)
         }
     }
 
-    private fun assignNewToken(request: HttpRequestBuilder) {
+    private fun assignLatestToken(request: HttpRequestBuilder) {
         request.headers[HeaderKey.AUTHORIZATION] = authenticationStrategy.getAuthorizationHeader()
-    }
-
-    private suspend fun waitForTokenRenewal() {
-        while (lock.value) delay(AUTHORIZATION_REQUEST_LOCK_DELAY)
     }
 }
