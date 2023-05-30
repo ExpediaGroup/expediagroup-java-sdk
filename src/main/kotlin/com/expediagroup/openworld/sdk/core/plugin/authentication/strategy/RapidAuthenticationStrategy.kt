@@ -35,7 +35,7 @@ internal class RapidAuthenticationStrategy(private val configs: AuthenticationCo
         signature = calculateSignature(credentials.key, credentials.secret, Instant.now().epochSecond)
     }
 
-    override fun isNotIdentityRequest(request: HttpRequestBuilder) = true
+    override fun isIdentityRequest(request: HttpRequestBuilder) = false
 
     override fun getAuthorizationHeader() = createAuthorizationHeader(signature)
 

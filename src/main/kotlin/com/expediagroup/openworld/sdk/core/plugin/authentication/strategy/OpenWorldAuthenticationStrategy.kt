@@ -48,16 +48,11 @@ internal class OpenWorldAuthenticationStrategy(
 ) : AuthenticationStrategy {
     private val log = OpenWorldLoggerFactory.getLogger(javaClass)
     private var bearerTokenStorage = BearerTokensInfo.emptyBearerTokenInfo
-    private val loadTokensBlock: () -> BearerTokens = {
-        getTokens()
-    }
 
     override fun loadAuth(auth: Auth) {
         auth.bearer {
-            loadTokens(loadTokensBlock)
-
             sendWithoutRequest { request ->
-                isNotIdentityRequest(request)
+                isIdentityRequest(request)
             }
         }
     }
@@ -105,7 +100,7 @@ internal class OpenWorldAuthenticationStrategy(
         )
     }
 
-    override fun isNotIdentityRequest(request: HttpRequestBuilder): Boolean = request.url.buildString() != configs.authUrl
+    override fun isIdentityRequest(request: HttpRequestBuilder): Boolean = request.url.buildString() == configs.authUrl
 
     override fun getAuthorizationHeader() = "${Authentication.BEARER} ${getTokens().accessToken}"
 
