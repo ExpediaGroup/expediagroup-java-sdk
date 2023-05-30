@@ -29,7 +29,7 @@ internal interface AuthenticationStrategy {
 
     fun renewToken()
 
-    fun isNotIdentityRequest(request: HttpRequestBuilder): Boolean
+    fun isIdentityRequest(request: HttpRequestBuilder): Boolean
 
     fun getAuthorizationHeader(): String
 
