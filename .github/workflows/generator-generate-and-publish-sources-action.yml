@@ -1,0 +1,37 @@
+name: Generate and Publish Sources
+on:
+  workflow_call:
+    inputs:
+      name:
+        description: 'SDK Name'
+        required: true
+        type: string
+      version:
+        description: 'SDK Version'
+        required: true
+        type: string
+      specs:
+        description: 'SDK Specs File Path'
+        required: true
+        type: string
+        
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Publish Code
+        run: |
+          git config --global user.email "oss@expediagroup.com"
+          git config --global user.name "Expedia Group Open Source"
+          git checkout -b "${{github.event.inputs.name}}-${{github.event.inputs.version}}"
+          mkdir -p ./release/"${{github.event.inputs.name}}"
+          cp -r ./sdk/src ./release/"${{github.event.inputs.name}}"/
+          cp ./sdk/pom.xml ./release/"${{github.event.inputs.name}}"/
+          cp ./sdk/README.md ./release/"${{github.event.inputs.name}}"/
+          rm -r ./sdk
+          git add --all
+          git commit -m "chore: Publish ${{github.event.inputs.name}} [${{github.event.inputs.version}}] SDK"
+          git push --set-upstream origin "${{github.event.inputs.name}}-${{github.event.inputs.version}}"
+          gh pr create -B main -H "${{github.event.inputs.name}}-${{github.event.inputs.version}}" --title 'chore: Publish ${{github.event.inputs.name}} [${{github.event.inputs.version}}] SDK'
+        env:
+          GH_TOKEN: ${{ github.token }}
