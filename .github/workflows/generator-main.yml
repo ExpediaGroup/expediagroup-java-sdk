@@ -2,38 +2,35 @@ name: Generate SDK - Main
 on:
   workflow_dispatch:
     inputs:
+      name:
+        description: 'SDK Name'
+        required: true
       version:
-        description: 'Generated SDK version'
+        description: 'SDK Version'
         required: false
         default: ''
-      name:
-        description: 'Generated SDK name'
-        required: true
-      fileAsBase64:
-        description: 'Generated SDK file as base64 encoded'
-        required: true
       test:
-        description: 'Release snapshot?'
+        description: 'Release a Snapshot?'
         required: false
 jobs:
   prepare_version:
     uses: ./.github/workflows/generator-prepare-version.yml
     with:
-      version: ${{ github.event.inputs.version }}
       name: ${{ github.event.inputs.name }}
+      version: ${{ github.event.inputs.version }}
   generate:
     needs: [ prepare_version ]
     uses: ./.github/workflows/generator-generate.yml
     with:
-      version: ${{ needs.prepare_version.outputs.version }}
       name: ${{ github.event.inputs.name }}
-      fileAsBase64: ${{ github.event.inputs.fileAsBase64 }}
+      version: ${{ needs.prepare_version.outputs.version }}
+      specs: ./release/${{ github.event.inputs.name }}/specs.yaml
   publish_sources:
     uses: ./github/workflows/generator-generate-and-publish-sources-action.yml
     with:
       name: ${{ github.event.inputs.name }}
       version: ${{ github.event.inputs.version }}
-      specs: ./release/fraudprevention/specs.yaml
+      specs: ./release/${{ github.event.inputs.name }}/specs.yaml
   # publish:
   #   needs: [ generate ]
   #   uses: ./.github/workflows/generator-publish.yml

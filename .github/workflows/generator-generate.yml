@@ -10,8 +10,8 @@ on:
         description: 'generated sdk name'
         required: true
         type: string
-      fileAsBase64:
-        description: 'generated sdk file as base64 encoded'
+      specs:
+        description: 'SDK Specs File Path'
         required: true
         type: string
 jobs:
@@ -31,7 +31,7 @@ jobs:
         working-directory: generator/openapi
         run: |
           mvn clean install
-          mvn exec:java "-Dnamespace=${{ inputs.name }}" -DsdkVersion=${{ inputs.version }} "-Dspec=${{ inputs.fileAsBase64 }}"
+          mvn exec:java "-Dnamespace=${{ inputs.name }}" -DsdkVersion=${{ inputs.version }} "-Dspec=${{ inputs.specs }}"
       - uses: actions/upload-artifact@v3
         with:
           name: sdk
