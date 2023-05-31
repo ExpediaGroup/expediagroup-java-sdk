@@ -2,10 +2,10 @@ name: Generate SDK - Prepare Version
 on:
   workflow_call:
     inputs:
-      version:
+      name:
         required: true
         type: string
-      name:
+      version:
         required: true
         type: string
     outputs:
