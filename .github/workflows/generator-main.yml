@@ -28,9 +28,15 @@ jobs:
       version: ${{ needs.prepare_version.outputs.version }}
       name: ${{ github.event.inputs.name }}
       fileAsBase64: ${{ github.event.inputs.fileAsBase64 }}
-  publish:
-    needs: [ generate ]
-    uses: ./.github/workflows/generator-publish.yml
-    secrets: inherit
+  publish_sources:
+    uses: ./github/workflows/generator-generate-and-publish-sources-action.yml
     with:
-      test: ${{ github.event.inputs.test }}
+      name: ${{ github.event.inputs.name }}
+      version: ${{ github.event.inputs.version }}
+      specs: ./release/fraudprevention/specs.yaml
+  # publish:
+  #   needs: [ generate ]
+  #   uses: ./.github/workflows/generator-publish.yml
+  #   secrets: inherit
+  #   with:
+  #     test: ${{ github.event.inputs.test }}
