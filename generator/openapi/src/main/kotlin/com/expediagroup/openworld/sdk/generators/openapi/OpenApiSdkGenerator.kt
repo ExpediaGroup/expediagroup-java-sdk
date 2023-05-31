@@ -27,13 +27,6 @@ import org.openapitools.codegen.CodegenConstants
 import org.openapitools.codegen.DefaultGenerator
 import org.openapitools.codegen.SupportingFile
 import org.openapitools.codegen.config.CodegenConfigurator
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
-import java.nio.file.Files
-import java.util.Base64
-import java.util.zip.ZipInputStream
-import kotlin.io.path.writeBytes
 
 /**
  * Configures the OpenAPI Generator based on command line parameters to generate an EG Travel SDK project
