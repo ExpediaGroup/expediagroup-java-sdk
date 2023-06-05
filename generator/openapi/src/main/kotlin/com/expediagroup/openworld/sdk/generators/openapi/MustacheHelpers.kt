@@ -43,34 +43,3 @@ val mustacheHelpers = mapOf(
         }
     }
 )
-
-private fun getParentDiscriminator(model: CodegenModel): MutableList<Discriminator> {
-    val discriminators: MutableList<Discriminator> = model.parent?.let { getParentDiscriminator(model.parentModel) } ?: mutableListOf()
-    model.parentModel?.vars?.find { it.isDiscriminator }?.let { variable ->
-        model.parentModel?.discriminator?.let {
-            discriminators.add(
-                Discriminator(
-                    it.propertyBaseName,
-                    it.propertyName,
-                    variable.datatypeWithEnum,
-                    it.mappedModels.find { mappedModel ->
-                        println(model.classname)
-                        mappedModel.modelName.equals(model.classname)
-                    }!!.mappingName,
-                    model.parentModel.name,
-                    variable.isEnum
-                )
-            )
-        }
-    }
-    return discriminators
-}
-
-private data class Discriminator(
-    val originalName: String,
-    val name: String,
-    val type: String,
-    val value: String,
-    val parentName: String,
-    val isEnum: Boolean
-)
