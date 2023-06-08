@@ -16,9 +16,30 @@
 package com.expediagroup.openworld.sdk.generators.openapi
 
 import com.samskivert.mustache.Mustache
+import org.openapitools.codegen.CodegenModel
+import org.openapitools.codegen.CodegenProperty
 
 val mustacheHelpers = mapOf(
     "removeLeadingSlash" to {
         Mustache.Lambda { fragment, writer -> writer.write(fragment.execute().removePrefix("/")) }
+    },
+    "assignDiscriminators" to {
+        Mustache.Lambda { fragment, writer ->
+            val model = fragment.context() as CodegenModel
+            getParentDiscriminator(model).forEach {
+                val type = (if (it.isEnum) "${it.parentName}." else "") + it.type
+                writer.write("@JsonProperty(\"${it.originalName}\")\n")
+                writer.write("override val ${it.name} : $type = $type.${it.value}\n")
+            }
+        }
+    },
+    "eliminateDiscriminators" to {
+        Mustache.Lambda { fragment, writer ->
+            val discriminators: List<String> = getParentDiscriminator(fragment.context(1) as CodegenModel).map { it.originalName }
+            val property = fragment.context() as CodegenProperty
+            if (!discriminators.contains(property.baseName)) {
+                writer.write(fragment.execute())
+            }
+        }
     }
 )
