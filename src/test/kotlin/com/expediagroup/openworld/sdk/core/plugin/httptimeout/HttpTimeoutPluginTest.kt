@@ -65,7 +65,7 @@ internal class HttpTimeoutPluginTest {
     @Test
     fun `get a response without timeout`() {
         val client = ClientFactory.createOpenWorldClient(
-            mockEngine = MockEngineFactory.createMockEngineDelayedResponse(1_000),
+            mockEngine = MockEngineFactory.createMockEngineDelayedResponse(250),
             configuration = openWorldConfiguration
         )
 

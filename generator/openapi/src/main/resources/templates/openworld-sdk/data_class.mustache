@@ -29,12 +29,18 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 {{/discriminator}}
 {{#nonPublicApi}}internal {{/nonPublicApi}}{{#discriminator}}interface {{/discriminator}}{{^discriminator}}data class {{/discriminator}}{{classname}}{{^discriminator}}(
 {{#allVars}}
+    {{#eliminateDiscriminators}}
     {{#required}}{{>data_class_req_var}}{{/required}}{{^required}}{{>data_class_opt_var}}{{/required}}{{^-last}},{{/-last}}
+    {{/eliminateDiscriminators}}
 {{^-last}}
 
 {{/-last}}
 {{/allVars}}
 ){{/discriminator}}{{#parent}}{{^serializableModel}}{{^parcelizeModels}}{{^isMap}} : {{{parent}}}{{#isArray}}(){{/isArray}}{{/isMap}}{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{#serializableModel}}{{^parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Serializable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{^serializableModel}}{{#parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{#serializableModel}}{{#parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Serializable, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{#serializableModel}}{{^parcelizeModels}} : Serializable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{^serializableModel}}{{#parcelizeModels}} : Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{#serializableModel}}{{#parcelizeModels}} : Serializable, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}} {
+{{^discriminator}}
+    {{#assignDiscriminators}}{{/assignDiscriminators}}
+{{/discriminator}}
+
 {{#discriminator}}{{#vars}}{{#required}}
     {{>interface_req_var}}{{/required}}{{^required}}
     {{>interface_opt_var}}{{/required}}{{/vars}}{{/discriminator}}
@@ -47,11 +53,15 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 
     class Builder(
     {{#allVars}}
+        {{#eliminateDiscriminators}}
         private var {{{name}}}: {{#isEnum}}{{^isArray}}{{^isInherited}}{{classname}}.{{{nameInCamelCase}}}{{/isInherited}}{{/isArray}}{{^isArray}}{{#isInherited}}{{{parent}}}.{{{nameInCamelCase}}}{{/isInherited}}{{/isArray}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}? = null{{^-last}},{{/-last}}
+        {{/eliminateDiscriminators}}
     {{/allVars}}
     ) {
     {{#allVars}}
+        {{#eliminateDiscriminators}}
         fun {{{name}}}({{{name}}}: {{#isEnum}}{{^isArray}}{{^isInherited}}{{classname}}.{{{nameInCamelCase}}}{{/isInherited}}{{/isArray}}{{^isArray}}{{#isInherited}}{{{parent}}}.{{{nameInCamelCase}}}{{/isInherited}}{{/isArray}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}) = apply { this.{{{name}}} = {{{name}}} }
+        {{/eliminateDiscriminators}}
     {{/allVars}}
 
         fun build(): {{classname}} {
@@ -61,7 +71,9 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
          {{/hasRequired}}
             return {{classname}}(
             {{#allVars}}
+                {{#eliminateDiscriminators}}
                 {{{name}}} = {{{name}}}{{#required}}!!{{/required}}{{^-last}},{{/-last}}
+                {{/eliminateDiscriminators}}
             {{/allVars}}
             )
         }
@@ -69,11 +81,13 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
     {{#hasRequired}}
         private fun validateNullity() {
         {{#allVars}}
+            {{#eliminateDiscriminators}}
             {{#required}}
             if ({{{name}}} == null) {
                 throw NullPointerException("Required parameter {{{name}}} is missing")
             }
             {{/required}}
+            {{/eliminateDiscriminators}}
         {{/allVars}}
         }
     {{/hasRequired}}
