@@ -22,9 +22,9 @@ jobs:
       - name: Generate SDK Files
         working-directory: generator/openapi
         run: |
-          echo "-Dnamespace=exemplar" "-DsdkVersion=0.0.1-exemplar" "-Dspec=${{ secrets.SPEC_FILE }}"
+          echo "-Dnamespace=exemplar" "-DsdkVersion=0.0.1-exemplar" "-Dspec=${{ vars.SPECS }}"
           mvn clean install
-          mvn exec:java "-Dnamespace=exemplar" "-DsdkVersion=0.0.1-exemplar" "-Dspec=${{ secrets.SPEC_FILE }}"
+          mvn exec:java "-Dnamespace=exemplar" "-DsdkVersion=0.0.1-exemplar" "-Dspec=${{ vars.SPECS }}"
       - uses: actions/upload-artifact@v2
         with:
           name: sdk
