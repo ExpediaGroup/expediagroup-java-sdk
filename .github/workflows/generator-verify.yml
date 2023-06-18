@@ -23,7 +23,7 @@ jobs:
         working-directory: generator/openapi
         run: |
           touch specs.yaml
-          echo -e ${{ vars.SPECS }} > specs.yaml
+          echo -e ${{ vars.SPECS }} >> specs.yaml
       - name: Generate SDK Files
         working-directory: generator/openapi
         run: |
