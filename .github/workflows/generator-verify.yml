@@ -19,15 +19,11 @@ jobs:
       - id: build-with-maven
         working-directory: generator
         run: mvn clean install -P github-generate-action-profile
-      - name: Write Spec File
-        working-directory: generator/openapi
-        run: |
-          cat ./src/test/resources/exemplar.yaml
       - name: Generate SDK Files
         working-directory: generator/openapi
         run: |
           mvn clean install
-          mvn exec:java "-Dnamespace=exemplar" "-DsdkVersion=1.0.0" "-Dspec=specs.yaml"
+          mvn exec:java "-Dnamespace=exemplar" "-DsdkVersion=1.0.0" "-Dspec=./src/test/resources/exemplar.yaml"
       - uses: actions/upload-artifact@v2
         with:
           name: sdk
