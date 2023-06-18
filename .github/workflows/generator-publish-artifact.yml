@@ -7,7 +7,7 @@ on:
         type: string
         required: false
 jobs:
-  job:
+  publish:
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.publish.outputs.version }}
