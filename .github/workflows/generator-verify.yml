@@ -24,7 +24,7 @@ jobs:
         run: |
           mvn clean install
           mvn exec:java "-Dnamespace=exemplar" "-DsdkVersion=1.0.0" "-Dspec=./src/test/resources/exemplar.yaml"
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: sdk
           path: generator/openapi/target/sdk
