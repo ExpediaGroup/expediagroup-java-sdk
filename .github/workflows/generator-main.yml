@@ -14,9 +14,8 @@ on:
         required: true
         type: string
       test:
-        description: 'Release a Snapshot? (true/false) - Default: false'
+        description: 'Release a Snapshot? (Leave blank for no, anything else for yes)'
         required: false
-        default: false
 jobs:
   prepare_version:
     uses: ./.github/workflows/generator-prepare-version.yml
