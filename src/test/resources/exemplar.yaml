@@ -1,0 +1,155 @@
+openapi: 3.0.0
+info:
+    title: Exemplar Capability API
+    description: API For Exemplar Capability to demonstrate integration with Platform Control Plane
+    version: 'v1'
+    contact:
+        name: "Exemplar Capability"
+        email: "abc@example.com"
+    x-eg-lifecycle: "LIVE"
+    x-eg-api-tags: [ "platform-control-plane", "exemplar" ]
+servers:
+    - url: "https://example.com"
+tags:
+    - name: Exemplar
+      description: APIs to manage users.
+paths:
+    /greetings:
+        get:
+            description: Get a "Hello $partnerName" response for an authenticated request
+            tags:
+                - Exemplar
+            operationId: greetings
+            responses:
+                '200':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Greeting'
+                '401':
+                    description: Unauthorized
+                    headers:
+                        Date:
+                            $ref: '#/components/headers/Date'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                '403':
+                    description: Forbidden
+                    headers:
+                        Date:
+                            $ref: '#/components/headers/Date'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+            security:
+                - EgTokenAuth:
+                      - control-plane.exemplar.read
+components:
+    securitySchemes:
+        EgTokenAuth:
+            type: oauth2
+            description: this api uses Oauth2 with EGToken scheme
+            flows:
+                clientCredentials:
+                    tokenUrl: https://example.com
+                    scopes:
+                        control-plane.exemplar.read: allow read access to exemplar endpoints
+    schemas:
+        Greeting:
+            type: object
+            properties:
+                message:
+                    type: string
+                    example: "Hello John!"
+        Error: # https://example.com
+            description: The object used the describe an error, containing both human-readable and in a machine-readable information.
+            title: Error
+            type: object
+            properties:
+                type:
+                    description: >
+                        A URI reference, compliant with the standard EG error type format, which identifies the error type.
+                        It provides a machine-readable identifier for the error type.
+                        The error type will be aligned with the HTTP status code of the response.
+                        The URI can either be absolute or relative to the API's base URI.
+                        When dereferenced, it can also provide human-readable documentation for the error type.
+                    type: string
+                    format: URI
+                    example: "https://example.com"
+                detail:
+                    description: A human-readable explanation of the error, specific to this error occurrence.
+                    type: string
+                    example: "The request failed because one or many input values are invalid. Please see the causes for more details."
+                causes:
+                    description: "An array of cause objects, that identify the specific causes of the error."
+                    type: array
+                    items:
+                        $ref: "#/components/schemas/ErrorCause"
+            required:
+                - type
+                - detail
+        ErrorCause: # https://example.com
+            description: The object used to describe a cause for an error, containing both human-readable and in a machine-readable information.
+            title: Cause
+            type: object
+            properties:
+                type:
+                    description: >
+                        A URI reference, compliant with the standard EG error type format, which identifies the cause type.
+                        It provides a machine-readable identifier for the cause type.
+                        The cause type will be aligned with the error type.
+                        The URI can either be absolute or relative to the API's base URI.
+                        When dereferenced, it provides human-readable documentation for the cause type.
+                    type: string
+                    format: URI
+                    example: "https://example.com"
+                detail:
+                    description: A human-readable explanation of the cause, specific to this cause occurrence.
+                    type: string
+                    example: "The number of results per page you provided ('NotANumber') is invalid. Please provide a valid integer value between 1 and 100."
+                location:
+                    description: |
+                        The location of the element in the request that identifies this specific cause. When specified, the `name` will be specified and when applicable, the `value` as well. Can be one of:
+                        * `header` - When an error has been identified in one of the request headers.
+                        * `path` - When an error has been identified in one of the path parameters.
+                        * `query` - When an error has been identified in one of the query parameters.
+                        * `body` - When an error has been identified in the request body.
+                    type: string
+                    enum:
+                        - header
+                        - path
+                        - query
+                        - body
+                    example: query
+                name:
+                    description: |
+                        The name of the element for this cause. When specified, the `location` will be specified and when applicable, the `value` as well. This name is a function of the value of the `location` property:
+                          * When the `location` is set to `header`, this will be the name of the request header (e.g. `Content-Type`).
+                          * When the `location` is set to `path`, this will be the name of the path parameter (e.g. in a path defined as `/users/{user_id}`, the value would be `user_id`).
+                          * When the `location` is set to `query`, this will be the name of the query string parameter (e.g. `offset`).
+                          * When the `location` is set to `body`, this will one of the field names specified in the body of the request.
+                            * For a top level field, it should only be set to the field name (e.g. `firstName`).
+                            * For a field in a nested object, it may contain the path to reach the field (e.g. `address.city`).
+                            * For a field in an object part of collection, it may contain the index in the collection (e.g. `permissions[0].name`).
+                    type: string
+                    example: "results_per_page"
+                value:
+                    description: >
+                        A string representation of the erroneous value of the element identified in `name`, perceived to be the cause of the error.
+                        When specified, the `location` and `name` should be specified as well.
+                        This value may be omitted in cases where it cannot be provided (e.g. missing require field), or the erroneous value cannot be represented as a string.
+                    type: string
+                    example: "NotANumber"
+            required:
+                - type
+                - detail
+    headers:
+        Date:
+            description: The date and time at which the response was generated (RFC5322 format).
+            schema:
+                type: string
+            example: 'Wed, 24 Feb 2021 15:13:24 GMT'
