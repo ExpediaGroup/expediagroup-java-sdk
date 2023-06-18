@@ -26,13 +26,6 @@ import org.openapitools.codegen.CodegenConstants
 import org.openapitools.codegen.DefaultGenerator
 import org.openapitools.codegen.SupportingFile
 import org.openapitools.codegen.config.CodegenConfigurator
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
-import java.nio.file.Files
-import java.util.Base64
-import java.util.zip.ZipInputStream
-import kotlin.io.path.writeBytes
 
 /**
  * Configures the OpenAPI Generator based on command line parameters to generate an EG Travel SDK project
@@ -142,26 +135,5 @@ class OpenApiSdkGenerator {
         } catch (e: Exception) {
             throw ClientGenerationException("Failed to generate SDK", e)
         }
-    }
-
-    private fun prepareSpecFile(): String {
-        val buffer = ByteArray(1024)
-        val zipInputStream = ZipInputStream(FileInputStream(prepareTmpZipFile()))
-        val tempFile = Files.createTempFile("", zipInputStream.nextEntry?.name).toFile()
-        val fileOutputStream = FileOutputStream(tempFile)
-        var len: Int
-        while (zipInputStream.read(buffer).also { len = it } > 0) {
-            fileOutputStream.write(buffer, 0, len)
-        }
-        zipInputStream.closeEntry()
-        fileOutputStream.close()
-        zipInputStream.close()
-        return tempFile.absolutePath
-    }
-
-    private fun prepareTmpZipFile(): File {
-        val tmpFile = Files.createTempFile("", "tmp")
-        tmpFile.writeBytes(Base64.getDecoder().decode(inputFile))
-        return tmpFile.toFile()
     }
 }
