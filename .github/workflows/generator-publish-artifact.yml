@@ -4,8 +4,8 @@ on:
     inputs:
       test:
         description: 'Release snapshot?'
-        type: string
-        required: false
+        type: boolean
+        required: true
 jobs:
   publish:
     runs-on: ubuntu-latest
