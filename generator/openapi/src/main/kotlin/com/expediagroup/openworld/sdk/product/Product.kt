@@ -15,7 +15,7 @@
  */
 package com.expediagroup.openworld.sdk.product
 
-import com.expediagroup.openworld.sdk.generators.openapi.Constant
+val NON_ALPHANUMERIC_REGEX = Regex("[^a-zA-Z0-9]")
 
 class Product(
     inputNamespace: String,
@@ -26,7 +26,7 @@ class Product(
         ProgrammingLanguage.from(programmingLanguage)
     )
 
-    val namespace: String = inputNamespace.replace(Constant.NON_ALPHANUMERIC_REGEX, "").lowercase()
+    val namespace: String = inputNamespace.replace(NON_ALPHANUMERIC_REGEX, "").lowercase()
 
     val apiPackage: String
         get() = "com.expediagroup.openworld.sdk.$namespace.client"

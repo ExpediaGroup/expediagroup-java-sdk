@@ -15,7 +15,6 @@
  */
 package com.expediagroup.openworld.sdk.generators.openapi
 
-import com.expediagroup.openworld.sdk.generators.openapi.processor.YamlProcessor
 import com.expediagroup.openworld.sdk.model.ClientGenerationException
 import com.expediagroup.openworld.sdk.product.Product
 import com.expediagroup.openworld.sdk.product.ProductFamily
@@ -81,12 +80,9 @@ class OpenApiSdkGenerator {
         try {
             val product = Product(namespace, programmingLanguage)
             val config = CodegenConfigurator().apply {
-                val path = prepareSpecFile()
-                val processedFilePath = preProcessSpecFile(path)
-
                 setGeneratorName("kotlin")
                 setTemplateDir("templates/openworld-sdk")
-                setInputSpec(processedFilePath)
+                setInputSpec(inputFile)
                 setOutputDir(outputDirectory)
                 setArtifactId(product.artifactId)
                 setArtifactVersion(version)
@@ -146,11 +142,6 @@ class OpenApiSdkGenerator {
         } catch (e: Exception) {
             throw ClientGenerationException("Failed to generate SDK", e)
         }
-    }
-
-    private fun preProcessSpecFile(path: String): String {
-        val yamlProcessor = YamlProcessor(path, namespace)
-        return yamlProcessor.process()
     }
 
     private fun prepareSpecFile(): String {
