@@ -91,7 +91,7 @@
         <kotlin.version>1.8.21</kotlin.version>
         <kotlinx.coroutines.version>1.6.4</kotlinx.coroutines.version>
         <kotlinx.serialization.version>1.5.1</kotlinx.serialization.version>
-        <ktor.version>2.3.0</ktor.version>
+        <ktor.version>2.3.1</ktor.version>
         <kotlin-logging.version>3.0.5</kotlin-logging.version>
         <kotlin-atomic.version>0.20.2</kotlin-atomic.version>
         <ktlint.version>0.47.1</ktlint.version>
@@ -106,7 +106,7 @@
         <slf4j.version>2.0.7</slf4j.version>
         <log4j.version>2.20.0</log4j.version>
 
-        <swagger.core.version>2.2.10</swagger.core.version>
+        <swagger.core.version>2.2.11</swagger.core.version>
     </properties>
 
     <dependencyManagement>
@@ -247,7 +247,7 @@
             <dependency>
                 <groupId>com.fasterxml.jackson</groupId>
                 <artifactId>jackson-bom</artifactId>
-                <version>2.15.1</version>
+                <version>2.15.2</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
