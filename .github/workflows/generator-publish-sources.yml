@@ -37,7 +37,6 @@ jobs:
           cp ./specs.yaml ../../release/"${{github.event.inputs.name}}"/specs.yaml
           git checkout -b "${{github.event.inputs.name}}-${{github.event.inputs.version}}"
           git add ../../release/\*
-          git status
           git commit -m "chore: Publish ${{github.event.inputs.name}} [${{github.event.inputs.version}}] SDK"
           git push --set-upstream origin "${{github.event.inputs.name}}-${{github.event.inputs.version}}"
           gh pr create -B origin/main -H "${{github.event.inputs.name}}-${{github.event.inputs.version}}" --title 'chore: Publish ${{github.event.inputs.name}} [${{github.event.inputs.version}}] SDK' --fill
