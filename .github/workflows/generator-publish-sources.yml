@@ -10,9 +10,14 @@ on:
         description: 'SDK Version'
         required: true
         type: string
+      snapshot:
+        description: 'Release snapshot?'
+        type: string
+        required: false
 
 jobs:
   publish:
+    if: github.event.inputs.snapshot == '' # Only publish if not a snapshot.
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
