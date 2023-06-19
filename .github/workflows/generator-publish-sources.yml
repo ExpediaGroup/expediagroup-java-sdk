@@ -1,0 +1,46 @@
+name: Generate and Publish Sources
+on:
+  workflow_call:
+    inputs:
+      name:
+        description: 'SDK Name'
+        required: true
+        type: string
+      version:
+        description: 'SDK Version'
+        required: true
+        type: string
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
+        with:
+          name: sdk
+          path: generator/sdk
+      - uses: actions/download-artifact@v3
+        with:
+          name: specs
+          path: generator/sdk
+      - name: Publish Code
+        working-directory: generator/sdk
+        run: |
+          git config --global user.email "oss@expediagroup.com"
+          git config --global user.name "Expedia Group Open Source"
+          rm -rf ../../release/"${{github.event.inputs.name}}"
+          mkdir -p ../../release/"${{github.event.inputs.name}}"
+          cp -r ./src ../../release/"${{github.event.inputs.name}}"/
+          cp ./pom.xml ../../release/"${{github.event.inputs.name}}"/
+          cp ./README.md ../../release/"${{github.event.inputs.name}}"/
+          cp ./specs.yaml ../../release/"${{github.event.inputs.name}}"/specs.yaml
+          git checkout main
+          git pull
+          git checkout -b "${{github.event.inputs.name}}-${{github.event.inputs.version}}"
+          git add ../../release/\*
+          git commit -m "chore: Publish ${{github.event.inputs.name}} [${{github.event.inputs.version}}] SDK"
+          git push --set-upstream origin "${{github.event.inputs.name}}-${{github.event.inputs.version}}"
+          gh pr create -B main -H "${{github.event.inputs.name}}-${{github.event.inputs.version}}" --title 'chore: Publish ${{github.event.inputs.name}} [${{github.event.inputs.version}}] SDK' --fill
+        env:
+          GH_TOKEN: ${{ github.token }}
