@@ -75,12 +75,12 @@
         <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
         <maven-shade-plugin.version>3.4.1</maven-shade-plugin.version>
         <maven-source-plugin.version>3.3.0</maven-source-plugin.version>
-        <maven-surefire-plugin.version>3.1.0</maven-surefire-plugin.version>
+        <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
         <build-helper-maven-plugin.version>3.4.0</build-helper-maven-plugin.version>
         <exec-maven-plugin.version>3.1.0</exec-maven-plugin.version>
         <ktlint-plugin.version>1.16.0</ktlint-plugin.version>
         <jacoco-plugin.version>0.8.10</jacoco-plugin.version>
-        <dokka-plugin.version>1.8.10</dokka-plugin.version>
+        <dokka-plugin.version>1.8.20</dokka-plugin.version>
         <maven.gpg.plugin.version>3.1.0</maven.gpg.plugin.version>
         <maven.release.plugin.version>3.4.1</maven.release.plugin.version>
         <maven.nexus-staging.plugin.version>1.6.13</maven.nexus-staging.plugin.version>
@@ -88,10 +88,10 @@
         <maven.antrun.plugin.version>3.1.0</maven.antrun.plugin.version>
 
         <!-- Kotlin Compatible Versions -->
-        <kotlin.version>1.8.21</kotlin.version>
+        <kotlin.version>1.8.22</kotlin.version>
         <kotlinx.coroutines.version>1.6.4</kotlinx.coroutines.version>
         <kotlinx.serialization.version>1.5.1</kotlinx.serialization.version>
-        <ktor.version>2.3.0</ktor.version>
+        <ktor.version>2.3.1</ktor.version>
         <kotlin-logging.version>3.0.5</kotlin-logging.version>
         <kotlin-atomic.version>0.20.2</kotlin-atomic.version>
         <ktlint.version>0.47.1</ktlint.version>
@@ -102,11 +102,11 @@
         <assertj.version>3.24.2</assertj.version>
         <junit5.version>5.9.3</junit5.version>
         <mockk.version>1.13.5</mockk.version>
-        <mockito.version>5.3.1</mockito.version>
+        <mockito.version>5.4.0</mockito.version>
         <slf4j.version>2.0.7</slf4j.version>
         <log4j.version>2.20.0</log4j.version>
 
-        <swagger.core.version>2.2.10</swagger.core.version>
+        <swagger.core.version>2.2.12</swagger.core.version>
     </properties>
 
     <dependencyManagement>
@@ -227,7 +227,7 @@
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
-                <version>32.0.0-jre</version>
+                <version>32.0.1-jre</version>
             </dependency>
             <dependency>
                 <groupId>io.swagger.core.v3</groupId>
@@ -247,7 +247,7 @@
             <dependency>
                 <groupId>com.fasterxml.jackson</groupId>
                 <artifactId>jackson-bom</artifactId>
-                <version>2.15.1</version>
+                <version>2.15.2</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -259,12 +259,12 @@
             <dependency>
                 <groupId>org.checkerframework</groupId>
                 <artifactId>checker-qual</artifactId>
-                <version>3.34.0</version>
+                <version>3.35.0</version>
             </dependency>
             <dependency>
                 <groupId>com.google.errorprone</groupId>
                 <artifactId>error_prone_annotations</artifactId>
-                <version>2.19.1</version>
+                <version>2.20.0</version>
             </dependency>
 
         </dependencies>

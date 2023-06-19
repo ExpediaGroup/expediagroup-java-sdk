@@ -2,16 +2,12 @@ name: Generate SDK - Generate
 on:
   workflow_call:
     inputs:
-      version:
-        description: 'generated sdk version'
-        required: true
-        type: string
       name:
-        description: 'generated sdk name'
+        description: 'SDK Name'
         required: true
         type: string
-      fileAsBase64:
-        description: 'generated sdk file as base64 encoded'
+      version:
+        description: 'SDK Version'
         required: true
         type: string
 jobs:
@@ -27,11 +23,15 @@ jobs:
       - id: build
         working-directory: generator
         run: mvn clean install
+      - uses: actions/download-artifact@v3
+        with:
+          name: specs
+          path: generator/openapi
       - name: generate
         working-directory: generator/openapi
         run: |
           mvn clean install
-          mvn exec:java "-Dnamespace=${{ inputs.name }}" -DsdkVersion=${{ inputs.version }} "-Dspec=${{ inputs.fileAsBase64 }}"
+          mvn exec:java "-Dnamespace=${{ inputs.name }}" -DsdkVersion=${{ inputs.version }} "-Dspec=./specs.yaml"
       - uses: actions/upload-artifact@v3
         with:
           name: sdk
