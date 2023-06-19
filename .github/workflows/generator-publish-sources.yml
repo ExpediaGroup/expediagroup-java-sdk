@@ -35,9 +35,9 @@ jobs:
           cp ./pom.xml ../../release/"${{github.event.inputs.name}}"/
           cp ./README.md ../../release/"${{github.event.inputs.name}}"/
           cp ./specs.yaml ../../release/"${{github.event.inputs.name}}"/specs.yaml
+          git checkout main
           echo "Noor 1"
           ls -la
-          git checkout main
           git pull
           git checkout -b "${{github.event.inputs.name}}-${{github.event.inputs.version}}"
           git add ../../release/\*
