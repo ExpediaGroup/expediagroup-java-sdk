@@ -2,35 +2,50 @@ name: Generate SDK - Main
 on:
   workflow_dispatch:
     inputs:
+      name:
+        description: 'SDK Name'
+        required: true
       version:
-        description: 'Generated SDK version'
+        description: 'SDK Version'
         required: false
         default: ''
-      name:
-        description: 'Generated SDK name'
+      specs_url:
+        description: 'URL to download API specs from'
         required: true
-      fileAsBase64:
-        description: 'Generated SDK file as base64 encoded'
-        required: true
+        type: string
       test:
-        description: 'Release snapshot?'
+        description: 'Release a Snapshot? (Leave blank for no, anything else for yes)'
         required: false
 jobs:
   prepare_version:
     uses: ./.github/workflows/generator-prepare-version.yml
     with:
-      version: ${{ github.event.inputs.version }}
       name: ${{ github.event.inputs.name }}
+      version: ${{ github.event.inputs.version }}
+  download_specs:
+    uses: ./.github/workflows/generator-download-specs.yml
+    with:
+      url: ${{ github.event.inputs.specs_url }}
+  transform_specs:
+    needs: [ download_specs ]
+    uses: ./.github/workflows/generator-transform-specs.yml
+    with:
+      configurations: -th -te -tt ${{ github.event.inputs.name }}
   generate:
-    needs: [ prepare_version ]
+    needs: [ prepare_version, transform_specs ]
     uses: ./.github/workflows/generator-generate.yml
     with:
-      version: ${{ needs.prepare_version.outputs.version }}
       name: ${{ github.event.inputs.name }}
-      fileAsBase64: ${{ github.event.inputs.fileAsBase64 }}
-  publish:
+      version: ${{ needs.prepare_version.outputs.version }}
+  publish_sources:
     needs: [ generate ]
-    uses: ./.github/workflows/generator-publish.yml
+    uses: ./.github/workflows/generator-publish-sources.yml
+    with:
+      name: ${{ github.event.inputs.name }}
+      version: ${{ github.event.inputs.version }}
+  publish_artifact:
+    needs: [ publish_sources ]
+    uses: ./.github/workflows/generator-publish-artifact.yml
     secrets: inherit
     with:
       test: ${{ github.event.inputs.test }}
