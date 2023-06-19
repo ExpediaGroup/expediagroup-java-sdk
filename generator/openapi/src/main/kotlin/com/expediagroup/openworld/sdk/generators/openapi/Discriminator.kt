@@ -36,6 +36,7 @@ internal fun getParentDiscriminator(model: CodegenModel): MutableList<Discrimina
     }
     return discriminators
 }
+
 internal data class Discriminator(
     val originalName: String,
     val name: String,
