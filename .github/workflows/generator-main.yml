@@ -22,24 +22,25 @@ on:
         required: false
         default: 'yes'
 
-env:
-  CLIENT: ${{ github.event.inputs.client }} || ${{ github.event.inputs.name }}
-
 jobs:
   prepare_version:
     uses: ./.github/workflows/generator-prepare-version.yml
     with:
       name: ${{ github.event.inputs.name }}
       version: ${{ github.event.inputs.version }}
+  prepare_client:
+    runs-on: ubuntu-latest
+    outputs:
+      client_name: ${{ github.event.inputs.client }} || ${{ github.event.inputs.name }}
   download_specs:
     uses: ./.github/workflows/generator-download-specs.yml
     with:
       url: ${{ github.event.inputs.specs_url }}
   transform_specs:
-    needs: [ download_specs ]
+    needs: [ prepare_client, download_specs ]
     uses: ./.github/workflows/generator-transform-specs.yml
     with:
-      configurations: -th -te -tt ${{ env.CLIENT }}
+      configurations: -th -te -tt ${{ needs.prepare_client.outputs.client_name }}
   generate:
     needs: [ prepare_version, transform_specs ]
     uses: ./.github/workflows/generator-generate.yml
