@@ -36,7 +36,7 @@ jobs:
         run: |
           cd generator/sdk
           if [[ "${{github.event.inputs.production_release}}" == "yes" ]]; then
-              mvn deploy --settings $GITHUB_WORKSPACE/settings.xml -B -U -P release -DskipTests=true
+            mvn deploy --settings $GITHUB_WORKSPACE/settings.xml -B -U -P release -DskipTests=true
           else
             VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
             SNAPSHOT_VERSION="${VERSION%-SNAPSHOT}-SNAPSHOT"
