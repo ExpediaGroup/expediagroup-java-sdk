@@ -32,7 +32,7 @@ jobs:
     with:
       url: ${{ github.event.inputs.specs_url }}
   prepare_client:
-    runs-on: eg-default
+    runs-on: ubuntu-latest
     env:
       CLIENT: ${{ github.event.inputs.client }} || ${{ github.event.inputs.name }}
     steps:
