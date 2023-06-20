@@ -32,6 +32,11 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       client_name: ${{ github.event.inputs.client }} || ${{ github.event.inputs.name }}
+    steps:
+      - name: Print Client Name
+        run: |
+          echo "Client Name: $CLIENT_NAME"
+          echo ${{ github.event.inputs.client }} || ${{ github.event.inputs.name }}
   download_specs:
     uses: ./.github/workflows/generator-download-specs.yml
     with:
