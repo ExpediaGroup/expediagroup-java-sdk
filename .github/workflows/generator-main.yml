@@ -21,6 +21,10 @@ on:
         description: 'Release a Snapshot? (Leave blank for no, anything else for yes)'
         required: false
         default: 'yes'
+
+env:
+  CLIENT: ${{ github.event.inputs.client }} || ${{ github.event.inputs.name }}
+
 jobs:
   prepare_version:
     uses: ./.github/workflows/generator-prepare-version.yml
@@ -31,16 +35,8 @@ jobs:
     uses: ./.github/workflows/generator-download-specs.yml
     with:
       url: ${{ github.event.inputs.specs_url }}
-  prepare_client:
-    runs-on: ubuntu-latest
-    env:
-      CLIENT: ${{ github.event.inputs.client }} || ${{ github.event.inputs.name }}
-    steps:
-      - run: |
-          echo "CLIENT=$CLIENT"
-          echo "CLIENT=$CLIENT" >> $GITHUB_ENV
   transform_specs:
-    needs: [ download_specs, prepare_client ]
+    needs: [ download_specs ]
     uses: ./.github/workflows/generator-transform-specs.yml
     with:
       configurations: -th -te -tt $CLIENT
