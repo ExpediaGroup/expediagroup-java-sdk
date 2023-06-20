@@ -15,7 +15,7 @@ jobs:
   prepare_client:
     runs-on: ubuntu-latest
     outputs:
-      client_name: ${{ steps.prepare_version.outputs.client_name }}
+      client_name: ${{ steps.prepare_client.outputs.client_name }}
     steps:
       - id: prepare_client
         run: |
