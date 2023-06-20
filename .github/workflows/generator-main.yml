@@ -39,7 +39,7 @@ jobs:
     needs: [ download_specs ]
     uses: ./.github/workflows/generator-transform-specs.yml
     with:
-      configurations: -th -te -tt $CLIENT
+      configurations: -th -te -tt ${{ env.CLIENT }}
   generate:
     needs: [ prepare_version, transform_specs ]
     uses: ./.github/workflows/generator-generate.yml
