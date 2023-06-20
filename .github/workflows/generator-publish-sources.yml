@@ -10,10 +10,10 @@ on:
         description: 'SDK Version'
         required: true
         type: string
-      snapshot:
-        description: 'Release snapshot?'
+      production_release:
+        description: 'Release to Production? (yes/no)'
         type: string
-        required: false
+        required: true
 
 jobs:
   publish:
@@ -31,7 +31,7 @@ jobs:
       - name: Publish Code
         working-directory: generator/sdk
         run: |
-          if [ "${{github.event.inputs.snapshot}}" != "" ]; then
+          if [[ "${{github.event.inputs.production_release}}" != "yes" ]]; then
               echo "Skipping publishing sources for a snapshot release"
               exit 0
           fi
