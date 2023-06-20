@@ -13,10 +13,10 @@ on:
         description: 'URL to download API specs from'
         required: true
         type: string
-      snapshot:
-        description: 'Release a Snapshot? (Leave blank for no, anything else for yes)'
+      production_release:
+        description: 'Release to Production? (yes/no)'
         required: false
-        default: 'yes'
+        default: 'no'
 jobs:
   prepare_version:
     uses: ./.github/workflows/generator-prepare-version.yml
@@ -44,10 +44,10 @@ jobs:
     with:
       name: ${{ github.event.inputs.name }}
       version: ${{ github.event.inputs.version }}
-      snapshot: ${{ github.event.inputs.snapshot }}
+      production_release: ${{ github.event.inputs.production_release }}
   publish_artifact:
     needs: [ publish_sources ]
     uses: ./.github/workflows/generator-publish-artifact.yml
     secrets: inherit
     with:
-      snapshot: ${{ github.event.inputs.snapshot }}
+      production_release: ${{ github.event.inputs.production_release }}
