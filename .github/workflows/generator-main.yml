@@ -30,8 +30,11 @@ jobs:
       version: ${{ github.event.inputs.version }}
   prepare_client:
     runs-on: ubuntu-latest
+    outputs:
+      client_name: ${{ steps.print_client_name.outputs.client_name }}
     steps:
       - name: Print Client Name
+        id: print_client_name
         run: |
           if [ -z "${{ github.event.inputs.client }}" ]; then
             echo "client_name=${{ github.event.inputs.name }}" >> $GITHUB_OUTPUT
