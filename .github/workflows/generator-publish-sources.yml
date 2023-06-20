@@ -31,7 +31,7 @@ jobs:
       - name: Publish Code
         working-directory: generator/sdk
         run: |
-          if [ "${{github.event.inputs.snapshot}}" != "" ]; then
+          if [ -z "${{github.event.inputs.snapshot}}" ]; then
               echo "Skipping publishing sources for a snapshot release"
               exit 0
           fi
