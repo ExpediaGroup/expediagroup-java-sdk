@@ -40,7 +40,7 @@ jobs:
           echo "CLIENT=$CLIENT"
           echo "CLIENT=$CLIENT" >> $GITHUB_ENV
   transform_specs:
-    needs: [ download_specs ]
+    needs: [ download_specs, prepare_client ]
     uses: ./.github/workflows/generator-transform-specs.yml
     with:
       configurations: -th -te -tt $CLIENT
