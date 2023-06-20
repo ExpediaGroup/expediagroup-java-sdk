@@ -5,6 +5,10 @@ on:
       name:
         description: 'SDK Name'
         required: true
+      client:
+        description: 'Client Name (SDK Name will be used if not provided)'
+        required: false
+        default: ''
       version:
         description: 'SDK Version'
         required: false
@@ -27,11 +31,19 @@ jobs:
     uses: ./.github/workflows/generator-download-specs.yml
     with:
       url: ${{ github.event.inputs.specs_url }}
+  prepare_client:
+    runs-on: eg-default
+    env:
+      CLIENT: ${{ github.event.inputs.client }} || ${{ github.event.inputs.name }}
+    steps:
+      - run: |
+          echo "CLIENT=$CLIENT"
+          echo "CLIENT=$CLIENT" >> $GITHUB_ENV
   transform_specs:
     needs: [ download_specs ]
     uses: ./.github/workflows/generator-transform-specs.yml
     with:
-      configurations: -th -te -tt ${{ github.event.inputs.name }}
+      configurations: -th -te -tt $CLIENT
   generate:
     needs: [ prepare_version, transform_specs ]
     uses: ./.github/workflows/generator-generate.yml
