@@ -35,8 +35,8 @@ jobs:
     steps:
       - name: Print Client Name
         run: |
-          echo "Client Name: $CLIENT_NAME"
-          echo ${{ github.event.inputs.client }} || ${{ github.event.inputs.name }}
+          echo "client_name=${{ github.event.inputs.client }} || ${{ github.event.inputs.name }}" >> $GITHUB_OUTPUT
+          echo "client_name=${{ github.event.inputs.client }} || ${{ github.event.inputs.name }}"
   download_specs:
     uses: ./.github/workflows/generator-download-specs.yml
     with:
