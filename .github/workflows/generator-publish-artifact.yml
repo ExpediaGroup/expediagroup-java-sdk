@@ -2,10 +2,10 @@ name: Generate SDK - Publish
 on:
   workflow_call:
     inputs:
-      test:
-        description: 'Release snapshot?'
+      production_release:
+        description: 'Release to Production? (yes/no)'
         type: string
-        required: false
+        required: true
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -35,7 +35,7 @@ jobs:
           GPG_PASSPHRASE: ${{ secrets.GPG_PRIVATE_KEY_PASSPHRASE }}
         run: |
           cd generator/sdk
-          if [ -z "${{ github.event.inputs.test }}" ]; then
+          if [[ "${{github.event.inputs.production_release}}" == "yes" ]]; then
             mvn deploy --settings $GITHUB_WORKSPACE/settings.xml -B -U -P release -DskipTests=true
           else
             VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)

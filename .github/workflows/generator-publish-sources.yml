@@ -10,6 +10,10 @@ on:
         description: 'SDK Version'
         required: true
         type: string
+      production_release:
+        description: 'Release to Production? (yes/no)'
+        type: string
+        required: true
 
 jobs:
   publish:
@@ -27,6 +31,10 @@ jobs:
       - name: Publish Code
         working-directory: generator/sdk
         run: |
+          if [[ "${{github.event.inputs.production_release}}" != "yes" ]]; then
+              echo "Skipping publishing sources for a snapshot release"
+              exit 0
+          fi
           git config --global user.email "oss@expediagroup.com"
           git config --global user.name "Expedia Group Open Source"
           rm -rf ../../release/"${{github.event.inputs.name}}"
