@@ -88,12 +88,12 @@
         <maven.antrun.plugin.version>3.1.0</maven.antrun.plugin.version>
 
         <!-- Kotlin Compatible Versions -->
-        <kotlin.version>1.8.22</kotlin.version>
+        <kotlin.version>1.9.0</kotlin.version>
         <kotlinx.coroutines.version>1.6.4</kotlinx.coroutines.version>
         <kotlinx.serialization.version>1.5.1</kotlinx.serialization.version>
         <ktor.version>2.3.1</ktor.version>
         <kotlin-logging.version>3.0.5</kotlin-logging.version>
-        <kotlin-atomic.version>0.20.2</kotlin-atomic.version>
+        <kotlin-atomic.version>0.21.0</kotlin-atomic.version>
         <ktlint.version>0.47.1</ktlint.version>
         <detekt.version>1.23.0</detekt.version>
 
@@ -106,7 +106,7 @@
         <slf4j.version>2.0.7</slf4j.version>
         <log4j.version>2.20.0</log4j.version>
 
-        <swagger.core.version>2.2.12</swagger.core.version>
+        <swagger.core.version>2.2.14</swagger.core.version>
     </properties>
 
     <dependencyManagement>
@@ -227,7 +227,7 @@
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
-                <version>32.0.1-jre</version>
+                <version>32.1.1-jre</version>
             </dependency>
             <dependency>
                 <groupId>io.swagger.core.v3</groupId>
@@ -259,7 +259,7 @@
             <dependency>
                 <groupId>org.checkerframework</groupId>
                 <artifactId>checker-qual</artifactId>
-                <version>3.35.0</version>
+                <version>3.36.0</version>
             </dependency>
             <dependency>
                 <groupId>com.google.errorprone</groupId>
