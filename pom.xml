@@ -88,7 +88,7 @@
         <maven.antrun.plugin.version>3.1.0</maven.antrun.plugin.version>
 
         <!-- Kotlin Compatible Versions -->
-        <kotlin.version>1.8.22</kotlin.version>
+        <kotlin.version>1.9.0</kotlin.version>
         <kotlinx.coroutines.version>1.6.4</kotlinx.coroutines.version>
         <kotlinx.serialization.version>1.5.1</kotlinx.serialization.version>
         <ktor.version>2.3.1</ktor.version>
@@ -259,7 +259,7 @@
             <dependency>
                 <groupId>org.checkerframework</groupId>
                 <artifactId>checker-qual</artifactId>
-                <version>3.35.0</version>
+                <version>3.36.0</version>
             </dependency>
             <dependency>
                 <groupId>com.google.errorprone</groupId>
