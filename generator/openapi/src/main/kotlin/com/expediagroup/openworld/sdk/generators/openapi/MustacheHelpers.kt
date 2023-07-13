@@ -28,7 +28,7 @@ val mustacheHelpers = mapOf(
             val model = fragment.context() as CodegenModel
             getParentDiscriminator(model).forEach {
                 val type: String = (if (it.isEnum) "${it.parentName}." else "") + it.type
-                val value: String = if (!!it.isString) "\"${it.value}\"" else "$type.${it.value}"
+                val value: String = if (it.isString && !it.isEnum) "\"${it.value}\"" else "$type.${it.value}"
                 writer.write("@JsonProperty(\"${it.originalName}\")\n")
                 writer.write("override val ${it.name} : $type = $value\n")
             }
