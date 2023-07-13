@@ -18,7 +18,7 @@ package com.expediagroup.openworld.sdk.generators.openapi
 import org.openapitools.codegen.CodegenModel
 
 internal fun getParentDiscriminator(model: CodegenModel): MutableList<Discriminator> {
-    if (model.parent === null) return mutableListOf()
+    if (model.parentModel === null) return mutableListOf()
     val discriminators: MutableList<Discriminator> = getParentDiscriminator(model.parentModel)
     model.parentModel.vars?.find { it.isDiscriminator }?.let { variable ->
         model.parentModel?.discriminator?.let {
