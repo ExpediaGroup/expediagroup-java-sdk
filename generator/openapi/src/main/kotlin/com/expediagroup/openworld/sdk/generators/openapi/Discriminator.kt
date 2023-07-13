@@ -29,7 +29,8 @@ internal fun getParentDiscriminator(model: CodegenModel): MutableList<Discrimina
                     variable.datatypeWithEnum,
                     it.mappedModels.find { mappedModel -> mappedModel.modelName.equals(model.classname) }!!.mappingName,
                     model.parentModel.name,
-                    variable.isEnum
+                    variable.isEnum,
+                    variable.isString
                 )
             )
         }
@@ -43,5 +44,6 @@ internal data class Discriminator(
     val type: String,
     val value: String,
     val parentName: String,
-    val isEnum: Boolean
+    val isEnum: Boolean,
+    val isString: Boolean
 )
