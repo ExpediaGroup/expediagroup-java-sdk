@@ -13,3 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+package com.expediagroup.openworld.sdk.fraudpreventionv2.models
+
+
+import com.fasterxml.jackson.annotation.JsonProperty
+
+/**
+* The type of the verification used to verify the instrument. If the Card Verfication Value was provided to verify the credit card used for the transaction, `type = CVV`.
+* Values: CVV,_3_DS
+*/
+enum class VerificationType(val value: kotlin.String) {
+    @JsonProperty("CVV")
+    CVV("CVV"),
+    @JsonProperty("3DS")
+    _3_DS("3DS")
+}

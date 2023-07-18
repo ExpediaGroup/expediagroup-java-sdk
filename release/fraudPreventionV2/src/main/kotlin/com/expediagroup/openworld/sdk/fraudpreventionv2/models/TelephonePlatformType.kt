@@ -13,3 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+package com.expediagroup.openworld.sdk.fraudpreventionv2.models
+
+
+import com.fasterxml.jackson.annotation.JsonProperty
+
+/**
+* Classification of the phone platform.
+* Values: MOBILE,LANDLINE,VOIP
+*/
+enum class TelephonePlatformType(val value: kotlin.String) {
+    @JsonProperty("MOBILE")
+    MOBILE("MOBILE"),
+    @JsonProperty("LANDLINE")
+    LANDLINE("LANDLINE"),
+    @JsonProperty("VOIP")
+    VOIP("VOIP")
+}

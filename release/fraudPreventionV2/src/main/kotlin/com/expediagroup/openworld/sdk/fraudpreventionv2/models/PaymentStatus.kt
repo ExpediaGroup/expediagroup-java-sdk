@@ -13,3 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+package com.expediagroup.openworld.sdk.fraudpreventionv2.models
+
+
+import com.fasterxml.jackson.annotation.JsonProperty
+
+/**
+* The status of the payment operation.
+* Values: COMPLETED,FAILED
+*/
+enum class PaymentStatus(val value: kotlin.String) {
+    @JsonProperty("COMPLETED")
+    COMPLETED("COMPLETED"),
+    @JsonProperty("FAILED")
+    FAILED("FAILED")
+}
