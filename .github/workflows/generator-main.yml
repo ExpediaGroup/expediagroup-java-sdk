@@ -45,13 +45,6 @@ jobs:
       name: ${{ github.event.inputs.name }}
       version: ${{ github.event.inputs.version }}
       production_release: ${{ github.event.inputs.production_release }}
-  publish_docs:
-    needs: [ publish_sources ]
-    uses: ./.github/workflows/generator-publish-docs.yml
-    with:
-      name: ${{ github.event.inputs.name }}
-      version: ${{ github.event.inputs.version }}
-      production_release: ${{ github.event.inputs.production_release }}
   publish_artifact:
     needs: [ publish_sources ]
     uses: ./.github/workflows/generator-publish-artifact.yml
