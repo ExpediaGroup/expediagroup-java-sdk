@@ -2,6 +2,7 @@
 import {{import}}
 {{/imports}}
 import {{packageName}}.validation.PropertyConstraintsValidator.validateConstraints
+import {{packageName}}.models.exception.*
 
 import com.expediagroup.openworld.sdk.core.client.{{>client/clientBase}}
 import com.expediagroup.openworld.sdk.core.config.provider.FileConfigurationProvider
@@ -52,11 +53,7 @@ import java.util.UUID
     }
 
     override suspend fun throwServiceException(response: HttpResponse) {
-        runCatching {
-            response.body<Error>()
-        }.getOrThrow().let {
-            throw OpenWorldServiceException(it.toString())
-        }
+        throw ErrorObjectMapper.process(response)
     }
 
 {{#operation}}
@@ -110,8 +107,16 @@ import java.util.UUID
     {{#queryParams}} * @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}
     {{/queryParams}}{{#bodyParams}} * @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}
     {{/bodyParams}} {{#formParams}} * @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}
-    {{/formParams}}* @return {{{returnType}}}{{^returnType}}void{{/returnType}}
+    {{/formParams}}{{#responses}}{{^is2xx}}* @throws OpenWorldClient{{{dataType}}}Exception{{/is2xx}}
+    {{/responses}}* @return {{{returnType}}}{{^returnType}}void{{/returnType}}
     */
+    @Throws(
+        {{#responses}}
+            {{^is2xx}}
+                OpenWorldClient{{{dataType}}}Exception::class{{^-last}},{{/-last}}
+            {{/is2xx}}
+        {{/responses}}
+    )
     @JvmOverloads
     fun {{operationId}}({{>client/apiParamsDecleration}}) : {{{returnType}}}{{^returnType}}Void?{{/returnType}} {
         return {{operationId}}WithResponse({{>client/apiParamsPassed}}){{#returnType}}.body{{/returnType}}
