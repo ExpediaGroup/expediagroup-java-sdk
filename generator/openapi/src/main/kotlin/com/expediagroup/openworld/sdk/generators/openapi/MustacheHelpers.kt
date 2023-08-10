@@ -18,6 +18,7 @@ package com.expediagroup.openworld.sdk.generators.openapi
 import com.samskivert.mustache.Mustache
 import org.openapitools.codegen.CodegenModel
 import org.openapitools.codegen.CodegenProperty
+import org.openapitools.codegen.model.OperationsMap
 
 val mustacheHelpers = mapOf(
     "removeLeadingSlash" to {
@@ -40,6 +41,20 @@ val mustacheHelpers = mapOf(
             val property = fragment.context() as CodegenProperty
             if (!discriminators.contains(property.baseName)) {
                 writer.write(fragment.execute())
+            }
+        }
+    },
+    "defineApiExceptions" to {
+        Mustache.Lambda { fragment, writer ->
+            val dataTypes: MutableSet<String> = mutableSetOf()
+            val operationsMap: OperationsMap = fragment.context() as OperationsMap
+            operationsMap.operations.operation.forEach { operation ->
+                operation.responses.forEach { response ->
+                    response.takeIf { !it.is2xx && !dataTypes.contains(it.dataType) }?.dataType?.also {
+                        writer.write("class OpenWorldClient${it}Exception(code: String, override val errorObject: $it) : OpenWorldClientResponseException(code, errorObject)\n")
+                        dataTypes.add(it)
+                    }
+                }
             }
         }
     }

@@ -1,0 +1,24 @@
+package {{packageName}}.models.exception
+
+import com.expediagroup.openworld.sdk.core.model.exception.client.OpenWorldClientException
+import com.expediagroup.openworld.sdk.core.model.exception.service.OpenWorldServiceException
+import {{packageName}}.models.*
+import io.ktor.client.call.*
+import io.ktor.client.statement.*
+import kotlinx.coroutines.runBlocking
+
+inline fun <reified T> fetchErrorObject(httpResponse: HttpResponse): T = runBlocking {
+    runCatching {
+        httpResponse.body<T>()
+    }.getOrElse {
+        throw OpenWorldServiceException(httpResponse.bodyAsText())
+    }
+}
+
+abstract class OpenWorldClientResponseException(val code: String, open val errorObject: Any) : OpenWorldClientException()
+
+{{#apiInfo}}
+    {{#apis}}
+        {{#defineApiExceptions}}{{/defineApiExceptions}}
+    {{/apis}}
+{{/apiInfo}}
