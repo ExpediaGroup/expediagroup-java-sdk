@@ -15,4 +15,4 @@
  */
 package com.expediagroup.openworld.sdk.core.model.exception.client
 
-abstract class OpenWorldClientResponseException(val code: Int, open val errorObject: Any) : OpenWorldClientException()
+abstract class OpenWorldClientResponseException(val statusCode: Int, open val errorObject: Any) : OpenWorldClientException()
