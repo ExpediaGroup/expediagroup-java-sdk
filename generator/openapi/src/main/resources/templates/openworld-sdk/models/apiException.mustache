@@ -1,6 +1,6 @@
 package {{packageName}}.models.exception
 
-import com.expediagroup.openworld.sdk.core.model.exception.client.OpenWorldClientException
+import com.expediagroup.openworld.sdk.core.model.exception.client.OpenWorldClientResponseException
 import com.expediagroup.openworld.sdk.core.model.exception.service.OpenWorldServiceException
 import {{packageName}}.models.*
 import io.ktor.client.call.*
@@ -14,8 +14,6 @@ internal inline fun <reified T> fetchErrorObject(httpResponse: HttpResponse): T 
         throw OpenWorldServiceException(httpResponse.bodyAsText())
     }
 }
-
-abstract class OpenWorldClientResponseException(val code: String, open val errorObject: Any) : OpenWorldClientException()
 
 {{#apiInfo}}
     {{#apis}}

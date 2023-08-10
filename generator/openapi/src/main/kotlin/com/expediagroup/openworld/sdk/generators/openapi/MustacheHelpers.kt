@@ -51,7 +51,7 @@ val mustacheHelpers = mapOf(
             operationsMap.operations.operation.forEach { operation ->
                 operation.responses.forEach { response ->
                     response.takeIf { !it.is2xx && !dataTypes.contains(it.dataType) }?.dataType?.also {
-                        writer.write("class OpenWorldClient${it}Exception(code: String, override val errorObject: $it) : OpenWorldClientResponseException(code, errorObject)\n")
+                        writer.write("class OpenWorldClient${it}Exception(code: Int, override val errorObject: $it) : OpenWorldClientResponseException(code, errorObject)\n")
                         dataTypes.add(it)
                     }
                 }
