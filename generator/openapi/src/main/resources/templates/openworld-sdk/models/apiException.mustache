@@ -7,7 +7,7 @@ import io.ktor.client.call.*
 import io.ktor.client.statement.*
 import kotlinx.coroutines.runBlocking
 
-inline fun <reified T> fetchErrorObject(httpResponse: HttpResponse): T = runBlocking {
+internal inline fun <reified T> fetchErrorObject(httpResponse: HttpResponse): T = runBlocking {
     runCatching {
         httpResponse.body<T>()
     }.getOrElse {
