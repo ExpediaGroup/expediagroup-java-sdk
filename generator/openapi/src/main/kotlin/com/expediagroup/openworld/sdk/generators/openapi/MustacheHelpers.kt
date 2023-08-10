@@ -57,5 +57,19 @@ val mustacheHelpers = mapOf(
                 }
             }
         }
+    },
+    "listApiExceptionsRanges" to {
+        Mustache.Lambda { fragment, writer ->
+            val dataTypes: MutableSet<String> = mutableSetOf()
+            val operationsMap: OperationsMap = fragment.context() as OperationsMap
+            operationsMap.operations.operation.forEach { operation ->
+                operation.responses.forEach { response ->
+                    response.takeIf { !it.is2xx && !dataTypes.contains(it.dataType) }?.also {
+                        writer.write("HttpStatusCodeRange(\"${it.code}\") { OpenWorldClient${it.dataType}Exception(it.status.value, fetchErrorObject(it) as ${it.dataType}) },\n")
+                        dataTypes.add(it.dataType)
+                    }
+                }
+            }
+        }
     }
 )
