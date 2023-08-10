@@ -34,10 +34,13 @@ jobs:
         run: |
           rm -rf ../../release/"${{github.event.inputs.name}}"
           mkdir -p ../../release/"${{github.event.inputs.name}}"
-          cp -r ./src ../../release/"${{github.event.inputs.name}}"/
-          cp ./pom.xml ../../release/"${{github.event.inputs.name}}"/
-          cp ./README.md ../../release/"${{github.event.inputs.name}}"/
-          cp ./specs.yaml ../../release/"${{github.event.inputs.name}}"/specs.yaml
+
+          cp -r ./src ../../release/"${{github.event.inputs.name}}"/src
+          cp ./pom.xml ../../release/"${{github.event.inputs.name}}"/src
+          cp ./README.md ../../release/"${{github.event.inputs.name}}"/src
+          cp ./specs.yaml ../../release/"${{github.event.inputs.name}}"/src/specs.yaml
+
+          cp -r ./target/dokka ../../release/"${{github.event.inputs.name}}"/docs
       - name: Create PR
         uses: peter-evans/create-pull-request@v5
         with:
