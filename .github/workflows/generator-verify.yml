@@ -16,6 +16,8 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
+      - name: setup core
+        run: mvn clean install
       - id: build-with-maven
         working-directory: generator
         run: mvn clean install -P github-generate-action-profile
