@@ -94,7 +94,7 @@
         <ktor.version>2.3.1</ktor.version>
         <kotlin-logging.version>3.0.5</kotlin-logging.version>
         <kotlin-atomic.version>0.21.0</kotlin-atomic.version>
-        <ktlint.version>0.49.1</ktlint.version>
+        <ktlint.version>0.50.0</ktlint.version>
         <kotlin-atomic.version>0.21.0</kotlin-atomic.version>
         <ktlint.version>0.47.1</ktlint.version>
         <detekt.version>1.22.0</detekt.version>
