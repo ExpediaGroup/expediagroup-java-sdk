@@ -83,7 +83,9 @@ class OpenApiSdkGenerator {
                 setPackageName(product.packageName)
 
                 addGlobalProperty(CodegenConstants.APIS, "")
+                addGlobalProperty(CodegenConstants.API_DOCS, "false")
                 addGlobalProperty(CodegenConstants.MODELS, "")
+                addGlobalProperty(CodegenConstants.MODEL_DOCS, "false")
                 addGlobalProperty(CodegenConstants.SUPPORTING_FILES, supportingFiles.joinToString(","))
 
                 addAdditionalProperty(CodegenConstants.API_SUFFIX, "Client")
