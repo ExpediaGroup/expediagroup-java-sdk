@@ -84,7 +84,7 @@
         </dependency>
 
         <dependency>
-            <groupId>org.hibernate</groupId>
+            <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>7.0.5.Final</version>
         </dependency>
@@ -124,7 +124,6 @@
                         <phase>prepare-package</phase>
                         <goals>
                             <goal>dokka</goal>
-                            <goal>javadocJar</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -137,6 +136,11 @@
                         <plugin>
                             <groupId>org.jetbrains.dokka</groupId>
                             <artifactId>kotlin-as-java-plugin</artifactId>
+                            <version>${dokka-plugin.version}</version>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.jetbrains.dokka</groupId>
+                            <artifactId>gfm-plugin</artifactId>
                             <version>${dokka-plugin.version}</version>
                         </plugin>
                     </dokkaPlugins>
