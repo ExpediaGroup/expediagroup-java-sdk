@@ -93,7 +93,7 @@
         <kotlinx.serialization.version>1.5.1</kotlinx.serialization.version>
         <ktor.version>2.3.1</ktor.version>
         <kotlin-logging.version>3.0.5</kotlin-logging.version>
-        <kotlin-atomic.version>0.21.0</kotlin-atomic.version>
+        <kotlin-atomic.version>0.22.0</kotlin-atomic.version>
         <ktlint.version>0.50.0</ktlint.version>
         <kotlin-atomic.version>0.21.0</kotlin-atomic.version>
         <ktlint.version>0.47.1</ktlint.version>
@@ -103,7 +103,7 @@
         <airline.version>2.9.0</airline.version>
         <assertj.version>3.24.2</assertj.version>
         <junit5.version>5.10.0</junit5.version>
-        <mockk.version>1.13.5</mockk.version>
+        <mockk.version>1.13.7</mockk.version>
         <mockito.version>5.4.0</mockito.version>
         <slf4j.version>2.0.7</slf4j.version>
         <log4j.version>2.20.0</log4j.version>
