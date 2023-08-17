@@ -36,6 +36,7 @@ class OpenApiSdkGenerator {
     private val supportingFiles = listOf(
         "pom.xml",
         "README.md",
+        "ApiException.kt",
         "PropertyConstraintViolation.kt",
         "PropertyConstraintsValidator.kt",
         "PropertyConstraintViolationException.kt"
@@ -113,6 +114,11 @@ class OpenApiSdkGenerator {
                     listOf(
                         SupportingFile("pom.mustache", "pom.xml"),
                         SupportingFile("README.mustache", "README.md"),
+                        SupportingFile(
+                            "models/apiException.mustache",
+                            "$packagePath/models/exception/",
+                            "ApiException.kt"
+                        ),
                         SupportingFile(
                             "validation/propertyConstraintViolationException.mustache",
                             "$packagePath/models/exception/",
