@@ -1,0 +1,50 @@
+package {{packageName}}.models.exception
+
+import com.expediagroup.openworld.sdk.core.model.exception.client.OpenWorldUnsuccessfulStatusCodeException
+import com.expediagroup.openworld.sdk.core.model.exception.service.OpenWorldServiceException
+import {{packageName}}.models.*
+import io.ktor.client.call.*
+import io.ktor.client.statement.*
+import kotlinx.coroutines.runBlocking
+
+internal open class HttpStatusCodeRange(
+    private val statusCode: String,
+    val getException: (HttpResponse) -> OpenWorldUnsuccessfulStatusCodeException
+) : Comparable<HttpStatusCodeRange> {
+    open fun matches(statusCode: String): Boolean = if (isRangeDefinition()) this.statusCode.first() == statusCode.first() else this.statusCode == statusCode
+    open fun isRangeDefinition(): Boolean = statusCode.matches(Regex("^[1-5]XX$"))
+    override fun compareTo(other: HttpStatusCodeRange): Int = (if (this.isRangeDefinition()) 1 else 0).compareTo(if (other.isRangeDefinition()) 1 else 0)
+}
+
+internal object DefaultHttpStatusCodeRange : HttpStatusCodeRange(
+    "DefaultHttpStatusCodeRange",
+    { OpenWorldServiceDefaultErrorException(it.status.value, runBlocking { it.bodyAsText() }) }
+) {
+    override fun matches(statusCode: String): Boolean = true
+    override fun isRangeDefinition(): Boolean = true
+}
+
+internal object ErrorObjectMapper {
+    private val httpStatusCodeRanges: List<HttpStatusCodeRange> = listOf(
+        {{#apiInfo}}
+            {{#apis}}
+                {{#listApiExceptionsRanges}}{{/listApiExceptionsRanges}}
+            {{/apis}}
+        {{/apiInfo}}
+        DefaultHttpStatusCodeRange
+    )
+
+    fun process(httpResponse: HttpResponse): OpenWorldUnsuccessfulStatusCodeException =
+        httpStatusCodeRanges.filter { it.matches(httpResponse.status.value.toString()) }.min().getException(httpResponse)
+
+    private inline fun <reified T> fetchErrorObject(httpResponse: HttpResponse): T = runBlocking {
+        runCatching { httpResponse.body<T>() }.getOrElse { throw OpenWorldServiceException(httpResponse.bodyAsText()) }
+    }
+}
+
+{{#apiInfo}}
+    {{#apis}}
+        {{#defineApiExceptions}}{{/defineApiExceptions}}
+    {{/apis}}
+{{/apiInfo}}
+class OpenWorldServiceDefaultErrorException(code: Int, override val errorObject: String) : OpenWorldUnsuccessfulStatusCodeException(code, errorObject)
