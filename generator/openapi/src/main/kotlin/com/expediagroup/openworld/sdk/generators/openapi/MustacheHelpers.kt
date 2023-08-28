@@ -51,7 +51,7 @@ val mustacheHelpers = mapOf(
             operationsMap.operations.operation.forEach { operation ->
                 operation.responses.forEach { response ->
                     response.takeIf { !it.is2xx && !dataTypes.contains(it.dataType) }?.dataType?.also {
-                        writer.write("class OpenWorldService${it}Exception(code: Int, override val errorObject: $it) : OpenWorldUnsuccessfulStatusCodeException(code, errorObject)\n")
+                        writer.write("class OpenWorldApi${it}Exception(code: Int, override val errorObject: $it) : OpenWorldApiException(code, errorObject)\n")
                         dataTypes.add(it)
                     }
                 }
@@ -65,7 +65,7 @@ val mustacheHelpers = mapOf(
             operationsMap.operations.operation.forEach { operation ->
                 operation.responses.forEach { response ->
                     response.takeIf { !it.is2xx && !errorCodes.contains(it.code) }?.also {
-                        writer.write("HttpStatusCodeRange(\"${it.code}\") { OpenWorldService${it.dataType}Exception(it.status.value, fetchErrorObject(it) as ${it.dataType}) },\n")
+                        writer.write("HttpStatusCodeRange(\"${it.code}\") { OpenWorldApi${it.dataType}Exception(it.status.value, fetchErrorObject(it) as ${it.dataType}) },\n")
                         errorCodes.add(it.code)
                     }
                 }

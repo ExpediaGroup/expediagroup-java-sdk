@@ -107,13 +107,13 @@ import java.util.UUID
     {{#queryParams}} * @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}
     {{/queryParams}}{{#bodyParams}} * @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}
     {{/bodyParams}} {{#formParams}} * @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}
-    {{/formParams}}{{#responses}}{{^is2xx}}* @throws OpenWorldService{{{dataType}}}Exception{{/is2xx}}
+    {{/formParams}}{{#responses}}{{^is2xx}}* @throws OpenWorldApi{{{dataType}}}Exception{{/is2xx}}
     {{/responses}}* @return {{{returnType}}}{{^returnType}}void{{/returnType}}
     */
     @Throws(
         {{#responses}}
             {{^is2xx}}
-                OpenWorldService{{{dataType}}}Exception::class{{^-last}},{{/-last}}
+                OpenWorldApi{{{dataType}}}Exception::class{{^-last}},{{/-last}}
             {{/is2xx}}
         {{/responses}}
     )

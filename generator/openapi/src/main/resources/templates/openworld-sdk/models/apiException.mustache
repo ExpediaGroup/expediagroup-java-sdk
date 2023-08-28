@@ -1,6 +1,6 @@
 package {{packageName}}.models.exception
 
-import com.expediagroup.openworld.sdk.core.model.exception.client.OpenWorldUnsuccessfulStatusCodeException
+import com.expediagroup.openworld.sdk.core.model.exception.service.OpenWorldApiException
 import com.expediagroup.openworld.sdk.core.model.exception.service.OpenWorldServiceException
 import {{packageName}}.models.*
 import io.ktor.client.call.*
@@ -9,7 +9,7 @@ import kotlinx.coroutines.runBlocking
 
 internal open class HttpStatusCodeRange(
     private val statusCode: String,
-    val getException: (HttpResponse) -> OpenWorldUnsuccessfulStatusCodeException
+    val getException: (HttpResponse) -> OpenWorldApiException
 ) : Comparable<HttpStatusCodeRange> {
     open fun matches(statusCode: String): Boolean = if (isRangeDefinition()) this.statusCode.first() == statusCode.first() else this.statusCode == statusCode
     open fun isRangeDefinition(): Boolean = statusCode.matches(Regex("^[1-5]XX$"))
@@ -34,7 +34,7 @@ internal object ErrorObjectMapper {
         DefaultHttpStatusCodeRange
     )
 
-    fun process(httpResponse: HttpResponse): OpenWorldUnsuccessfulStatusCodeException =
+    fun process(httpResponse: HttpResponse): OpenWorldApiException =
         httpStatusCodeRanges.filter { it.matches(httpResponse.status.value.toString()) }.min().getException(httpResponse)
 
     private inline fun <reified T> fetchErrorObject(httpResponse: HttpResponse): T = runBlocking {
@@ -47,4 +47,4 @@ internal object ErrorObjectMapper {
         {{#defineApiExceptions}}{{/defineApiExceptions}}
     {{/apis}}
 {{/apiInfo}}
-class OpenWorldServiceDefaultErrorException(code: Int, override val errorObject: String) : OpenWorldUnsuccessfulStatusCodeException(code, errorObject)
+class OpenWorldServiceDefaultErrorException(code: Int, override val errorObject: String) : OpenWorldApiException(code, errorObject)
