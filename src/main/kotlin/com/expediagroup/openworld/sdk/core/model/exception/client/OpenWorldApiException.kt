@@ -17,4 +17,4 @@ package com.expediagroup.openworld.sdk.core.model.exception.client
 
 import com.expediagroup.openworld.sdk.core.model.exception.service.OpenWorldServiceException
 
-abstract class OpenWorldUnsuccessfulStatusCodeException(val statusCode: Int, open val errorObject: Any) : OpenWorldServiceException(errorObject.toString())
+abstract class OpenWorldApiException(val statusCode: Int, open val errorObject: Any) : OpenWorldServiceException(errorObject.toString())
