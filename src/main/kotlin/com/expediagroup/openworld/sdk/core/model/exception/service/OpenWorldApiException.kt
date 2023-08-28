@@ -13,8 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.openworld.sdk.core.model.exception.client
-
-import com.expediagroup.openworld.sdk.core.model.exception.service.OpenWorldServiceException
+package com.expediagroup.openworld.sdk.core.model.exception.service
 
 abstract class OpenWorldApiException(val statusCode: Int, open val errorObject: Any) : OpenWorldServiceException(errorObject.toString())
