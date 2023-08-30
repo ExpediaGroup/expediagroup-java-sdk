@@ -7,8 +7,7 @@ on:
         required: true
       version:
         description: 'SDK Version'
-        required: false
-        default: ''
+        required: true
       endpoint_prefix:
         description: 'Endpoint to prepend specs paths with'
         required: true
@@ -18,40 +17,39 @@ on:
         required: true
         type: string
       production_release:
-        description: 'Release to Production? (yes/no)'
-        required: false
-        default: 'no'
+        description: 'Release to production? (Yes/No)'
+        required: true
+        type: choice
+        options:
+          - 'Yes'
+          - 'No'
+        default: 'No'
 jobs:
-  prepare_version:
-    uses: ./.github/workflows/generator-prepare-version.yml
-    with:
-      name: ${{ github.event.inputs.name }}
-      version: ${{ github.event.inputs.version }}
   download_specs:
-    uses: ./.github/workflows/generator-download-specs.yml
+    uses: ./.github/workflows/generator-download-specs.yaml
     with:
       url: ${{ github.event.inputs.specs_url }}
   transform_specs:
     needs: [ download_specs ]
-    uses: ./.github/workflows/generator-transform-specs.yml
+    uses: ./.github/workflows/generator-transform-specs.yaml
     with:
       configurations: -th -te ${{ github.event.inputs.endpoint_prefix }} -tt ${{ github.event.inputs.name }}
   generate:
-    needs: [ prepare_version, transform_specs ]
-    uses: ./.github/workflows/generator-generate.yml
-    with:
-      name: ${{ github.event.inputs.name }}
-      version: ${{ needs.prepare_version.outputs.version }}
-  publish_sources:
-    needs: [ generate ]
-    uses: ./.github/workflows/generator-publish-sources.yml
+    needs: [ transform_specs ]
+    uses: ./.github/workflows/generator-generate.yaml
     with:
       name: ${{ github.event.inputs.name }}
       version: ${{ github.event.inputs.version }}
-      production_release: ${{ github.event.inputs.production_release }}
+  publish_sources:
+    if: ${{ github.event.inputs.production_release }}
+    needs: [ generate ]
+    uses: ./.github/workflows/generator-publish-sources.yaml
+    with:
+      name: ${{ github.event.inputs.name }}
+      version: ${{ github.event.inputs.version }}
   publish_artifact:
     needs: [ publish_sources ]
-    uses: ./.github/workflows/generator-publish-artifact.yml
+    uses: ./.github/workflows/generator-publish-artifact.yaml
     secrets: inherit
     with:
       production_release: ${{ github.event.inputs.production_release }}
