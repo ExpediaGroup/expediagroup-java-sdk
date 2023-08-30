@@ -10,10 +10,6 @@ on:
         description: 'SDK Version'
         required: true
         type: string
-      production_release:
-        description: 'Release to Production? (yes/no)'
-        type: string
-        required: true
 
 jobs:
   publish:
@@ -30,7 +26,6 @@ jobs:
           path: generator/sdk
       - name: Add generated source code
         working-directory: generator/sdk
-        if: github.event.inputs.production_release == 'yes'
         run: |
           rm -rf ../../release/"${{github.event.inputs.name}}"
           mkdir -p ../../release/"${{github.event.inputs.name}}"
@@ -49,4 +44,3 @@ jobs:
           title: "chore: Publish ${{github.event.inputs.name}} [${{github.event.inputs.version}}] SDK"
           add-paths: |
             release/*
-
