@@ -19,7 +19,11 @@ on:
       production_release:
         description: 'Release to production? (Yes/No)'
         required: true
-        default: 'Yes'
+        type: choice
+        options:
+          - 'Yes'
+          - 'No'
+        default: 'No'
 jobs:
   download_specs:
     uses: ./.github/workflows/generator-download-specs.yaml
