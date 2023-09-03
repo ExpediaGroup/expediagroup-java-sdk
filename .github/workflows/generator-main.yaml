@@ -49,6 +49,7 @@ jobs:
       version: ${{ github.event.inputs.version }}
   publish_artifact:
     needs: [ publish_sources ]
+    if: "!failure() && !cancelled()"
     uses: ./.github/workflows/generator-publish-artifact.yaml
     secrets: inherit
     with:
