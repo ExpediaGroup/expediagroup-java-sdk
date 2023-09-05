@@ -46,10 +46,10 @@ internal object ErrorObjectMapper {
                 {{/operations}}
             {{/apis}}
         {{/apiInfo}}
-    ).withDefault { defaultHttpStatusCodeRanges }
+    )
 
     fun process(httpResponse: HttpResponse, operationId: String): OpenWorldApiException =
-        httpStatusCodeRanges[operationId]!!.filter { it.matches(httpResponse.status.value.toString()) }.min().getException(httpResponse)
+        httpStatusCodeRanges.getOrDefault(operationId, defaultHttpStatusCodeRanges).filter { it.matches(httpResponse.status.value.toString()) }.min().getException(httpResponse)
 
     private inline fun <reified T> fetchErrorObject(httpResponse: HttpResponse): T = runBlocking {
         runCatching { httpResponse.body<T>() }.getOrElse { throw OpenWorldServiceException(httpResponse.bodyAsText()) }
