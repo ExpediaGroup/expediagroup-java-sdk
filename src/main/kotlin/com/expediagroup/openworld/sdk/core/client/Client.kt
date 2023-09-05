@@ -106,14 +106,14 @@ abstract class Client {
     private fun isNotSuccessfulResponse(response: HttpResponse) = response.status.value !in Constant.SUCCESSFUL_STATUS_CODES_RANGE
 
     @Suppress("unused") // This is used by the product SDKs.
-    suspend fun throwIfError(response: HttpResponse) {
+    suspend fun throwIfError(response: HttpResponse, operationId: String) {
         if (isNotSuccessfulResponse(response)) {
             log.info(LoggingMessageProvider.getResponseUnsuccessfulMessage(response.status))
-            throwServiceException(response)
+            throwServiceException(response, operationId)
         }
     }
 
-    abstract suspend fun throwServiceException(response: HttpResponse)
+    abstract suspend fun throwServiceException(response: HttpResponse, operationId: String)
 
     /**
      * A [Client] builder.
