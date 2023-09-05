@@ -47,13 +47,13 @@ internal object ClientFactory {
 
     fun createOpenWorldClient(mockEngine: MockEngine): OpenWorldClient = createOpenWorldClient(mockEngine, openWorldConfiguration)
     fun createOpenWorldClient(mockEngine: HttpClientEngine, configuration: OpenWorldClientConfiguration): OpenWorldClient = object : OpenWorldClient(configuration, mockEngine) {
-        override suspend fun throwServiceException(response: HttpResponse) {
+        override suspend fun throwServiceException(response: HttpResponse, operationId: String) {
             throw OpenWorldServiceException("Dummy service exception")
         }
     }
 
     fun createRapidClient(mockEngine: HttpClientEngine): BaseRapidClient = object : BaseRapidClient(rapidConfiguration, mockEngine) {
-        override suspend fun throwServiceException(response: HttpResponse) {
+        override suspend fun throwServiceException(response: HttpResponse, operationId: String) {
             throw OpenWorldServiceException("Dummy service exception")
         }
     }
