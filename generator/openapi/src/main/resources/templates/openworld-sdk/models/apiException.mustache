@@ -25,17 +25,31 @@ internal object DefaultHttpStatusCodeRange : HttpStatusCodeRange(
 }
 
 internal object ErrorObjectMapper {
-    private val httpStatusCodeRanges: List<HttpStatusCodeRange> = listOf(
+    private val defaultHttpStatusCodeRanges = listOf(DefaultHttpStatusCodeRange)
+    private val httpStatusCodeRanges: Map< String, List< HttpStatusCodeRange > > = mapOf(
         {{#apiInfo}}
             {{#apis}}
-                {{#listApiExceptionsRanges}}{{/listApiExceptionsRanges}}
+                {{#operations}}
+                    {{#operation}}
+                        Pair(
+                            "{{operationId}}",
+                            listOf(
+                                {{#responses}}
+                                    {{^is2xx}}
+                                        HttpStatusCodeRange("{{code}}") { OpenWorldApi{{dataType}}Exception(it.status.value, fetchErrorObject(it) as {{dataType}}) },
+                                    {{/is2xx}}
+                                {{/responses}}
+                                DefaultHttpStatusCodeRange
+                            )
+                        ){{^-last}},{{/-last}}
+                    {{/operation}}
+                {{/operations}}
             {{/apis}}
         {{/apiInfo}}
-        DefaultHttpStatusCodeRange
-    )
+    ).withDefault { defaultHttpStatusCodeRanges }
 
-    fun process(httpResponse: HttpResponse): OpenWorldApiException =
-        httpStatusCodeRanges.filter { it.matches(httpResponse.status.value.toString()) }.min().getException(httpResponse)
+    fun process(httpResponse: HttpResponse, operationId: String): OpenWorldApiException =
+        httpStatusCodeRanges[operationId]!!.filter { it.matches(httpResponse.status.value.toString()) }.min().getException(httpResponse)
 
     private inline fun <reified T> fetchErrorObject(httpResponse: HttpResponse): T = runBlocking {
         runCatching { httpResponse.body<T>() }.getOrElse { throw OpenWorldServiceException(httpResponse.bodyAsText()) }
