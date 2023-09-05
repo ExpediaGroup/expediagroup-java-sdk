@@ -11,7 +11,7 @@ jobs:
   verify-core:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: "JDK set-up"
         uses: actions/setup-java@v3
         with:
