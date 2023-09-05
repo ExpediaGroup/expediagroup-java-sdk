@@ -52,8 +52,8 @@ import java.util.UUID
         headers.append("User-agent", userAgent)
     }
 
-    override suspend fun throwServiceException(response: HttpResponse) {
-        throw ErrorObjectMapper.process(response)
+    override suspend fun throwServiceException(response: HttpResponse, operationId: String) {
+        throw ErrorObjectMapper.process(response, operationId)
     }
 
 {{#operation}}
@@ -96,7 +96,7 @@ import java.util.UUID
             {{/hasFormParams}}
         {{/hasBodyParam}}
         }
-        throwIfError(response)
+        throwIfError(response, "{{operationId}}")
         return {{^returnType}}null{{/returnType}}{{#returnType}}Response(response.body<{{{returnType}}}>(), toHeadersMap(response.headers.entries())){{/returnType}}
     }
     {{^isKotlin}}
