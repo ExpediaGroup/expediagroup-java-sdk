@@ -3,8 +3,8 @@ on:
   workflow_call:
     inputs:
       production_release:
-        description: 'Release to Production? (Yes/No)'
-        type: string
+        description: 'Release to Production'
+        type: boolean
         required: true
 jobs:
   publish:
@@ -35,7 +35,7 @@ jobs:
           GPG_PASSPHRASE: ${{ secrets.GPG_PRIVATE_KEY_PASSPHRASE }}
         run: |
           cd generator/sdk
-          if [[ "${{github.event.inputs.production_release}}" == "Yes" ]]; then
+          if [[ "${{github.event.inputs.production_release}}" == "true" ]]; then
             mvn deploy --settings $GITHUB_WORKSPACE/settings.xml -B -U -P release -DskipTests=true
           else
             VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
