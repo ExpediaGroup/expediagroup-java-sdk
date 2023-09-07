@@ -16,7 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
@@ -26,8 +25,10 @@ import com.fasterxml.jackson.annotation.JsonProperty
 enum class TelephonePlatformType(val value: kotlin.String) {
     @JsonProperty("MOBILE")
     MOBILE("MOBILE"),
+
     @JsonProperty("LANDLINE")
     LANDLINE("LANDLINE"),
+
     @JsonProperty("VOIP")
     VOIP("VOIP")
 }

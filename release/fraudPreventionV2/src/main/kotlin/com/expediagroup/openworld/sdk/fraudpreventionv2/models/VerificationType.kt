@@ -16,7 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
@@ -26,6 +25,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 enum class VerificationType(val value: kotlin.String) {
     @JsonProperty("CVV")
     CVV("CVV"),
+
     @JsonProperty("3DS")
     _3_DS("3DS")
 }

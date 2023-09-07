@@ -16,8 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.RailSegments
-
 /*
  * Copyright (C) 2022 Expedia, Inc.
  *
@@ -34,37 +32,25 @@ import com.expediagroup.openworld.sdk.fraudpreventionv2.models.RailSegments
  * limitations under the License.
  */
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.constraints.Size
+import jakarta.validation.Valid
 
 /**
- * 
- * @param routeType The type of route or itinerary for the Rail product, indicating the travel arrangement and pattern. Possible values are: - `MULTIPLE_DESTINATIONS` - The Rail product includes multiple destinations in its itinerary. - `ONE_WAY` - The Rail product represents a one-way journey. - `ROUNDTRIP` - The Rail product represents a roundtrip journey. 
- * @param railSegments 
+ *
+ * @param routeType The type of route or itinerary for the Rail product, indicating the travel arrangement and pattern. Possible values are: - `MULTIPLE_DESTINATIONS` - The Rail product includes multiple destinations in its itinerary. - `ONE_WAY` - The Rail product represents a one-way journey. - `ROUNDTRIP` - The Rail product represents a roundtrip journey.
+ * @param railSegments
  */
 data class RailAllOf(
     /* The type of route or itinerary for the Rail product, indicating the travel arrangement and pattern. Possible values are: - `MULTIPLE_DESTINATIONS` - The Rail product includes multiple destinations in its itinerary. - `ONE_WAY` - The Rail product represents a one-way journey. - `ROUNDTRIP` - The Rail product represents a roundtrip journey.  */
-@JsonProperty("route_type")
-
+    @JsonProperty("route_type")
     val routeType: RailAllOf.RouteType,
 
     @JsonProperty("rail_segments")
-
-    
     @field:Size(min = 1, max = 20)
-    
-    
     @field:Valid
     val railSegments: kotlin.collections.List<RailSegments>
 ) {
-    
-
 
     companion object {
         @JvmStatic
@@ -98,18 +84,17 @@ data class RailAllOf(
     }
 
     /**
-     * The type of route or itinerary for the Rail product, indicating the travel arrangement and pattern. Possible values are: - `MULTIPLE_DESTINATIONS` - The Rail product includes multiple destinations in its itinerary. - `ONE_WAY` - The Rail product represents a one-way journey. - `ROUNDTRIP` - The Rail product represents a roundtrip journey. 
+     * The type of route or itinerary for the Rail product, indicating the travel arrangement and pattern. Possible values are: - `MULTIPLE_DESTINATIONS` - The Rail product includes multiple destinations in its itinerary. - `ONE_WAY` - The Rail product represents a one-way journey. - `ROUNDTRIP` - The Rail product represents a roundtrip journey.
      * Values: MULTIPLE_DESTINATIONS,ONE_WAY,ROUND_TRIP
      */
     enum class RouteType(val value: kotlin.String) {
         @JsonProperty("MULTIPLE_DESTINATIONS")
         MULTIPLE_DESTINATIONS("MULTIPLE_DESTINATIONS"),
-        
+
         @JsonProperty("ONE_WAY")
         ONE_WAY("ONE_WAY"),
-        
+
         @JsonProperty("ROUND_TRIP")
-        ROUND_TRIP("ROUND_TRIP");
+        ROUND_TRIP("ROUND_TRIP")
     }
 }
-

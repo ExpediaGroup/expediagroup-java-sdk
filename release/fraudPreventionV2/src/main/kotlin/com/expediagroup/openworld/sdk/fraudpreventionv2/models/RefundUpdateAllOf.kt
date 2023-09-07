@@ -16,7 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-
 /*
  * Copyright (C) 2022 Expedia, Inc.
  *
@@ -33,27 +32,17 @@ package com.expediagroup.openworld.sdk.fraudpreventionv2.models
  * limitations under the License.
  */
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.Length;
 
 /**
- * 
- * @param refundStatus Identifies the refund status. Possible values are: -`ISSUED` - The refund was issued. -`SETTLED` - The refund was settled. 
+ *
+ * @param refundStatus Identifies the refund status. Possible values are: -`ISSUED` - The refund was issued. -`SETTLED` - The refund was settled.
  */
 data class RefundUpdateAllOf(
     /* Identifies the refund status. Possible values are: -`ISSUED` - The refund was issued. -`SETTLED` - The refund was settled.  */
-@JsonProperty("refund_status")
-
+    @JsonProperty("refund_status")
     val refundStatus: RefundUpdateAllOf.RefundStatus
 ) {
-    
-
 
     companion object {
         @JvmStatic
@@ -81,15 +70,14 @@ data class RefundUpdateAllOf(
     }
 
     /**
-     * Identifies the refund status. Possible values are: -`ISSUED` - The refund was issued. -`SETTLED` - The refund was settled. 
+     * Identifies the refund status. Possible values are: -`ISSUED` - The refund was issued. -`SETTLED` - The refund was settled.
      * Values: ISSUED,SETTLED
      */
     enum class RefundStatus(val value: kotlin.String) {
         @JsonProperty("ISSUED")
         ISSUED("ISSUED"),
-        
+
         @JsonProperty("SETTLED")
-        SETTLED("SETTLED");
+        SETTLED("SETTLED")
     }
 }
-
