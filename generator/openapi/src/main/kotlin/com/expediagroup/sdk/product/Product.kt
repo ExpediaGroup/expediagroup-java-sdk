@@ -32,7 +32,7 @@ class Product(
         get() = "com.expediagroup.sdk.$namespace.client"
 
     val artifactId: String
-        get() = "expediagroup-${programmingLanguage.id}-$namespace-sdk"
+        get() = "$namespace-sdk"
 
     val packagePath: String
         get() = "src/main/kotlin/com/expediagroup/sdk/$namespace"
