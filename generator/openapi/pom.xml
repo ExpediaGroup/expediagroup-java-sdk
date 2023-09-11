@@ -8,7 +8,7 @@
     <version>1.1.0</version>
     <name>EG SDK Tooling :: Generators :: OpenAPI</name>
     <description>SDK Generator for building SDKs based on OpenAPI specs</description>
-    <url>https://github.com/ExpediaGroup/expediagroup-sdk-java-generators/tree/main/openapi</url>
+    <url>https://github.com/ExpediaGroup/expediagroup-java-sdk-generators/tree/main/openapi</url>
     <inceptionYear>2022</inceptionYear>
 
     <licenses>
@@ -29,9 +29,9 @@
     </developers>
 
     <scm>
-        <connection>scm:git:git@github.com:ExpediaGroup/expediagroup-sdk-java.git/travel-sdk-generators-openapi</connection>
-        <developerConnection>scm:git:git@github.com:ExpediaGroup/expediagroup-sdk-java.git/travel-sdk-generators-openapi</developerConnection>
-        <url>https://github.com/ExpediaGroup/expediagroup-sdk-java/travel-sdk-generators-openapi</url>
+        <connection>scm:git:git@github.com:ExpediaGroup/expediagroup-java-sdk.git/travel-sdk-generators-openapi</connection>
+        <developerConnection>scm:git:git@github.com:ExpediaGroup/expediagroup-java-sdk.git/travel-sdk-generators-openapi</developerConnection>
+        <url>https://github.com/ExpediaGroup/expediagroup-java-sdk/travel-sdk-generators-openapi</url>
     </scm>
 
     <distributionManagement>

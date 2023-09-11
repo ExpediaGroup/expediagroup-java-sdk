@@ -9,7 +9,7 @@
     <description>Core Modules of EG Travel SDK</description>
     <version>${revision}</version>
     <inceptionYear>2022</inceptionYear>
-    <url>https://github.com/ExpediaGroup/expediagroup-sdk-java-core</url>
+    <url>https://github.com/ExpediaGroup/expediagroup-java-sdk-core</url>
 
     <licenses>
         <license>
@@ -29,9 +29,9 @@
     </developers>
 
     <scm>
-        <connection>scm:git:git@github.com:ExpediaGroup/expediagroup-sdk-java-core.git</connection>
-        <developerConnection>scm:git:git@github.com:ExpediaGroup/expediagroup-sdk-java-core.git</developerConnection>
-        <url>https://github.com/ExpediaGroup/expediagroup-sdk-java-core</url>
+        <connection>scm:git:git@github.com:ExpediaGroup/expediagroup-java-sdk-core.git</connection>
+        <developerConnection>scm:git:git@github.com:ExpediaGroup/expediagroup-java-sdk-core.git</developerConnection>
+        <url>https://github.com/ExpediaGroup/expediagroup-java-sdk-core</url>
         <tag>HEAD</tag>
     </scm>
 
