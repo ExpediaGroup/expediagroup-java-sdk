@@ -781,7 +781,6 @@
         <dependency>
             <groupId>io.ktor</groupId>
             <artifactId>ktor-serialization-jackson-jvm</artifactId>
-            <version>2.3.4</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -795,37 +794,30 @@
         <dependency>
             <groupId>io.ktor</groupId>
             <artifactId>ktor-client-core-jvm</artifactId>
-            <version>2.3.4</version>
         </dependency>
         <dependency>
             <groupId>io.ktor</groupId>
             <artifactId>ktor-client-okhttp-jvm</artifactId>
-            <version>2.3.4</version>
         </dependency>
         <dependency>
             <groupId>io.ktor</groupId>
             <artifactId>ktor-client-auth-jvm</artifactId>
-            <version>2.3.4</version>
         </dependency>
         <dependency>
             <groupId>io.ktor</groupId>
             <artifactId>ktor-client-content-negotiation-jvm</artifactId>
-            <version>2.3.4</version>
         </dependency>
         <dependency>
             <groupId>io.ktor</groupId>
             <artifactId>ktor-http-jvm</artifactId>
-            <version>2.3.4</version>
         </dependency>
         <dependency>
             <groupId>io.ktor</groupId>
             <artifactId>ktor-utils-jvm</artifactId>
-            <version>2.3.4</version>
         </dependency>
         <dependency>
             <groupId>io.ktor</groupId>
             <artifactId>ktor-client-logging-jvm</artifactId>
-            <version>2.3.4</version>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlinx</groupId>
@@ -834,17 +826,14 @@
         <dependency>
             <groupId>io.ktor</groupId>
             <artifactId>ktor-io-jvm</artifactId>
-            <version>2.3.4</version>
         </dependency>
         <dependency>
             <groupId>io.ktor</groupId>
             <artifactId>ktor-serialization-jvm</artifactId>
-            <version>2.3.4</version>
         </dependency>
         <dependency>
             <groupId>io.ktor</groupId>
             <artifactId>ktor-client-encoding-jvm</artifactId>
-            <version>2.3.4</version>
         </dependency>
 
         <dependency>
@@ -865,7 +854,6 @@
         <dependency>
             <groupId>io.ktor</groupId>
             <artifactId>ktor-client-mock-jvm</artifactId>
-            <version>2.3.4</version>
             <scope>test</scope>
         </dependency>
         <dependency>
