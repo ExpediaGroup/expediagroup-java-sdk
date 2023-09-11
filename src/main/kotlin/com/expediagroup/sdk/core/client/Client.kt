@@ -35,9 +35,9 @@ import com.expediagroup.sdk.core.plugin.encoding.EncodingPlugin
 import com.expediagroup.sdk.core.plugin.hooks
 import com.expediagroup.sdk.core.plugin.httptimeout.HttpTimeoutConfiguration
 import com.expediagroup.sdk.core.plugin.httptimeout.HttpTimeoutPlugin
+import com.expediagroup.sdk.core.plugin.logging.ExpediaGroupLoggerFactory
 import com.expediagroup.sdk.core.plugin.logging.LoggingConfiguration
 import com.expediagroup.sdk.core.plugin.logging.LoggingPlugin
-import com.expediagroup.sdk.core.plugin.logging.ExpediaGroupLoggerFactory
 import com.expediagroup.sdk.core.plugin.plugins
 import com.expediagroup.sdk.core.plugin.request.DefaultRequestConfiguration
 import com.expediagroup.sdk.core.plugin.request.DefaultRequestPlugin
