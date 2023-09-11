@@ -3,12 +3,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.expediagroup.openworld.sdk</groupId>
+    <groupId>com.expediagroup.sdk</groupId>
     <artifactId>travel-sdk-generators-openapi</artifactId>
     <version>1.1.0</version>
-    <name>EG Open World SDK Tooling :: Generators :: OpenAPI</name>
+    <name>EG SDK Tooling :: Generators :: OpenAPI</name>
     <description>SDK Generator for building SDKs based on OpenAPI specs</description>
-    <url>https://github.com/ExpediaGroup/openworld-sdk-java-generators/tree/main/openapi</url>
+    <url>https://github.com/ExpediaGroup/expediagroup-sdk-java-generators/tree/main/openapi</url>
     <inceptionYear>2022</inceptionYear>
 
     <licenses>
@@ -29,9 +29,9 @@
     </developers>
 
     <scm>
-        <connection>scm:git:git@github.com:ExpediaGroup/openworld-sdk-java.git/travel-sdk-generators-openapi</connection>
-        <developerConnection>scm:git:git@github.com:ExpediaGroup/openworld-sdk-java.git/travel-sdk-generators-openapi</developerConnection>
-        <url>https://github.com/ExpediaGroup/openworld-sdk-java/travel-sdk-generators-openapi</url>
+        <connection>scm:git:git@github.com:ExpediaGroup/expediagroup-sdk-java.git/travel-sdk-generators-openapi</connection>
+        <developerConnection>scm:git:git@github.com:ExpediaGroup/expediagroup-sdk-java.git/travel-sdk-generators-openapi</developerConnection>
+        <url>https://github.com/ExpediaGroup/expediagroup-sdk-java/travel-sdk-generators-openapi</url>
     </scm>
 
     <distributionManagement>
@@ -57,7 +57,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!-- Generator executable class -->
-        <mainClass>com.expediagroup.openworld.sdk.generators.openapi.OpenApiSdkGenerator</mainClass>
+        <mainClass>com.expediagroup.sdk.generators.openapi.OpenApiSdkGenerator</mainClass>
 
         <!-- Test/Develop Default Arguments -->
         <spec>${project.basedir}/src/test/resources/specs.yaml</spec>
