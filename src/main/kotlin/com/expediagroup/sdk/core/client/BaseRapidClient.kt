@@ -31,8 +31,8 @@ import io.ktor.client.engine.HttpClientEngine
  */
 abstract class BaseRapidClient(
     clientConfiguration: RapidClientConfiguration,
-    httpClientEngine: HttpClientEngine = _root_ide_package_.com.expediagroup.sdk.core.client.DEFAULT_HTTP_CLIENT_ENGINE
-) : com.expediagroup.sdk.core.client.Client() {
+    httpClientEngine: HttpClientEngine = DEFAULT_HTTP_CLIENT_ENGINE
+) : Client() {
     private val configurationProvider: ConfigurationProvider = ConfigurationCollector.create(
         clientConfiguration.toProvider(),
         RapidConfigurationProvider

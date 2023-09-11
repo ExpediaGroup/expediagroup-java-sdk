@@ -52,11 +52,11 @@ internal object ClientFactory {
         }
     }
 
-    fun createRapidClient(mockEngine: HttpClientEngine): _root_ide_package_.com.expediagroup.sdk.core.client.BaseRapidClient = object : _root_ide_package_.com.expediagroup.sdk.core.client.BaseRapidClient(rapidConfiguration, mockEngine) {
+    fun createRapidClient(mockEngine: HttpClientEngine): BaseRapidClient = object : BaseRapidClient(rapidConfiguration, mockEngine) {
         override suspend fun throwServiceException(response: HttpResponse, operationId: String) {
             throw ExpediaGroupServiceException("Dummy service exception")
         }
     }
 
-    fun createRapidClient(): _root_ide_package_.com.expediagroup.sdk.core.client.BaseRapidClient = createRapidClient(MockEngineFactory.createEmptyResponseEngine())
+    fun createRapidClient(): BaseRapidClient = createRapidClient(MockEngineFactory.createEmptyResponseEngine())
 }
