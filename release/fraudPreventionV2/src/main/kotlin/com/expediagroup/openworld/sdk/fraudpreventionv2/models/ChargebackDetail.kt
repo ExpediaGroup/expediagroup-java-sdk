@@ -16,8 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.Amount
-
 /*
  * Copyright (C) 2022 Expedia, Inc.
  *
@@ -34,60 +32,41 @@ import com.expediagroup.openworld.sdk.fraudpreventionv2.models.Amount
  * limitations under the License.
  */
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.Valid
+import org.hibernate.validator.constraints.Length
 
 /**
  * Details related to the chargeback.
- * @param chargebackStatus Identifies the chargeback status. Possible values are: -`RECEIVED` - The chargeback was received. -`REVERSAL` - The chargeback reversal was received. 
+ * @param chargebackStatus Identifies the chargeback status. Possible values are: -`RECEIVED` - The chargeback was received. -`REVERSAL` - The chargeback reversal was received.
  * @param chargebackReason Reason for chargeback which can be `Fraud` or `Non Fraud`.
- * @param chargebackAmount 
+ * @param chargebackAmount
  * @param bankReasonCode Unique code provided by the acquiring bank for the category of fraud.
  * @param chargebackReportedDateTime Date and time when the chargeback was reported to the partner, in ISO-8061 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`.
  */
 data class ChargebackDetail(
     /* Identifies the chargeback status. Possible values are: -`RECEIVED` - The chargeback was received. -`REVERSAL` - The chargeback reversal was received.  */
-@JsonProperty("chargeback_status")
-
+    @JsonProperty("chargeback_status")
     val chargebackStatus: ChargebackDetail.ChargebackStatus,
 
     /* Reason for chargeback which can be `Fraud` or `Non Fraud`. */
-@JsonProperty("chargeback_reason")
-
+    @JsonProperty("chargeback_reason")
     val chargebackReason: ChargebackDetail.ChargebackReason,
 
     @JsonProperty("chargeback_amount")
-
-    
-    
-    
-    
     @field:Valid
     val chargebackAmount: Amount,
 
     /* Unique code provided by the acquiring bank for the category of fraud. */
-@JsonProperty("bank_reason_code")
-
+    @JsonProperty("bank_reason_code")
     @field:Length(max = 200)
-    
-    
-    
     @field:Valid
     val bankReasonCode: kotlin.String? = null,
 
     /* Date and time when the chargeback was reported to the partner, in ISO-8061 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`. */
-@JsonProperty("chargeback_reported_date_time")
-
+    @JsonProperty("chargeback_reported_date_time")
     val chargebackReportedDateTime: java.time.OffsetDateTime? = null
 ) {
-    
-
 
     companion object {
         @JvmStatic
@@ -133,15 +112,15 @@ data class ChargebackDetail(
     }
 
     /**
-     * Identifies the chargeback status. Possible values are: -`RECEIVED` - The chargeback was received. -`REVERSAL` - The chargeback reversal was received. 
+     * Identifies the chargeback status. Possible values are: -`RECEIVED` - The chargeback was received. -`REVERSAL` - The chargeback reversal was received.
      * Values: RECEIVED,REVERSAL
      */
     enum class ChargebackStatus(val value: kotlin.String) {
         @JsonProperty("RECEIVED")
         RECEIVED("RECEIVED"),
-        
+
         @JsonProperty("REVERSAL")
-        REVERSAL("REVERSAL");
+        REVERSAL("REVERSAL")
     }
 
     /**
@@ -151,9 +130,8 @@ data class ChargebackDetail(
     enum class ChargebackReason(val value: kotlin.String) {
         @JsonProperty("FRAUD")
         FRAUD("FRAUD"),
-        
+
         @JsonProperty("NON_FRAUD")
-        NON_FRAUD("NON_FRAUD");
+        NON_FRAUD("NON_FRAUD")
     }
 }
-

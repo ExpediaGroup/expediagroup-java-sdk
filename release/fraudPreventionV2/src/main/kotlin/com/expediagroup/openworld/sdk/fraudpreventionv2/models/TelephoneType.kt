@@ -16,22 +16,25 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
-* Classification of the phone (e.g. `Home`, `Mobile`). 
+* Classification of the phone (e.g. `Home`, `Mobile`).
 * Values: HOME,MOBILE,BUSINESS,FAX,OTHER
 */
 enum class TelephoneType(val value: kotlin.String) {
     @JsonProperty("HOME")
     HOME("HOME"),
+
     @JsonProperty("MOBILE")
     MOBILE("MOBILE"),
+
     @JsonProperty("BUSINESS")
     BUSINESS("BUSINESS"),
+
     @JsonProperty("FAX")
     FAX("FAX"),
+
     @JsonProperty("OTHER")
     OTHER("OTHER")
 }

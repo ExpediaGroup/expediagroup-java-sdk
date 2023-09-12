@@ -16,7 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-
 /*
  * Copyright (C) 2022 Expedia, Inc.
  *
@@ -33,14 +32,9 @@ package com.expediagroup.openworld.sdk.fraudpreventionv2.models
  * limitations under the License.
  */
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.Valid
+import org.hibernate.validator.constraints.Length
 
 /**
  * Group of attributes intended to hold information about a customer or traveler's name for the order.
@@ -52,57 +46,35 @@ import org.hibernate.validator.constraints.Length;
  */
 data class Name(
     /* Surname, or last name, of the person. */
-@JsonProperty("last_name")
-
+    @JsonProperty("last_name")
     @field:Length(max = 200)
-    
-    
-    
     @field:Valid
     val lastName: kotlin.String,
 
     /* Given, or first name, of the person. */
-@JsonProperty("first_name")
-
+    @JsonProperty("first_name")
     @field:Length(max = 200)
-    
-    
-    
     @field:Valid
     val firstName: kotlin.String,
 
     /* Middle name of the person. */
-@JsonProperty("middle_name")
-
+    @JsonProperty("middle_name")
     @field:Length(max = 200)
-    
-    
-    
     @field:Valid
     val middleName: kotlin.String? = null,
 
     /* Title of the person for name (e.g. Mr., Ms. etc). */
-@JsonProperty("title")
-
+    @JsonProperty("title")
     @field:Length(max = 200)
-    
-    
-    
     @field:Valid
     val title: kotlin.String? = null,
 
     /* Generational designations (e.g. Sr, Jr, III) or values that indicate the individual holds a position, educational degree, accreditation, office, or honor (e.g. PhD, CCNA, OBE). */
-@JsonProperty("suffix")
-
+    @JsonProperty("suffix")
     @field:Length(max = 50)
-    
-    
-    
     @field:Valid
     val suffix: kotlin.String? = null
 ) {
-    
-
 
     companion object {
         @JvmStatic
@@ -144,4 +116,3 @@ data class Name(
         }
     }
 }
-

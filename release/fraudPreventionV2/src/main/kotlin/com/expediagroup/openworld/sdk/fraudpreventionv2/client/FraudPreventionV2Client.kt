@@ -16,51 +16,41 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.client
 
-import kotlinx.coroutines.runBlocking
-import java.util.stream.Collectors
-import kotlin.collections.Map.Entry
-
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.BadGatewayError
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.BadRequestError
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.ForbiddenError
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.GatewayTimeoutError
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.InternalServerError
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.NotFoundError
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.OrderPurchaseScreenRequest
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.OrderPurchaseScreenResponse
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.OrderPurchaseUpdateNotFoundError
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.OrderPurchaseUpdateRequest
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.OrderPurchaseUpdateResponse
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.ServiceUnavailableError
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.TooManyRequestsError
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.UnauthorizedError
-import com.expediagroup.openworld.sdk.fraudpreventionv2.validation.PropertyConstraintsValidator.validateConstraints
-
 import com.expediagroup.openworld.sdk.core.client.OpenWorldClient
 import com.expediagroup.openworld.sdk.core.config.provider.FileConfigurationProvider
 import com.expediagroup.openworld.sdk.core.configuration.OpenWorldClientConfiguration
 import com.expediagroup.openworld.sdk.core.model.exception.OpenWorldException
-import com.expediagroup.openworld.sdk.core.model.exception.service.OpenWorldServiceException
-
+import com.expediagroup.openworld.sdk.fraudpreventionv2.models.AccountScreenRequest
+import com.expediagroup.openworld.sdk.fraudpreventionv2.models.AccountScreenResponse
+import com.expediagroup.openworld.sdk.fraudpreventionv2.models.AccountUpdateRequest
+import com.expediagroup.openworld.sdk.fraudpreventionv2.models.AccountUpdateResponse
+import com.expediagroup.openworld.sdk.fraudpreventionv2.models.OrderPurchaseScreenRequest
+import com.expediagroup.openworld.sdk.fraudpreventionv2.models.OrderPurchaseScreenResponse
+import com.expediagroup.openworld.sdk.fraudpreventionv2.models.OrderPurchaseUpdateRequest
+import com.expediagroup.openworld.sdk.fraudpreventionv2.models.OrderPurchaseUpdateResponse
+import com.expediagroup.openworld.sdk.fraudpreventionv2.models.exception.*
+import com.expediagroup.openworld.sdk.fraudpreventionv2.validation.PropertyConstraintsValidator.validateConstraints
 import io.ktor.client.call.body
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.request
 import io.ktor.client.request.setBody
 import io.ktor.client.request.url
 import io.ktor.client.statement.HttpResponse
+import io.ktor.http.ContentType
 import io.ktor.http.HttpMethod
 import io.ktor.http.contentType
-import io.ktor.http.ContentType
-import io.ktor.http.ParametersBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.future.future
+import kotlinx.coroutines.runBlocking
 import java.util.UUID
+import java.util.stream.Collectors
+import kotlin.collections.Map.Entry
 
 /**
-* 
+*
 */
- class FraudPreventionV2Client private constructor(clientConfiguration: OpenWorldClientConfiguration) : OpenWorldClient(clientConfiguration){
+class FraudPreventionV2Client private constructor(clientConfiguration: OpenWorldClientConfiguration) : OpenWorldClient(clientConfiguration) {
     private val loader = FileConfigurationProvider()[javaClass.classLoader.getResource("sdk.properties")!!]
     private val javaVersion = System.getProperty("java.version")
     private val operatingSystemName = System.getProperty("os.name")
@@ -69,7 +59,7 @@ import java.util.UUID
 
     class Builder : OpenWorldClient.Builder<Builder>() {
         override fun build(): FraudPreventionV2Client = FraudPreventionV2Client(
-            OpenWorldClientConfiguration(key, secret, endpoint, requestTimeout , authEndpoint)
+            OpenWorldClientConfiguration(key, secret, endpoint, requestTimeout, authEndpoint)
         )
     }
 
@@ -83,46 +73,63 @@ import java.util.UUID
         headers.append("User-agent", userAgent)
     }
 
-    override suspend fun throwServiceException(response: HttpResponse) {
-        runCatching {
-            response.body<Error>()
-        }.getOrThrow().let {
-            throw OpenWorldServiceException(it.toString())
-        }
+    override suspend fun throwServiceException(response: HttpResponse, operationId: String) {
+        throw ErrorObjectMapper.process(response, operationId)
     }
 
-    private suspend inline fun kscreen(orderPurchaseScreenRequest: OrderPurchaseScreenRequest, transactionId: UUID = UUID.randomUUID()): OrderPurchaseScreenResponse {
-        return kscreenWithResponse(orderPurchaseScreenRequest, transactionId).body
+    private suspend inline fun knotifyWithAccountUpdate(accountUpdateRequest: AccountUpdateRequest, transactionId: UUID = UUID.randomUUID()): AccountUpdateResponse {
+        return knotifyWithAccountUpdateWithResponse(accountUpdateRequest, transactionId).body
     }
 
-    private suspend inline fun kscreenWithResponse(orderPurchaseScreenRequest: OrderPurchaseScreenRequest, transactionId: UUID = UUID.randomUUID()): Response<OrderPurchaseScreenResponse> {
+    private suspend inline fun knotifyWithAccountUpdateWithResponse(accountUpdateRequest: AccountUpdateRequest, transactionId: UUID = UUID.randomUUID()): Response<AccountUpdateResponse> {
         val response = httpClient.request {
             method = HttpMethod.parse("POST")
-            url("fraud-prevention/v2/order/purchase/screen")
+            url("fraud-prevention/v2/account/update")
             appendHeaders(transactionId)
-            validateConstraints(orderPurchaseScreenRequest)
+            validateConstraints(accountUpdateRequest)
             contentType(ContentType.Application.Json)
-            setBody(orderPurchaseScreenRequest)
+            setBody(accountUpdateRequest)
         }
-        throwIfError(response)
-        return Response(response.body<OrderPurchaseScreenResponse>(), toHeadersMap(response.headers.entries()))
+        throwIfError(response, "notifyWithAccountUpdate")
+        return Response(response.body<AccountUpdateResponse>(), toHeadersMap(response.headers.entries()))
     }
 
     /**
-    * Run fraud screening for one transaction
-    * The Order Purchase API gives a Fraud recommendation for a transaction. A recommendation can be Accept, Reject, or Review. A transaction is marked as Review whenever there are insufficient signals to recommend Accept or Reject. These incidents are manually reviewed, and a corrected recommendation is made asynchronously. 
-     * @param orderPurchaseScreenRequest 
-     * @return OrderPurchaseScreenResponse
-    */
+     * Send an update as a result of an account screen transaction
+     * The Account Update API is called when there is an account lifecycle transition such as a challenge outcome, account restoration, or remediation action completion. For example, if a user&#39;s account is disabled, deleted, or restored, the Account Update API is called to notify Expedia Group about the change. The Account Update API is also called when a user responds to a login Multi-Factor Authentication based on a Fraud recommendation.
+     * @param accountUpdateRequest An AccountUpdate request may be of one of the following types &#x60;MULTI_FACTOR_AUTHENTICATION_UPDATE&#x60;, &#x60;REMEDIATION_UPDATE&#x60;.
+
+     * @throws OpenWorldApiAccountTakeoverBadRequestErrorException
+     * @throws OpenWorldApiAccountTakeoverUnauthorizedErrorException
+     * @throws OpenWorldApiForbiddenErrorException
+     * @throws OpenWorldApiAccountUpdateNotFoundErrorException
+     * @throws OpenWorldApiTooManyRequestsErrorException
+     * @throws OpenWorldApiInternalServerErrorException
+     * @throws OpenWorldApiBadGatewayErrorException
+     * @throws OpenWorldApiAccountTakeoverServiceUnavailableErrorException
+     * @throws OpenWorldApiGatewayTimeoutErrorException
+     * @return AccountUpdateResponse
+     */
+    @Throws(
+        OpenWorldApiAccountTakeoverBadRequestErrorException::class,
+        OpenWorldApiAccountTakeoverUnauthorizedErrorException::class,
+        OpenWorldApiForbiddenErrorException::class,
+        OpenWorldApiAccountUpdateNotFoundErrorException::class,
+        OpenWorldApiTooManyRequestsErrorException::class,
+        OpenWorldApiInternalServerErrorException::class,
+        OpenWorldApiBadGatewayErrorException::class,
+        OpenWorldApiAccountTakeoverServiceUnavailableErrorException::class,
+        OpenWorldApiGatewayTimeoutErrorException::class
+    )
     @JvmOverloads
-    fun screen(orderPurchaseScreenRequest: OrderPurchaseScreenRequest, transactionId: UUID = UUID.randomUUID()) : OrderPurchaseScreenResponse {
-        return screenWithResponse(orderPurchaseScreenRequest, transactionId).body
+    fun notifyWithAccountUpdate(accountUpdateRequest: AccountUpdateRequest, transactionId: UUID = UUID.randomUUID()): AccountUpdateResponse {
+        return notifyWithAccountUpdateWithResponse(accountUpdateRequest, transactionId).body
     }
 
-    private fun screenWithResponse(orderPurchaseScreenRequest: OrderPurchaseScreenRequest, transactionId: UUID = UUID.randomUUID()) : Response<OrderPurchaseScreenResponse> {
+    private fun notifyWithAccountUpdateWithResponse(accountUpdateRequest: AccountUpdateRequest, transactionId: UUID = UUID.randomUUID()): Response<AccountUpdateResponse> {
         try {
             return GlobalScope.future(Dispatchers.IO) {
-                kscreenWithResponse(orderPurchaseScreenRequest, transactionId)
+                knotifyWithAccountUpdateWithResponse(accountUpdateRequest, transactionId)
             }.get()
         } catch (exception: Exception) {
             if (exception is OpenWorldException) throw exception
@@ -133,11 +140,11 @@ import java.util.UUID
             }
         }
     }
-    private suspend inline fun kupdate(orderPurchaseUpdateRequest: OrderPurchaseUpdateRequest, transactionId: UUID = UUID.randomUUID()): OrderPurchaseUpdateResponse {
-        return kupdateWithResponse(orderPurchaseUpdateRequest, transactionId).body
+    private suspend inline fun knotifyWithOrderUpdate(orderPurchaseUpdateRequest: OrderPurchaseUpdateRequest, transactionId: UUID = UUID.randomUUID()): OrderPurchaseUpdateResponse {
+        return knotifyWithOrderUpdateWithResponse(orderPurchaseUpdateRequest, transactionId).body
     }
 
-    private suspend inline fun kupdateWithResponse(orderPurchaseUpdateRequest: OrderPurchaseUpdateRequest, transactionId: UUID = UUID.randomUUID()): Response<OrderPurchaseUpdateResponse> {
+    private suspend inline fun knotifyWithOrderUpdateWithResponse(orderPurchaseUpdateRequest: OrderPurchaseUpdateRequest, transactionId: UUID = UUID.randomUUID()): Response<OrderPurchaseUpdateResponse> {
         val response = httpClient.request {
             method = HttpMethod.parse("POST")
             url("fraud-prevention/v2/order/purchase/update")
@@ -146,25 +153,172 @@ import java.util.UUID
             contentType(ContentType.Application.Json)
             setBody(orderPurchaseUpdateRequest)
         }
-        throwIfError(response)
+        throwIfError(response, "notifyWithOrderUpdate")
         return Response(response.body<OrderPurchaseUpdateResponse>(), toHeadersMap(response.headers.entries()))
     }
 
     /**
-    * Send an update for a transaction
-    * The Order Purchase Update API is called when the status of the order has changed.  For example, if the customer cancels the reservation, changes reservation in any way, or adds additional products or travelers to the reservation, the Order Purchase Update API is called to notify Expedia Group about the change.  The Order Purchase Update API is also called when the merchant cancels or changes an order based on a Fraud recommendation. 
-     * @param orderPurchaseUpdateRequest An OrderPurchaseUpdate request may be of one of the following types &#x60;ORDER_UPDATE&#x60;, &#x60;CHARGEBACK_FEEDBACK&#x60;, &#x60;INSULT_FEEDBACK&#x60;, &#x60;REFUND_UPDATE&#x60;, &#x60;PAYMENT_UPDATE&#x60;. 
+     * Send an update for a transaction
+     * The Order Purchase Update API is called when the status of the order has changed.  For example, if the customer cancels the reservation, changes reservation in any way, or adds additional products or travelers to the reservation, the Order Purchase Update API is called to notify Expedia Group about the change.  The Order Purchase Update API is also called when the merchant cancels or changes an order based on a Fraud recommendation.
+     * @param orderPurchaseUpdateRequest An OrderPurchaseUpdate request may be of one of the following types &#x60;ORDER_UPDATE&#x60;, &#x60;CHARGEBACK_FEEDBACK&#x60;, &#x60;INSULT_FEEDBACK&#x60;, &#x60;REFUND_UPDATE&#x60;, &#x60;PAYMENT_UPDATE&#x60;.
+
+     * @throws OpenWorldApiBadRequestErrorException
+     * @throws OpenWorldApiUnauthorizedErrorException
+     * @throws OpenWorldApiForbiddenErrorException
+     * @throws OpenWorldApiOrderPurchaseUpdateNotFoundErrorException
+     * @throws OpenWorldApiTooManyRequestsErrorException
+     * @throws OpenWorldApiInternalServerErrorException
+     * @throws OpenWorldApiBadGatewayErrorException
+     * @throws OpenWorldApiServiceUnavailableErrorException
+     * @throws OpenWorldApiGatewayTimeoutErrorException
      * @return OrderPurchaseUpdateResponse
-    */
+     */
+    @Throws(
+        OpenWorldApiBadRequestErrorException::class,
+        OpenWorldApiUnauthorizedErrorException::class,
+        OpenWorldApiForbiddenErrorException::class,
+        OpenWorldApiOrderPurchaseUpdateNotFoundErrorException::class,
+        OpenWorldApiTooManyRequestsErrorException::class,
+        OpenWorldApiInternalServerErrorException::class,
+        OpenWorldApiBadGatewayErrorException::class,
+        OpenWorldApiServiceUnavailableErrorException::class,
+        OpenWorldApiGatewayTimeoutErrorException::class
+    )
     @JvmOverloads
-    fun update(orderPurchaseUpdateRequest: OrderPurchaseUpdateRequest, transactionId: UUID = UUID.randomUUID()) : OrderPurchaseUpdateResponse {
-        return updateWithResponse(orderPurchaseUpdateRequest, transactionId).body
+    fun notifyWithOrderUpdate(orderPurchaseUpdateRequest: OrderPurchaseUpdateRequest, transactionId: UUID = UUID.randomUUID()): OrderPurchaseUpdateResponse {
+        return notifyWithOrderUpdateWithResponse(orderPurchaseUpdateRequest, transactionId).body
     }
 
-    private fun updateWithResponse(orderPurchaseUpdateRequest: OrderPurchaseUpdateRequest, transactionId: UUID = UUID.randomUUID()) : Response<OrderPurchaseUpdateResponse> {
+    private fun notifyWithOrderUpdateWithResponse(orderPurchaseUpdateRequest: OrderPurchaseUpdateRequest, transactionId: UUID = UUID.randomUUID()): Response<OrderPurchaseUpdateResponse> {
         try {
             return GlobalScope.future(Dispatchers.IO) {
-                kupdateWithResponse(orderPurchaseUpdateRequest, transactionId)
+                knotifyWithOrderUpdateWithResponse(orderPurchaseUpdateRequest, transactionId)
+            }.get()
+        } catch (exception: Exception) {
+            if (exception is OpenWorldException) throw exception
+
+            when (val cause = exception.cause) {
+                is OpenWorldException -> throw cause
+                else -> throw OpenWorldException("OpenWorld Error", exception)
+            }
+        }
+    }
+    private suspend inline fun kscreenAccount(accountScreenRequest: AccountScreenRequest, transactionId: UUID = UUID.randomUUID()): AccountScreenResponse {
+        return kscreenAccountWithResponse(accountScreenRequest, transactionId).body
+    }
+
+    private suspend inline fun kscreenAccountWithResponse(accountScreenRequest: AccountScreenRequest, transactionId: UUID = UUID.randomUUID()): Response<AccountScreenResponse> {
+        val response = httpClient.request {
+            method = HttpMethod.parse("POST")
+            url("fraud-prevention/v2/account/screen")
+            appendHeaders(transactionId)
+            validateConstraints(accountScreenRequest)
+            contentType(ContentType.Application.Json)
+            setBody(accountScreenRequest)
+        }
+        throwIfError(response, "screenAccount")
+        return Response(response.body<AccountScreenResponse>(), toHeadersMap(response.headers.entries()))
+    }
+
+    /**
+     * Run fraud screening for one transaction
+     * The Account Screen API gives a Fraud recommendation for an account transaction. A recommendation can be ACCEPT, CHALLENGE, or REJECT. A transaction is marked as CHALLENGE whenever there are insufficient signals to recommend ACCEPT or REJECT. These CHALLENGE incidents are manually reviewed, and a corrected recommendation is made asynchronously.
+     * @param accountScreenRequest
+
+     * @throws OpenWorldApiAccountTakeoverBadRequestErrorException
+     * @throws OpenWorldApiAccountTakeoverUnauthorizedErrorException
+     * @throws OpenWorldApiForbiddenErrorException
+     * @throws OpenWorldApiNotFoundErrorException
+     * @throws OpenWorldApiTooManyRequestsErrorException
+     * @throws OpenWorldApiInternalServerErrorException
+     * @throws OpenWorldApiBadGatewayErrorException
+     * @throws OpenWorldApiAccountTakeoverServiceUnavailableErrorException
+     * @throws OpenWorldApiGatewayTimeoutErrorException
+     * @return AccountScreenResponse
+     */
+    @Throws(
+        OpenWorldApiAccountTakeoverBadRequestErrorException::class,
+        OpenWorldApiAccountTakeoverUnauthorizedErrorException::class,
+        OpenWorldApiForbiddenErrorException::class,
+        OpenWorldApiNotFoundErrorException::class,
+        OpenWorldApiTooManyRequestsErrorException::class,
+        OpenWorldApiInternalServerErrorException::class,
+        OpenWorldApiBadGatewayErrorException::class,
+        OpenWorldApiAccountTakeoverServiceUnavailableErrorException::class,
+        OpenWorldApiGatewayTimeoutErrorException::class
+    )
+    @JvmOverloads
+    fun screenAccount(accountScreenRequest: AccountScreenRequest, transactionId: UUID = UUID.randomUUID()): AccountScreenResponse {
+        return screenAccountWithResponse(accountScreenRequest, transactionId).body
+    }
+
+    private fun screenAccountWithResponse(accountScreenRequest: AccountScreenRequest, transactionId: UUID = UUID.randomUUID()): Response<AccountScreenResponse> {
+        try {
+            return GlobalScope.future(Dispatchers.IO) {
+                kscreenAccountWithResponse(accountScreenRequest, transactionId)
+            }.get()
+        } catch (exception: Exception) {
+            if (exception is OpenWorldException) throw exception
+
+            when (val cause = exception.cause) {
+                is OpenWorldException -> throw cause
+                else -> throw OpenWorldException("OpenWorld Error", exception)
+            }
+        }
+    }
+    private suspend inline fun kscreenOrder(orderPurchaseScreenRequest: OrderPurchaseScreenRequest, transactionId: UUID = UUID.randomUUID()): OrderPurchaseScreenResponse {
+        return kscreenOrderWithResponse(orderPurchaseScreenRequest, transactionId).body
+    }
+
+    private suspend inline fun kscreenOrderWithResponse(orderPurchaseScreenRequest: OrderPurchaseScreenRequest, transactionId: UUID = UUID.randomUUID()): Response<OrderPurchaseScreenResponse> {
+        val response = httpClient.request {
+            method = HttpMethod.parse("POST")
+            url("fraud-prevention/v2/order/purchase/screen")
+            appendHeaders(transactionId)
+            validateConstraints(orderPurchaseScreenRequest)
+            contentType(ContentType.Application.Json)
+            setBody(orderPurchaseScreenRequest)
+        }
+        throwIfError(response, "screenOrder")
+        return Response(response.body<OrderPurchaseScreenResponse>(), toHeadersMap(response.headers.entries()))
+    }
+
+    /**
+     * Run fraud screening for one transaction
+     * The Order Purchase API gives a Fraud recommendation for a transaction. A recommendation can be Accept, Reject, or Review. A transaction is marked as Review whenever there are insufficient signals to recommend Accept or Reject. These incidents are manually reviewed, and a corrected recommendation is made asynchronously.
+     * @param orderPurchaseScreenRequest
+
+     * @throws OpenWorldApiBadRequestErrorException
+     * @throws OpenWorldApiUnauthorizedErrorException
+     * @throws OpenWorldApiForbiddenErrorException
+     * @throws OpenWorldApiNotFoundErrorException
+     * @throws OpenWorldApiTooManyRequestsErrorException
+     * @throws OpenWorldApiInternalServerErrorException
+     * @throws OpenWorldApiBadGatewayErrorException
+     * @throws OpenWorldApiServiceUnavailableErrorException
+     * @throws OpenWorldApiGatewayTimeoutErrorException
+     * @return OrderPurchaseScreenResponse
+     */
+    @Throws(
+        OpenWorldApiBadRequestErrorException::class,
+        OpenWorldApiUnauthorizedErrorException::class,
+        OpenWorldApiForbiddenErrorException::class,
+        OpenWorldApiNotFoundErrorException::class,
+        OpenWorldApiTooManyRequestsErrorException::class,
+        OpenWorldApiInternalServerErrorException::class,
+        OpenWorldApiBadGatewayErrorException::class,
+        OpenWorldApiServiceUnavailableErrorException::class,
+        OpenWorldApiGatewayTimeoutErrorException::class
+    )
+    @JvmOverloads
+    fun screenOrder(orderPurchaseScreenRequest: OrderPurchaseScreenRequest, transactionId: UUID = UUID.randomUUID()): OrderPurchaseScreenResponse {
+        return screenOrderWithResponse(orderPurchaseScreenRequest, transactionId).body
+    }
+
+    private fun screenOrderWithResponse(orderPurchaseScreenRequest: OrderPurchaseScreenRequest, transactionId: UUID = UUID.randomUUID()): Response<OrderPurchaseScreenResponse> {
+        try {
+            return GlobalScope.future(Dispatchers.IO) {
+                kscreenOrderWithResponse(orderPurchaseScreenRequest, transactionId)
             }.get()
         } catch (exception: Exception) {
             if (exception is OpenWorldException) throw exception
@@ -183,10 +337,7 @@ import java.util.UUID
             appendHeaders(UUID.randomUUID())
         }
     }
-
-    
 }
-
 
 class Paginator<T>(
     private val client: FraudPreventionV2Client,

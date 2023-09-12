@@ -16,7 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-
 /*
  * Copyright (C) 2022 Expedia, Inc.
  *
@@ -33,17 +32,12 @@ package com.expediagroup.openworld.sdk.fraudpreventionv2.models
  * limitations under the License.
  */
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.Valid
+import org.hibernate.validator.constraints.Length
 
 /**
- * 
+ *
  * @param airlineCode Airline code of the trip segment
  * @param departureAirportCode Departure airport of the trip segment
  * @param arrivalAirportCode Arrival airport of the trip segment
@@ -52,47 +46,31 @@ import org.hibernate.validator.constraints.Length;
  */
 data class AirSegment(
     /* Airline code of the trip segment */
-@JsonProperty("airline_code")
-
+    @JsonProperty("airline_code")
     @field:Length(max = 10)
-    
-    
-    
     @field:Valid
     val airlineCode: kotlin.String,
 
     /* Departure airport of the trip segment */
-@JsonProperty("departure_airport_code")
-
+    @JsonProperty("departure_airport_code")
     @field:Length(max = 10)
-    
-    
-    
     @field:Valid
     val departureAirportCode: kotlin.String,
 
     /* Arrival airport of the trip segment */
-@JsonProperty("arrival_airport_code")
-
+    @JsonProperty("arrival_airport_code")
     @field:Length(max = 10)
-    
-    
-    
     @field:Valid
     val arrivalAirportCode: kotlin.String,
 
     /* Local date and time of departure from departure location, in ISO-8061 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`. */
-@JsonProperty("departure_time")
-
+    @JsonProperty("departure_time")
     val departureTime: java.time.OffsetDateTime? = null,
 
     /* Local date and time of arrival to destination location, in ISO-8061 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`. */
-@JsonProperty("arrival_time")
-
+    @JsonProperty("arrival_time")
     val arrivalTime: java.time.OffsetDateTime? = null
 ) {
-    
-
 
     companion object {
         @JvmStatic
@@ -137,4 +115,3 @@ data class AirSegment(
         }
     }
 }
-

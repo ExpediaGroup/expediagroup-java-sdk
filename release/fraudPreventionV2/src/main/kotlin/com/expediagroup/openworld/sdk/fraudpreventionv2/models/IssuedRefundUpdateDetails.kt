@@ -16,8 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.Amount
-
 /*
  * Copyright (C) 2022 Expedia, Inc.
  *
@@ -34,37 +32,23 @@ import com.expediagroup.openworld.sdk.fraudpreventionv2.models.Amount
  * limitations under the License.
  */
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.Valid
 
 /**
  * Data that describes issued refund that should be updated.
  * @param refundIssuedDateTime Date and time when the 3rd party payment processor confirmed that a previously submitted payment refund has issued at the participating financial institutions.
- * @param refundIssuedAmount 
+ * @param refundIssuedAmount
  */
 data class IssuedRefundUpdateDetails(
     /* Date and time when the 3rd party payment processor confirmed that a previously submitted payment refund has issued at the participating financial institutions. */
-@JsonProperty("refund_issued_date_time")
-
+    @JsonProperty("refund_issued_date_time")
     val refundIssuedDateTime: java.time.OffsetDateTime,
 
     @JsonProperty("refund_issued_amount")
-
-    
-    
-    
-    
     @field:Valid
     val refundIssuedAmount: Amount
 ) {
-    
-
 
     companion object {
         @JvmStatic
@@ -97,4 +81,3 @@ data class IssuedRefundUpdateDetails(
         }
     }
 }
-

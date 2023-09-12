@@ -16,8 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.PaymentStatus
-
 /*
  * Copyright (C) 2022 Expedia, Inc.
  *
@@ -34,53 +32,33 @@ import com.expediagroup.openworld.sdk.fraudpreventionv2.models.PaymentStatus
  * limitations under the License.
  */
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.Valid
+import org.hibernate.validator.constraints.Length
 
 /**
- * 
- * @param status 
+ *
+ * @param status
  * @param code A mnemonic code for the payment processing.
  * @param description A short description providing additional explanation regarding the mnemonic code.
  */
 data class PaymentOutcome(
     @JsonProperty("status")
-
-    
-    
-    
-    
     @field:Valid
     val status: PaymentStatus? = null,
 
     /* A mnemonic code for the payment processing. */
-@JsonProperty("code")
-
+    @JsonProperty("code")
     @field:Length(max = 200)
-    
-    
-    
     @field:Valid
     val code: kotlin.String? = null,
 
     /* A short description providing additional explanation regarding the mnemonic code. */
-@JsonProperty("description")
-
+    @JsonProperty("description")
     @field:Length(max = 200)
-    
-    
-    
     @field:Valid
     val description: kotlin.String? = null
 ) {
-    
-
 
     companion object {
         @JvmStatic
@@ -103,7 +81,5 @@ data class PaymentOutcome(
                 description = description
             )
         }
-
     }
 }
-

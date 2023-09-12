@@ -16,9 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.TelephonePlatformType
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.TelephoneType
-
 /*
  * Copyright (C) 2022 Expedia, Inc.
  *
@@ -35,22 +32,18 @@ import com.expediagroup.openworld.sdk.fraudpreventionv2.models.TelephoneType
  * limitations under the License.
  */
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.constraints.Pattern
+import jakarta.validation.Valid
+import org.hibernate.validator.constraints.Length
 
 /**
  * Group of attributes intended to hold information about phone number associated with the transaction.  A user can have one to many phone numbers (home, work, mobile, etc.).
  * @param countryAccessCode Numeric digit between 1 to 3 characters used to represent the country code for international dialing.  Does not include symbols, spaces, or leading zeros.
  * @param areaCode A number prefixed to an individual telephone number: used in making long-distance calls.  Does not include symbols, spaces, or leading zeros.
  * @param phoneNumber A number that is dialed on a telephone, without the country or area codes, to reach a particular person, business, etc.  Does not include symbols, spaces, or leading zeros.
- * @param type 
- * @param platformType 
+ * @param type
+ * @param platformType
  * @param extensionNumber The number used to reach an individual once a phone connection is established.  Does not include symbols, spaces, or leading zeros.
  * @param preferenceRank Ranking of order of user preference for contact via text (if type is Mobile) or voice.  `0` means no preference.  `1` is the primary phone, `2` is the secondary phone, etc.
  * @param lastVerifiedDateTime Local date and time user validated possession of their phone number via a text or voice multi factor authentication challenge, in ISO-8061 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`.
@@ -58,90 +51,55 @@ import org.hibernate.validator.constraints.Length;
  */
 data class Telephone(
     /* Numeric digit between 1 to 3 characters used to represent the country code for international dialing.  Does not include symbols, spaces, or leading zeros. */
-@JsonProperty("country_access_code")
-@field:Pattern(regexp = "^[0-9]{1,3}$")
+    @JsonProperty("country_access_code")
+    @field:Pattern(regexp = "^[0-9]{1,3}$")
     @field:Length(max = 3)
-    
-    
-    
     @field:Valid
     val countryAccessCode: kotlin.String,
 
     /* A number prefixed to an individual telephone number: used in making long-distance calls.  Does not include symbols, spaces, or leading zeros. */
-@JsonProperty("area_code")
-@field:Pattern(regexp = "^[0-9]{1,20}$")
+    @JsonProperty("area_code")
+    @field:Pattern(regexp = "^[0-9]{1,20}$")
     @field:Length(max = 20)
-    
-    
-    
     @field:Valid
     val areaCode: kotlin.String,
 
     /* A number that is dialed on a telephone, without the country or area codes, to reach a particular person, business, etc.  Does not include symbols, spaces, or leading zeros. */
-@JsonProperty("phone_number")
-@field:Pattern(regexp = "^[0-9]{1,50}$")
+    @JsonProperty("phone_number")
+    @field:Pattern(regexp = "^[0-9]{1,50}$")
     @field:Length(max = 50)
-    
-    
-    
     @field:Valid
     val phoneNumber: kotlin.String,
 
     @JsonProperty("type")
-
-    
-    
-    
-    
     @field:Valid
     val type: TelephoneType? = null,
 
     @JsonProperty("platform_type")
-
-    
-    
-    
-    
     @field:Valid
     val platformType: TelephonePlatformType? = null,
 
     /* The number used to reach an individual once a phone connection is established.  Does not include symbols, spaces, or leading zeros. */
-@JsonProperty("extension_number")
-@field:Pattern(regexp = "^[0-9]{1,20}$")
+    @JsonProperty("extension_number")
+    @field:Pattern(regexp = "^[0-9]{1,20}$")
     @field:Length(max = 20)
-    
-    
-    
     @field:Valid
     val extensionNumber: kotlin.String? = null,
 
     /* Ranking of order of user preference for contact via text (if type is Mobile) or voice.  `0` means no preference.  `1` is the primary phone, `2` is the secondary phone, etc. */
-@JsonProperty("preference_rank")
-
-    
-    
-    
-    
+    @JsonProperty("preference_rank")
     @field:Valid
     val preferenceRank: java.math.BigDecimal? = null,
 
     /* Local date and time user validated possession of their phone number via a text or voice multi factor authentication challenge, in ISO-8061 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`. */
-@JsonProperty("last_verified_date_time")
-
+    @JsonProperty("last_verified_date_time")
     val lastVerifiedDateTime: java.time.OffsetDateTime? = null,
 
     /* Flag indicating whether user passed validation of possession of their phone number via a text or voice multi factor authentication challenge. */
-@JsonProperty("verified_flag")
-
-    
-    
-    
-    
+    @JsonProperty("verified_flag")
     @field:Valid
     val verifiedFlag: kotlin.Boolean? = null
 ) {
-    
-
 
     companion object {
         @JvmStatic
@@ -198,4 +156,3 @@ data class Telephone(
         }
     }
 }
-

@@ -16,7 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-
 /*
  * Copyright (C) 2022 Expedia, Inc.
  *
@@ -33,14 +32,7 @@ package com.expediagroup.openworld.sdk.fraudpreventionv2.models
  * limitations under the License.
  */
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.Length;
 
 /**
  * Details related to the insult.
@@ -48,12 +40,9 @@ import org.hibernate.validator.constraints.Length;
  */
 data class InsultDetail(
     /* Date and time when the insult was reported to the partner, in ISO-8061 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`. */
-@JsonProperty("insult_reported_date_time")
-
+    @JsonProperty("insult_reported_date_time")
     val insultReportedDateTime: java.time.OffsetDateTime? = null
 ) {
-    
-
 
     companion object {
         @JvmStatic
@@ -70,7 +59,5 @@ data class InsultDetail(
                 insultReportedDateTime = insultReportedDateTime
             )
         }
-
     }
 }
-
