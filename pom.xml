@@ -20,6 +20,8 @@
         </license>
     </licenses>
 
+    <packaging>pom</packaging>
+
     <developers>
         <developer>
             <name>Expedia Group Committers</name>
@@ -50,7 +52,7 @@
 
 
     <properties>
-        <revision>2.9.0</revision>
+        <revision>2.10.0</revision>
         <!-- Target JDK8 Minimum -->
         <java.release>1.8</java.release>
         <maven.compiler.release>8</maven.compiler.release>
@@ -71,7 +73,6 @@
         <maven-dependency-plugin.version>3.6.0</maven-dependency-plugin.version>
         <maven-enforcer-plugin.version>3.4.0</maven-enforcer-plugin.version>
         <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
-        <maven-javadoc-plugin.version>3.5.0</maven-javadoc-plugin.version>
         <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
         <maven-shade-plugin.version>3.4.1</maven-shade-plugin.version>
         <maven-source-plugin.version>3.3.0</maven-source-plugin.version>
@@ -88,16 +89,16 @@
         <maven.antrun.plugin.version>3.1.0</maven.antrun.plugin.version>
 
         <!-- Kotlin Compatible Versions -->
-        <kotlin.version>1.9.10</kotlin.version>
-        <kotlinx.coroutines.version>1.6.4</kotlinx.coroutines.version>
+        <kotlin.version>1.8.22</kotlin.version>
+        <kotlinx.coroutines.version>1.7.2</kotlinx.coroutines.version>
         <kotlinx.serialization.version>1.6.0</kotlinx.serialization.version>
-        <ktor.version>2.3.1</ktor.version>
+        <ktor.version>2.3.4</ktor.version>
         <kotlin-logging.version>3.0.5</kotlin-logging.version>
         <kotlin-atomic.version>0.22.0</kotlin-atomic.version>
         <ktlint.version>0.50.0</ktlint.version>
         <kotlin-atomic.version>0.21.0</kotlin-atomic.version>
         <ktlint.version>0.47.1</ktlint.version>
-        <detekt.version>1.22.0</detekt.version>
+        <detekt.version>1.23.1</detekt.version>
 
         <!-- Shared Library Versions -->
         <airline.version>2.9.0</airline.version>
@@ -120,6 +121,11 @@
                 <version>${kotlin.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-reflect</artifactId>
+                <version>${kotlin.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.jetbrains.kotlinx</groupId>
@@ -268,7 +274,26 @@
                 <artifactId>error_prone_annotations</artifactId>
                 <version>2.21.1</version>
             </dependency>
-
+            <dependency>
+                <groupId>com.squareup.okio</groupId>
+                <artifactId>okio-jvm</artifactId>
+                <version>3.4.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains</groupId>
+                <artifactId>annotations</artifactId>
+                <version>23.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.validation</groupId>
+                <artifactId>jakarta.validation-api</artifactId>
+                <version>3.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>2.15.2</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -503,29 +528,6 @@
                     <groupId>org.jetbrains.dokka</groupId>
                     <artifactId>dokka-maven-plugin</artifactId>
                     <version>${dokka-plugin.version}</version>
-                    <executions>
-                        <execution>
-                            <phase>prepare-package</phase>
-                            <goals>
-                                <goal>dokka</goal>
-                                <goal>javadocJar</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                    <configuration>
-                        <sourceDirectories>
-                            <dir>${project.basedir}/src/main/kotlin</dir>
-                            <dir>${project.basedir}/src/main/java</dir>
-                        </sourceDirectories>
-
-                        <dokkaPlugins>
-                            <plugin>
-                                <groupId>org.jetbrains.dokka</groupId>
-                                <artifactId>kotlin-as-java-plugin</artifactId>
-                                <version>${dokka-plugin.version}</version>
-                            </plugin>
-                        </dokkaPlugins>
-                    </configuration>
                 </plugin>
 
                 <!-- Add Licence Header -->
@@ -556,26 +558,6 @@
                             </goals>
                         </execution>
                     </executions>
-                </plugin>
-
-                <!-- Configure Javadocs to be JDK11+ Compatible -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>${maven-javadoc-plugin.version}</version>
-                    <executions>
-                        <execution>
-                            <id>attach-javadocs</id>
-                            <goals>
-                                <goal>jar</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                    <configuration>
-                        <additionalOptions combine.children="append">
-                            <additionalOption>-html5</additionalOption>
-                        </additionalOptions>
-                    </configuration>
                 </plugin>
 
                 <!-- Ensure that our dependencies are compatible -->
@@ -676,10 +658,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -825,10 +803,6 @@
         </dependency>
         <dependency>
             <groupId>io.ktor</groupId>
-            <artifactId>ktor-io-jvm</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.ktor</groupId>
             <artifactId>ktor-serialization-jvm</artifactId>
         </dependency>
         <dependency>
@@ -895,8 +869,6 @@
     </dependencies>
 
     <profiles>
-
-
         <profile>
             <id>activate-kotlin</id>
             <activation>
@@ -954,23 +926,6 @@
                         <artifactId>ktlint-maven-plugin</artifactId>
                     </plugin>
 
-                    <!-- Document the sources -->
-                    <plugin>
-                        <groupId>org.jetbrains.dokka</groupId>
-                        <artifactId>dokka-maven-plugin</artifactId>
-                    </plugin>
-
-                    <!-- Disable Javadocs -->
-                    <plugin>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>attach-javadocs</id>
-                                <phase>none</phase>
-                            </execution>
-                        </executions>
-                    </plugin>
-
                     <!-- Disable Specific Dependency Warnings for kotlin-stdlib -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
@@ -1010,7 +965,6 @@
                 <checkstyle.check.skip>true</checkstyle.check.skip>
                 <checkstyle.includeTestSourceDirectory>false</checkstyle.includeTestSourceDirectory>
                 <test.coverage.check.skip>true</test.coverage.check.skip>
-                <javadoc.skip>true</javadoc.skip>
             </properties>
 
             <build>
@@ -1058,26 +1012,6 @@
                                 <argLine>@{argLine}</argLine>
                             </excludes>
                         </configuration>
-                    </plugin>
-
-                    <!-- replace the bean-utils-library javadoc jar file with the one containing all modules -->
-                    <plugin>
-                        <artifactId>maven-jar-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <configuration>
-                                    <classifier>javadoc</classifier>
-                                    <classesDirectory>${project.parent.basedir}/target/site/apidocs</classesDirectory>
-                                    <includes>**/*</includes>
-                                    <finalName>${project.build.finalName}</finalName>
-                                </configuration>
-                                <id>pack-javadoc</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
                     </plugin>
                 </plugins>
             </build>

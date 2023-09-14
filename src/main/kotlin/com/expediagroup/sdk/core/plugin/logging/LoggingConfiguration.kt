@@ -34,6 +34,6 @@ internal data class LoggingConfiguration(
 
 internal val Logger.Companion.CUSTOM: Logger
     get() = object : Logger {
-        private val delegate = ExpediaGroupLoggerFactory.getLogger(Client::class.java) // TODO: ExpediaGroupClient or RapidClient should be passed in here
+        private val delegate = ExpediaGroupLoggerFactory.getLogger(Client::class.java)
         override fun log(message: String) = delegate.info(message)
     }
