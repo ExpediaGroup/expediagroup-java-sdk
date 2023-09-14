@@ -306,6 +306,41 @@
                         <delimiter>@@</delimiter>
                     </delimiters>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>include-core</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/sdk/src/main</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>../../src/main</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>include-license-header</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/sdk/</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>../..</directory>
+                                    <includes>
+                                        <include>LICENSE-HEADER.txt</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
             <!-- Make the resulting JAR executable -->
