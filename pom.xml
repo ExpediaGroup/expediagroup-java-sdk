@@ -866,6 +866,10 @@
             <artifactId>kotlin-reflect</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>io.ktor</groupId>
+            <artifactId>ktor-io-jvm</artifactId>
+        </dependency>
     </dependencies>
 
     <profiles>
