@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package com.expediagroup.openworld.sdk.fraudpreventionv2.validation
 
 import com.expediagroup.openworld.sdk.fraudpreventionv2.models.exception.PropertyConstraintViolation
@@ -25,19 +24,21 @@ import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator
 import java.util.stream.Collectors
 
 internal object PropertyConstraintsValidator {
-    fun validateConstraints(obj: Any) {
-        Validation.byDefaultProvider()
-            .configure()
-            .messageInterpolator(ParameterMessageInterpolator())
-            .buildValidatorFactory().use { factory ->
-                val violations = factory.validator.validate(obj)
-                if (violations.isNotEmpty()) {
-                    throw PropertyConstraintViolationException(
-                        "Some field constraints have been violated",
-                        violations.stream().map { toConstraintViolation(it) }.collect(Collectors.toList())
-                    )
+    fun validateConstraints(obj: Any?) {
+        obj?.let {
+            Validation.byDefaultProvider()
+                .configure()
+                .messageInterpolator(ParameterMessageInterpolator())
+                .buildValidatorFactory().use { factory ->
+                    val violations = factory.validator.validate(obj)
+                    if (violations.isNotEmpty()) {
+                        throw PropertyConstraintViolationException(
+                            "Some field constraints have been violated",
+                            violations.stream().map { toConstraintViolation(it) }.collect(Collectors.toList())
+                        )
+                    }
                 }
-            }
+        }
     }
 
     private fun toConstraintViolation(violation: ConstraintViolation<*>): PropertyConstraintViolation {
