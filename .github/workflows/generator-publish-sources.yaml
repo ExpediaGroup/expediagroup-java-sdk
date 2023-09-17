@@ -43,7 +43,7 @@ jobs:
       - name: Create PR
         uses: peter-evans/create-pull-request@v5
         with:
-          branch: "${{github.event.inputs.name}}-${{github.event.inputs.version}}"
+          branch: "${{github.event.inputs.name}}-${{github.event.inputs.version}}-test"
           commit-message: "chore: Publish ${{github.event.inputs.name}} [${{github.event.inputs.version}}] SDK"
           title: "chore: Publish ${{github.event.inputs.name}} [${{github.event.inputs.version}}] SDK"
           add-paths: |
