@@ -37,11 +37,10 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: sdk
-          path: generator/openapi/target/sdk
-      - name: generate-docs
-        working-directory: generator/openapi
-        run: mvn dokka:dokka
+          path: |
+            generator/openapi/target/sdk
+            !generator/openapi/target/sdk/target
       - uses: actions/upload-artifact@v3
         with:
-          name: sdk
+          name: docs
           path: generator/openapi/target/sdk/target/dokka
