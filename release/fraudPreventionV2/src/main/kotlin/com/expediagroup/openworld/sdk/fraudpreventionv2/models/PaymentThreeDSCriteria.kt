@@ -16,7 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-
 /*
  * Copyright (C) 2022 Expedia, Inc.
  *
@@ -33,14 +32,9 @@ package com.expediagroup.openworld.sdk.fraudpreventionv2.models
  * limitations under the License.
  */
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.Valid
+import org.hibernate.validator.constraints.Length
 
 /**
  * Payment ThreeDS criteria attributes.
@@ -49,27 +43,16 @@ import org.hibernate.validator.constraints.Length;
  */
 data class PaymentThreeDSCriteria(
     /* This is a flag passed that indicates that this transaction could potentially go through 3DS. */
-@JsonProperty("probable_flag")
-
-    
-    
-    
-    
+    @JsonProperty("probable_flag")
     @field:Valid
     val probableFlag: kotlin.Boolean? = null,
 
     /* Model used to process payment transaction. */
-@JsonProperty("transaction_model")
-
+    @JsonProperty("transaction_model")
     @field:Length(max = 200)
-    
-    
-    
     @field:Valid
     val transactionModel: kotlin.String? = null
 ) {
-    
-
 
     companion object {
         @JvmStatic
@@ -89,7 +72,5 @@ data class PaymentThreeDSCriteria(
                 transactionModel = transactionModel
             )
         }
-
     }
 }
-

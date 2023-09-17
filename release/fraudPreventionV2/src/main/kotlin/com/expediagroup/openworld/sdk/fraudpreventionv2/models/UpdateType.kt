@@ -16,7 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
@@ -26,12 +25,16 @@ import com.fasterxml.jackson.annotation.JsonProperty
 enum class UpdateType(val value: kotlin.String) {
     @JsonProperty("ORDER_UPDATE")
     ORDER_UPDATE("ORDER_UPDATE"),
+
     @JsonProperty("CHARGEBACK_FEEDBACK")
     CHARGEBACK_FEEDBACK("CHARGEBACK_FEEDBACK"),
+
     @JsonProperty("INSULT_FEEDBACK")
     INSULT_FEEDBACK("INSULT_FEEDBACK"),
+
     @JsonProperty("REFUND_UPDATE")
     REFUND_UPDATE("REFUND_UPDATE"),
+
     @JsonProperty("PAYMENT_UPDATE")
     PAYMENT_UPDATE("PAYMENT_UPDATE")
 }

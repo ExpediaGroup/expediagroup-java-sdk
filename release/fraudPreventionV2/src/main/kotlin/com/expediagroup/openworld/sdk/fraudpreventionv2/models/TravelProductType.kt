@@ -16,26 +16,28 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
 * Type of product.
-* Values: CRUISE,AIR,CAR,INSURANCE,HOTEL,RAIL,ACTIVITIES
+* Values: CRUISE,AIR,CAR,INSURANCE,HOTEL,RAIL
 */
 enum class TravelProductType(val value: kotlin.String) {
     @JsonProperty("CRUISE")
     CRUISE("CRUISE"),
+
     @JsonProperty("AIR")
     AIR("AIR"),
+
     @JsonProperty("CAR")
     CAR("CAR"),
+
     @JsonProperty("INSURANCE")
     INSURANCE("INSURANCE"),
+
     @JsonProperty("HOTEL")
     HOTEL("HOTEL"),
+
     @JsonProperty("RAIL")
-    RAIL("RAIL"),
-    @JsonProperty("ACTIVITIES")
-    ACTIVITIES("ACTIVITIES")
+    RAIL("RAIL")
 }

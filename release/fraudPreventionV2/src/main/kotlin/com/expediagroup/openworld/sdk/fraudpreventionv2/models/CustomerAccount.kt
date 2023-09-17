@@ -16,10 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.CustomerAccountAddress
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.Name
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.Telephone
-
 /*
  * Copyright (C) 2022 Expedia, Inc.
  *
@@ -36,85 +32,50 @@ import com.expediagroup.openworld.sdk.fraudpreventionv2.models.Telephone
  * limitations under the License.
  */
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.Valid
 
 /**
- * 
- * @param accountType Identifies if the customer account is known to the client. Possible values are:  -`GUEST` - Applicable if the partner maintains record to distinguish whether the transaction was booked via a guest account.  -`STANDARD` - Default account type. 
- * @param name 
+ *
+ * @param accountType Identifies if the customer account is known to the client. Possible values are:  -`GUEST` - Applicable if the partner maintains record to distinguish whether the transaction was booked via a guest account.  -`STANDARD` - Default account type.
+ * @param name
  * @param emailAddress Email address for the account owner.
  * @param userId Unique account identifier provided by the partner's Identity Provider/System assigned to the account owner by the partner. `user_id` is specific to the partner namespace. Used to track repeat purchases by the same user.
- * @param telephones 
- * @param address 
+ * @param telephones
+ * @param address
  * @param registeredTime The local date and time that the customer first registered on the client site, in ISO-8061 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`.
  */
 data class CustomerAccount(
     /* Identifies if the customer account is known to the client. Possible values are:  -`GUEST` - Applicable if the partner maintains record to distinguish whether the transaction was booked via a guest account.  -`STANDARD` - Default account type.  */
-@JsonProperty("account_type")
-
+    @JsonProperty("account_type")
     val accountType: CustomerAccount.AccountType,
 
     @JsonProperty("name")
-
-    
-    
-    
-    
     @field:Valid
     val name: Name,
 
     /* Email address for the account owner. */
-@JsonProperty("email_address")
-
-    
-    
-    
-    
+    @JsonProperty("email_address")
     @field:Valid
     val emailAddress: kotlin.String,
 
     /* Unique account identifier provided by the partner's Identity Provider/System assigned to the account owner by the partner. `user_id` is specific to the partner namespace. Used to track repeat purchases by the same user. */
-@JsonProperty("user_id")
-
-    
-    
-    
-    
+    @JsonProperty("user_id")
     @field:Valid
     val userId: kotlin.String? = null,
 
     @JsonProperty("telephones")
-
-    
-    
-    
-    
     @field:Valid
     val telephones: kotlin.collections.List<Telephone>? = null,
 
     @JsonProperty("address")
-
-    
-    
-    
-    
     @field:Valid
     val address: CustomerAccountAddress? = null,
 
     /* The local date and time that the customer first registered on the client site, in ISO-8061 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`. */
-@JsonProperty("registered_time")
-
+    @JsonProperty("registered_time")
     val registeredTime: java.time.OffsetDateTime? = null
 ) {
-    
-
 
     companion object {
         @JvmStatic
@@ -166,15 +127,14 @@ data class CustomerAccount(
     }
 
     /**
-     * Identifies if the customer account is known to the client. Possible values are:  -`GUEST` - Applicable if the partner maintains record to distinguish whether the transaction was booked via a guest account.  -`STANDARD` - Default account type. 
+     * Identifies if the customer account is known to the client. Possible values are:  -`GUEST` - Applicable if the partner maintains record to distinguish whether the transaction was booked via a guest account.  -`STANDARD` - Default account type.
      * Values: GUEST,STANDARD
      */
     enum class AccountType(val value: kotlin.String) {
         @JsonProperty("GUEST")
         GUEST("GUEST"),
-        
+
         @JsonProperty("STANDARD")
-        STANDARD("STANDARD");
+        STANDARD("STANDARD")
     }
 }
-

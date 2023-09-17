@@ -16,7 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-
 /*
  * Copyright (C) 2022 Expedia, Inc.
  *
@@ -33,17 +32,12 @@ package com.expediagroup.openworld.sdk.fraudpreventionv2.models
  * limitations under the License.
  */
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.Valid
+import org.hibernate.validator.constraints.Length
 
 /**
- * 
+ *
  * @param pickUpLocation Location where the automobile will be picked up.
  * @param dropOffLocation Location at which the automobile will be returned.
  * @param pickupTime Local date and time the automobile will be picked-up, in ISO-8061 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`.
@@ -51,37 +45,25 @@ import org.hibernate.validator.constraints.Length;
  */
 data class CarAllOf(
     /* Location where the automobile will be picked up. */
-@JsonProperty("pick_up_location")
-
+    @JsonProperty("pick_up_location")
     @field:Length(max = 200)
-    
-    
-    
     @field:Valid
     val pickUpLocation: kotlin.String,
 
     /* Location at which the automobile will be returned. */
-@JsonProperty("drop_off_location")
-
+    @JsonProperty("drop_off_location")
     @field:Length(max = 200)
-    
-    
-    
     @field:Valid
     val dropOffLocation: kotlin.String,
 
     /* Local date and time the automobile will be picked-up, in ISO-8061 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`. */
-@JsonProperty("pickup_time")
-
+    @JsonProperty("pickup_time")
     val pickupTime: java.time.OffsetDateTime,
 
     /* Local date and time the automobile will be returned, in ISO-8061 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`. */
-@JsonProperty("return_time")
-
+    @JsonProperty("return_time")
     val returnTime: java.time.OffsetDateTime
 ) {
-    
-
 
     companion object {
         @JvmStatic
@@ -126,4 +108,3 @@ data class CarAllOf(
         }
     }
 }
-

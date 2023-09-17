@@ -16,22 +16,25 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
-* The reason of payment. Possible values: - `FULL` - If the amount is paid i full for the order - `DEPOSIT` - The initial payment. Amount to be paid up front. - `SCHEDULED` - The amount to be payment based on a schedule for the remaining portion of the booking amount. - `SUBSEQUENT` - An additional amount paid that was not originally scheduled. - `DEFERRED` 
+* The reason of payment. Possible values: - `FULL` - If the amount is paid i full for the order - `DEPOSIT` - The initial payment. Amount to be paid up front. - `SCHEDULED` - The amount to be payment based on a schedule for the remaining portion of the booking amount. - `SUBSEQUENT` - An additional amount paid that was not originally scheduled. - `DEFERRED`
 * Values: FULL,DEPOSIT,SCHEDULED,SUBSEQUENT,DEFERRED
 */
 enum class PaymentReason(val value: kotlin.String) {
     @JsonProperty("FULL")
     FULL("FULL"),
+
     @JsonProperty("DEPOSIT")
     DEPOSIT("DEPOSIT"),
+
     @JsonProperty("SCHEDULED")
     SCHEDULED("SCHEDULED"),
+
     @JsonProperty("SUBSEQUENT")
     SUBSEQUENT("SUBSEQUENT"),
+
     @JsonProperty("DEFERRED")
     DEFERRED("DEFERRED")
 }
