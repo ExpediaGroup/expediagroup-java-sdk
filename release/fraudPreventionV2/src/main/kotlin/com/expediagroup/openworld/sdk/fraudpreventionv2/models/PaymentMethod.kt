@@ -16,7 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
@@ -26,14 +25,19 @@ import com.fasterxml.jackson.annotation.JsonProperty
 enum class PaymentMethod(val value: kotlin.String) {
     @JsonProperty("CREDIT_CARD")
     CREDIT_CARD("CREDIT_CARD"),
+
     @JsonProperty("PAYPAL")
     PAYPAL("PAYPAL"),
+
     @JsonProperty("POINTS")
     POINTS("POINTS"),
+
     @JsonProperty("GIFT_CARD")
     GIFT_CARD("GIFT_CARD"),
+
     @JsonProperty("INTERNET_BANK_PAYMENT")
     INTERNET_BANK_PAYMENT("INTERNET_BANK_PAYMENT"),
+
     @JsonProperty("DIRECT_DEBIT")
     DIRECT_DEBIT("DIRECT_DEBIT")
 }

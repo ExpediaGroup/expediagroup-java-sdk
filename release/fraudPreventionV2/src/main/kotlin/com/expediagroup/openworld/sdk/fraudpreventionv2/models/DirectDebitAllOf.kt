@@ -16,8 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.Telephone
-
 /*
  * Copyright (C) 2022 Expedia, Inc.
  *
@@ -34,54 +32,36 @@ import com.expediagroup.openworld.sdk.fraudpreventionv2.models.Telephone
  * limitations under the License.
  */
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.constraints.Size
+import jakarta.validation.Valid
+import org.hibernate.validator.constraints.Length
 
 /**
- * 
+ *
  * @param routingNumber A code that identifies the financial institution for a specific bank account.
  * @param accountNumber Cleartext (unencrypted) DirectDebit bank account number associated with the payment instrument.
  * @param telephones Telephone(s) associated with direct debit payment provider.
  */
 data class DirectDebitAllOf(
     /* A code that identifies the financial institution for a specific bank account. */
-@JsonProperty("routing_number")
-
+    @JsonProperty("routing_number")
     @field:Length(max = 15)
-    
-    
-    
     @field:Valid
     val routingNumber: kotlin.String,
 
     /* Cleartext (unencrypted) DirectDebit bank account number associated with the payment instrument. */
-@JsonProperty("account_number")
-
+    @JsonProperty("account_number")
     @field:Length(max = 100)
-    
-    
-    
     @field:Valid
     val accountNumber: kotlin.String,
 
     /* Telephone(s) associated with direct debit payment provider. */
-@JsonProperty("telephones")
-
-    
+    @JsonProperty("telephones")
     @field:Size(min = 1, max = 20)
-    
-    
     @field:Valid
     val telephones: kotlin.collections.List<Telephone>
 ) {
-    
-
 
     companion object {
         @JvmStatic
@@ -120,4 +100,3 @@ data class DirectDebitAllOf(
         }
     }
 }
-

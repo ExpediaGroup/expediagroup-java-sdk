@@ -16,7 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-
 /*
  * Copyright (C) 2022 Expedia, Inc.
  *
@@ -33,14 +32,9 @@ package com.expediagroup.openworld.sdk.fraudpreventionv2.models
  * limitations under the License.
  */
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.Valid
+import org.hibernate.validator.constraints.Length
 
 /**
  * This attribute captures the name or identifier of the company responsible for operating the Rail product. It represents the specific operating entity, such as Amtrak, British Railways, or a bus company.
@@ -48,17 +42,11 @@ import org.hibernate.validator.constraints.Length;
  */
 data class RailSegmentsOperatingCompany(
     /* The name used by the transportation carrier for marketing purposes in the travel segment. Example: ARX, AMTRAC, ARRIVA */
-@JsonProperty("marketing_name")
-
+    @JsonProperty("marketing_name")
     @field:Length(max = 200)
-    
-    
-    
     @field:Valid
     val marketingName: kotlin.String? = null
 ) {
-    
-
 
     companion object {
         @JvmStatic
@@ -75,7 +63,5 @@ data class RailSegmentsOperatingCompany(
                 marketingName = marketingName
             )
         }
-
     }
 }
-

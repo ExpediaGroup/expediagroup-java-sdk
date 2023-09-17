@@ -16,8 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.BadRequestErrorAllOfCauses
-
 /*
  * Copyright (C) 2022 Expedia, Inc.
  *
@@ -34,48 +32,29 @@ import com.expediagroup.openworld.sdk.fraudpreventionv2.models.BadRequestErrorAl
  * limitations under the License.
  */
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.Valid
 
 /**
  * Indicates that a bad request occurred. Typically it is an invalid parameter.
  * @param code Snake cased all caps error code interpreted from the HTTP status code that can programmatically be acted upon.
  * @param message A human-readable explanation of the error, specific to this error occurrence.
- * @param causes 
+ * @param causes
  */
 data class BadRequestError(
     /* Snake cased all caps error code interpreted from the HTTP status code that can programmatically be acted upon. */
-@JsonProperty("code")
-
+    @JsonProperty("code")
     val code: BadRequestError.Code,
 
     /* A human-readable explanation of the error, specific to this error occurrence. */
-@JsonProperty("message")
-
-    
-    
-    
-    
+    @JsonProperty("message")
     @field:Valid
     val message: kotlin.String,
 
     @JsonProperty("causes")
-
-    
-    
-    
-    
     @field:Valid
     val causes: kotlin.collections.List<BadRequestErrorAllOfCauses>? = null
 ) {
-    
-
 
     companion object {
         @JvmStatic
@@ -118,36 +97,35 @@ data class BadRequestError(
     enum class Code(val value: kotlin.String) {
         @JsonProperty("UNAUTHORIZED")
         UNAUTHORIZED("UNAUTHORIZED"),
-        
+
         @JsonProperty("FORBIDDEN")
         FORBIDDEN("FORBIDDEN"),
-        
+
         @JsonProperty("NOT_FOUND")
         NOT_FOUND("NOT_FOUND"),
-        
+
         @JsonProperty("ORDER_PURCHASE_UPDATE_NOT_FOUND")
         ORDER_PURCHASE_UPDATE_NOT_FOUND("ORDER_PURCHASE_UPDATE_NOT_FOUND"),
-        
+
         @JsonProperty("TOO_MANY_REQUESTS")
         TOO_MANY_REQUESTS("TOO_MANY_REQUESTS"),
-        
+
         @JsonProperty("INTERNAL_SERVER_ERROR")
         INTERNAL_SERVER_ERROR("INTERNAL_SERVER_ERROR"),
-        
+
         @JsonProperty("BAD_GATEWAY")
         BAD_GATEWAY("BAD_GATEWAY"),
-        
+
         @JsonProperty("RETRYABLE_ORDER_PURCHASE_SCREEN_FAILURE")
         RETRYABLE_ORDER_PURCHASE_SCREEN_FAILURE("RETRYABLE_ORDER_PURCHASE_SCREEN_FAILURE"),
-        
+
         @JsonProperty("RETRYABLE_ORDER_PURCHASE_UPDATE_FAILURE")
         RETRYABLE_ORDER_PURCHASE_UPDATE_FAILURE("RETRYABLE_ORDER_PURCHASE_UPDATE_FAILURE"),
-        
+
         @JsonProperty("GATEWAY_TIMEOUT")
         GATEWAY_TIMEOUT("GATEWAY_TIMEOUT"),
-        
+
         @JsonProperty("BAD_REQUEST")
-        BAD_REQUEST("BAD_REQUEST");
+        BAD_REQUEST("BAD_REQUEST")
     }
 }
-

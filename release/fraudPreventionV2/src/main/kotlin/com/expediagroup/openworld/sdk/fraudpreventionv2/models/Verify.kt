@@ -16,10 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.Amount
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.PaymentOutcome
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.VerificationType
-
 /*
  * Copyright (C) 2022 Expedia, Inc.
  *
@@ -36,61 +32,37 @@ import com.expediagroup.openworld.sdk.fraudpreventionv2.models.VerificationType
  * limitations under the License.
  */
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.Valid
+import org.hibernate.validator.constraints.Length
 
 /**
  * A verify operation represents the intent to verify the payment associated with this transaction.
- * @param id 
- * @param amount 
- * @param outcome 
- * @param type 
+ * @param id
+ * @param amount
+ * @param outcome
+ * @param type
  */
 data class Verify(
     @JsonProperty("id")
 
     @field:Length(max = 200)
-    
-    
-    
+
     @field:Valid
     val id: kotlin.String? = null,
 
     @JsonProperty("amount")
-
-    
-    
-    
-    
     @field:Valid
     val amount: Amount? = null,
 
     @JsonProperty("outcome")
-
-    
-    
-    
-    
     @field:Valid
     val outcome: PaymentOutcome? = null,
 
     @JsonProperty("type")
-
-    
-    
-    
-    
     @field:Valid
     val type: VerificationType? = null
 ) {
-    
-
 
     companion object {
         @JvmStatic
@@ -116,7 +88,5 @@ data class Verify(
                 type = type
             )
         }
-
     }
 }
-
