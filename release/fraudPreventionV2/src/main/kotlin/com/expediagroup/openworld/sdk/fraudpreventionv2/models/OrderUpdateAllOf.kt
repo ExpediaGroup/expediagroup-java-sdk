@@ -16,9 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.CancellationReason
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.Status
-
 /*
  * Copyright (C) 2022 Expedia, Inc.
  *
@@ -35,52 +32,31 @@ import com.expediagroup.openworld.sdk.fraudpreventionv2.models.Status
  * limitations under the License.
  */
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.Valid
+import org.hibernate.validator.constraints.Length
 
 /**
- * 
- * @param orderStatus 
- * @param acquirerReferenceNumber A unique number that tags a credit or debit card transaction when it goes from the merchant's bank through to the cardholder's bank. `acquirer_reference_number` is a required field only if `order_status` = `COMPLETED` Typically, merchants can get this number from their payment processors. This number is used when dealing with disputes/chargebacks on original transactions. 
- * @param cancellationReason 
+ *
+ * @param orderStatus
+ * @param acquirerReferenceNumber A unique number that tags a credit or debit card transaction when it goes from the merchant's bank through to the cardholder's bank. `acquirer_reference_number` is a required field only if `order_status` = `COMPLETED` Typically, merchants can get this number from their payment processors. This number is used when dealing with disputes/chargebacks on original transactions.
+ * @param cancellationReason
  */
 data class OrderUpdateAllOf(
     @JsonProperty("order_status")
-
-    
-    
-    
-    
     @field:Valid
     val orderStatus: Status,
 
     /* A unique number that tags a credit or debit card transaction when it goes from the merchant's bank through to the cardholder's bank. `acquirer_reference_number` is a required field only if `order_status` = `COMPLETED` Typically, merchants can get this number from their payment processors. This number is used when dealing with disputes/chargebacks on original transactions.  */
-@JsonProperty("acquirer_reference_number")
-
+    @JsonProperty("acquirer_reference_number")
     @field:Length(max = 200)
-    
-    
-    
     @field:Valid
     val acquirerReferenceNumber: kotlin.String? = null,
 
     @JsonProperty("cancellation_reason")
-
-    
-    
-    
-    
     @field:Valid
     val cancellationReason: CancellationReason? = null
 ) {
-    
-
 
     companion object {
         @JvmStatic
@@ -113,4 +89,3 @@ data class OrderUpdateAllOf(
         }
     }
 }
-

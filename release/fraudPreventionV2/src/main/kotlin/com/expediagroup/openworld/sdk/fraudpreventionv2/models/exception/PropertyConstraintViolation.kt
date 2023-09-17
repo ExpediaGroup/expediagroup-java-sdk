@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models.exception
 
 /**

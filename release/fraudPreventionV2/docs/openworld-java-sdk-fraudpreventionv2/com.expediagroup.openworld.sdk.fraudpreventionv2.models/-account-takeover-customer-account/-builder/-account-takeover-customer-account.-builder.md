@@ -1,0 +1,7 @@
+//[openworld-java-sdk-fraudpreventionv2](../../../../index.md)/[com.expediagroup.openworld.sdk.fraudpreventionv2.models](../../index.md)/[AccountTakeoverCustomerAccount](../index.md)/[Builder](index.md)/[AccountTakeoverCustomerAccount.Builder](-account-takeover-customer-account.-builder.md)
+
+# AccountTakeoverCustomerAccount.Builder
+
+[JVM]\
+
+public [AccountTakeoverCustomerAccount.Builder](index.md)[AccountTakeoverCustomerAccount.Builder](-account-takeover-customer-account.-builder.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)userId, [AccountTakeoverCustomerAccount.AccountType](../-account-type/index.md)accountType, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)username, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)emailAddress, [OffsetDateTime](https://docs.oracle.com/javase/8/docs/api/java/time/OffsetDateTime.html)registeredTime, [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html)activeFlag, [AccountTakeoverCustomerAccount.AccountRole](../-account-role/index.md)accountRole, [AccountTakeoverName](../../-account-takeover-name/index.md)name, [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[Telephone](../../-telephone/index.md)&gt;telephones, [CustomerAccountAddress](../../-customer-account-address/index.md)address, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)loyaltyMemberId)

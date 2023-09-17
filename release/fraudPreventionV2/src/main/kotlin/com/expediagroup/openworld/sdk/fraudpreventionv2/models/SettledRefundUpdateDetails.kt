@@ -16,8 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.Amount
-
 /*
  * Copyright (C) 2022 Expedia, Inc.
  *
@@ -34,65 +32,43 @@ import com.expediagroup.openworld.sdk.fraudpreventionv2.models.Amount
  * limitations under the License.
  */
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.Valid
+import org.hibernate.validator.constraints.Length
 
 /**
  * Data that describes settled refund that should be updated.
  * @param refundSettlementDateTime Date and time when the 3rd party payment processor confirmed that a previously submitted payment refund has settled at the participating financial institutions.
  * @param refundDepositDateTime Date and time when the refund was deposited to the original form of payment.
- * @param acquirerReferenceNumber A unique number that tags a credit or debit card transaction when it goes from the merchant's bank through to the cardholder's bank. Typically, merchants can get this number from their payment processors. This number is used when dealing with disputes/chargebacks on original transactions. 
+ * @param acquirerReferenceNumber A unique number that tags a credit or debit card transaction when it goes from the merchant's bank through to the cardholder's bank. Typically, merchants can get this number from their payment processors. This number is used when dealing with disputes/chargebacks on original transactions.
  * @param settlementId Unique settlement identifier specific to the payment processor for the settlement transaction generated for a previously submitted payment refund.
- * @param refundSettledAmount 
+ * @param refundSettledAmount
  */
 data class SettledRefundUpdateDetails(
     /* Date and time when the 3rd party payment processor confirmed that a previously submitted payment refund has settled at the participating financial institutions. */
-@JsonProperty("refund_settlement_date_time")
-
+    @JsonProperty("refund_settlement_date_time")
     val refundSettlementDateTime: java.time.OffsetDateTime,
 
     /* Date and time when the refund was deposited to the original form of payment. */
-@JsonProperty("refund_deposit_date_time")
-
+    @JsonProperty("refund_deposit_date_time")
     val refundDepositDateTime: java.time.OffsetDateTime,
 
     /* A unique number that tags a credit or debit card transaction when it goes from the merchant's bank through to the cardholder's bank. Typically, merchants can get this number from their payment processors. This number is used when dealing with disputes/chargebacks on original transactions.  */
-@JsonProperty("acquirer_reference_number")
-
+    @JsonProperty("acquirer_reference_number")
     @field:Length(max = 200)
-    
-    
-    
     @field:Valid
     val acquirerReferenceNumber: kotlin.String,
 
     /* Unique settlement identifier specific to the payment processor for the settlement transaction generated for a previously submitted payment refund. */
-@JsonProperty("settlement_id")
-
+    @JsonProperty("settlement_id")
     @field:Length(max = 200)
-    
-    
-    
     @field:Valid
     val settlementId: kotlin.String,
 
     @JsonProperty("refund_settled_amount")
-
-    
-    
-    
-    
     @field:Valid
     val refundSettledAmount: Amount
 ) {
-    
-
 
     companion object {
         @JvmStatic
@@ -143,4 +119,3 @@ data class SettledRefundUpdateDetails(
         }
     }
 }
-

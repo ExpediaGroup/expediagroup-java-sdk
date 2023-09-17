@@ -16,7 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-
 /*
  * Copyright (C) 2022 Expedia, Inc.
  *
@@ -33,17 +32,12 @@ package com.expediagroup.openworld.sdk.fraudpreventionv2.models
  * limitations under the License.
  */
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.Valid
+import org.hibernate.validator.constraints.Length
 
 /**
- * 
+ *
  * @param departureTime Local date and time of departure from original departure location, in ISO-8061 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`.
  * @param arrivalTime Local date and time of arrival from original arrival location, in ISO-8061 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`.
  * @param embarkationPort Location from where cruise will depart.
@@ -52,47 +46,31 @@ import org.hibernate.validator.constraints.Length;
  */
 data class CruiseAllOf(
     /* Local date and time of departure from original departure location, in ISO-8061 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`. */
-@JsonProperty("departure_time")
-
+    @JsonProperty("departure_time")
     val departureTime: java.time.OffsetDateTime,
 
     /* Local date and time of arrival from original arrival location, in ISO-8061 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`. */
-@JsonProperty("arrival_time")
-
+    @JsonProperty("arrival_time")
     val arrivalTime: java.time.OffsetDateTime,
 
     /* Location from where cruise will depart. */
-@JsonProperty("embarkation_port")
-
+    @JsonProperty("embarkation_port")
     @field:Length(max = 200)
-    
-    
-    
     @field:Valid
     val embarkationPort: kotlin.String,
 
     /* The cruise's final destination. */
-@JsonProperty("disembarkation_port")
-
+    @JsonProperty("disembarkation_port")
     @field:Length(max = 200)
-    
-    
-    
     @field:Valid
     val disembarkationPort: kotlin.String,
 
     /* Name of the cruise ship. */
-@JsonProperty("ship_name")
-
+    @JsonProperty("ship_name")
     @field:Length(max = 200)
-    
-    
-    
     @field:Valid
     val shipName: kotlin.String
 ) {
-    
-
 
     companion object {
         @JvmStatic
@@ -143,4 +121,3 @@ data class CruiseAllOf(
         }
     }
 }
-

@@ -16,8 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.BadRequestErrorAllOfCauses
-
 /*
  * Copyright (C) 2022 Expedia, Inc.
  *
@@ -34,31 +32,18 @@ import com.expediagroup.openworld.sdk.fraudpreventionv2.models.BadRequestErrorAl
  * limitations under the License.
  */
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.Valid
 
 /**
- * 
- * @param causes 
+ *
+ * @param causes
  */
 data class BadRequestErrorAllOf(
     @JsonProperty("causes")
-
-    
-    
-    
-    
     @field:Valid
     val causes: kotlin.collections.List<BadRequestErrorAllOfCauses>? = null
 ) {
-    
-
 
     companion object {
         @JvmStatic
@@ -75,7 +60,5 @@ data class BadRequestErrorAllOf(
                 causes = causes
             )
         }
-
     }
 }
-

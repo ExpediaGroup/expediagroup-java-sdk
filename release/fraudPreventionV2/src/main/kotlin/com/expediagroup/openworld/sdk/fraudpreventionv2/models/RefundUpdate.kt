@@ -16,9 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.OrderPurchaseUpdateRequest
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.UpdateType
-
 /*
  * Copyright (C) 2022 Expedia, Inc.
  *
@@ -35,14 +32,7 @@ import com.expediagroup.openworld.sdk.fraudpreventionv2.models.UpdateType
  * limitations under the License.
  */
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.Length;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type
@@ -50,7 +40,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 
 /**
  * Refund related data. Update should be sent when refund is issued or settled. Amounts should include all fees and taxes.
- * @param refundStatus Identifies the refund status. Possible values are: -`ISSUED` - The refund was issued. -`SETTLED` - The refund was settled. 
+ * @param refundStatus Identifies the refund status. Possible values are: -`ISSUED` - The refund was issued. -`SETTLED` - The refund was settled.
  */
 @JsonIgnoreProperties(ignoreUnknown = true, value = ["refundStatus"])
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "refundStatus", visible = true)
@@ -60,21 +50,19 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 )
 interface RefundUpdate : OrderPurchaseUpdateRequest {
 
+    /* Identifies the refund status. Possible values are: -`ISSUED` - The refund was issued. -`SETTLED` - The refund was settled.  */
 
-        /* Identifies the refund status. Possible values are: -`ISSUED` - The refund was issued. -`SETTLED` - The refund was settled.  */
-
-val refundStatus: RefundUpdate.RefundStatus
+    val refundStatus: RefundUpdate.RefundStatus
 
     /**
-     * Identifies the refund status. Possible values are: -`ISSUED` - The refund was issued. -`SETTLED` - The refund was settled. 
+     * Identifies the refund status. Possible values are: -`ISSUED` - The refund was issued. -`SETTLED` - The refund was settled.
      * Values: ISSUED,SETTLED
      */
     enum class RefundStatus(val value: kotlin.String) {
         @JsonProperty("ISSUED")
         ISSUED("ISSUED"),
-        
+
         @JsonProperty("SETTLED")
-        SETTLED("SETTLED");
+        SETTLED("SETTLED")
     }
 }
-
