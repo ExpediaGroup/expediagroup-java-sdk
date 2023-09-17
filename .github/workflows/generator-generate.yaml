@@ -37,8 +37,11 @@ jobs:
           cd target/sdk
           mvn clean install
           mvn dokka:dokka
-          mv ./.flattened-pom.xml ./pom.xml
       - uses: actions/upload-artifact@v3
         with:
           name: sdk
           path: generator/openapi/target/sdk
+      - uses: actions/upload-artifact@v3
+        with:
+          name: parent-pom
+          path: pom.xml
