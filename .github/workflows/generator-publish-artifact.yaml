@@ -12,14 +12,18 @@ jobs:
     outputs:
       version: ${{ steps.publish.outputs.version }}
     steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+      - name: Set up parent
+        run: mvn clean install
       - uses: actions/download-artifact@v3
         with:
           name: sdk
           path: generator/sdk
-      - uses: actions/download-artifact@v3
-        with:
-          name: parent-pom
-          path: ./pom.xml
       - name: "JDK set-up"
         uses: actions/setup-java@v3
         with:

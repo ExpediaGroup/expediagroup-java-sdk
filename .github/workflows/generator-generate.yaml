@@ -36,12 +36,7 @@ jobs:
           mvn exec:java "-Dnamespace=${{ inputs.name }}" -DsdkVersion=${{ inputs.version }} "-Dspec=./specs.yaml"
           cd target/sdk
           mvn clean install
-          mvn dokka:dokka
       - uses: actions/upload-artifact@v3
         with:
           name: sdk
           path: generator/openapi/target/sdk
-      - uses: actions/upload-artifact@v3
-        with:
-          name: parent-pom
-          path: pom.xml
