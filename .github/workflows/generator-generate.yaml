@@ -20,6 +20,8 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
+      - name: Set up parent
+        run: mvn clean install
       - id: build
         working-directory: generator
         run: mvn clean install
@@ -35,6 +37,7 @@ jobs:
           cd target/sdk
           mvn clean install
           mvn dokka:dokka
+          mv ./.flattened-pom.xml ./pom.xml
       - uses: actions/upload-artifact@v3
         with:
           name: sdk

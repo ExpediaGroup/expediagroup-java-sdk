@@ -42,7 +42,7 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
-      - name: Set up core
+      - name: Set up parent
         run: mvn clean install
       - name: verify generated sdk
         working-directory: generator/openapi/target/sdk

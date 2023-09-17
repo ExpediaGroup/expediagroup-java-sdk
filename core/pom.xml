@@ -255,65 +255,6 @@
             </build>
         </profile>
 
-        <!-- release profile -->
-        <profile>
-            <id>release</id>
-            <properties>
-                <checkstyle.check.skip>true</checkstyle.check.skip>
-                <checkstyle.includeTestSourceDirectory>false</checkstyle.includeTestSourceDirectory>
-                <test.coverage.check.skip>true</test.coverage.check.skip>
-            </properties>
-
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>${maven.gpg.plugin.version}</version>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                                <configuration>
-                                    <gpgArguments>
-                                        <arg>--pinentry-mode</arg>
-                                        <arg>loopback</arg>
-                                    </gpgArguments>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>org.sonatype.plugins</groupId>
-                        <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>${maven.nexus-staging.plugin.version}</version>
-                        <extensions>true</extensions>
-                        <configuration>
-                            <serverId>oss-sonatype</serverId>
-                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                        </configuration>
-                    </plugin>
-
-                    <!-- skip some test cases during the release -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <configuration>
-                            <excludes>
-                                <exclude>**/PerformanceTest.java</exclude>
-                                <argLine>@{argLine}</argLine>
-                            </excludes>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
         <!-- GitHub verify action profile -->
         <profile>
             <id>github-verify-action-profile</id>
