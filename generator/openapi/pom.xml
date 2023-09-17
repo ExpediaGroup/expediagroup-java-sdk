@@ -317,7 +317,7 @@
                             <outputDirectory>${basedir}/target/sdk/src/main</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>../../src/main</directory>
+                                    <directory>../../core/src/main</directory>
                                 </resource>
                             </resources>
                         </configuration>
@@ -332,7 +332,7 @@
                             <outputDirectory>${basedir}/target/sdk/</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>../..</directory>
+                                    <directory>.</directory>
                                     <includes>
                                         <include>LICENSE-HEADER.txt</include>
                                     </includes>
