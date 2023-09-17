@@ -44,3 +44,9 @@ jobs:
     with:
       name: ${{ github.event.inputs.name }}
       version: ${{ github.event.inputs.version }}
+  publish_artifact:
+    needs: [ generate ]
+    uses: ./.github/workflows/generator-publish-artifact.yaml
+    secrets: inherit
+    with:
+      production_release: ${{ github.event.inputs.production_release == 'true' }}
