@@ -16,18 +16,19 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
-* 
+*
 * Values: ACCEPT,REVIEW,REJECT
 */
 enum class FraudDecision(val value: kotlin.String) {
     @JsonProperty("ACCEPT")
     ACCEPT("ACCEPT"),
+
     @JsonProperty("REVIEW")
     REVIEW("REVIEW"),
+
     @JsonProperty("REJECT")
     REJECT("REJECT")
 }

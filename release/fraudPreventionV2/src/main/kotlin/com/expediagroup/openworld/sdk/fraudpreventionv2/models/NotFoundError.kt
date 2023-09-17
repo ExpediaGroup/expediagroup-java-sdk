@@ -16,7 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-
 /*
  * Copyright (C) 2022 Expedia, Inc.
  *
@@ -33,14 +32,8 @@ package com.expediagroup.openworld.sdk.fraudpreventionv2.models
  * limitations under the License.
  */
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.Valid
 
 /**
  * Indicates that the API cannot find the resource that is either being requested or against which the operation is being performed. Please check the request again to make sure that the request is valid.
@@ -49,22 +42,14 @@ import org.hibernate.validator.constraints.Length;
  */
 data class NotFoundError(
     /* Snake cased all caps error code interpreted from the HTTP status code that can programmatically be acted upon. */
-@JsonProperty("code")
-
+    @JsonProperty("code")
     val code: NotFoundError.Code,
 
     /* A human-readable explanation of the error, specific to this error occurrence. */
-@JsonProperty("message")
-
-    
-    
-    
-    
+    @JsonProperty("message")
     @field:Valid
     val message: kotlin.String
 ) {
-    
-
 
     companion object {
         @JvmStatic
@@ -99,41 +84,40 @@ data class NotFoundError(
 
     /**
      * Snake cased all caps error code interpreted from the HTTP status code that can programmatically be acted upon.
-     * Values: UNAUTHORIZED,FORBIDDEN,NOT_FOUND,ORDER_PURCHASE_UPDATE_NOT_FOUND,TOO_MANY_REQUESTS,INTERNAL_SERVER_ERROR,BAD_GATEWAY,RETRYABLE_ORDER_PURCHASE_SCREEN_FAILURE,RETRYABLE_ORDER_PURCHASE_UPDATE_FAILURE,GATEWAY_TIMEOUT,BAD_REQUEST
+     * Values: UNAUTHORIZED,FORBIDDEN,NOT_FOUND,ACCOUNT_UPDATE_NOT_FOUND,TOO_MANY_REQUESTS,INTERNAL_SERVER_ERROR,BAD_GATEWAY,RETRYABLE_ACCOUNT_SCREEN_FAILURE,RETRYABLE_ACCOUNT_UPDATE_FAILURE,GATEWAY_TIMEOUT,BAD_REQUEST
      */
     enum class Code(val value: kotlin.String) {
         @JsonProperty("UNAUTHORIZED")
         UNAUTHORIZED("UNAUTHORIZED"),
-        
+
         @JsonProperty("FORBIDDEN")
         FORBIDDEN("FORBIDDEN"),
-        
+
         @JsonProperty("NOT_FOUND")
         NOT_FOUND("NOT_FOUND"),
-        
-        @JsonProperty("ORDER_PURCHASE_UPDATE_NOT_FOUND")
-        ORDER_PURCHASE_UPDATE_NOT_FOUND("ORDER_PURCHASE_UPDATE_NOT_FOUND"),
-        
+
+        @JsonProperty("ACCOUNT_UPDATE_NOT_FOUND")
+        ACCOUNT_UPDATE_NOT_FOUND("ACCOUNT_UPDATE_NOT_FOUND"),
+
         @JsonProperty("TOO_MANY_REQUESTS")
         TOO_MANY_REQUESTS("TOO_MANY_REQUESTS"),
-        
+
         @JsonProperty("INTERNAL_SERVER_ERROR")
         INTERNAL_SERVER_ERROR("INTERNAL_SERVER_ERROR"),
-        
+
         @JsonProperty("BAD_GATEWAY")
         BAD_GATEWAY("BAD_GATEWAY"),
-        
-        @JsonProperty("RETRYABLE_ORDER_PURCHASE_SCREEN_FAILURE")
-        RETRYABLE_ORDER_PURCHASE_SCREEN_FAILURE("RETRYABLE_ORDER_PURCHASE_SCREEN_FAILURE"),
-        
-        @JsonProperty("RETRYABLE_ORDER_PURCHASE_UPDATE_FAILURE")
-        RETRYABLE_ORDER_PURCHASE_UPDATE_FAILURE("RETRYABLE_ORDER_PURCHASE_UPDATE_FAILURE"),
-        
+
+        @JsonProperty("RETRYABLE_ACCOUNT_SCREEN_FAILURE")
+        RETRYABLE_ACCOUNT_SCREEN_FAILURE("RETRYABLE_ACCOUNT_SCREEN_FAILURE"),
+
+        @JsonProperty("RETRYABLE_ACCOUNT_UPDATE_FAILURE")
+        RETRYABLE_ACCOUNT_UPDATE_FAILURE("RETRYABLE_ACCOUNT_UPDATE_FAILURE"),
+
         @JsonProperty("GATEWAY_TIMEOUT")
         GATEWAY_TIMEOUT("GATEWAY_TIMEOUT"),
-        
+
         @JsonProperty("BAD_REQUEST")
-        BAD_REQUEST("BAD_REQUEST");
+        BAD_REQUEST("BAD_REQUEST")
     }
 }
-

@@ -16,8 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.Telephone
-
 /*
  * Copyright (C) 2022 Expedia, Inc.
  *
@@ -34,18 +32,14 @@ import com.expediagroup.openworld.sdk.fraudpreventionv2.models.Telephone
  * limitations under the License.
  */
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.constraints.Size
+import jakarta.validation.Valid
+import org.hibernate.validator.constraints.Length
 
 /**
- * 
- * @param cardType The 'card_type' field value is an enum value which is associated with the payment method of the specific payment instrument. For credit card payment method ensure attributes mentioned in dictionary below are set to corresponding values only. Ensure to comply with the naming standards provided in below dictionary. For example, some Payment processors use “Japan Credit Bureau” but “JCB” should be used when calling Fraud API. Incorrect `card_type` - `brand` combination will result in data quality issues and result in degraded risk recommendation. 'card_type' is an enum value with the following mapping with Payment `brand` attribute: *       card_type            :          brand * -------------------------------------------------------- * `AMERICAN_EXPRESS`         : `AMERICAN_EXPRESS` * `DINERS_CLUB`              : `DINERS_CLUB_INTERNATIONAL` * `DINERS_CLUB`              : `BC_CARD` * `DISCOVER`                 : `DISCOVER` * `DISCOVER`                 : `BC_CARD` * `DISCOVER`                 : `DINERS_CLUB_INTERNATIONAL` * `DISCOVER`                 : `JCB` * `JCB`                      : `JCB` * `MASTER_CARD`              : `MASTER_CARD` * `MASTER_CARD`              : `MAESTRO` * `MASTER_CARD`              : `POSTEPAY_MASTERCARD` * `SOLO`                     : `SOLO` * `SWITCH`                   : `SWITCH` * `MAESTRO`                  : `MAESTRO` * `CHINA_UNION_PAY`          : `CHINA_UNION_PAY` * `VISA`                     : `VISA` * `VISA`                     : `VISA_DELTA` * `VISA`                     : `VISA_ELECTRON` * `VISA`                     : `CARTA_SI` * `VISA`                     : `CARTE_BLEUE` * `VISA`                     : `VISA_DANKORT` * `VISA`                     : `POSTEPAY_VISA_ELECTRON` 
+ *
+ * @param cardType The 'card_type' field value is an enum value which is associated with the payment method of the specific payment instrument. For credit card payment method ensure attributes mentioned in dictionary below are set to corresponding values only. Ensure to comply with the naming standards provided in below dictionary. For example, some Payment processors use “Japan Credit Bureau” but “JCB” should be used when calling Fraud API. Incorrect `card_type` - `brand` combination will result in data quality issues and result in degraded risk recommendation. 'card_type' is an enum value with the following mapping with Payment `brand` attribute: *       card_type            :          brand * -------------------------------------------------------- * `AMERICAN_EXPRESS`         : `AMERICAN_EXPRESS` * `DINERS_CLUB`              : `DINERS_CLUB_INTERNATIONAL` * `DINERS_CLUB`              : `BC_CARD` * `DISCOVER`                 : `DISCOVER` * `DISCOVER`                 : `BC_CARD` * `DISCOVER`                 : `DINERS_CLUB_INTERNATIONAL` * `DISCOVER`                 : `JCB` * `JCB`                      : `JCB` * `MASTER_CARD`              : `MASTER_CARD` * `MASTER_CARD`              : `MAESTRO` * `MASTER_CARD`              : `POSTEPAY_MASTERCARD` * `SOLO`                     : `SOLO` * `SWITCH`                   : `SWITCH` * `MAESTRO`                  : `MAESTRO` * `CHINA_UNION_PAY`          : `CHINA_UNION_PAY` * `VISA`                     : `VISA` * `VISA`                     : `VISA_DELTA` * `VISA`                     : `VISA_ELECTRON` * `VISA`                     : `CARTA_SI` * `VISA`                     : `CARTE_BLEUE` * `VISA`                     : `VISA_DANKORT` * `VISA`                     : `POSTEPAY_VISA_ELECTRON`
  * @param cardNumber All the digits (unencrypted) of the credit card number associated with the payment.
  * @param expiryDate Expiration date of the credit card used for payment, in ISO-8061 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`.
  * @param telephones Telephone(s) associated with card holder and credit card.
@@ -59,107 +53,65 @@ import org.hibernate.validator.constraints.Length;
  */
 data class CreditCardAllOf(
     /* The 'card_type' field value is an enum value which is associated with the payment method of the specific payment instrument. For credit card payment method ensure attributes mentioned in dictionary below are set to corresponding values only. Ensure to comply with the naming standards provided in below dictionary. For example, some Payment processors use “Japan Credit Bureau” but “JCB” should be used when calling Fraud API. Incorrect `card_type` - `brand` combination will result in data quality issues and result in degraded risk recommendation. 'card_type' is an enum value with the following mapping with Payment `brand` attribute: *       card_type            :          brand * -------------------------------------------------------- * `AMERICAN_EXPRESS`         : `AMERICAN_EXPRESS` * `DINERS_CLUB`              : `DINERS_CLUB_INTERNATIONAL` * `DINERS_CLUB`              : `BC_CARD` * `DISCOVER`                 : `DISCOVER` * `DISCOVER`                 : `BC_CARD` * `DISCOVER`                 : `DINERS_CLUB_INTERNATIONAL` * `DISCOVER`                 : `JCB` * `JCB`                      : `JCB` * `MASTER_CARD`              : `MASTER_CARD` * `MASTER_CARD`              : `MAESTRO` * `MASTER_CARD`              : `POSTEPAY_MASTERCARD` * `SOLO`                     : `SOLO` * `SWITCH`                   : `SWITCH` * `MAESTRO`                  : `MAESTRO` * `CHINA_UNION_PAY`          : `CHINA_UNION_PAY` * `VISA`                     : `VISA` * `VISA`                     : `VISA_DELTA` * `VISA`                     : `VISA_ELECTRON` * `VISA`                     : `CARTA_SI` * `VISA`                     : `CARTE_BLEUE` * `VISA`                     : `VISA_DANKORT` * `VISA`                     : `POSTEPAY_VISA_ELECTRON`  */
-@JsonProperty("card_type")
-
+    @JsonProperty("card_type")
     val cardType: CreditCardAllOf.CardType,
 
     /* All the digits (unencrypted) of the credit card number associated with the payment. */
-@JsonProperty("card_number")
-
+    @JsonProperty("card_number")
     @field:Length(max = 200)
-    
-    
-    
     @field:Valid
     val cardNumber: kotlin.String,
 
     /* Expiration date of the credit card used for payment, in ISO-8061 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`. */
-@JsonProperty("expiry_date")
-
+    @JsonProperty("expiry_date")
     val expiryDate: java.time.OffsetDateTime,
 
     /* Telephone(s) associated with card holder and credit card. */
-@JsonProperty("telephones")
-
-    
+    @JsonProperty("telephones")
     @field:Size(min = 1, max = 20)
-    
-    
     @field:Valid
     val telephones: kotlin.collections.List<Telephone>,
 
     /* Electronic Commerce Indicator, a two or three digit number usually returned by a 3rd party payment processor in regards to the authentication used when gathering the cardholder's payment credentials. */
-@JsonProperty("electronic_commerce_indicator")
-
+    @JsonProperty("electronic_commerce_indicator")
     @field:Length(max = 200)
-    
-    
-    
     @field:Valid
     val electronicCommerceIndicator: kotlin.String? = null,
 
     /* A flag to indicate that the bank card being used for the charge is a virtual credit card. */
-@JsonProperty("virtual_credit_card_flag")
-
-    
-    
-    
-    
+    @JsonProperty("virtual_credit_card_flag")
     @field:Valid
     val virtualCreditCardFlag: kotlin.Boolean? = null,
 
     /* If a virtual/digital form of payment was used, the type of digital wallet should be specified here. Possible `wallet_type`'s include: `Google` or `ApplePay`. */
-@JsonProperty("wallet_type")
-
+    @JsonProperty("wallet_type")
     @field:Length(max = 200)
-    
-    
-    
     @field:Valid
     val walletType: kotlin.String? = null,
 
     /* A field used to confirm if the address provided at the time of purchase matches what the bank has on file for the Credit Card. */
-@JsonProperty("card_avs_response")
-
+    @JsonProperty("card_avs_response")
     @field:Length(max = 50)
-    
-    
-    
     @field:Valid
     val cardAvsResponse: kotlin.String? = null,
 
     /* A field used to confirm the Card Verification Value on the Credit Card matches the Credit Card used at the time of purchase. */
-@JsonProperty("card_cvv_response")
-
+    @JsonProperty("card_cvv_response")
     @field:Length(max = 20)
-    
-    
-    
     @field:Valid
     val cardCvvResponse: kotlin.String? = null,
 
     /* Reference code passed to acquiring bank at the time of payment. This code is the key ID that ties back to payments data at the payment level. */
-@JsonProperty("merchant_order_code")
-
+    @JsonProperty("merchant_order_code")
     @field:Length(max = 200)
-    
-    
-    
     @field:Valid
     val merchantOrderCode: kotlin.String? = null,
 
     /* Total authentication failure count for given card. */
-@JsonProperty("card_authentication_failure_count")
-
-    
-    
-    
-    
+    @JsonProperty("card_authentication_failure_count")
     @field:Valid
     val cardAuthenticationFailureCount: kotlin.Int? = null
 ) {
-    
-
 
     companion object {
         @JvmStatic
@@ -226,39 +178,38 @@ data class CreditCardAllOf(
     }
 
     /**
-     * The 'card_type' field value is an enum value which is associated with the payment method of the specific payment instrument. For credit card payment method ensure attributes mentioned in dictionary below are set to corresponding values only. Ensure to comply with the naming standards provided in below dictionary. For example, some Payment processors use “Japan Credit Bureau” but “JCB” should be used when calling Fraud API. Incorrect `card_type` - `brand` combination will result in data quality issues and result in degraded risk recommendation. 'card_type' is an enum value with the following mapping with Payment `brand` attribute: *       card_type            :          brand * -------------------------------------------------------- * `AMERICAN_EXPRESS`         : `AMERICAN_EXPRESS` * `DINERS_CLUB`              : `DINERS_CLUB_INTERNATIONAL` * `DINERS_CLUB`              : `BC_CARD` * `DISCOVER`                 : `DISCOVER` * `DISCOVER`                 : `BC_CARD` * `DISCOVER`                 : `DINERS_CLUB_INTERNATIONAL` * `DISCOVER`                 : `JCB` * `JCB`                      : `JCB` * `MASTER_CARD`              : `MASTER_CARD` * `MASTER_CARD`              : `MAESTRO` * `MASTER_CARD`              : `POSTEPAY_MASTERCARD` * `SOLO`                     : `SOLO` * `SWITCH`                   : `SWITCH` * `MAESTRO`                  : `MAESTRO` * `CHINA_UNION_PAY`          : `CHINA_UNION_PAY` * `VISA`                     : `VISA` * `VISA`                     : `VISA_DELTA` * `VISA`                     : `VISA_ELECTRON` * `VISA`                     : `CARTA_SI` * `VISA`                     : `CARTE_BLEUE` * `VISA`                     : `VISA_DANKORT` * `VISA`                     : `POSTEPAY_VISA_ELECTRON` 
+     * The 'card_type' field value is an enum value which is associated with the payment method of the specific payment instrument. For credit card payment method ensure attributes mentioned in dictionary below are set to corresponding values only. Ensure to comply with the naming standards provided in below dictionary. For example, some Payment processors use “Japan Credit Bureau” but “JCB” should be used when calling Fraud API. Incorrect `card_type` - `brand` combination will result in data quality issues and result in degraded risk recommendation. 'card_type' is an enum value with the following mapping with Payment `brand` attribute: *       card_type            :          brand * -------------------------------------------------------- * `AMERICAN_EXPRESS`         : `AMERICAN_EXPRESS` * `DINERS_CLUB`              : `DINERS_CLUB_INTERNATIONAL` * `DINERS_CLUB`              : `BC_CARD` * `DISCOVER`                 : `DISCOVER` * `DISCOVER`                 : `BC_CARD` * `DISCOVER`                 : `DINERS_CLUB_INTERNATIONAL` * `DISCOVER`                 : `JCB` * `JCB`                      : `JCB` * `MASTER_CARD`              : `MASTER_CARD` * `MASTER_CARD`              : `MAESTRO` * `MASTER_CARD`              : `POSTEPAY_MASTERCARD` * `SOLO`                     : `SOLO` * `SWITCH`                   : `SWITCH` * `MAESTRO`                  : `MAESTRO` * `CHINA_UNION_PAY`          : `CHINA_UNION_PAY` * `VISA`                     : `VISA` * `VISA`                     : `VISA_DELTA` * `VISA`                     : `VISA_ELECTRON` * `VISA`                     : `CARTA_SI` * `VISA`                     : `CARTE_BLEUE` * `VISA`                     : `VISA_DANKORT` * `VISA`                     : `POSTEPAY_VISA_ELECTRON`
      * Values: AMERICAN_EXPRESS,DINERS_CLUB,DISCOVER,JCB,MASTER_CARD,SOLO,SWITCH,MAESTRO,CHINA_UNION_PAY,VISA
      */
     enum class CardType(val value: kotlin.String) {
         @JsonProperty("AMERICAN_EXPRESS")
         AMERICAN_EXPRESS("AMERICAN_EXPRESS"),
-        
+
         @JsonProperty("DINERS_CLUB")
         DINERS_CLUB("DINERS_CLUB"),
-        
+
         @JsonProperty("DISCOVER")
         DISCOVER("DISCOVER"),
-        
+
         @JsonProperty("JCB")
         JCB("JCB"),
-        
+
         @JsonProperty("MASTER_CARD")
         MASTER_CARD("MASTER_CARD"),
-        
+
         @JsonProperty("SOLO")
         SOLO("SOLO"),
-        
+
         @JsonProperty("SWITCH")
         SWITCH("SWITCH"),
-        
+
         @JsonProperty("MAESTRO")
         MAESTRO("MAESTRO"),
-        
+
         @JsonProperty("CHINA_UNION_PAY")
         CHINA_UNION_PAY("CHINA_UNION_PAY"),
-        
+
         @JsonProperty("VISA")
-        VISA("VISA");
+        VISA("VISA")
     }
 }
-

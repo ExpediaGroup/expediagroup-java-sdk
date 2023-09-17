@@ -16,10 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.IssuedRefundUpdateDetails
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.RefundUpdate
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.UpdateType
-
 /*
  * Copyright (C) 2022 Expedia, Inc.
  *
@@ -36,47 +32,31 @@ import com.expediagroup.openworld.sdk.fraudpreventionv2.models.UpdateType
  * limitations under the License.
  */
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.Valid
+import org.hibernate.validator.constraints.Length
 
 /**
  * Data related to the issued refund that should be updated.
- * @param refundDetails 
+ * @param refundDetails
  */
 data class IssuedRefundUpdate(
 
     /* The `risk_id` provided by Expedia's Fraud Prevention Service in the `OrderPurchaseScreenResponse`. */
-@JsonProperty("risk_id")
-
+    @JsonProperty("risk_id")
     @field:Length(max = 200)
-    
-    
-    
     @field:Valid
     override val riskId: kotlin.String,
 
-
     @JsonProperty("refund_details")
-
-    
-    
-    
-    
     @field:Valid
     val refundDetails: IssuedRefundUpdateDetails? = null
 ) : RefundUpdate {
     @JsonProperty("type")
-override val type : UpdateType = UpdateType.REFUND_UPDATE
-@JsonProperty("refund_status")
-override val refundStatus : RefundUpdate.RefundStatus = RefundUpdate.RefundStatus.ISSUED
+    override val type: UpdateType = UpdateType.REFUND_UPDATE
 
-
+    @JsonProperty("refund_status")
+    override val refundStatus: RefundUpdate.RefundStatus = RefundUpdate.RefundStatus.ISSUED
 
     companion object {
         @JvmStatic
@@ -106,4 +86,3 @@ override val refundStatus : RefundUpdate.RefundStatus = RefundUpdate.RefundStatu
         }
     }
 }
-

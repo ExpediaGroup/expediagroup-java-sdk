@@ -16,11 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.CustomerAccount
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.DeviceDetails
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.SiteInfo
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.TransactionDetails
-
 /*
  * Copyright (C) 2022 Expedia, Inc.
  *
@@ -37,61 +32,33 @@ import com.expediagroup.openworld.sdk.fraudpreventionv2.models.TransactionDetail
  * limitations under the License.
  */
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.Valid
 
 /**
- * 
- * @param siteInfo 
- * @param deviceDetails 
- * @param customerAccount 
- * @param transactionDetails 
+ *
+ * @param siteInfo
+ * @param deviceDetails
+ * @param customerAccount
+ * @param transactionDetails
  */
 data class OrderPurchaseTransaction(
     @JsonProperty("site_info")
-
-    
-    
-    
-    
     @field:Valid
     val siteInfo: SiteInfo,
 
     @JsonProperty("device_details")
-
-    
-    
-    
-    
     @field:Valid
     val deviceDetails: DeviceDetails,
 
     @JsonProperty("customer_account")
-
-    
-    
-    
-    
     @field:Valid
     val customerAccount: CustomerAccount,
 
     @JsonProperty("transaction_details")
-
-    
-    
-    
-    
     @field:Valid
     val transactionDetails: TransactionDetails
 ) {
-    
-
 
     companion object {
         @JvmStatic
@@ -136,4 +103,3 @@ data class OrderPurchaseTransaction(
         }
     }
 }
-

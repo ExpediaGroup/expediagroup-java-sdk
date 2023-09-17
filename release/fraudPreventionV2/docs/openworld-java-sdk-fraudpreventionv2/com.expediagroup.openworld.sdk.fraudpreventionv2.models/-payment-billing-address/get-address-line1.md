@@ -1,0 +1,15 @@
+//[openworld-java-sdk-fraudpreventionv2](../../../index.md)/[com.expediagroup.openworld.sdk.fraudpreventionv2.models](../index.md)/[PaymentBillingAddress](index.md)/[getAddressLine1](get-address-line1.md)
+
+# getAddressLine1
+
+[JVM]\
+
+public final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[getAddressLine1](get-address-line1.md)()
+
+#### Parameters
+
+JVM
+
+| | |
+|---|---|
+| addressLine1 | Address line 1 of the address provided. |
