@@ -17,8 +17,6 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
-      - name: Set up parent
-        run: mvn clean install
       - name: verify core
         working-directory: core
         run: mvn verify -P github-verify-action-profile

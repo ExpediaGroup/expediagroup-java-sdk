@@ -18,12 +18,6 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
-      - name: Set up parent
-        run: mvn clean install
-      - uses: actions/download-artifact@v3
-        with:
-          name: sdk
-          path: generator/sdk
       - name: "JDK set-up"
         uses: actions/setup-java@v3
         with:
@@ -36,15 +30,17 @@ jobs:
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }} # Value of the GPG private key to import
           gpg-passphrase: GPG_PASSPHRASE # env variable for GPG private key passphrase
           settings-path: ${{ github.workspace }}
-      - name: Prepare parent
-        run: mvn clean install
-      - name: "Release artifacts"
+      - uses: actions/download-artifact@v3
+        with:
+          name: sdk
+          path: generator/openapi/target/sdk
+      - name: Release artifacts
+        working-directory: generator/openapi/target/sdk
         env:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PRIVATE_KEY_PASSPHRASE }}
         run: |
-          cd generator/sdk
           if [[ "${{github.event.inputs.production_release}}" == "true" ]]; then
             mvn deploy --settings $GITHUB_WORKSPACE/settings.xml -B -U -P release -DskipTests=true
           else
