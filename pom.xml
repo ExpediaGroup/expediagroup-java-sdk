@@ -7,7 +7,7 @@
     <artifactId>sdk-parent-pom</artifactId>
     <name>EG SDK :: Parent POM</name>
     <description>Parent POM Module of Expedia Group SDK</description>
-    <version>${revision}</version>
+    <version>1.0.0</version>
     <inceptionYear>2022</inceptionYear>
     <url>https://github.com/ExpediaGroup/expediagroup-java-sdk-core</url>
 
@@ -52,7 +52,6 @@
 
 
     <properties>
-        <revision>1.0.0</revision>
         <!-- Target JDK8 Minimum -->
         <java.release>1.8</java.release>
         <maven.compiler.release>8</maven.compiler.release>
