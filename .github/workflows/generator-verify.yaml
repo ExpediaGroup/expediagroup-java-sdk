@@ -15,7 +15,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '11'
-          distribution: 'adopt'
+          distribution: 'temurin'
       - id: build-with-maven
         working-directory: generator
         run: mvn clean install -P github-generate-action-profile
@@ -41,9 +41,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '11'
-          distribution: 'adopt'
-      - name: Set up core
-        run: mvn clean install
+          distribution: 'temurin'
       - name: verify generated sdk
         working-directory: generator/openapi/target/sdk
         run: mvn verify

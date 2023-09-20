@@ -1,4 +1,4 @@
-# Open World SDK Core Change Log
+# Expedia Group SDK Core Change Log
 
 All notable changes to this project will be documented in this file.
 

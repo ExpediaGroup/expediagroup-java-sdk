@@ -1,6 +1,6 @@
-# Open World <sup>TM</sup> SDK for Java
+# Expedia Group<sup>TM</sup> SDK for Java
 
-The Open World SDK for Java allows Expedia Group partners to easily build Java applications that leverage the Open World<sup>TM</sup> platform.
+The Expedia Group SDK for Java allows Expedia Group partners to easily build Java applications that leverage the Expedia Group<sup>TM</sup> platform.
 
 ## Contributing
 
