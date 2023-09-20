@@ -1,0 +1,50 @@
+name: Generate and Publish Sources
+on:
+  workflow_call:
+    inputs:
+      name:
+        description: 'SDK Name'
+        required: true
+        type: string
+      version:
+        description: 'SDK Version'
+        required: true
+        type: string
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v3
+        with:
+          name: sdk
+          path: generator/sdk
+      - uses: actions/download-artifact@v3
+        with:
+          name: specs
+          path: generator/sdk
+      - uses: actions/download-artifact@v3
+        with:
+          name: docs
+          path: generator/sdk/docs
+      - name: Add generated source code
+        working-directory: generator/sdk
+        run: |
+          rm -rf ../../release/"${{github.event.inputs.name}}"
+          mkdir -p ../../release/"${{github.event.inputs.name}}"
+
+          cp -r ./src ../../release/"${{github.event.inputs.name}}"/src
+          cp ./pom.xml ../../release/"${{github.event.inputs.name}}"/src
+          cp ./README.md ../../release/"${{github.event.inputs.name}}"/src
+          cp ./specs.yaml ../../release/"${{github.event.inputs.name}}"/src/specs.yaml
+
+          cp -r ./docs ../../release/"${{github.event.inputs.name}}"/docs
+      - name: Create PR
+        uses: peter-evans/create-pull-request@v5
+        with:
+          branch: "${{github.event.inputs.name}}-${{github.event.inputs.version}}"
+          commit-message: "chore: Publish ${{github.event.inputs.name}} [${{github.event.inputs.version}}] SDK"
+          title: "chore: Publish ${{github.event.inputs.name}} [${{github.event.inputs.version}}] SDK"
+          add-paths: |
+            release/*

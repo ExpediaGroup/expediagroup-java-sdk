@@ -16,8 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.Address
-
 /*
  * Copyright (C) 2022 Expedia, Inc.
  *
@@ -34,70 +32,45 @@ import com.expediagroup.openworld.sdk.fraudpreventionv2.models.Address
  * limitations under the License.
  */
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.Valid
+import org.hibernate.validator.constraints.Length
 
 /**
- * 
+ *
  * @param name The popularly known name or title by which the railway station is identified.
  * @param stationCode The unique identifier or code assigned to an individual rail station or a pseudo-station representing all the stations within a specific city, from which rail travel originates.
- * @param address 
+ * @param address
  * @param type This attribute provides information about the specific classification assigned to the rail station. It helps differentiate between different types of stations, such as major stations (STATION) or stations located within a city (city).
  * @param timezone The timezone associated with the location of the station, specifying the local time offset from Coordinated Universal Time (UTC).
  */
 data class RailwayStationDetails(
     /* The popularly known name or title by which the railway station is identified. */
-@JsonProperty("name")
-
+    @JsonProperty("name")
     @field:Length(max = 200)
-    
-    
-    
     @field:Valid
     val name: kotlin.String,
 
     /* The unique identifier or code assigned to an individual rail station or a pseudo-station representing all the stations within a specific city, from which rail travel originates. */
-@JsonProperty("station_code")
-
+    @JsonProperty("station_code")
     @field:Length(max = 200)
-    
-    
-    
     @field:Valid
     val stationCode: kotlin.String,
 
     @JsonProperty("address")
-
-    
-    
-    
-    
     @field:Valid
     val address: Address,
 
     /* This attribute provides information about the specific classification assigned to the rail station. It helps differentiate between different types of stations, such as major stations (STATION) or stations located within a city (city). */
-@JsonProperty("type")
-
+    @JsonProperty("type")
     val type: RailwayStationDetails.Type? = null,
 
     /* The timezone associated with the location of the station, specifying the local time offset from Coordinated Universal Time (UTC). */
-@JsonProperty("timezone")
-
+    @JsonProperty("timezone")
     @field:Length(max = 200)
-    
-    
-    
     @field:Valid
     val timezone: kotlin.String? = null
 ) {
-    
-
 
     companion object {
         @JvmStatic
@@ -149,9 +122,8 @@ data class RailwayStationDetails(
     enum class Type(val value: kotlin.String) {
         @JsonProperty("STATION")
         STATION("STATION"),
-        
+
         @JsonProperty("CITY")
-        CITY("CITY");
+        CITY("CITY")
     }
 }
-

@@ -16,8 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.UpdateType
-
 /*
  * Copyright (C) 2022 Expedia, Inc.
  *
@@ -34,22 +32,14 @@ import com.expediagroup.openworld.sdk.fraudpreventionv2.models.UpdateType
  * limitations under the License.
  */
 
-
-import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.Length;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 
 /**
- * The `type` field value is used as a discriminator, with the following mapping: * `ORDER_UPDATE`: `OrderUpdate` * `CHARGEBACK_FEEDBACK`: `ChargebackFeedback` * `INSULT_FEEDBACK`: `InsultFeedback` * `REFUND_UPDATE`: `RefundUpdate` * `PAYMENT_UPDATE`: `PaymentUpdate` 
- * @param type 
+ * The `type` field value is used as a discriminator, with the following mapping: * `ORDER_UPDATE`: `OrderUpdate` * `CHARGEBACK_FEEDBACK`: `ChargebackFeedback` * `INSULT_FEEDBACK`: `InsultFeedback` * `REFUND_UPDATE`: `RefundUpdate` * `PAYMENT_UPDATE`: `PaymentUpdate`
+ * @param type
  * @param riskId The `risk_id` provided by Expedia's Fraud Prevention Service in the `OrderPurchaseScreenResponse`.
  */
 @JsonIgnoreProperties(ignoreUnknown = true, value = ["type"])
@@ -63,11 +53,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 )
 interface OrderPurchaseUpdateRequest {
 
+    val type: UpdateType
+    /* The `risk_id` provided by Expedia's Fraud Prevention Service in the `OrderPurchaseScreenResponse`. */
 
-    
-val type: UpdateType
-        /* The `risk_id` provided by Expedia's Fraud Prevention Service in the `OrderPurchaseScreenResponse`. */
-
-val riskId: kotlin.String
+    val riskId: kotlin.String
 }
-

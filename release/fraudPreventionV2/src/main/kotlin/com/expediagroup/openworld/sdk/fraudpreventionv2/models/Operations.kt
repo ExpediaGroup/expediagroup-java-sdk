@@ -16,12 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.Authorize
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.AuthorizeReversal
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.Capture
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.Refund
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.Verify
-
 /*
  * Copyright (C) 2022 Expedia, Inc.
  *
@@ -38,71 +32,40 @@ import com.expediagroup.openworld.sdk.fraudpreventionv2.models.Verify
  * limitations under the License.
  */
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.constraints.Size
+import jakarta.validation.Valid
 
 /**
- * All operations related to a payment throughout its lifespan. An operation represents an event external to Fraud Prevention Service that specifies to perform a payment operation. Possible operation types include:  - `Verify`  - `Authorize`  - `AuthorizeReversal`  - `Capture`  - `Refund` 
- * @param verify 
- * @param authorize 
- * @param authorizeReversal 
- * @param capture 
- * @param refunds 
+ * All operations related to a payment throughout its lifespan. An operation represents an event external to Fraud Prevention Service that specifies to perform a payment operation. Possible operation types include:  - `Verify`  - `Authorize`  - `AuthorizeReversal`  - `Capture`  - `Refund`
+ * @param verify
+ * @param authorize
+ * @param authorizeReversal
+ * @param capture
+ * @param refunds
  */
 data class Operations(
     @JsonProperty("verify")
-
-    
-    
-    
-    
     @field:Valid
     val verify: Verify? = null,
 
     @JsonProperty("authorize")
-
-    
-    
-    
-    
     @field:Valid
     val authorize: Authorize? = null,
 
     @JsonProperty("authorize_reversal")
-
-    
-    
-    
-    
     @field:Valid
     val authorizeReversal: AuthorizeReversal? = null,
 
     @JsonProperty("capture")
-
-    
-    
-    
-    
     @field:Valid
     val capture: Capture? = null,
 
     @JsonProperty("refunds")
-
-    
     @field:Size(max = 20)
-    
-    
     @field:Valid
     val refunds: kotlin.collections.List<Refund>? = null
 ) {
-    
-
 
     companion object {
         @JvmStatic
@@ -131,7 +94,5 @@ data class Operations(
                 refunds = refunds
             )
         }
-
     }
 }
-

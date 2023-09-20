@@ -16,7 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-
 /*
  * Copyright (C) 2022 Expedia, Inc.
  *
@@ -33,47 +32,28 @@ package com.expediagroup.openworld.sdk.fraudpreventionv2.models
  * limitations under the License.
  */
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.Valid
 
 /**
- * 
- * @param code 
+ *
+ * @param code
  * @param `field` A JSON Path expression indicating which field, in the request body, caused the error.
- * @param message 
+ * @param message
  */
 data class BadRequestErrorAllOfCauses(
     @JsonProperty("code")
-
     val code: BadRequestErrorAllOfCauses.Code? = null,
 
     /* A JSON Path expression indicating which field, in the request body, caused the error. */
-@JsonProperty("field")
-
-    
-    
-    
-    
+    @JsonProperty("field")
     @field:Valid
     val `field`: kotlin.String? = null,
 
     @JsonProperty("message")
-
-    
-    
-    
-    
     @field:Valid
     val message: kotlin.String? = null
 ) {
-    
-
 
     companion object {
         @JvmStatic
@@ -96,22 +76,20 @@ data class BadRequestErrorAllOfCauses(
                 message = message
             )
         }
-
     }
 
     /**
-     * 
+     *
      * Values: MISSING_MANDATORY_PARAM,INVALID_PARAM,INVALID_FORMAT
      */
     enum class Code(val value: kotlin.String) {
         @JsonProperty("MISSING_MANDATORY_PARAM")
         MISSING_MANDATORY_PARAM("MISSING_MANDATORY_PARAM"),
-        
+
         @JsonProperty("INVALID_PARAM")
         INVALID_PARAM("INVALID_PARAM"),
-        
+
         @JsonProperty("INVALID_FORMAT")
-        INVALID_FORMAT("INVALID_FORMAT");
+        INVALID_FORMAT("INVALID_FORMAT")
     }
 }
-

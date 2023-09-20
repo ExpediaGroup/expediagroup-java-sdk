@@ -1,0 +1,48 @@
+name: Generate SDK - Generate
+on:
+  workflow_call:
+    inputs:
+      name:
+        description: 'SDK Name'
+        required: true
+        type: string
+      version:
+        description: 'SDK Version'
+        required: true
+        type: string
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+      - id: build
+        working-directory: generator
+        run: mvn clean install
+      - uses: actions/download-artifact@v3
+        with:
+          name: specs
+          path: generator/openapi
+      - name: generate
+        working-directory: generator/openapi
+        run: |
+          mvn clean install
+          mvn exec:java "-Dnamespace=${{ inputs.name }}" -DsdkVersion=${{ inputs.version }} "-Dspec=./specs.yaml"
+      - name: install sdk
+        working-directory: generator/openapi/target/sdk
+        run: |
+          mvn clean install
+      - uses: actions/upload-artifact@v3
+        with:
+          name: sdk
+          path: |
+            generator/openapi/target/sdk
+            !generator/openapi/target/sdk/target
+      - uses: actions/upload-artifact@v3
+        with:
+          name: docs
+          path: generator/openapi/target/sdk/target/dokka

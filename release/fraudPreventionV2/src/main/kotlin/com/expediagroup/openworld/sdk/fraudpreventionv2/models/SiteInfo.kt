@@ -16,7 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-
 /*
  * Copyright (C) 2022 Expedia, Inc.
  *
@@ -33,43 +32,27 @@ package com.expediagroup.openworld.sdk.fraudpreventionv2.models
  * limitations under the License.
  */
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.Valid
+import jakarta.validation.constraints.Pattern
 
 /**
- * 
+ *
  * @param countryCode The alpha-3 ISO code that represents a country name.
  * @param agentAssisted Identifies if an agent assisted in booking travel for the customer. `False` if the order was directly booked by customer.
  */
 data class SiteInfo(
     /* The alpha-3 ISO code that represents a country name. */
-@JsonProperty("country_code")
-@field:Pattern(regexp = "^[A-Z]{3}$")
-    
-    
-    
-    
+    @JsonProperty("country_code")
+    @field:Pattern(regexp = "^[A-Z]{3}$")
     @field:Valid
     val countryCode: kotlin.String,
 
     /* Identifies if an agent assisted in booking travel for the customer. `False` if the order was directly booked by customer. */
-@JsonProperty("agent_assisted")
-
-    
-    
-    
-    
+    @JsonProperty("agent_assisted")
     @field:Valid
     val agentAssisted: kotlin.Boolean
 ) {
-    
-
 
     companion object {
         @JvmStatic
@@ -102,4 +85,3 @@ data class SiteInfo(
         }
     }
 }
-

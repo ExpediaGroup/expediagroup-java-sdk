@@ -16,8 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.Telephone
-
 /*
  * Copyright (C) 2022 Expedia, Inc.
  *
@@ -34,54 +32,36 @@ import com.expediagroup.openworld.sdk.fraudpreventionv2.models.Telephone
  * limitations under the License.
  */
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.constraints.Size
+import jakarta.validation.Valid
+import org.hibernate.validator.constraints.Length
 
 /**
- * 
+ *
  * @param bankId The bank_id provided by the internet bank payment(IBP) provider (DRWP aka NetGiro) for the bank used for processing the payment.
  * @param bankBranchCode A code that identifies the bank branch for internet bank payment(IBP).
  * @param telephones Telephone(s) associated with internet bank payment(IBP) provider.
  */
 data class InternetBankPaymentAllOf(
     /* The bank_id provided by the internet bank payment(IBP) provider (DRWP aka NetGiro) for the bank used for processing the payment. */
-@JsonProperty("bank_id")
-
+    @JsonProperty("bank_id")
     @field:Length(max = 15)
-    
-    
-    
     @field:Valid
     val bankId: kotlin.String,
 
     /* A code that identifies the bank branch for internet bank payment(IBP). */
-@JsonProperty("bank_branch_code")
-
+    @JsonProperty("bank_branch_code")
     @field:Length(max = 15)
-    
-    
-    
     @field:Valid
     val bankBranchCode: kotlin.String,
 
     /* Telephone(s) associated with internet bank payment(IBP) provider. */
-@JsonProperty("telephones")
-
-    
+    @JsonProperty("telephones")
     @field:Size(min = 1, max = 20)
-    
-    
     @field:Valid
     val telephones: kotlin.collections.List<Telephone>
 ) {
-    
-
 
     companion object {
         @JvmStatic
@@ -120,4 +100,3 @@ data class InternetBankPaymentAllOf(
         }
     }
 }
-

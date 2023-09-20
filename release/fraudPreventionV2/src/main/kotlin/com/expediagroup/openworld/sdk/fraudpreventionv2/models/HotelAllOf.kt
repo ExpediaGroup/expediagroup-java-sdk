@@ -16,8 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.HotelAddress
-
 /*
  * Copyright (C) 2022 Expedia, Inc.
  *
@@ -34,20 +32,15 @@ import com.expediagroup.openworld.sdk.fraudpreventionv2.models.HotelAddress
  * limitations under the License.
  */
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.Valid
+import org.hibernate.validator.constraints.Length
 
 /**
- * 
+ *
  * @param hotelId Unique hotel identifier assigned by the partner.
  * @param hotelName Name of the hotel.
- * @param address 
+ * @param address
  * @param checkinTime Local date and time of the hotel check-in, in ISO-8061 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`.
  * @param checkoutTime Local date and time of the hotel check-out, in ISO-8061 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`.
  * @param priceWithheld Identifies if the product price was withheld from the customer during the booking process.
@@ -55,61 +48,38 @@ import org.hibernate.validator.constraints.Length;
  */
 data class HotelAllOf(
     /* Unique hotel identifier assigned by the partner. */
-@JsonProperty("hotel_id")
-
+    @JsonProperty("hotel_id")
     @field:Length(max = 200)
-    
-    
-    
     @field:Valid
     val hotelId: kotlin.String,
 
     /* Name of the hotel. */
-@JsonProperty("hotel_name")
-
+    @JsonProperty("hotel_name")
     @field:Length(max = 200)
-    
-    
-    
     @field:Valid
     val hotelName: kotlin.String,
 
     @JsonProperty("address")
-
-    
-    
-    
-    
     @field:Valid
     val address: HotelAddress,
 
     /* Local date and time of the hotel check-in, in ISO-8061 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`. */
-@JsonProperty("checkin_time")
-
+    @JsonProperty("checkin_time")
     val checkinTime: java.time.OffsetDateTime,
 
     /* Local date and time of the hotel check-out, in ISO-8061 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`. */
-@JsonProperty("checkout_time")
-
+    @JsonProperty("checkout_time")
     val checkoutTime: java.time.OffsetDateTime,
 
     /* Identifies if the product price was withheld from the customer during the booking process. */
-@JsonProperty("price_withheld")
-
-    
-    
-    
-    
+    @JsonProperty("price_withheld")
     @field:Valid
     val priceWithheld: kotlin.Boolean? = null,
 
     /* Total number of rooms booked within the hotel product collection. */
-@JsonProperty("room_count")
-
+    @JsonProperty("room_count")
     val roomCount: kotlin.Int? = null
 ) {
-    
-
 
     companion object {
         @JvmStatic
@@ -166,4 +136,3 @@ data class HotelAllOf(
         }
     }
 }
-

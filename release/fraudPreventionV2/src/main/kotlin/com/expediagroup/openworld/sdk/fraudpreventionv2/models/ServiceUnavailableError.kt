@@ -16,7 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-
 /*
  * Copyright (C) 2022 Expedia, Inc.
  *
@@ -33,38 +32,24 @@ package com.expediagroup.openworld.sdk.fraudpreventionv2.models
  * limitations under the License.
  */
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.Valid
 
 /**
- * Indicates that the API is either down for maintenance or overloaded and cannot fulfill the request at the current time. This is a temporary error and retrying the same request after a certain delay could eventually result in success. There will be a Retry-After HTTP header in API response specifying how long to wait to retry the request. If there is no Retry-After HTTP header then retry can happen immediately. If the error persists after retrying with delay, please reach out to <support team>.\" 
+ * Indicates that the API is either down for maintenance or overloaded and cannot fulfill the request at the current time. This is a temporary error and retrying the same request after a certain delay could eventually result in success. There will be a Retry-After HTTP header in API response specifying how long to wait to retry the request. If there is no Retry-After HTTP header then retry can happen immediately. If the error persists after retrying with delay, please reach out to <support team>.\"
  * @param code Snake cased all caps error code interpreted from the HTTP status code that can programmatically be acted upon.
  * @param message A human-readable explanation of the error, specific to this error occurrence.
  */
 data class ServiceUnavailableError(
     /* Snake cased all caps error code interpreted from the HTTP status code that can programmatically be acted upon. */
-@JsonProperty("code")
-
+    @JsonProperty("code")
     val code: ServiceUnavailableError.Code,
 
     /* A human-readable explanation of the error, specific to this error occurrence. */
-@JsonProperty("message")
-
-    
-    
-    
-    
+    @JsonProperty("message")
     @field:Valid
     val message: kotlin.String
 ) {
-    
-
 
     companion object {
         @JvmStatic
@@ -104,36 +89,35 @@ data class ServiceUnavailableError(
     enum class Code(val value: kotlin.String) {
         @JsonProperty("UNAUTHORIZED")
         UNAUTHORIZED("UNAUTHORIZED"),
-        
+
         @JsonProperty("FORBIDDEN")
         FORBIDDEN("FORBIDDEN"),
-        
+
         @JsonProperty("NOT_FOUND")
         NOT_FOUND("NOT_FOUND"),
-        
+
         @JsonProperty("ORDER_PURCHASE_UPDATE_NOT_FOUND")
         ORDER_PURCHASE_UPDATE_NOT_FOUND("ORDER_PURCHASE_UPDATE_NOT_FOUND"),
-        
+
         @JsonProperty("TOO_MANY_REQUESTS")
         TOO_MANY_REQUESTS("TOO_MANY_REQUESTS"),
-        
+
         @JsonProperty("INTERNAL_SERVER_ERROR")
         INTERNAL_SERVER_ERROR("INTERNAL_SERVER_ERROR"),
-        
+
         @JsonProperty("BAD_GATEWAY")
         BAD_GATEWAY("BAD_GATEWAY"),
-        
+
         @JsonProperty("RETRYABLE_ORDER_PURCHASE_SCREEN_FAILURE")
         RETRYABLE_ORDER_PURCHASE_SCREEN_FAILURE("RETRYABLE_ORDER_PURCHASE_SCREEN_FAILURE"),
-        
+
         @JsonProperty("RETRYABLE_ORDER_PURCHASE_UPDATE_FAILURE")
         RETRYABLE_ORDER_PURCHASE_UPDATE_FAILURE("RETRYABLE_ORDER_PURCHASE_UPDATE_FAILURE"),
-        
+
         @JsonProperty("GATEWAY_TIMEOUT")
         GATEWAY_TIMEOUT("GATEWAY_TIMEOUT"),
-        
+
         @JsonProperty("BAD_REQUEST")
-        BAD_REQUEST("BAD_REQUEST");
+        BAD_REQUEST("BAD_REQUEST")
     }
 }
-

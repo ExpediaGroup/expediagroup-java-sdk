@@ -16,9 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.OrderPurchaseUpdateRequest
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.UpdateType
-
 /*
  * Copyright (C) 2022 Expedia, Inc.
  *
@@ -35,14 +32,9 @@ import com.expediagroup.openworld.sdk.fraudpreventionv2.models.UpdateType
  * limitations under the License.
  */
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.Valid
+import org.hibernate.validator.constraints.Length
 
 /**
  * Payment related data that should be updated.
@@ -51,29 +43,19 @@ import org.hibernate.validator.constraints.Length;
 data class PaymentUpdate(
 
     /* The `risk_id` provided by Expedia's Fraud Prevention Service in the `OrderPurchaseScreenResponse`. */
-@JsonProperty("risk_id")
-
+    @JsonProperty("risk_id")
     @field:Length(max = 200)
-    
-    
-    
     @field:Valid
     override val riskId: kotlin.String,
 
     /* Reference code passed to acquiring bank at the time of payment. This code is the key ID that ties back to payments data at the payment level. */
-@JsonProperty("merchant_order_code")
-
+    @JsonProperty("merchant_order_code")
     @field:Length(max = 200)
-    
-    
-    
     @field:Valid
     val merchantOrderCode: kotlin.String
 ) : OrderPurchaseUpdateRequest {
     @JsonProperty("type")
-override val type : UpdateType = UpdateType.PAYMENT_UPDATE
-
-
+    override val type: UpdateType = UpdateType.PAYMENT_UPDATE
 
     companion object {
         @JvmStatic
@@ -106,4 +88,3 @@ override val type : UpdateType = UpdateType.PAYMENT_UPDATE
         }
     }
 }
-
