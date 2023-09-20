@@ -24,6 +24,10 @@ jobs:
         with:
           name: specs
           path: generator/sdk
+      - uses: actions/download-artifact@v3
+        with:
+          name: docs
+          path: generator/sdk/docs
       - name: Add generated source code
         working-directory: generator/sdk
         run: |
@@ -35,7 +39,7 @@ jobs:
           cp ./README.md ../../release/"${{github.event.inputs.name}}"/src
           cp ./specs.yaml ../../release/"${{github.event.inputs.name}}"/src/specs.yaml
 
-          cp -r ./target/dokka ../../release/"${{github.event.inputs.name}}"/docs
+          cp -r ./docs ../../release/"${{github.event.inputs.name}}"/docs
       - name: Create PR
         uses: peter-evans/create-pull-request@v5
         with:
