@@ -19,7 +19,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '11'
-          distribution: 'adopt'
+          distribution: 'temurin'
       - id: build
         working-directory: generator
         run: mvn clean install
@@ -32,7 +32,9 @@ jobs:
         run: |
           mvn clean install
           mvn exec:java "-Dnamespace=${{ inputs.name }}" -DsdkVersion=${{ inputs.version }} "-Dspec=./specs.yaml"
-          cd target/sdk
+      - name: install sdk
+        working-directory: generator/openapi/target/sdk
+        run: |
           mvn clean install
           mvn dokka:dokka
       - uses: actions/upload-artifact@v3

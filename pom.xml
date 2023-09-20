@@ -3,13 +3,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.expediagroup.openworld.sdk</groupId>
-    <artifactId>openworld-java-sdk-core</artifactId>
-    <name>EG Open World SDK :: Core</name>
-    <description>Core Modules of EG Travel SDK</description>
-    <version>${revision}</version>
+    <groupId>com.expediagroup</groupId>
+    <artifactId>sdk-parent-pom</artifactId>
+    <name>EG SDK :: Parent POM</name>
+    <description>Parent POM Module of Expedia Group SDK</description>
+    <version>1.0.0</version>
     <inceptionYear>2022</inceptionYear>
-    <url>https://github.com/ExpediaGroup/openworld-sdk-java-core</url>
+    <url>https://github.com/ExpediaGroup/expediagroup-java-sdk-core</url>
 
     <licenses>
         <license>
@@ -20,6 +20,8 @@
         </license>
     </licenses>
 
+    <packaging>pom</packaging>
+
     <developers>
         <developer>
             <name>Expedia Group Committers</name>
@@ -29,9 +31,9 @@
     </developers>
 
     <scm>
-        <connection>scm:git:git@github.com:ExpediaGroup/openworld-sdk-java-core.git</connection>
-        <developerConnection>scm:git:git@github.com:ExpediaGroup/openworld-sdk-java-core.git</developerConnection>
-        <url>https://github.com/ExpediaGroup/openworld-sdk-java-core</url>
+        <connection>scm:git:git@github.com:ExpediaGroup/expediagroup-java-sdk-core.git</connection>
+        <developerConnection>scm:git:git@github.com:ExpediaGroup/expediagroup-java-sdk-core.git</developerConnection>
+        <url>https://github.com/ExpediaGroup/expediagroup-java-sdk-core</url>
         <tag>HEAD</tag>
     </scm>
 
@@ -50,7 +52,6 @@
 
 
     <properties>
-        <revision>2.9.0</revision>
         <!-- Target JDK8 Minimum -->
         <java.release>1.8</java.release>
         <maven.compiler.release>8</maven.compiler.release>
@@ -71,7 +72,6 @@
         <maven-dependency-plugin.version>3.6.0</maven-dependency-plugin.version>
         <maven-enforcer-plugin.version>3.4.0</maven-enforcer-plugin.version>
         <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
-        <maven-javadoc-plugin.version>3.6.0</maven-javadoc-plugin.version>
         <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
         <maven-shade-plugin.version>3.4.1</maven-shade-plugin.version>
         <maven-source-plugin.version>3.3.0</maven-source-plugin.version>
@@ -89,15 +89,15 @@
 
         <!-- Kotlin Compatible Versions -->
         <kotlin.version>1.9.10</kotlin.version>
-        <kotlinx.coroutines.version>1.6.4</kotlinx.coroutines.version>
+        <kotlinx.coroutines.version>1.7.2</kotlinx.coroutines.version>
         <kotlinx.serialization.version>1.6.0</kotlinx.serialization.version>
-        <ktor.version>2.3.1</ktor.version>
+        <ktor.version>2.3.4</ktor.version>
         <kotlin-logging.version>3.0.5</kotlin-logging.version>
         <kotlin-atomic.version>0.22.0</kotlin-atomic.version>
         <ktlint.version>0.50.0</ktlint.version>
         <kotlin-atomic.version>0.21.0</kotlin-atomic.version>
         <ktlint.version>0.47.1</ktlint.version>
-        <detekt.version>1.22.0</detekt.version>
+        <detekt.version>1.23.1</detekt.version>
 
         <!-- Shared Library Versions -->
         <airline.version>2.9.0</airline.version>
@@ -120,6 +120,11 @@
                 <version>${kotlin.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-reflect</artifactId>
+                <version>${kotlin.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.jetbrains.kotlinx</groupId>
@@ -268,7 +273,26 @@
                 <artifactId>error_prone_annotations</artifactId>
                 <version>2.21.1</version>
             </dependency>
-
+            <dependency>
+                <groupId>com.squareup.okio</groupId>
+                <artifactId>okio-jvm</artifactId>
+                <version>3.4.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains</groupId>
+                <artifactId>annotations</artifactId>
+                <version>23.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.validation</groupId>
+                <artifactId>jakarta.validation-api</artifactId>
+                <version>3.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>2.15.2</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -309,52 +333,6 @@
                     </executions>
                 </plugin>
 
-                <!-- Configure Java+Kotlin Dual Support -->
-                <plugin>
-                    <artifactId>kotlin-maven-plugin</artifactId>
-                    <groupId>org.jetbrains.kotlin</groupId>
-                    <version>${kotlin.version}</version>
-                    <executions>
-                        <execution>
-                            <id>compile-kotlin</id>
-                            <goals>
-                                <goal>compile</goal>
-                            </goals>
-                            <configuration>
-                                <sourceDirs>
-                                    <sourceDir>${project.basedir}/src/main/kotlin</sourceDir>
-                                    <sourceDir>${project.basedir}/src/main/java</sourceDir>
-                                </sourceDirs>
-                                <jvmTarget>${java.release}</jvmTarget>
-                            </configuration>
-                        </execution>
-                        <execution>
-                            <id>test-compile-kotlin</id>
-                            <goals>
-                                <goal>test-compile</goal>
-                            </goals>
-                            <configuration>
-                                <sourceDirs>
-                                    <sourceDir>${project.basedir}/src/test/kotlin</sourceDir>
-                                    <sourceDir>${project.basedir}/src/test/java</sourceDir>
-                                </sourceDirs>
-                                <jvmTarget>${java.release}</jvmTarget>
-                            </configuration>
-                        </execution>
-                    </executions>
-                    <configuration>
-                        <compilerPlugins>
-                            <plugin>kotlinx-serialization</plugin>
-                        </compilerPlugins>
-                    </configuration>
-                    <dependencies>
-                        <dependency>
-                            <groupId>org.jetbrains.kotlin</groupId>
-                            <artifactId>kotlin-maven-serialization</artifactId>
-                            <version>${kotlin.version}</version>
-                        </dependency>
-                    </dependencies>
-                </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
@@ -503,29 +481,6 @@
                     <groupId>org.jetbrains.dokka</groupId>
                     <artifactId>dokka-maven-plugin</artifactId>
                     <version>${dokka-plugin.version}</version>
-                    <executions>
-                        <execution>
-                            <phase>prepare-package</phase>
-                            <goals>
-                                <goal>dokka</goal>
-                                <goal>javadocJar</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                    <configuration>
-                        <sourceDirectories>
-                            <dir>${project.basedir}/src/main/kotlin</dir>
-                            <dir>${project.basedir}/src/main/java</dir>
-                        </sourceDirectories>
-
-                        <dokkaPlugins>
-                            <plugin>
-                                <groupId>org.jetbrains.dokka</groupId>
-                                <artifactId>kotlin-as-java-plugin</artifactId>
-                                <version>${dokka-plugin.version}</version>
-                            </plugin>
-                        </dokkaPlugins>
-                    </configuration>
                 </plugin>
 
                 <!-- Add Licence Header -->
@@ -556,26 +511,6 @@
                             </goals>
                         </execution>
                     </executions>
-                </plugin>
-
-                <!-- Configure Javadocs to be JDK11+ Compatible -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>${maven-javadoc-plugin.version}</version>
-                    <executions>
-                        <execution>
-                            <id>attach-javadocs</id>
-                            <goals>
-                                <goal>jar</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                    <configuration>
-                        <additionalOptions combine.children="append">
-                            <additionalOption>-html5</additionalOption>
-                        </additionalOptions>
-                    </configuration>
                 </plugin>
 
                 <!-- Ensure that our dependencies are compatible -->
@@ -679,10 +614,6 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
             </plugin>
             <plugin>
@@ -692,87 +623,6 @@
             <plugin>
                 <groupId>com.mycila</groupId>
                 <artifactId>license-maven-plugin</artifactId>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>${maven.antrun.plugin.version}</version>
-                <executions>
-                    <execution>
-                        <!-- this can be run separately with mvn clean antrun:run@detekt -->
-                        <id>detekt</id>
-                        <phase>validate</phase>
-                        <configuration>
-                            <target name="detekt">
-                                <java taskname="detekt" dir="${project.basedir}" fork="true" failonerror="true"
-                                      classname="io.gitlab.arturbosch.detekt.cli.Main"
-                                      classpathref="maven.plugin.classpath">
-                                    <arg value="--input"/>
-                                    <arg value="${project.basedir}${file.separator}src"/>
-                                    <arg value="--config"/>
-                                    <arg value="${project.basedir}${file.separator}detekt.yml"/>
-                                    <arg value="--report"/>
-                                    <arg value="html:${project.basedir}${file.separator}target${file.separator}site${file.separator}detekt.html"/>
-                                    <arg value="--report"/>
-                                    <arg value="xml:${project.basedir}${file.separator}target${file.separator}site${file.separator}detekt.xml"/>
-                                    <arg value="--build-upon-default-config"/>
-                                    <arg value="--all-rules"/>
-                                </java>
-                            </target>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                    <!-- this can be run separately with mvn clean antrun:run@ktlint-format -->
-                    <execution>
-                        <id>ktlint-format</id>
-                        <phase>compile</phase>
-                        <configuration>
-                            <target name="ktlint">
-                                <java taskname="ktlint" dir="${project.basedir}" fork="true" failonerror="true"
-                                      classname="com.pinterest.ktlint.Main" classpathref="maven.plugin.classpath">
-                                    <arg value="-F"/>
-                                    <arg value="src/**/*.kt"/>
-                                </java>
-                            </target>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <!-- this can be run separately with mvn clean antrun:run@ktlint -->
-                        <id>ktlint</id>
-                        <phase>validate</phase>
-                        <configuration>
-                            <target name="ktlint">
-                                <java taskname="ktlint" dir="${project.basedir}" fork="true" failonerror="true"
-                                      classname="com.pinterest.ktlint.Main" classpathref="maven.plugin.classpath">
-                                    <arg value="src/**/*.kt"/>
-                                    <arg value="--reporter=plain"/>
-                                    <arg value="--reporter=checkstyle,output=${project.build.directory}/ktlint.xml"/>
-                                </java>
-                            </target>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>io.gitlab.arturbosch.detekt</groupId>
-                        <artifactId>detekt-cli</artifactId>
-                        <version>${detekt.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>com.pinterest</groupId>
-                        <artifactId>ktlint</artifactId>
-                        <version>${ktlint.version}</version>
-                    </dependency>
-                </dependencies>
             </plugin>
         </plugins>
     </build>
@@ -822,10 +672,6 @@
         <dependency>
             <groupId>org.jetbrains.kotlinx</groupId>
             <artifactId>kotlinx-coroutines-core-jvm</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.ktor</groupId>
-            <artifactId>ktor-io-jvm</artifactId>
         </dependency>
         <dependency>
             <groupId>io.ktor</groupId>
@@ -892,245 +738,10 @@
             <artifactId>kotlin-reflect</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>io.ktor</groupId>
+            <artifactId>ktor-io-jvm</artifactId>
+        </dependency>
     </dependencies>
-
-    <profiles>
-
-
-        <profile>
-            <id>activate-kotlin</id>
-            <activation>
-                <file>
-                    <exists>${basedir}/src/main/kotlin</exists>
-                </file>
-            </activation>
-
-            <!-- Add Kotlin Standard Library -->
-            <dependencies>
-                <dependency>
-                    <groupId>org.jetbrains.kotlin</groupId>
-                    <artifactId>kotlin-stdlib</artifactId>
-                </dependency>
-            </dependencies>
-
-            <build>
-                <plugins>
-                    <!-- Add additional source directories -->
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>build-helper-maven-plugin</artifactId>
-                        <version>${build-helper-maven-plugin.version}</version>
-                        <executions>
-                            <execution>
-                                <id>add-kotlin-sources</id>
-                                <phase>generate-sources</phase>
-                                <goals>
-                                    <goal>add-source</goal>
-                                </goals>
-                                <configuration>
-                                    <sources>
-                                        <source>${project.basedir}/src/main/kotlin</source>
-                                    </sources>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>add-kotlin-test-sources</id>
-                                <phase>generate-sources</phase>
-                                <goals>
-                                    <goal>add-test-source</goal>
-                                </goals>
-                                <configuration>
-                                    <sources>
-                                        <source>${project.basedir}/src/test/kotlin</source>
-                                    </sources>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <!-- Lint the sources -->
-                    <plugin>
-                        <groupId>com.github.gantsign.maven</groupId>
-                        <artifactId>ktlint-maven-plugin</artifactId>
-                    </plugin>
-
-                    <!-- Document the sources -->
-                    <plugin>
-                        <groupId>org.jetbrains.dokka</groupId>
-                        <artifactId>dokka-maven-plugin</artifactId>
-                    </plugin>
-
-                    <!-- Disable Javadocs -->
-                    <plugin>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>attach-javadocs</id>
-                                <phase>none</phase>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <!-- Disable Specific Dependency Warnings for kotlin-stdlib -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-dependency-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>enforce-dependency-declarations</id>
-                                <configuration>
-                                    <ignoredUsedUndeclaredDependencies combine.children="append">
-                                        <ignoredUsedUndeclaredDependency>org.jetbrains:annotations
-                                        </ignoredUsedUndeclaredDependency>
-                                    </ignoredUsedUndeclaredDependencies>
-                                    <ignoredUnusedDeclaredDependencies combine.children="append">
-                                        <ignoredUnusedDeclaredDependency>org.jetbrains.kotlin:kotlin-stdlib
-                                        </ignoredUnusedDeclaredDependency>
-                                        <ignoreUnusedDeclaredDependency>org.apache.logging.log4j:log4j-api
-                                        </ignoreUnusedDeclaredDependency>
-                                    </ignoredUnusedDeclaredDependencies>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <!-- Run the kotlin compiler -->
-                    <plugin>
-                        <groupId>org.jetbrains.kotlin</groupId>
-                        <artifactId>kotlin-maven-plugin</artifactId>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <!-- release profile -->
-        <profile>
-            <id>release</id>
-            <properties>
-                <checkstyle.check.skip>true</checkstyle.check.skip>
-                <checkstyle.includeTestSourceDirectory>false</checkstyle.includeTestSourceDirectory>
-                <test.coverage.check.skip>true</test.coverage.check.skip>
-                <javadoc.skip>true</javadoc.skip>
-            </properties>
-
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>${maven.gpg.plugin.version}</version>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                                <configuration>
-                                    <gpgArguments>
-                                        <arg>--pinentry-mode</arg>
-                                        <arg>loopback</arg>
-                                    </gpgArguments>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>org.sonatype.plugins</groupId>
-                        <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>${maven.nexus-staging.plugin.version}</version>
-                        <extensions>true</extensions>
-                        <configuration>
-                            <serverId>oss-sonatype</serverId>
-                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                        </configuration>
-                    </plugin>
-
-                    <!-- skip some test cases during the release -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <configuration>
-                            <excludes>
-                                <exclude>**/PerformanceTest.java</exclude>
-                                <argLine>@{argLine}</argLine>
-                            </excludes>
-                        </configuration>
-                    </plugin>
-
-                    <!-- replace the bean-utils-library javadoc jar file with the one containing all modules -->
-                    <plugin>
-                        <artifactId>maven-jar-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <configuration>
-                                    <classifier>javadoc</classifier>
-                                    <classesDirectory>${project.parent.basedir}/target/site/apidocs</classesDirectory>
-                                    <includes>**/*</includes>
-                                    <finalName>${project.build.finalName}</finalName>
-                                </configuration>
-                                <id>pack-javadoc</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <!-- GitHub verify action profile -->
-        <profile>
-            <id>github-verify-action-profile</id>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>com.mycila</groupId>
-                            <artifactId>license-maven-plugin</artifactId>
-                            <version>${maven.licence.plugin.version}</version>
-                            <configuration>
-                                <properties>
-                                    <year>2022</year>
-                                    <owner>Expedia, Inc.</owner>
-                                </properties>
-                                <licenseSets>
-                                    <licenseSet>
-                                        <header>LICENSE-HEADER.txt</header>
-                                        <includes>
-                                            <include>**/*.kt</include>
-                                        </includes>
-                                    </licenseSet>
-                                </licenseSets>
-                            </configuration>
-                            <executions>
-                                <execution>
-                                    <id>add-license-header</id>
-                                    <phase>validate</phase>
-                                    <goals>
-                                        <goal>format</goal>
-                                    </goals>
-                                    <configuration>
-                                        <skip>true</skip>
-                                    </configuration>
-                                </execution>
-                                <execution>
-                                    <id>check-for-license-header</id>
-                                    <phase>compile</phase>
-                                    <goals>
-                                        <goal>check</goal>
-                                    </goals>
-                                </execution>
-                            </executions>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
-        </profile>
-    </profiles>
 
 </project>
