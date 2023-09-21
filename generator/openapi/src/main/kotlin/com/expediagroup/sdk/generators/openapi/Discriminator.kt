@@ -27,7 +27,7 @@ internal fun getParentDiscriminator(model: CodegenModel): MutableList<Discrimina
                     it.propertyBaseName,
                     it.propertyName,
                     variable.datatypeWithEnum,
-                    it.mappedModels.find { mappedModel -> mappedModel.modelName.equals(model.classname) }!!.mappingName,
+                    it.mappedModels.find { mappedModel -> mappedModel.modelName.equals(model.classname) }!!.mappingName.uppercase(),
                     model.parentModel.name,
                     variable.isEnum,
                     variable.isString
