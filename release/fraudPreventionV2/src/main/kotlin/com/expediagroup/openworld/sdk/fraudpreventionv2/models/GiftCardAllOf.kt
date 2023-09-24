@@ -16,7 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-
 /*
  * Copyright (C) 2022 Expedia, Inc.
  *
@@ -33,54 +32,38 @@ package com.expediagroup.openworld.sdk.fraudpreventionv2.models
  * limitations under the License.
  */
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.Valid
+import jakarta.validation.constraints.Pattern
+import org.hibernate.validator.constraints.Length
 
 /**
- * 
+ *
  * @param cardNumber Gift card number.
  * @param cardHolderName The name of gift card holder.
  * @param pin The PIN of gift card.
  */
 data class GiftCardAllOf(
     /* Gift card number. */
-@JsonProperty("card_number")
-@field:Pattern(regexp = "^[0-9A-Za-z]{4,16}$")
+    @JsonProperty("card_number")
+    @field:Pattern(regexp = "^[0-9A-Za-z]{4,16}$")
     @field:Length(max = 16)
-    
-    
-    
     @field:Valid
     val cardNumber: kotlin.String,
 
     /* The name of gift card holder. */
-@JsonProperty("card_holder_name")
-
+    @JsonProperty("card_holder_name")
     @field:Length(max = 200)
-    
-    
-    
     @field:Valid
     val cardHolderName: kotlin.String,
 
     /* The PIN of gift card. */
-@JsonProperty("pin")
-@field:Pattern(regexp = "^[0-9]{4,8}$")
+    @JsonProperty("pin")
+    @field:Pattern(regexp = "^[0-9]{4,8}$")
     @field:Length(max = 8)
-    
-    
-    
     @field:Valid
     val pin: kotlin.String
 ) {
-    
-
 
     companion object {
         @JvmStatic
@@ -119,4 +102,3 @@ data class GiftCardAllOf(
         }
     }
 }
-

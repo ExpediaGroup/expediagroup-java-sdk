@@ -16,7 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-
 /*
  * Copyright (C) 2022 Expedia, Inc.
  *
@@ -33,32 +32,21 @@ package com.expediagroup.openworld.sdk.fraudpreventionv2.models
  * limitations under the License.
  */
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.Valid
+import org.hibernate.validator.constraints.Length
 
 /**
- * 
+ *
  * @param riskId Unique identifier of transaction that was updated.
  */
 data class OrderPurchaseUpdateResponse(
     /* Unique identifier of transaction that was updated. */
-@JsonProperty("risk_id")
-
+    @JsonProperty("risk_id")
     @field:Length(max = 200)
-    
-    
-    
     @field:Valid
     val riskId: kotlin.String? = null
 ) {
-    
-
 
     companion object {
         @JvmStatic
@@ -75,7 +63,5 @@ data class OrderPurchaseUpdateResponse(
                 riskId = riskId
             )
         }
-
     }
 }
-

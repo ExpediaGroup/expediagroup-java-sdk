@@ -16,7 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-
 /*
  * Copyright (C) 2022 Expedia, Inc.
  *
@@ -33,54 +32,35 @@ package com.expediagroup.openworld.sdk.fraudpreventionv2.models
  * limitations under the License.
  */
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.Valid
+import org.hibernate.validator.constraints.Length
 
 /**
- * 
+ *
  * @param payerId Unique PayPal Customer Account identification number.
  * @param transactionId Unique transaction number to identify Auth calls at PayPal.
  * @param merchantOrderCode Reference code passed to acquiring bank at the time of payment. This code is the key ID that ties back to payments data at the payment level.
  */
 data class PayPalAllOf(
     /* Unique PayPal Customer Account identification number. */
-@JsonProperty("payer_id")
-
+    @JsonProperty("payer_id")
     @field:Length(max = 200)
-    
-    
-    
     @field:Valid
     val payerId: kotlin.String,
 
     /* Unique transaction number to identify Auth calls at PayPal. */
-@JsonProperty("transaction_id")
-
+    @JsonProperty("transaction_id")
     @field:Length(max = 200)
-    
-    
-    
     @field:Valid
     val transactionId: kotlin.String,
 
     /* Reference code passed to acquiring bank at the time of payment. This code is the key ID that ties back to payments data at the payment level. */
-@JsonProperty("merchant_order_code")
-
+    @JsonProperty("merchant_order_code")
     @field:Length(max = 200)
-    
-    
-    
     @field:Valid
     val merchantOrderCode: kotlin.String? = null
 ) {
-    
-
 
     companion object {
         @JvmStatic
@@ -116,4 +96,3 @@ data class PayPalAllOf(
         }
     }
 }
-
