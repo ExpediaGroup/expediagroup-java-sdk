@@ -16,7 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-
 /*
  * Copyright (C) 2022 Expedia, Inc.
  *
@@ -33,14 +32,9 @@ package com.expediagroup.openworld.sdk.fraudpreventionv2.models
  * limitations under the License.
  */
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.Valid
+import org.hibernate.validator.constraints.Length
 
 /**
  * Group of attributes intended to hold information about email address associated with the transaction.
@@ -48,17 +42,11 @@ import org.hibernate.validator.constraints.Length;
  */
 data class Email(
     /* Full email address including the alias, @ symbol, domain, and root domain. */
-@JsonProperty("email_address")
-
+    @JsonProperty("email_address")
     @field:Length(max = 200)
-    
-    
-    
     @field:Valid
     val emailAddress: kotlin.String? = null
 ) {
-    
-
 
     companion object {
         @JvmStatic
@@ -75,7 +63,5 @@ data class Email(
                 emailAddress = emailAddress
             )
         }
-
     }
 }
-

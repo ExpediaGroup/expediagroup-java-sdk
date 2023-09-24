@@ -16,9 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.Name
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.Telephone
-
 /*
  * Copyright (C) 2022 Expedia, Inc.
  *
@@ -35,21 +32,18 @@ import com.expediagroup.openworld.sdk.fraudpreventionv2.models.Telephone
  * limitations under the License.
  */
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.constraints.Pattern
+import jakarta.validation.constraints.Size
+import jakarta.validation.Valid
+import org.hibernate.validator.constraints.Length
 
 /**
- * 
- * @param travelerName 
+ *
+ * @param travelerName
  * @param primary Indicator for one of the travelers who is the primary traveler. One traveler in each itinerary item must be listed as primary. By default, for a single traveler this should be set to `true`.
  * @param emailAddress Email address associated with the traveler as supplied by the partner system.
- * @param telephones 
+ * @param telephones
  * @param age Age of the traveler.
  * @param birthDate Date of birth for traveler, in ISO-8061 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`.
  * @param citizenshipCountryCode The alpha-3 ISO country code of the traveler's nationality.
@@ -57,80 +51,47 @@ import org.hibernate.validator.constraints.Length;
  */
 data class Traveler(
     @JsonProperty("traveler_name")
-
-    
-    
-    
-    
     @field:Valid
     val travelerName: Name,
 
     /* Indicator for one of the travelers who is the primary traveler. One traveler in each itinerary item must be listed as primary. By default, for a single traveler this should be set to `true`. */
-@JsonProperty("primary")
-
-    
-    
-    
-    
+    @JsonProperty("primary")
     @field:Valid
     val primary: kotlin.Boolean,
 
     /* Email address associated with the traveler as supplied by the partner system. */
-@JsonProperty("email_address")
-
+    @JsonProperty("email_address")
     @field:Length(max = 200)
-    
-    
-    
     @field:Valid
     val emailAddress: kotlin.String? = null,
 
     @JsonProperty("telephones")
-
-    
     @field:Size(min = 1, max = 250)
-    
-    
     @field:Valid
     val telephones: kotlin.collections.List<Telephone>? = null,
 
     /* Age of the traveler. */
-@JsonProperty("age")
-
-    
-    
-    
-    
+    @JsonProperty("age")
     @field:Valid
     val age: java.math.BigDecimal? = null,
 
     /* Date of birth for traveler, in ISO-8061 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`. */
-@JsonProperty("birth_date")
-
+    @JsonProperty("birth_date")
     val birthDate: java.time.OffsetDateTime? = null,
 
     /* The alpha-3 ISO country code of the traveler's nationality. */
-@JsonProperty("citizenship_country_code")
-@field:Pattern(regexp = "^[A-Z]{3}$")
+    @JsonProperty("citizenship_country_code")
+    @field:Pattern(regexp = "^[A-Z]{3}$")
     @field:Length(min = 3, max = 3)
-    
-    
-    
     @field:Valid
     val citizenshipCountryCode: kotlin.String? = null,
 
     /* A unique identifier for travelers in the transaction. */
-@JsonProperty("traveler_id")
-
+    @JsonProperty("traveler_id")
     @field:Length(max = 100)
-    
-    
-    
     @field:Valid
     val travelerId: kotlin.String? = null
 ) {
-    
-
 
     companion object {
         @JvmStatic
@@ -181,4 +142,3 @@ data class Traveler(
         }
     }
 }
-

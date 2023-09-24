@@ -1,5 +1,5 @@
-# Open World <sup>TM</sup> SDK for Java - Generators
-The generators component for the Open World<sup>TM</sup> SDK for Java.
+# Expedia Group<sup>TM</sup> SDK for Java - Generators
+The generators component for the Expedia Group<sup>TM</sup> SDK for Java.
 
 ## Generating SDKs
 

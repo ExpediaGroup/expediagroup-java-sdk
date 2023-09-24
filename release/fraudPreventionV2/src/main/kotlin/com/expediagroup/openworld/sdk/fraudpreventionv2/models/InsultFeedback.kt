@@ -16,10 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.InsultDetail
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.OrderPurchaseUpdateRequest
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.UpdateType
-
 /*
  * Copyright (C) 2022 Expedia, Inc.
  *
@@ -36,44 +32,28 @@ import com.expediagroup.openworld.sdk.fraudpreventionv2.models.UpdateType
  * limitations under the License.
  */
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.Valid
+import org.hibernate.validator.constraints.Length
 
 /**
  * Feedback from EG external partners regarding a false positive recommendation that from Fraud Prevention system gave for their customer.
- * @param insultDetail 
+ * @param insultDetail
  */
 data class InsultFeedback(
 
     /* The `risk_id` provided by Expedia's Fraud Prevention Service in the `OrderPurchaseScreenResponse`. */
-@JsonProperty("risk_id")
-
+    @JsonProperty("risk_id")
     @field:Length(max = 200)
-    
-    
-    
     @field:Valid
     override val riskId: kotlin.String,
 
     @JsonProperty("insult_detail")
-
-    
-    
-    
-    
     @field:Valid
     val insultDetail: InsultDetail? = null
 ) : OrderPurchaseUpdateRequest {
     @JsonProperty("type")
-override val type : UpdateType = UpdateType.INSULT_FEEDBACK
-
-
+    override val type: UpdateType = UpdateType.INSULT_FEEDBACK
 
     companion object {
         @JvmStatic
@@ -103,4 +83,3 @@ override val type : UpdateType = UpdateType.INSULT_FEEDBACK
         }
     }
 }
-

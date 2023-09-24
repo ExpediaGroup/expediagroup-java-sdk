@@ -16,7 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-
 /*
  * Copyright (C) 2022 Expedia, Inc.
  *
@@ -33,18 +32,14 @@ package com.expediagroup.openworld.sdk.fraudpreventionv2.models
  * limitations under the License.
  */
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.Valid
+import jakarta.validation.constraints.Pattern
+import org.hibernate.validator.constraints.Length
 
 /**
- * 
- * @param addressType 
+ *
+ * @param addressType
  * @param addressLine1 Address line 1 of the address provided.
  * @param addressLine2 Address line 2 of the address provided.
  * @param city City of the address provided.
@@ -54,71 +49,44 @@ import org.hibernate.validator.constraints.Length;
  */
 data class Address(
     @JsonProperty("address_type")
-
     val addressType: Address.AddressType? = null,
 
     /* Address line 1 of the address provided. */
-@JsonProperty("address_line1")
-
+    @JsonProperty("address_line1")
     @field:Length(max = 200)
-    
-    
-    
     @field:Valid
     val addressLine1: kotlin.String? = null,
 
     /* Address line 2 of the address provided. */
-@JsonProperty("address_line2")
-
+    @JsonProperty("address_line2")
     @field:Length(max = 200)
-    
-    
-    
     @field:Valid
     val addressLine2: kotlin.String? = null,
 
     /* City of the address provided. */
-@JsonProperty("city")
-
+    @JsonProperty("city")
     @field:Length(max = 200)
-    
-    
-    
     @field:Valid
     val city: kotlin.String? = null,
 
     /* The two-characters ISO code for the state or province of the address. */
-@JsonProperty("state")
-@field:Pattern(regexp = "^[A-Z]{2}$")
-    
-    
-    
-    
+    @JsonProperty("state")
+    @field:Pattern(regexp = "^[A-Z]{2}$")
     @field:Valid
     val state: kotlin.String? = null,
 
     /* Zip code of the address provided. */
-@JsonProperty("zip_code")
-
+    @JsonProperty("zip_code")
     @field:Length(max = 20)
-    
-    
-    
     @field:Valid
     val zipCode: kotlin.String? = null,
 
     /* ISO alpha-3 country code of the address provided. */
-@JsonProperty("country_code")
-@field:Pattern(regexp = "^[A-Z]{3}$")
-    
-    
-    
-    
+    @JsonProperty("country_code")
+    @field:Pattern(regexp = "^[A-Z]{3}$")
     @field:Valid
     val countryCode: kotlin.String? = null
 ) {
-    
-
 
     companion object {
         @JvmStatic
@@ -153,19 +121,17 @@ data class Address(
                 countryCode = countryCode
             )
         }
-
     }
 
     /**
-     * 
+     *
      * Values: HOME,WORK
      */
     enum class AddressType(val value: kotlin.String) {
         @JsonProperty("HOME")
         HOME("HOME"),
-        
+
         @JsonProperty("WORK")
-        WORK("WORK");
+        WORK("WORK")
     }
 }
-

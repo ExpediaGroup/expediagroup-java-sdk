@@ -16,8 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-import com.expediagroup.openworld.sdk.fraudpreventionv2.models.FraudDecision
-
 /*
  * Copyright (C) 2022 Expedia, Inc.
  *
@@ -34,42 +32,26 @@ import com.expediagroup.openworld.sdk.fraudpreventionv2.models.FraudDecision
  * limitations under the License.
  */
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.Valid
+import org.hibernate.validator.constraints.Length
 
 /**
- * 
+ *
  * @param riskId Unique identifier assigned to the transaction by Expedia's Fraud Prevention Service.
- * @param decision 
+ * @param decision
  */
 data class OrderPurchaseScreenResponse(
     /* Unique identifier assigned to the transaction by Expedia's Fraud Prevention Service. */
-@JsonProperty("risk_id")
-
+    @JsonProperty("risk_id")
     @field:Length(max = 200)
-    
-    
-    
     @field:Valid
     val riskId: kotlin.String? = null,
 
     @JsonProperty("decision")
-
-    
-    
-    
-    
     @field:Valid
     val decision: FraudDecision? = null
 ) {
-    
-
 
     companion object {
         @JvmStatic
@@ -89,7 +71,5 @@ data class OrderPurchaseScreenResponse(
                 decision = decision
             )
         }
-
     }
 }
-

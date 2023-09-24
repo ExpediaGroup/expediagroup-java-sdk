@@ -16,7 +16,6 @@
 
 package com.expediagroup.openworld.sdk.fraudpreventionv2.models
 
-
 /*
  * Copyright (C) 2022 Expedia, Inc.
  *
@@ -33,38 +32,28 @@ package com.expediagroup.openworld.sdk.fraudpreventionv2.models
  * limitations under the License.
  */
 
-
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.Valid
+import jakarta.validation.constraints.Pattern
+import org.hibernate.validator.constraints.Length
 
 /**
- * 
+ *
  * @param `value` The amount required in payment for the product/order in local currency (including any taxes and fees).
  * @param currencyCode The ISO  alpha-3 country code for the amount currency.
  */
 data class Amount(
     /* The amount required in payment for the product/order in local currency (including any taxes and fees). */
-@JsonProperty("value")
-
+    @JsonProperty("value")
     val `value`: kotlin.Double,
 
     /* The ISO  alpha-3 country code for the amount currency. */
-@JsonProperty("currency_code")
-@field:Pattern(regexp = "^[A-Z]{3}$")
+    @JsonProperty("currency_code")
+    @field:Pattern(regexp = "^[A-Z]{3}$")
     @field:Length(max = 3)
-    
-    
-    
     @field:Valid
     val currencyCode: kotlin.String
 ) {
-    
-
 
     companion object {
         @JvmStatic
@@ -97,4 +86,3 @@ data class Amount(
         }
     }
 }
-
