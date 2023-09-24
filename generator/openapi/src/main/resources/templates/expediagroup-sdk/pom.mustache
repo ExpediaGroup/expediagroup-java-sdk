@@ -65,22 +65,7 @@
         <sdk-version>${project.version}</sdk-version>
         <sdk-title>${project.artifactId}</sdk-title>
         <revision>{{artifactVersion}}</revision>
-
-        <java.release>1.8</java.release>
-
         <shadePrefix>{{shadePrefix}}</shadePrefix>
-
-        <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
-        <build-helper-maven-plugin.version>3.3.0</build-helper-maven-plugin.version>
-        <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
-        <maven-shade-plugin.version>3.4.1</maven-shade-plugin.version>
-        <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
-        <maven-surefire-plugin.version>3.0.0-M7</maven-surefire-plugin.version>
-        <maven.gpg.plugin.version>3.0.1</maven.gpg.plugin.version>
-        <maven.licence.plugin.version>4.1</maven.licence.plugin.version>
-        <maven.nexus-staging.plugin.version>1.6.13</maven.nexus-staging.plugin.version>
-
-        <ktlint-plugin.version>1.16.0</ktlint-plugin.version>
     </properties>
 
     <build>
@@ -100,7 +85,7 @@
                         <build/>
                     </pomElements>
                 </configuration>
-                <version>1.5.0</version>
+                <version>${flatten.maven.plugin.version}</version>
                 <executions>
                     <execution>
                         <id>flatten</id>
@@ -188,7 +173,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>properties-maven-plugin</artifactId>
-                <version>1.0.0</version>
+                <version>${properties.maven.plugin.version}</version>
                 <executions>
                     <execution>
                         <phase>generate-resources</phase>
@@ -471,7 +456,6 @@
         <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>7.0.5.Final</version>
         </dependency>
         <dependency>
             <groupId>jakarta.validation</groupId>

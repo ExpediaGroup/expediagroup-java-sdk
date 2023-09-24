@@ -86,6 +86,8 @@
         <maven.nexus-staging.plugin.version>1.6.13</maven.nexus-staging.plugin.version>
         <maven.licence.plugin.version>4.2</maven.licence.plugin.version>
         <maven.antrun.plugin.version>3.1.0</maven.antrun.plugin.version>
+        <flatten.maven.plugin.version>1.5.0</flatten.maven.plugin.version>
+        <properties.maven.plugin.version>1.0.0</properties.maven.plugin.version>
 
         <!-- Kotlin Compatible Versions -->
         <kotlin.version>1.9.10</kotlin.version>
@@ -292,6 +294,11 @@
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-annotations</artifactId>
                 <version>2.15.2</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate.validator</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>7.0.5.Final</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -539,31 +546,6 @@
                     </executions>
                 </plugin>
 
-                <!-- Ensure Sources are attached -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-source-plugin</artifactId>
-                    <version>${maven-source-plugin.version}</version>
-                    <executions>
-                        <execution>
-                            <id>attach-sources</id>
-                            <phase>none</phase>
-                        </execution>
-                        <execution>
-                            <id>attach-sources-override</id>
-                            <goals>
-                                <goal>jar-no-fork</goal>
-                            </goals>
-                        </execution>
-                        <execution>
-                            <id>attach-test-sources</id>
-                            <goals>
-                                <goal>test-jar-no-fork</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
@@ -592,13 +574,6 @@
                     <artifactId>exec-maven-plugin</artifactId>
                     <version>${exec-maven-plugin.version}</version>
                 </plugin>
-
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-resources-plugin</artifactId>
-                    <version>${maven-resources-plugin.version}</version>
-                </plugin>
-
             </plugins>
         </pluginManagement>
 
@@ -611,10 +586,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
