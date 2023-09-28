@@ -300,21 +300,6 @@
                 </executions>
             </plugin>
 
-            <!-- Ensure Javadocs are attached -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.9.1</version>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
@@ -370,6 +355,7 @@
                         <phase>prepare-package</phase>
                         <goals>
                             <goal>dokka</goal>
+                            <goal>javadocJar</goal>
                         </goals>
                     </execution>
                 </executions>
