@@ -293,18 +293,23 @@
                 <executions>
                     <execution>
                         <id>attach-sources</id>
-                        <phase>package</phase>
-                    </execution>
-                    <execution>
-                        <id>attach-sources-override</id>
                         <goals>
                             <goal>jar-no-fork</goal>
                         </goals>
                     </execution>
+                </executions>
+            </plugin>
+
+            <!-- Ensure Javadocs are attached -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+                <executions>
                     <execution>
-                        <id>attach-test-sources</id>
+                        <id>attach-javadocs</id>
                         <goals>
-                            <goal>test-jar-no-fork</goal>
+                            <goal>jar</goal>
                         </goals>
                     </execution>
                 </executions>
