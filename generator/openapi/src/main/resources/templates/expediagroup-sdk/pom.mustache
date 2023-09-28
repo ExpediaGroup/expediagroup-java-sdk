@@ -355,7 +355,6 @@
                         <phase>prepare-package</phase>
                         <goals>
                             <goal>dokka</goal>
-                            <goal>javadocJar</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -470,6 +469,31 @@
                                 <phase>package</phase>
                                 <goals>
                                     <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- Generate Javadoc -->
+                    <plugin>
+                        <groupId>org.jetbrains.dokka</groupId>
+                        <artifactId>dokka-maven-plugin</artifactId>
+                        <configuration>
+                            <sourceDirectories>
+                                <dir>${project.basedir}/src/main/kotlin/com/expediagroup/sdk/{{namespace}}</dir>
+                            </sourceDirectories>
+                            <dokkaPlugins>
+                                <plugin>
+                                    <groupId>org.jetbrains.dokka</groupId>
+                                    <artifactId>kotlin-as-java-plugin</artifactId>
+                                    <version>${dokka-plugin.version}</version>
+                                </plugin>
+                            </dokkaPlugins>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>javadocJar</goal>
                                 </goals>
                             </execution>
                         </executions>
