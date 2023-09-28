@@ -98,6 +98,7 @@
                         <dependencyManagement/>
                         <dependencies/>
                         <build/>
+                        <profiles/>
                     </pomElements>
                 </configuration>
                 <version>1.5.0</version>
@@ -292,18 +293,8 @@
                 <executions>
                     <execution>
                         <id>attach-sources</id>
-                        <phase>package</phase>
-                    </execution>
-                    <execution>
-                        <id>attach-sources-override</id>
                         <goals>
                             <goal>jar-no-fork</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>attach-test-sources</id>
-                        <goals>
-                            <goal>test-jar-no-fork</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -461,6 +452,51 @@
                                 <argLine>@{argLine}</argLine>
                             </excludes>
                         </configuration>
+                    </plugin>
+                    <!-- replace the bean-utils-library javadoc jar file with the one containing all modules -->
+                    <plugin>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <version>${maven-jar-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <configuration>
+                                    <classifier>javadoc</classifier>
+                                    <classesDirectory>${project.parent.basedir}/target/site/apidocs</classesDirectory>
+                                    <includes>**/*</includes>
+                                    <finalName>${project.build.finalName}</finalName>
+                                </configuration>
+                                <id>pack-javadoc</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- Generate Javadoc -->
+                    <plugin>
+                        <groupId>org.jetbrains.dokka</groupId>
+                        <artifactId>dokka-maven-plugin</artifactId>
+                        <configuration>
+                            <sourceDirectories>
+                                <dir>${project.basedir}/src/main/kotlin/com/expediagroup/sdk/{{namespace}}</dir>
+                            </sourceDirectories>
+                            <dokkaPlugins>
+                                <plugin>
+                                    <groupId>org.jetbrains.dokka</groupId>
+                                    <artifactId>kotlin-as-java-plugin</artifactId>
+                                    <version>${dokka-plugin.version}</version>
+                                </plugin>
+                            </dokkaPlugins>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>javadocJar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
             </build>
