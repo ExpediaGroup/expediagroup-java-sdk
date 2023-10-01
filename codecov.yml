@@ -5,3 +5,5 @@ coverage:
         # basic
         target: auto
         threshold: 0%
+ignore:
+  - "release"
