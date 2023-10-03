@@ -29,34 +29,48 @@ import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.statement.HttpResponse
 
 internal object ClientFactory {
-    val expediaGroupConfiguration = ExpediaGroupClientConfiguration(
-        key = CLIENT_KEY_TEST_CREDENTIAL,
-        secret = CLIENT_SECRET_TEST_CREDENTIAL,
-        endpoint = ExpediaGroupConfigurationProvider.endpoint,
-        authEndpoint = ExpediaGroupConfigurationProvider.authEndpoint,
-        requestTimeout = ExpediaGroupConfigurationProvider.requestTimeout
-    )
+    val expediaGroupConfiguration =
+        ExpediaGroupClientConfiguration(
+            key = CLIENT_KEY_TEST_CREDENTIAL,
+            secret = CLIENT_SECRET_TEST_CREDENTIAL,
+            endpoint = ExpediaGroupConfigurationProvider.endpoint,
+            authEndpoint = ExpediaGroupConfigurationProvider.authEndpoint,
+            requestTimeout = ExpediaGroupConfigurationProvider.requestTimeout
+        )
 
-    private val rapidConfiguration = RapidClientConfiguration(
-        key = CLIENT_KEY_TEST_CREDENTIAL,
-        secret = CLIENT_SECRET_TEST_CREDENTIAL,
-        endpoint = RapidConfigurationProvider.endpoint
-    )
+    private val rapidConfiguration =
+        RapidClientConfiguration(
+            key = CLIENT_KEY_TEST_CREDENTIAL,
+            secret = CLIENT_SECRET_TEST_CREDENTIAL,
+            endpoint = RapidConfigurationProvider.endpoint
+        )
 
     fun createExpediaGroupClient(): ExpediaGroupClient = createExpediaGroupClient(MockEngineFactory.createDefaultEngine(), expediaGroupConfiguration)
 
     fun createExpediaGroupClient(mockEngine: MockEngine): ExpediaGroupClient = createExpediaGroupClient(mockEngine, expediaGroupConfiguration)
-    fun createExpediaGroupClient(mockEngine: HttpClientEngine, configuration: ExpediaGroupClientConfiguration): ExpediaGroupClient = object : ExpediaGroupClient(configuration, mockEngine) {
-        override suspend fun throwServiceException(response: HttpResponse, operationId: String) {
-            throw ExpediaGroupServiceException("Dummy service exception")
-        }
-    }
 
-    fun createRapidClient(mockEngine: HttpClientEngine): BaseRapidClient = object : BaseRapidClient(rapidConfiguration, mockEngine) {
-        override suspend fun throwServiceException(response: HttpResponse, operationId: String) {
-            throw ExpediaGroupServiceException("Dummy service exception")
+    fun createExpediaGroupClient(
+        mockEngine: HttpClientEngine,
+        configuration: ExpediaGroupClientConfiguration
+    ): ExpediaGroupClient =
+        object : ExpediaGroupClient(configuration, mockEngine) {
+            override suspend fun throwServiceException(
+                response: HttpResponse,
+                operationId: String
+            ) {
+                throw ExpediaGroupServiceException("Dummy service exception")
+            }
         }
-    }
+
+    fun createRapidClient(mockEngine: HttpClientEngine): BaseRapidClient =
+        object : BaseRapidClient(rapidConfiguration, mockEngine) {
+            override suspend fun throwServiceException(
+                response: HttpResponse,
+                operationId: String
+            ) {
+                throw ExpediaGroupServiceException("Dummy service exception")
+            }
+        }
 
     fun createRapidClient(): BaseRapidClient = createRapidClient(MockEngineFactory.createEmptyResponseEngine())
 }

@@ -20,7 +20,6 @@ import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 
 internal class RuntimeConfigurationProviderTest {
-
     @Test
     fun `verify default values`() {
         val emptyRuntimeConfigurationProvider = RuntimeConfigurationProvider()

@@ -25,12 +25,10 @@ internal data class Credentials(
     val key: String,
     val secret: String
 ) {
-
     /**
      * A factory of [Credentials].
      */
     companion object Factory {
-
         /**
          * Create a [Credentials] object.
          *
@@ -39,6 +37,9 @@ internal data class Credentials(
          * @return ClientCredentials object.
          */
         @JvmStatic
-        fun from(key: String, secret: String): Credentials = Credentials(key, secret)
+        fun from(
+            key: String,
+            secret: String
+        ): Credentials = Credentials(key, secret)
     }
 }

@@ -21,7 +21,6 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 internal class ExpediaGroupConfigurationProviderTest {
-
     @Test
     fun `verify default values`() {
         assertEquals(EMPTY_STRING, ExpediaGroupConfigurationProvider.key)

@@ -20,7 +20,10 @@ import com.expediagroup.sdk.core.plugin.Plugin
 import io.ktor.client.plugins.DefaultRequest
 
 internal object DefaultRequestPlugin : Plugin<DefaultRequestConfiguration> {
-    override fun install(client: Client, configurations: DefaultRequestConfiguration) {
+    override fun install(
+        client: Client,
+        configurations: DefaultRequestConfiguration
+    ) {
         configurations.httpClientConfiguration.install(DefaultRequest) {
             url(configurations.endpoint)
         }
