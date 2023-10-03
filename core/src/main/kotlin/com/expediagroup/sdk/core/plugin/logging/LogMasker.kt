@@ -25,12 +25,14 @@ internal object MaskProvider {
 
     object AuthMask : Mask {
         override val regex: Regex = AUTHORIZATION_REGEX
+
         override fun maskSubstring(string: String) = OMITTED
     }
 }
 
 internal interface Mask {
     val regex: Regex
+
     fun mask(string: String): String = string.replace(regex) { maskSubstring(it.value) }
 
     fun maskSubstring(string: String): String

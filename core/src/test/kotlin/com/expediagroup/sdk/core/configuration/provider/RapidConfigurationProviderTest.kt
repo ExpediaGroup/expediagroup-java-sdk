@@ -21,7 +21,6 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 internal class RapidConfigurationProviderTest {
-
     @Test
     fun `verify default values`() {
         assertEquals(EMPTY_STRING, RapidConfigurationProvider.key)

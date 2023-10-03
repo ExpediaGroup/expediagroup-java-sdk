@@ -19,7 +19,6 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class ContractTest {
-
     @Test
     fun `Test adhering to a trailing slash`() {
         assertEquals("https://api.expediagroup.com/", "https://api.expediagroup.com".adhereTo(Contract.TRAILING_SLASH))

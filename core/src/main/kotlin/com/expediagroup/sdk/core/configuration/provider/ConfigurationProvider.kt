@@ -21,26 +21,41 @@ import com.expediagroup.sdk.core.constant.Constant
  * A configuration provider that can be used to provide configuration values.
  */
 internal interface ConfigurationProvider {
-    /** The name of the provider. */
+    /**
+     * The name of the provider.
+     */
     val name: String
 
-    /* AuthenticationConfiguration */
-    /** The API key to use for authentication. */
+    // AuthenticationConfiguration
+
+    /**
+     * The API key to use for authentication.
+     */
     val key: String?
         get() = Constant.EMPTY_STRING
 
-    /** The API secret to use for authentication. */
+    /**
+     *  The API secret to use for authentication.
+     */
     val secret: String?
         get() = Constant.EMPTY_STRING
 
-    /* NetworkConfiguration */
-    /** The API endpoint to use for requests. */
+    // NetworkConfiguration
+
+    /**
+     *  The API endpoint to use for requests.
+     */
     val endpoint: String?
 
-    /** The API endpoint to use for authentication. */
+    /**
+     * The API endpoint to use for authentication.
+     */
     val authEndpoint: String?
         get() = Constant.EMPTY_STRING
 
+    /**
+     * The timeout to use for API requests
+     */
     val requestTimeout: Long?
         get() = Constant.TEN_SECONDS_IN_MILLIS
 }

@@ -25,5 +25,8 @@ fun interface ConfigurationChangeCallback {
      * @param path the path at which the data resides
      * @param data the configuration data
      */
-    fun onChange(path: String, data: ConfigurationData)
+    fun onChange(
+        path: String,
+        data: ConfigurationData
+    )
 }

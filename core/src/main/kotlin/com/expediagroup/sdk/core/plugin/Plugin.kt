@@ -19,7 +19,10 @@ import com.expediagroup.sdk.core.client.Client
 
 internal interface Plugin<in C : PluginConfiguration> {
     /** Install a plugin. */
-    fun install(client: Client, configurations: C)
+    fun install(
+        client: Client,
+        configurations: C
+    )
 }
 
 /**
@@ -28,7 +31,6 @@ internal interface Plugin<in C : PluginConfiguration> {
 internal fun Client.plugins(block: PluginContext.() -> Unit) = block(PluginContext(this))
 
 internal class PluginContext(private val client: Client) {
-
     /**
      * Provides an idiomatic way of starting a plugin.
      */
