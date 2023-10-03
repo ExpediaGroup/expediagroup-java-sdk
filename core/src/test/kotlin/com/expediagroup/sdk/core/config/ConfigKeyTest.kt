@@ -20,7 +20,6 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 class ConfigKeyTest {
-
     companion object {
         private const val API_CLIENT_KEY_NAME = "api_credentials.client_key"
         private const val API_CLIENT_KEY_DOCUMENTATION =
@@ -33,22 +32,24 @@ class ConfigKeyTest {
 
     @Test
     fun `secrets are marked as sensitive configurations`() {
-        val apiKeyConfiguration = ConfigurationKey(
-            name = API_CLIENT_KEY_NAME,
-            documentation = API_CLIENT_KEY_DOCUMENTATION,
-            type = ConfigurationKey.Type.STRING,
-            importance = ConfigurationKey.Importance.HIGH,
-            defaultValue = null,
-            validator = null
-        )
-        val apiSecretConfiguration = ConfigurationKey(
-            name = API_CLIENT_SECRET_NAME,
-            documentation = API_CLIENT_SECRET_DOCUMENTATION,
-            type = ConfigurationKey.Type.PASSWORD,
-            importance = ConfigurationKey.Importance.HIGH,
-            defaultValue = null,
-            validator = null
-        )
+        val apiKeyConfiguration =
+            ConfigurationKey(
+                name = API_CLIENT_KEY_NAME,
+                documentation = API_CLIENT_KEY_DOCUMENTATION,
+                type = ConfigurationKey.Type.STRING,
+                importance = ConfigurationKey.Importance.HIGH,
+                defaultValue = null,
+                validator = null
+            )
+        val apiSecretConfiguration =
+            ConfigurationKey(
+                name = API_CLIENT_SECRET_NAME,
+                documentation = API_CLIENT_SECRET_DOCUMENTATION,
+                type = ConfigurationKey.Type.PASSWORD,
+                importance = ConfigurationKey.Importance.HIGH,
+                defaultValue = null,
+                validator = null
+            )
         assertFalse(apiKeyConfiguration.type.isSensitive)
         assertTrue(apiSecretConfiguration.type.isSensitive)
     }

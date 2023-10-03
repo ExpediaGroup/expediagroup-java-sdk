@@ -27,7 +27,6 @@ class ExpediaGroupAuthException(
     message: String? = null,
     cause: Throwable? = null
 ) : ExpediaGroupServiceException(message, cause) {
-
     /**
      * An exception that is thrown when an authentication error occurs.
      *

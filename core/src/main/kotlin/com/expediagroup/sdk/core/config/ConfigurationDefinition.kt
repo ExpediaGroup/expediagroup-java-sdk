@@ -21,7 +21,7 @@ import com.expediagroup.sdk.core.constant.provider.ExceptionMessageProvider.getE
 import com.expediagroup.sdk.core.constant.provider.ExceptionMessageProvider.getExpectedNameValueMessage
 import com.expediagroup.sdk.core.constant.provider.ExceptionMessageProvider.getRequiredConfigurationsNotDefinedMessage
 import com.expediagroup.sdk.core.model.exception.ExpediaGroupException
-import java.util.*
+import java.util.Locale
 
 /**
  * A definition of a configuration property.
@@ -38,6 +38,8 @@ class ConfigurationDefinition {
         return this
     }
 
+    // TODO: Fix the cause and remove the suppression warning.
+
     /**
      * Define a new configuration which is required by the SDK.
      *
@@ -49,8 +51,6 @@ class ConfigurationDefinition {
      * @param validator - configuration validator if the value needs additional validation. eg : if a value has to be between 1-10 just expecting the type to be INT would not be enough
      * @return ConfigurationDefinition object after adding the configuration key
      */
-
-    // TODO: Fix the cause and remove the suppression warning.
     @Suppress("LongParameterList", "ForbiddenComment")
     fun define(
         name: String,
@@ -60,14 +60,15 @@ class ConfigurationDefinition {
         defaultValue: Any? = null,
         validator: ConfigurationKey.Validator? = null
     ): ConfigurationDefinition {
-        val key = ConfigurationKey(
-            name = name,
-            documentation = documentation,
-            type = type,
-            importance = importance,
-            defaultValue = defaultValue,
-            validator = validator
-        )
+        val key =
+            ConfigurationKey(
+                name = name,
+                documentation = documentation,
+                type = type,
+                importance = importance,
+                defaultValue = defaultValue,
+                validator = validator
+            )
         return define(key)
     }
 
@@ -78,8 +79,7 @@ class ConfigurationDefinition {
      * @return - configuration key
      */
 
-    fun get(name: String): ConfigurationKey =
-        configKeys[name] ?: throw ExpediaGroupException(getConfigurationKeyNotDefinedMessage(name))
+    fun get(name: String): ConfigurationKey = configKeys[name] ?: throw ExpediaGroupException(getConfigurationKeyNotDefinedMessage(name))
 
     /**
      * Parses the configuration values based on the defined keys.
@@ -101,20 +101,28 @@ class ConfigurationDefinition {
     }
 
     private fun undefinedConfigs(props: Map<String, Any>): List<String> {
-        val importantKeys = configKeys.values.filter { key ->
-            run {
-                key.defaultValue == null && key.importance == ConfigurationKey.Importance.HIGH
-            }
-        }.map { it.name }
+        val importantKeys =
+            configKeys.values.filter { key ->
+                run {
+                    key.defaultValue == null && key.importance == ConfigurationKey.Importance.HIGH
+                }
+            }.map { it.name }
         return importantKeys.filterNot { props.keys.contains(it) }
     }
 
-    private fun parseValue(key: ConfigurationKey, value: Any?): Any {
+    private fun parseValue(
+        key: ConfigurationKey,
+        value: Any?
+    ): Any {
         return parseType(key.name, run { value ?: key.defaultValue }!!, key.type)
             .let { key.validator?.ensureValid(key.name, it) ?: it }
     }
 
-    private fun parseType(name: String, value: Any, type: ConfigurationKey.Type): Any {
+    private fun parseType(
+        name: String,
+        value: Any,
+        type: ConfigurationKey.Type
+    ): Any {
         return when (type) {
             ConfigurationKey.Type.BOOLEAN -> parseBoolean(value, name)
             ConfigurationKey.Type.PASSWORD -> parsePassword(value, name)
@@ -125,76 +133,100 @@ class ConfigurationDefinition {
         }
     }
 
-    private fun parseBoolean(value: Any, name: String): Boolean {
+    private fun parseBoolean(
+        value: Any,
+        name: String
+    ): Boolean {
         toBooleanOrNull(value)?.let { return it }
 
         throw ExpediaGroupException(getExpectedNameValueMessage("boolean", name, value))
     }
 
-    private fun parsePassword(value: Any, name: String): ConfigurationKey.Password {
+    private fun parsePassword(
+        value: Any,
+        name: String
+    ): ConfigurationKey.Password {
         toPasswordOrNull(value)?.let { return it }
 
         throw ExpediaGroupException(getExpectedActualNameValueMessage("string", value.javaClass.name, name, value))
     }
 
-    private fun parseString(value: Any, name: String): String {
+    private fun parseString(
+        value: Any,
+        name: String
+    ): String {
         toStringOrNull(value)?.let { return it }
 
         throw ExpediaGroupException(getExpectedActualNameValueMessage("string", value.javaClass.name, name, value))
     }
 
-    private fun parseInt(value: Any, name: String): Int {
+    private fun parseInt(
+        value: Any,
+        name: String
+    ): Int {
         toIntOrNull(value)?.let { return it }
 
         throw ExpediaGroupException(getExpectedActualNameValueMessage("32-bit integer", value.javaClass.name, name, value))
     }
 
-    private fun parseDouble(value: Any, name: String): Double {
+    private fun parseDouble(
+        value: Any,
+        name: String
+    ): Double {
         toDoubleOrNull(value)?.let { return it }
 
         throw ExpediaGroupException(getExpectedActualNameValueMessage("double", value.javaClass.name, name, value))
     }
 
-    private fun parseList(value: Any, name: String): List<*> {
+    private fun parseList(
+        value: Any,
+        name: String
+    ): List<*> {
         toListOrNull(value)?.let { return it }
 
         throw ExpediaGroupException(getExpectedNameValueMessage("comma-separated list", name, value))
     }
 
-    private fun toBooleanOrNull(value: Any): Boolean? = when (value) {
-        is String -> value.lowercase(Locale.getDefault()).toBooleanStrictOrNull()
-        is Boolean -> value
-        else -> null
-    }
+    private fun toBooleanOrNull(value: Any): Boolean? =
+        when (value) {
+            is String -> value.lowercase(Locale.getDefault()).toBooleanStrictOrNull()
+            is Boolean -> value
+            else -> null
+        }
 
-    private fun toPasswordOrNull(value: Any): ConfigurationKey.Password? = when (value) {
-        is ConfigurationKey.Password -> value
-        is String -> ConfigurationKey.Password(value.trim())
-        else -> null
-    }
+    private fun toPasswordOrNull(value: Any): ConfigurationKey.Password? =
+        when (value) {
+            is ConfigurationKey.Password -> value
+            is String -> ConfigurationKey.Password(value.trim())
+            else -> null
+        }
 
     private fun toStringOrNull(value: Any): String? = if (value is String) value.trim() else null
 
-    private fun toIntOrNull(value: Any) = when (value) {
-        is Number -> value.toInt()
-        is String -> value.toIntOrNull()
-        else -> null
-    }
-
-    private fun toDoubleOrNull(value: Any): Double? = when (value) {
-        is Number -> value.toDouble()
-        is String -> value.toDoubleOrNull()
-        else -> null
-    }
-
-    private fun toListOrNull(value: Any): List<Any?>? = when (value) {
-        is List<*> -> value
-        is String -> if (value.isBlank()) {
-            emptyList()
-        } else {
-            value.split(",").map { it.trim() }
+    private fun toIntOrNull(value: Any) =
+        when (value) {
+            is Number -> value.toInt()
+            is String -> value.toIntOrNull()
+            else -> null
         }
 
-        else -> null
-    }
+    private fun toDoubleOrNull(value: Any): Double? =
+        when (value) {
+            is Number -> value.toDouble()
+            is String -> value.toDoubleOrNull()
+            else -> null
+        }
+
+    private fun toListOrNull(value: Any): List<Any?>? =
+        when (value) {
+            is List<*> -> value
+            is String ->
+                if (value.isBlank()) {
+                    emptyList()
+                } else {
+                    value.split(",").map { it.trim() }
+                }
+
+            else -> null
+        }
 }

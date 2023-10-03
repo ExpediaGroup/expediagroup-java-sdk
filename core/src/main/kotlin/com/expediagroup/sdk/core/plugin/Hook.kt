@@ -38,7 +38,10 @@ internal open class Hook<in C : PluginConfiguration>(
 internal object Hooks {
     private val clientsHooks: MutableMap<Client, MutableList<Hook<*>>> = mutableMapOf()
 
-    fun <C : PluginConfiguration> add(client: Client, hook: Hook<C>) {
+    fun <C : PluginConfiguration> add(
+        client: Client,
+        hook: Hook<C>
+    ) {
         clientsHooks.getOrPut(client) { mutableListOf() } += hook
     }
 
@@ -65,5 +68,8 @@ internal class HookContext(private val client: Client) {
 }
 
 internal interface HookFactory<C : PluginConfiguration> {
-    fun create(client: Client, configuration: C): Hook<C>
+    fun create(
+        client: Client,
+        configuration: C
+    ): Hook<C>
 }

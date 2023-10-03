@@ -28,6 +28,7 @@ import java.time.Instant
 
 internal class RapidAuthenticationStrategy(private val configs: AuthenticationConfiguration) : AuthenticationStrategy {
     private var signature: String = Constant.EMPTY_STRING
+
     override fun isTokenAboutToExpire(): Boolean = true
 
     override fun renewToken() {
@@ -41,7 +42,11 @@ internal class RapidAuthenticationStrategy(private val configs: AuthenticationCo
 
     private fun createAuthorizationHeader(signature: String?): String = "${Authentication.EAN} $signature"
 
-    private fun calculateSignature(apiKey: String, secret: String, timestamp: Long): String {
+    private fun calculateSignature(
+        apiKey: String,
+        secret: String,
+        timestamp: Long
+    ): String {
         val toBeHashed = apiKey + secret + timestamp
         val md = MessageDigest.getInstance(MGF1ParameterSpec.SHA512.digestAlgorithm)
         val bytes = md.digest(toBeHashed.toByteArray(StandardCharsets.UTF_8))

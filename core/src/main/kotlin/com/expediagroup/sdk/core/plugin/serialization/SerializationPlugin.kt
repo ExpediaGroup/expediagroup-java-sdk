@@ -24,7 +24,10 @@ import io.ktor.serialization.jackson.jackson
 import java.text.SimpleDateFormat
 
 internal object SerializationPlugin : Plugin<SerializationConfiguration> {
-    override fun install(client: Client, configurations: SerializationConfiguration) {
+    override fun install(
+        client: Client,
+        configurations: SerializationConfiguration
+    ) {
         configurations.httpClientConfiguration.install(ContentNegotiation) {
             jackson {
                 enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS)

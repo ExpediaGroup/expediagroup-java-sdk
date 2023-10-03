@@ -20,7 +20,10 @@ import com.expediagroup.sdk.core.plugin.Plugin
 import io.ktor.client.plugins.HttpTimeout
 
 internal object HttpTimeoutPlugin : Plugin<HttpTimeoutConfiguration> {
-    override fun install(client: Client, configurations: HttpTimeoutConfiguration) {
+    override fun install(
+        client: Client,
+        configurations: HttpTimeoutConfiguration
+    ) {
         configurations.httpClientConfiguration.install(HttpTimeout) {
             requestTimeoutMillis = configurations.requestTimeout
         }
