@@ -20,7 +20,6 @@ import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 
 class ExpediaGroupClientConfigurationTest {
-
     @Test
     fun `verify default behaviour`() {
         ExpediaGroupClientConfiguration().let {

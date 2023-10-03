@@ -25,7 +25,6 @@ import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 
 internal class ConfigurationCollectorTest {
-
     @Test
     fun `verify configuration collector with no providers`() {
         val collector = ConfigurationCollector.create()
@@ -50,17 +49,19 @@ internal class ConfigurationCollectorTest {
 
     @Test
     fun `verify configuration collector with runtime configuration provider only`() {
-        val runtimeConfigurationProvider = RuntimeConfigurationProvider(
-            key = CLIENT_KEY_TEST_CREDENTIAL,
-            secret = CLIENT_SECRET_TEST_CREDENTIAL,
-            endpoint = ExpediaGroupConfigurationProvider.endpoint,
-            authEndpoint = ExpediaGroupConfigurationProvider.authEndpoint,
-            requestTimeout = ExpediaGroupConfigurationProvider.requestTimeout
-        )
+        val runtimeConfigurationProvider =
+            RuntimeConfigurationProvider(
+                key = CLIENT_KEY_TEST_CREDENTIAL,
+                secret = CLIENT_SECRET_TEST_CREDENTIAL,
+                endpoint = ExpediaGroupConfigurationProvider.endpoint,
+                authEndpoint = ExpediaGroupConfigurationProvider.authEndpoint,
+                requestTimeout = ExpediaGroupConfigurationProvider.requestTimeout
+            )
 
-        val collector = ConfigurationCollector.create(
-            runtimeConfigurationProvider
-        )
+        val collector =
+            ConfigurationCollector.create(
+                runtimeConfigurationProvider
+            )
 
         assertEquals(CLIENT_KEY_TEST_CREDENTIAL, collector.key)
         assertEquals(CLIENT_SECRET_TEST_CREDENTIAL, collector.secret)
@@ -71,15 +72,17 @@ internal class ConfigurationCollectorTest {
 
     @Test
     fun `verify configuration collector with incomplete client configuration only`() {
-        val runtimeConfigurationProvider = RuntimeConfigurationProvider(
-            key = CLIENT_KEY_TEST_CREDENTIAL,
-            secret = CLIENT_SECRET_TEST_CREDENTIAL,
-            endpoint = ExpediaGroupConfigurationProvider.endpoint
-        )
+        val runtimeConfigurationProvider =
+            RuntimeConfigurationProvider(
+                key = CLIENT_KEY_TEST_CREDENTIAL,
+                secret = CLIENT_SECRET_TEST_CREDENTIAL,
+                endpoint = ExpediaGroupConfigurationProvider.endpoint
+            )
 
-        val collector = ConfigurationCollector.create(
-            runtimeConfigurationProvider
-        )
+        val collector =
+            ConfigurationCollector.create(
+                runtimeConfigurationProvider
+            )
 
         assertEquals(CLIENT_KEY_TEST_CREDENTIAL, collector.key)
         assertEquals(CLIENT_SECRET_TEST_CREDENTIAL, collector.secret)
@@ -90,15 +93,17 @@ internal class ConfigurationCollectorTest {
 
     @Test
     fun `verify configuration collector with runtime and default providers`() {
-        val runtimeConfigurationProvider = RuntimeConfigurationProvider(
-            secret = CLIENT_SECRET_TEST_CREDENTIAL,
-            endpoint = ExpediaGroupConfigurationProvider.endpoint
-        )
+        val runtimeConfigurationProvider =
+            RuntimeConfigurationProvider(
+                secret = CLIENT_SECRET_TEST_CREDENTIAL,
+                endpoint = ExpediaGroupConfigurationProvider.endpoint
+            )
 
-        val collector = ConfigurationCollector.create(
-            runtimeConfigurationProvider,
-            ExpediaGroupConfigurationProvider
-        )
+        val collector =
+            ConfigurationCollector.create(
+                runtimeConfigurationProvider,
+                ExpediaGroupConfigurationProvider
+            )
 
         assertEquals(EMPTY_STRING, collector.key) // from default provider
         assertEquals(CLIENT_SECRET_TEST_CREDENTIAL, collector.secret) // from client configuration

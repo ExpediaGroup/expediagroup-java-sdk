@@ -25,7 +25,10 @@ import kotlin.collections.set
 internal object AuthenticationPlugin : Plugin<AuthenticationConfiguration> {
     val clientAuthenticationStrategies = mutableMapOf<Client, AuthenticationStrategy>()
 
-    override fun install(client: Client, configurations: AuthenticationConfiguration) {
+    override fun install(
+        client: Client,
+        configurations: AuthenticationConfiguration
+    ) {
         val strategy = AuthenticationStrategy.from(configurations) { client.httpClient }
         clientAuthenticationStrategies[client] = strategy
         configurations.httpClientConfiguration.install(Auth) {

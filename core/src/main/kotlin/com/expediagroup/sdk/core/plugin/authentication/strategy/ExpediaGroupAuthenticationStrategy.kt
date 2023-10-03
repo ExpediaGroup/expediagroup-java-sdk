@@ -63,24 +63,26 @@ internal class ExpediaGroupAuthenticationStrategy(
         val httpClient = httpClientProvider()
         log.info(LoggingMessage.TOKEN_RENEWAL_IN_PROCESS)
         clearTokens(httpClient)
-        val renewTokenResponse = runBlocking {
-            httpClient.request {
-                method = HttpMethod.Post
-                url(configs.authUrl)
-                buildTokenRequest()
-                basicAuth(configs.credentials)
+        val renewTokenResponse =
+            runBlocking {
+                httpClient.request {
+                    method = HttpMethod.Post
+                    url(configs.authUrl)
+                    buildTokenRequest()
+                    basicAuth(configs.credentials)
+                }
             }
-        }
         if (renewTokenResponse.status.value !in Constant.SUCCESSFUL_STATUS_CODES_RANGE) {
             throw ExpediaGroupAuthException(renewTokenResponse.status, ExceptionMessage.AUTHENTICATION_FAILURE)
         }
         val renewedTokenInfo: TokenResponse = runBlocking { renewTokenResponse.body() }
         log.info(LoggingMessage.TOKEN_RENEWAL_SUCCESSFUL)
         log.info(LoggingMessageProvider.getTokenExpiresInMessage(renewedTokenInfo.expiresIn))
-        bearerTokenStorage = BearerTokensInfo(
-            BearerTokens(renewedTokenInfo.accessToken, renewedTokenInfo.accessToken),
-            renewedTokenInfo.expiresIn
-        )
+        bearerTokenStorage =
+            BearerTokensInfo(
+                BearerTokens(renewedTokenInfo.accessToken, renewedTokenInfo.accessToken),
+                renewedTokenInfo.expiresIn
+            )
         bearerTokenStorage
     }
 
@@ -122,9 +124,10 @@ internal class ExpediaGroupAuthenticationStrategy(
         open fun isAboutToExpire(): Boolean = LocalDateTime.now().isAfter(expiryDate.minusSeconds(Authentication.BEARER_EXPIRY_DATE_MARGIN))
 
         companion object {
-            internal val emptyBearerTokenInfo = object : BearerTokensInfo(BearerTokens(Constant.EMPTY_STRING, Constant.EMPTY_STRING), -1) {
-                override fun isAboutToExpire() = true
-            }
+            internal val emptyBearerTokenInfo =
+                object : BearerTokensInfo(BearerTokens(Constant.EMPTY_STRING, Constant.EMPTY_STRING), -1) {
+                    override fun isAboutToExpire() = true
+                }
         }
     }
 

@@ -65,24 +65,27 @@ internal class EncodingPluginTest {
         }
     }
 
-    private fun createGzipMockEngine() = MockEngine {
-        successfulResponse()
-    }
+    private fun createGzipMockEngine() =
+        MockEngine {
+            successfulResponse()
+        }
 
     private fun MockRequestHandleScope.successfulResponse(): HttpResponseData {
         return respond(
-            content = ByteReadChannel(
-                SUCCESSFUL_DUMMY_REQUEST.let { content ->
-                    val bos = ByteArrayOutputStream()
-                    GZIPOutputStream(bos).bufferedWriter(UTF_8).use { it.write(content) }
-                    bos.toByteArray()
-                }
-            ),
+            content =
+                ByteReadChannel(
+                    SUCCESSFUL_DUMMY_REQUEST.let { content ->
+                        val bos = ByteArrayOutputStream()
+                        GZIPOutputStream(bos).bufferedWriter(UTF_8).use { it.write(content) }
+                        bos.toByteArray()
+                    }
+                ),
             status = HttpStatusCode.OK,
-            headers = headersOf(
-                Pair(HttpHeaders.ContentType, listOf(TEXT_PLAIN)),
-                Pair(HttpHeaders.ContentEncoding, listOf(GZIP))
-            )
+            headers =
+                headersOf(
+                    Pair(HttpHeaders.ContentType, listOf(TEXT_PLAIN)),
+                    Pair(HttpHeaders.ContentEncoding, listOf(GZIP))
+                )
         )
     }
 }

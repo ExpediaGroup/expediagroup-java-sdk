@@ -65,7 +65,6 @@ import java.util.concurrent.Executors
 import java.util.concurrent.Future
 
 internal class ExpediaGroupAuthenticationStrategyTest : AuthenticationPluginTest() {
-
     @Test
     fun `making any http call should invoke the authorized token`() {
         runBlocking {
@@ -82,22 +81,25 @@ internal class ExpediaGroupAuthenticationStrategyTest : AuthenticationPluginTest
     @ArgumentsSource(UnsuccessfulStatusCodesArgumentProvider::class)
     fun `refresh auth token should throw client exception if the the credentials are invalid`(httpStatusCode: HttpStatusCode) {
         runBlocking {
-            val configuration = ExpediaGroupClientConfiguration(
-                key = CLIENT_KEY_TEST_CREDENTIAL + "invalid",
-                secret = CLIENT_SECRET_TEST_CREDENTIAL + "invalid",
-                endpoint = ExpediaGroupConfigurationProvider.endpoint,
-                authEndpoint = ExpediaGroupConfigurationProvider.authEndpoint,
-                requestTimeout = ExpediaGroupConfigurationProvider.requestTimeout
-            )
-            val client = ClientFactory.createExpediaGroupClient(
-                createUnauthorizedMockEngineWithStatusCode(httpStatusCode),
-                configuration
-            )
+            val configuration =
+                ExpediaGroupClientConfiguration(
+                    key = CLIENT_KEY_TEST_CREDENTIAL + "invalid",
+                    secret = CLIENT_SECRET_TEST_CREDENTIAL + "invalid",
+                    endpoint = ExpediaGroupConfigurationProvider.endpoint,
+                    authEndpoint = ExpediaGroupConfigurationProvider.authEndpoint,
+                    requestTimeout = ExpediaGroupConfigurationProvider.requestTimeout
+                )
+            val client =
+                ClientFactory.createExpediaGroupClient(
+                    createUnauthorizedMockEngineWithStatusCode(httpStatusCode),
+                    configuration
+                )
             val authentication = client.getAuthenticationStrategy()
 
-            val exception = assertThrows<ExpediaGroupAuthException> {
-                authentication.renewToken()
-            }
+            val exception =
+                assertThrows<ExpediaGroupAuthException> {
+                    authentication.renewToken()
+                }
             assertThat(exception.message).isEqualTo("[${httpStatusCode.value}] ${ExceptionMessage.AUTHENTICATION_FAILURE}")
             assertThat(exception.cause).isNull()
         }
@@ -151,9 +153,10 @@ internal class ExpediaGroupAuthenticationStrategyTest : AuthenticationPluginTest
                 futures.add(threadPool.submit(Callable { runBlocking { httpClient.get(ANY_URL) } }))
             }
 
-            val failedRequests: List<HttpResponse> = futures.map { it.get() }.filter {
-                it.status.value !in SUCCESSFUL_STATUS_CODES_RANGE
-            }
+            val failedRequests: List<HttpResponse> =
+                futures.map { it.get() }.filter {
+                    it.status.value !in SUCCESSFUL_STATUS_CODES_RANGE
+                }
             assertThat(failedRequests).isEmpty()
 
             verify(exactly = 1) {
@@ -254,12 +257,13 @@ internal class ExpediaGroupAuthenticationStrategyTest : AuthenticationPluginTest
 
     private fun <T : Client> renewToken(client: T) = client.getAuthenticationStrategy().renewToken()
 
-    private fun getAuthenticationConfiguration() = AuthenticationConfiguration.from(
-        HttpClientConfig(),
-        Credentials(
-            CLIENT_KEY_TEST_CREDENTIAL,
-            CLIENT_SECRET_TEST_CREDENTIAL
-        ),
-        ExpediaGroupConfigurationProvider.authEndpoint
-    )
+    private fun getAuthenticationConfiguration() =
+        AuthenticationConfiguration.from(
+            HttpClientConfig(),
+            Credentials(
+                CLIENT_KEY_TEST_CREDENTIAL,
+                CLIENT_SECRET_TEST_CREDENTIAL
+            ),
+            ExpediaGroupConfigurationProvider.authEndpoint
+        )
 }
