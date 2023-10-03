@@ -39,7 +39,10 @@ class FileConfigurationProvider : ConfigurationProvider {
      * @param optional whether these configurations are optional or not
      * @return the configuration data
      */
-    override fun get(path: String, optional: Boolean): ConfigurationData {
+    override fun get(
+        path: String,
+        optional: Boolean
+    ): ConfigurationData {
         if (path.isEmpty()) {
             return emptyConfigurationData
         }
@@ -63,7 +66,10 @@ class FileConfigurationProvider : ConfigurationProvider {
      * @param optional whether these configurations are optional or not
      * @return the configuration data
      */
-    override fun get(url: URL, optional: Boolean): ConfigurationData {
+    override fun get(
+        url: URL,
+        optional: Boolean
+    ): ConfigurationData {
         return runCatching {
             readPropsFileIntoConfigurationData(BufferedReader(InputStreamReader(url.openStream())))
         }.getOrElse {

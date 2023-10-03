@@ -44,32 +44,34 @@ import kotlinx.coroutines.withContext
 import java.util.Base64
 
 object MockEngineFactory {
-    fun createDefaultEngine(): HttpClientEngine = MockEngine { request ->
-        if (isIdentityRequest(request) && isValidCredentialsRequest(request)) {
-            tokenResponse(HttpStatusCode.OK)
-        } else if (isIdentityRequest(request) && !isValidCredentialsRequest(request)) {
-            unAuthorizedIdentityRespond()
-        } else if (isAuthorizedHeader(request) && !isBadRequest(request)) {
-            successfulRespond()
-        } else if (!isAuthorizedHeader(request)) {
-            unAuthorizedRespond(HttpStatusCode.Unauthorized)
-        } else if (isBadRequest(request)) {
-            errorResponse()
-        } else {
-            throw ExpediaGroupAuthException(HttpStatusCode.InternalServerError, "unsupported case in the mock engine")
+    fun createDefaultEngine(): HttpClientEngine =
+        MockEngine { request ->
+            if (isIdentityRequest(request) && isValidCredentialsRequest(request)) {
+                tokenResponse(HttpStatusCode.OK)
+            } else if (isIdentityRequest(request) && !isValidCredentialsRequest(request)) {
+                unAuthorizedIdentityRespond()
+            } else if (isAuthorizedHeader(request) && !isBadRequest(request)) {
+                successfulRespond()
+            } else if (!isAuthorizedHeader(request)) {
+                unAuthorizedRespond(HttpStatusCode.Unauthorized)
+            } else if (isBadRequest(request)) {
+                errorResponse()
+            } else {
+                throw ExpediaGroupAuthException(HttpStatusCode.InternalServerError, "unsupported case in the mock engine")
+            }
         }
-    }
 
     fun createMockEngineExpiresInPerCall(vararg expiresIn: Int): MockEngine {
         var timesCalled = -1
-        val mockEngine = MockEngine {
-            timesCalled++
-            if (timesCalled in expiresIn.indices) {
-                createTokenResponse(expiresIn[timesCalled])
-            } else {
-                createTokenResponse(1000)
+        val mockEngine =
+            MockEngine {
+                timesCalled++
+                if (timesCalled in expiresIn.indices) {
+                    createTokenResponse(expiresIn[timesCalled])
+                } else {
+                    createTokenResponse(1000)
+                }
             }
-        }
         return mockEngine
     }
 
@@ -80,8 +82,9 @@ object MockEngineFactory {
             }
 
             respond(
-                content = ByteReadChannel(
-                    """
+                content =
+                    ByteReadChannel(
+                        """
                 {
                     "access_token": "$ACCESS_TOKEN",
                     "token_type": "bearer",
@@ -89,24 +92,28 @@ object MockEngineFactory {
                     "scope": "any-scope"
                 }
                 """
-                ),
+                    ),
                 status = HttpStatusCode.OK,
                 headers = headersOf(HttpHeaders.ContentType, APPLICATION_JSON)
             )
         }
     }
 
-    fun createUnauthorizedMockEngineWithStatusCode(statusCode: HttpStatusCode): HttpClientEngine = MockEngine {
-        unAuthorizedRespond(statusCode)
-    }
+    fun createUnauthorizedMockEngineWithStatusCode(statusCode: HttpStatusCode): HttpClientEngine =
+        MockEngine {
+            unAuthorizedRespond(statusCode)
+        }
 
-    fun createTokenMockEngineWithStatusCode(statusCode: HttpStatusCode): HttpClientEngine = MockEngine {
-        tokenResponse(statusCode)
-    }
+    fun createTokenMockEngineWithStatusCode(statusCode: HttpStatusCode): HttpClientEngine =
+        MockEngine {
+            tokenResponse(statusCode)
+        }
 
-    private fun MockRequestHandleScope.createTokenResponse(expiresIn: Int): HttpResponseData = respond(
-        content = ByteReadChannel(
-            """
+    private fun MockRequestHandleScope.createTokenResponse(expiresIn: Int): HttpResponseData =
+        respond(
+            content =
+                ByteReadChannel(
+                    """
                     {
                         "access_token": "$ACCESS_TOKEN",
                         "token_type": "bearer",
@@ -114,16 +121,17 @@ object MockEngineFactory {
                         "scope": "any-scope"
                     }
                     """
-        ),
-        status = HttpStatusCode.OK,
-        headers = headersOf(HttpHeaders.ContentType, "application/json")
-    )
-
-    fun createEmptyResponseEngine(): MockEngine = MockEngine {
-        respond(
-            content = EMPTY_STRING
+                ),
+            status = HttpStatusCode.OK,
+            headers = headersOf(HttpHeaders.ContentType, "application/json")
         )
-    }
+
+    fun createEmptyResponseEngine(): MockEngine =
+        MockEngine {
+            respond(
+                content = EMPTY_STRING
+            )
+        }
 
     private fun isIdentityRequest(request: HttpRequestData): Boolean = request.url.toString() == ExpediaGroupConfigurationProvider.authEndpoint
 
@@ -134,9 +142,11 @@ object MockEngineFactory {
 
     private fun isAuthorizedHeader(request: HttpRequestData): Boolean = request.headers[HeaderKey.AUTHORIZATION] == "$BEARER $ACCESS_TOKEN"
 
-    private fun MockRequestHandleScope.tokenResponse(httpStatusCode: HttpStatusCode): HttpResponseData = respond(
-        content = ByteReadChannel(
-            """
+    private fun MockRequestHandleScope.tokenResponse(httpStatusCode: HttpStatusCode): HttpResponseData =
+        respond(
+            content =
+                ByteReadChannel(
+                    """
                 {
                     "access_token": "$ACCESS_TOKEN",
                     "token_type": "bearer",
@@ -144,45 +154,52 @@ object MockEngineFactory {
                     "scope": "any-scope"
                 }
                 """
-        ),
-        status = httpStatusCode,
-        headers = headersOf(HttpHeaders.ContentType, APPLICATION_JSON)
-    )
+                ),
+            status = httpStatusCode,
+            headers = headersOf(HttpHeaders.ContentType, APPLICATION_JSON)
+        )
 
-    private fun MockRequestHandleScope.successfulRespond(): HttpResponseData = respond(
-        content = ByteReadChannel(SUCCESSFUL_DUMMY_REQUEST),
-        status = HttpStatusCode.OK,
-        headers = headersOf(HttpHeaders.ContentType, "text/plain")
-    )
+    private fun MockRequestHandleScope.successfulRespond(): HttpResponseData =
+        respond(
+            content = ByteReadChannel(SUCCESSFUL_DUMMY_REQUEST),
+            status = HttpStatusCode.OK,
+            headers = headersOf(HttpHeaders.ContentType, "text/plain")
+        )
 
-    private fun MockRequestHandleScope.unAuthorizedIdentityRespond(): HttpResponseData = respond(
-        content = ByteReadChannel(
-            """
+    private fun MockRequestHandleScope.unAuthorizedIdentityRespond(): HttpResponseData =
+        respond(
+            content =
+                ByteReadChannel(
+                    """
                 {
                       "error": "invalid_client",
                       "error_description": "Unauthorized"
                 }
                 """
-        ),
-        status = HttpStatusCode.Unauthorized,
-        headers = headersOf("WWW-Authenticate", "Basic realm=\"Access to the '/' path\"")
-    )
+                ),
+            status = HttpStatusCode.Unauthorized,
+            headers = headersOf("WWW-Authenticate", "Basic realm=\"Access to the '/' path\"")
+        )
 
-    private fun MockRequestHandleScope.unAuthorizedRespond(httpStatusCode: HttpStatusCode): HttpResponseData = respond(
-        content = ByteReadChannel(
-            """
+    private fun MockRequestHandleScope.unAuthorizedRespond(httpStatusCode: HttpStatusCode): HttpResponseData =
+        respond(
+            content =
+                ByteReadChannel(
+                    """
                 {
                       "error": "invalid_client",
                       "error_description": "Unauthorized"
                 }
                 """
-        ),
-        status = httpStatusCode
-    )
+                ),
+            status = httpStatusCode
+        )
 
-    private fun MockRequestHandleScope.errorResponse(): HttpResponseData = respond(
-        content = ByteReadChannel(
-            """
+    private fun MockRequestHandleScope.errorResponse(): HttpResponseData =
+        respond(
+            content =
+                ByteReadChannel(
+                    """
                  {
                    "type": "$TEST_URL",
                    "detail":"The request failed because one or many input values are invalid. Please see the causes for more details.",
@@ -197,8 +214,8 @@ object MockEngineFactory {
                    ]
                 }
                  """
-        ),
-        status = HttpStatusCode.BadRequest,
-        headersOf(HttpHeaders.ContentType, APPLICATION_JSON)
-    )
+                ),
+            status = HttpStatusCode.BadRequest,
+            headersOf(HttpHeaders.ContentType, APPLICATION_JSON)
+        )
 }

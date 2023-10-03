@@ -67,35 +67,37 @@ abstract class Client {
         configurationProvider: ConfigurationProvider,
         authenticationType: AuthenticationStrategy.AuthenticationType,
         httpClientEngine: HttpClientEngine = DEFAULT_HTTP_CLIENT_ENGINE
-    ): HttpClient = HttpClient(httpClientEngine) {
-        val httpClientConfig = this
+    ): HttpClient =
+        HttpClient(httpClientEngine) {
+            val httpClientConfig = this
 
-        val key: String = configurationProvider.key ?: fireMissingConfigurationIssue(ConfigurationName.KEY)
-        val secret: String = configurationProvider.secret ?: fireMissingConfigurationIssue(ConfigurationName.SECRET)
-        val endpoint: String = configurationProvider.endpoint ?: fireMissingConfigurationIssue(ConfigurationName.ENDPOINT)
-        val authEndpoint: String = configurationProvider.authEndpoint ?: fireMissingConfigurationIssue(ConfigurationName.AUTH_ENDPOINT)
-        val requestTimeout: Long = configurationProvider.requestTimeout ?: fireMissingConfigurationIssue(ConfigurationName.REQUEST_TIMEOUT_MILLIS)
+            val key: String = configurationProvider.key ?: fireMissingConfigurationIssue(ConfigurationName.KEY)
+            val secret: String = configurationProvider.secret ?: fireMissingConfigurationIssue(ConfigurationName.SECRET)
+            val endpoint: String = configurationProvider.endpoint ?: fireMissingConfigurationIssue(ConfigurationName.ENDPOINT)
+            val authEndpoint: String = configurationProvider.authEndpoint ?: fireMissingConfigurationIssue(ConfigurationName.AUTH_ENDPOINT)
+            val requestTimeout: Long = configurationProvider.requestTimeout ?: fireMissingConfigurationIssue(ConfigurationName.REQUEST_TIMEOUT_MILLIS)
 
-        val authenticationConfiguration = AuthenticationConfiguration.from(
-            httpClientConfig,
-            Credentials.from(key, secret),
-            authEndpoint,
-            authenticationType
-        )
+            val authenticationConfiguration =
+                AuthenticationConfiguration.from(
+                    httpClientConfig,
+                    Credentials.from(key, secret),
+                    authEndpoint,
+                    authenticationType
+                )
 
-        plugins {
-            use(LoggingPlugin).with(LoggingConfiguration.from(httpClientConfig))
-            use(SerializationPlugin).with(SerializationConfiguration.from(httpClientConfig))
-            use(AuthenticationPlugin).with(authenticationConfiguration)
-            use(DefaultRequestPlugin).with(DefaultRequestConfiguration.from(httpClientConfig, endpoint))
-            use(EncodingPlugin).with(EncodingConfiguration.from(httpClientConfig))
-            use(HttpTimeoutPlugin).with(HttpTimeoutConfiguration.from(httpClientConfig, requestTimeout))
+            plugins {
+                use(LoggingPlugin).with(LoggingConfiguration.from(httpClientConfig))
+                use(SerializationPlugin).with(SerializationConfiguration.from(httpClientConfig))
+                use(AuthenticationPlugin).with(authenticationConfiguration)
+                use(DefaultRequestPlugin).with(DefaultRequestConfiguration.from(httpClientConfig, endpoint))
+                use(EncodingPlugin).with(EncodingConfiguration.from(httpClientConfig))
+                use(HttpTimeoutPlugin).with(HttpTimeoutConfiguration.from(httpClientConfig, requestTimeout))
+            }
+
+            hooks {
+                use(AuthenticationHookFactory).with(authenticationConfiguration)
+            }
         }
-
-        hooks {
-            use(AuthenticationHookFactory).with(authenticationConfiguration)
-        }
-    }
 
     /** Throw an exception if the configuration is missing. */
     private fun fireMissingConfigurationIssue(configurationKey: String): Nothing = throw ExpediaGroupConfigurationException(getMissingRequiredConfigurationMessage(configurationKey))
@@ -113,7 +115,10 @@ abstract class Client {
         }
     }
 
-    abstract suspend fun throwServiceException(response: HttpResponse, operationId: String)
+    abstract suspend fun throwServiceException(
+        response: HttpResponse,
+        operationId: String
+    )
 
     /**
      * A [Client] builder.

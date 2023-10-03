@@ -42,20 +42,22 @@ internal class HttpTimeoutPluginTest {
         clearAllMocks()
     }
 
-    private val expediaGroupConfiguration = ExpediaGroupClientConfiguration(
-        key = TestConstants.CLIENT_KEY_TEST_CREDENTIAL,
-        secret = TestConstants.CLIENT_SECRET_TEST_CREDENTIAL,
-        endpoint = ExpediaGroupConfigurationProvider.endpoint,
-        authEndpoint = ExpediaGroupConfigurationProvider.authEndpoint,
-        requestTimeout = 3_000
-    )
+    private val expediaGroupConfiguration =
+        ExpediaGroupClientConfiguration(
+            key = TestConstants.CLIENT_KEY_TEST_CREDENTIAL,
+            secret = TestConstants.CLIENT_SECRET_TEST_CREDENTIAL,
+            endpoint = ExpediaGroupConfigurationProvider.endpoint,
+            authEndpoint = ExpediaGroupConfigurationProvider.authEndpoint,
+            requestTimeout = 3_000
+        )
 
     @Test
     fun `get a response with timeout`() {
-        val client = ClientFactory.createExpediaGroupClient(
-            mockEngine = MockEngineFactory.createMockEngineDelayedResponse(5_000),
-            configuration = expediaGroupConfiguration
-        )
+        val client =
+            ClientFactory.createExpediaGroupClient(
+                mockEngine = MockEngineFactory.createMockEngineDelayedResponse(5_000),
+                configuration = expediaGroupConfiguration
+            )
 
         assertThrows<HttpRequestTimeoutException> {
             runBlocking { client.httpClient.get("/any-url") }
@@ -64,10 +66,11 @@ internal class HttpTimeoutPluginTest {
 
     @Test
     fun `get a response without timeout`() {
-        val client = ClientFactory.createExpediaGroupClient(
-            mockEngine = MockEngineFactory.createMockEngineDelayedResponse(250),
-            configuration = expediaGroupConfiguration
-        )
+        val client =
+            ClientFactory.createExpediaGroupClient(
+                mockEngine = MockEngineFactory.createMockEngineDelayedResponse(250),
+                configuration = expediaGroupConfiguration
+            )
 
         runBlocking {
             val request = client.httpClient.get("/any-url")

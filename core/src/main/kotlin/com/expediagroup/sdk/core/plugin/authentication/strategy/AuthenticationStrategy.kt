@@ -34,10 +34,14 @@ internal interface AuthenticationStrategy {
     fun getAuthorizationHeader(): String
 
     companion object {
-        fun from(configs: AuthenticationConfiguration, httpClientProvider: () -> HttpClient): AuthenticationStrategy = when (configs.authType) {
-            BEARER -> ExpediaGroupAuthenticationStrategy(httpClientProvider, configs)
-            SIGNATURE -> RapidAuthenticationStrategy(configs)
-        }
+        fun from(
+            configs: AuthenticationConfiguration,
+            httpClientProvider: () -> HttpClient
+        ): AuthenticationStrategy =
+            when (configs.authType) {
+                BEARER -> ExpediaGroupAuthenticationStrategy(httpClientProvider, configs)
+                SIGNATURE -> RapidAuthenticationStrategy(configs)
+            }
     }
 
     enum class AuthenticationType {

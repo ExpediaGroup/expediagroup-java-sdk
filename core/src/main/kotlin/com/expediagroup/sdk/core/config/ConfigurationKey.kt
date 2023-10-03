@@ -37,7 +37,12 @@ data class ConfigurationKey(
      * The config types.
      */
     enum class Type {
-        BOOLEAN, STRING, INT, DOUBLE, LIST, PASSWORD;
+        BOOLEAN,
+        STRING,
+        INT,
+        DOUBLE,
+        LIST,
+        PASSWORD;
 
         /**
          * Whether the configuration type is sensitive.
@@ -57,7 +62,9 @@ data class ConfigurationKey(
      * The importance level for a configuration.
      */
     enum class Importance {
-        HIGH, MEDIUM, LOW
+        HIGH,
+        MEDIUM,
+        LOW
     }
 
     /**
@@ -71,6 +78,9 @@ data class ConfigurationKey(
          * @param value The value of the configuration
          * @throws ConfigurationException if the value is invalid
          */
-        fun ensureValid(name: String, value: Any): Any
+        fun ensureValid(
+            name: String,
+            value: Any
+        ): Any
     }
 }
