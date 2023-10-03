@@ -24,7 +24,6 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 internal class ConfigurationProviderQueueTest {
-
     @Test
     fun `test a provider queue with only a default provider`() {
         val configurationProviderQueue = ConfigurationProviderQueue.from(listOf(ExpediaGroupConfigurationProvider))
@@ -37,16 +36,18 @@ internal class ConfigurationProviderQueueTest {
 
     @Test
     fun `test a provider queue with at least a non-empty provider`() {
-        val runtimeConfigurationProvider = RuntimeConfigurationProvider(
-            key = CLIENT_KEY_TEST_CREDENTIAL,
-            secret = CLIENT_SECRET_TEST_CREDENTIAL,
-            endpoint = ExpediaGroupConfigurationProvider.endpoint,
-            authEndpoint = ExpediaGroupConfigurationProvider.authEndpoint,
-            requestTimeout = ExpediaGroupConfigurationProvider.requestTimeout
-        )
-        val configurationProviderQueue = ConfigurationProviderQueue.from(
-            listOf(runtimeConfigurationProvider)
-        )
+        val runtimeConfigurationProvider =
+            RuntimeConfigurationProvider(
+                key = CLIENT_KEY_TEST_CREDENTIAL,
+                secret = CLIENT_SECRET_TEST_CREDENTIAL,
+                endpoint = ExpediaGroupConfigurationProvider.endpoint,
+                authEndpoint = ExpediaGroupConfigurationProvider.authEndpoint,
+                requestTimeout = ExpediaGroupConfigurationProvider.requestTimeout
+            )
+        val configurationProviderQueue =
+            ConfigurationProviderQueue.from(
+                listOf(runtimeConfigurationProvider)
+            )
 
         assertEquals(runtimeConfigurationProvider, configurationProviderQueue.first())
         assertEquals(runtimeConfigurationProvider, configurationProviderQueue.first { it.key != null })

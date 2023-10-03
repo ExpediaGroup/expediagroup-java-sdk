@@ -39,7 +39,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
 internal open class AuthenticationPluginTest {
-
     @BeforeEach
     fun setUp() {
         clearAllMocks()
@@ -102,10 +101,11 @@ internal open class AuthenticationPluginTest {
         @Test
         fun `given two requests when authentication fails then renew token should be called for both of them`() {
             runBlocking {
-                val client = ClientFactory.createExpediaGroupClient(
-                    MockEngineFactory.createUnauthorizedMockEngineWithStatusCode(HttpStatusCode.Unauthorized),
-                    ClientFactory.expediaGroupConfiguration
-                )
+                val client =
+                    ClientFactory.createExpediaGroupClient(
+                        MockEngineFactory.createUnauthorizedMockEngineWithStatusCode(HttpStatusCode.Unauthorized),
+                        ClientFactory.expediaGroupConfiguration
+                    )
                 val httpClient = client.httpClient
                 val auth = client.getAuthenticationStrategy()
                 mockkObject(auth)

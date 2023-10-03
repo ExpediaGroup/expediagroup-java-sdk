@@ -26,7 +26,6 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 
 class ConfigurationDefinitionTest {
-
     @Test
     fun `configuration definition lets you define configuration keys for a given type`() {
         val configurationDefinition = ConfigurationDefinition()
@@ -35,12 +34,13 @@ class ConfigurationDefinitionTest {
         val configurationKeyType = ConfigurationKey.Type.INT
         val configurationKeyImportance = ConfigurationKey.Importance.HIGH
 
-        val definition = configurationDefinition.define(
-            name = configurationKeyName,
-            documentation = configurationKeyDocumentation,
-            type = configurationKeyType,
-            importance = configurationKeyImportance
-        )
+        val definition =
+            configurationDefinition.define(
+                name = configurationKeyName,
+                documentation = configurationKeyDocumentation,
+                type = configurationKeyType,
+                importance = configurationKeyImportance
+            )
 
         assertDoesNotThrow {
             val configurationKey = definition.get(configurationKeyName)
@@ -61,11 +61,15 @@ class ConfigurationDefinitionTest {
         val configurationKeyDocumentation = "This is a test configuration key of integer type"
         val configurationKeyType = ConfigurationKey.Type.INT
         val configurationKeyImportance = ConfigurationKey.Importance.HIGH
-        val validator = object : ConfigurationKey.Validator {
-            override fun ensureValid(name: String, value: Any): Any {
-                return value
+        val validator =
+            object : ConfigurationKey.Validator {
+                override fun ensureValid(
+                    name: String,
+                    value: Any
+                ): Any {
+                    return value
+                }
             }
-        }
 
         configurationDefinition.define(
             name = configurationKeyName,
@@ -207,13 +211,14 @@ class ConfigurationDefinitionTest {
         val configurationDefaultValue = 25
         val configurationKeyType = ConfigurationKey.Type.INT
         val configurationKeyImportance = ConfigurationKey.Importance.HIGH
-        val definition = configurationDefinition.define(
-            name = configurationKeyName,
-            documentation = configurationKeyDocumentation,
-            type = configurationKeyType,
-            importance = configurationKeyImportance,
-            defaultValue = configurationDefaultValue
-        )
+        val definition =
+            configurationDefinition.define(
+                name = configurationKeyName,
+                documentation = configurationKeyDocumentation,
+                type = configurationKeyType,
+                importance = configurationKeyImportance,
+                defaultValue = configurationDefaultValue
+            )
 
         assertDoesNotThrow {
             val configuration = definition.parse(mapOf())
@@ -235,9 +240,10 @@ class ConfigurationDefinitionTest {
             type = configurationType,
             importance = configurationImportance
         )
-        val throwable = assertThrows<RuntimeException> {
-            configurationDefinition.parse(mapOf())
-        }
+        val throwable =
+            assertThrows<RuntimeException> {
+                configurationDefinition.parse(mapOf())
+            }
         assertEquals("Some required configurations are not defined: $configurationName", throwable.message)
     }
 
@@ -254,14 +260,15 @@ class ConfigurationDefinitionTest {
             type = configurationType,
             importance = configurationImportance
         )
-        val throwable = assertThrows<RuntimeException> {
-            configurationDefinition.define(
-                name = configurationName,
-                documentation = configurationDocumentation,
-                type = configurationType,
-                importance = configurationImportance
-            )
-        }
+        val throwable =
+            assertThrows<RuntimeException> {
+                configurationDefinition.define(
+                    name = configurationName,
+                    documentation = configurationDocumentation,
+                    type = configurationType,
+                    importance = configurationImportance
+                )
+            }
         assertEquals("Configuration $configurationName is defined multiple times", throwable.message)
     }
 
@@ -278,9 +285,10 @@ class ConfigurationDefinitionTest {
             importance = configurationImportance
         )
 
-        val throwableWhenInvalidString = assertThrows<RuntimeException> {
-            configurationDefinition.parse(mapOf(booleanConfigurationName to "invalid"))
-        }
+        val throwableWhenInvalidString =
+            assertThrows<RuntimeException> {
+                configurationDefinition.parse(mapOf(booleanConfigurationName to "invalid"))
+            }
         assertEquals(
             "Expected value to be a boolean, name: $booleanConfigurationName, value: invalid",
             throwableWhenInvalidString.message
@@ -300,9 +308,10 @@ class ConfigurationDefinitionTest {
             importance = configurationImportance
         )
 
-        val throwableWhenInvalidInt = assertThrows<RuntimeException> {
-            configurationDefinition.parse(mapOf(booleanConfigurationName to 213))
-        }
+        val throwableWhenInvalidInt =
+            assertThrows<RuntimeException> {
+                configurationDefinition.parse(mapOf(booleanConfigurationName to 213))
+            }
         assertEquals(
             "Expected value to be a boolean, name: $booleanConfigurationName, value: 213",
             throwableWhenInvalidInt.message
@@ -323,9 +332,10 @@ class ConfigurationDefinitionTest {
             importance = configurationImportance
         )
 
-        val throwable = assertThrows<RuntimeException> {
-            configurationDefinition.parse(props)
-        }
+        val throwable =
+            assertThrows<RuntimeException> {
+                configurationDefinition.parse(props)
+            }
         assertEquals(
             "Expected value to be a string, but it was a java.lang.Integer, name: $passwordConfigurationName, value: 123",
             throwable.message
@@ -346,16 +356,18 @@ class ConfigurationDefinitionTest {
             importance = configurationImportance
         )
 
-        val throwableWhenInvalidString = assertThrows<RuntimeException> {
-            configurationDefinition.parse(props)
-        }
+        val throwableWhenInvalidString =
+            assertThrows<RuntimeException> {
+                configurationDefinition.parse(props)
+            }
         assertEquals(
             "Expected value to be a 32-bit integer, but it was a java.lang.String, name: $configurationName, value: invalid",
             throwableWhenInvalidString.message
         )
-        val throwableWhenInvalidBoolean = assertThrows<RuntimeException> {
-            configurationDefinition.parse(mapOf(configurationName to true))
-        }
+        val throwableWhenInvalidBoolean =
+            assertThrows<RuntimeException> {
+                configurationDefinition.parse(mapOf(configurationName to true))
+            }
         assertEquals(
             "Expected value to be a 32-bit integer, but it was a java.lang.Boolean, name: $configurationName, value: true",
             throwableWhenInvalidBoolean.message
@@ -374,16 +386,18 @@ class ConfigurationDefinitionTest {
             type = ConfigurationKey.Type.DOUBLE,
             importance = configurationImportance
         )
-        val throwableWhenInvalidString = assertThrows<RuntimeException> {
-            configurationDefinition.parse(mapOf(configurationName to "invalid"))
-        }
+        val throwableWhenInvalidString =
+            assertThrows<RuntimeException> {
+                configurationDefinition.parse(mapOf(configurationName to "invalid"))
+            }
         assertEquals(
             "Expected value to be a double, but it was a java.lang.String, name: $configurationName, value: invalid",
             throwableWhenInvalidString.message
         )
-        val throwableWhenInvalidBoolean = assertThrows<RuntimeException> {
-            configurationDefinition.parse(mapOf(configurationName to true))
-        }
+        val throwableWhenInvalidBoolean =
+            assertThrows<RuntimeException> {
+                configurationDefinition.parse(mapOf(configurationName to true))
+            }
         assertEquals(
             "Expected value to be a double, but it was a java.lang.Boolean, name: $configurationName, value: true",
             throwableWhenInvalidBoolean.message
@@ -404,9 +418,10 @@ class ConfigurationDefinitionTest {
             importance = configurationImportance
         )
 
-        val throwable = assertThrows<RuntimeException> {
-            configurationDefinition.parse(props)
-        }
+        val throwable =
+            assertThrows<RuntimeException> {
+                configurationDefinition.parse(props)
+            }
         assertEquals(
             "Expected value to be a string, but it was a java.lang.Integer, name: $stringConfigurationName, value: 123",
             throwable.message
@@ -427,9 +442,10 @@ class ConfigurationDefinitionTest {
             importance = configurationImportance
         )
 
-        val throwable = assertThrows<RuntimeException> {
-            configurationDefinition.parse(props)
-        }
+        val throwable =
+            assertThrows<RuntimeException> {
+                configurationDefinition.parse(props)
+            }
         assertEquals(
             "Expected value to be a comma-separated list, name: $listConfigurationName, value: 123",
             throwable.message
@@ -441,9 +457,10 @@ class ConfigurationDefinitionTest {
         val configurationDefinition = ConfigurationDefinition()
         val listConfigurationName = "list_configuration"
 
-        val throwable = assertThrows<RuntimeException> {
-            configurationDefinition.get(listConfigurationName)
-        }
+        val throwable =
+            assertThrows<RuntimeException> {
+                configurationDefinition.get(listConfigurationName)
+            }
         assertEquals("Configuration key not defined, name: $listConfigurationName", throwable.message)
     }
 
@@ -454,16 +471,20 @@ class ConfigurationDefinitionTest {
         val configurationDocumentation = "This is a test configuration documentation"
         val configurationImportance = ConfigurationKey.Importance.HIGH
         val props = mapOf(stringConfigurationName to "something")
-        val validator = object : ConfigurationKey.Validator {
-            override fun ensureValid(name: String, value: Any): Any {
-                val regex = Regex("^[A-Z]*\$")
-                if (regex.matches(value as String)) {
-                    return value
+        val validator =
+            object : ConfigurationKey.Validator {
+                override fun ensureValid(
+                    name: String,
+                    value: Any
+                ): Any {
+                    val regex = Regex("^[A-Z]*\$")
+                    if (regex.matches(value as String)) {
+                        return value
+                    }
+                    @Suppress("TooGenericExceptionThrown")
+                    throw RuntimeException("value is not uppercase")
                 }
-                @Suppress("TooGenericExceptionThrown")
-                throw RuntimeException("value is not uppercase")
             }
-        }
         configurationDefinition.define(
             name = stringConfigurationName,
             documentation = configurationDocumentation,
@@ -472,9 +493,10 @@ class ConfigurationDefinitionTest {
             validator = validator
         )
 
-        val throwable = assertThrows<RuntimeException> {
-            configurationDefinition.parse(props)
-        }
+        val throwable =
+            assertThrows<RuntimeException> {
+                configurationDefinition.parse(props)
+            }
         assertEquals("value is not uppercase", throwable.message)
     }
 

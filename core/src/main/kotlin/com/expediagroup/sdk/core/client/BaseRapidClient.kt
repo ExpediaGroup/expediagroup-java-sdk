@@ -33,10 +33,11 @@ abstract class BaseRapidClient(
     clientConfiguration: RapidClientConfiguration,
     httpClientEngine: HttpClientEngine = DEFAULT_HTTP_CLIENT_ENGINE
 ) : Client() {
-    private val configurationProvider: ConfigurationProvider = ConfigurationCollector.create(
-        clientConfiguration.toProvider(),
-        RapidConfigurationProvider
-    )
+    private val configurationProvider: ConfigurationProvider =
+        ConfigurationCollector.create(
+            clientConfiguration.toProvider(),
+            RapidConfigurationProvider
+        )
     private val _httpClient: HttpClient = buildHttpClient(configurationProvider, AuthenticationStrategy.AuthenticationType.SIGNATURE, httpClientEngine)
 
     init {

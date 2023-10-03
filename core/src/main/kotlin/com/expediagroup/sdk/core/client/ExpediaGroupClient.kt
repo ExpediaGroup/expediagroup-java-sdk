@@ -33,10 +33,11 @@ abstract class ExpediaGroupClient(
     clientConfiguration: ExpediaGroupClientConfiguration,
     httpClientEngine: HttpClientEngine = DEFAULT_HTTP_CLIENT_ENGINE
 ) : Client() {
-    private val configurationProvider: ConfigurationProvider = ConfigurationCollector.create(
-        clientConfiguration.toProvider(),
-        ExpediaGroupConfigurationProvider
-    )
+    private val configurationProvider: ConfigurationProvider =
+        ConfigurationCollector.create(
+            clientConfiguration.toProvider(),
+            ExpediaGroupConfigurationProvider
+        )
     private val _httpClient: HttpClient = buildHttpClient(configurationProvider, AuthenticationStrategy.AuthenticationType.BEARER, httpClientEngine)
 
     init {

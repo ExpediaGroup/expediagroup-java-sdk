@@ -26,19 +26,19 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 internal class AuthenticationStrategyTest {
-
     @Nested
     inner class AuthenticationStrategyCompanionObjectTest {
         @Test
         fun `test factory method`() {
-            val configuration = AuthenticationConfiguration.from(
-                HttpClientConfig(),
-                Credentials(
-                    TestConstants.CLIENT_KEY_TEST_CREDENTIAL,
-                    TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
-                ),
-                "authEndpoint"
-            )
+            val configuration =
+                AuthenticationConfiguration.from(
+                    HttpClientConfig(),
+                    Credentials(
+                        TestConstants.CLIENT_KEY_TEST_CREDENTIAL,
+                        TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
+                    ),
+                    "authEndpoint"
+                )
 
             val strategy = AuthenticationStrategy.from(configuration) { HttpClient(OkHttp.create()) }
             assertThat(strategy is ExpediaGroupAuthenticationStrategy)
