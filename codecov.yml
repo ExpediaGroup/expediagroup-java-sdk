@@ -6,4 +6,4 @@ coverage:
         target: auto
         threshold: 0%
 ignore:
-  - "/home/runner/work/expediagroup-java-sdk/expediagroup-java-sdk/release"
+  - "release"
