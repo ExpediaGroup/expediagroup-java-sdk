@@ -59,7 +59,6 @@ internal class LogMaskerTest {
 
     @Nested
     inner class PaymentMaskTest {
-
         @ParameterizedTest
         @ValueSource(
             strings = [
