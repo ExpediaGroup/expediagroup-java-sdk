@@ -16,24 +16,32 @@
 package com.expediagroup.sdk.core.plugin.logging
 
 import com.expediagroup.sdk.core.constant.LogMaskingRegex.AUTHORIZATION_REGEX
+import com.expediagroup.sdk.core.constant.LogMaskingRegex.NUMBER_FIELD_REGEX
+import com.expediagroup.sdk.core.constant.LogMaskingRegex.PAYMENT_REGEX
 import com.expediagroup.sdk.core.constant.LoggingMessage.OMITTED
 
 internal fun mask(message: String): String = MaskProvider.masks.fold(message) { acc, mask -> mask.mask(acc) }
-
-internal object MaskProvider {
-    val masks = listOf<Mask>(AuthMask)
-
-    object AuthMask : Mask {
-        override val regex: Regex = AUTHORIZATION_REGEX
-
-        override fun maskSubstring(string: String) = OMITTED
-    }
-}
 
 internal interface Mask {
     val regex: Regex
 
     fun mask(string: String): String = string.replace(regex) { maskSubstring(it.value) }
 
-    fun maskSubstring(string: String): String
+    fun maskSubstring(string: String) = OMITTED
+}
+
+internal object MaskProvider {
+    val masks = listOf(AuthMask, PaymentMask)
+
+    object AuthMask : Mask {
+        override val regex: Regex = AUTHORIZATION_REGEX
+    }
+
+    object PaymentMask : Mask {
+        override val regex: Regex = PAYMENT_REGEX
+    }
+
+    object PaymentNumberMask : Mask {
+        override val regex: Regex = NUMBER_FIELD_REGEX
+    }
 }
