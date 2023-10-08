@@ -35,12 +35,12 @@ internal class LogMaskerTest {
     @ParameterizedTest
     @ValueSource(strings = [BASIC, BEARER, EAN])
     fun `given text apply all masks available`(authType: String) {
-        val text = "$AUTHORIZATION: $authType token cvv:'123'"
+        val text = "$AUTHORIZATION: $authType token \"number\":\"4111111111111111\",'security_code':'123'"
         mockkObject(AuthMask)
 
         val maskedText = mask(text)
 
-        assertThat(maskedText).isEqualTo("$AUTHORIZATION: $authType $OMITTED cvv:'$OMITTED'")
+        assertThat(maskedText).isEqualTo("$AUTHORIZATION: $authType $OMITTED \"number\":\"$OMITTED\",'security_code':'$OMITTED'")
         verify(exactly = 1) { AuthMask.mask(text) }
     }
 
@@ -63,7 +63,6 @@ internal class LogMaskerTest {
         @ValueSource(
             strings = [
                 "security_code",
-                "number",
                 "card_number",
                 "card_cvv_response",
                 "card_avs_response",
@@ -77,6 +76,7 @@ internal class LogMaskerTest {
         )
         fun `given a text with payment info then omit it`(key: String) {
             assertThat(PaymentMask.mask("$key:\"123456\" something else")).isEqualTo("$key:\"$OMITTED\" something else")
+            assertThat(PaymentMask.mask("\"$key\":\"123456\" something else")).isEqualTo("\"$key\":\"$OMITTED\" something else")
             assertThat(PaymentMask.mask("$key: \"123456\" something else")).isEqualTo("$key: \"$OMITTED\" something else")
             assertThat(PaymentMask.mask("$key:'123456' something else")).isEqualTo("$key:'$OMITTED' something else")
             assertThat(PaymentMask.mask("$key: '123456' something else")).isEqualTo("$key: '$OMITTED' something else")
@@ -89,7 +89,8 @@ internal class LogMaskerTest {
         @ValueSource(
             strings = [
                 "012345678901234",
-                "0123456789012345"
+                "0123456789012345",
+                "4111111111111111"
             ]
         )
         fun `given a text with number of 15 or 16 digits then omit it`(number: String) {

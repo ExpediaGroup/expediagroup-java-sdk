@@ -26,7 +26,6 @@ internal object LogMaskingRegex {
     private val paymentKeys =
         arrayListOf(
             "security_code",
-            "number",
             "card_number",
             "card_cvv_response",
             "card_avs_response",
@@ -38,7 +37,7 @@ internal object LogMaskingRegex {
             "cvv"
         )
 
-    val PAYMENT_REGEX = "(?<=(${paymentKeys.joinToString("|")}):\\s?[\"'])(\\s*\\S+\\s*)(?=[\"'])".toRegex()
+    val PAYMENT_REGEX = "(?<=[\"']?(${paymentKeys.joinToString("|")})[\"']?:\\s?[\"'])(\\s*\\S+\\s*)(?=[\"'])".toRegex()
 
-    val NUMBER_FIELD_REGEX = "(?<=number:\\D?([\"']))(\\s*\\d{15,16}\\s*)(?=[\"'])".toRegex()
+    val NUMBER_FIELD_REGEX = "(?<=[\"']?number[\"']?:\\s?[\"'])(\\s*\\d{15,16}\\s*)(?=[\"'])".toRegex()
 }

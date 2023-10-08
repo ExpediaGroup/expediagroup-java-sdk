@@ -31,7 +31,7 @@ internal interface Mask {
 }
 
 internal object MaskProvider {
-    val masks = listOf(AuthMask, PaymentMask)
+    val masks = listOf(AuthMask, PaymentMask, PaymentNumberMask)
 
     object AuthMask : Mask {
         override val regex: Regex = AUTHORIZATION_REGEX
