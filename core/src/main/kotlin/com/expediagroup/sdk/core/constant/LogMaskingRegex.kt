@@ -37,7 +37,7 @@ internal object LogMaskingRegex {
             "cvv"
         )
 
-    val PAYMENT_REGEX = "(?<=[\"']?(${paymentKeys.joinToString("|")})[\"']?:\\s?[\"'])(\\s*\\S+\\s*)(?=[\"'])".toRegex()
+    val PAYMENT_REGEX = "(?<=[\"']?(${paymentKeys.joinToString("|")})[\"']?:\\s?[\"'])(\\s*[^\"']+\\s*)(?=[\"'])".toRegex()
 
     val NUMBER_FIELD_REGEX = "(?<=[\"']?number[\"']?:\\s?[\"'])(\\s*\\d{15,16}\\s*)(?=[\"'])".toRegex()
 }

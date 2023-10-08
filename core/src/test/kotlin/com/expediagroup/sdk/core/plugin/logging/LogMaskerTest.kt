@@ -35,12 +35,12 @@ internal class LogMaskerTest {
     @ParameterizedTest
     @ValueSource(strings = [BASIC, BEARER, EAN])
     fun `given text apply all masks available`(authType: String) {
-        val text = "$AUTHORIZATION: $authType token \"number\":\"4111111111111111\",'security_code':'123'"
+        val text = "$AUTHORIZATION: $authType token \"number\":\"4111111111111111\",'security_code':'123',\"something else\""
         mockkObject(AuthMask)
 
         val maskedText = mask(text)
 
-        assertThat(maskedText).isEqualTo("$AUTHORIZATION: $authType $OMITTED \"number\":\"$OMITTED\",'security_code':'$OMITTED'")
+        assertThat(maskedText).isEqualTo("$AUTHORIZATION: $authType $OMITTED \"number\":\"$OMITTED\",'security_code':'$OMITTED',\"something else\"")
         verify(exactly = 1) { AuthMask.mask(text) }
     }
 
