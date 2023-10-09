@@ -1,9 +1,0 @@
-//[fraudpreventionv2-sdk](../../../../index.md)/[com.expediagroup.sdk.fraudpreventionv2.models](../../index.md)/[Air](../index.md)/[FlightType](index.md)/[getEntries](get-entries.md)
-
-# getEntries
-
-[JVM]\
-
-public final [EnumEntries](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.enums/-enum-entries/index.html)&lt;[Air.FlightType](index.md)&gt;[getEntries](get-entries.md)()
-
-Identifies the type of air trip based on the air destinations. Values: ROUNDTRIP,ONEWAY,MULTIPLE_DESTINATION
