@@ -8,7 +8,10 @@ info:
     email: RiskTechVerge@expedia.com
   x-eg-lifecycle: PLANNED
 servers:
-  - url: https://api.expediagroup.com/test/fraud-prevention/v2
+  - url: https://api.expediagroup.com/fraud-prevention/v2
+  - url: https://api.sandbox.expediagroup.com/fraud-prevention/v2
+  - url: https://test-api.expediagroup.com/fraud-prevention/v2
+  - url: https://test-api.sandbox.expediagroup.com/fraud-prevention/v2
 tags:
   - name: fraudPreventionV2
 paths:
@@ -17,11 +20,11 @@ paths:
       tags:
         &a1
         - fraudPreventionV2
-      description: The Order Purchase API gives a Fraud recommendation for a
+      description: "The Order Purchase API gives a Fraud recommendation for a
         transaction. A recommendation can be Accept, Reject, or Review. A
         transaction is marked as Review whenever there are insufficient signals
         to recommend Accept or Reject. These incidents are manually reviewed,
-        and a corrected recommendation is made asynchronously.
+        and a corrected recommendation is made asynchronously. "
       summary: Run fraud screening for one transaction
       operationId: screenOrder
       security:
@@ -84,11 +87,11 @@ paths:
               schema:
                 $ref: "#/components/schemas/BadGatewayError"
         "503":
-          description: Service unavailable
+          description: Retryable Order Purchase Screen Failure
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ServiceUnavailableError"
+                $ref: "#/components/schemas/RetryableOrderPurchaseScreenFailure"
         "504":
           description: Gateway timeout
           content:
@@ -218,11 +221,11 @@ paths:
               schema:
                 $ref: "#/components/schemas/BadGatewayError"
         "503":
-          description: Service unavailable
+          description: Retryable Order Purchase Update Failure
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ServiceUnavailableError"
+                $ref: "#/components/schemas/RetryableOrderPurchaseUpdateFailure"
         "504":
           description: Gateway timeout
           content:
@@ -304,7 +307,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AccountTakeoverServiceUnavailableError"
+                $ref: "#/components/schemas/ServiceUnavailableError"
         "504":
           description: Gateway timeout
           content:
@@ -415,7 +418,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AccountTakeoverServiceUnavailableError"
+                $ref: "#/components/schemas/ServiceUnavailableError"
         "504":
           description: Gateway timeout
           content:
@@ -529,7 +532,7 @@ components:
         message: The server received an invalid response from an upstream server.
       allOf:
         - $ref: "#/components/schemas/AccountTakeoverError"
-    ServiceUnavailableError:
+    RetryableOrderPurchaseScreenFailure:
       description: >
         Indicates that the API is either down for maintenance or overloaded and
         cannot fulfill the request at the current time. This is a temporary
@@ -539,6 +542,20 @@ components:
         There will be a Retry-After HTTP header in API response specifying how long to wait to retry the request. If there is no Retry-After HTTP header then retry can happen immediately. If the error persists after retrying with delay, please reach out to <support team>."
       example:
         code: RETRYABLE_ORDER_PURCHASE_SCREEN_FAILURE
+        message: A temporary internal error occurred. You can safely retry your call
+          using the same order details.
+      allOf:
+        - $ref: "#/components/schemas/Error"
+    RetryableOrderPurchaseUpdateFailure:
+      description: >
+        Indicates that the API is either down for maintenance or overloaded and
+        cannot fulfill the request at the current time. This is a temporary
+        error and retrying the same request after a certain delay could
+        eventually result in success.
+
+        There will be a Retry-After HTTP header in API response specifying how long to wait to retry the request. If there is no Retry-After HTTP header then retry can happen immediately. If the error persists after retrying with delay, please reach out to <support team>."
+      example:
+        code: RETRYABLE_ORDER_PURCHASE_UPDATE_FAILURE
         message: A temporary internal error occurred. You can safely retry your call
           using the same order details.
       allOf:
@@ -563,8 +580,8 @@ components:
           details.
         causes:
           code: MISSING_MANDATORY_PARAM
-          field: $.transaction.payments.brand
-          message: The value of a field was missed or not valid.
+          field: $.transaction.customer_account.account_type
+          message: The value of a field should not be null.
       allOf:
         - $ref: "#/components/schemas/Error"
         - type: object
@@ -585,10 +602,10 @@ components:
                     type: string
                     description: A JSON Path expression indicating which field, in the request body,
                       caused the error.
-                    example: $.transaction.payments.brand
+                    example: $.transaction.customer_account.account_type
                   message:
                     type: string
-                    example: The value of a field was missed or not valid.
+                    example: The value of a field should not be null.
     OrderPurchaseUpdateRequest:
       title: OrderPurchaseUpdateRequest
       description: >
@@ -855,7 +872,7 @@ components:
           type: string
           format: date-time
           description: Date and time when the chargeback was reported to the partner, in
-            ISO-8061 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`.
+            ISO-8601 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`.
     InsultDetail:
       title: InsultDetail
       type: object
@@ -865,7 +882,7 @@ components:
           type: string
           format: date-time
           description: Date and time when the insult was reported to the partner, in
-            ISO-8061 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`.
+            ISO-8601 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`.
     Status:
       title: Status
       description: >
@@ -911,6 +928,8 @@ components:
       properties:
         transaction:
           $ref: "#/components/schemas/OrderPurchaseTransaction"
+      required:
+        - transaction
     OrderPurchaseTransaction:
       title: OrderPurchaseTransaction
       type: object
@@ -990,7 +1009,6 @@ components:
         - order_type
         - travel_products
         - travelers
-        - payments
       type: object
       properties:
         order_id:
@@ -1039,8 +1057,8 @@ components:
           minItems: 1
           maxItems: 30
         payments:
-          description: List of the form(s) of payment being used to purchase the order.
-            One or more forms of payment can be used within an order.
+          description: List of the form(s) of payment being used to purchase the
+            order.  One or more forms of payment can be used within an order.
             Information gathered will be specific to the form of payment.
           type: array
           items:
@@ -1097,7 +1115,7 @@ components:
                 - country_code
         registered_time:
           description: The local date and time that the customer first registered on the
-            client site, in ISO-8061 date and time format
+            client site, in ISO-8601 date and time format
             `yyyy-MM-ddTHH:mm:ss.SSSZ`.
           type: string
           format: date-time
@@ -1132,7 +1150,7 @@ components:
           description: Age of the traveler.
           type: number
         birth_date:
-          description: Date of birth for traveler, in ISO-8061 date and time format
+          description: Date of birth for traveler, in ISO-8601 date and time format
             `yyyy-MM-ddTHH:mm:ss.SSSZ`.
           type: string
           format: date-time
@@ -1202,7 +1220,6 @@ components:
         - type
         - inventory_type
         - inventory_source
-        - travelers_references
       type: object
       discriminator:
         propertyName: type
@@ -1327,6 +1344,19 @@ components:
           items:
             type: string
             maxLength: 50
+        pay_later:
+          description: >
+            The attribute serves as a boolean indicator that significantly
+            influences the handling of payment information during the fraud
+            prevention process:
+
+            * When 'pay_later' is set to 'true':
+              - This configuration signals that payment information is optional for the booking. Travelers are given the choice to defer payment until they arrive at the rental counter following the completion of the booking.
+              - It is imperative for partners to explicitly set this attribute to 'true' when payment information can be optional for a particular booking scenario.
+            * When 'pay_later' is set to 'false':
+              - In this mode, the attribute mandates the inclusion of payment information during the order purchase screen request. Travelers are required to provide payment details.
+              - Partners must exercise caution and ensure they supply the necessary payment information, as failure to do so in cases where 'pay_later' is set to 'false' will result in a 'Bad Request' error. This error helps maintain the consistency and accuracy of the fraud prevention process and payment handling.
+          type: boolean
     Rail:
       title: Rail
       allOf:
@@ -1370,14 +1400,14 @@ components:
       properties:
         departure_time:
           description: The local date and time of the scheduled departure from the
-            departure station, in ISO-8061 date and time format
+            departure station, in ISO-8601 date and time format
             `yyyy-MM-ddTHH:mm:ss.SSSZ`.
           type: string
           format: date-time
           maxLength: 50
         arrival_time:
           description: The local date and time of the scheduled arrival at the destination
-            station, in ISO-8061 date and time format
+            station, in ISO-8601 date and time format
             `yyyy-MM-ddTHH:mm:ss.SSSZ`.
           type: string
           format: date-time
@@ -1452,7 +1482,14 @@ components:
           maxLength: 200
           example: GCT
         address:
-          $ref: "#/components/schemas/Address"
+          allOf:
+            - $ref: "#/components/schemas/Address"
+            - required:
+                - address_line1
+                - city
+                - state
+                - zip_code
+                - country_code
         timezone:
           description: The timezone associated with the location of the station,
             specifying the local time offset from Coordinated Universal Time
@@ -1473,13 +1510,13 @@ components:
           properties:
             departure_time:
               description: Local date and time of departure from original departure location,
-                in ISO-8061 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`.
+                in ISO-8601 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`.
               type: string
               format: date-time
               maxLength: 50
             arrival_time:
               description: Local date and time of arrival to final destination location, in
-                ISO-8061 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`.
+                ISO-8601 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`.
               type: string
               format: date-time
               maxLength: 50
@@ -1528,12 +1565,12 @@ components:
           maxLength: 10
         departure_time:
           description: Local date and time of departure from departure location, in
-            ISO-8061 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`.
+            ISO-8601 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`.
           type: string
           format: date-time
           maxLength: 50
         arrival_time:
-          description: Local date and time of arrival to destination location, in ISO-8061
+          description: Local date and time of arrival to destination location, in ISO-8601
             date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`.
           type: string
           format: date-time
@@ -1553,13 +1590,13 @@ components:
           properties:
             departure_time:
               description: Local date and time of departure from original departure location,
-                in ISO-8061 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`.
+                in ISO-8601 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`.
               type: string
               format: date-time
               maxLength: 50
             arrival_time:
               description: Local date and time of arrival from original arrival location, in
-                ISO-8061 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`.
+                ISO-8601 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`.
               type: string
               format: date-time
               maxLength: 50
@@ -1596,13 +1633,13 @@ components:
               type: string
               maxLength: 200
             pickup_time:
-              description: Local date and time the automobile will be picked-up, in ISO-8061
+              description: Local date and time the automobile will be picked-up, in ISO-8601
                 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`.
               type: string
               format: date-time
               maxLength: 50
             return_time:
-              description: Local date and time the automobile will be returned, in ISO-8061
+              description: Local date and time the automobile will be returned, in ISO-8601
                 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`.
               type: string
               format: date-time
@@ -1639,15 +1676,22 @@ components:
               type: integer
               format: int32
             address:
-              $ref: "#/components/schemas/HotelAddress"
+              allOf:
+                - $ref: "#/components/schemas/HotelAddress"
+                - required:
+                    - address_line1
+                    - city
+                    - state
+                    - zip_code
+                    - country_code
             checkin_time:
-              description: Local date and time of the hotel check-in, in ISO-8061 date and
+              description: Local date and time of the hotel check-in, in ISO-8601 date and
                 time format `yyyy-MM-ddTHH:mm:ss.SSSZ`.
               type: string
               format: date-time
               maxLength: 50
             checkout_time:
-              description: Local date and time of the hotel check-out, in ISO-8061 date and
+              description: Local date and time of the hotel check-out, in ISO-8601 date and
                 time format `yyyy-MM-ddTHH:mm:ss.SSSZ`.
               type: string
               format: date-time
@@ -2180,7 +2224,7 @@ components:
               type: string
               maxLength: 200
             expiry_date:
-              description: Expiration date of the credit card used for payment, in ISO-8061
+              description: Expiration date of the credit card used for payment, in ISO-8601
                 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`.
               type: string
               format: date-time
@@ -2434,7 +2478,7 @@ components:
         last_verified_date_time:
           description: Local date and time user validated possession of their phone number
             via a text or voice multi factor authentication challenge, in
-            ISO-8061 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`.
+            ISO-8601 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`.
           type: string
           format: date-time
           maxLength: 50
@@ -2540,7 +2584,7 @@ components:
           missing. Please send a new Account Screen event again.
       allOf:
         - $ref: "#/components/schemas/AccountTakeoverError"
-    AccountTakeoverServiceUnavailableError:
+    ServiceUnavailableError:
       description: >
         Indicates that the API is either down for maintenance or overloaded and
         cannot fulfill the request at the current time. This is a temporary
@@ -2688,14 +2732,14 @@ components:
         update_start_date_time:
           type: string
           description: The local date and time the Multi-Factor Authentication was
-            initiated to a user from the Partner's system, in ISO-8061 date and
+            initiated to a user from the Partner's system, in ISO-8601 date and
             time format `yyyy-MM-ddTHH:mm:ss.SSSZ`.
           format: date-time
           maxLength: 50
         update_end_date_time:
           type: string
           description: The local date and time the Multi-Factor Authentication to a user
-            ended in the Partner's system, in ISO-8061 date and time format
+            ended in the Partner's system, in ISO-8601 date and time format
             `yyyy-MM-ddTHH:mm:ss.SSSZ`.
           format: date-time
           maxLength: 50
@@ -2758,7 +2802,7 @@ components:
         update_end_date_time:
           type: string
           description: The local date and time the remediation action to a user ended in
-            the Partner's system, in ISO-8061 date and time format
+            the Partner's system, in ISO-8601 date and time format
             `yyyy-MM-ddTHH:mm:ss.SSSZ`.
           format: date-time
           maxLength: 50
@@ -2986,7 +3030,7 @@ components:
                 - country_code
         registered_time:
           description: The local date and time that the customer first registered on the
-            Partner's site, in ISO-8061 date and time format
+            Partner's site, in ISO-8601 date and time format
             `yyyy-MM-ddTHH:mm:ss.SSSZ`.
           type: string
           format: date-time
@@ -3054,7 +3098,7 @@ components:
         transaction_date_time:
           type: string
           description: The local date and time the transaction occured in the Partner's
-            system, in ISO-8061 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`.
+            system, in ISO-8601 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`.
           format: date-time
           maxLength: 50
         transaction_id:
@@ -3183,7 +3227,7 @@ components:
           maxLength: 200
         start_date_time:
           type: string
-          description: The local date and time a user's session started, in ISO-8061 date
+          description: The local date and time a user's session started, in ISO-8601 date
             and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`.
           format: date-time
           maxLength: 50
@@ -3232,13 +3276,13 @@ components:
       type: oauth2
       flows:
         clientCredentials:
-          tokenUrl: /identity/oauth2/v3/token?grant_type=client_credentials
+          tokenUrl: https://api.expediagroup.com/identity/oauth2/v3/token?grant_type=client_credentials
           scopes:
             fraudandrisk.stub.order-purchase-screen: Use Fraud Systems for screening orders
     orderPurchaseUpdateAuth:
       type: oauth2
       flows:
         clientCredentials:
-          tokenUrl: /identity/oauth2/v3/token?grant_type=client_credentials
+          tokenUrl: https://api.expediagroup.com/identity/oauth2/v3/token?grant_type=client_credentials
           scopes:
             fraudandrisk.stub.order-purchase-update: Use Fraud Systems for updating orders
