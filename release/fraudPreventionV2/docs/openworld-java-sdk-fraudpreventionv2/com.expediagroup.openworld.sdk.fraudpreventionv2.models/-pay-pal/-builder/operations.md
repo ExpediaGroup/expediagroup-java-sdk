@@ -1,7 +1,0 @@
-//[openworld-java-sdk-fraudpreventionv2](../../../../index.md)/[com.expediagroup.openworld.sdk.fraudpreventionv2.models](../../index.md)/[PayPal](../index.md)/[Builder](index.md)/[operations](operations.md)
-
-# operations
-
-[JVM]\
-
-public final [PayPal.Builder](index.md)[operations](operations.md)([Operations](../../-operations/index.md)operations)
