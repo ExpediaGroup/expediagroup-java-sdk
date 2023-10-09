@@ -23,6 +23,6 @@ jobs:
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
         with:
-          gcov_ignore: "**/release/**/*.kt"
+          gcov_include: core
           fail_ci_if_error: true
           token: ${{ secrets.CODECOV_TOKEN }}
