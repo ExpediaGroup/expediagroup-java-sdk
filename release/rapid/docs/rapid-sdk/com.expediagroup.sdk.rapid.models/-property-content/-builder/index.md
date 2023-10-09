@@ -1,0 +1,52 @@
+//[rapid-sdk](../../../../index.md)/[com.expediagroup.sdk.rapid.models](../../index.md)/[PropertyContent](../index.md)/[Builder](index.md)
+
+# Builder
+
+[JVM]\
+public final class [Builder](index.md)
+
+## Constructors
+
+| | |
+|---|---|
+| [PropertyContent.Builder](-property-content.-builder.md) | [JVM]<br>public [PropertyContent.Builder](index.md)[PropertyContent.Builder](-property-content.-builder.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)propertyId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)name, [Address](../../-address/index.md)address, [Ratings](../../-ratings/index.md)ratings, [Location](../../-location/index.md)location, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)phone, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)fax, [CategoryProperty](../../-category-property/index.md)category, [BusinessModel](../../-business-model/index.md)businessModel, [BigDecimal](https://docs.oracle.com/javase/8/docs/api/java/math/BigDecimal.html)rank, [Checkin](../../-checkin/index.md)checkin, [Checkout](../../-checkout/index.md)checkout, [Fees](../../-fees/index.md)fees, [Policies](../../-policies/index.md)policies, [Attributes](../../-attributes/index.md)attributes, [Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html), [Amenity](../../-amenity/index.md)&gt;amenities, [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[Image](../../-image/index.md)&gt;images, [OnsitePayments](../../-onsite-payments/index.md)onsitePayments, [Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html), [RoomContent](../../-room-content/index.md)&gt;rooms, [Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html), [RateContent](../../-rate-content/index.md)&gt;rates, [Dates](../../-dates/index.md)dates, [Descriptions](../../-descriptions/index.md)descriptions, [Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html), [Statistic](../../-statistic/index.md)&gt;statistics, [AssociatedAirports](../../-associated-airports/index.md)airports, [Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html), [Theme](../../-theme/index.md)&gt;themes, [AllInclusive](../../-all-inclusive/index.md)allInclusive, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)taxId, [Chain](../../-chain/index.md)chain, [Brand](../../-brand/index.md)brand, [Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html), [SpokenLanguage](../../-spoken-language/index.md)&gt;spokenLanguages, [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html)multiUnit, [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html)paymentRegistrationRecommended, [VacationRentalDetails](../../-vacation-rental-details/index.md)vacationRentalDetails, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)supplySource) |
+
+## Functions
+
+| Name | Summary |
+|---|---|
+| [address](address.md) | [JVM]<br>public final [PropertyContent.Builder](index.md)[address](address.md)([Address](../../-address/index.md)address) |
+| [airports](airports.md) | [JVM]<br>public final [PropertyContent.Builder](index.md)[airports](airports.md)([AssociatedAirports](../../-associated-airports/index.md)airports) |
+| [allInclusive](all-inclusive.md) | [JVM]<br>public final [PropertyContent.Builder](index.md)[allInclusive](all-inclusive.md)([AllInclusive](../../-all-inclusive/index.md)allInclusive) |
+| [amenities](amenities.md) | [JVM]<br>public final [PropertyContent.Builder](index.md)[amenities](amenities.md)([Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html), [Amenity](../../-amenity/index.md)&gt;amenities) |
+| [attributes](attributes.md) | [JVM]<br>public final [PropertyContent.Builder](index.md)[attributes](attributes.md)([Attributes](../../-attributes/index.md)attributes) |
+| [brand](brand.md) | [JVM]<br>public final [PropertyContent.Builder](index.md)[brand](brand.md)([Brand](../../-brand/index.md)brand) |
+| [build](build.md) | [JVM]<br>public final [PropertyContent](../index.md)[build](build.md)() |
+| [businessModel](business-model.md) | [JVM]<br>public final [PropertyContent.Builder](index.md)[businessModel](business-model.md)([BusinessModel](../../-business-model/index.md)businessModel) |
+| [category](category.md) | [JVM]<br>public final [PropertyContent.Builder](index.md)[category](category.md)([CategoryProperty](../../-category-property/index.md)category) |
+| [chain](chain.md) | [JVM]<br>public final [PropertyContent.Builder](index.md)[chain](chain.md)([Chain](../../-chain/index.md)chain) |
+| [checkin](checkin.md) | [JVM]<br>public final [PropertyContent.Builder](index.md)[checkin](checkin.md)([Checkin](../../-checkin/index.md)checkin) |
+| [checkout](checkout.md) | [JVM]<br>public final [PropertyContent.Builder](index.md)[checkout](checkout.md)([Checkout](../../-checkout/index.md)checkout) |
+| [dates](dates.md) | [JVM]<br>public final [PropertyContent.Builder](index.md)[dates](dates.md)([Dates](../../-dates/index.md)dates) |
+| [descriptions](descriptions.md) | [JVM]<br>public final [PropertyContent.Builder](index.md)[descriptions](descriptions.md)([Descriptions](../../-descriptions/index.md)descriptions) |
+| [fax](fax.md) | [JVM]<br>public final [PropertyContent.Builder](index.md)[fax](fax.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)fax) |
+| [fees](fees.md) | [JVM]<br>public final [PropertyContent.Builder](index.md)[fees](fees.md)([Fees](../../-fees/index.md)fees) |
+| [images](images.md) | [JVM]<br>public final [PropertyContent.Builder](index.md)[images](images.md)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[Image](../../-image/index.md)&gt;images) |
+| [location](location.md) | [JVM]<br>public final [PropertyContent.Builder](index.md)[location](location.md)([Location](../../-location/index.md)location) |
+| [multiUnit](multi-unit.md) | [JVM]<br>public final [PropertyContent.Builder](index.md)[multiUnit](multi-unit.md)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html)multiUnit) |
+| [name](name.md) | [JVM]<br>public final [PropertyContent.Builder](index.md)[name](name.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)name) |
+| [onsitePayments](onsite-payments.md) | [JVM]<br>public final [PropertyContent.Builder](index.md)[onsitePayments](onsite-payments.md)([OnsitePayments](../../-onsite-payments/index.md)onsitePayments) |
+| [paymentRegistrationRecommended](payment-registration-recommended.md) | [JVM]<br>public final [PropertyContent.Builder](index.md)[paymentRegistrationRecommended](payment-registration-recommended.md)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html)paymentRegistrationRecommended) |
+| [phone](phone.md) | [JVM]<br>public final [PropertyContent.Builder](index.md)[phone](phone.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)phone) |
+| [policies](policies.md) | [JVM]<br>public final [PropertyContent.Builder](index.md)[policies](policies.md)([Policies](../../-policies/index.md)policies) |
+| [propertyId](property-id.md) | [JVM]<br>public final [PropertyContent.Builder](index.md)[propertyId](property-id.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)propertyId) |
+| [rank](rank.md) | [JVM]<br>public final [PropertyContent.Builder](index.md)[rank](rank.md)([BigDecimal](https://docs.oracle.com/javase/8/docs/api/java/math/BigDecimal.html)rank) |
+| [rates](rates.md) | [JVM]<br>public final [PropertyContent.Builder](index.md)[rates](rates.md)([Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html), [RateContent](../../-rate-content/index.md)&gt;rates) |
+| [ratings](ratings.md) | [JVM]<br>public final [PropertyContent.Builder](index.md)[ratings](ratings.md)([Ratings](../../-ratings/index.md)ratings) |
+| [rooms](rooms.md) | [JVM]<br>public final [PropertyContent.Builder](index.md)[rooms](rooms.md)([Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html), [RoomContent](../../-room-content/index.md)&gt;rooms) |
+| [spokenLanguages](spoken-languages.md) | [JVM]<br>public final [PropertyContent.Builder](index.md)[spokenLanguages](spoken-languages.md)([Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html), [SpokenLanguage](../../-spoken-language/index.md)&gt;spokenLanguages) |
+| [statistics](statistics.md) | [JVM]<br>public final [PropertyContent.Builder](index.md)[statistics](statistics.md)([Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html), [Statistic](../../-statistic/index.md)&gt;statistics) |
+| [supplySource](supply-source.md) | [JVM]<br>public final [PropertyContent.Builder](index.md)[supplySource](supply-source.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)supplySource) |
+| [taxId](tax-id.md) | [JVM]<br>public final [PropertyContent.Builder](index.md)[taxId](tax-id.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)taxId) |
+| [themes](themes.md) | [JVM]<br>public final [PropertyContent.Builder](index.md)[themes](themes.md)([Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html), [Theme](../../-theme/index.md)&gt;themes) |
+| [vacationRentalDetails](vacation-rental-details.md) | [JVM]<br>public final [PropertyContent.Builder](index.md)[vacationRentalDetails](vacation-rental-details.md)([VacationRentalDetails](../../-vacation-rental-details/index.md)vacationRentalDetails) |
