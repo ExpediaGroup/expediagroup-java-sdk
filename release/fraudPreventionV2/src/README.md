@@ -1,11 +1,11 @@
-# Welcome to the fraudpreventionv2-sdk SDK!
+# Welcome to the openworld-java-sdk-fraudpreventionv2 SDK!
 
 ## Usage
 ```xml
 <dependency>
-    <groupId>com.expediagroup</groupId>
-    <artifactId>fraudpreventionv2-sdk</artifactId>
-    <version>1.0.0</version>
+    <groupId>com.expediagroup.openworld.sdk</groupId>
+    <artifactId>openworld-java-sdk-fraudpreventionv2</artifactId>
+    <version>2.0.0</version>
 </dependency>
 ```
 
