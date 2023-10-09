@@ -6,7 +6,4 @@ coverage:
         target: auto
         threshold: 0%
 ignore:
-  - "**/*.java"
-  - "**/*.kt"
-  - "**/*.class"
-  - "**/*.xml"
+  - "**/release/**/*"
