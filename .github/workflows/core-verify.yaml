@@ -17,12 +17,13 @@ jobs:
         with:
           java-version: '11'
           distribution: 'temurin'
+      - name: exclude
+        run: rm -rf ./release
       - name: verify core
         working-directory: core
         run: mvn verify -P github-verify-action-profile
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
         with:
-          gcov_include: core
           fail_ci_if_error: true
           token: ${{ secrets.CODECOV_TOKEN }}
