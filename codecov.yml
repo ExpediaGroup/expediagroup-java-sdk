@@ -7,6 +7,6 @@ coverage:
         threshold: 0%
         paths:
           - "core"
-          - "!tests/"
+          - "!release/"
 ignore:
   - "release"
