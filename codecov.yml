@@ -6,6 +6,7 @@ coverage:
         target: auto
         threshold: 0%
         paths:
-          - core
+          - "core"
+          - "!tests/"
 ignore:
   - "release"
