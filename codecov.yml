@@ -5,8 +5,5 @@ coverage:
         # basic
         target: auto
         threshold: 0%
-        paths:
-          - "core"
-          - "!release/"
 ignore:
-  - "release"
+  - "**/release"
