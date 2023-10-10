@@ -24,5 +24,7 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           fail_ci_if_error: true
+          gcov: true
+          gcov_ignore: '**/release/**/*'
           working-directory: /home/runner/work/expediagroup-java-sdk/expediagroup-java-sdk/core
           token: ${{ secrets.CODECOV_TOKEN }}
