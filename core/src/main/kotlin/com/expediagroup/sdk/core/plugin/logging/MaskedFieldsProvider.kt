@@ -23,7 +23,16 @@ object MaskedFieldsProvider {
     private val maskedHeaderFields: MutableCollection<String> = mutableSetOf(HttpHeaders.Authorization)
     private val maskedBodyFields: MutableCollection<String> =
         mutableSetOf(
-            "security_code", "card_number", "card_cvv_response", "card_avs_response", "pin", "card_cvv", "account_number", "card_cvv2", "card_cvv2_response", "cvv"
+            "cvv",
+            "pin",
+            "card_cvv",
+            "card_cvv2",
+            "card_number",
+            "security_code",
+            "account_number",
+            "card_avs_response",
+            "card_cvv_response",
+            "card_cvv2_response",
         )
 
     /**
