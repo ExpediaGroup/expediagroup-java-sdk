@@ -47,7 +47,7 @@ class ExpediaGroupLoggerTest {
     }
 
     @Test
-    fun `should mask authorization fields`() {
+    fun `should mask pci-related fields`() {
         val mockedLogger = createMockedLogger()
         val expediaGroupLogger = ExpediaGroupLogger(mockedLogger)
 
@@ -56,11 +56,12 @@ class ExpediaGroupLoggerTest {
                         -> Accept: application/json
                         -> Accept-Charset: UTF-8
                         -> Accept-Encoding: gzip
-                        -> Authorization: Basic N2E1MGI3ZDQtZjFkMi00NGMyLThiZTgtMWQ2MjIwY2I3MGI2OlZmMH1mc2pQaHVmYTJveFlDZXlhc35Qa2ZmOUpwe0xQ
                         CONTENT HEADERS
                         -> Content-Length: 0
-                        BODY Content-Type: null
-                        BODY START"""
+                        BODY Content-Type: application/json; charset=UTF-8
+                        BODY START
+                        { field1: "value1", cvv: "123", card_number: "0123456789123456", field: "value2" }
+                        BODY END"""
         expediaGroupLogger.info(message)
 
         val expectedLog = """$LOGGING_PREFIX METHOD: HttpMethod(value=POST)
@@ -68,16 +69,50 @@ class ExpediaGroupLoggerTest {
                         -> Accept: application/json
                         -> Accept-Charset: UTF-8
                         -> Accept-Encoding: gzip
-                        -> Authorization: Basic $OMITTED
                         CONTENT HEADERS
                         -> Content-Length: 0
-                        BODY Content-Type: null
-                        BODY START"""
+                        BODY Content-Type: application/json; charset=UTF-8
+                        BODY START
+                        { field1: "value1", cvv: "$OMITTED", card_number: "$OMITTED", field: "value2" }
+                        BODY END"""
+        verify(exactly = 1) { mockedLogger.info(expectedLog) }
+    }
+
+    @Test
+    fun `should mask newly added fields`() {
+        MaskedFieldsProvider.addBodyField("some_added_field")
+        val mockedLogger = createMockedLogger()
+        val expediaGroupLogger = ExpediaGroupLogger(mockedLogger)
+
+        val message = """METHOD: HttpMethod(value=POST)
+                        COMMON HEADERS
+                        -> Accept: application/json
+                        -> Accept-Charset: UTF-8
+                        -> Accept-Encoding: gzip
+                        CONTENT HEADERS
+                        -> Content-Length: 0
+                        BODY Content-Type: application/json; charset=UTF-8
+                        BODY START
+                        { field1: "value1", cvv: "123", card_number: "0123456789123456", field: "value2", some_added_field: "value" }
+                        BODY END"""
+        expediaGroupLogger.info(message)
+
+        val expectedLog = """$LOGGING_PREFIX METHOD: HttpMethod(value=POST)
+                        COMMON HEADERS
+                        -> Accept: application/json
+                        -> Accept-Charset: UTF-8
+                        -> Accept-Encoding: gzip
+                        CONTENT HEADERS
+                        -> Content-Length: 0
+                        BODY Content-Type: application/json; charset=UTF-8
+                        BODY START
+                        { field1: "value1", cvv: "$OMITTED", card_number: "$OMITTED", field: "value2", some_added_field: "$OMITTED" }
+                        BODY END"""
         verify(exactly = 1) { mockedLogger.info(expectedLog) }
     }
 
     private fun createMockedLogger(): Logger {
-        val mockedLogger = mockkClass(Logger::class)
+        val mockedLogger: Logger = mockkClass(Logger::class)
         every { mockedLogger.info(any()) }.answers { }
         every { mockedLogger.warn(any()) }.answers { }
         return mockedLogger

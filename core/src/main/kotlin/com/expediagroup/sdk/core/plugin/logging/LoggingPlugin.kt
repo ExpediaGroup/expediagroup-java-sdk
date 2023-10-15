@@ -16,6 +16,7 @@
 package com.expediagroup.sdk.core.plugin.logging
 
 import com.expediagroup.sdk.core.client.Client
+import com.expediagroup.sdk.core.constant.LoggingMessage
 import com.expediagroup.sdk.core.plugin.Plugin
 import io.ktor.client.plugins.logging.Logging
 
@@ -27,6 +28,7 @@ internal object LoggingPlugin : Plugin<LoggingConfiguration> {
         configurations.httpClientConfiguration.install(Logging) {
             logger = configurations.logger
             level = configurations.level
+            sanitizeHeader(LoggingMessage.OMITTED) { header -> MaskedFieldsProvider.getMaskedHeaderFields().contains(header) }
         }
     }
 }
