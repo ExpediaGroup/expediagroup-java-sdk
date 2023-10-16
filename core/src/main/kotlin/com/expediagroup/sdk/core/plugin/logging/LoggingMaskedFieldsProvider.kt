@@ -19,7 +19,7 @@ import com.expediagroup.sdk.core.constant.LogMaskingRegex.FIELD_REGEX
 import com.expediagroup.sdk.core.model.exception.client.ExpediaGroupInvalidFieldNameException
 import io.ktor.http.HttpHeaders
 
-object MaskedFieldsProvider {
+object LoggingMaskedFieldsProvider {
     private val maskedHeaderFields: MutableCollection<String> = mutableSetOf(HttpHeaders.Authorization)
     private val maskedBodyFields: MutableCollection<String> =
         mutableSetOf(
@@ -32,7 +32,7 @@ object MaskedFieldsProvider {
             "account_number",
             "card_avs_response",
             "card_cvv_response",
-            "card_cvv2_response",
+            "card_cvv2_response"
         )
 
     /**

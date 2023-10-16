@@ -80,7 +80,7 @@ class ExpediaGroupLoggerTest {
 
     @Test
     fun `should mask newly added fields`() {
-        MaskedFieldsProvider.addBodyField("some_added_field")
+        LoggingMaskedFieldsProvider.addBodyField("some_added_field")
         val mockedLogger = createMockedLogger()
         val expediaGroupLogger = ExpediaGroupLogger(mockedLogger)
 

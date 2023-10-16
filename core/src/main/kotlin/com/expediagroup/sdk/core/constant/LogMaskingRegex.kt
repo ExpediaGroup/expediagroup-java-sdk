@@ -15,13 +15,13 @@
  */
 package com.expediagroup.sdk.core.constant
 
-import com.expediagroup.sdk.core.plugin.logging.MaskedFieldsProvider
+import com.expediagroup.sdk.core.plugin.logging.LoggingMaskedFieldsProvider
 
 internal object LogMaskingRegex {
     val FIELD_REGEX = "^[a-zA-Z0-9-_]+$".toRegex()
 
     val MASKED_FIELDS_REGEX
-        get() = "(?<=[\"']?(${MaskedFieldsProvider.getMaskedBodyFields().joinToString("|")})[\"']?:\\s?[\"'])(\\s*[^\"']+\\s*)(?=[\"'])".toRegex()
+        get() = "(?<=[\"']?(${LoggingMaskedFieldsProvider.getMaskedBodyFields().joinToString("|")})[\"']?:\\s?[\"'])(\\s*[^\"']+\\s*)(?=[\"'])".toRegex()
 
     val NUMBER_FIELD_REGEX = "(?<=[\"']?number[\"']?:\\s?[\"'])(\\s*\\d{15,16}\\s*)(?=[\"'])".toRegex()
 }
