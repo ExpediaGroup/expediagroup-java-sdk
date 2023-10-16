@@ -16,8 +16,6 @@
 package com.expediagroup.sdk.core.plugin.logging
 
 import com.expediagroup.sdk.core.constant.LoggingMessage.OMITTED
-import com.expediagroup.sdk.core.plugin.logging.MaskProvider.PaymentMask
-import com.expediagroup.sdk.core.plugin.logging.MaskProvider.PaymentNumberMask
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -43,11 +41,11 @@ internal class LogMaskerTest {
             ]
         )
         fun `given a text with payment info then omit it`(key: String) {
-            assertThat(PaymentMask.mask("$key:\"123456\" something else")).isEqualTo("$key:\"$OMITTED\" something else")
-            assertThat(PaymentMask.mask("\"$key\":\"123456\" something else")).isEqualTo("\"$key\":\"$OMITTED\" something else")
-            assertThat(PaymentMask.mask("$key: \"123456\" something else")).isEqualTo("$key: \"$OMITTED\" something else")
-            assertThat(PaymentMask.mask("$key:'123456' something else")).isEqualTo("$key:'$OMITTED' something else")
-            assertThat(PaymentMask.mask("$key: '123456' something else")).isEqualTo("$key: '$OMITTED' something else")
+            assertThat(mask("$key:\"123456\" something else")).isEqualTo("$key:\"$OMITTED\" something else")
+            assertThat(mask("\"$key\":\"123456\" something else")).isEqualTo("\"$key\":\"$OMITTED\" something else")
+            assertThat(mask("$key: \"123456\" something else")).isEqualTo("$key: \"$OMITTED\" something else")
+            assertThat(mask("$key:'123456' something else")).isEqualTo("$key:'$OMITTED' something else")
+            assertThat(mask("$key: '123456' something else")).isEqualTo("$key: '$OMITTED' something else")
         }
     }
 
@@ -62,19 +60,19 @@ internal class LogMaskerTest {
             ]
         )
         fun `given a text with number of 15 or 16 digits then omit it`(number: String) {
-            assertThat(PaymentNumberMask.mask("number:\"$number\" something else")).isEqualTo("number:\"$OMITTED\" something else")
-            assertThat(PaymentNumberMask.mask("number: \"$number\" something else")).isEqualTo("number: \"$OMITTED\" something else")
-            assertThat(PaymentNumberMask.mask("number:'$number' something else")).isEqualTo("number:'$OMITTED' something else")
-            assertThat(PaymentNumberMask.mask("number: '$number' something else")).isEqualTo("number: '$OMITTED' something else")
+            assertThat(mask("number:\"$number\" something else")).isEqualTo("number:\"$OMITTED\" something else")
+            assertThat(mask("number: \"$number\" something else")).isEqualTo("number: \"$OMITTED\" something else")
+            assertThat(mask("number:'$number' something else")).isEqualTo("number:'$OMITTED' something else")
+            assertThat(mask("number: '$number' something else")).isEqualTo("number: '$OMITTED' something else")
         }
 
         @Test
         fun `given a text with number of 14 digits then do not omit it`() {
             val number = "01234567890123"
-            assertThat(PaymentNumberMask.mask("number:\"$number\" something else")).isEqualTo("number:\"$number\" something else")
-            assertThat(PaymentNumberMask.mask("number: \"$number\" something else")).isEqualTo("number: \"$number\" something else")
-            assertThat(PaymentNumberMask.mask("number:'$number' something else")).isEqualTo("number:'$number' something else")
-            assertThat(PaymentNumberMask.mask("number: '$number' something else")).isEqualTo("number: '$number' something else")
+            assertThat(mask("number:\"$number\" something else")).isEqualTo("number:\"$number\" something else")
+            assertThat(mask("number: \"$number\" something else")).isEqualTo("number: \"$number\" something else")
+            assertThat(mask("number:'$number' something else")).isEqualTo("number:'$number' something else")
+            assertThat(mask("number: '$number' something else")).isEqualTo("number: '$number' something else")
         }
     }
 }
