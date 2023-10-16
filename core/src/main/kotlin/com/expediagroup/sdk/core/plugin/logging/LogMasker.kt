@@ -18,14 +18,13 @@ package com.expediagroup.sdk.core.plugin.logging
 import com.expediagroup.sdk.core.constant.LogMaskingRegex.MASKED_FIELDS_REGEX
 import com.expediagroup.sdk.core.constant.LogMaskingRegex.NUMBER_FIELD_REGEX
 import com.expediagroup.sdk.core.constant.LoggingMessage.OMITTED
-import java.util.function.Supplier
 
 internal fun mask(message: String): String = MaskProvider.masks.fold(message) { acc, mask -> mask.mask(acc) }
 
 internal interface Mask {
-    val regexSupplier: Supplier<Regex>
+    val getRegex: () -> Regex
 
-    fun mask(string: String): String = string.replace(regexSupplier.get()) { maskSubstring(it.value) }
+    fun mask(string: String): String = string.replace(this.getRegex()) { maskSubstring(it.value) }
 
     fun maskSubstring(string: String) = OMITTED
 }
@@ -34,10 +33,10 @@ internal object MaskProvider {
     val masks = listOf(PaymentMask, PaymentNumberMask)
 
     object PaymentMask : Mask {
-        override val regexSupplier: Supplier<Regex> = Supplier { MASKED_FIELDS_REGEX }
+        override val getRegex = { MASKED_FIELDS_REGEX }
     }
 
     object PaymentNumberMask : Mask {
-        override val regexSupplier: Supplier<Regex> = Supplier { NUMBER_FIELD_REGEX }
+        override val getRegex = { NUMBER_FIELD_REGEX }
     }
 }
