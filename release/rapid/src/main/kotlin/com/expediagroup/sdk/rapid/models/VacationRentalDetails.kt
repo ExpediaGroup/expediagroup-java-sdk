@@ -49,6 +49,7 @@ import jakarta.validation.Valid
  * @param listingNumber The listing number for a Vrbo property.
  * @param listingSource The listing source.
  * @param listingUnit The specific unit.
+ * @param ipmName The name of the IPM used to build guest messaging to inform travelers of the name of the IPM who will charge their card and/or send them a confirmation email.
  * @param unitConfigurations Map of the vacation rental unit configurations. The key value is the unit location.
  * @param freeText A free text description that could contain significantly unstructured information that could impact the booking and should be displayed to customers. This field could contain html break tags `<br>` that may make display challenging.
  */
@@ -98,6 +99,10 @@ data class VacationRentalDetails(
     @JsonProperty("listing_unit")
     @field:Valid
     val listingUnit: kotlin.String? = null,
+    // The name of the IPM used to build guest messaging to inform travelers of the name of the IPM who will charge their card and/or send them a confirmation email.
+    @JsonProperty("ipm_name")
+    @field:Valid
+    val ipmName: kotlin.String? = null,
     // Map of the vacation rental unit configurations. The key value is the unit location.
     @JsonProperty("unit_configurations")
     @field:Valid
@@ -125,6 +130,7 @@ data class VacationRentalDetails(
         private var listingNumber: kotlin.String? = null,
         private var listingSource: kotlin.String? = null,
         private var listingUnit: kotlin.String? = null,
+        private var ipmName: kotlin.String? = null,
         private var unitConfigurations: kotlin.collections.Map<kotlin.String, kotlin.collections.List<UnitConfiguration>>? = null,
         private var freeText: kotlin.String? = null
     ) {
@@ -152,6 +158,8 @@ data class VacationRentalDetails(
 
         fun listingUnit(listingUnit: kotlin.String) = apply { this.listingUnit = listingUnit }
 
+        fun ipmName(ipmName: kotlin.String) = apply { this.ipmName = ipmName }
+
         fun unitConfigurations(unitConfigurations: kotlin.collections.Map<kotlin.String, kotlin.collections.List<UnitConfiguration>>) = apply { this.unitConfigurations = unitConfigurations }
 
         fun freeText(freeText: kotlin.String) = apply { this.freeText = freeText }
@@ -170,6 +178,7 @@ data class VacationRentalDetails(
                 listingNumber = listingNumber,
                 listingSource = listingSource,
                 listingUnit = listingUnit,
+                ipmName = ipmName,
                 unitConfigurations = unitConfigurations,
                 freeText = freeText
             )

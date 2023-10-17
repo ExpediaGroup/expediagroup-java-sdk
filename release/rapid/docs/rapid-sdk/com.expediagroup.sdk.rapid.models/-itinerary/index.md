@@ -26,6 +26,7 @@ JVM
 | conversations |
 | traderInformation |
 | essentialInformation |
+| travelPurpose | Value potentially passed in during the availability request to indicate the purpose of the trip designated by the traveler. |
 | itineraryHistory |
 | roomHistory | An array of rooms each containing an array of room history events. |
 
@@ -33,13 +34,14 @@ JVM
 
 | | |
 |---|---|
-| [Itinerary](-itinerary.md) | [JVM]<br>public [Itinerary](index.md)[Itinerary](-itinerary.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)itineraryId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)propertyId, [ItineraryLinks](../-itinerary-links/index.md)links, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)email, [Phone](../-phone/index.md)phone, [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[RoomItinerary](../-room-itinerary/index.md)&gt;rooms, [BillingContact](../-billing-contact/index.md)billingContact, [Adjustment](../-adjustment/index.md)adjustment, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)creationDateTime, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)affiliateReferenceId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)affiliateMetadata, [Conversations](../-conversations/index.md)conversations, [TraderInformation](../-trader-information/index.md)traderInformation, [EssentialInformation](../-essential-information/index.md)essentialInformation, [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[ItineraryHistoryItem](../-itinerary-history-item/index.md)&gt;itineraryHistory, [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[RoomHistoryItem](../-room-history-item/index.md)&gt;&gt;roomHistory) |
+| [Itinerary](-itinerary.md) | [JVM]<br>public [Itinerary](index.md)[Itinerary](-itinerary.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)itineraryId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)propertyId, [ItineraryLinks](../-itinerary-links/index.md)links, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)email, [Phone](../-phone/index.md)phone, [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[RoomItinerary](../-room-itinerary/index.md)&gt;rooms, [BillingContact](../-billing-contact/index.md)billingContact, [Adjustment](../-adjustment/index.md)adjustment, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)creationDateTime, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)affiliateReferenceId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)affiliateMetadata, [Conversations](../-conversations/index.md)conversations, [TraderInformation](../-trader-information/index.md)traderInformation, [EssentialInformation](../-essential-information/index.md)essentialInformation, [Itinerary.TravelPurpose](-travel-purpose/index.md)travelPurpose, [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[ItineraryHistoryItem](../-itinerary-history-item/index.md)&gt;itineraryHistory, [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[RoomHistoryItem](../-room-history-item/index.md)&gt;&gt;roomHistory) |
 
 ## Types
 
 | Name | Summary |
 |---|---|
 | [Builder](-builder/index.md) | [JVM]<br>public final class [Builder](-builder/index.md) |
+| [TravelPurpose](-travel-purpose/index.md) | [JVM]<br>public enum [TravelPurpose](-travel-purpose/index.md) extends [Enum](https://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html)&lt;[Itinerary.TravelPurpose](-travel-purpose/index.md)&gt;<br>Value potentially passed in during the availability request to indicate the purpose of the trip designated by the traveler. Values: LEISURE,BUSINESS,UNSPECIFIED |
 
 ## Properties
 
@@ -61,6 +63,7 @@ JVM
 | [roomHistory](index.md#-1374860495%2FProperties%2F700308213) | [JVM]<br>@Valid()<br>private final [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[RoomHistoryItem](../-room-history-item/index.md)&gt;&gt;[roomHistory](index.md#-1374860495%2FProperties%2F700308213) |
 | [rooms](index.md#-1403379182%2FProperties%2F700308213) | [JVM]<br>@Valid()<br>private final [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[RoomItinerary](../-room-itinerary/index.md)&gt;[rooms](index.md#-1403379182%2FProperties%2F700308213) |
 | [traderInformation](index.md#706699148%2FProperties%2F700308213) | [JVM]<br>@Valid()<br>private final [TraderInformation](../-trader-information/index.md)[traderInformation](index.md#706699148%2FProperties%2F700308213) |
+| [travelPurpose](index.md#1423725798%2FProperties%2F700308213) | [JVM]<br>private final [Itinerary.TravelPurpose](-travel-purpose/index.md)[travelPurpose](index.md#1423725798%2FProperties%2F700308213) |
 
 ## Functions
 
@@ -83,3 +86,4 @@ JVM
 | [getRoomHistory](get-room-history.md) | [JVM]<br>public final [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[RoomHistoryItem](../-room-history-item/index.md)&gt;&gt;[getRoomHistory](get-room-history.md)() |
 | [getRooms](get-rooms.md) | [JVM]<br>public final [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[RoomItinerary](../-room-itinerary/index.md)&gt;[getRooms](get-rooms.md)() |
 | [getTraderInformation](get-trader-information.md) | [JVM]<br>public final [TraderInformation](../-trader-information/index.md)[getTraderInformation](get-trader-information.md)() |
+| [getTravelPurpose](get-travel-purpose.md) | [JVM]<br>public final [Itinerary.TravelPurpose](-travel-purpose/index.md)[getTravelPurpose](get-travel-purpose.md)() |
