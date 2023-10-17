@@ -680,6 +680,314 @@ paths:
                       multi_unit: true
                       payment_registration_recommended: false
                       supply_source: expedia
+                Single Property VRBO Example:
+                  value:
+                    "4687248":
+                      property_id: "4687248"
+                      name: Beautiful 6 Bedroom Home With Two Pools, Only 10 minutes To Theme Park!
+                      address:
+                        city: Springfield
+                        state_province_code: MO
+                        state_province_name: Missouri
+                        postal_code: "65801"
+                        country_code: US
+                        obfuscation_required: true
+                        localized:
+                          links:
+                            en-US:
+                              method: GET
+                              href: https://api.ean.com/v3/properties/content?language=en-US&property_id=4687248&include=address&supply_source=vrbo
+                      ratings:
+                        guest:
+                          count: 59
+                          overall: "5.0"
+                          cleanliness: "4.9"
+                          recommendation_percent: "100.0"
+                      location:
+                        coordinates:
+                          latitude: 38.139185
+                          longitude: -92.823674
+                        obfuscated_coordinates:
+                          latitude: 38.247296
+                          longitude: -92.912563
+                        obfuscation_required: false
+                      phone: 1-4175551212
+                      category:
+                        id: "17"
+                        name: Private vacation home
+                      business_model:
+                        expedia_collect: true
+                        property_collect: true
+                      rank: 99999999
+                      checkin:
+                        begin_time: 4:00 PM
+                        instructions: <ul>  <li>Extra-person charges may apply and vary depending on
+                          property policy</li><li>Government-issued photo
+                          identification and a credit card, debit card, or cash
+                          deposit may be required at check-in for incidental
+                          charges</li><li>Special requests are subject to
+                          availability upon check-in and may incur additional
+                          charges; special requests cannot be
+                          guaranteed</li><li>Onsite parties or group events are
+                          strictly prohibited</li><li>Safety features at this
+                          property include a fire extinguisher, a smoke
+                          detector, a first aid kit, and a deadbolt
+                          lock</li><li>This property is managed through our
+                          partner, Vrbo. You will receive an email from Vrbo
+                          with a link to a Vrbo account, where you can change or
+                          cancel your reservation</li>  </ul>
+                        special_instructions: You will receive an email from the host with check-in and
+                          check-out instructions. You will also receive an email
+                          from Vrbo with a link to a Vrbo account which will
+                          enable you to manage your booking.
+                        min_age: 21
+                      checkout:
+                        time: 10:00 AM
+                      fees:
+                        traveler_service: Your credit card statement will show two separate charges, one
+                          for the booking amount and property fees and another
+                          for the service fee. Both will be charged by Expedia
+                          partner HomeAway.com, Inc.. The traveler service fee
+                          is refundable only when your entire booking is fully
+                          refundable. Please refer to HomeAway's <a href="
+                          https://www.homeaway.com/info/legal/terms-conditions "
+                          target="_blank"> terms and conditions</a> for the
+                          rules applicable to the booking facilitation services
+                          provided.
+                      attributes:
+                        pets:
+                          "2050":
+                            id: "2050"
+                            name: Pets not allowed
+                        general:
+                          "2940":
+                            id: "2940"
+                            name: Minimum guest age is 0
+                            value: "0"
+                          "1073743917":
+                            id: "1073743917"
+                            name: Events/parties not allowed
+                          "1073745102":
+                            id: "1073745102"
+                            name: Private host property
+                      amenities:
+                        "9":
+                          id: "9"
+                          name: Fitness facilities
+                          categories:
+                            - gym
+                        "1073745320":
+                          id: "1073745320"
+                          name: Paddle boating nearby
+                      images:
+                        - hero_image: true
+                          category: 21001
+                          links:
+                            350px:
+                              method: GET
+                              href: https://i.travelapi.com/lodging/68000000/67240000/67235700/4687248/fe7cef52_b.jpg
+                            70px:
+                              method: GET
+                              href: https://i.travelapi.com/lodging/68000000/67240000/67235700/4687248/fe7cef52_t.jpg
+                            1000px:
+                              method: GET
+                              href: https://i.travelapi.com/lodging/68000000/67240000/67235700/4687248/fe7cef52_z.jpg
+                          caption: Room
+                      onsite_payments:
+                        currency: USD
+                      dates:
+                        added: 2021-04-30T09:00:28.495Z
+                        updated: 2023-08-06T12:52:58.185Z
+                      descriptions:
+                        amenities: Take advantage of recreational opportunities offered, including a
+                          water park, an outdoor pool, and a fitness center.
+                          This vacation home also features an arcade/game room
+                          and barbecue grills.
+                        business_amenities: Guests will find features like Internet access and onsite
+                          parking.
+                        rooms: Make yourself comfortable in this air-conditioned vacation home, which
+                          features a fireplace and a Smart TV. There's a private
+                          balcony. A kitchen is outfitted with a refrigerator,
+                          an oven, and a stovetop. Complimentary wireless
+                          Internet access keeps you connected, and a DVD player
+                          is provided for your entertainment.
+                        attractions: Distances are displayed to the nearest 0.1 mile and kilometer. <br
+                          /> <p>Super Cool Lake - 3.9 km / 2.5 mi <br /> Gray
+                          River - 7 km / 4.4 mi <br /> Super Cool Lake State
+                          Park - 8.5 km / 5.6 mi <br /> State Park Marina - 7.6
+                          km / 4.7 mi <br /> </p><p>The nearest airports are:<br
+                          />Springfield-Branson National Airport (SGF) - 7.3 km
+                          / 4.8 mi<br /> Branson, MO (BKG) - 94.1 km / 60.4
+                          mi<br /> </p><p></p>
+                        location: When you stay at this vacation home, you'll be ready for a great
+                          vacation.
+                        headline: Super Interesting Attractions Nearby
+                        general: A stay in a vacation home shows a different side of Fun. Onsite parking
+                          is available during your stay.
+                      statistics:
+                        "52":
+                          id: "52"
+                          name: Total number of rooms - 1
+                          value: "1"
+                        "1073743378":
+                          id: "1073743378"
+                          name: Number of bedrooms - 6
+                          value: "6"
+                        "1073743379":
+                          id: "1073743379"
+                          name: Number of bathrooms - 4
+                          value: "4"
+                        "1073743380":
+                          id: "1073743380"
+                          name: Max occupancy - 16
+                          value: "16"
+                      themes:
+                        "5019":
+                          id: "5019"
+                          name: Adventure sport property
+                        "1073744357":
+                          id: "1073744357"
+                          name: Family
+                      chain:
+                        id: "0"
+                        name: Independent
+                      brand:
+                        id: "0"
+                        name: Independent
+                      multi_unit: false
+                      payment_registration_recommended: false
+                      vacation_rental_details:
+                        private_host: true
+                        property_manager:
+                          name: Scott Horton
+                        house_rules:
+                          - Children welcome
+                          - No pets
+                          - No smoking
+                          - No parties or events
+                        amenities:
+                          "1":
+                            id: "1"
+                            name: Air conditioning
+                          "1073745174":
+                            id: "1073745174"
+                            name: Travel crib
+                        vrbo_srp_id: 334.3634257.3458973
+                        listing_id: "1252577"
+                        listing_number: "3834275"
+                        listing_source: VRBO
+                        listing_unit: /units/0001/429ecad2-bade-429a-a427-8adee57420ec
+                        ipm_name: Good Company
+                        unit_configurations:
+                          "1":
+                            - quantity: 1
+                              type: KING_BED
+                              description: "King bed(s) - "
+                          "2":
+                            - quantity: 1
+                              type: SLEEP_SOFA_FUTON
+                              description: "Sleep sofa/futon(s) - "
+                            - quantity: 2
+                              type: BUNK_BED
+                              description: "Bunk bed(s) - "
+                          "3":
+                            - quantity: 1
+                              type: KING_BED
+                              description: "King bed(s) - "
+                          "4":
+                            - quantity: 1
+                              type: KING_BED
+                              description: "King bed(s) - "
+                          "5":
+                            - quantity: 1
+                              type: KING_BED
+                              description: "King bed(s) - "
+                          "6":
+                            - quantity: 1
+                              type: KING_BED
+                              description: "King bed(s) - "
+                        enhanced_house_rules:
+                          Pets:
+                            rule: No pets allowed
+                            additional_information: []
+                          CheckOut:
+                            rule: Check out before 10:00 AM
+                            additional_information: []
+                          Events:
+                            rule: No events allowed
+                            additional_information: []
+                          MinBookingAge:
+                            rule: "Minimum age to rent: 21"
+                            additional_information: []
+                          Occupancy:
+                            rule: "Maximum overnight guests: 16 (sleeps up to 16 adults)"
+                            additional_information: []
+                          CustomRules:
+                            rule: No fireworks are permitted. Please respect our neighbors as many of them
+                              live here full time. Quiet hours are 10pm-8am.
+                            additional_information:
+                              - No weapons, illegal drugs, parties, disruptive
+                                guests, or underage drinking is permitted.
+                          CheckIn:
+                            rule: Check in after 4:00 PM
+                            additional_information: []
+                          Children:
+                            rule: "Children allowed: ages 0-17"
+                            additional_information: []
+                          Smoking:
+                            rule: Smoking is not permitted
+                            additional_information: []
+                        free_text: "Stunning brand new 2-story home with 6 bedrooms, 4 bathrooms, brand
+                          new appliances/furniture, game room, grill, patio, and
+                          beautiful scenery all around. Minutes from Super Cool
+                          Lake. This place is the perfect getaway for a larger
+                          group whether it be a golf trip, lake trip, or time to
+                          gather with the family. Please note this property has
+                          two parking stalls, in addition to first come first
+                          serve overflow parking in the community. Celebrating
+                          something special? Birthday, Anniversary,
+                          Bachelor/Bachelorette, etc? We also offer decorating
+                          services for an extra fee. Please inquire within! This
+                          home features a fully-equipped kitchen for preparing
+                          meals, onsite washer and dryer and most importantly a
+                          private space, much larger than a hotel room for
+                          private family time away from crowds and people. We
+                          have a self-check-in and check-out system to limit
+                          your contact with people as well. THE BASICS: 6
+                          bedrooms & 1 loft - 5 Kings, 2 Bunk beds , and 1
+                          pull-out couch in the loft - Sleeps 16 people. 4
+                          Bathrooms - Master (jetted tub, walk-in shower, double
+                          sinks), other 3 bathrooms (tub/shower combo & sink).
+                          Fully Equipped Kitchen. Open Main Room with plenty of
+                          seating. Dining Room table and bar stools around
+                          kitchen island area.  Plenty of space to spread out
+                          and enjoy your friends/family.  Free Wifi. THE
+                          EXPERIENCE IN DETAIL: -As you walk in the front door
+                          and are greeted  by the open floor layout of our
+                          kitchen and great room you immediately breathe easy
+                          seeing that there is plenty of room here for you and
+                          your family. Our Kitchen is stocked with plenty of
+                          cookware and dishes so you can create a huge breakfast
+                          that will get everyone out of bed and ready for a day
+                          of fun. A potted coffee maker and a Keurig is
+                          available. You will need to bring your own
+                          coffee/pods/filters/creamer etc. Cozy up in the living
+                          room for a late night movie on our large flat-screen
+                          TV equipped for your viewing pleasure. Our luxury
+                          Master bedroom with it’s King size bed, premium
+                          bedding, and TV invite you and your spouse to relax
+                          together and feel a little spoiled. This is a vacation
+                          after all! Enjoy our Master Bath with it’s jetted tub,
+                          walk-in shower, and double sinks. Explore the Upstairs
+                          which has 4 Bedrooms - 3 furnished with a King size
+                          bed, premium bedding, 1 is the bunk room which is
+                          equipped with 4 twin size beds. This home is not
+                          handicapped accessible!!!"
+                      supply_source: Vrbo
+                      spoken_languages:
+                        en:
+                          id: en
+                          name: English
                 Multiple Properties Example:
                   value:
                     "12345":
@@ -4726,7 +5034,7 @@ paths:
           required: true
           schema:
             type: string
-          example: 2023-12-14
+          example: 2024-01-11
         - name: checkout
           in: query
           description: >
@@ -4736,7 +5044,7 @@ paths:
           required: true
           schema:
             type: string
-          example: 2023-12-16
+          example: 2024-01-13
         - name: currency
           in: query
           description: >
@@ -5876,7 +6184,7 @@ paths:
             If specified must also specify `checkout`.
           schema:
             type: string
-          example: 2023-12-14
+          example: 2024-01-11
         - name: checkout
           in: query
           description: >
@@ -5890,7 +6198,7 @@ paths:
             If specified must also specify `checkin`.<br>
           schema:
             type: string
-          example: 2023-12-16
+          example: 2024-01-13
         - name: exclusion
           in: query
           description: >
@@ -8232,6 +8540,10 @@ paths:
                                   billable_currency:
                                     value: "345.91"
                                     currency: USD
+                                marketing_fee:
+                                  billable_currency:
+                                    value: "7.75"
+                                    currency: USD
                                 property_fees:
                                   billable_currency:
                                     value: "36.95"
@@ -8282,6 +8594,7 @@ paths:
                           property:
                             method: GET
                             href: https://www.example.com?key=123abd456
+                      travel_purpose: leisure
                       trader_information:
                         traders:
                           - name: Test Property Name
@@ -8390,6 +8703,10 @@ paths:
                                   billable_currency:
                                     value: "345.91"
                                     currency: USD
+                                marketing_fee:
+                                  billable_currency:
+                                    value: "7.75"
+                                    currency: USD
                                 property_fees:
                                   billable_currency:
                                     value: "36.95"
@@ -8437,6 +8754,7 @@ paths:
                           property:
                             method: GET
                             href: https://www.example.com?key=123abd456
+                      travel_purpose: unspecified
                       itinerary_history:
                         - history_id: "802737048"
                           event_timestamp: 2017-09-17T13:31:15.523Z
@@ -8511,6 +8829,10 @@ paths:
                                   exclusive:
                                     billable_currency:
                                       value: "234.68"
+                                      currency: USD
+                                  marketing_fee:
+                                    billable_currency:
+                                      value: "5.14"
                                       currency: USD
                                   property_fees:
                                     billable_currency:
@@ -8595,6 +8917,10 @@ paths:
                                   exclusive:
                                     billable_currency:
                                       value: "345.91"
+                                      currency: USD
+                                  marketing_fee:
+                                    billable_currency:
+                                      value: "7.75"
                                       currency: USD
                                   property_fees:
                                     billable_currency:
@@ -9496,6 +9822,10 @@ paths:
                                 billable_currency:
                                   value: "345.91"
                                   currency: USD
+                              marketing_fee:
+                                billable_currency:
+                                  value: "7.75"
+                                  currency: USD
                               property_fees:
                                 billable_currency:
                                   value: "36.95"
@@ -9546,6 +9876,7 @@ paths:
                         property:
                           method: GET
                           href: https://www.example.com?key=123abd456
+                    travel_purpose: leisure
                 Itinerary with History:
                   value:
                     itinerary_id: "8999989898988"
@@ -9635,6 +9966,10 @@ paths:
                                 billable_currency:
                                   value: "345.91"
                                   currency: USD
+                              marketing_fee:
+                                billable_currency:
+                                  value: "7.75"
+                                  currency: USD
                               property_fees:
                                 billable_currency:
                                   value: "36.95"
@@ -9685,6 +10020,7 @@ paths:
                         property:
                           method: GET
                           href: https://www.example.com?key=123abd456
+                    travel_purpose: unspecified
                     itinerary_history:
                       - history_id: "802737048"
                         event_timestamp: 2017-09-17T13:31:15.523Z
@@ -9759,6 +10095,10 @@ paths:
                                 exclusive:
                                   billable_currency:
                                     value: "234.68"
+                                    currency: USD
+                                marketing_fee:
+                                  billable_currency:
+                                    value: "5.14"
                                     currency: USD
                                 property_fees:
                                   billable_currency:
@@ -9843,6 +10183,10 @@ paths:
                                 exclusive:
                                   billable_currency:
                                     value: "345.91"
+                                    currency: USD
+                                marketing_fee:
+                                  billable_currency:
+                                    value: "7.75"
                                     currency: USD
                                 property_fees:
                                   billable_currency:
@@ -13762,6 +14106,13 @@ components:
         listing_unit:
           type: string
           description: The specific unit.
+        ipm_name:
+          type: string
+          description: >
+            The name of the IPM used to build guest messaging to inform
+            travelers of the name of the IPM who will charge
+
+            their card and/or send them a confirmation email.
         unit_configurations:
           type: object
           additionalProperties:
@@ -15061,6 +15412,17 @@ components:
           $ref: "#/components/schemas/TraderInformation"
         essential_information:
           $ref: "#/components/schemas/EssentialInformation"
+        travel_purpose:
+          type: string
+          description: >
+            Value potentially passed in during the availability request to
+            indicate the purpose of the trip designated
+
+            by the traveler.
+          enum:
+            - leisure
+            - business
+            - unspecified
         itinerary_history:
           type: array
           items:
