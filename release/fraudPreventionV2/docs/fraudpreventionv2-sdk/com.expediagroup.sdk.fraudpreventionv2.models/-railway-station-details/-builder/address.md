@@ -4,4 +4,4 @@
 
 [JVM]\
 
-public final [RailwayStationDetails.Builder](index.md)[address](address.md)([CustomerAccountAddress](../../-customer-account-address/index.md)address)
+public final [RailwayStationDetails.Builder](index.md)[address](address.md)([Address](../../-address/index.md)address)

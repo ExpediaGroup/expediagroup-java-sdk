@@ -4,7 +4,7 @@
 
 [JVM]\
 
-public final [HotelAllOfAddress](../-hotel-all-of-address/index.md)[getAddress](get-address.md)()
+public final [HotelAddress](../-hotel-address/index.md)[getAddress](get-address.md)()
 
 #### Parameters
 
