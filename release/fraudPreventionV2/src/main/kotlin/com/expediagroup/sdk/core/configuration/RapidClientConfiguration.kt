@@ -15,25 +15,19 @@
  */
 package com.expediagroup.sdk.core.configuration
 
-import com.expediagroup.sdk.core.client.ExpediaGroupClient
-import com.expediagroup.sdk.core.configuration.provider.RuntimeConfigurationProvider
+import com.expediagroup.sdk.core.client.BaseRapidClient
 
 /**
- * Configuration for the [ExpediaGroupClient].
+ * Configuration for the [BaseRapidClient].
  *
  * @property key The API key to use for authentication.
  * @property secret The API secret to use for authentication.
  * @property endpoint The API endpoint to use for requests.
  * @param requestTimeout The request timeout to be used in milliseconds.
- * @property authEndpoint The API endpoint to use for authentication.
  */
-data class ExpediaGroupClientConfiguration(
+data class RapidClientConfiguration(
     override val key: String? = null,
     override val secret: String? = null,
     override val endpoint: String? = null,
-    override val requestTimeout: Long? = null,
-    val authEndpoint: String? = null
-) : ClientConfiguration {
-    /** Build a [RuntimeConfigurationProvider] from an [ExpediaGroupClientConfiguration]. */
-    override fun toProvider(): RuntimeConfigurationProvider = super.toProvider().copy(authEndpoint = authEndpoint)
-}
+    override val requestTimeout: Long? = null
+) : ClientConfiguration
