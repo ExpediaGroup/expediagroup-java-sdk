@@ -51,6 +51,7 @@ import jakarta.validation.Valid
  * @param conversations
  * @param traderInformation
  * @param essentialInformation
+ * @param travelPurpose Value potentially passed in during the availability request to indicate the purpose of the trip designated by the traveler.
  * @param itineraryHistory
  * @param roomHistory An array of rooms each containing an array of room history events.
  */
@@ -103,6 +104,9 @@ data class Itinerary(
     @JsonProperty("essential_information")
     @field:Valid
     val essentialInformation: EssentialInformation? = null,
+    // Value potentially passed in during the availability request to indicate the purpose of the trip designated by the traveler.
+    @JsonProperty("travel_purpose")
+    val travelPurpose: Itinerary.TravelPurpose? = null,
     @JsonProperty("itinerary_history")
     @field:Valid
     val itineraryHistory: kotlin.collections.List<ItineraryHistoryItem>? = null,
@@ -131,6 +135,7 @@ data class Itinerary(
         private var conversations: Conversations? = null,
         private var traderInformation: TraderInformation? = null,
         private var essentialInformation: EssentialInformation? = null,
+        private var travelPurpose: Itinerary.TravelPurpose? = null,
         private var itineraryHistory: kotlin.collections.List<ItineraryHistoryItem>? = null,
         private var roomHistory: kotlin.collections.List<kotlin.collections.List<RoomHistoryItem>>? = null
     ) {
@@ -162,6 +167,8 @@ data class Itinerary(
 
         fun essentialInformation(essentialInformation: EssentialInformation) = apply { this.essentialInformation = essentialInformation }
 
+        fun travelPurpose(travelPurpose: Itinerary.TravelPurpose) = apply { this.travelPurpose = travelPurpose }
+
         fun itineraryHistory(itineraryHistory: kotlin.collections.List<ItineraryHistoryItem>) = apply { this.itineraryHistory = itineraryHistory }
 
         fun roomHistory(roomHistory: kotlin.collections.List<kotlin.collections.List<RoomHistoryItem>>) = apply { this.roomHistory = roomHistory }
@@ -182,9 +189,25 @@ data class Itinerary(
                 conversations = conversations,
                 traderInformation = traderInformation,
                 essentialInformation = essentialInformation,
+                travelPurpose = travelPurpose,
                 itineraryHistory = itineraryHistory,
                 roomHistory = roomHistory
             )
         }
+    }
+
+    /**
+     * Value potentially passed in during the availability request to indicate the purpose of the trip designated by the traveler.
+     * Values: LEISURE,BUSINESS,UNSPECIFIED
+     */
+    enum class TravelPurpose(val value: kotlin.String) {
+        @JsonProperty("leisure")
+        LEISURE("leisure"),
+
+        @JsonProperty("business")
+        BUSINESS("business"),
+
+        @JsonProperty("unspecified")
+        UNSPECIFIED("unspecified")
     }
 }
