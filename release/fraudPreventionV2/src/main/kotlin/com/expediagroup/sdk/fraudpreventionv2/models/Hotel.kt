@@ -71,7 +71,7 @@ data class Hotel(
     val hotelName: kotlin.String,
     @JsonProperty("address")
     @field:Valid
-    val address: HotelAllOfAddress,
+    val address: HotelAddress,
     // Local date and time of the hotel check-in, in ISO-8601 date and time format `yyyy-MM-ddTHH:mm:ss.SSSZ`.
     @JsonProperty("checkin_time")
     val checkinTime: java.time.OffsetDateTime,
@@ -109,7 +109,7 @@ data class Hotel(
         private var inventorySource: TravelProduct.InventorySource? = null,
         private var hotelId: kotlin.String? = null,
         private var hotelName: kotlin.String? = null,
-        private var address: HotelAllOfAddress? = null,
+        private var address: HotelAddress? = null,
         private var checkinTime: java.time.OffsetDateTime? = null,
         private var checkoutTime: java.time.OffsetDateTime? = null,
         private var travelersReferences: kotlin.collections.List<kotlin.String>? = null,
@@ -127,7 +127,7 @@ data class Hotel(
 
         fun hotelName(hotelName: kotlin.String) = apply { this.hotelName = hotelName }
 
-        fun address(address: HotelAllOfAddress) = apply { this.address = address }
+        fun address(address: HotelAddress) = apply { this.address = address }
 
         fun checkinTime(checkinTime: java.time.OffsetDateTime) = apply { this.checkinTime = checkinTime }
 

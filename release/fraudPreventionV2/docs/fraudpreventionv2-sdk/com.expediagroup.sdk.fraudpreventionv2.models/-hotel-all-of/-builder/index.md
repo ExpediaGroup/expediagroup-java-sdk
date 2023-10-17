@@ -9,13 +9,13 @@ public final class [Builder](index.md)
 
 | | |
 |---|---|
-| [HotelAllOf.Builder](-hotel-all-of.-builder.md) | [JVM]<br>public [HotelAllOf.Builder](index.md)[HotelAllOf.Builder](-hotel-all-of.-builder.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)hotelId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)hotelName, [HotelAllOfAddress](../../-hotel-all-of-address/index.md)address, [OffsetDateTime](https://docs.oracle.com/javase/8/docs/api/java/time/OffsetDateTime.html)checkinTime, [OffsetDateTime](https://docs.oracle.com/javase/8/docs/api/java/time/OffsetDateTime.html)checkoutTime, [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html)priceWithheld, [Integer](https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html)roomCount) |
+| [HotelAllOf.Builder](-hotel-all-of.-builder.md) | [JVM]<br>public [HotelAllOf.Builder](index.md)[HotelAllOf.Builder](-hotel-all-of.-builder.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)hotelId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)hotelName, [HotelAddress](../../-hotel-address/index.md)address, [OffsetDateTime](https://docs.oracle.com/javase/8/docs/api/java/time/OffsetDateTime.html)checkinTime, [OffsetDateTime](https://docs.oracle.com/javase/8/docs/api/java/time/OffsetDateTime.html)checkoutTime, [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html)priceWithheld, [Integer](https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html)roomCount) |
 
 ## Functions
 
 | Name | Summary |
 |---|---|
-| [address](address.md) | [JVM]<br>public final [HotelAllOf.Builder](index.md)[address](address.md)([HotelAllOfAddress](../../-hotel-all-of-address/index.md)address) |
+| [address](address.md) | [JVM]<br>public final [HotelAllOf.Builder](index.md)[address](address.md)([HotelAddress](../../-hotel-address/index.md)address) |
 | [build](build.md) | [JVM]<br>public final [HotelAllOf](../index.md)[build](build.md)() |
 | [checkinTime](checkin-time.md) | [JVM]<br>public final [HotelAllOf.Builder](index.md)[checkinTime](checkin-time.md)([OffsetDateTime](https://docs.oracle.com/javase/8/docs/api/java/time/OffsetDateTime.html)checkinTime) |
 | [checkoutTime](checkout-time.md) | [JVM]<br>public final [HotelAllOf.Builder](index.md)[checkoutTime](checkout-time.md)([OffsetDateTime](https://docs.oracle.com/javase/8/docs/api/java/time/OffsetDateTime.html)checkoutTime) |

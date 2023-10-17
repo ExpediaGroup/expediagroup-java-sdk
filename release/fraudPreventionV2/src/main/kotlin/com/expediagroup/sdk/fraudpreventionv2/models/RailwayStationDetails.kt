@@ -57,7 +57,7 @@ data class RailwayStationDetails(
     val stationCode: kotlin.String,
     @JsonProperty("address")
     @field:Valid
-    val address: CustomerAccountAddress,
+    val address: Address,
     // This attribute provides information about the specific classification assigned to the rail station. It helps differentiate between different types of stations, such as major stations (STATION) or stations located within a city (city).
     @JsonProperty("type")
     val type: RailwayStationDetails.Type? = null,
@@ -75,7 +75,7 @@ data class RailwayStationDetails(
     class Builder(
         private var name: kotlin.String? = null,
         private var stationCode: kotlin.String? = null,
-        private var address: CustomerAccountAddress? = null,
+        private var address: Address? = null,
         private var type: RailwayStationDetails.Type? = null,
         private var timezone: kotlin.String? = null
     ) {
@@ -83,7 +83,7 @@ data class RailwayStationDetails(
 
         fun stationCode(stationCode: kotlin.String) = apply { this.stationCode = stationCode }
 
-        fun address(address: CustomerAccountAddress) = apply { this.address = address }
+        fun address(address: Address) = apply { this.address = address }
 
         fun type(type: RailwayStationDetails.Type) = apply { this.type = type }
 

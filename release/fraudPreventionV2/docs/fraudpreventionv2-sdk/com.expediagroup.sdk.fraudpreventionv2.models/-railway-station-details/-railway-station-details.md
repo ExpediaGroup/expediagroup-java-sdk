@@ -4,7 +4,7 @@
 
 [JVM]\
 
-public [RailwayStationDetails](index.md)[RailwayStationDetails](-railway-station-details.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)name, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)stationCode, [CustomerAccountAddress](../-customer-account-address/index.md)address, [RailwayStationDetails.Type](-type/index.md)type, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)timezone)
+public [RailwayStationDetails](index.md)[RailwayStationDetails](-railway-station-details.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)name, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)stationCode, [Address](../-address/index.md)address, [RailwayStationDetails.Type](-type/index.md)type, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)timezone)
 
 #### Parameters
 
