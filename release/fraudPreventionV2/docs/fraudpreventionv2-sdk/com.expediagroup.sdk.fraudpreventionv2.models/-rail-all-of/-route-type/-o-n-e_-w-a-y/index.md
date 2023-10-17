@@ -1,0 +1,14 @@
+//[fraudpreventionv2-sdk](../../../../../index.md)/[com.expediagroup.sdk.fraudpreventionv2.models](../../../index.md)/[RailAllOf](../../index.md)/[RouteType](../index.md)/[ONE_WAY](index.md)
+
+# ONE_WAY
+
+[JVM]\
+[ONE_WAY](index.md)
+
+## Properties
+
+| Name | Summary |
+|---|---|
+| [name](../../../-verification-type/_3_-d-s/index.md#-372974862%2FProperties%2F-173342751) | [JVM]<br>public final [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)[name](../../../-verification-type/_3_-d-s/index.md#-372974862%2FProperties%2F-173342751) |
+| [ordinal](../../../-verification-type/_3_-d-s/index.md#-739389684%2FProperties%2F-173342751) | [JVM]<br>public final [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)[ordinal](../../../-verification-type/_3_-d-s/index.md#-739389684%2FProperties%2F-173342751) |
+| [value](../-r-o-u-n-d_-t-r-i-p/index.md#295261341%2FProperties%2F-173342751) | [JVM]<br>public final [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)[value](../-r-o-u-n-d_-t-r-i-p/index.md#295261341%2FProperties%2F-173342751) |

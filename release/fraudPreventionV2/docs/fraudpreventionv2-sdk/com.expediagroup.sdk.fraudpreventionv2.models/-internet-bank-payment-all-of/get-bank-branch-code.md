@@ -1,0 +1,15 @@
+//[fraudpreventionv2-sdk](../../../index.md)/[com.expediagroup.sdk.fraudpreventionv2.models](../index.md)/[InternetBankPaymentAllOf](index.md)/[getBankBranchCode](get-bank-branch-code.md)
+
+# getBankBranchCode
+
+[JVM]\
+
+public final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[getBankBranchCode](get-bank-branch-code.md)()
+
+#### Parameters
+
+JVM
+
+| | |
+|---|---|
+| bankBranchCode | A code that identifies the bank branch for internet bank payment(IBP). |
