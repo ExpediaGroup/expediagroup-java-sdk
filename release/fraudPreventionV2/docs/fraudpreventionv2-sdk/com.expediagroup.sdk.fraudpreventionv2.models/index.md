@@ -62,7 +62,6 @@
 | [Hotel](-hotel/index.md) | [JVM]<br>public final class [Hotel](-hotel/index.md) implements [TravelProduct](-travel-product/index.md) |
 | [HotelAddress](-hotel-address/index.md) | [JVM]<br>public final class [HotelAddress](-hotel-address/index.md)<br>Address of a hotel. |
 | [HotelAllOf](-hotel-all-of/index.md) | [JVM]<br>public final class [HotelAllOf](-hotel-all-of/index.md) |
-| [HotelAllOfAddress](-hotel-all-of-address/index.md) | [JVM]<br>public final class [HotelAllOfAddress](-hotel-all-of-address/index.md) |
 | [InsultDetail](-insult-detail/index.md) | [JVM]<br>public final class [InsultDetail](-insult-detail/index.md)<br>Details related to the insult. |
 | [InsultFeedback](-insult-feedback/index.md) | [JVM]<br>public final class [InsultFeedback](-insult-feedback/index.md) implements [OrderPurchaseUpdateRequest](-order-purchase-update-request/index.md)<br>Feedback from EG external partners regarding a false positive recommendation that from Fraud Prevention system gave for their customer. |
 | [InsultFeedbackAllOf](-insult-feedback-all-of/index.md) | [JVM]<br>public final class [InsultFeedbackAllOf](-insult-feedback-all-of/index.md) |

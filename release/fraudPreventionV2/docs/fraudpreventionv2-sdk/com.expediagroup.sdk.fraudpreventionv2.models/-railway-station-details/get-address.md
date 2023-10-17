@@ -4,7 +4,7 @@
 
 [JVM]\
 
-public final [CustomerAccountAddress](../-customer-account-address/index.md)[getAddress](get-address.md)()
+public final [Address](../-address/index.md)[getAddress](get-address.md)()
 
 #### Parameters
 

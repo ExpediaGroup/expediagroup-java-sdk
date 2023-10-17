@@ -4,4 +4,4 @@
 
 [JVM]\
 
-public final [Hotel.Builder](index.md)[address](address.md)([HotelAllOfAddress](../../-hotel-all-of-address/index.md)address)
+public final [Hotel.Builder](index.md)[address](address.md)([HotelAddress](../../-hotel-address/index.md)address)
