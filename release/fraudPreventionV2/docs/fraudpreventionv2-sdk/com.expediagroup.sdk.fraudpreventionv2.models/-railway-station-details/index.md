@@ -20,7 +20,7 @@ JVM
 
 | | |
 |---|---|
-| [RailwayStationDetails](-railway-station-details.md) | [JVM]<br>public [RailwayStationDetails](index.md)[RailwayStationDetails](-railway-station-details.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)name, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)stationCode, [CustomerAccountAddress](../-customer-account-address/index.md)address, [RailwayStationDetails.Type](-type/index.md)type, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)timezone) |
+| [RailwayStationDetails](-railway-station-details.md) | [JVM]<br>public [RailwayStationDetails](index.md)[RailwayStationDetails](-railway-station-details.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)name, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)stationCode, [Address](../-address/index.md)address, [RailwayStationDetails.Type](-type/index.md)type, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)timezone) |
 
 ## Types
 
@@ -33,7 +33,7 @@ JVM
 
 | Name | Summary |
 |---|---|
-| [address](index.md#-1648750582%2FProperties%2F-173342751) | [JVM]<br>@Valid()<br>private final [CustomerAccountAddress](../-customer-account-address/index.md)[address](index.md#-1648750582%2FProperties%2F-173342751) |
+| [address](index.md#-1648750582%2FProperties%2F-173342751) | [JVM]<br>@Valid()<br>private final [Address](../-address/index.md)[address](index.md#-1648750582%2FProperties%2F-173342751) |
 | [name](index.md#-1315512975%2FProperties%2F-173342751) | [JVM]<br>@Length(max = 200)<br>@Valid()<br>private final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[name](index.md#-1315512975%2FProperties%2F-173342751) |
 | [stationCode](index.md#-740222243%2FProperties%2F-173342751) | [JVM]<br>@Length(max = 200)<br>@Valid()<br>private final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[stationCode](index.md#-740222243%2FProperties%2F-173342751) |
 | [timezone](index.md#-1844223933%2FProperties%2F-173342751) | [JVM]<br>@Length(max = 200)<br>@Valid()<br>private final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[timezone](index.md#-1844223933%2FProperties%2F-173342751) |
@@ -44,7 +44,7 @@ JVM
 | Name | Summary |
 |---|---|
 | [builder](builder.md) | [JVM]<br>public final static [RailwayStationDetails.Builder](-builder/index.md)[builder](builder.md)() |
-| [getAddress](get-address.md) | [JVM]<br>public final [CustomerAccountAddress](../-customer-account-address/index.md)[getAddress](get-address.md)() |
+| [getAddress](get-address.md) | [JVM]<br>public final [Address](../-address/index.md)[getAddress](get-address.md)() |
 | [getName](get-name.md) | [JVM]<br>public final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[getName](get-name.md)() |
 | [getStationCode](get-station-code.md) | [JVM]<br>public final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[getStationCode](get-station-code.md)() |
 | [getTimezone](get-timezone.md) | [JVM]<br>public final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[getTimezone](get-timezone.md)() |

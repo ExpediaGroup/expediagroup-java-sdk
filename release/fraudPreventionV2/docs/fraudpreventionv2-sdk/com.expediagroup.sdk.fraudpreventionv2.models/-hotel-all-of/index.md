@@ -22,7 +22,7 @@ JVM
 
 | | |
 |---|---|
-| [HotelAllOf](-hotel-all-of.md) | [JVM]<br>public [HotelAllOf](index.md)[HotelAllOf](-hotel-all-of.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)hotelId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)hotelName, [HotelAllOfAddress](../-hotel-all-of-address/index.md)address, [OffsetDateTime](https://docs.oracle.com/javase/8/docs/api/java/time/OffsetDateTime.html)checkinTime, [OffsetDateTime](https://docs.oracle.com/javase/8/docs/api/java/time/OffsetDateTime.html)checkoutTime, [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html)priceWithheld, [Integer](https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html)roomCount) |
+| [HotelAllOf](-hotel-all-of.md) | [JVM]<br>public [HotelAllOf](index.md)[HotelAllOf](-hotel-all-of.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)hotelId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)hotelName, [HotelAddress](../-hotel-address/index.md)address, [OffsetDateTime](https://docs.oracle.com/javase/8/docs/api/java/time/OffsetDateTime.html)checkinTime, [OffsetDateTime](https://docs.oracle.com/javase/8/docs/api/java/time/OffsetDateTime.html)checkoutTime, [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html)priceWithheld, [Integer](https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html)roomCount) |
 
 ## Types
 
@@ -34,7 +34,7 @@ JVM
 
 | Name | Summary |
 |---|---|
-| [address](index.md#-1005801737%2FProperties%2F-173342751) | [JVM]<br>@Valid()<br>private final [HotelAllOfAddress](../-hotel-all-of-address/index.md)[address](index.md#-1005801737%2FProperties%2F-173342751) |
+| [address](index.md#-1005801737%2FProperties%2F-173342751) | [JVM]<br>@Valid()<br>private final [HotelAddress](../-hotel-address/index.md)[address](index.md#-1005801737%2FProperties%2F-173342751) |
 | [checkinTime](index.md#1945956881%2FProperties%2F-173342751) | [JVM]<br>private final [OffsetDateTime](https://docs.oracle.com/javase/8/docs/api/java/time/OffsetDateTime.html)[checkinTime](index.md#1945956881%2FProperties%2F-173342751) |
 | [checkoutTime](index.md#-874184196%2FProperties%2F-173342751) | [JVM]<br>private final [OffsetDateTime](https://docs.oracle.com/javase/8/docs/api/java/time/OffsetDateTime.html)[checkoutTime](index.md#-874184196%2FProperties%2F-173342751) |
 | [hotelId](index.md#1741274460%2FProperties%2F-173342751) | [JVM]<br>@Length(max = 200)<br>@Valid()<br>private final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[hotelId](index.md#1741274460%2FProperties%2F-173342751) |
@@ -47,7 +47,7 @@ JVM
 | Name | Summary |
 |---|---|
 | [builder](builder.md) | [JVM]<br>public final static [HotelAllOf.Builder](-builder/index.md)[builder](builder.md)() |
-| [getAddress](get-address.md) | [JVM]<br>public final [HotelAllOfAddress](../-hotel-all-of-address/index.md)[getAddress](get-address.md)() |
+| [getAddress](get-address.md) | [JVM]<br>public final [HotelAddress](../-hotel-address/index.md)[getAddress](get-address.md)() |
 | [getCheckinTime](get-checkin-time.md) | [JVM]<br>public final [OffsetDateTime](https://docs.oracle.com/javase/8/docs/api/java/time/OffsetDateTime.html)[getCheckinTime](get-checkin-time.md)() |
 | [getCheckoutTime](get-checkout-time.md) | [JVM]<br>public final [OffsetDateTime](https://docs.oracle.com/javase/8/docs/api/java/time/OffsetDateTime.html)[getCheckoutTime](get-checkout-time.md)() |
 | [getHotelId](get-hotel-id.md) | [JVM]<br>public final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[getHotelId](get-hotel-id.md)() |
