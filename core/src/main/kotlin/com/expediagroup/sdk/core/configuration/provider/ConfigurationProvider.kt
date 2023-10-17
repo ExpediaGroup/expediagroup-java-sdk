@@ -58,4 +58,16 @@ internal interface ConfigurationProvider {
      */
     val requestTimeout: Long?
         get() = Constant.TEN_SECONDS_IN_MILLIS
+
+    /**
+     * The headers to be masked in logging.
+     */
+    val maskedLoggingHeaders: Set<String>
+        get() = setOf()
+
+    /**
+     * The body fields to be masked in logging.
+     */
+    val maskedLoggingBodyFields: Set<String>
+        get() = setOf()
 }

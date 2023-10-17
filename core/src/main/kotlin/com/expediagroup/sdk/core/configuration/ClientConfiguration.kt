@@ -22,6 +22,8 @@ interface ClientConfiguration {
     val secret: String?
     val endpoint: String?
     val requestTimeout: Long?
+    val maskedLoggingHeaders: Set<String>
+    val maskedLoggingBodyFields: Set<String>
 
     /** Build a [RuntimeConfigurationProvider] from a [ClientConfiguration]. */
     fun toProvider(): RuntimeConfigurationProvider =
@@ -29,6 +31,8 @@ interface ClientConfiguration {
             key = key,
             secret = secret,
             endpoint = endpoint,
-            requestTimeout = requestTimeout
+            requestTimeout = requestTimeout,
+            maskedLoggingHeaders = maskedLoggingHeaders,
+            maskedLoggingBodyFields = maskedLoggingBodyFields
         )
 }
