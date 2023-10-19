@@ -76,6 +76,8 @@ abstract class Client {
             val endpoint: String = configurationProvider.endpoint ?: fireMissingConfigurationIssue(ConfigurationName.ENDPOINT)
             val authEndpoint: String = configurationProvider.authEndpoint ?: fireMissingConfigurationIssue(ConfigurationName.AUTH_ENDPOINT)
             val requestTimeout: Long = configurationProvider.requestTimeout ?: fireMissingConfigurationIssue(ConfigurationName.REQUEST_TIMEOUT_MILLIS)
+            val maskedLoggingHeaders: Set<String> = configurationProvider.maskedLoggingHeaders
+            val maskedLoggingBodyFields: Set<String> = configurationProvider.maskedLoggingBodyFields
 
             val authenticationConfiguration =
                 AuthenticationConfiguration.from(
@@ -86,7 +88,7 @@ abstract class Client {
                 )
 
             plugins {
-                use(LoggingPlugin).with(LoggingConfiguration.from(httpClientConfig))
+                use(LoggingPlugin).with(LoggingConfiguration.from(httpClientConfig, maskedLoggingHeaders, maskedLoggingBodyFields))
                 use(SerializationPlugin).with(SerializationConfiguration.from(httpClientConfig))
                 use(AuthenticationPlugin).with(authenticationConfiguration)
                 use(DefaultRequestPlugin).with(DefaultRequestConfiguration.from(httpClientConfig, endpoint))
