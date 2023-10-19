@@ -24,7 +24,6 @@ import com.expediagroup.sdk.core.constant.provider.LoggingMessageProvider
 import com.expediagroup.sdk.core.contract.Contract
 import com.expediagroup.sdk.core.contract.adhereTo
 import com.expediagroup.sdk.core.model.exception.client.ExpediaGroupConfigurationException
-import com.expediagroup.sdk.core.model.exception.service.ExpediaGroupAuthException
 import com.expediagroup.sdk.core.plugin.Hooks
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationConfiguration
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationHookFactory
@@ -103,9 +102,6 @@ abstract class Client {
 
     /** Throw an exception if the configuration is missing. */
     private fun fireMissingConfigurationIssue(configurationKey: String): Nothing = throw ExpediaGroupConfigurationException(getMissingRequiredConfigurationMessage(configurationKey))
-
-    /** Throw an exception if the authentication fails. */
-    fun fireAuthIssue(message: String): Nothing = throw ExpediaGroupAuthException(message)
 
     private fun isNotSuccessfulResponse(response: HttpResponse) = response.status.value !in Constant.SUCCESSFUL_STATUS_CODES_RANGE
 

@@ -15,25 +15,21 @@
  */
 package com.expediagroup.sdk.core.plugin.logging
 
+import com.expediagroup.sdk.core.constant.LogMaskingFields.DEFAULT_MASKED_BODY_FIELDS
+import com.expediagroup.sdk.core.constant.LogMaskingFields.DEFAULT_MASKED_HEADER_FIELDS
 import com.expediagroup.sdk.core.constant.LogMaskingRegex.FIELD_REGEX
 import com.expediagroup.sdk.core.model.exception.client.ExpediaGroupInvalidFieldNameException
-import io.ktor.http.HttpHeaders
 
-object LoggingMaskedFieldsProvider {
-    private val maskedHeaderFields: MutableCollection<String> = mutableSetOf(HttpHeaders.Authorization)
-    private val maskedBodyFields: MutableCollection<String> =
-        mutableSetOf(
-            "cvv",
-            "pin",
-            "card_cvv",
-            "card_cvv2",
-            "card_number",
-            "security_code",
-            "account_number",
-            "card_avs_response",
-            "card_cvv_response",
-            "card_cvv2_response"
-        )
+class LoggingMaskedFieldsProvider(maskedLoggingHeaders: Set<String>, maskedLoggingBodyFields: Set<String>) {
+    private val maskedHeaderFields: Set<String>
+    private val maskedBodyFields: Set<String>
+
+    init {
+        maskedLoggingHeaders.filter(::isInvalid).takeIf { it.isNotEmpty() }?.let { throw ExpediaGroupInvalidFieldNameException(it) }
+        maskedLoggingBodyFields.filter(::isInvalid).takeIf { it.isNotEmpty() }?.let { throw ExpediaGroupInvalidFieldNameException(it) }
+        maskedHeaderFields = DEFAULT_MASKED_HEADER_FIELDS.union(maskedLoggingHeaders)
+        maskedBodyFields = DEFAULT_MASKED_BODY_FIELDS.union(maskedLoggingBodyFields)
+    }
 
     /**
      * @return a copy of the list of headers to be masked
@@ -44,50 +40,6 @@ object LoggingMaskedFieldsProvider {
      * @return a copy of the list of body fields to be masked
      */
     fun getMaskedBodyFields(): Collection<String> = maskedBodyFields.toSet()
-
-    /**
-     * Adds a header field to the list of masked headers.
-     *
-     * @param headerName the name of the header to be added.
-     * @throws ExpediaGroupInvalidFieldNameException if the field name is invalid.
-     */
-    fun addHeader(headerName: String) {
-        headerName.takeIf(::isInvalid)?.let { throw ExpediaGroupInvalidFieldNameException(it) }
-        maskedHeaderFields.add(headerName)
-    }
-
-    /**
-     * Adds the provided headers to the list of masked headers.
-     *
-     * @param headersNames the names of the headers to be added.
-     * @throws ExpediaGroupInvalidFieldNameException if the field name is invalid.
-     */
-    fun addHeaders(headersNames: Collection<String>) {
-        headersNames.filter(::isInvalid).takeIf { it.isNotEmpty() }?.let { throw ExpediaGroupInvalidFieldNameException(it) }
-        maskedHeaderFields.addAll(headersNames)
-    }
-
-    /**
-     * Adds a field to the list of masked body fields.
-     *
-     * @param fieldName the name of the field to be added.
-     * @throws ExpediaGroupInvalidFieldNameException if the field name is invalid.
-     */
-    fun addBodyField(fieldName: String) {
-        fieldName.takeIf(::isInvalid)?.let { throw ExpediaGroupInvalidFieldNameException(it) }
-        maskedBodyFields.add(fieldName)
-    }
-
-    /**
-     * Adds the provided fields to the list of masked body fields.
-     *
-     * @param fieldsNames the names of the fields to be added.
-     * @throws ExpediaGroupInvalidFieldNameException if the field name is invalid.
-     */
-    fun addBodyFields(fieldsNames: Collection<String>) {
-        fieldsNames.filter(::isInvalid).takeIf { it.isNotEmpty() }?.let { throw ExpediaGroupInvalidFieldNameException(it) }
-        maskedBodyFields.addAll(fieldsNames)
-    }
 
     private fun isInvalid(fieldName: String): Boolean = !fieldName.matches(FIELD_REGEX)
 }
