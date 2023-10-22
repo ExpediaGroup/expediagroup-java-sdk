@@ -34,8 +34,8 @@ data class ExpediaGroupClientConfiguration(
     override val secret: String? = null,
     override val endpoint: String? = null,
     override val requestTimeout: Long? = null,
-    override val maskedLoggingHeaders: Set<String> = setOf(),
-    override val maskedLoggingBodyFields: Set<String> = setOf(),
+    override val maskedLoggingHeaders: Set<String>? = null,
+    override val maskedLoggingBodyFields: Set<String>? = null,
     val authEndpoint: String? = null
 ) : ClientConfiguration {
     /** Build a [RuntimeConfigurationProvider] from an [ExpediaGroupClientConfiguration]. */

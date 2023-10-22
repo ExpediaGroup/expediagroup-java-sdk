@@ -55,12 +55,7 @@ internal object ClientFactory {
     ): ExpediaGroupClient =
         createExpediaGroupClient(
             MockEngineFactory.createDefaultEngine(),
-            ExpediaGroupClientConfiguration(
-                key = expediaGroupConfiguration.key,
-                secret = expediaGroupConfiguration.secret,
-                endpoint = expediaGroupConfiguration.endpoint,
-                authEndpoint = expediaGroupConfiguration.authEndpoint,
-                requestTimeout = expediaGroupConfiguration.requestTimeout,
+            expediaGroupConfiguration.copy(
                 maskedLoggingHeaders = maskedHeaderFields,
                 maskedLoggingBodyFields = maskedBodyFields
             )

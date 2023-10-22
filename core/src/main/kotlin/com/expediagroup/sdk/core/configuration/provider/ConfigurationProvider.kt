@@ -62,12 +62,9 @@ internal interface ConfigurationProvider {
     /**
      * The headers to be masked in logging.
      */
-    val maskedLoggingHeaders: Set<String>
-        get() = setOf()
-
+    val maskedLoggingHeaders: Set<String>?
     /**
      * The body fields to be masked in logging.
      */
-    val maskedLoggingBodyFields: Set<String>
-        get() = setOf()
+    val maskedLoggingBodyFields: Set<String>?
 }

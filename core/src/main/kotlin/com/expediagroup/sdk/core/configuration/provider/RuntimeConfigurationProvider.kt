@@ -36,6 +36,6 @@ data class RuntimeConfigurationProvider(
     override val endpoint: String? = null,
     override val requestTimeout: Long? = null,
     override val authEndpoint: String? = null,
-    override val maskedLoggingHeaders: Set<String> = setOf(),
-    override val maskedLoggingBodyFields: Set<String> = setOf()
+    override val maskedLoggingHeaders: Set<String>? = null,
+    override val maskedLoggingBodyFields: Set<String>? = null
 ) : ConfigurationProvider

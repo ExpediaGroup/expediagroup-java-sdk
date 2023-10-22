@@ -75,8 +75,8 @@ abstract class Client {
             val endpoint: String = configurationProvider.endpoint ?: fireMissingConfigurationIssue(ConfigurationName.ENDPOINT)
             val authEndpoint: String = configurationProvider.authEndpoint ?: fireMissingConfigurationIssue(ConfigurationName.AUTH_ENDPOINT)
             val requestTimeout: Long = configurationProvider.requestTimeout ?: fireMissingConfigurationIssue(ConfigurationName.REQUEST_TIMEOUT_MILLIS)
-            val maskedLoggingHeaders: Set<String> = configurationProvider.maskedLoggingHeaders
-            val maskedLoggingBodyFields: Set<String> = configurationProvider.maskedLoggingBodyFields
+            val maskedLoggingHeaders: Set<String> = configurationProvider.maskedLoggingHeaders ?: setOf()
+            val maskedLoggingBodyFields: Set<String> = configurationProvider.maskedLoggingBodyFields ?: setOf()
 
             val authenticationConfiguration =
                 AuthenticationConfiguration.from(
