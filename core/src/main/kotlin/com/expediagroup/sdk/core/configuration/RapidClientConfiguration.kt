@@ -23,7 +23,9 @@ import com.expediagroup.sdk.core.client.BaseRapidClient
  * @property key The API key to use for authentication.
  * @property secret The API secret to use for authentication.
  * @property endpoint The API endpoint to use for requests.
- * @param requestTimeout The request timeout to be used in milliseconds.
+ * @property requestTimeout The request timeout to be used in milliseconds.
+ * @property maskedLoggingHeaders The headers to be masked in logging.
+ * @property maskedLoggingBodyFields The body fields to be masked in logging.
  */
 data class RapidClientConfiguration(
     override val key: String? = null,
