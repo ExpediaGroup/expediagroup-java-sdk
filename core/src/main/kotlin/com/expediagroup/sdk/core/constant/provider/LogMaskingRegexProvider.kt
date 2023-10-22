@@ -13,16 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.plugin.logging
+package com.expediagroup.sdk.core.constant.provider
 
-import com.expediagroup.sdk.core.client.Client
-import org.slf4j.LoggerFactory
-
-internal object ExpediaGroupLoggerFactory {
-    fun getLogger(clazz: Class<*>) = ExpediaGroupLogger(LoggerFactory.getLogger(clazz), null)
-
-    fun getLogger(
-        clazz: Class<*>,
-        client: Client
-    ) = ExpediaGroupLogger(LoggerFactory.getLogger(clazz), client)
+internal object LogMaskingRegexProvider {
+    fun getMaskedFieldsRegex(maskedBodyFields: Set<String>) = "(?<=[\"']?(${maskedBodyFields.joinToString("|")})[\"']?:\\s?[\"'])(\\s*[^\"']+\\s*)(?=[\"'])".toRegex()
 }

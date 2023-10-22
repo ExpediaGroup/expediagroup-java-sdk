@@ -34,12 +34,12 @@ class LoggingMaskedFieldsProvider(maskedLoggingHeaders: Set<String>, maskedLoggi
     /**
      * @return a copy of the list of headers to be masked
      */
-    fun getMaskedHeaderFields(): Collection<String> = maskedHeaderFields.toSet()
+    fun getMaskedHeaderFields(): Set<String> = maskedHeaderFields.toSet()
 
     /**
      * @return a copy of the list of body fields to be masked
      */
-    fun getMaskedBodyFields(): Collection<String> = maskedBodyFields.toSet()
+    fun getMaskedBodyFields(): Set<String> = maskedBodyFields.toSet()
 
     private fun isInvalid(fieldName: String): Boolean = !fieldName.matches(FIELD_REGEX)
 }

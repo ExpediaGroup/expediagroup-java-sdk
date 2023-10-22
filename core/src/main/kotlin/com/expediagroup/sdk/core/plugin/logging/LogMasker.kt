@@ -15,22 +15,28 @@
  */
 package com.expediagroup.sdk.core.plugin.logging
 
-import com.expediagroup.sdk.core.constant.LogMaskingRegex.MASKED_FIELDS_REGEX
 import com.expediagroup.sdk.core.constant.LogMaskingRegex.NUMBER_FIELD_REGEX
 import com.expediagroup.sdk.core.constant.LoggingMessage.OMITTED
+import com.expediagroup.sdk.core.constant.provider.LogMaskingRegexProvider.getMaskedFieldsRegex
 
-internal fun mask(message: String): String = masks.fold(message) { acc, mask -> mask.mask(acc) }
+internal fun mask(
+    message: String,
+    maskedBodyFields: Set<String>
+): String = masks.fold(message) { acc, mask -> mask.mask(acc, maskedBodyFields) }
 
 internal fun interface Mask {
-    fun getRegex(): Regex
+    fun getRegex(maskedBodyFields: Set<String>): Regex
 
-    fun mask(string: String): String = string.replace(this.getRegex()) { maskSubstring(it.value) }
+    fun mask(
+        string: String,
+        maskedBodyFields: Set<String>
+    ): String = string.replace(this.getRegex(maskedBodyFields)) { maskSubstring(it.value) }
 
     fun maskSubstring(string: String) = OMITTED
 }
 
 internal val masks: List<Mask> =
     listOf(
-        Mask { MASKED_FIELDS_REGEX },
+        Mask(::getMaskedFieldsRegex),
         Mask { NUMBER_FIELD_REGEX }
     )

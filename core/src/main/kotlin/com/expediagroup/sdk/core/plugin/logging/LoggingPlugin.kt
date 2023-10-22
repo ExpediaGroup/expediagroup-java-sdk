@@ -24,6 +24,7 @@ import io.ktor.client.plugins.logging.Logging
 
 internal object LoggingPlugin : Plugin<LoggingConfiguration> {
     val clientLoggingMaskedFieldsProviders = mutableMapOf<Client, LoggingMaskedFieldsProvider>()
+
     override fun install(
         client: Client,
         configurations: LoggingConfiguration
@@ -34,7 +35,7 @@ internal object LoggingPlugin : Plugin<LoggingConfiguration> {
                 configurations.maskedLoggingBodyFields
             )
         configurations.httpClientConfiguration.install(Logging) {
-            logger = configurations.logger
+            logger = configurations.getLogger(client)
             level = configurations.level
             sanitizeHeader(LoggingMessage.OMITTED) { header ->
                 client.getLoggingMaskedFieldsProvider().getMaskedHeaderFields().contains(header)
