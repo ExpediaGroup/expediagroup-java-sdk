@@ -27,6 +27,4 @@ import com.expediagroup.sdk.core.configuration.provider.RapidConfigurationProvid
 internal object RapidConfigurationProvider : ConfigurationProvider {
     override val name: String = "Rapid Configuration Provider"
     override val endpoint: String = "https://api.ean.com/v3"
-    override val maskedLoggingHeaders: Set<String> = setOf()
-    override val maskedLoggingBodyFields: Set<String> = setOf()
 }
