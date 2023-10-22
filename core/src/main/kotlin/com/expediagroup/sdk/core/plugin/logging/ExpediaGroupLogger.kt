@@ -20,7 +20,7 @@ import com.expediagroup.sdk.core.constant.LogMaskingFields
 import com.expediagroup.sdk.core.constant.LoggingMessage.LOGGING_PREFIX
 import org.slf4j.Logger
 
-internal class ExpediaGroupLogger(private val logger: Logger, private val client: Client?) : Logger by logger {
+internal class ExpediaGroupLogger(private val logger: Logger, private val client: Client? = null) : Logger by logger {
     override fun info(msg: String) = logger.info(decorate(msg))
 
     override fun warn(msg: String) = logger.warn(decorate(msg))

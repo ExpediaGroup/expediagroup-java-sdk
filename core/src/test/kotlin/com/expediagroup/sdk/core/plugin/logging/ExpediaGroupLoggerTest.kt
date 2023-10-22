@@ -15,8 +15,10 @@
  */
 package com.expediagroup.sdk.core.plugin.logging
 
+import com.expediagroup.sdk.core.client.ExpediaGroupClient
 import com.expediagroup.sdk.core.constant.LoggingMessage.LOGGING_PREFIX
 import com.expediagroup.sdk.core.constant.LoggingMessage.OMITTED
+import com.expediagroup.sdk.core.test.ClientFactory
 import io.mockk.every
 import io.mockk.mockkClass
 import io.mockk.verify
@@ -80,9 +82,9 @@ class ExpediaGroupLoggerTest {
 
     @Test
     fun `should mask newly added fields`() {
-        LoggingMaskedFieldsProvider.addBodyField("some_added_field")
+        val client: ExpediaGroupClient = ClientFactory.createExpediaGroupClient(maskedBodyFields = setOf("some_added_field"))
         val mockedLogger = createMockedLogger()
-        val expediaGroupLogger = ExpediaGroupLogger(mockedLogger)
+        val expediaGroupLogger = ExpediaGroupLogger(mockedLogger, client)
 
         val message = """METHOD: HttpMethod(value=POST)
                         COMMON HEADERS

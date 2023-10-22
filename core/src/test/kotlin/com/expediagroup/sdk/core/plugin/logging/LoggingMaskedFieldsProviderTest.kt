@@ -16,6 +16,7 @@
 package com.expediagroup.sdk.core.plugin.logging
 
 import com.expediagroup.sdk.core.model.exception.client.ExpediaGroupInvalidFieldNameException
+import com.expediagroup.sdk.core.test.ClientFactory
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -23,15 +24,11 @@ import org.junit.jupiter.api.assertThrows
 internal class LoggingMaskedFieldsProviderTest {
     @Test
     fun `given invalid header name then throws exception`() {
-        val initialMaskedHeaderFields = LoggingMaskedFieldsProvider.getMaskedHeaderFields()
-
         assertThrows<ExpediaGroupInvalidFieldNameException>(
             "All fields names must contain only alphanumeric characters in addition to - and _ but found [invalid_field*]"
         ) {
-            LoggingMaskedFieldsProvider.addHeader("invalid_field*")
+            ClientFactory.createExpediaGroupClient(setOf("invalid_field*"))
         }
-
-        assertThat(LoggingMaskedFieldsProvider.getMaskedHeaderFields()).isEqualTo(initialMaskedHeaderFields)
     }
 
     @Test
