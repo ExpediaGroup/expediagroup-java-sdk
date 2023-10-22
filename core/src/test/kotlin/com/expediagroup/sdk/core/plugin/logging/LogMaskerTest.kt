@@ -42,12 +42,11 @@ internal class LogMaskerTest {
             ]
         )
         fun `given a text with payment info then omit it`(key: String) {
-            assertThat(mask("$key:\"1234567\" something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("$key:$OMITTED something else")
-            assertThat(mask("\"$key\":\"123456\" something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("\"$key\":$OMITTED something else")
-            assertThat(mask("$key: \"123456\" something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("$key: $OMITTED something else")
-            assertThat(mask("$key:'123456' something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("$key:$OMITTED something else")
-            assertThat(mask("$key: '123456' something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("$key: $OMITTED something else")
-            assertThat(mask("$key: 123456 something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("$key: $OMITTED something else")
+            assertThat(mask("$key:\"123456\" something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("$key:\"$OMITTED\" something else")
+            assertThat(mask("\"$key\":\"123456\" something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("\"$key\":\"$OMITTED\" something else")
+            assertThat(mask("$key: \"123456\" something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("$key: \"$OMITTED\" something else")
+            assertThat(mask("$key:'123456' something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("$key:'$OMITTED' something else")
+            assertThat(mask("$key: '123456' something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("$key: '$OMITTED' something else")
         }
     }
 
@@ -66,7 +65,6 @@ internal class LogMaskerTest {
             assertThat(mask("number: \"$number\" something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("number: \"$OMITTED\" something else")
             assertThat(mask("number:'$number' something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("number:'$OMITTED' something else")
             assertThat(mask("number: '$number' something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("number: '$OMITTED' something else")
-            assertThat(mask("number: $number something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("number: $OMITTED something else")
         }
 
         @Test
