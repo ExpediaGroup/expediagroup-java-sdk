@@ -29,5 +29,7 @@ data class RapidClientConfiguration(
     override val key: String? = null,
     override val secret: String? = null,
     override val endpoint: String? = null,
-    override val requestTimeout: Long? = null
+    override val requestTimeout: Long? = null,
+    override val maskedLoggingHeaders: Set<String>,
+    override val maskedLoggingBodyFields: Set<String>
 ) : ClientConfiguration
