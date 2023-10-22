@@ -38,7 +38,7 @@ import java.util.UUID
 
     class Builder : {{>client/clientBase}}.Builder<Builder>() {
         override fun build(): {{classname}} = {{classname}}(
-            {{>client/clientConfiguration}}(key, secret, endpoint, requestTimeout {{>client/authEndpoint}})
+            {{>client/clientConfiguration}}(key, secret, endpoint, requestTimeout, maskedLoggingHeaders, maskedLoggingBodyFields {{>client/authEndpoint}})
         )
     }
 
