@@ -15,6 +15,8 @@
  */
 package com.expediagroup.sdk.core.plugin.logging
 
+import com.expediagroup.sdk.core.constant.LogMaskingFields.DEFAULT_MASKED_BODY_FIELDS
+import com.expediagroup.sdk.core.constant.LogMaskingFields.DEFAULT_MASKED_HEADER_FIELDS
 import com.expediagroup.sdk.core.model.exception.client.ExpediaGroupInvalidFieldNameException
 import com.expediagroup.sdk.core.test.ClientFactory
 import org.assertj.core.api.Assertions.assertThat
@@ -27,65 +29,53 @@ internal class LoggingMaskedFieldsProviderTest {
         assertThrows<ExpediaGroupInvalidFieldNameException>(
             "All fields names must contain only alphanumeric characters in addition to - and _ but found [invalid_field*]"
         ) {
-            ClientFactory.createExpediaGroupClient(setOf("invalid_field*"))
+            ClientFactory.createExpediaGroupClient(maskedHeaderFields = setOf("invalid_field*"))
         }
     }
 
     @Test
     fun `given list containing invalid headers names then throws exception`() {
-        val initialMaskedHeaderFields = LoggingMaskedFieldsProvider.getMaskedHeaderFields()
-
         assertThrows<ExpediaGroupInvalidFieldNameException>(
             "All fields names must contain only alphanumeric characters in addition to - and _ but found [invalid_field1*, invalid_field2*]"
         ) {
-            LoggingMaskedFieldsProvider.addHeaders(listOf("invalid_field1*", "invalid_field2#", "valid_field1*"))
+            ClientFactory.createExpediaGroupClient(maskedHeaderFields = setOf("invalid_field1*", "invalid_field2#", "valid_field1*"))
         }
-
-        assertThat(LoggingMaskedFieldsProvider.getMaskedHeaderFields()).isEqualTo(initialMaskedHeaderFields)
     }
 
     @Test
     fun `given invalid body field name then throws exception`() {
-        val initialMaskedBodyFields = LoggingMaskedFieldsProvider.getMaskedBodyFields()
-
         assertThrows<ExpediaGroupInvalidFieldNameException>(
             "All fields names must contain only alphanumeric characters in addition to - and _ but found [invalid_field^]"
         ) {
-            LoggingMaskedFieldsProvider.addBodyField("invalid_field^")
+            ClientFactory.createExpediaGroupClient(maskedBodyFields = setOf("invalid_field^"))
         }
-
-        assertThat(LoggingMaskedFieldsProvider.getMaskedBodyFields()).isEqualTo(initialMaskedBodyFields)
     }
 
     @Test
     fun `given list containing invalid body fields names then throws exception`() {
-        val initialMaskedBodyFields = LoggingMaskedFieldsProvider.getMaskedBodyFields()
-
         assertThrows<ExpediaGroupInvalidFieldNameException>(
             "All fields names must contain only alphanumeric characters in addition to - and _ but found [invalid_field1*, invalid_field2*]"
         ) {
-            LoggingMaskedFieldsProvider.addBodyFields(listOf("invalid_field1*", "invalid_field2#", "valid-field1*"))
+            ClientFactory.createExpediaGroupClient(maskedBodyFields = setOf("invalid_field1*", "invalid_field2#", "valid-field1*"))
         }
-
-        assertThat(LoggingMaskedFieldsProvider.getMaskedBodyFields()).isEqualTo(initialMaskedBodyFields)
     }
 
     @Test
     fun `given valid fields names then add to sets`() {
-        val initialMaskedHeaderFields = LoggingMaskedFieldsProvider.getMaskedHeaderFields()
-        val initialMaskedBodyFields = LoggingMaskedFieldsProvider.getMaskedBodyFields()
+        val client =
+            ClientFactory.createExpediaGroupClient(
+                maskedHeaderFields = setOf("valid_field1", "valid_field2", "valid-field3", "valid-field4"),
+                maskedBodyFields = setOf("valid_field1", "valid_field2", "valid-field3", "valid-field4")
+            )
 
-        LoggingMaskedFieldsProvider.addHeader("valid_field1")
-        LoggingMaskedFieldsProvider.addHeaders(listOf("valid_field2", "valid-field3", "valid-field4"))
-        LoggingMaskedFieldsProvider.addBodyField("valid_field1")
-        LoggingMaskedFieldsProvider.addBodyFields(listOf("valid_field2", "valid-field3", "valid-field4"))
+        val loggingMaskedFieldsProvider = client.getLoggingMaskedFieldsProvider()
 
-        assertThat(LoggingMaskedFieldsProvider.getMaskedHeaderFields()).isNotEqualTo(initialMaskedHeaderFields)
-        assertThat(LoggingMaskedFieldsProvider.getMaskedHeaderFields()).containsAll(initialMaskedHeaderFields)
-        assertThat(LoggingMaskedFieldsProvider.getMaskedHeaderFields()).containsAll(setOf("valid_field1", "valid_field2", "valid-field3", "valid-field4"))
+        assertThat(loggingMaskedFieldsProvider.getMaskedHeaderFields()).isNotEqualTo(DEFAULT_MASKED_HEADER_FIELDS)
+        assertThat(loggingMaskedFieldsProvider.getMaskedHeaderFields()).containsAll(DEFAULT_MASKED_HEADER_FIELDS)
+        assertThat(loggingMaskedFieldsProvider.getMaskedHeaderFields()).containsAll(setOf("valid_field1", "valid_field2", "valid-field3", "valid-field4"))
 
-        assertThat(LoggingMaskedFieldsProvider.getMaskedBodyFields()).isNotEqualTo(initialMaskedBodyFields)
-        assertThat(LoggingMaskedFieldsProvider.getMaskedBodyFields()).containsAll(initialMaskedBodyFields)
-        assertThat(LoggingMaskedFieldsProvider.getMaskedBodyFields()).containsAll(setOf("valid_field1", "valid_field2", "valid-field3", "valid-field4"))
+        assertThat(loggingMaskedFieldsProvider.getMaskedBodyFields()).isNotEqualTo(DEFAULT_MASKED_BODY_FIELDS)
+        assertThat(loggingMaskedFieldsProvider.getMaskedBodyFields()).containsAll(DEFAULT_MASKED_BODY_FIELDS)
+        assertThat(loggingMaskedFieldsProvider.getMaskedBodyFields()).containsAll(setOf("valid_field1", "valid_field2", "valid-field3", "valid-field4"))
     }
 }
