@@ -1,7 +1,0 @@
-//[openworld-java-sdk-fraudpreventionv2](../../../../index.md)/[com.expediagroup.openworld.sdk.fraudpreventionv2.models](../../index.md)/[CreditCardAllOf](../index.md)/[Builder](index.md)/[telephones](telephones.md)
-
-# telephones
-
-[JVM]\
-
-public final [CreditCardAllOf.Builder](index.md)[telephones](telephones.md)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[Telephone](../../-telephone/index.md)&gt;telephones)

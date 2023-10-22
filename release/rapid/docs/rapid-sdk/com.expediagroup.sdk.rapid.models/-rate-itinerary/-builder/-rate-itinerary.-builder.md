@@ -1,0 +1,7 @@
+//[rapid-sdk](../../../../index.md)/[com.expediagroup.sdk.rapid.models](../../index.md)/[RateItinerary](../index.md)/[Builder](index.md)/[RateItinerary.Builder](-rate-itinerary.-builder.md)
+
+# RateItinerary.Builder
+
+[JVM]\
+
+public [RateItinerary.Builder](index.md)[RateItinerary.Builder](-rate-itinerary.-builder.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)id, [MerchantOfRecord](../../-merchant-of-record/index.md)merchantOfRecord, [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html)refundable, [CancelRefund](../../-cancel-refund/index.md)cancelRefund, [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)&gt;amenities, [PromotionsItinerary](../../-promotions-itinerary/index.md)promotions, [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[CancelPenalty](../../-cancel-penalty/index.md)&gt;cancelPenalties, [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[NonrefundableDateRange](../../-nonrefundable-date-range/index.md)&gt;nonrefundableDateRanges, [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[DepositItinerary](../../-deposit-itinerary/index.md)&gt;deposits, [Amount](../../-amount/index.md)cardOnFileLimit, [Amount](../../-amount/index.md)refundableDamageDeposit, [PricingInformation](../../-pricing-information/index.md)pricing)

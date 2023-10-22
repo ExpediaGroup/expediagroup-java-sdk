@@ -3,13 +3,21 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <name>EG Open World SDK :: openworld-java-sdk-fraudpreventionv2</name>
-    <description>EG Open World SDK :: openworld-java-sdk-fraudpreventionv2 v2.0.0</description>
+    <parent>
+        <groupId>com.expediagroup</groupId>
+        <artifactId>sdk-parent-pom</artifactId>
+        <version>1.0.0</version>
+        <relativePath>../../../../pom.xml</relativePath>
+    </parent>
 
-    <groupId>com.expediagroup.openworld.sdk</groupId>
-    <artifactId>openworld-java-sdk-fraudpreventionv2</artifactId>
+    <packaging>jar</packaging>
+
+        <name>EG SDK :: fraudpreventionv2-sdk</name>
+        <description>EG SDK :: fraudpreventionv2-sdk v2.0.0</description>
+
+    <artifactId>fraudpreventionv2-sdk</artifactId>
     <version>${revision}</version>
-    <url>https://github.com/ExpediaGroup/openworld-sdk-java-generators/tree/main/generated</url>
+    <url>https://github.com/ExpediaGroup/expediagroup-java-sdk-generators/tree/main/generated</url>
     <inceptionYear>2022</inceptionYear>
 
     <licenses>
@@ -29,9 +37,9 @@
     </developers>
 
     <scm>
-        <connection>scm:git:git@github.com:ExpediaGroup/openworld-sdk-java-generators.git</connection>
-        <developerConnection>scm:git:git@github.com:ExpediaGroup/openworld-sdk-java-generators.git</developerConnection>
-        <url>https://github.com/ExpediaGroup/openworld-sdk-java-generators/</url>
+        <connection>scm:git:git@github.com:ExpediaGroup/expediagroup-java-sdk-generators.git</connection>
+        <developerConnection>scm:git:git@github.com:ExpediaGroup/expediagroup-java-sdk-generators.git</developerConnection>
+        <url>https://github.com/ExpediaGroup/expediagroup-java-sdk-generators/</url>
     </scm>
 
     <distributionManagement>
@@ -51,51 +59,116 @@
         <sdk-version>${project.version}</sdk-version>
         <sdk-title>${project.artifactId}</sdk-title>
         <revision>2.0.0</revision>
-
-        <java.release>1.8</java.release>
-        <kotlin.version>1.8.0</kotlin.version>
-        <dokka-plugin.version>1.8.10</dokka-plugin.version>
-
-        <shadePrefix>com.expediagroup.openworld.sdk</shadePrefix>
-
-        <build-helper-maven-plugin.version>3.3.0</build-helper-maven-plugin.version>
-        <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
-        <maven-shade-plugin.version>3.4.1</maven-shade-plugin.version>
-        <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
-        <maven-surefire-plugin.version>3.0.0-M7</maven-surefire-plugin.version>
-        <maven.gpg.plugin.version>3.0.1</maven.gpg.plugin.version>
-        <maven.licence.plugin.version>4.1</maven.licence.plugin.version>
-        <maven.nexus-staging.plugin.version>1.6.13</maven.nexus-staging.plugin.version>
-
-        <ktlint-plugin.version>1.16.0</ktlint-plugin.version>
+        <shadePrefix>com.expediagroup.sdk</shadePrefix>
     </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>com.expediagroup.openworld.sdk</groupId>
-            <artifactId>openworld-java-sdk-core</artifactId>
-            <version>2.9.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.hibernate.validator</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>7.0.5.Final</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-stdlib</artifactId>
-            <version>${kotlin.version}</version>
-        </dependency>
-    </dependencies>
 
     <build>
         <plugins>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <configuration>
+                    <flattenDependencyMode>all</flattenDependencyMode>
+                    <updatePomFile>true</updatePomFile>
+                    <omitExclusions>true</omitExclusions>
+                    <flattenMode>bom</flattenMode>
+                    <embedBuildProfileDependencies>true</embedBuildProfileDependencies>
+                    <pomElements>
+                        <dependencyManagement/>
+                        <dependencies/>
+                        <build/>
+                        <profiles/>
+                    </pomElements>
+                </configuration>
+                <version>${flatten.maven.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>${maven-jar-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-test-jar</id>
+                        <goals>
+                            <goal>test-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <skipIfEmpty>true</skipIfEmpty>
+                    <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>${exec-maven-plugin.version}</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>${maven-resources-plugin.version}</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <compilerArgs>
+                        <arg>-parameters</arg>
+                        <arg>-XDcompilePolicy=simple</arg>
+                    </compilerArgs>
+                </configuration>
+                <executions>
+                    <!-- Replacing default-compile as it is treated specially by maven -->
+                    <execution>
+                        <id>default-compile</id>
+                        <phase>none</phase>
+                    </execution>
+                    <!-- Replacing default-testCompile as it is treated specially by maven -->
+                    <execution>
+                        <id>default-testCompile</id>
+                        <phase>none</phase>
+                    </execution>
+                    <execution>
+                        <id>kotlin-java-compile</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>kotlin-java-test-compile</id>
+                        <phase>test-compile</phase>
+                        <goals>
+                            <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
                 <artifactId>properties-maven-plugin</artifactId>
-                <version>1.0.0</version>
+                <version>${properties.maven.plugin.version}</version>
                 <executions>
                     <execution>
                         <phase>generate-resources</phase>
@@ -107,38 +180,6 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.jetbrains.dokka</groupId>
-                <artifactId>dokka-maven-plugin</artifactId>
-                <version>${dokka-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>dokka</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <sourceDirectories>
-                        <dir>${project.basedir}/src/main/kotlin</dir>
-                    </sourceDirectories>
-
-                    <dokkaPlugins>
-                        <plugin>
-                            <groupId>org.jetbrains.dokka</groupId>
-                            <artifactId>kotlin-as-java-plugin</artifactId>
-                            <version>${dokka-plugin.version}</version>
-                        </plugin>
-                        <plugin>
-                            <groupId>org.jetbrains.dokka</groupId>
-                            <artifactId>gfm-plugin</artifactId>
-                            <version>${dokka-plugin.version}</version>
-                        </plugin>
-                    </dokkaPlugins>
-                </configuration>
             </plugin>
 
             <!-- Configure Kotlin -->
@@ -201,7 +242,8 @@
                         <configuration>
                             <sources>
                                 <source>
-                                ${project.basedir}/src/main/kotlin</source>
+                                ${project.basedir}/src/main/kotlin
+                                </source>
                             </sources>
                         </configuration>
                     </execution>
@@ -214,7 +256,8 @@
                         <configuration>
                             <sources>
                                 <source>
-                                ${project.basedir}/src/test/kotlin</source>
+                                ${project.basedir}/src/test/kotlin
+                                </source>
                             </sources>
                         </configuration>
                     </execution>
@@ -229,18 +272,8 @@
                 <executions>
                     <execution>
                         <id>attach-sources</id>
-                        <phase>package</phase>
-                    </execution>
-                    <execution>
-                        <id>attach-sources-override</id>
                         <goals>
                             <goal>jar-no-fork</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>attach-test-sources</id>
-                        <goals>
-                            <goal>test-jar-no-fork</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -275,6 +308,37 @@
                 </executions>
             </plugin>
 
+            <!-- Configure KDocs -->
+            <plugin>
+                <groupId>org.jetbrains.dokka</groupId>
+                <artifactId>dokka-maven-plugin</artifactId>
+                <configuration>
+                    <sourceDirectories>
+                        <dir>${project.basedir}/src/main/kotlin/com/expediagroup/sdk/fraudpreventionv2</dir>
+                    </sourceDirectories>
+                    <dokkaPlugins>
+                        <plugin>
+                            <groupId>org.jetbrains.dokka</groupId>
+                            <artifactId>kotlin-as-java-plugin</artifactId>
+                            <version>${dokka-plugin.version}</version>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.jetbrains.dokka</groupId>
+                            <artifactId>gfm-plugin</artifactId>
+                            <version>${dokka-plugin.version}</version>
+                        </plugin>
+                    </dokkaPlugins>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>dokka</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
             <!-- Configure Kotlin Linting -->
             <plugin>
                 <groupId>com.github.gantsign.maven</groupId>
@@ -287,7 +351,30 @@
                             <goal>format</goal>
                         </goals>
                     </execution>
+                    <execution>
+                        <phase>compile</phase>
+                        <id>check</id>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
+                    </execution>
                 </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -299,7 +386,6 @@
                 <checkstyle.check.skip>true</checkstyle.check.skip>
                 <checkstyle.includeTestSourceDirectory>false</checkstyle.includeTestSourceDirectory>
                 <test.coverage.check.skip>true</test.coverage.check.skip>
-                <javadoc.skip>true</javadoc.skip>
             </properties>
             <build>
                 <plugins>
@@ -366,9 +452,60 @@
                             </execution>
                         </executions>
                     </plugin>
+                    <!-- Generate Javadoc -->
+                    <plugin>
+                        <groupId>org.jetbrains.dokka</groupId>
+                        <artifactId>dokka-maven-plugin</artifactId>
+                        <configuration>
+                            <sourceDirectories>
+                                <dir>${project.basedir}/src/main/kotlin/com/expediagroup/sdk/fraudpreventionv2</dir>
+                            </sourceDirectories>
+                            <dokkaPlugins>
+                                <plugin>
+                                    <groupId>org.jetbrains.dokka</groupId>
+                                    <artifactId>kotlin-as-java-plugin</artifactId>
+                                    <version>${dokka-plugin.version}</version>
+                                </plugin>
+                            </dokkaPlugins>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>javadocJar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
                 </plugins>
             </build>
         </profile>
     </profiles>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-stdlib</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-reflect</artifactId>
+        </dependency>
+    </dependencies>
 </project>
