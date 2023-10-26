@@ -69,18 +69,18 @@
 
         <!-- Plugin Versions -->
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
-        <maven-dependency-plugin.version>3.6.0</maven-dependency-plugin.version>
+        <maven-dependency-plugin.version>3.6.1</maven-dependency-plugin.version>
         <maven-enforcer-plugin.version>3.4.1</maven-enforcer-plugin.version>
         <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
         <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
         <maven-shade-plugin.version>3.4.1</maven-shade-plugin.version>
         <maven-source-plugin.version>3.3.0</maven-source-plugin.version>
-        <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
+        <maven-surefire-plugin.version>3.2.1</maven-surefire-plugin.version>
         <build-helper-maven-plugin.version>3.4.0</build-helper-maven-plugin.version>
         <exec-maven-plugin.version>3.1.0</exec-maven-plugin.version>
         <ktlint-plugin.version>3.0.0</ktlint-plugin.version>
-        <jacoco-plugin.version>0.8.10</jacoco-plugin.version>
-        <dokka-plugin.version>1.9.0</dokka-plugin.version>
+        <jacoco-plugin.version>0.8.11</jacoco-plugin.version>
+        <dokka-plugin.version>1.9.10</dokka-plugin.version>
         <maven.gpg.plugin.version>3.1.0</maven.gpg.plugin.version>
         <maven.release.plugin.version>3.4.1</maven.release.plugin.version>
         <maven.nexus-staging.plugin.version>1.6.13</maven.nexus-staging.plugin.version>
@@ -93,12 +93,10 @@
         <kotlin.version>1.9.10</kotlin.version>
         <kotlinx.coroutines.version>1.7.3</kotlinx.coroutines.version>
         <kotlinx.serialization.version>1.6.0</kotlinx.serialization.version>
-        <ktor.version>2.3.4</ktor.version>
+        <ktor.version>2.3.5</ktor.version>
         <kotlin-logging.version>3.0.5</kotlin-logging.version>
         <kotlin-atomic.version>0.22.0</kotlin-atomic.version>
         <ktlint.version>0.50.0</ktlint.version>
-        <kotlin-atomic.version>0.21.0</kotlin-atomic.version>
-        <ktlint.version>0.47.1</ktlint.version>
         <detekt.version>1.23.1</detekt.version>
 
         <!-- Shared Library Versions -->
@@ -106,11 +104,11 @@
         <assertj.version>3.24.2</assertj.version>
         <junit5.version>5.10.0</junit5.version>
         <mockk.version>1.13.8</mockk.version>
-        <mockito.version>5.5.0</mockito.version>
+        <mockito.version>5.6.0</mockito.version>
         <slf4j.version>2.0.9</slf4j.version>
-        <log4j.version>2.20.0</log4j.version>
+        <log4j.version>2.21.1</log4j.version>
 
-        <swagger.core.version>2.2.16</swagger.core.version>
+        <swagger.core.version>2.2.17</swagger.core.version>
     </properties>
 
     <dependencyManagement>
@@ -236,7 +234,7 @@
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
-                <version>32.1.2-jre</version>
+                <version>32.1.3-jre</version>
             </dependency>
             <dependency>
                 <groupId>io.swagger.core.v3</groupId>
@@ -256,7 +254,7 @@
             <dependency>
                 <groupId>com.fasterxml.jackson</groupId>
                 <artifactId>jackson-bom</artifactId>
-                <version>2.15.2</version>
+                <version>2.15.3</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -273,7 +271,7 @@
             <dependency>
                 <groupId>com.google.errorprone</groupId>
                 <artifactId>error_prone_annotations</artifactId>
-                <version>2.22.0</version>
+                <version>2.23.0</version>
             </dependency>
             <dependency>
                 <groupId>com.squareup.okio</groupId>
@@ -293,7 +291,7 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-annotations</artifactId>
-                <version>2.15.2</version>
+                <version>2.15.3</version>
             </dependency>
             <dependency>
                 <groupId>org.hibernate.validator</groupId>
