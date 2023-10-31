@@ -18,9 +18,9 @@ package com.expediagroup.sdk.core.constant
 import io.ktor.http.HttpHeaders
 
 internal data object LogMaskingFields {
-    val DEFAULT_MASKED_HEADER_FIELDS: Set<String> = mutableSetOf(HttpHeaders.Authorization)
+    val DEFAULT_MASKED_HEADER_FIELDS: Set<String> = setOf(HttpHeaders.Authorization)
     val DEFAULT_MASKED_BODY_FIELDS: Set<String> =
-        mutableSetOf(
+        setOf(
             "cvv",
             "pin",
             "card_cvv",
