@@ -90,7 +90,7 @@
         <properties.maven.plugin.version>1.0.0</properties.maven.plugin.version>
 
         <!-- Kotlin Compatible Versions -->
-        <kotlin.version>1.9.10</kotlin.version>
+        <kotlin.version>1.9.20</kotlin.version>
         <kotlinx.coroutines.version>1.7.3</kotlinx.coroutines.version>
         <kotlinx.serialization.version>1.6.0</kotlinx.serialization.version>
         <ktor.version>2.3.5</ktor.version>
