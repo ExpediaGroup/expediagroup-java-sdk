@@ -13,14 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.constant
+package com.expediagroup.sdk.core.constant.provider
 
-internal object Authentication {
-    const val AUTHORIZATION_REQUEST_LOCK_DELAY = 20L
-
-    const val BEARER_EXPIRY_DATE_MARGIN: Long = 10 // In seconds
-
-    const val EAN = "EAN"
-
-    const val BEARER = "Bearer"
+internal object LogMaskingRegexProvider {
+    fun getMaskedFieldsRegex(maskedBodyFields: Set<String>) = "(?<=[\"']?(${maskedBodyFields.joinToString("|")})[\"']?:\\s?[\"'])(\\s*[^\"']+\\s*)(?=[\"'])".toRegex()
 }
