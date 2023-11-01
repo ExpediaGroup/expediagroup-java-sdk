@@ -23,11 +23,12 @@ import java.net.URL
 class Properties(private val data: Map<String, String>) {
     companion object {
         /** Creates a new SdkProperties with the given data. */
-        fun from(path: URL) = Properties(
-            java.util.Properties().apply {
-                load(BufferedReader(InputStreamReader(path.openStream())))
-            }.map { it.key.toString() to it.value.toString() }.toMap()
-        )
+        fun from(path: URL) =
+            Properties(
+                java.util.Properties().apply {
+                    load(BufferedReader(InputStreamReader(path.openStream())))
+                }.map { it.key.toString() to it.value.toString() }.toMap()
+            )
     }
 
     /** Returns the data for a given [key]. */
