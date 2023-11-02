@@ -15,12 +15,21 @@
  */
 package com.expediagroup.sdk.core.constant
 
-internal object Authentication {
-    const val AUTHORIZATION_REQUEST_LOCK_DELAY = 20L
+import io.ktor.http.HttpHeaders
 
-    const val BEARER_EXPIRY_DATE_MARGIN: Long = 10 // In seconds
-
-    const val EAN = "EAN"
-
-    const val BEARER = "Bearer"
+internal data object LogMaskingFields {
+    val DEFAULT_MASKED_HEADER_FIELDS: Set<String> = setOf(HttpHeaders.Authorization)
+    val DEFAULT_MASKED_BODY_FIELDS: Set<String> =
+        setOf(
+            "cvv",
+            "pin",
+            "card_cvv",
+            "card_cvv2",
+            "card_number",
+            "security_code",
+            "account_number",
+            "card_avs_response",
+            "card_cvv_response",
+            "card_cvv2_response"
+        )
 }

@@ -13,26 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.config.provider
+package com.expediagroup.sdk.core.contract
+
+internal typealias Operation = (String) -> String
 
 /**
- * Creates a new ConfigData with the given data.
+ * A contract for a specific [operation].
  *
- * @property data a Map of key-value pairs
- * @property ttl the time to live for the data
+ * @property operation The operation to perform on a string.
  */
-class ConfigurationData(private val data: Map<String, String>, private val ttl: Long? = null) {
-    /**
-     * Returns the data.
-     *
-     * @return data a Map of key-value pairs
-     */
-    fun data(): Map<String, String> = data
-
-    /**
-     * Returns the TTL (in milliseconds).
-     *
-     * @return ttl the time-to-live (in milliseconds) of the data, or null if there is no TTL
-     */
-    fun ttl(): Long? = ttl
+internal enum class Contract(val operation: Operation) {
+    TRAILING_SLASH({ if (it.endsWith("/")) it else "$it/" })
 }
+
+/**
+ * Adheres to the given [contract] on a [String].
+ *
+ * @param contract the [Contract] to adhere to.
+ * @return the [String] adhering to the given [contract].
+ */
+internal fun String.adhereTo(contract: Contract): String = contract.operation(this)

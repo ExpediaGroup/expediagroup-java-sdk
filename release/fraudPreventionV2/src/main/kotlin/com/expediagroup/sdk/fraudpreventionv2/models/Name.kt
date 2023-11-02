@@ -33,8 +33,8 @@ package com.expediagroup.sdk.fraudpreventionv2.models
  */
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.Valid
 import org.hibernate.validator.constraints.Length
+import javax.validation.Valid
 
 /**
  * Group of attributes intended to hold information about a customer or traveler's name for the order.

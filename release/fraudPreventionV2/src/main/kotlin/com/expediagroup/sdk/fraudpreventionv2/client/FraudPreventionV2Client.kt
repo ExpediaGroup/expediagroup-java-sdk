@@ -17,8 +17,8 @@
 package com.expediagroup.sdk.fraudpreventionv2.client
 
 import com.expediagroup.sdk.core.client.ExpediaGroupClient
-import com.expediagroup.sdk.core.config.provider.FileConfigurationProvider
 import com.expediagroup.sdk.core.configuration.ExpediaGroupClientConfiguration
+import com.expediagroup.sdk.core.model.Properties
 import com.expediagroup.sdk.core.model.exception.ExpediaGroupException
 import com.expediagroup.sdk.fraudpreventionv2.models.AccountScreenRequest
 import com.expediagroup.sdk.fraudpreventionv2.models.AccountScreenResponse
@@ -51,16 +51,16 @@ import kotlin.collections.Map.Entry
 *
 */
 class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGroupClientConfiguration) : ExpediaGroupClient(clientConfiguration) {
-    private val loader = FileConfigurationProvider()[javaClass.classLoader.getResource("sdk.properties")!!]
+    private val properties = Properties.from(javaClass.classLoader.getResource("sdk.properties")!!)
     private val javaVersion = System.getProperty("java.version")
     private val operatingSystemName = System.getProperty("os.name")
     private val operatingSystemVersion = System.getProperty("os.version")
-    private val userAgent = "expediagroup-sdk-java-fraudpreventionv2/${loader.data()["sdk-version"]!!} (Java $javaVersion; $operatingSystemName $operatingSystemVersion)"
+    private val userAgent = "expediagroup-sdk-java-fraudpreventionv2/${properties["sdk-version"]!!} (Java $javaVersion; $operatingSystemName $operatingSystemVersion)"
 
     class Builder : ExpediaGroupClient.Builder<Builder>() {
         override fun build(): FraudPreventionV2Client =
             FraudPreventionV2Client(
-                ExpediaGroupClientConfiguration(key, secret, endpoint, requestTimeout, authEndpoint)
+                ExpediaGroupClientConfiguration(key, secret, endpoint, requestTimeout, maskedLoggingHeaders, maskedLoggingBodyFields, authEndpoint)
             )
     }
 
@@ -69,7 +69,7 @@ class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGr
     }
 
     private fun HttpRequestBuilder.appendHeaders(transactionId: UUID) {
-        headers.append("x-sdk-title", loader.data()["sdk-title"]!!)
+        headers.append("x-sdk-title", properties["sdk-title"]!!)
         headers.append("transaction-id", transactionId.toString())
         headers.append("User-agent", userAgent)
     }
