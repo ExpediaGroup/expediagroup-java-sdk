@@ -19,4 +19,6 @@ internal object ExceptionMessage {
     const val AUTHENTICATION_FAILURE = "Unable to authenticate"
 
     const val AUTHENTICATION_NOT_CONFIGURED_FOR_CLIENT = "Authentication is not configured"
+
+    const val LOGGING_MASKED_FIELDS_NOT_CONFIGURED_FOR_CLIENT = "Logging masked fields is not configured"
 }

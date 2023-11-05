@@ -33,7 +33,7 @@ package com.expediagroup.sdk.fraudpreventionv2.models
  */
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.Valid
+import javax.validation.Valid
 
 /**
  * Indicates that the server received an invalid response from the upstream server. Causes could be incorrectly configured target server at gateway, EOF exception, incorrectly configured keep-alive timeouts. Please reach out to support team as next step for this error resolution.

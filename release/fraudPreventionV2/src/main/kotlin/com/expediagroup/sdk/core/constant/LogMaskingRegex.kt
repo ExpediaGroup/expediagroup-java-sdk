@@ -15,29 +15,8 @@
  */
 package com.expediagroup.sdk.core.constant
 
-import com.expediagroup.sdk.core.constant.Authentication.BASIC
-import com.expediagroup.sdk.core.constant.Authentication.BEARER
-import com.expediagroup.sdk.core.constant.Authentication.EAN
-import com.expediagroup.sdk.core.constant.HeaderKey.AUTHORIZATION
-
 internal object LogMaskingRegex {
-    val AUTHORIZATION_REGEX: Regex = "(?<=$AUTHORIZATION: ($EAN|$BASIC|$BEARER|)\\s)\\S+".toRegex()
-
-    private val paymentKeys =
-        arrayListOf(
-            "security_code",
-            "card_number",
-            "card_cvv_response",
-            "card_avs_response",
-            "pin",
-            "card_cvv",
-            "account_number",
-            "card_cvv2",
-            "card_cvv2_response",
-            "cvv"
-        )
-
-    val PAYMENT_REGEX = "(?<=[\"']?(${paymentKeys.joinToString("|")})[\"']?:\\s?[\"'])(\\s*[^\"']+\\s*)(?=[\"'])".toRegex()
+    val FIELD_REGEX = "^[a-zA-Z0-9-_]+$".toRegex()
 
     val NUMBER_FIELD_REGEX = "(?<=[\"']?number[\"']?:\\s?[\"'])(\\s*\\d{15,16}\\s*)(?=[\"'])".toRegex()
 }

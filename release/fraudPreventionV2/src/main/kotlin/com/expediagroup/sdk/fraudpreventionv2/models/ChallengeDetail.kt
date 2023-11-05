@@ -33,7 +33,7 @@ package com.expediagroup.sdk.fraudpreventionv2.models
  */
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.Valid
+import javax.validation.Valid
 
 /**
  * Information related to challenges initiated by the Partner's system to a user before calling Expedia's Fraud Prevention Service.

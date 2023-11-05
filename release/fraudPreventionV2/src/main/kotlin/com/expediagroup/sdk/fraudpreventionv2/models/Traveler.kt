@@ -33,9 +33,9 @@ package com.expediagroup.sdk.fraudpreventionv2.models
  */
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Pattern
-import jakarta.validation.constraints.Size
-import jakarta.validation.Valid
+import javax.validation.constraints.Pattern
+import javax.validation.constraints.Size
+import javax.validation.Valid
 import org.hibernate.validator.constraints.Length
 
 /**

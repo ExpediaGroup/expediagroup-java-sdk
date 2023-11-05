@@ -20,6 +20,8 @@ import com.expediagroup.sdk.core.constant.ConfigurationName.AUTH_ENDPOINT
 import com.expediagroup.sdk.core.constant.ConfigurationName.CONFIGURATION_COLLECTOR
 import com.expediagroup.sdk.core.constant.ConfigurationName.ENDPOINT
 import com.expediagroup.sdk.core.constant.ConfigurationName.KEY
+import com.expediagroup.sdk.core.constant.ConfigurationName.MASKED_LOGGING_BODY_FIELDS
+import com.expediagroup.sdk.core.constant.ConfigurationName.MASKED_LOGGING_HEADERS
 import com.expediagroup.sdk.core.constant.ConfigurationName.REQUEST_TIMEOUT_MILLIS
 import com.expediagroup.sdk.core.constant.ConfigurationName.SECRET
 import com.expediagroup.sdk.core.constant.provider.LoggingMessageProvider
@@ -58,6 +60,8 @@ internal class ConfigurationCollector private constructor(providers: Configurati
     override val endpoint: String? = providers.firstWith { it.endpoint }.also { it?.log(ENDPOINT) }?.retrieve()
     override val authEndpoint: String? = providers.firstWith { it.authEndpoint }.also { it?.log(AUTH_ENDPOINT) }?.retrieve()
     override val requestTimeout: Long? = providers.firstWith { it.requestTimeout }.also { it?.log(REQUEST_TIMEOUT_MILLIS) }?.retrieve()
+    override val maskedLoggingHeaders: Set<String>? = providers.firstWith { it.maskedLoggingHeaders }.also { it?.log(MASKED_LOGGING_HEADERS) }?.retrieve()
+    override val maskedLoggingBodyFields: Set<String>? = providers.firstWith { it.maskedLoggingBodyFields }.also { it?.log(MASKED_LOGGING_BODY_FIELDS) }?.retrieve()
 
     private fun <T> ProvidedConfiguration<T>.log(configurationName: String) {
         log.info(LoggingMessageProvider.getChosenProviderMessage(configurationName, providerName))

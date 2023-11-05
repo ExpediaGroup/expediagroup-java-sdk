@@ -33,7 +33,7 @@ package com.expediagroup.sdk.fraudpreventionv2.models
  */
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.Valid
+import javax.validation.Valid
 
 /**
  * Specific information about a login transaction for a user.

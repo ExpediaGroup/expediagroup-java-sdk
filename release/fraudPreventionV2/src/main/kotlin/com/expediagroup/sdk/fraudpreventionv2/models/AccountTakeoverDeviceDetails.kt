@@ -33,9 +33,9 @@ package com.expediagroup.sdk.fraudpreventionv2.models
  */
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.Valid
-import jakarta.validation.constraints.Pattern
 import org.hibernate.validator.constraints.Length
+import javax.validation.Valid
+import javax.validation.constraints.Pattern
 
 /**
  * Information specific to the Partner's device through which a transaction was made.
