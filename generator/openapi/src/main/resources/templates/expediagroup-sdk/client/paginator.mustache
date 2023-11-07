@@ -56,7 +56,7 @@ internal class FetchLinkState<T>(
         return runBlocking {
             val response = client.getFromLink(link)
             val body = getBody(response)
-            Response(body, toHeadersMap(response.headers.entries()))
+            Response(response.status.value, body, response.headers.entries())
         }
     }
 
