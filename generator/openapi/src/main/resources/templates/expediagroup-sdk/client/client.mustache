@@ -132,7 +132,7 @@ import java.util.UUID
     {{/queryParams}}{{#bodyParams}} * @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}
     {{/bodyParams}} {{#formParams}} * @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}
     {{/formParams}}{{#responses}}{{^is2xx}}* @throws ExpediaGroupApi{{{dataType}}}Exception{{/is2xx}}
-    {{/responses}}* @return a [Response] object with data of type {{{returnType}}}{{^returnType}}Nothing{{/returnType}}
+    {{/responses}}* @return a [Response] object with a body of type {{{returnType}}}{{^returnType}}Nothing{{/returnType}}
     */
     @Throws(
     {{#responses}}
