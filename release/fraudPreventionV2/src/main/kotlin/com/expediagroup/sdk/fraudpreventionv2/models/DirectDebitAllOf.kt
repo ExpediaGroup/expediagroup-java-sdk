@@ -33,22 +33,18 @@ package com.expediagroup.sdk.fraudpreventionv2.models
  */
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.constraints.Size
-import jakarta.validation.Valid
+import javax.validation.constraints.Size
+import javax.validation.Valid
 import org.hibernate.validator.constraints.Length
 
 /**
  *
- * @param routingNumber A code that identifies the financial institution for a specific bank account.
  * @param accountNumber Cleartext (unencrypted) DirectDebit bank account number associated with the payment instrument.
  * @param telephones Telephone(s) associated with direct debit payment provider.
+ * @param routingNumber A code that identifies the financial institution for a specific bank account. `routing_number` is required if given `INTER_COMPANY` or `ELV` as `brand`.
+ * @param mandateType The `mandate_type` is required if given `brand` as `SEPA_ELV` under `DirectDebit`.  It is used for the wire transfer or direct debit transaction whose `routing_number` could not be provided or not supported.   Allows values:  - `ONE_OFF`  - `RECURRING`
  */
 data class DirectDebitAllOf(
-    // A code that identifies the financial institution for a specific bank account.
-    @JsonProperty("routing_number")
-    @field:Length(max = 15)
-    @field:Valid
-    val routingNumber: kotlin.String,
     // Cleartext (unencrypted) DirectDebit bank account number associated with the payment instrument.
     @JsonProperty("account_number")
     @field:Length(max = 100)
@@ -58,7 +54,15 @@ data class DirectDebitAllOf(
     @JsonProperty("telephones")
     @field:Size(min = 1, max = 20)
     @field:Valid
-    val telephones: kotlin.collections.List<Telephone>
+    val telephones: kotlin.collections.List<Telephone>,
+    // A code that identifies the financial institution for a specific bank account. `routing_number` is required if given `INTER_COMPANY` or `ELV` as `brand`.
+    @JsonProperty("routing_number")
+    @field:Length(max = 15)
+    @field:Valid
+    val routingNumber: kotlin.String? = null,
+    // The `mandate_type` is required if given `brand` as `SEPA_ELV` under `DirectDebit`.  It is used for the wire transfer or direct debit transaction whose `routing_number` could not be provided or not supported.   Allows values:  - `ONE_OFF`  - `RECURRING`
+    @JsonProperty("mandate_type")
+    val mandateType: DirectDebitAllOf.MandateType? = null
 ) {
     companion object {
         @JvmStatic
@@ -66,30 +70,31 @@ data class DirectDebitAllOf(
     }
 
     class Builder(
-        private var routingNumber: kotlin.String? = null,
         private var accountNumber: kotlin.String? = null,
-        private var telephones: kotlin.collections.List<Telephone>? = null
+        private var telephones: kotlin.collections.List<Telephone>? = null,
+        private var routingNumber: kotlin.String? = null,
+        private var mandateType: DirectDebitAllOf.MandateType? = null
     ) {
-        fun routingNumber(routingNumber: kotlin.String) = apply { this.routingNumber = routingNumber }
-
         fun accountNumber(accountNumber: kotlin.String) = apply { this.accountNumber = accountNumber }
 
         fun telephones(telephones: kotlin.collections.List<Telephone>) = apply { this.telephones = telephones }
+
+        fun routingNumber(routingNumber: kotlin.String) = apply { this.routingNumber = routingNumber }
+
+        fun mandateType(mandateType: DirectDebitAllOf.MandateType) = apply { this.mandateType = mandateType }
 
         fun build(): DirectDebitAllOf {
             // Check required params
             validateNullity()
             return DirectDebitAllOf(
-                routingNumber = routingNumber!!,
                 accountNumber = accountNumber!!,
-                telephones = telephones!!
+                telephones = telephones!!,
+                routingNumber = routingNumber,
+                mandateType = mandateType
             )
         }
 
         private fun validateNullity() {
-            if (routingNumber == null) {
-                throw NullPointerException("Required parameter routingNumber is missing")
-            }
             if (accountNumber == null) {
                 throw NullPointerException("Required parameter accountNumber is missing")
             }
@@ -97,5 +102,17 @@ data class DirectDebitAllOf(
                 throw NullPointerException("Required parameter telephones is missing")
             }
         }
+    }
+
+    /**
+     * The `mandate_type` is required if given `brand` as `SEPA_ELV` under `DirectDebit`.  It is used for the wire transfer or direct debit transaction whose `routing_number` could not be provided or not supported.   Allows values:  - `ONE_OFF`  - `RECURRING`
+     * Values: ONE_OFF,RECURRING
+     */
+    enum class MandateType(val value: kotlin.String) {
+        @JsonProperty("ONE_OFF")
+        ONE_OFF("ONE_OFF"),
+
+        @JsonProperty("RECURRING")
+        RECURRING("RECURRING")
     }
 }

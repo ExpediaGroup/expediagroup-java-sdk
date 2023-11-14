@@ -16,17 +16,33 @@
 package com.expediagroup.sdk.core.plugin.logging
 
 import com.expediagroup.sdk.core.client.Client
+import com.expediagroup.sdk.core.constant.ExceptionMessage
+import com.expediagroup.sdk.core.constant.LoggingMessage
+import com.expediagroup.sdk.core.model.exception.service.ExpediaGroupAuthException
 import com.expediagroup.sdk.core.plugin.Plugin
 import io.ktor.client.plugins.logging.Logging
 
 internal object LoggingPlugin : Plugin<LoggingConfiguration> {
+    val clientLoggingMaskedFieldsProviders = mutableMapOf<Client, LoggingMaskedFieldsProvider>()
+
     override fun install(
         client: Client,
         configurations: LoggingConfiguration
     ) {
+        clientLoggingMaskedFieldsProviders[client] =
+            LoggingMaskedFieldsProvider(
+                configurations.maskedLoggingHeaders,
+                configurations.maskedLoggingBodyFields
+            )
         configurations.httpClientConfiguration.install(Logging) {
-            logger = configurations.logger
+            logger = configurations.getLogger(client)
             level = configurations.level
+            sanitizeHeader(LoggingMessage.OMITTED) { header ->
+                client.getLoggingMaskedFieldsProvider().getMaskedHeaderFields().contains(header)
+            }
         }
     }
 }
+
+internal fun Client.getLoggingMaskedFieldsProvider(): LoggingMaskedFieldsProvider =
+    LoggingPlugin.clientLoggingMaskedFieldsProviders[this] ?: throw ExpediaGroupAuthException(ExceptionMessage.LOGGING_MASKED_FIELDS_NOT_CONFIGURED_FOR_CLIENT)

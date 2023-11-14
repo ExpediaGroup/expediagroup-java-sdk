@@ -17,8 +17,9 @@
 package com.expediagroup.sdk.fraudpreventionv2.client
 
 import com.expediagroup.sdk.core.client.ExpediaGroupClient
-import com.expediagroup.sdk.core.config.provider.FileConfigurationProvider
 import com.expediagroup.sdk.core.configuration.ExpediaGroupClientConfiguration
+import com.expediagroup.sdk.core.model.Properties
+import com.expediagroup.sdk.core.model.Response
 import com.expediagroup.sdk.core.model.exception.ExpediaGroupException
 import com.expediagroup.sdk.fraudpreventionv2.models.AccountScreenRequest
 import com.expediagroup.sdk.fraudpreventionv2.models.AccountScreenResponse
@@ -44,23 +45,21 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.future.future
 import kotlinx.coroutines.runBlocking
 import java.util.UUID
-import java.util.stream.Collectors
-import kotlin.collections.Map.Entry
 
 /**
 *
 */
 class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGroupClientConfiguration) : ExpediaGroupClient(clientConfiguration) {
-    private val loader = FileConfigurationProvider()[javaClass.classLoader.getResource("sdk.properties")!!]
+    private val properties = Properties.from(javaClass.classLoader.getResource("sdk.properties")!!)
     private val javaVersion = System.getProperty("java.version")
     private val operatingSystemName = System.getProperty("os.name")
     private val operatingSystemVersion = System.getProperty("os.version")
-    private val userAgent = "expediagroup-sdk-java-fraudpreventionv2/${loader.data()["sdk-version"]!!} (Java $javaVersion; $operatingSystemName $operatingSystemVersion)"
+    private val userAgent = "expediagroup-sdk-java-fraudpreventionv2/${properties["sdk-version"]!!} (Java $javaVersion; $operatingSystemName $operatingSystemVersion)"
 
     class Builder : ExpediaGroupClient.Builder<Builder>() {
         override fun build(): FraudPreventionV2Client =
             FraudPreventionV2Client(
-                ExpediaGroupClientConfiguration(key, secret, endpoint, requestTimeout, authEndpoint)
+                ExpediaGroupClientConfiguration(key, secret, endpoint, requestTimeout, maskedLoggingHeaders, maskedLoggingBodyFields, authEndpoint)
             )
     }
 
@@ -69,7 +68,7 @@ class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGr
     }
 
     private fun HttpRequestBuilder.appendHeaders(transactionId: UUID) {
-        headers.append("x-sdk-title", loader.data()["sdk-title"]!!)
+        headers.append("x-sdk-title", properties["sdk-title"]!!)
         headers.append("transaction-id", transactionId.toString())
         headers.append("User-agent", userAgent)
     }
@@ -102,7 +101,7 @@ class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGr
                 setBody(accountUpdateRequest)
             }
         throwIfError(response, "notifyWithAccountUpdate")
-        return Response(response.body<AccountUpdateResponse>(), toHeadersMap(response.headers.entries()))
+        return Response(response.status.value, response.body<AccountUpdateResponse>(), response.headers.entries())
     }
 
     /**
@@ -140,7 +139,35 @@ class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGr
         return notifyWithAccountUpdateWithResponse(accountUpdateRequest, transactionId).body
     }
 
-    private fun notifyWithAccountUpdateWithResponse(
+    /**
+     * Send an update as a result of an account screen transaction
+     * The Account Update API is called when there is an account lifecycle transition such as a challenge outcome, account restoration, or remediation action completion. For example, if a user&#39;s account is disabled, deleted, or restored, the Account Update API is called to notify Expedia Group about the change. The Account Update API is also called when a user responds to a login Multi-Factor Authentication based on a Fraud recommendation.
+     * @param accountUpdateRequest An AccountUpdate request may be of one of the following types &#x60;MULTI_FACTOR_AUTHENTICATION_UPDATE&#x60;, &#x60;REMEDIATION_UPDATE&#x60;.
+
+     * @throws ExpediaGroupApiAccountTakeoverBadRequestErrorException
+     * @throws ExpediaGroupApiAccountTakeoverUnauthorizedErrorException
+     * @throws ExpediaGroupApiForbiddenErrorException
+     * @throws ExpediaGroupApiAccountUpdateNotFoundErrorException
+     * @throws ExpediaGroupApiTooManyRequestsErrorException
+     * @throws ExpediaGroupApiInternalServerErrorException
+     * @throws ExpediaGroupApiBadGatewayErrorException
+     * @throws ExpediaGroupApiServiceUnavailableErrorException
+     * @throws ExpediaGroupApiGatewayTimeoutErrorException
+     * @return a [Response] object with a body of type AccountUpdateResponse
+     */
+    @Throws(
+        ExpediaGroupApiAccountTakeoverBadRequestErrorException::class,
+        ExpediaGroupApiAccountTakeoverUnauthorizedErrorException::class,
+        ExpediaGroupApiForbiddenErrorException::class,
+        ExpediaGroupApiAccountUpdateNotFoundErrorException::class,
+        ExpediaGroupApiTooManyRequestsErrorException::class,
+        ExpediaGroupApiInternalServerErrorException::class,
+        ExpediaGroupApiBadGatewayErrorException::class,
+        ExpediaGroupApiServiceUnavailableErrorException::class,
+        ExpediaGroupApiGatewayTimeoutErrorException::class
+    )
+    @JvmOverloads
+    fun notifyWithAccountUpdateWithResponse(
         accountUpdateRequest: AccountUpdateRequest,
         transactionId: UUID = UUID.randomUUID()
     ): Response<AccountUpdateResponse> {
@@ -179,7 +206,7 @@ class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGr
                 setBody(orderPurchaseUpdateRequest)
             }
         throwIfError(response, "notifyWithOrderUpdate")
-        return Response(response.body<OrderPurchaseUpdateResponse>(), toHeadersMap(response.headers.entries()))
+        return Response(response.status.value, response.body<OrderPurchaseUpdateResponse>(), response.headers.entries())
     }
 
     /**
@@ -217,7 +244,35 @@ class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGr
         return notifyWithOrderUpdateWithResponse(orderPurchaseUpdateRequest, transactionId).body
     }
 
-    private fun notifyWithOrderUpdateWithResponse(
+    /**
+     * Send an update for a transaction
+     * The Order Purchase Update API is called when the status of the order has changed.  For example, if the customer cancels the reservation, changes reservation in any way, or adds additional products or travelers to the reservation, the Order Purchase Update API is called to notify Expedia Group about the change.  The Order Purchase Update API is also called when the merchant cancels or changes an order based on a Fraud recommendation.
+     * @param orderPurchaseUpdateRequest An OrderPurchaseUpdate request may be of one of the following types &#x60;ORDER_UPDATE&#x60;, &#x60;CHARGEBACK_FEEDBACK&#x60;, &#x60;INSULT_FEEDBACK&#x60;, &#x60;REFUND_UPDATE&#x60;, &#x60;PAYMENT_UPDATE&#x60;.
+
+     * @throws ExpediaGroupApiBadRequestErrorException
+     * @throws ExpediaGroupApiUnauthorizedErrorException
+     * @throws ExpediaGroupApiForbiddenErrorException
+     * @throws ExpediaGroupApiOrderPurchaseUpdateNotFoundErrorException
+     * @throws ExpediaGroupApiTooManyRequestsErrorException
+     * @throws ExpediaGroupApiInternalServerErrorException
+     * @throws ExpediaGroupApiBadGatewayErrorException
+     * @throws ExpediaGroupApiRetryableOrderPurchaseUpdateFailureException
+     * @throws ExpediaGroupApiGatewayTimeoutErrorException
+     * @return a [Response] object with a body of type OrderPurchaseUpdateResponse
+     */
+    @Throws(
+        ExpediaGroupApiBadRequestErrorException::class,
+        ExpediaGroupApiUnauthorizedErrorException::class,
+        ExpediaGroupApiForbiddenErrorException::class,
+        ExpediaGroupApiOrderPurchaseUpdateNotFoundErrorException::class,
+        ExpediaGroupApiTooManyRequestsErrorException::class,
+        ExpediaGroupApiInternalServerErrorException::class,
+        ExpediaGroupApiBadGatewayErrorException::class,
+        ExpediaGroupApiRetryableOrderPurchaseUpdateFailureException::class,
+        ExpediaGroupApiGatewayTimeoutErrorException::class
+    )
+    @JvmOverloads
+    fun notifyWithOrderUpdateWithResponse(
         orderPurchaseUpdateRequest: OrderPurchaseUpdateRequest,
         transactionId: UUID = UUID.randomUUID()
     ): Response<OrderPurchaseUpdateResponse> {
@@ -256,7 +311,7 @@ class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGr
                 setBody(accountScreenRequest)
             }
         throwIfError(response, "screenAccount")
-        return Response(response.body<AccountScreenResponse>(), toHeadersMap(response.headers.entries()))
+        return Response(response.status.value, response.body<AccountScreenResponse>(), response.headers.entries())
     }
 
     /**
@@ -294,7 +349,35 @@ class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGr
         return screenAccountWithResponse(accountScreenRequest, transactionId).body
     }
 
-    private fun screenAccountWithResponse(
+    /**
+     * Run fraud screening for one transaction
+     * The Account Screen API gives a Fraud recommendation for an account transaction. A recommendation can be ACCEPT, CHALLENGE, or REJECT. A transaction is marked as CHALLENGE whenever there are insufficient signals to recommend ACCEPT or REJECT. These CHALLENGE incidents are manually reviewed, and a corrected recommendation is made asynchronously.
+     * @param accountScreenRequest
+
+     * @throws ExpediaGroupApiAccountTakeoverBadRequestErrorException
+     * @throws ExpediaGroupApiAccountTakeoverUnauthorizedErrorException
+     * @throws ExpediaGroupApiForbiddenErrorException
+     * @throws ExpediaGroupApiNotFoundErrorException
+     * @throws ExpediaGroupApiTooManyRequestsErrorException
+     * @throws ExpediaGroupApiInternalServerErrorException
+     * @throws ExpediaGroupApiBadGatewayErrorException
+     * @throws ExpediaGroupApiServiceUnavailableErrorException
+     * @throws ExpediaGroupApiGatewayTimeoutErrorException
+     * @return a [Response] object with a body of type AccountScreenResponse
+     */
+    @Throws(
+        ExpediaGroupApiAccountTakeoverBadRequestErrorException::class,
+        ExpediaGroupApiAccountTakeoverUnauthorizedErrorException::class,
+        ExpediaGroupApiForbiddenErrorException::class,
+        ExpediaGroupApiNotFoundErrorException::class,
+        ExpediaGroupApiTooManyRequestsErrorException::class,
+        ExpediaGroupApiInternalServerErrorException::class,
+        ExpediaGroupApiBadGatewayErrorException::class,
+        ExpediaGroupApiServiceUnavailableErrorException::class,
+        ExpediaGroupApiGatewayTimeoutErrorException::class
+    )
+    @JvmOverloads
+    fun screenAccountWithResponse(
         accountScreenRequest: AccountScreenRequest,
         transactionId: UUID = UUID.randomUUID()
     ): Response<AccountScreenResponse> {
@@ -333,7 +416,7 @@ class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGr
                 setBody(orderPurchaseScreenRequest)
             }
         throwIfError(response, "screenOrder")
-        return Response(response.body<OrderPurchaseScreenResponse>(), toHeadersMap(response.headers.entries()))
+        return Response(response.status.value, response.body<OrderPurchaseScreenResponse>(), response.headers.entries())
     }
 
     /**
@@ -371,7 +454,35 @@ class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGr
         return screenOrderWithResponse(orderPurchaseScreenRequest, transactionId).body
     }
 
-    private fun screenOrderWithResponse(
+    /**
+     * Run fraud screening for one transaction
+     * The Order Purchase API gives a Fraud recommendation for a transaction. A recommendation can be Accept, Reject, or Review. A transaction is marked as Review whenever there are insufficient signals to recommend Accept or Reject. These incidents are manually reviewed, and a corrected recommendation is made asynchronously.
+     * @param orderPurchaseScreenRequest
+
+     * @throws ExpediaGroupApiBadRequestErrorException
+     * @throws ExpediaGroupApiUnauthorizedErrorException
+     * @throws ExpediaGroupApiForbiddenErrorException
+     * @throws ExpediaGroupApiNotFoundErrorException
+     * @throws ExpediaGroupApiTooManyRequestsErrorException
+     * @throws ExpediaGroupApiInternalServerErrorException
+     * @throws ExpediaGroupApiBadGatewayErrorException
+     * @throws ExpediaGroupApiRetryableOrderPurchaseScreenFailureException
+     * @throws ExpediaGroupApiGatewayTimeoutErrorException
+     * @return a [Response] object with a body of type OrderPurchaseScreenResponse
+     */
+    @Throws(
+        ExpediaGroupApiBadRequestErrorException::class,
+        ExpediaGroupApiUnauthorizedErrorException::class,
+        ExpediaGroupApiForbiddenErrorException::class,
+        ExpediaGroupApiNotFoundErrorException::class,
+        ExpediaGroupApiTooManyRequestsErrorException::class,
+        ExpediaGroupApiInternalServerErrorException::class,
+        ExpediaGroupApiBadGatewayErrorException::class,
+        ExpediaGroupApiRetryableOrderPurchaseScreenFailureException::class,
+        ExpediaGroupApiGatewayTimeoutErrorException::class
+    )
+    @JvmOverloads
+    fun screenOrderWithResponse(
         orderPurchaseScreenRequest: OrderPurchaseScreenRequest,
         transactionId: UUID = UUID.randomUUID()
     ): Response<OrderPurchaseScreenResponse> {
@@ -455,7 +566,7 @@ internal class FetchLinkState<T>(
         return runBlocking {
             val response = client.getFromLink(link)
             val body = getBody(response)
-            Response(body, toHeadersMap(response.headers.entries()))
+            Response(response.status.value, body, response.headers.entries())
         }
     }
 
@@ -490,15 +601,4 @@ internal interface ResponseState<T> {
     fun getNextResponse(): Response<T>
 
     fun hasNext(): Boolean
-}
-
-data class Response<T>(val body: T, val headers: Map<String, List<String>>)
-
-internal fun toHeadersMap(entries: Set<Entry<String, List<String>>>): Map<String, List<String>> {
-    return entries.stream().collect(
-        Collectors.toMap(
-            Entry<String, List<String>>::key,
-            Entry<String, List<String>>::value
-        )
-    )
 }
