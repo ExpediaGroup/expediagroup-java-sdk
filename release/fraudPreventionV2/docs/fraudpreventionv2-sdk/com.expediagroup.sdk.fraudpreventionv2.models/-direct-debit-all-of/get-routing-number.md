@@ -12,4 +12,4 @@ JVM
 
 | | |
 |---|---|
-| routingNumber | A code that identifies the financial institution for a specific bank account. |
+| routingNumber | A code that identifies the financial institution for a specific bank account. `routing_number` is required if given `INTER_COMPANY` or `ELV` as `brand`. |

@@ -24,7 +24,6 @@ import com.expediagroup.sdk.core.constant.provider.LoggingMessageProvider
 import com.expediagroup.sdk.core.contract.Contract
 import com.expediagroup.sdk.core.contract.adhereTo
 import com.expediagroup.sdk.core.model.exception.client.ExpediaGroupConfigurationException
-import com.expediagroup.sdk.core.model.exception.service.ExpediaGroupAuthException
 import com.expediagroup.sdk.core.plugin.Hooks
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationConfiguration
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationHookFactory
@@ -76,6 +75,8 @@ abstract class Client {
             val endpoint: String = configurationProvider.endpoint ?: fireMissingConfigurationIssue(ConfigurationName.ENDPOINT)
             val authEndpoint: String = configurationProvider.authEndpoint ?: fireMissingConfigurationIssue(ConfigurationName.AUTH_ENDPOINT)
             val requestTimeout: Long = configurationProvider.requestTimeout ?: fireMissingConfigurationIssue(ConfigurationName.REQUEST_TIMEOUT_MILLIS)
+            val maskedLoggingHeaders: Set<String> = configurationProvider.maskedLoggingHeaders ?: setOf()
+            val maskedLoggingBodyFields: Set<String> = configurationProvider.maskedLoggingBodyFields ?: setOf()
 
             val authenticationConfiguration =
                 AuthenticationConfiguration.from(
@@ -86,7 +87,7 @@ abstract class Client {
                 )
 
             plugins {
-                use(LoggingPlugin).with(LoggingConfiguration.from(httpClientConfig))
+                use(LoggingPlugin).with(LoggingConfiguration.from(httpClientConfig, maskedLoggingHeaders, maskedLoggingBodyFields))
                 use(SerializationPlugin).with(SerializationConfiguration.from(httpClientConfig))
                 use(AuthenticationPlugin).with(authenticationConfiguration)
                 use(DefaultRequestPlugin).with(DefaultRequestConfiguration.from(httpClientConfig, endpoint))
@@ -101,9 +102,6 @@ abstract class Client {
 
     /** Throw an exception if the configuration is missing. */
     private fun fireMissingConfigurationIssue(configurationKey: String): Nothing = throw ExpediaGroupConfigurationException(getMissingRequiredConfigurationMessage(configurationKey))
-
-    /** Throw an exception if the authentication fails. */
-    fun fireAuthIssue(message: String): Nothing = throw ExpediaGroupAuthException(message)
 
     private fun isNotSuccessfulResponse(response: HttpResponse) = response.status.value !in Constant.SUCCESSFUL_STATUS_CODES_RANGE
 
@@ -126,12 +124,17 @@ abstract class Client {
      * @property key The API key to use for authentication.
      * @property secret The API secret to use for authentication.
      * @property endpoint The API endpoint to use for requests.
+     * @property requestTimeout The request timeout to be used.
+     * @property maskedLoggingHeaders The headers to be masked in logging.
+     * @property maskedLoggingBodyFields The body fields to be masked in logging.
      */
     abstract class Builder<SELF : Builder<SELF>> {
         protected var key: String? = null
         protected var secret: String? = null
         protected var endpoint: String? = null
         protected var requestTimeout: Long? = null
+        protected var maskedLoggingHeaders: Set<String>? = null
+        protected var maskedLoggingBodyFields: Set<String>? = null
 
         /** Sets the API key to use for authentication.
          *
@@ -171,6 +174,28 @@ abstract class Client {
          */
         fun requestTimeout(milliseconds: Long): SELF {
             this.requestTimeout = milliseconds
+            return self()
+        }
+
+        /**
+         * Sets tne headers to be masked in logging.
+         *
+         * @param headers the headers to be masked in logging.
+         * @return The [Builder] instance.
+         */
+        fun maskedLoggingHeaders(vararg headers: String): SELF {
+            this.maskedLoggingHeaders = headers.toSet()
+            return self()
+        }
+
+        /**
+         * Sets tne body fields to be masked in logging.
+         *
+         * @param fields the body fields to be masked in logging.
+         * @return The [Builder] instance.
+         */
+        fun maskedLoggingBodyFields(vararg fields: String): SELF {
+            this.maskedLoggingBodyFields = fields.toSet()
             return self()
         }
 

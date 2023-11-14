@@ -50,6 +50,18 @@ internal object ClientFactory {
     fun createExpediaGroupClient(mockEngine: MockEngine): ExpediaGroupClient = createExpediaGroupClient(mockEngine, expediaGroupConfiguration)
 
     fun createExpediaGroupClient(
+        maskedHeaderFields: Set<String> = setOf(),
+        maskedBodyFields: Set<String> = setOf()
+    ): ExpediaGroupClient =
+        createExpediaGroupClient(
+            MockEngineFactory.createDefaultEngine(),
+            expediaGroupConfiguration.copy(
+                maskedLoggingHeaders = maskedHeaderFields,
+                maskedLoggingBodyFields = maskedBodyFields
+            )
+        )
+
+    fun createExpediaGroupClient(
         mockEngine: HttpClientEngine,
         configuration: ExpediaGroupClientConfiguration
     ): ExpediaGroupClient =

@@ -15,16 +15,8 @@
  */
 package com.expediagroup.sdk.core.plugin.logging
 
-import com.expediagroup.sdk.core.constant.Authentication.BASIC
-import com.expediagroup.sdk.core.constant.Authentication.BEARER
-import com.expediagroup.sdk.core.constant.Authentication.EAN
-import com.expediagroup.sdk.core.constant.HeaderKey.AUTHORIZATION
+import com.expediagroup.sdk.core.constant.LogMaskingFields.DEFAULT_MASKED_BODY_FIELDS
 import com.expediagroup.sdk.core.constant.LoggingMessage.OMITTED
-import com.expediagroup.sdk.core.plugin.logging.MaskProvider.AuthMask
-import com.expediagroup.sdk.core.plugin.logging.MaskProvider.PaymentMask
-import com.expediagroup.sdk.core.plugin.logging.MaskProvider.PaymentNumberMask
-import io.mockk.mockkObject
-import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -32,31 +24,6 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 
 internal class LogMaskerTest {
-    @ParameterizedTest
-    @ValueSource(strings = [BASIC, BEARER, EAN])
-    fun `given text apply all masks available`(authType: String) {
-        val text = "$AUTHORIZATION: $authType token \"number\":\"4111111111111111\",'security_code':'123',\"something else\""
-        mockkObject(AuthMask)
-
-        val maskedText = mask(text)
-
-        assertThat(maskedText).isEqualTo("$AUTHORIZATION: $authType $OMITTED \"number\":\"$OMITTED\",'security_code':'$OMITTED',\"something else\"")
-        verify(exactly = 1) { AuthMask.mask(text) }
-    }
-
-    @Nested
-    inner class AuthMaskTest {
-        @ParameterizedTest
-        @ValueSource(strings = [BASIC, BEARER, EAN])
-        fun `given text with auth then omit token`(authType: String) {
-            val text = "$AUTHORIZATION: $authType token"
-
-            val maskedText = AuthMask.mask(text)
-
-            assertThat(maskedText).isEqualTo("$AUTHORIZATION: $authType $OMITTED")
-        }
-    }
-
     @Nested
     inner class PaymentMaskTest {
         @ParameterizedTest
@@ -75,11 +42,11 @@ internal class LogMaskerTest {
             ]
         )
         fun `given a text with payment info then omit it`(key: String) {
-            assertThat(PaymentMask.mask("$key:\"123456\" something else")).isEqualTo("$key:\"$OMITTED\" something else")
-            assertThat(PaymentMask.mask("\"$key\":\"123456\" something else")).isEqualTo("\"$key\":\"$OMITTED\" something else")
-            assertThat(PaymentMask.mask("$key: \"123456\" something else")).isEqualTo("$key: \"$OMITTED\" something else")
-            assertThat(PaymentMask.mask("$key:'123456' something else")).isEqualTo("$key:'$OMITTED' something else")
-            assertThat(PaymentMask.mask("$key: '123456' something else")).isEqualTo("$key: '$OMITTED' something else")
+            assertThat(mask("$key:\"123456\" something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("$key:\"$OMITTED\" something else")
+            assertThat(mask("\"$key\":\"123456\" something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("\"$key\":\"$OMITTED\" something else")
+            assertThat(mask("$key: \"123456\" something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("$key: \"$OMITTED\" something else")
+            assertThat(mask("$key:'123456' something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("$key:'$OMITTED' something else")
+            assertThat(mask("$key: '123456' something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("$key: '$OMITTED' something else")
         }
     }
 
@@ -94,19 +61,19 @@ internal class LogMaskerTest {
             ]
         )
         fun `given a text with number of 15 or 16 digits then omit it`(number: String) {
-            assertThat(PaymentNumberMask.mask("number:\"$number\" something else")).isEqualTo("number:\"$OMITTED\" something else")
-            assertThat(PaymentNumberMask.mask("number: \"$number\" something else")).isEqualTo("number: \"$OMITTED\" something else")
-            assertThat(PaymentNumberMask.mask("number:'$number' something else")).isEqualTo("number:'$OMITTED' something else")
-            assertThat(PaymentNumberMask.mask("number: '$number' something else")).isEqualTo("number: '$OMITTED' something else")
+            assertThat(mask("number:\"$number\" something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("number:\"$OMITTED\" something else")
+            assertThat(mask("number: \"$number\" something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("number: \"$OMITTED\" something else")
+            assertThat(mask("number:'$number' something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("number:'$OMITTED' something else")
+            assertThat(mask("number: '$number' something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("number: '$OMITTED' something else")
         }
 
         @Test
         fun `given a text with number of 14 digits then do not omit it`() {
             val number = "01234567890123"
-            assertThat(PaymentNumberMask.mask("number:\"$number\" something else")).isEqualTo("number:\"$number\" something else")
-            assertThat(PaymentNumberMask.mask("number: \"$number\" something else")).isEqualTo("number: \"$number\" something else")
-            assertThat(PaymentNumberMask.mask("number:'$number' something else")).isEqualTo("number:'$number' something else")
-            assertThat(PaymentNumberMask.mask("number: '$number' something else")).isEqualTo("number: '$number' something else")
+            assertThat(mask("number:\"$number\" something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("number:\"$number\" something else")
+            assertThat(mask("number: \"$number\" something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("number: \"$number\" something else")
+            assertThat(mask("number:'$number' something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("number:'$number' something else")
+            assertThat(mask("number: '$number' something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("number: '$number' something else")
         }
     }
 }

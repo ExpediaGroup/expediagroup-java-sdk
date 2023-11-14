@@ -26,6 +26,10 @@ internal object ConfigurationName {
 
     const val REQUEST_TIMEOUT_MILLIS = "request timeout in milliseconds"
 
+    const val MASKED_LOGGING_HEADERS = "masked logging headers"
+
+    const val MASKED_LOGGING_BODY_FIELDS = "masked logging body fields"
+
     const val RUNTIME_CONFIGURATION_PROVIDER = "runtime configuration"
 
     const val CONFIGURATION_COLLECTOR = "configuration collector"
