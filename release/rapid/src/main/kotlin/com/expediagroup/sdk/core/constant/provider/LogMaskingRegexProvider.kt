@@ -13,20 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.config.provider
+package com.expediagroup.sdk.core.constant.provider
 
-/**
- * A callback passed to [ConfigurationProvider] for subscribing to changes.
- */
-fun interface ConfigurationChangeCallback {
-    /**
-     * Performs an action when configuration data changes.
-     *
-     * @param path the path at which the data resides
-     * @param data the configuration data
-     */
-    fun onChange(
-        path: String,
-        data: ConfigurationData
-    )
+internal object LogMaskingRegexProvider {
+    fun getMaskedFieldsRegex(maskedBodyFields: Set<String>) = "(?<=[\"']?(${maskedBodyFields.joinToString("|")})[\"']?:\\s?[\"'])(\\s*[^\"']+\\s*)(?=[\"'])".toRegex()
 }

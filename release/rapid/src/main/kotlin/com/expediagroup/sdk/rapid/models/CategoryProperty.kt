@@ -33,7 +33,7 @@ package com.expediagroup.sdk.rapid.models
  */
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.Valid
+import javax.validation.Valid
 
 /**
  * The property's category. See our [property categories reference](https://developers.expediagroup.com/docs/rapid/lodging/content/content-reference-lists) for current known category ID and name values.

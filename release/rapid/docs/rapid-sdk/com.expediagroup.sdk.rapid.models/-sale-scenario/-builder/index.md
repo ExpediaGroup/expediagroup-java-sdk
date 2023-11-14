@@ -9,7 +9,7 @@ public final class [Builder](index.md)
 
 | | |
 |---|---|
-| [SaleScenario.Builder](-sale-scenario.-builder.md) | [JVM]<br>public [SaleScenario.Builder](index.md)[SaleScenario.Builder](-sale-scenario.-builder.md)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html)package, [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html)member, [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html)corporate, [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html)distribution) |
+| [SaleScenario.Builder](-sale-scenario.-builder.md) | [JVM]<br>public [SaleScenario.Builder](index.md)[SaleScenario.Builder](-sale-scenario.-builder.md)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html)package, [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html)member, [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html)corporate, [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html)distribution, [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html)mobilePromotion) |
 
 ## Functions
 
@@ -19,4 +19,5 @@ public final class [Builder](index.md)
 | [corporate](corporate.md) | [JVM]<br>public final [SaleScenario.Builder](index.md)[corporate](corporate.md)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html)corporate) |
 | [distribution](distribution.md) | [JVM]<br>public final [SaleScenario.Builder](index.md)[distribution](distribution.md)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html)distribution) |
 | [member](member.md) | [JVM]<br>public final [SaleScenario.Builder](index.md)[member](member.md)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html)member) |
+| [mobilePromotion](mobile-promotion.md) | [JVM]<br>public final [SaleScenario.Builder](index.md)[mobilePromotion](mobile-promotion.md)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html)mobilePromotion) |
 | [package](package.md) | [JVM]<br>public final [SaleScenario.Builder](index.md)[package](package.md)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html)package) |

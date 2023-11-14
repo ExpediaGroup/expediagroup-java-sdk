@@ -34,55 +34,153 @@ paths:
           in: header
           description: >
             Insert your own unique value for each user session, beginning with
-            the first API call.
+            the first API call. Continue to pass the
 
-            Continue to pass the same value for each subsequent API call during the user's session, using a new value for every new customer session.<br>
+            same value for each subsequent API call during the user's session, using a new value for every new customer
 
-            Including this value greatly eases EPS's internal debugging process for issues with partner requests, as it explicitly links together request paths for individual user's session.
+            session.<br>
+
+            Including this value greatly eases EPS's internal debugging process for issues with partner requests, as it
+
+            explicitly links together request paths for individual user's session.
           schema:
             type: string
         - name: language
           in: query
           description: >
             Desired language for the response as a subset of BCP47 format that
-            only uses hyphenated pairs of two-digit language and country codes.
-            Use only ISO 639-1 alpha-2 language codes and ISO 3166-1 alpha-2
-            country codes. See
-            [https://www.w3.org/International/articles/language-tags/](https://www.w3.org/International/articles/language-tags/)
+            only uses hyphenated pairs of two-digit
 
+            language and country codes. Use only ISO 639-1 alpha-2 language codes and ISO 3166-1 alpha-2 country codes.
+
+            See [https://www.w3.org/International/articles/language-tags/](https://www.w3.org/International/articles/language-tags/)
+
+            <br>
 
             Language Options: [https://developers.expediagroup.com/docs/rapid/resources/reference/language-options](https://developers.expediagroup.com/docs/rapid/resources/reference/language-options)
           required: true
           schema:
             type: string
-          example: language=en-US
-        - name: brand_id
+          examples:
+            English:
+              value: en-US
+            Cantonese:
+              value: zh-HK
+        - name: supply_source
           in: query
           description: >
-            The ID of the brand you want to search for. This parameter can be
-            supplied multiple times with different values, which will include
-            properties that match any of the requested brand IDs.
-          style: form
-          explode: true
+            Options for which supply source you would like returned in the
+            content response. This parameter may only be
+
+            supplied once and will return all properties that match the requested supply source. An error is thrown if
+
+            the parameter is provided multiple times.
+              * `expedia` - Standard Expedia supply.
+              * `vrbo` - VRBO supply - This option is restricted to partners who have VRBO supply enabled for their
+            profile. See [Vacation Rentals](https://developers.expediagroup.com/docs/rapid/lodging/vacation-rentals) for
+
+            more information.
+          required: true
+          schema:
+            type: string
+          examples:
+            Standard:
+              value: expedia
+            VRBO:
+              value: vrbo
+        - name: all_inclusive
+          in: query
+          description: >
+            Search to include properties that have the requested `all_inclusive`
+            values equal to true. If this parameter
+
+            is not supplied, all `all_inclusive` scenarios are included. This parameter can be supplied multiple times
+
+            with different values, which will include properties that match any of the requested scenarios.
+              * `all_rate_plans` - Return properties where `all_inclusive.all_rate_plans` is true.
+              * `some_rate_plans` = Return properties where `all_inclusive.some_rate_plans` is true.
           schema:
             type: array
             items:
               type: string
-          example: brand_id=123&brand_id=456
+          examples:
+            Optional:
+              ? value
+            All:
+              value: all_rate_plans
+        - name: amenity_id
+          in: query
+          description: >
+            The ID of the amenity you want to search for. This parameter can be
+            supplied multiple times with different
+
+            values, which will include properties that match any of the requested amenity IDs. This is currently only
+
+            capable of searching for property level amenities. Room and rate level amenities cannot be searched on.
+          schema:
+            type: array
+            items:
+              type: string
+          examples:
+            Optional:
+              ? value
+            Elevator:
+              value: 8
+            Multiple:
+              value:
+                - 115
+                - 43
+        - name: attribute_id
+          in: query
+          description: >
+            The ID of the attribute you want to search for. This parameter can
+            be supplied multiple times with different
+
+            values, which will include properties that match any of the requested attribute IDs.
+          schema:
+            type: array
+            items:
+              type: string
+          examples:
+            Optional:
+              ? value
+            Pets:
+              value: 51
+            Multiple:
+              value:
+                - 5058
+                - 5059
+        - name: brand_id
+          in: query
+          description: >
+            The ID of the brand you want to search for. This parameter can be
+            supplied multiple times with different
+
+            values, which will include properties that match any of the requested brand IDs.
+          schema:
+            type: array
+            items:
+              type: string
+          examples:
+            Optional:
+              ? value
+            Hyatt:
+              value: 11210
+            Multiple:
+              value:
+                - 1
+                - 11210
         - name: business_model
           in: query
           description: >
             Search for properties with the requested business model enabled.
-            This parameter can be supplied multiple times with different values,
-            which will return all properties that match any of the requested
-            business models. The value must be lower case.
+            This parameter can be supplied multiple
 
+            times with different values, which will return all properties that match any of the requested business
 
-            Possible values:
-              * expedia_collect - Return only properties where the payment is collected by Expedia.
-              * property_collect - Return only properties where the payment is collected at the property.
-          style: form
-          explode: true
+            models. The value must be lower case.
+              * `expedia_collect` - Return only properties where the payment is collected by Expedia.
+              * `property_collect` - Return only properties where the payment is collected at the property.
           schema:
             type: array
             items:
@@ -90,52 +188,101 @@ paths:
               enum:
                 - expedia_collect
                 - property_collect
-          example: business_model=expedia_collect&business_model=property_collect
+          examples:
+            Optional:
+              ? value
+            Single:
+              value: expedia_collect
+        - name: category_id
+          in: query
+          description: >
+            Search to include properties that have the requested
+
+            [category ID](https://developers.expediagroup.com/docs/rapid/lodging/content/content-reference-lists). If
+
+            this parameter is not supplied, all category IDs are included. This parameter can be supplied multiple times
+
+            with different values, which will include properties that match any of the requested category IDs.
+          schema:
+            type: array
+            items:
+              type: string
+          examples:
+            Optional:
+              ? value
+            Single:
+              value: 1
+            Multiple:
+              value:
+                - 1
+                - 2
         - name: category_id_exclude
           in: query
           description: >
             Search to exclude properties that do not have the requested
-            [category
-            ID](https://developers.expediagroup.com/docs/rapid/lodging/content/content-reference-lists).
-            If this parameter is not supplied, all category IDs are included.
-            This parameter can be supplied multiple times with different values,
-            which will exclude properties that match any of the requested
-            category IDs.
-          style: form
-          explode: true
+
+            [category ID](https://developers.expediagroup.com/docs/rapid/lodging/content/content-reference-lists). If
+
+            this parameter is not supplied, all category IDs are included. This parameter can be supplied multiple times
+
+            with different values, which will exclude properties that match any of the requested category IDs.
           schema:
             type: array
             items:
               type: string
-          example: category_id_exclude=3&category_id_exclude=1
+          examples:
+            Optional:
+              ? value
+            Single:
+              value: 1
+            Multiple:
+              value:
+                - 1
+                - 2
         - name: chain_id
           in: query
           description: >
             The ID of the chain you want to search for. These chain IDs can be
-            positive and negative numbers. This parameter can be supplied
-            multiple times with different values, which will include properties
-            that match any of the requested chain IDs.
-          style: form
-          explode: true
+            positive and negative numbers. This
+
+            parameter can be supplied multiple times with different values, which will include properties that match any
+
+            of the requested chain IDs.
           schema:
             type: array
             items:
               type: string
-          example: chain_id=-6&chain_id=1
+          examples:
+            Optional:
+              ? value
+            Single:
+              value: -6
+            Multiple:
+              value:
+                - 1
+                - 2
         - name: country_code
           in: query
           description: >
             Search for properties with the requested country code, in ISO 3166-1
-            alpha-2 format. This parameter can be supplied multiple times with
-            different values, which will include properties that match any of
-            the requested country codes.
-          style: form
-          explode: true
+            alpha-2 format. This parameter can be
+
+            supplied multiple times with different values, which will include properties that match any of the requested
+
+            country codes.
           schema:
             type: array
             items:
               type: string
-          example: country_code=US&country_code=JP
+          examples:
+            Optional:
+              ? value
+            Single:
+              value: US
+            Multiple:
+              value:
+                - US
+                - CA
         - name: date_added_end
           in: query
           description: >
@@ -143,7 +290,11 @@ paths:
             ISO 8601 format (YYYY-MM-DD)
           schema:
             type: string
-          example: date_added_end=2018-12-31
+          examples:
+            Optional:
+              ? value
+            Recent:
+              value: 2023-09-21
         - name: date_added_start
           in: query
           description: >
@@ -151,7 +302,11 @@ paths:
             ISO 8601 format (YYYY-MM-DD)
           schema:
             type: string
-          example: date_added_start=2018-09-15
+          examples:
+            Optional:
+              ? value
+            Recent:
+              value: 2023-09-20
         - name: date_updated_end
           in: query
           description: >
@@ -159,7 +314,11 @@ paths:
             in ISO 8601 format (YYYY-MM-DD)
           schema:
             type: string
-          example: date_updated_end=2018-12-31
+          examples:
+            Optional:
+              ? value
+            Recent:
+              value: 2023-09-21
         - name: date_updated_start
           in: query
           description: >
@@ -167,114 +326,166 @@ paths:
             ISO 8601 format (YYYY-MM-DD)
           schema:
             type: string
-          example: date_updated_start=2018-09-15
+          examples:
+            Optional:
+              ? value
+            Recent:
+              value: 2023-09-20
         - name: include
           in: query
           description: >
-            Option for limiting what fields to return in the response. The value
-            must be lower case. This parameter can be supplied multiple times
-            with different values, which will return a combination of all fields
-            asked for.
+            Each time this parameter is specified will add to the list of fields
+            and associated objects returned in the
 
+            response. All values and field names are lower case. The values `property_ids` and `catalog` will continue
+
+            to behave as specified below for backwards compatibility. All other top level field names will add the
+
+            specified field to the list of fields returned in the response. See the response schema for a full list of
+
+            top level field names. Additionally, the field `property_id` will always be returned regardless of what
+
+            include values are passed.<br><br>
 
             Possible values:
-             * property_ids - Return only the property id of the property object.
-             * catalog - Return only the property catalog property-level fields.
-             * address - Returns only the address fields.
-          style: form
-          explode: true
+             * `property_ids` - ***DEPRECATED*** - Please use `property_id` which matches the response field name.
+             * `catalog` - Include all property catalog fields. See
+                [Property Catalog File endpoint](https://developers.expediagroup.com/docs/rapid/resources/rapid-api#get-/files/properties/catalog)
+            for a list of fields.
+             * `property_id` - Passing in the value `property_id` and no other values will limit the response to only
+                 `property_id`. Not necessary to include in combination with other field name values, as it will always
+                 be returned.
+             * All field names found at the top level of the property content response are now valid values for
+                inclusion.
           schema:
             type: array
             items:
               type: string
-              enum:
-                - property_ids
-                - catalog
+          examples:
+            IncludeAll:
+              ? value
+            Single:
+              value: images
+            Multiple:
+              value:
+                - images
                 - address
-          example: include=property_ids&include=address
         - name: multi_unit
           in: query
           description: >
             Search for multi-unit properties. If this parameter is not supplied,
-            both single-unit and multi-unit properties will be included.
+            both single-unit and multi-unit
 
-
-            Possible values:
-              * true - Include only properties that are multi-unit.
-              * false - Do not include properties that are multi-unit.
+            properties will be included.
+              * `true` - Include only properties that are multi-unit.
+              * `false` - Do not include properties that are multi-unit.
           schema:
             type: boolean
+          examples:
+            Optional:
+              ? value
+            Single:
+              value: false
         - name: property_id
           in: query
           description: >
             The ID of the property you want to search for. You can provide 1 to
             250 property_id parameters.
-          style: form
-          explode: true
           schema:
             type: array
             items:
               type: string
-          example: property_id=19248&property_id=20321
+          examples:
+            Single:
+              value: 1337
+            Multiple:
+              value:
+                - 1337
+                - 1
         - name: property_rating_max
           in: query
           description: >
             Search for properties with a property rating less than or equal to
-            the requested rating. The highest property rating value is 5.0.
+            the requested rating. The highest
+
+            property rating value is 5.0.
           schema:
             type: string
-          example: property_rating_max=5.0
+          examples:
+            Optional:
+              ? value
+            Single:
+              value: 5
         - name: property_rating_min
           in: query
           description: >
             Search for properties with a property rating greater than or equal
-            to the requested rating. The lowest property rating value is 0.0.
+            to the requested rating. The lowest
+
+            property rating value is 0.0.
           schema:
             type: string
-          example: property_rating_min=2.5
-        - name: supply_source
+          examples:
+            Optional:
+              ? value
+            Single:
+              value: 3.5
+        - name: spoken_language_id
           in: query
           description: >
-            Options for which supply source you would like returned in the
-            content response. This parameter may only be supplied once and will
-            return all properties that match the requested supply source. An
-            error is thrown if the parameter is provided multiple times.
-              * `expedia` - Standard Expedia supply.
-              * `vrbo` - VRBO supply - This option is restricted to partners who have VRBO supply enabled for their profile. See [Vacation Rentals](https://developers.expediagroup.com/docs/rapid/lodging/vacation-rentals) for more information.
-          required: true
+            The id of the spoken language you want to search for. This parameter
+            can be supplied multiple times with
+
+            different values, which will include properties that match any of the requested spoken languages. The
+
+            language code as a subset of BCP47 format.
           schema:
-            type: string
-          example: vrbo
+            type: array
+            items:
+              type: string
+          examples:
+            Optional:
+              ? value
+            Single:
+              value: en
+            Multiple:
+              value:
+                - zh-yue
+                - vi
         - name: billing_terms
           in: query
           description: >
             This parameter is to specify the terms of how a resulting booking
-            should be billed. If this field is needed, the value for this will
-            be provided to you separately.
+            should be billed. If this field is needed,
+
+            the value for this will be provided to you separately.
           schema:
             type: string
         - name: partner_point_of_sale
           in: query
           description: >
             This parameter is to specify what point of sale is being used to
-            shop and book. If this field is needed, the value for this will be
-            provided to you separately.
+            shop and book. If this field is needed, the
+
+            value for this will be provided to you separately.
           schema:
             type: string
         - name: payment_terms
           in: query
           description: >
             This parameter is to specify what terms should be used when being
-            paid for a resulting booking. If this field is needed, the value for
-            this will be provided to you separately.
+            paid for a resulting booking. If this
+
+            field is needed, the value for this will be provided to you separately.
           schema:
             type: string
         - name: platform_name
           in: query
           description: >
             This parameter is to specify what platform is being used to shop and
-            book. If this field is needed, the value for this will be provided
-            to you separately.
+            book. If this field is needed, the
+
+            value for this will be provided to you separately.
           schema:
             type: string
       responses:
@@ -1315,9 +1526,12 @@ paths:
                         id: "2209"
                         name: Hyatt Place
                       spoken_languages:
-                        vi:
-                          id: vi
-                          name: Vietnamese
+                        en:
+                          id: en
+                          name: English
+                        zh-yue:
+                          id: zh-yue
+                          name: Chinese (Cantonese)
                       multi_unit: true
                       payment_registration_recommended: false
                       supply_source: expedia
@@ -1651,12 +1865,48 @@ paths:
                       multi_unit: true
                       payment_registration_recommended: true
                       supply_source: expedia
-                Multiple Properties With include=property_ids Example:
+                "Multiple Properties With include name, and ratings":
                   value:
                     "12345":
                       property_id: "12345"
+                      name: Test property 1
+                      ratings:
+                        property:
+                          rating: "3.5"
+                          type: Star
+                        guest:
+                          count: 48382
+                          overall: "3.1"
+                          cleanliness: "4.2"
+                          service: "1.1"
+                          comfort: "4.3"
+                          condition: "1.6"
+                          location: "4.0"
+                          neighborhood: "3.4"
+                          quality: "3.4"
+                          value: "2.2"
+                          amenities: "1.4"
+                          recommendation_percent: 73%
                     "67890":
                       property_id: "67890"
+                      name: Test property 2
+                      ratings:
+                        property:
+                          rating: "4.0"
+                          type: Star
+                        guest:
+                          count: 3451
+                          overall: "4.1"
+                          cleanliness: "4.9"
+                          service: "3.1"
+                          comfort: "4.8"
+                          condition: "3.6"
+                          location: "4.7"
+                          neighborhood: "4.4"
+                          quality: "3.9"
+                          value: "3.2"
+                          amenities: "4.4"
+                          recommendation_percent: 90%
                 No Properties Example:
                   value: {}
         "400":
@@ -5034,7 +5284,7 @@ paths:
           required: true
           schema:
             type: string
-          example: 2024-01-11
+          example: 2024-02-10
         - name: checkout
           in: query
           description: >
@@ -5044,7 +5294,7 @@ paths:
           required: true
           schema:
             type: string
-          example: 2024-01-13
+          example: 2024-02-12
         - name: currency
           in: query
           description: >
@@ -5236,12 +5486,15 @@ paths:
             provided by default.<br>
 
             * `unavailable_reason` - When a property is unavailable for an actionable reason, return a response with that reason - See [Unavailable Reason Codes](https://developers.expediagroup.com/docs/rapid/resources/reference/unavailable-reason-codes) for possible values.
+
+            * `sale_scenario.mobile_promotion` - Enable the `mobile_promotion` flag under the `room.rate.sale_scenario` section of the response.
           schema:
             type: array
             items:
               type: string
               enum:
                 - unavailable_reason
+                - sale_scenario.mobile_promotion
           example: unavailable_reason
         - name: rate_option
           in: query
@@ -5380,6 +5633,7 @@ paths:
                                 member: false
                                 corporate: false
                                 distribution: false
+                                mobile_promotion: false
                               merchant_of_record: expedia
                               amenities:
                                 "1234":
@@ -5642,6 +5896,7 @@ paths:
                                 member: false
                                 corporate: false
                                 distribution: false
+                                mobile_promotion: false
                               merchant_of_record: expedia
                               amenities:
                                 "1234":
@@ -6184,7 +6439,7 @@ paths:
             If specified must also specify `checkout`.
           schema:
             type: string
-          example: 2024-01-11
+          example: 2024-02-10
         - name: checkout
           in: query
           description: >
@@ -6198,7 +6453,7 @@ paths:
             If specified must also specify `checkin`.<br>
           schema:
             type: string
-          example: 2024-01-13
+          example: 2024-02-12
         - name: exclusion
           in: query
           description: >
@@ -6244,6 +6499,20 @@ paths:
           example:
             - refundable
             - expedia_collect
+        - name: include
+          in: query
+          description: >
+            Modify the response by including types of responses that are not
+            provided by default.<br>
+
+            * `sale_scenario.mobile_promotion` - Enable the `mobile_promotion` flag under the `sale_scenario` section of the response.
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - sale_scenario.mobile_promotion
+          example: sale_scenario.mobile_promotion
         - name: occupancy
           in: query
           description: >
@@ -6401,6 +6670,7 @@ paths:
                                 member: false
                                 corporate: false
                                 distribution: false
+                                mobile_promotion: false
                               merchant_of_record: expedia
                               amenities:
                                 "1234":
@@ -14049,9 +14319,7 @@ components:
       properties:
         id:
           type: string
-          description: The language code as a subset of BCP47 format, using the shortest
-            ISO 639-1 alpha-2 language code and, optionally, ISO 3166-1 alpha-2
-            country code.
+          description: The language code as a subset of BCP47 format.
         name:
           type: string
           description: Spoken language name.
@@ -14709,6 +14977,13 @@ components:
             rates are procured exclusively for EPS distribution and may contain
             benefits such as larger marketing fee, less restrictive cancellation
             policies, additional value adds, or unique availability.
+        mobile_promotion:
+          type: boolean
+          description: >
+            If true, this rate has an associated mobile promotion which can be
+            advertised as a special mobile only deal.
+
+            This will only be present when `include=sale_scenario.mobile_promotion` is passed as a request parameter.
       description: Provides the special scenarios that need to be taken into account
         when using this rate.
     RateLinks:

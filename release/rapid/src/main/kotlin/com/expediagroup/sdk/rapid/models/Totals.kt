@@ -33,7 +33,7 @@ package com.expediagroup.sdk.rapid.models
  */
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.Valid
+import javax.validation.Valid
 
 /**
  * The total price of charges, given various critera. * `inclusive` - provides the total price including taxes and fees. This does not include hotel collected fees such as resort, mandatory taxes, and mandatory fees. * `exclusive` - provides the total price excluding taxes and fees. * `inclusive_strikethrough` - provides the tax `inclusive` total price with any hotel funded discounts added back. Can be used to merchandise the savings due to a discount. * `strikethrough` - provides the tax `exclusive` total price with any hotel funded discounts added back. Can be used to merchandise the savings due to a discount. * `marketing_fee` - provides the potential owed earnings per transaction. * `gross_profit` - provides the estimated gross profit per transaction. * `minimum_selling_price` - provides the minimum selling price. * `property_fees` - provides the total of the fees collected by the property.
