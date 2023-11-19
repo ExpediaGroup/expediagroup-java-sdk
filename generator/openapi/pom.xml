@@ -4,8 +4,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.expediagroup.sdk</groupId>
-    <artifactId>travel-sdk-generators-openapi</artifactId>
-    <version>1.1.0</version>
+    <artifactId>expediagroup-sdk-generators-openapi</artifactId>
+    <version>1.2.0</version>
     <name>EG SDK Tooling :: Generators :: OpenAPI</name>
     <description>SDK Generator for building SDKs based on OpenAPI specs</description>
     <url>https://github.com/ExpediaGroup/expediagroup-java-sdk-generators/tree/main/openapi</url>
@@ -189,7 +189,7 @@
                                 <goal>compile</goal>
                             </goals>
                             <configuration>
-                                <sourceDirs>
+                                <sourceDirs>x
                                     <sourceDir>${project.basedir}/src/main/kotlin</sourceDir>
                                 </sourceDirs>
                                 <jvmTarget>${java.release}</jvmTarget>
