@@ -67,4 +67,11 @@ class RapidHelpersTest {
         val token = RapidHelpers(rapidClient).extractToken(url)
         assert(token == null)
     }
+
+    @Test
+    fun `Verify extractToken returns null when token is not provided but multiple other parameters are`() {
+        val url = "https://www.example.com?foo=bar&baz=qux"
+        val token = RapidHelpers(rapidClient).extractToken(url)
+        assert(token == null)
+    }
 }

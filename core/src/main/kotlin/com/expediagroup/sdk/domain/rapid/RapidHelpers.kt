@@ -25,7 +25,8 @@ class RapidHelpers(client: BaseRapidClient) : ClientHelpers(client) {
 
         if (strings.size != 2) return null
 
-        val token = strings[1].split("&").find { it.startsWith("token=") }
-        return token?.split("=")?.get(1)
+        val token = strings[1].split("&").find { it.startsWith("token=") } ?: return null
+
+        return token.split("=")[1]
     }
 }
