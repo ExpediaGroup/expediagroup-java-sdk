@@ -57,9 +57,10 @@ abstract class Client {
         private val log = ExpediaGroupLoggerFactory.getLogger(this::class.java)
     }
 
-    /**
-     * The HTTP client to perform requests with.
-     */
+    /** The configuration provider to use. */
+    abstract val configurationProvider: ConfigurationProvider
+
+    /** The HTTP client to perform requests with. */
     abstract val httpClient: HttpClient
 
     internal fun buildHttpClient(
