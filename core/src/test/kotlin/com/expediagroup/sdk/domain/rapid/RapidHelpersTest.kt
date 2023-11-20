@@ -18,11 +18,14 @@ package com.expediagroup.sdk.domain.rapid
 import com.expediagroup.sdk.core.client.BaseRapidClient
 import com.expediagroup.sdk.core.configuration.RapidClientConfiguration
 import io.ktor.client.statement.HttpResponse
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 class RapidHelpersTest {
     companion object {
-        val rapidClient =
+        private val rapidClient =
             object : BaseRapidClient(RapidClientConfiguration()) {
                 override suspend fun throwServiceException(
                     response: HttpResponse,
@@ -31,54 +34,82 @@ class RapidHelpersTest {
                     throw UnsupportedOperationException()
                 }
             }
+
+        val rapidHelpers = RapidHelpers(rapidClient)
     }
 
-    @Test
-    fun `Verify extractToken returns token when present`() {
-        val url = "https://www.example.com?token=12345"
-        val token = RapidHelpers(rapidClient).extractToken(url)
-        assert(token == "12345")
-    }
+    @Nested
+    inner class TestExtractToken {
+        @Test
+        fun `Verify extractToken returns token when present`() {
+            assertEquals("12345", rapidHelpers.extractToken("https://www.example.com?token=12345"))
+        }
 
-    @Test
-    fun `Verify extractToken returns null when no token is present`() {
-        val url = "https://www.example.com"
-        val token = RapidHelpers(rapidClient).extractToken(url)
-        assert(token == null)
-    }
+        @Test
+        fun `Verify extractToken returns null when no token is present`() {
+            assertNull(rapidHelpers.extractToken("https://www.example.com"))
+        }
 
-    @Test
-    fun `Verify extractToken returns an empty string when token is empty`() {
-        val url = "https://www.example.com?token="
-        val token = RapidHelpers(rapidClient).extractToken(url)
-        assert(token == "")
-    }
+        @Test
+        fun `Verify extractToken returns an empty string when token is empty`() {
+            assertEquals("", rapidHelpers.extractToken("https://www.example.com?token="))
+        }
 
-    @Test
-    fun `Verify extractToken returns token when it is not the first parameter`() {
-        val url = "https://www.example.com?foo=bar&token=12345"
-        val token = RapidHelpers(rapidClient).extractToken(url)
-        assert(token == "12345")
-    }
+        @Test
+        fun `Verify extractToken returns token when it is not the first parameter`() {
+            assertEquals("12345", rapidHelpers.extractToken("https://www.example.com?foo=bar&token=12345"))
+        }
 
-    @Test
-    fun `Verify extractToken returns null when token is not provided but other parameters are`() {
-        val url = "https://www.example.com?foo=bar"
-        val token = RapidHelpers(rapidClient).extractToken(url)
-        assert(token == null)
-    }
+        @Test
+        fun `Verify extractToken returns null when token is not provided but other parameters are`() {
+            assertNull(rapidHelpers.extractToken("https://www.example.com?foo=bar"))
+        }
 
-    @Test
-    fun `Verify extractToken returns null when token is not provided but multiple other parameters are`() {
-        val url = "https://www.example.com?foo=bar&baz=qux"
-        val token = RapidHelpers(rapidClient).extractToken(url)
-        assert(token == null)
-    }
+        @Test
+        fun `Verify extractToken returns null when token is not provided but multiple other parameters are`() {
+            assertNull(rapidHelpers.extractToken("https://www.example.com?foo=bar&baz=qux"))
+        }
 
-    @Test
-    fun `Verify extractToken returns it when token is not the last parameter`() {
-        val url = "https://www.example.com?token=12345&foo=bar"
-        val token = RapidHelpers(rapidClient).extractToken(url)
-        assert(token == "12345")
+        @Test
+        fun `Verify extractToken returns it when token is not the last parameter`() {
+            assertEquals("12345", rapidHelpers.extractToken("https://www.example.com?token=12345&foo=bar"))
+        }
+
+        @Test
+        fun `extractToken should handle multiple parameters and return the correct token`() {
+            assertEquals("xyz456", rapidHelpers.extractToken("https://example.com/page?param1=value1&token=xyz456&param2=value2"))
+        }
+
+        @Test
+        fun `extractToken should handle URL-encoded characters in the token`() {
+            assertEquals("abc%20456", rapidHelpers.extractToken("https://example.com/page?token=abc%20456&param=value"))
+        }
+
+        @Test
+        fun `extractToken should handle different token parameter names`() {
+            assertEquals("abcd1234", rapidHelpers.extractToken("https://example.com/page?access_token=abcd1234"))
+            assertEquals("efgh5678", rapidHelpers.extractToken("https://example.com/page?api_token=efgh5678"))
+        }
+
+        @Test
+        fun `extractToken should handle multiple tokens`() {
+            assertEquals("abcd1234", rapidHelpers.extractToken("https://example.com/page?token=abcd1234&token=efgh5678"))
+            assertEquals("efgh5678", rapidHelpers.extractToken("https://example.com/page?api_token=efgh5678&access_token=abcd1234"))
+        }
+
+        @Test
+        fun `extractToken should get only the query param token`() {
+            assertNull(rapidHelpers.extractToken("https://example.com/tokenPage?query=tokenValue"))
+        }
+
+        @Test
+        fun `extractToken should return an empty string when token is empty and other parameters are present`() {
+            assertEquals("", rapidHelpers.extractToken("https://www.example.com?foo=bar&token="))
+        }
+
+        @Test
+        fun `extractToken should return an empty string when token is empty in the middle of other parameters`() {
+            assertEquals("", rapidHelpers.extractToken("https://www.example.com?foo=bar&token=&baz=qux"))
+        }
     }
 }

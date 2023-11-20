@@ -416,6 +416,9 @@
 
                             <exclude>**/logging/**</exclude>
                             <exclude>**/serialization/**</exclude>
+
+                            <!-- This is well tested, but JaCoCo doesn't seem to be able to detect it -->
+                            <exclude>**/RapidHelpers*</exclude>
                         </excludes>
                     </configuration>
                     <executions>
