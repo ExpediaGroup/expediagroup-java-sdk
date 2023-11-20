@@ -20,13 +20,5 @@ import com.expediagroup.sdk.core.client.ClientHelpers
 
 class RapidHelpers(client: BaseRapidClient) : ClientHelpers(client) {
     /** Extracts the token parameter from a URL string if it exists; otherwise, returns null. */
-    fun extractToken(url: String): String? {
-        val strings = url.split("?")
-
-        if (strings.size != 2) return null
-
-        val token = strings[1].split("&").find { it.startsWith("token=") } ?: return null
-
-        return token.split("=")[1]
-    }
+    fun extractToken(url: String): String? = Regex("token=([^&]*)").find(url)?.groupValues?.get(1)
 }

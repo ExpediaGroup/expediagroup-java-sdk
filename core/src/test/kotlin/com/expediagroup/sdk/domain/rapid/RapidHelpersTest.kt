@@ -74,4 +74,11 @@ class RapidHelpersTest {
         val token = RapidHelpers(rapidClient).extractToken(url)
         assert(token == null)
     }
+
+    @Test
+    fun `Verify extractToken returns it when token is not the last parameter`() {
+        val url = "https://www.example.com?token=12345&foo=bar"
+        val token = RapidHelpers(rapidClient).extractToken(url)
+        assert(token == "12345")
+    }
 }
