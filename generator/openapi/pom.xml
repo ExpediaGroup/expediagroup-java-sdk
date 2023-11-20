@@ -189,7 +189,7 @@
                                 <goal>compile</goal>
                             </goals>
                             <configuration>
-                                <sourceDirs>x
+                                <sourceDirs>
                                     <sourceDir>${project.basedir}/src/main/kotlin</sourceDir>
                                 </sourceDirs>
                                 <jvmTarget>${java.release}</jvmTarget>
