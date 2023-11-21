@@ -9,7 +9,7 @@ public final class [Builder](index.md)
 
 | | |
 |---|---|
-| [Points.Builder](-points.-builder.md) | [JVM]<br>public [Points.Builder](index.md)[Points.Builder](-points.-builder.md)([Payment.Brand](../../-payment/-brand/index.md)brand, [Name](../../-name/index.md)billingName, [PaymentBillingAddress](../../-payment-billing-address/index.md)billingAddress, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)billingEmailAddress, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)accountId, [PaymentReason](../../-payment-reason/index.md)reason, [Amount](../../-amount/index.md)authorizedAmount, [Amount](../../-amount/index.md)verifiedAmount, [PaymentThreeDSCriteria](../../-payment-three-d-s-criteria/index.md)threeDigitsSecureCriteria, [Operations](../../-operations/index.md)operations) |
+| [Points.Builder](-points.-builder.md) | [JVM]<br>public [Points.Builder](index.md)[Points.Builder](-points.-builder.md)([Payment.Brand](../../-payment/-brand/index.md)brand, [Name](../../-name/index.md)billingName, [PaymentBillingAddress](../../-payment-billing-address/index.md)billingAddress, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)billingEmailAddress, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)accountId, [PaymentReason](../../-payment-reason/index.md)reason, [Amount](../../-amount/index.md)authorizedAmount, [Amount](../../-amount/index.md)verifiedAmount, [PaymentThreeDSCriteria](../../-payment-three-d-s-criteria/index.md)threeDigitsSecureCriteria, [Operations](../../-operations/index.md)operations, [Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html), [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)&gt;extensions) |
 
 ## Functions
 
@@ -22,6 +22,7 @@ public final class [Builder](index.md)
 | [billingName](billing-name.md) | [JVM]<br>public final [Points.Builder](index.md)[billingName](billing-name.md)([Name](../../-name/index.md)billingName) |
 | [brand](brand.md) | [JVM]<br>public final [Points.Builder](index.md)[brand](brand.md)([Payment.Brand](../../-payment/-brand/index.md)brand) |
 | [build](build.md) | [JVM]<br>public final [Points](../index.md)[build](build.md)() |
+| [extensions](extensions.md) | [JVM]<br>public final [Points.Builder](index.md)[extensions](extensions.md)([Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html), [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)&gt;extensions) |
 | [operations](operations.md) | [JVM]<br>public final [Points.Builder](index.md)[operations](operations.md)([Operations](../../-operations/index.md)operations) |
 | [reason](reason.md) | [JVM]<br>public final [Points.Builder](index.md)[reason](reason.md)([PaymentReason](../../-payment-reason/index.md)reason) |
 | [threeDigitsSecureCriteria](three-digits-secure-criteria.md) | [JVM]<br>public final [Points.Builder](index.md)[threeDigitsSecureCriteria](three-digits-secure-criteria.md)([PaymentThreeDSCriteria](../../-payment-three-d-s-criteria/index.md)threeDigitsSecureCriteria) |

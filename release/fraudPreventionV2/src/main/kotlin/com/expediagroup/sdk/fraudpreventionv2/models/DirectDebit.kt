@@ -84,6 +84,10 @@ data class DirectDebit(
     @JsonProperty("operations")
     @field:Valid
     override val operations: Operations? = null,
+    // A key-value pair map to hold additional attributes.
+    @JsonProperty("extensions")
+    @field:Valid
+    override val extensions: kotlin.collections.Map<kotlin.String, kotlin.String>? = null,
     // A code that identifies the financial institution for a specific bank account. `routing_number` is required if given `INTER_COMPANY` or `ELV` as `brand`.
     @JsonProperty("routing_number")
     @field:Length(max = 15)
@@ -113,6 +117,7 @@ data class DirectDebit(
         private var verifiedAmount: Amount? = null,
         private var threeDigitsSecureCriteria: PaymentThreeDSCriteria? = null,
         private var operations: Operations? = null,
+        private var extensions: kotlin.collections.Map<kotlin.String, kotlin.String>? = null,
         private var routingNumber: kotlin.String? = null,
         private var mandateType: DirectDebit.MandateType? = null
     ) {
@@ -138,6 +143,8 @@ data class DirectDebit(
 
         fun operations(operations: Operations) = apply { this.operations = operations }
 
+        fun extensions(extensions: kotlin.collections.Map<kotlin.String, kotlin.String>) = apply { this.extensions = extensions }
+
         fun routingNumber(routingNumber: kotlin.String) = apply { this.routingNumber = routingNumber }
 
         fun mandateType(mandateType: DirectDebit.MandateType) = apply { this.mandateType = mandateType }
@@ -157,6 +164,7 @@ data class DirectDebit(
                 verifiedAmount = verifiedAmount,
                 threeDigitsSecureCriteria = threeDigitsSecureCriteria,
                 operations = operations,
+                extensions = extensions,
                 routingNumber = routingNumber,
                 mandateType = mandateType
             )

@@ -22,6 +22,7 @@ JVM
 | verifiedAmount |
 | threeDigitsSecureCriteria |
 | operations |
+| extensions | A key-value pair map to hold additional attributes. |
 
 #### Inheritors
 
@@ -49,6 +50,7 @@ JVM
 | [getBillingEmailAddress](get-billing-email-address.md) | [JVM]<br>public abstract [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[getBillingEmailAddress](get-billing-email-address.md)() |
 | [getBillingName](get-billing-name.md) | [JVM]<br>public abstract [Name](../-name/index.md)[getBillingName](get-billing-name.md)() |
 | [getBrand](get-brand.md) | [JVM]<br>public abstract [Payment.Brand](-brand/index.md)[getBrand](get-brand.md)() |
+| [getExtensions](get-extensions.md) | [JVM]<br>public abstract [Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html), [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)&gt;[getExtensions](get-extensions.md)() |
 | [getMethod](get-method.md) | [JVM]<br>public abstract [PaymentMethod](../-payment-method/index.md)[getMethod](get-method.md)() |
 | [getOperations](get-operations.md) | [JVM]<br>public abstract [Operations](../-operations/index.md)[getOperations](get-operations.md)() |
 | [getReason](get-reason.md) | [JVM]<br>public abstract [PaymentReason](../-payment-reason/index.md)[getReason](get-reason.md)() |
