@@ -54,7 +54,7 @@ internal class FetchLinkState<T>(
 ) : ResponseState<T> {
     override fun getNextResponse(): Response<T> {
         return runBlocking {
-            val response = client.getFromLink(link)
+            val response = client.performGet(link)
             val body = getBody(response)
             Response(response.status.value, body, response.headers.entries())
         }
