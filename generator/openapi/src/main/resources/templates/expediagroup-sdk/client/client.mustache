@@ -14,13 +14,8 @@ import {{import}}
 * {{{description}}}
 */
 {{#operations}}
- class {{classname}} private constructor(clientConfiguration: {{>partials/clientConfiguration}}) : {{>partials/clientBase}}(clientConfiguration){
+ class {{classname}} private constructor(clientConfiguration: {{>partials/clientConfiguration}}) : {{>partials/clientBase}}("{{namespace}}", clientConfiguration){
     {{>partials/helpers}}
-    private val properties = Properties.from(javaClass.classLoader.getResource("sdk.properties")!!)
-    private val javaVersion = System.getProperty("java.version")
-    private val operatingSystemName = System.getProperty("os.name")
-    private val operatingSystemVersion = System.getProperty("os.version")
-    private val userAgent = "expediagroup-sdk-{{#isKotlin}}kotlin{{/isKotlin}}{{^isKotlin}}java{{/isKotlin}}-{{namespace}}/${properties["sdk-version"]!!} (Java $javaVersion; $operatingSystemName $operatingSystemVersion)"
 
     class Builder : {{>partials/clientBase}}.Builder<Builder>() {
         override fun build(): {{classname}} = {{classname}}(
@@ -30,12 +25,6 @@ import {{import}}
 
     companion object {
         @JvmStatic fun builder() = Builder()
-    }
-
-    private fun HttpRequestBuilder.appendHeaders(transactionId: UUID) {
-        headers.append("x-sdk-title", properties["sdk-title"]!!)
-        headers.append("transaction-id", transactionId.toString())
-        headers.append("User-agent", userAgent)
     }
 
     override suspend fun throwServiceException(response: HttpResponse, operationId: String) {
@@ -131,24 +120,11 @@ import {{import}}
                 k{{operationId}}WithResponse({{>client/apiParamsPassed}})
             }.get()
         } catch (exception: Exception) {
-            if (exception is ExpediaGroupException) throw exception
-
-            when (val cause = exception.cause) {
-                is ExpediaGroupException -> throw cause
-                else -> throw ExpediaGroupException("ExpediaGroup Error", exception)
-            }
+            exception.handle()
         }
     }
     {{/isKotlin}}
 {{/operation}}
-
-    internal suspend fun getFromLink(link: String): HttpResponse {
-        return httpClient.request {
-            method = HttpMethod.parse("GET")
-            url(link)
-            appendHeaders(UUID.randomUUID())
-        }
-    }
 
     {{>client/paginatorMethods}}
 }

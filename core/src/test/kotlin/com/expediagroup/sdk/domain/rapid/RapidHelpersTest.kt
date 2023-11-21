@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test
 class RapidHelpersTest {
     companion object {
         private val rapidClient =
-            object : BaseRapidClient(RapidClientConfiguration()) {
+            object : BaseRapidClient("dummy", RapidClientConfiguration()) {
                 override suspend fun throwServiceException(
                     response: HttpResponse,
                     operationId: String

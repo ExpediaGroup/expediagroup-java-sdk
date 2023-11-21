@@ -30,9 +30,10 @@ import io.ktor.client.engine.HttpClientEngine
  * @param clientConfiguration The configuration for the client.
  */
 abstract class ExpediaGroupClient(
+    namespace: String,
     clientConfiguration: ExpediaGroupClientConfiguration,
     httpClientEngine: HttpClientEngine = DEFAULT_HTTP_CLIENT_ENGINE
-) : Client() {
+) : Client(namespace) {
     private val _configurationProvider: ConfigurationProvider =
         ConfigurationCollector.create(
             clientConfiguration.toProvider(),
