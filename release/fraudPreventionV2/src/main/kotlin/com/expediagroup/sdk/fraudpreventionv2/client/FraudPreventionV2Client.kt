@@ -50,6 +50,7 @@ import java.util.UUID
 *
 */
 class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGroupClientConfiguration) : ExpediaGroupClient(clientConfiguration) {
+
     private val properties = Properties.from(javaClass.classLoader.getResource("sdk.properties")!!)
     private val javaVersion = System.getProperty("java.version")
     private val operatingSystemName = System.getProperty("os.name")

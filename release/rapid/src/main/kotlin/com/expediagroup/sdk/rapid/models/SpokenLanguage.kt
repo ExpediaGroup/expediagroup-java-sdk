@@ -33,15 +33,15 @@ package com.expediagroup.sdk.rapid.models
  */
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.Valid
+import javax.validation.Valid
 
 /**
  * An individual spoken language.
- * @param id The language code as a subset of BCP47 format, using the shortest ISO 639-1 alpha-2 language code and, optionally, ISO 3166-1 alpha-2 country code.
+ * @param id The language code as a subset of BCP47 format.
  * @param name Spoken language name.
  */
 data class SpokenLanguage(
-    // The language code as a subset of BCP47 format, using the shortest ISO 639-1 alpha-2 language code and, optionally, ISO 3166-1 alpha-2 country code.
+    // The language code as a subset of BCP47 format.
     @JsonProperty("id")
     @field:Valid
     val id: kotlin.String? = null,

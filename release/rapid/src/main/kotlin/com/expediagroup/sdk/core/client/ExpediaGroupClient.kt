@@ -54,6 +54,9 @@ abstract class ExpediaGroupClient(
      * @property secret The API secret to use for requests.
      * @property endpoint The API endpoint to use for requests.
      * @property authEndpoint The API auth endpoint to use for requests.
+     * @property requestTimeout The request timeout to be used.
+     * @property maskedLoggingHeaders The headers to be masked in logging.
+     * @property maskedLoggingBodyFields The body fields to be masked in logging.
      */
     @Suppress("unused") // This is used by the generated SDK clients.
     abstract class Builder<SELF : Builder<SELF>> : Client.Builder<SELF>() {

@@ -15,33 +15,28 @@
  */
 package com.expediagroup.sdk.core.plugin.logging
 
-import com.expediagroup.sdk.core.constant.LogMaskingRegex.AUTHORIZATION_REGEX
 import com.expediagroup.sdk.core.constant.LogMaskingRegex.NUMBER_FIELD_REGEX
-import com.expediagroup.sdk.core.constant.LogMaskingRegex.PAYMENT_REGEX
 import com.expediagroup.sdk.core.constant.LoggingMessage.OMITTED
+import com.expediagroup.sdk.core.constant.provider.LogMaskingRegexProvider.getMaskedFieldsRegex
 
-internal fun mask(message: String): String = MaskProvider.masks.fold(message) { acc, mask -> mask.mask(acc) }
+internal fun mask(
+    message: String,
+    maskedBodyFields: Set<String>
+): String = masks.fold(message) { acc, mask -> mask.mask(acc, maskedBodyFields) }
 
-internal interface Mask {
-    val regex: Regex
+internal fun interface Mask {
+    fun getRegex(maskedBodyFields: Set<String>): Regex
 
-    fun mask(string: String): String = string.replace(regex) { maskSubstring(it.value) }
+    fun mask(
+        string: String,
+        maskedBodyFields: Set<String>
+    ): String = string.replace(this.getRegex(maskedBodyFields)) { maskSubstring(it.value) }
 
     fun maskSubstring(string: String) = OMITTED
 }
 
-internal object MaskProvider {
-    val masks = listOf(AuthMask, PaymentMask, PaymentNumberMask)
-
-    object AuthMask : Mask {
-        override val regex: Regex = AUTHORIZATION_REGEX
-    }
-
-    object PaymentMask : Mask {
-        override val regex: Regex = PAYMENT_REGEX
-    }
-
-    object PaymentNumberMask : Mask {
-        override val regex: Regex = NUMBER_FIELD_REGEX
-    }
-}
+internal val masks: List<Mask> =
+    listOf(
+        Mask(::getMaskedFieldsRegex),
+        Mask { NUMBER_FIELD_REGEX }
+    )

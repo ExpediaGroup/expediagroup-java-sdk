@@ -53,6 +53,9 @@ abstract class BaseRapidClient(
      * @property key The API key to use for authentication.
      * @property secret The API secret to use for authentication.
      * @property endpoint The API endpoint to use for requests.
+     * @property requestTimeout The request timeout to be used.
+     * @property maskedLoggingHeaders The headers to be masked in logging.
+     * @property maskedLoggingBodyFields The body fields to be masked in logging.
      */
     @Suppress("unused", "UnnecessaryAbstractClass") // This is used by the generated SDK clients.
     abstract class Builder<SELF : com.expediagroup.sdk.core.client.BaseRapidClient.Builder<SELF>> : com.expediagroup.sdk.core.client.Client.Builder<SELF>()

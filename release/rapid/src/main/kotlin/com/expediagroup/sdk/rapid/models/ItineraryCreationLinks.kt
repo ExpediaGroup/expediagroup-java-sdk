@@ -33,7 +33,7 @@ package com.expediagroup.sdk.rapid.models
  */
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.Valid
+import javax.validation.Valid
 
 /**
  * A map of links, including links to retrieve a booking, resume a held booking, cancel a held booking, or complete a payment session if a challenge is used.

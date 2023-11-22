@@ -33,7 +33,7 @@ package com.expediagroup.sdk.rapid.models
  */
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.Valid
+import javax.validation.Valid
 
 /**
  * The property’s accepted forms of payments when onsite. See our [onsite payment types reference](https://developers.expediagroup.com/docs/rapid/lodging/content/content-reference-lists) for current known payment type ID and name values.
