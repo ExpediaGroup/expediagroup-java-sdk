@@ -74,7 +74,11 @@ data class Points(
     override val threeDigitsSecureCriteria: PaymentThreeDSCriteria? = null,
     @JsonProperty("operations")
     @field:Valid
-    override val operations: Operations? = null
+    override val operations: Operations? = null,
+    // A key-value pair map to hold additional attributes.
+    @JsonProperty("extensions")
+    @field:Valid
+    override val extensions: kotlin.collections.Map<kotlin.String, kotlin.String>? = null
 ) : Payment {
     @JsonProperty("method")
     override val method: PaymentMethod = PaymentMethod.POINTS
@@ -94,7 +98,8 @@ data class Points(
         private var authorizedAmount: Amount? = null,
         private var verifiedAmount: Amount? = null,
         private var threeDigitsSecureCriteria: PaymentThreeDSCriteria? = null,
-        private var operations: Operations? = null
+        private var operations: Operations? = null,
+        private var extensions: kotlin.collections.Map<kotlin.String, kotlin.String>? = null
     ) {
         fun brand(brand: Payment.Brand) = apply { this.brand = brand }
 
@@ -116,6 +121,8 @@ data class Points(
 
         fun operations(operations: Operations) = apply { this.operations = operations }
 
+        fun extensions(extensions: kotlin.collections.Map<kotlin.String, kotlin.String>) = apply { this.extensions = extensions }
+
         fun build(): Points {
             // Check required params
             validateNullity()
@@ -129,7 +136,8 @@ data class Points(
                 authorizedAmount = authorizedAmount,
                 verifiedAmount = verifiedAmount,
                 threeDigitsSecureCriteria = threeDigitsSecureCriteria,
-                operations = operations
+                operations = operations,
+                extensions = extensions
             )
         }
 

@@ -33,7 +33,7 @@ package com.expediagroup.sdk.rapid.models
  */
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.Valid
+import javax.validation.Valid
 
 /**
  * An itinerary history change event, representing a charge or refund made to the itinerary and not a specific room.

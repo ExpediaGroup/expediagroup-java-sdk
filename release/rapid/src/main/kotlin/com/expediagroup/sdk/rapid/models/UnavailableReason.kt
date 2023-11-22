@@ -33,7 +33,7 @@ package com.expediagroup.sdk.rapid.models
  */
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.Valid
+import javax.validation.Valid
 
 /**
  * An unavailable reason that suggests ways that the request could be modified to locate available rooms and rates.

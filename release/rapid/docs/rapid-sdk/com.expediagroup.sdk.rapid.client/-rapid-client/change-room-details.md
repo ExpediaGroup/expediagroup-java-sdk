@@ -6,25 +6,25 @@
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final [Void](https://docs.oracle.com/javase/8/docs/api/java/lang/Void.html)[changeRoomDetails](change-room-details.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerIp, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)itineraryId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)roomId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)token, [ChangeRoomDetailsRequest](../../com.expediagroup.sdk.rapid.models/-change-room-details-request/index.md)changeRoomDetailsRequest, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)test, [UUID](https://docs.oracle.com/javase/8/docs/api/java/util/UUID.html)transactionId)
+public final Nothing[changeRoomDetails](change-room-details.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerIp, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)itineraryId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)roomId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)token, [ChangeRoomDetailsRequest](../../com.expediagroup.sdk.rapid.models/-change-room-details-request/index.md)changeRoomDetailsRequest, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)test, [UUID](https://docs.oracle.com/javase/8/docs/api/java/util/UUID.html)transactionId)
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final [Void](https://docs.oracle.com/javase/8/docs/api/java/lang/Void.html)[changeRoomDetails](change-room-details.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerIp, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)itineraryId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)roomId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)token, [ChangeRoomDetailsRequest](../../com.expediagroup.sdk.rapid.models/-change-room-details-request/index.md)changeRoomDetailsRequest, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)test)
+public final Nothing[changeRoomDetails](change-room-details.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerIp, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)itineraryId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)roomId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)token, [ChangeRoomDetailsRequest](../../com.expediagroup.sdk.rapid.models/-change-room-details-request/index.md)changeRoomDetailsRequest, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)test)
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final [Void](https://docs.oracle.com/javase/8/docs/api/java/lang/Void.html)[changeRoomDetails](change-room-details.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerIp, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)itineraryId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)roomId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)token, [ChangeRoomDetailsRequest](../../com.expediagroup.sdk.rapid.models/-change-room-details-request/index.md)changeRoomDetailsRequest, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId)
+public final Nothing[changeRoomDetails](change-room-details.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerIp, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)itineraryId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)roomId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)token, [ChangeRoomDetailsRequest](../../com.expediagroup.sdk.rapid.models/-change-room-details-request/index.md)changeRoomDetailsRequest, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId)
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final [Void](https://docs.oracle.com/javase/8/docs/api/java/lang/Void.html)[changeRoomDetails](change-room-details.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerIp, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)itineraryId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)roomId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)token, [ChangeRoomDetailsRequest](../../com.expediagroup.sdk.rapid.models/-change-room-details-request/index.md)changeRoomDetailsRequest)
+public final Nothing[changeRoomDetails](change-room-details.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerIp, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)itineraryId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)roomId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)token, [ChangeRoomDetailsRequest](../../com.expediagroup.sdk.rapid.models/-change-room-details-request/index.md)changeRoomDetailsRequest)
 
 Change details of a room. This link will be available in the retrieve response. Changes in smoking preference and special request will be passed along to the property and are not guaranteed.
 
 #### Return
 
-void
+Nothing
 
 #### Parameters
 

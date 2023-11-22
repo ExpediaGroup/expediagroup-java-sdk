@@ -33,7 +33,7 @@ package com.expediagroup.sdk.rapid.models
  */
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.Valid
+import javax.validation.Valid
 
 /**
  * An object representing a charge. Information about the charge is provided in both the billable currency and the request currency.

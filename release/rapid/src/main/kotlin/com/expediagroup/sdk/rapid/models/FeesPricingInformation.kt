@@ -33,7 +33,7 @@ package com.expediagroup.sdk.rapid.models
  */
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import jakarta.validation.Valid
+import javax.validation.Valid
 
 /**
  * The fees collected by the property. The values for each type of fee are the total for that type.  Mandatory fees are collected by the property at check-in or check-out. Resort fees are charged for amenities and extras and collected by the property at check-in or check-out. Mandatory taxes are taxes collected by the property at check-in or check-out.

@@ -97,6 +97,10 @@ data class CreditCard(
     @JsonProperty("operations")
     @field:Valid
     override val operations: Operations? = null,
+    // A key-value pair map to hold additional attributes.
+    @JsonProperty("extensions")
+    @field:Valid
+    override val extensions: kotlin.collections.Map<kotlin.String, kotlin.String>? = null,
     // Electronic Commerce Indicator, a two or three digit number usually returned by a 3rd party payment processor in regards to the authentication used when gathering the cardholder's payment credentials.
     @JsonProperty("electronic_commerce_indicator")
     @field:Length(max = 200)
@@ -153,6 +157,7 @@ data class CreditCard(
         private var verifiedAmount: Amount? = null,
         private var threeDigitsSecureCriteria: PaymentThreeDSCriteria? = null,
         private var operations: Operations? = null,
+        private var extensions: kotlin.collections.Map<kotlin.String, kotlin.String>? = null,
         private var electronicCommerceIndicator: kotlin.String? = null,
         private var virtualCreditCardFlag: kotlin.Boolean? = null,
         private var walletType: kotlin.String? = null,
@@ -187,6 +192,8 @@ data class CreditCard(
 
         fun operations(operations: Operations) = apply { this.operations = operations }
 
+        fun extensions(extensions: kotlin.collections.Map<kotlin.String, kotlin.String>) = apply { this.extensions = extensions }
+
         fun electronicCommerceIndicator(electronicCommerceIndicator: kotlin.String) = apply { this.electronicCommerceIndicator = electronicCommerceIndicator }
 
         fun virtualCreditCardFlag(virtualCreditCardFlag: kotlin.Boolean) = apply { this.virtualCreditCardFlag = virtualCreditCardFlag }
@@ -218,6 +225,7 @@ data class CreditCard(
                 verifiedAmount = verifiedAmount,
                 threeDigitsSecureCriteria = threeDigitsSecureCriteria,
                 operations = operations,
+                extensions = extensions,
                 electronicCommerceIndicator = electronicCommerceIndicator,
                 virtualCreditCardFlag = virtualCreditCardFlag,
                 walletType = walletType,

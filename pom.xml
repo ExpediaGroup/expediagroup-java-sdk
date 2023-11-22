@@ -77,7 +77,7 @@
         <maven-source-plugin.version>3.3.0</maven-source-plugin.version>
         <maven-surefire-plugin.version>3.2.2</maven-surefire-plugin.version>
         <build-helper-maven-plugin.version>3.4.0</build-helper-maven-plugin.version>
-        <exec-maven-plugin.version>3.1.0</exec-maven-plugin.version>
+        <exec-maven-plugin.version>3.1.1</exec-maven-plugin.version>
         <ktlint-plugin.version>3.0.0</ktlint-plugin.version>
         <jacoco-plugin.version>0.8.11</jacoco-plugin.version>
         <dokka-plugin.version>1.9.10</dokka-plugin.version>
@@ -92,10 +92,10 @@
         <!-- Kotlin Compatible Versions -->
         <kotlin.version>1.9.20</kotlin.version>
         <kotlinx.coroutines.version>1.7.3</kotlinx.coroutines.version>
-        <kotlinx.serialization.version>1.6.0</kotlinx.serialization.version>
+        <kotlinx.serialization.version>1.6.1</kotlinx.serialization.version>
         <ktor.version>2.3.6</ktor.version>
         <kotlin-logging.version>3.0.5</kotlin-logging.version>
-        <kotlin-atomic.version>0.22.0</kotlin-atomic.version>
+        <kotlin-atomic.version>0.23.0</kotlin-atomic.version>
         <ktlint.version>0.50.0</ktlint.version>
         <detekt.version>1.23.1</detekt.version>
 
@@ -106,7 +106,7 @@
         <mockk.version>1.13.8</mockk.version>
         <mockito.version>5.7.0</mockito.version>
         <slf4j.version>2.0.9</slf4j.version>
-        <log4j.version>2.21.1</log4j.version>
+        <log4j.version>2.22.0</log4j.version>
 
         <swagger.core.version>2.2.19</swagger.core.version>
     </properties>
@@ -254,14 +254,14 @@
             <dependency>
                 <groupId>com.fasterxml.jackson</groupId>
                 <artifactId>jackson-bom</artifactId>
-                <version>2.15.3</version>
+                <version>2.16.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
-                <version>3.13.0</version>
+                <version>3.14.0</version>
             </dependency>
             <dependency>
                 <groupId>org.checkerframework</groupId>
@@ -281,7 +281,7 @@
             <dependency>
                 <groupId>org.jetbrains</groupId>
                 <artifactId>annotations</artifactId>
-                <version>24.0.1</version>
+                <version>24.1.0</version>
             </dependency>
             <dependency>
                 <groupId>javax.validation</groupId>
@@ -291,7 +291,7 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-annotations</artifactId>
-                <version>2.15.3</version>
+                <version>2.16.0</version>
             </dependency>
             <dependency>
                 <groupId>org.hibernate.validator</groupId>
@@ -416,6 +416,9 @@
 
                             <exclude>**/logging/**</exclude>
                             <exclude>**/serialization/**</exclude>
+
+                            <!-- This is well tested, but JaCoCo doesn't seem to be able to detect it -->
+                            <exclude>**/RapidHelpers*</exclude>
                         </excludes>
                     </configuration>
                     <executions>

@@ -65,7 +65,7 @@ internal object ClientFactory {
         mockEngine: HttpClientEngine,
         configuration: ExpediaGroupClientConfiguration
     ): ExpediaGroupClient =
-        object : ExpediaGroupClient(configuration, mockEngine) {
+        object : ExpediaGroupClient("dummy", configuration, mockEngine) {
             override suspend fun throwServiceException(
                 response: HttpResponse,
                 operationId: String
@@ -75,7 +75,7 @@ internal object ClientFactory {
         }
 
     fun createRapidClient(mockEngine: HttpClientEngine): BaseRapidClient =
-        object : BaseRapidClient(rapidConfiguration, mockEngine) {
+        object : BaseRapidClient("dummy", rapidConfiguration, mockEngine) {
             override suspend fun throwServiceException(
                 response: HttpResponse,
                 operationId: String

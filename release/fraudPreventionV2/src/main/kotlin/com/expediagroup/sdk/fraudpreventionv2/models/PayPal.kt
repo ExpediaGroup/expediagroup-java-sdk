@@ -82,6 +82,10 @@ data class PayPal(
     @JsonProperty("operations")
     @field:Valid
     override val operations: Operations? = null,
+    // A key-value pair map to hold additional attributes.
+    @JsonProperty("extensions")
+    @field:Valid
+    override val extensions: kotlin.collections.Map<kotlin.String, kotlin.String>? = null,
     // Reference code passed to acquiring bank at the time of payment. This code is the key ID that ties back to payments data at the payment level.
     @JsonProperty("merchant_order_code")
     @field:Length(max = 200)
@@ -108,6 +112,7 @@ data class PayPal(
         private var verifiedAmount: Amount? = null,
         private var threeDigitsSecureCriteria: PaymentThreeDSCriteria? = null,
         private var operations: Operations? = null,
+        private var extensions: kotlin.collections.Map<kotlin.String, kotlin.String>? = null,
         private var merchantOrderCode: kotlin.String? = null
     ) {
         fun brand(brand: Payment.Brand) = apply { this.brand = brand }
@@ -132,6 +137,8 @@ data class PayPal(
 
         fun operations(operations: Operations) = apply { this.operations = operations }
 
+        fun extensions(extensions: kotlin.collections.Map<kotlin.String, kotlin.String>) = apply { this.extensions = extensions }
+
         fun merchantOrderCode(merchantOrderCode: kotlin.String) = apply { this.merchantOrderCode = merchantOrderCode }
 
         fun build(): PayPal {
@@ -149,6 +156,7 @@ data class PayPal(
                 verifiedAmount = verifiedAmount,
                 threeDigitsSecureCriteria = threeDigitsSecureCriteria,
                 operations = operations,
+                extensions = extensions,
                 merchantOrderCode = merchantOrderCode
             )
         }

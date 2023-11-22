@@ -18,10 +18,10 @@ package com.expediagroup.sdk.rapid.validation
 
 import com.expediagroup.sdk.rapid.models.exception.PropertyConstraintViolation
 import com.expediagroup.sdk.rapid.models.exception.PropertyConstraintViolationException
-import jakarta.validation.ConstraintViolation
-import jakarta.validation.Validation
 import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator
 import java.util.stream.Collectors
+import javax.validation.ConstraintViolation
+import javax.validation.Validation
 
 internal object PropertyConstraintsValidator {
     fun validateConstraints(obj: Any?) {
