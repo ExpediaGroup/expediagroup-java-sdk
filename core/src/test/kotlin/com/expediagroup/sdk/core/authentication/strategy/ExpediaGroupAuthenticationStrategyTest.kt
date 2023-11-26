@@ -19,6 +19,7 @@ import com.expediagroup.sdk.core.client.Client
 import com.expediagroup.sdk.core.configuration.Credentials
 import com.expediagroup.sdk.core.configuration.ExpediaGroupClientConfiguration
 import com.expediagroup.sdk.core.configuration.provider.ExpediaGroupConfigurationProvider
+import com.expediagroup.sdk.core.constant.Authentication
 import com.expediagroup.sdk.core.constant.Authentication.BEARER
 import com.expediagroup.sdk.core.constant.Constant.SUCCESSFUL_STATUS_CODES_RANGE
 import com.expediagroup.sdk.core.constant.ExceptionMessage
@@ -30,19 +31,24 @@ import com.expediagroup.sdk.core.plugin.authentication.getAuthenticationStrategy
 import com.expediagroup.sdk.core.plugin.authentication.helper.SuccessfulStatusCodesArgumentProvider
 import com.expediagroup.sdk.core.plugin.authentication.helper.UnsuccessfulStatusCodesArgumentProvider
 import com.expediagroup.sdk.core.test.ClientFactory
+import com.expediagroup.sdk.core.test.MockEngineFactory.createDefaultEngine
 import com.expediagroup.sdk.core.test.MockEngineFactory.createMockEngineExpiresInPerCall
 import com.expediagroup.sdk.core.test.MockEngineFactory.createTokenMockEngineWithStatusCode
 import com.expediagroup.sdk.core.test.MockEngineFactory.createUnauthorizedMockEngineWithStatusCode
+import com.expediagroup.sdk.core.test.TestConstants
 import com.expediagroup.sdk.core.test.TestConstants.ACCESS_TOKEN
 import com.expediagroup.sdk.core.test.TestConstants.ANY_URL
 import com.expediagroup.sdk.core.test.TestConstants.CLIENT_KEY_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.test.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
 import io.ktor.client.HttpClientConfig
+import io.ktor.client.request.HttpRequestData
 import io.ktor.client.request.get
 import io.ktor.client.request.request
 import io.ktor.client.request.url
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.request
+import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.mockk.mockkObject
@@ -68,8 +74,20 @@ internal class ExpediaGroupAuthenticationStrategyTest : AuthenticationPluginTest
     @Test
     fun `making any http call should invoke the authorized token`() {
         runBlocking {
-            val httpClient = ClientFactory.createExpediaGroupClient().httpClient
+            val mockEngine = createDefaultEngine()
+            val httpClient = ClientFactory.createExpediaGroupClient(mockEngine).httpClient
             val testRequest = httpClient.get(ANY_URL)
+
+            val authenticationConfiguration = getAuthenticationConfiguration()
+
+            val authRequests: List<HttpRequestData> =
+                mockEngine.requestHistory.filter {
+                    it.url.toString() == "${authenticationConfiguration.authUrl}?${Authentication.GRANT_TYPE}=${Authentication.CLIENT_CREDENTIALS}"
+                }
+            assertThat(authRequests.size).isEqualTo(1)
+            assertThat(authRequests.first().method).isEqualTo(HttpMethod.Post)
+            assertThat(authRequests.first().headers[HttpHeaders.Authorization]).isEqualTo("${TestConstants.BASIC} ${TestConstants.ENCODED_CREDENTIALS}")
+            assertThat(authRequests.first().headers[HttpHeaders.ContentType]).isEqualTo(ContentType.Application.FormUrlEncoded.toString())
 
             assertThat(testRequest.request.headers[HeaderKey.AUTHORIZATION]).isEqualTo(
                 "$BEARER $ACCESS_TOKEN"

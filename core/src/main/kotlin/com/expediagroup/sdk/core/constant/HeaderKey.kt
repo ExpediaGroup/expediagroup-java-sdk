@@ -18,7 +18,5 @@ package com.expediagroup.sdk.core.constant
 internal object HeaderKey {
     const val AUTHORIZATION = "Authorization"
 
-    const val GRANT_TYPE = "grant_type"
-
     const val ACCEPT_ENCODING = "Accept-Encoding"
 }
