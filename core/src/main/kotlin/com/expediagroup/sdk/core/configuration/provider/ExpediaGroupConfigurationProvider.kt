@@ -31,5 +31,5 @@ import com.expediagroup.sdk.core.configuration.provider.ExpediaGroupConfiguratio
 internal object ExpediaGroupConfigurationProvider : ConfigurationProvider {
     override val name: String = "ExpediaGroup Configuration Provider"
     override val endpoint: String = "https://api.expediagroup.com/"
-    override val authEndpoint: String = "${endpoint}identity/oauth2/v2/token/"
+    override val authEndpoint: String = "${endpoint}identity/oauth2/v3/token/"
 }
