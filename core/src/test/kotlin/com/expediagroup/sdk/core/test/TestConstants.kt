@@ -15,6 +15,8 @@
  */
 package com.expediagroup.sdk.core.test
 
+import java.util.Base64
+
 object TestConstants {
     const val TEST_URL = "https://example.com"
 
@@ -37,4 +39,6 @@ object TestConstants {
     const val BASIC = "Basic"
 
     const val APPLICATION_JSON = "application/json"
+
+    val ENCODED_CREDENTIALS = String(Base64.getEncoder().encode("$CLIENT_KEY_TEST_CREDENTIAL:$CLIENT_SECRET_TEST_CREDENTIAL".toByteArray()))
 }
