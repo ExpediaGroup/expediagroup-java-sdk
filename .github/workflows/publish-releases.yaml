@@ -1,4 +1,4 @@
-name: Generate SDK - Main
+name: Publish Release
 on:
   workflow_dispatch:
 jobs:
