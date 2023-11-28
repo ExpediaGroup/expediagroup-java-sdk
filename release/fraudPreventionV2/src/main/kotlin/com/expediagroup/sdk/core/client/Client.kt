@@ -52,7 +52,12 @@ val DEFAULT_HTTP_CLIENT_ENGINE: HttpClientEngine = OkHttp.create()
 /**
  * The base integration point between the SDK Core and the product SDKs.
  */
-abstract class Client {
+abstract class Client(
+    namespace: String,
+    environmentProvider: EnvironmentProvider = DefaultEnvironmentProvider(namespace)
+) : EnvironmentProvider by environmentProvider {
+    private val httpHandler = DefaultHttpHandler(environmentProvider)
+
     companion object {
         private val log = ExpediaGroupLoggerFactory.getLogger(this::class.java)
     }
@@ -118,6 +123,8 @@ abstract class Client {
         response: HttpResponse,
         operationId: String
     )
+
+    suspend fun performGet(url: String): HttpResponse = httpHandler.performGet(httpClient, url)
 
     /**
      * A [Client] builder.

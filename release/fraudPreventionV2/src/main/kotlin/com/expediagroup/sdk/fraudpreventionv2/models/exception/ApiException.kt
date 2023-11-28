@@ -17,7 +17,7 @@
 package com.expediagroup.sdk.fraudpreventionv2.models.exception
 
 import com.expediagroup.sdk.core.model.exception.service.ExpediaGroupApiException
-import com.expediagroup.sdk.core.model.exception.service.ExpediaGroupServiceException
+import com.expediagroup.sdk.core.model.exception.service.ExpediaGroupServiceDefaultErrorException
 import com.expediagroup.sdk.fraudpreventionv2.models.*
 import io.ktor.client.call.*
 import io.ktor.client.statement.*
@@ -127,7 +127,7 @@ internal object ErrorObjectMapper {
 
     private inline fun <reified T> fetchErrorObject(httpResponse: HttpResponse): T =
         runBlocking {
-            runCatching { httpResponse.body<T>() }.getOrElse { throw ExpediaGroupServiceException(httpResponse.bodyAsText()) }
+            runCatching { httpResponse.body<T>() }.getOrElse { throw ExpediaGroupServiceDefaultErrorException(httpResponse.status.value, httpResponse.bodyAsText()) }
         }
 }
 
@@ -160,5 +160,3 @@ class ExpediaGroupApiRetryableOrderPurchaseUpdateFailureException(code: Int, ove
 class ExpediaGroupApiNotFoundErrorException(code: Int, override val errorObject: NotFoundError) : ExpediaGroupApiException(code, errorObject)
 
 class ExpediaGroupApiRetryableOrderPurchaseScreenFailureException(code: Int, override val errorObject: RetryableOrderPurchaseScreenFailure) : ExpediaGroupApiException(code, errorObject)
-
-class ExpediaGroupServiceDefaultErrorException(code: Int, override val errorObject: String) : ExpediaGroupApiException(code, errorObject)
