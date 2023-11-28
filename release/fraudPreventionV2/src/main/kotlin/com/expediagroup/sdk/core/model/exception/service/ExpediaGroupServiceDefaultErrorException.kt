@@ -13,17 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.constant
+package com.expediagroup.sdk.core.model.exception.service
 
-internal object Authentication {
-    const val AUTHORIZATION_REQUEST_LOCK_DELAY = 20L
-    const val BEARER_EXPIRY_DATE_MARGIN: Long = 10 // In seconds
-
-    const val EAN = "EAN"
-
-    const val BEARER = "Bearer"
-
-    const val GRANT_TYPE = "grant_type"
-
-    const val CLIENT_CREDENTIALS = "client_credentials"
-}
+class ExpediaGroupServiceDefaultErrorException(code: Int, override val errorObject: String) : ExpediaGroupApiException(code, errorObject)
