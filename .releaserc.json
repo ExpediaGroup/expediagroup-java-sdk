@@ -61,13 +61,15 @@
         "changelogFile": "CHANGELOG.md"
       }
     ],
-    "@semantic-release/github",
-    {
-      "successComment": false,
-      "failComment": false,
-      "failTitle": false,
-      "assets": [],
-      "draftRelease": true
-    }
+    [
+      "@semantic-release/github",
+      {
+        "successComment": false,
+        "failComment": false,
+        "failTitle": false,
+        "assets": [],
+        "draftRelease": true
+      }
+    ]
   ]
 }
