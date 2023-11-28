@@ -65,7 +65,8 @@
     {
       "successComment": false,
       "failComment": false,
-      "failTitle": false
+      "failTitle": false,
+      "draftRelease": true
     }
   ]
 }
