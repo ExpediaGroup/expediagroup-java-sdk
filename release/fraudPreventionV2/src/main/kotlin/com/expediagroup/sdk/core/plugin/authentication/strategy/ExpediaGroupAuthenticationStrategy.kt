@@ -19,8 +19,6 @@ import com.expediagroup.sdk.core.configuration.Credentials
 import com.expediagroup.sdk.core.constant.Authentication
 import com.expediagroup.sdk.core.constant.Constant
 import com.expediagroup.sdk.core.constant.ExceptionMessage
-import com.expediagroup.sdk.core.constant.HeaderKey
-import com.expediagroup.sdk.core.constant.HeaderValue
 import com.expediagroup.sdk.core.constant.LoggingMessage
 import com.expediagroup.sdk.core.constant.provider.LoggingMessageProvider
 import com.expediagroup.sdk.core.model.exception.service.ExpediaGroupAuthException
@@ -35,10 +33,14 @@ import io.ktor.client.plugins.auth.providers.bearer
 import io.ktor.client.plugins.plugin
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.basicAuth
+import io.ktor.client.request.parameter
 import io.ktor.client.request.request
 import io.ktor.client.request.url
+import io.ktor.http.ContentType
 import io.ktor.http.HttpMethod
-import io.ktor.http.Parameters
+import io.ktor.http.ParametersBuilder
+import io.ktor.http.clone
+import io.ktor.http.contentType
 import kotlinx.coroutines.runBlocking
 import java.time.LocalDateTime
 
@@ -67,8 +69,9 @@ internal class ExpediaGroupAuthenticationStrategy(
             runBlocking {
                 httpClient.request {
                     method = HttpMethod.Post
+                    parameter(Authentication.GRANT_TYPE, Authentication.CLIENT_CREDENTIALS)
+                    contentType(ContentType.Application.FormUrlEncoded)
                     url(configs.authUrl)
-                    buildTokenRequest()
                     basicAuth(configs.credentials)
                 }
             }
@@ -102,15 +105,9 @@ internal class ExpediaGroupAuthenticationStrategy(
         )
     }
 
-    override fun isIdentityRequest(request: HttpRequestBuilder): Boolean = request.url.buildString() == configs.authUrl
+    override fun isIdentityRequest(request: HttpRequestBuilder): Boolean = request.url.clone().apply { encodedParameters = ParametersBuilder() }.buildString() == configs.authUrl
 
     override fun getAuthorizationHeader() = "${Authentication.BEARER} ${getTokens().accessToken}"
-
-    private fun buildTokenRequest(): Parameters {
-        return Parameters.build {
-            append(HeaderKey.GRANT_TYPE, HeaderValue.CLIENT_CREDENTIALS)
-        }
-    }
 
     internal open class BearerTokensInfo(val bearerTokens: BearerTokens, expiresIn: Int) {
         private val expiryDate: LocalDateTime

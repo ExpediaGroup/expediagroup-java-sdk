@@ -13,17 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.constant
+package com.expediagroup.sdk.core.model.exception
 
-internal object Authentication {
-    const val AUTHORIZATION_REQUEST_LOCK_DELAY = 20L
-    const val BEARER_EXPIRY_DATE_MARGIN: Long = 10 // In seconds
+/** Make sure that we only throw [ExpediaGroupException]s. */
+fun Exception.handle(): Nothing {
+    if (this is ExpediaGroupException) throw this
 
-    const val EAN = "EAN"
-
-    const val BEARER = "Bearer"
-
-    const val GRANT_TYPE = "grant_type"
-
-    const val CLIENT_CREDENTIALS = "client_credentials"
+    when (val cause = this.cause) {
+        is ExpediaGroupException -> throw cause
+        else -> throw ExpediaGroupException(cause = this)
+    }
 }
