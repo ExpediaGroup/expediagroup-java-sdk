@@ -1,6 +1,6 @@
 name: Publish Release
 on:
-  workflow_dispatch:
+  workflow_call:
 jobs:
   publish-release:
     runs-on: ubuntu-latest
@@ -13,10 +13,5 @@ jobs:
           node-version: 18.18.2
       - name: Install dependencies
         run: npm install
-      - name: Release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-        run: |
-          pwd
-          cat .releaserc.json
-          npx semantic-release --debug
+      - name: Create draft release
+        run: npx semantic-release
