@@ -69,6 +69,9 @@
         "failTitle": false,
         "draftRelease": true
       }
-    ]
+    ],
+    ["@semantic-release/exec", {
+      "successCmd": "./update-github-release.sh v${nextRelease.version}"
+    }]
   ]
 }
