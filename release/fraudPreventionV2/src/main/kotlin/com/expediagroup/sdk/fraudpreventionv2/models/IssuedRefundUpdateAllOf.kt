@@ -52,7 +52,7 @@ data class IssuedRefundUpdateAllOf(
     class Builder(
         private var refundDetails: IssuedRefundUpdateDetails? = null
     ) {
-        fun refundDetails(refundDetails: IssuedRefundUpdateDetails) = apply { this.refundDetails = refundDetails }
+        fun refundDetails(refundDetails: IssuedRefundUpdateDetails?) = apply { this.refundDetails = refundDetails }
 
         fun build(): IssuedRefundUpdateAllOf {
             return IssuedRefundUpdateAllOf(

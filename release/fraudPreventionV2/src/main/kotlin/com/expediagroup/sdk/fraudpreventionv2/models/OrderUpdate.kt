@@ -78,9 +78,9 @@ data class OrderUpdate(
 
         fun orderStatus(orderStatus: Status) = apply { this.orderStatus = orderStatus }
 
-        fun acquirerReferenceNumber(acquirerReferenceNumber: kotlin.String) = apply { this.acquirerReferenceNumber = acquirerReferenceNumber }
+        fun acquirerReferenceNumber(acquirerReferenceNumber: kotlin.String?) = apply { this.acquirerReferenceNumber = acquirerReferenceNumber }
 
-        fun cancellationReason(cancellationReason: CancellationReason) = apply { this.cancellationReason = cancellationReason }
+        fun cancellationReason(cancellationReason: CancellationReason?) = apply { this.cancellationReason = cancellationReason }
 
         fun build(): OrderUpdate {
             // Check required params

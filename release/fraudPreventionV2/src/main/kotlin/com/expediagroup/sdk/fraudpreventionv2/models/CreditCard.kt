@@ -182,31 +182,31 @@ data class CreditCard(
 
         fun telephones(telephones: kotlin.collections.List<Telephone>) = apply { this.telephones = telephones }
 
-        fun reason(reason: PaymentReason) = apply { this.reason = reason }
+        fun reason(reason: PaymentReason?) = apply { this.reason = reason }
 
-        fun authorizedAmount(authorizedAmount: Amount) = apply { this.authorizedAmount = authorizedAmount }
+        fun authorizedAmount(authorizedAmount: Amount?) = apply { this.authorizedAmount = authorizedAmount }
 
-        fun verifiedAmount(verifiedAmount: Amount) = apply { this.verifiedAmount = verifiedAmount }
+        fun verifiedAmount(verifiedAmount: Amount?) = apply { this.verifiedAmount = verifiedAmount }
 
-        fun threeDigitsSecureCriteria(threeDigitsSecureCriteria: PaymentThreeDSCriteria) = apply { this.threeDigitsSecureCriteria = threeDigitsSecureCriteria }
+        fun threeDigitsSecureCriteria(threeDigitsSecureCriteria: PaymentThreeDSCriteria?) = apply { this.threeDigitsSecureCriteria = threeDigitsSecureCriteria }
 
-        fun operations(operations: Operations) = apply { this.operations = operations }
+        fun operations(operations: Operations?) = apply { this.operations = operations }
 
-        fun extensions(extensions: kotlin.collections.Map<kotlin.String, kotlin.String>) = apply { this.extensions = extensions }
+        fun extensions(extensions: kotlin.collections.Map<kotlin.String, kotlin.String>?) = apply { this.extensions = extensions }
 
-        fun electronicCommerceIndicator(electronicCommerceIndicator: kotlin.String) = apply { this.electronicCommerceIndicator = electronicCommerceIndicator }
+        fun electronicCommerceIndicator(electronicCommerceIndicator: kotlin.String?) = apply { this.electronicCommerceIndicator = electronicCommerceIndicator }
 
-        fun virtualCreditCardFlag(virtualCreditCardFlag: kotlin.Boolean) = apply { this.virtualCreditCardFlag = virtualCreditCardFlag }
+        fun virtualCreditCardFlag(virtualCreditCardFlag: kotlin.Boolean?) = apply { this.virtualCreditCardFlag = virtualCreditCardFlag }
 
-        fun walletType(walletType: kotlin.String) = apply { this.walletType = walletType }
+        fun walletType(walletType: kotlin.String?) = apply { this.walletType = walletType }
 
-        fun cardAvsResponse(cardAvsResponse: kotlin.String) = apply { this.cardAvsResponse = cardAvsResponse }
+        fun cardAvsResponse(cardAvsResponse: kotlin.String?) = apply { this.cardAvsResponse = cardAvsResponse }
 
-        fun cardCvvResponse(cardCvvResponse: kotlin.String) = apply { this.cardCvvResponse = cardCvvResponse }
+        fun cardCvvResponse(cardCvvResponse: kotlin.String?) = apply { this.cardCvvResponse = cardCvvResponse }
 
-        fun merchantOrderCode(merchantOrderCode: kotlin.String) = apply { this.merchantOrderCode = merchantOrderCode }
+        fun merchantOrderCode(merchantOrderCode: kotlin.String?) = apply { this.merchantOrderCode = merchantOrderCode }
 
-        fun cardAuthenticationFailureCount(cardAuthenticationFailureCount: kotlin.Int) = apply { this.cardAuthenticationFailureCount = cardAuthenticationFailureCount }
+        fun cardAuthenticationFailureCount(cardAuthenticationFailureCount: kotlin.Int?) = apply { this.cardAuthenticationFailureCount = cardAuthenticationFailureCount }
 
         fun build(): CreditCard {
             // Check required params

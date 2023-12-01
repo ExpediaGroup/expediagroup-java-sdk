@@ -91,11 +91,11 @@ data class AirAllOf(
 
         fun airSegments(airSegments: kotlin.collections.List<AirSegment>) = apply { this.airSegments = airSegments }
 
-        fun flightType(flightType: AirAllOf.FlightType) = apply { this.flightType = flightType }
+        fun flightType(flightType: AirAllOf.FlightType?) = apply { this.flightType = flightType }
 
-        fun passengerNameRecord(passengerNameRecord: kotlin.String) = apply { this.passengerNameRecord = passengerNameRecord }
+        fun passengerNameRecord(passengerNameRecord: kotlin.String?) = apply { this.passengerNameRecord = passengerNameRecord }
 
-        fun globalDistributionSystemType(globalDistributionSystemType: kotlin.String) = apply { this.globalDistributionSystemType = globalDistributionSystemType }
+        fun globalDistributionSystemType(globalDistributionSystemType: kotlin.String?) = apply { this.globalDistributionSystemType = globalDistributionSystemType }
 
         fun build(): AirAllOf {
             // Check required params

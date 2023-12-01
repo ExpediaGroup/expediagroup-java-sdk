@@ -65,11 +65,11 @@ data class CurrentUserSession(
         private var startDateTime: java.time.OffsetDateTime? = null,
         private var challengeDetail: ChallengeDetail? = null
     ) {
-        fun sessionId(sessionId: kotlin.String) = apply { this.sessionId = sessionId }
+        fun sessionId(sessionId: kotlin.String?) = apply { this.sessionId = sessionId }
 
-        fun startDateTime(startDateTime: java.time.OffsetDateTime) = apply { this.startDateTime = startDateTime }
+        fun startDateTime(startDateTime: java.time.OffsetDateTime?) = apply { this.startDateTime = startDateTime }
 
-        fun challengeDetail(challengeDetail: ChallengeDetail) = apply { this.challengeDetail = challengeDetail }
+        fun challengeDetail(challengeDetail: ChallengeDetail?) = apply { this.challengeDetail = challengeDetail }
 
         fun build(): CurrentUserSession {
             return CurrentUserSession(

@@ -125,15 +125,15 @@ data class AccountTakeoverCustomerAccount(
 
         fun activeFlag(activeFlag: kotlin.Boolean) = apply { this.activeFlag = activeFlag }
 
-        fun accountRole(accountRole: AccountTakeoverCustomerAccount.AccountRole) = apply { this.accountRole = accountRole }
+        fun accountRole(accountRole: AccountTakeoverCustomerAccount.AccountRole?) = apply { this.accountRole = accountRole }
 
-        fun name(name: AccountTakeoverName) = apply { this.name = name }
+        fun name(name: AccountTakeoverName?) = apply { this.name = name }
 
-        fun telephones(telephones: kotlin.collections.List<Telephone>) = apply { this.telephones = telephones }
+        fun telephones(telephones: kotlin.collections.List<Telephone>?) = apply { this.telephones = telephones }
 
-        fun address(address: CustomerAccountAddress) = apply { this.address = address }
+        fun address(address: CustomerAccountAddress?) = apply { this.address = address }
 
-        fun loyaltyMemberId(loyaltyMemberId: kotlin.String) = apply { this.loyaltyMemberId = loyaltyMemberId }
+        fun loyaltyMemberId(loyaltyMemberId: kotlin.String?) = apply { this.loyaltyMemberId = loyaltyMemberId }
 
         fun build(): AccountTakeoverCustomerAccount {
             // Check required params

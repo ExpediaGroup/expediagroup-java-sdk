@@ -64,7 +64,7 @@ data class ChargebackFeedback(
     ) {
         fun riskId(riskId: kotlin.String) = apply { this.riskId = riskId }
 
-        fun chargebackDetail(chargebackDetail: ChargebackDetail) = apply { this.chargebackDetail = chargebackDetail }
+        fun chargebackDetail(chargebackDetail: ChargebackDetail?) = apply { this.chargebackDetail = chargebackDetail }
 
         fun build(): ChargebackFeedback {
             // Check required params

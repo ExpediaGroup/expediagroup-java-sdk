@@ -104,17 +104,17 @@ data class Traveler(
 
         fun primary(primary: kotlin.Boolean) = apply { this.primary = primary }
 
-        fun emailAddress(emailAddress: kotlin.String) = apply { this.emailAddress = emailAddress }
+        fun emailAddress(emailAddress: kotlin.String?) = apply { this.emailAddress = emailAddress }
 
-        fun telephones(telephones: kotlin.collections.List<Telephone>) = apply { this.telephones = telephones }
+        fun telephones(telephones: kotlin.collections.List<Telephone>?) = apply { this.telephones = telephones }
 
-        fun age(age: java.math.BigDecimal) = apply { this.age = age }
+        fun age(age: java.math.BigDecimal?) = apply { this.age = age }
 
-        fun birthDate(birthDate: java.time.OffsetDateTime) = apply { this.birthDate = birthDate }
+        fun birthDate(birthDate: java.time.OffsetDateTime?) = apply { this.birthDate = birthDate }
 
-        fun citizenshipCountryCode(citizenshipCountryCode: kotlin.String) = apply { this.citizenshipCountryCode = citizenshipCountryCode }
+        fun citizenshipCountryCode(citizenshipCountryCode: kotlin.String?) = apply { this.citizenshipCountryCode = citizenshipCountryCode }
 
-        fun travelerId(travelerId: kotlin.String) = apply { this.travelerId = travelerId }
+        fun travelerId(travelerId: kotlin.String?) = apply { this.travelerId = travelerId }
 
         fun build(): Traveler {
             // Check required params

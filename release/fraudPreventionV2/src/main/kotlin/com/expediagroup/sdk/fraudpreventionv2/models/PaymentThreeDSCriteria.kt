@@ -61,9 +61,9 @@ data class PaymentThreeDSCriteria(
         private var probableFlag: kotlin.Boolean? = null,
         private var transactionModel: kotlin.String? = null
     ) {
-        fun probableFlag(probableFlag: kotlin.Boolean) = apply { this.probableFlag = probableFlag }
+        fun probableFlag(probableFlag: kotlin.Boolean?) = apply { this.probableFlag = probableFlag }
 
-        fun transactionModel(transactionModel: kotlin.String) = apply { this.transactionModel = transactionModel }
+        fun transactionModel(transactionModel: kotlin.String?) = apply { this.transactionModel = transactionModel }
 
         fun build(): PaymentThreeDSCriteria {
             return PaymentThreeDSCriteria(

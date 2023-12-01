@@ -73,7 +73,7 @@ data class PayPalAllOf(
 
         fun transactionId(transactionId: kotlin.String) = apply { this.transactionId = transactionId }
 
-        fun merchantOrderCode(merchantOrderCode: kotlin.String) = apply { this.merchantOrderCode = merchantOrderCode }
+        fun merchantOrderCode(merchantOrderCode: kotlin.String?) = apply { this.merchantOrderCode = merchantOrderCode }
 
         fun build(): PayPalAllOf {
             // Check required params

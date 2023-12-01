@@ -133,13 +133,13 @@ data class Hotel(
 
         fun checkoutTime(checkoutTime: java.time.OffsetDateTime) = apply { this.checkoutTime = checkoutTime }
 
-        fun travelersReferences(travelersReferences: kotlin.collections.List<kotlin.String>) = apply { this.travelersReferences = travelersReferences }
+        fun travelersReferences(travelersReferences: kotlin.collections.List<kotlin.String>?) = apply { this.travelersReferences = travelersReferences }
 
-        fun payLater(payLater: kotlin.Boolean) = apply { this.payLater = payLater }
+        fun payLater(payLater: kotlin.Boolean?) = apply { this.payLater = payLater }
 
-        fun priceWithheld(priceWithheld: kotlin.Boolean) = apply { this.priceWithheld = priceWithheld }
+        fun priceWithheld(priceWithheld: kotlin.Boolean?) = apply { this.priceWithheld = priceWithheld }
 
-        fun roomCount(roomCount: kotlin.Int) = apply { this.roomCount = roomCount }
+        fun roomCount(roomCount: kotlin.Int?) = apply { this.roomCount = roomCount }
 
         fun build(): Hotel {
             // Check required params

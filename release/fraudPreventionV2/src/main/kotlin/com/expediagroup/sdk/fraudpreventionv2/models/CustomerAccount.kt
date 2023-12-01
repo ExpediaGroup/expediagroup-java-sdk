@@ -90,13 +90,13 @@ data class CustomerAccount(
 
         fun emailAddress(emailAddress: kotlin.String) = apply { this.emailAddress = emailAddress }
 
-        fun userId(userId: kotlin.String) = apply { this.userId = userId }
+        fun userId(userId: kotlin.String?) = apply { this.userId = userId }
 
-        fun telephones(telephones: kotlin.collections.List<Telephone>) = apply { this.telephones = telephones }
+        fun telephones(telephones: kotlin.collections.List<Telephone>?) = apply { this.telephones = telephones }
 
-        fun address(address: CustomerAccountAddress) = apply { this.address = address }
+        fun address(address: CustomerAccountAddress?) = apply { this.address = address }
 
-        fun registeredTime(registeredTime: java.time.OffsetDateTime) = apply { this.registeredTime = registeredTime }
+        fun registeredTime(registeredTime: java.time.OffsetDateTime?) = apply { this.registeredTime = registeredTime }
 
         fun build(): CustomerAccount {
             // Check required params

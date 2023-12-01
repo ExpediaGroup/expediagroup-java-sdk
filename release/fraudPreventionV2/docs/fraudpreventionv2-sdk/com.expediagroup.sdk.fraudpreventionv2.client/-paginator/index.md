@@ -21,7 +21,6 @@ public final class [Paginator](index.md)&lt;T extends [Object](https://docs.orac
 
 | Name | Summary |
 |---|---|
-| [forEachRemaining](index.md#-511368593%2FFunctions%2F-173342751) | [JVM]<br>public [Unit](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)[forEachRemaining](index.md#-511368593%2FFunctions%2F-173342751)([Consumer](https://docs.oracle.com/javase/8/docs/api/java/util/function/Consumer.html)&lt;? super [T](index.md)&gt;p0) |
 | [getPaginationTotalResults](get-pagination-total-results.md) | [JVM]<br>public final [Long](https://docs.oracle.com/javase/8/docs/api/java/lang/Long.html)[getPaginationTotalResults](get-pagination-total-results.md)() |
 | [hasNext](has-next.md) | [JVM]<br>public [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html)[hasNext](has-next.md)() |
 | [next](next.md) | [JVM]<br>public [T](index.md)[next](next.md)() |

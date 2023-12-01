@@ -52,7 +52,7 @@ data class AccountTakeoverBadRequestErrorAllOf(
     class Builder(
         private var causes: kotlin.collections.List<AccountTakeoverBadRequestErrorAllOfCauses>? = null
     ) {
-        fun causes(causes: kotlin.collections.List<AccountTakeoverBadRequestErrorAllOfCauses>) = apply { this.causes = causes }
+        fun causes(causes: kotlin.collections.List<AccountTakeoverBadRequestErrorAllOfCauses>?) = apply { this.causes = causes }
 
         fun build(): AccountTakeoverBadRequestErrorAllOf {
             return AccountTakeoverBadRequestErrorAllOf(

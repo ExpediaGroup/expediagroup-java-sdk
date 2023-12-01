@@ -67,7 +67,7 @@ data class IssuedRefundUpdate(
     ) {
         fun riskId(riskId: kotlin.String) = apply { this.riskId = riskId }
 
-        fun refundDetails(refundDetails: IssuedRefundUpdateDetails) = apply { this.refundDetails = refundDetails }
+        fun refundDetails(refundDetails: IssuedRefundUpdateDetails?) = apply { this.refundDetails = refundDetails }
 
         fun build(): IssuedRefundUpdate {
             // Check required params

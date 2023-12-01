@@ -13,7 +13,7 @@
     <packaging>jar</packaging>
 
         <name>EG SDK :: fraudpreventionv2-sdk</name>
-        <description>EG SDK :: fraudpreventionv2-sdk v3.4.0</description>
+        <description>EG SDK :: fraudpreventionv2-sdk v3.5.0</description>
 
     <artifactId>fraudpreventionv2-sdk</artifactId>
     <version>${revision}</version>
@@ -58,7 +58,7 @@
     <properties>
         <sdk-version>${project.version}</sdk-version>
         <sdk-title>${project.artifactId}</sdk-title>
-        <revision>3.4.0</revision>
+        <revision>3.5.0</revision>
         <shadePrefix>com.expediagroup.sdk</shadePrefix>
     </properties>
 
@@ -328,6 +328,7 @@
                             <version>${dokka-plugin.version}</version>
                         </plugin>
                     </dokkaPlugins>
+                    <suppressInheritedMembers>true</suppressInheritedMembers>
                 </configuration>
                 <executions>
                     <execution>

@@ -55,7 +55,7 @@ data class RailSegmentsOperatingCompany(
     class Builder(
         private var marketingName: kotlin.String? = null
     ) {
-        fun marketingName(marketingName: kotlin.String) = apply { this.marketingName = marketingName }
+        fun marketingName(marketingName: kotlin.String?) = apply { this.marketingName = marketingName }
 
         fun build(): RailSegmentsOperatingCompany {
             return RailSegmentsOperatingCompany(

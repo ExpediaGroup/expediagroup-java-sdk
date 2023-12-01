@@ -128,19 +128,19 @@ data class CreditCardAllOf(
 
         fun telephones(telephones: kotlin.collections.List<Telephone>) = apply { this.telephones = telephones }
 
-        fun electronicCommerceIndicator(electronicCommerceIndicator: kotlin.String) = apply { this.electronicCommerceIndicator = electronicCommerceIndicator }
+        fun electronicCommerceIndicator(electronicCommerceIndicator: kotlin.String?) = apply { this.electronicCommerceIndicator = electronicCommerceIndicator }
 
-        fun virtualCreditCardFlag(virtualCreditCardFlag: kotlin.Boolean) = apply { this.virtualCreditCardFlag = virtualCreditCardFlag }
+        fun virtualCreditCardFlag(virtualCreditCardFlag: kotlin.Boolean?) = apply { this.virtualCreditCardFlag = virtualCreditCardFlag }
 
-        fun walletType(walletType: kotlin.String) = apply { this.walletType = walletType }
+        fun walletType(walletType: kotlin.String?) = apply { this.walletType = walletType }
 
-        fun cardAvsResponse(cardAvsResponse: kotlin.String) = apply { this.cardAvsResponse = cardAvsResponse }
+        fun cardAvsResponse(cardAvsResponse: kotlin.String?) = apply { this.cardAvsResponse = cardAvsResponse }
 
-        fun cardCvvResponse(cardCvvResponse: kotlin.String) = apply { this.cardCvvResponse = cardCvvResponse }
+        fun cardCvvResponse(cardCvvResponse: kotlin.String?) = apply { this.cardCvvResponse = cardCvvResponse }
 
-        fun merchantOrderCode(merchantOrderCode: kotlin.String) = apply { this.merchantOrderCode = merchantOrderCode }
+        fun merchantOrderCode(merchantOrderCode: kotlin.String?) = apply { this.merchantOrderCode = merchantOrderCode }
 
-        fun cardAuthenticationFailureCount(cardAuthenticationFailureCount: kotlin.Int) = apply { this.cardAuthenticationFailureCount = cardAuthenticationFailureCount }
+        fun cardAuthenticationFailureCount(cardAuthenticationFailureCount: kotlin.Int?) = apply { this.cardAuthenticationFailureCount = cardAuthenticationFailureCount }
 
         fun build(): CreditCardAllOf {
             // Check required params

@@ -105,9 +105,9 @@ data class CustomerAccountAddress(
 
         fun countryCode(countryCode: kotlin.String) = apply { this.countryCode = countryCode }
 
-        fun addressType(addressType: CustomerAccountAddress.AddressType) = apply { this.addressType = addressType }
+        fun addressType(addressType: CustomerAccountAddress.AddressType?) = apply { this.addressType = addressType }
 
-        fun addressLine2(addressLine2: kotlin.String) = apply { this.addressLine2 = addressLine2 }
+        fun addressLine2(addressLine2: kotlin.String?) = apply { this.addressLine2 = addressLine2 }
 
         fun build(): CustomerAccountAddress {
             // Check required params

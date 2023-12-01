@@ -55,7 +55,7 @@ data class Email(
     class Builder(
         private var emailAddress: kotlin.String? = null
     ) {
-        fun emailAddress(emailAddress: kotlin.String) = apply { this.emailAddress = emailAddress }
+        fun emailAddress(emailAddress: kotlin.String?) = apply { this.emailAddress = emailAddress }
 
         fun build(): Email {
             return Email(
