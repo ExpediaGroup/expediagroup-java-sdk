@@ -94,11 +94,11 @@ data class LoginTransactionDetails(
 
         fun successfulLoginFlag(successfulLoginFlag: kotlin.Boolean) = apply { this.successfulLoginFlag = successfulLoginFlag }
 
-        fun currentUserSession(currentUserSession: CurrentUserSession) = apply { this.currentUserSession = currentUserSession }
+        fun currentUserSession(currentUserSession: CurrentUserSession?) = apply { this.currentUserSession = currentUserSession }
 
-        fun authenticationSubType(authenticationSubType: LoginTransactionDetails.AuthenticationSubType) = apply { this.authenticationSubType = authenticationSubType }
+        fun authenticationSubType(authenticationSubType: LoginTransactionDetails.AuthenticationSubType?) = apply { this.authenticationSubType = authenticationSubType }
 
-        fun failedLoginReason(failedLoginReason: LoginTransactionDetails.FailedLoginReason) = apply { this.failedLoginReason = failedLoginReason }
+        fun failedLoginReason(failedLoginReason: LoginTransactionDetails.FailedLoginReason?) = apply { this.failedLoginReason = failedLoginReason }
 
         fun build(): LoginTransactionDetails {
             // Check required params

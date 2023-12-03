@@ -85,9 +85,9 @@ data class RailwayStationDetails(
 
         fun address(address: Address) = apply { this.address = address }
 
-        fun type(type: RailwayStationDetails.Type) = apply { this.type = type }
+        fun type(type: RailwayStationDetails.Type?) = apply { this.type = type }
 
-        fun timezone(timezone: kotlin.String) = apply { this.timezone = timezone }
+        fun timezone(timezone: kotlin.String?) = apply { this.timezone = timezone }
 
         fun build(): RailwayStationDetails {
             // Check required params

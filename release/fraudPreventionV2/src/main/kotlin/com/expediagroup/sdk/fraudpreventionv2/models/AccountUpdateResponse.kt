@@ -55,7 +55,7 @@ data class AccountUpdateResponse(
     class Builder(
         private var riskId: kotlin.String? = null
     ) {
-        fun riskId(riskId: kotlin.String) = apply { this.riskId = riskId }
+        fun riskId(riskId: kotlin.String?) = apply { this.riskId = riskId }
 
         fun build(): AccountUpdateResponse {
             return AccountUpdateResponse(

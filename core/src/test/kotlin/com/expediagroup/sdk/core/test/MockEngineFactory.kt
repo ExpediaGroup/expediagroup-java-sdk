@@ -24,8 +24,6 @@ import com.expediagroup.sdk.core.test.TestConstants.ACCESS_TOKEN
 import com.expediagroup.sdk.core.test.TestConstants.APPLICATION_JSON
 import com.expediagroup.sdk.core.test.TestConstants.BAD_REQUEST_ATTRIBUTE
 import com.expediagroup.sdk.core.test.TestConstants.BASIC
-import com.expediagroup.sdk.core.test.TestConstants.CLIENT_KEY_TEST_CREDENTIAL
-import com.expediagroup.sdk.core.test.TestConstants.CLIENT_SECRET_TEST_CREDENTIAL
 import com.expediagroup.sdk.core.test.TestConstants.SUCCESSFUL_DUMMY_REQUEST
 import com.expediagroup.sdk.core.test.TestConstants.TEST_URL
 import io.ktor.client.engine.HttpClientEngine
@@ -36,15 +34,17 @@ import io.ktor.client.request.HttpRequestData
 import io.ktor.client.request.HttpResponseData
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
+import io.ktor.http.ParametersBuilder
+import io.ktor.http.URLBuilder
+import io.ktor.http.clone
 import io.ktor.http.headersOf
 import io.ktor.util.AttributeKey
 import io.ktor.utils.io.ByteReadChannel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.util.Base64
 
 object MockEngineFactory {
-    fun createDefaultEngine(): HttpClientEngine =
+    fun createDefaultEngine(): MockEngine =
         MockEngine { request ->
             if (isIdentityRequest(request) && isValidCredentialsRequest(request)) {
                 tokenResponse(HttpStatusCode.OK)
@@ -133,12 +133,14 @@ object MockEngineFactory {
             )
         }
 
-    private fun isIdentityRequest(request: HttpRequestData): Boolean = request.url.toString() == ExpediaGroupConfigurationProvider.authEndpoint
+    private fun isIdentityRequest(request: HttpRequestData): Boolean =
+        URLBuilder(request.url).clone().apply {
+            encodedParameters = ParametersBuilder()
+        }.buildString() == ExpediaGroupConfigurationProvider.authEndpoint
 
     private fun isBadRequest(request: HttpRequestData): Boolean = request.attributes.getOrNull(AttributeKey(BAD_REQUEST_ATTRIBUTE)) != null
 
-    private fun isValidCredentialsRequest(request: HttpRequestData) =
-        request.headers[HeaderKey.AUTHORIZATION] == "$BASIC ${String(Base64.getEncoder().encode("$CLIENT_KEY_TEST_CREDENTIAL:$CLIENT_SECRET_TEST_CREDENTIAL".toByteArray()))}"
+    private fun isValidCredentialsRequest(request: HttpRequestData) = request.headers[HeaderKey.AUTHORIZATION] == "$BASIC ${TestConstants.ENCODED_CREDENTIALS}"
 
     private fun isAuthorizedHeader(request: HttpRequestData): Boolean = request.headers[HeaderKey.AUTHORIZATION] == "$BEARER $ACCESS_TOKEN"
 

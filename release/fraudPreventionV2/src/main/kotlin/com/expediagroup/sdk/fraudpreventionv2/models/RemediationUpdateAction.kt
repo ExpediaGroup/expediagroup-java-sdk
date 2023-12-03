@@ -65,7 +65,7 @@ data class RemediationUpdateAction(
 
         fun status(status: RemediationUpdateAction.Status) = apply { this.status = status }
 
-        fun updateEndDateTime(updateEndDateTime: java.time.OffsetDateTime) = apply { this.updateEndDateTime = updateEndDateTime }
+        fun updateEndDateTime(updateEndDateTime: java.time.OffsetDateTime?) = apply { this.updateEndDateTime = updateEndDateTime }
 
         fun build(): RemediationUpdateAction {
             // Check required params

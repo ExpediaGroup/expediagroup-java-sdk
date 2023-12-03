@@ -60,9 +60,9 @@ data class AccountScreenResponse(
         private var riskId: kotlin.String? = null,
         private var decision: AccountTakeoverFraudDecision? = null
     ) {
-        fun riskId(riskId: kotlin.String) = apply { this.riskId = riskId }
+        fun riskId(riskId: kotlin.String?) = apply { this.riskId = riskId }
 
-        fun decision(decision: AccountTakeoverFraudDecision) = apply { this.decision = decision }
+        fun decision(decision: AccountTakeoverFraudDecision?) = apply { this.decision = decision }
 
         fun build(): AccountScreenResponse {
             return AccountScreenResponse(

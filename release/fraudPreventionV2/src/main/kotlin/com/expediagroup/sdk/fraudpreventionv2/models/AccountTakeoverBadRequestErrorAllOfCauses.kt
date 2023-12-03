@@ -62,11 +62,11 @@ data class AccountTakeoverBadRequestErrorAllOfCauses(
         private var `field`: kotlin.String? = null,
         private var message: kotlin.String? = null
     ) {
-        fun code(code: AccountTakeoverBadRequestErrorAllOfCauses.Code) = apply { this.code = code }
+        fun code(code: AccountTakeoverBadRequestErrorAllOfCauses.Code?) = apply { this.code = code }
 
-        fun `field`(`field`: kotlin.String) = apply { this.`field` = `field` }
+        fun `field`(`field`: kotlin.String?) = apply { this.`field` = `field` }
 
-        fun message(message: kotlin.String) = apply { this.message = message }
+        fun message(message: kotlin.String?) = apply { this.message = message }
 
         fun build(): AccountTakeoverBadRequestErrorAllOfCauses {
             return AccountTakeoverBadRequestErrorAllOfCauses(

@@ -76,13 +76,13 @@ data class CancellationReason(
         private var primaryReasonDescription: kotlin.String? = null,
         private var subReasonDescription: kotlin.String? = null
     ) {
-        fun primaryReasonCode(primaryReasonCode: kotlin.String) = apply { this.primaryReasonCode = primaryReasonCode }
+        fun primaryReasonCode(primaryReasonCode: kotlin.String?) = apply { this.primaryReasonCode = primaryReasonCode }
 
-        fun subReasonCode(subReasonCode: kotlin.String) = apply { this.subReasonCode = subReasonCode }
+        fun subReasonCode(subReasonCode: kotlin.String?) = apply { this.subReasonCode = subReasonCode }
 
-        fun primaryReasonDescription(primaryReasonDescription: kotlin.String) = apply { this.primaryReasonDescription = primaryReasonDescription }
+        fun primaryReasonDescription(primaryReasonDescription: kotlin.String?) = apply { this.primaryReasonDescription = primaryReasonDescription }
 
-        fun subReasonDescription(subReasonDescription: kotlin.String) = apply { this.subReasonDescription = subReasonDescription }
+        fun subReasonDescription(subReasonDescription: kotlin.String?) = apply { this.subReasonDescription = subReasonDescription }
 
         fun build(): CancellationReason {
             return CancellationReason(

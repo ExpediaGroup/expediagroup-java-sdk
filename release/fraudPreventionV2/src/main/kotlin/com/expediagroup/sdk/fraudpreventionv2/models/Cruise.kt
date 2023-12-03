@@ -124,9 +124,9 @@ data class Cruise(
 
         fun shipName(shipName: kotlin.String) = apply { this.shipName = shipName }
 
-        fun travelersReferences(travelersReferences: kotlin.collections.List<kotlin.String>) = apply { this.travelersReferences = travelersReferences }
+        fun travelersReferences(travelersReferences: kotlin.collections.List<kotlin.String>?) = apply { this.travelersReferences = travelersReferences }
 
-        fun payLater(payLater: kotlin.Boolean) = apply { this.payLater = payLater }
+        fun payLater(payLater: kotlin.Boolean?) = apply { this.payLater = payLater }
 
         fun build(): Cruise {
             // Check required params

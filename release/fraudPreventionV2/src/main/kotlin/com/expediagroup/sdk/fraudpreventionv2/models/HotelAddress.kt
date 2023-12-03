@@ -105,9 +105,9 @@ data class HotelAddress(
 
         fun countryCode(countryCode: kotlin.String) = apply { this.countryCode = countryCode }
 
-        fun addressType(addressType: HotelAddress.AddressType) = apply { this.addressType = addressType }
+        fun addressType(addressType: HotelAddress.AddressType?) = apply { this.addressType = addressType }
 
-        fun addressLine2(addressLine2: kotlin.String) = apply { this.addressLine2 = addressLine2 }
+        fun addressLine2(addressLine2: kotlin.String?) = apply { this.addressLine2 = addressLine2 }
 
         fun build(): HotelAddress {
             // Check required params

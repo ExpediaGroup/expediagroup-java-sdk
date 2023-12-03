@@ -83,9 +83,9 @@ data class Insurance(
 
         fun inventorySource(inventorySource: TravelProduct.InventorySource) = apply { this.inventorySource = inventorySource }
 
-        fun travelersReferences(travelersReferences: kotlin.collections.List<kotlin.String>) = apply { this.travelersReferences = travelersReferences }
+        fun travelersReferences(travelersReferences: kotlin.collections.List<kotlin.String>?) = apply { this.travelersReferences = travelersReferences }
 
-        fun payLater(payLater: kotlin.Boolean) = apply { this.payLater = payLater }
+        fun payLater(payLater: kotlin.Boolean?) = apply { this.payLater = payLater }
 
         fun build(): Insurance {
             // Check required params
