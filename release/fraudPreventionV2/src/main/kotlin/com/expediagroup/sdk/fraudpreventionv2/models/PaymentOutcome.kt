@@ -67,11 +67,11 @@ data class PaymentOutcome(
         private var code: kotlin.String? = null,
         private var description: kotlin.String? = null
     ) {
-        fun status(status: PaymentStatus) = apply { this.status = status }
+        fun status(status: PaymentStatus?) = apply { this.status = status }
 
-        fun code(code: kotlin.String) = apply { this.code = code }
+        fun code(code: kotlin.String?) = apply { this.code = code }
 
-        fun description(description: kotlin.String) = apply { this.description = description }
+        fun description(description: kotlin.String?) = apply { this.description = description }
 
         fun build(): PaymentOutcome {
             return PaymentOutcome(

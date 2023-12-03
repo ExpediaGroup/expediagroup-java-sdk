@@ -79,9 +79,9 @@ data class DirectDebitAllOf(
 
         fun telephones(telephones: kotlin.collections.List<Telephone>) = apply { this.telephones = telephones }
 
-        fun routingNumber(routingNumber: kotlin.String) = apply { this.routingNumber = routingNumber }
+        fun routingNumber(routingNumber: kotlin.String?) = apply { this.routingNumber = routingNumber }
 
-        fun mandateType(mandateType: DirectDebitAllOf.MandateType) = apply { this.mandateType = mandateType }
+        fun mandateType(mandateType: DirectDebitAllOf.MandateType?) = apply { this.mandateType = mandateType }
 
         fun build(): DirectDebitAllOf {
             // Check required params

@@ -64,7 +64,7 @@ data class InsultFeedback(
     ) {
         fun riskId(riskId: kotlin.String) = apply { this.riskId = riskId }
 
-        fun insultDetail(insultDetail: InsultDetail) = apply { this.insultDetail = insultDetail }
+        fun insultDetail(insultDetail: InsultDetail?) = apply { this.insultDetail = insultDetail }
 
         fun build(): InsultFeedback {
             // Check required params

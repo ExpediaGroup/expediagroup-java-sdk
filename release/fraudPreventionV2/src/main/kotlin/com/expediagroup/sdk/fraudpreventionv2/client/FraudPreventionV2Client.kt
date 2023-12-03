@@ -18,9 +18,8 @@ package com.expediagroup.sdk.fraudpreventionv2.client
 
 import com.expediagroup.sdk.core.client.ExpediaGroupClient
 import com.expediagroup.sdk.core.configuration.ExpediaGroupClientConfiguration
-import com.expediagroup.sdk.core.model.Properties
 import com.expediagroup.sdk.core.model.Response
-import com.expediagroup.sdk.core.model.exception.ExpediaGroupException
+import com.expediagroup.sdk.core.model.exception.handle
 import com.expediagroup.sdk.fraudpreventionv2.models.AccountScreenRequest
 import com.expediagroup.sdk.fraudpreventionv2.models.AccountScreenResponse
 import com.expediagroup.sdk.fraudpreventionv2.models.AccountUpdateRequest
@@ -32,7 +31,6 @@ import com.expediagroup.sdk.fraudpreventionv2.models.OrderPurchaseUpdateResponse
 import com.expediagroup.sdk.fraudpreventionv2.models.exception.*
 import com.expediagroup.sdk.fraudpreventionv2.validation.PropertyConstraintsValidator.validateConstraints
 import io.ktor.client.call.body
-import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.request
 import io.ktor.client.request.setBody
 import io.ktor.client.request.url
@@ -49,13 +47,7 @@ import java.util.UUID
 /**
 *
 */
-class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGroupClientConfiguration) : ExpediaGroupClient(clientConfiguration) {
-
-    private val properties = Properties.from(javaClass.classLoader.getResource("sdk.properties")!!)
-    private val javaVersion = System.getProperty("java.version")
-    private val operatingSystemName = System.getProperty("os.name")
-    private val operatingSystemVersion = System.getProperty("os.version")
-    private val userAgent = "expediagroup-sdk-java-fraudpreventionv2/${properties["sdk-version"]!!} (Java $javaVersion; $operatingSystemName $operatingSystemVersion)"
+class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGroupClientConfiguration) : ExpediaGroupClient("fraudpreventionv2", clientConfiguration) {
 
     class Builder : ExpediaGroupClient.Builder<Builder>() {
         override fun build(): FraudPreventionV2Client =
@@ -66,12 +58,6 @@ class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGr
 
     companion object {
         @JvmStatic fun builder() = Builder()
-    }
-
-    private fun HttpRequestBuilder.appendHeaders(transactionId: UUID) {
-        headers.append("x-sdk-title", properties["sdk-title"]!!)
-        headers.append("transaction-id", transactionId.toString())
-        headers.append("User-agent", userAgent)
     }
 
     override suspend fun throwServiceException(
@@ -177,12 +163,7 @@ class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGr
                 knotifyWithAccountUpdateWithResponse(accountUpdateRequest, transactionId)
             }.get()
         } catch (exception: Exception) {
-            if (exception is ExpediaGroupException) throw exception
-
-            when (val cause = exception.cause) {
-                is ExpediaGroupException -> throw cause
-                else -> throw ExpediaGroupException("ExpediaGroup Error", exception)
-            }
+            exception.handle()
         }
     }
 
@@ -282,12 +263,7 @@ class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGr
                 knotifyWithOrderUpdateWithResponse(orderPurchaseUpdateRequest, transactionId)
             }.get()
         } catch (exception: Exception) {
-            if (exception is ExpediaGroupException) throw exception
-
-            when (val cause = exception.cause) {
-                is ExpediaGroupException -> throw cause
-                else -> throw ExpediaGroupException("ExpediaGroup Error", exception)
-            }
+            exception.handle()
         }
     }
 
@@ -387,12 +363,7 @@ class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGr
                 kscreenAccountWithResponse(accountScreenRequest, transactionId)
             }.get()
         } catch (exception: Exception) {
-            if (exception is ExpediaGroupException) throw exception
-
-            when (val cause = exception.cause) {
-                is ExpediaGroupException -> throw cause
-                else -> throw ExpediaGroupException("ExpediaGroup Error", exception)
-            }
+            exception.handle()
         }
     }
 
@@ -492,20 +463,7 @@ class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGr
                 kscreenOrderWithResponse(orderPurchaseScreenRequest, transactionId)
             }.get()
         } catch (exception: Exception) {
-            if (exception is ExpediaGroupException) throw exception
-
-            when (val cause = exception.cause) {
-                is ExpediaGroupException -> throw cause
-                else -> throw ExpediaGroupException("ExpediaGroup Error", exception)
-            }
-        }
-    }
-
-    internal suspend fun getFromLink(link: String): HttpResponse {
-        return httpClient.request {
-            method = HttpMethod.parse("GET")
-            url(link)
-            appendHeaders(UUID.randomUUID())
+            exception.handle()
         }
     }
 }
@@ -565,7 +523,7 @@ internal class FetchLinkState<T>(
 ) : ResponseState<T> {
     override fun getNextResponse(): Response<T> {
         return runBlocking {
-            val response = client.getFromLink(link)
+            val response = client.performGet(link)
             val body = getBody(response)
             Response(response.status.value, body, response.headers.entries())
         }

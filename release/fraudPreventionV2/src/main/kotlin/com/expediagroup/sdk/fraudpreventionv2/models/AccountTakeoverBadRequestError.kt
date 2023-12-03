@@ -67,7 +67,7 @@ data class AccountTakeoverBadRequestError(
 
         fun message(message: kotlin.String) = apply { this.message = message }
 
-        fun causes(causes: kotlin.collections.List<AccountTakeoverBadRequestErrorAllOfCauses>) = apply { this.causes = causes }
+        fun causes(causes: kotlin.collections.List<AccountTakeoverBadRequestErrorAllOfCauses>?) = apply { this.causes = causes }
 
         fun build(): AccountTakeoverBadRequestError {
             // Check required params

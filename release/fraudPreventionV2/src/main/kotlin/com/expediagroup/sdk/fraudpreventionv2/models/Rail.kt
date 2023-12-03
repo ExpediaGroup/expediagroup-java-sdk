@@ -98,9 +98,9 @@ data class Rail(
 
         fun railSegments(railSegments: kotlin.collections.List<RailSegments>) = apply { this.railSegments = railSegments }
 
-        fun travelersReferences(travelersReferences: kotlin.collections.List<kotlin.String>) = apply { this.travelersReferences = travelersReferences }
+        fun travelersReferences(travelersReferences: kotlin.collections.List<kotlin.String>?) = apply { this.travelersReferences = travelersReferences }
 
-        fun payLater(payLater: kotlin.Boolean) = apply { this.payLater = payLater }
+        fun payLater(payLater: kotlin.Boolean?) = apply { this.payLater = payLater }
 
         fun build(): Rail {
             // Check required params

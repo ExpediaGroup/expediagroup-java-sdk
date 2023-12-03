@@ -130,17 +130,17 @@ data class InternetBankPayment(
 
         fun telephones(telephones: kotlin.collections.List<Telephone>) = apply { this.telephones = telephones }
 
-        fun reason(reason: PaymentReason) = apply { this.reason = reason }
+        fun reason(reason: PaymentReason?) = apply { this.reason = reason }
 
-        fun authorizedAmount(authorizedAmount: Amount) = apply { this.authorizedAmount = authorizedAmount }
+        fun authorizedAmount(authorizedAmount: Amount?) = apply { this.authorizedAmount = authorizedAmount }
 
-        fun verifiedAmount(verifiedAmount: Amount) = apply { this.verifiedAmount = verifiedAmount }
+        fun verifiedAmount(verifiedAmount: Amount?) = apply { this.verifiedAmount = verifiedAmount }
 
-        fun threeDigitsSecureCriteria(threeDigitsSecureCriteria: PaymentThreeDSCriteria) = apply { this.threeDigitsSecureCriteria = threeDigitsSecureCriteria }
+        fun threeDigitsSecureCriteria(threeDigitsSecureCriteria: PaymentThreeDSCriteria?) = apply { this.threeDigitsSecureCriteria = threeDigitsSecureCriteria }
 
-        fun operations(operations: Operations) = apply { this.operations = operations }
+        fun operations(operations: Operations?) = apply { this.operations = operations }
 
-        fun extensions(extensions: kotlin.collections.Map<kotlin.String, kotlin.String>) = apply { this.extensions = extensions }
+        fun extensions(extensions: kotlin.collections.Map<kotlin.String, kotlin.String>?) = apply { this.extensions = extensions }
 
         fun build(): InternetBankPayment {
             // Check required params

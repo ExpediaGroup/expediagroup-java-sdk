@@ -26,7 +26,7 @@ internal class ExpediaGroupConfigurationProviderTest {
         assertEquals(EMPTY_STRING, ExpediaGroupConfigurationProvider.key)
         assertEquals(EMPTY_STRING, ExpediaGroupConfigurationProvider.secret)
         assertEquals("https://api.expediagroup.com/", ExpediaGroupConfigurationProvider.endpoint)
-        assertEquals("https://api.expediagroup.com/identity/oauth2/v2/token/", ExpediaGroupConfigurationProvider.authEndpoint)
+        assertEquals("https://api.expediagroup.com/identity/oauth2/v3/token/", ExpediaGroupConfigurationProvider.authEndpoint)
         assertEquals(TEN_SECONDS_IN_MILLIS, ExpediaGroupConfigurationProvider.requestTimeout)
     }
 }

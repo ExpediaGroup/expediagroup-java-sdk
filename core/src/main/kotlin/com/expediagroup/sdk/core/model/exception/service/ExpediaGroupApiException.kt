@@ -15,4 +15,7 @@
  */
 package com.expediagroup.sdk.core.model.exception.service
 
-abstract class ExpediaGroupApiException(val statusCode: Int, open val errorObject: Any) : ExpediaGroupServiceException(errorObject.toString())
+abstract class ExpediaGroupApiException(val statusCode: Int, open val errorObject: Any) :
+    ExpediaGroupServiceException("Unsuccessful response code [$statusCode]${stringifyErrorObject(errorObject.toString())}")
+
+private fun stringifyErrorObject(stringValue: String): String = if (stringValue.isBlank()) " with an empty response body" else ": $stringValue"

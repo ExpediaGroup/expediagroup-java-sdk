@@ -95,19 +95,19 @@ data class Address(
         private var zipCode: kotlin.String? = null,
         private var countryCode: kotlin.String? = null
     ) {
-        fun addressType(addressType: Address.AddressType) = apply { this.addressType = addressType }
+        fun addressType(addressType: Address.AddressType?) = apply { this.addressType = addressType }
 
-        fun addressLine1(addressLine1: kotlin.String) = apply { this.addressLine1 = addressLine1 }
+        fun addressLine1(addressLine1: kotlin.String?) = apply { this.addressLine1 = addressLine1 }
 
-        fun addressLine2(addressLine2: kotlin.String) = apply { this.addressLine2 = addressLine2 }
+        fun addressLine2(addressLine2: kotlin.String?) = apply { this.addressLine2 = addressLine2 }
 
-        fun city(city: kotlin.String) = apply { this.city = city }
+        fun city(city: kotlin.String?) = apply { this.city = city }
 
-        fun state(state: kotlin.String) = apply { this.state = state }
+        fun state(state: kotlin.String?) = apply { this.state = state }
 
-        fun zipCode(zipCode: kotlin.String) = apply { this.zipCode = zipCode }
+        fun zipCode(zipCode: kotlin.String?) = apply { this.zipCode = zipCode }
 
-        fun countryCode(countryCode: kotlin.String) = apply { this.countryCode = countryCode }
+        fun countryCode(countryCode: kotlin.String?) = apply { this.countryCode = countryCode }
 
         fun build(): Address {
             return Address(

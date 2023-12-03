@@ -114,17 +114,17 @@ data class Telephone(
 
         fun phoneNumber(phoneNumber: kotlin.String) = apply { this.phoneNumber = phoneNumber }
 
-        fun type(type: TelephoneType) = apply { this.type = type }
+        fun type(type: TelephoneType?) = apply { this.type = type }
 
-        fun platformType(platformType: TelephonePlatformType) = apply { this.platformType = platformType }
+        fun platformType(platformType: TelephonePlatformType?) = apply { this.platformType = platformType }
 
-        fun extensionNumber(extensionNumber: kotlin.String) = apply { this.extensionNumber = extensionNumber }
+        fun extensionNumber(extensionNumber: kotlin.String?) = apply { this.extensionNumber = extensionNumber }
 
-        fun preferenceRank(preferenceRank: java.math.BigDecimal) = apply { this.preferenceRank = preferenceRank }
+        fun preferenceRank(preferenceRank: java.math.BigDecimal?) = apply { this.preferenceRank = preferenceRank }
 
-        fun lastVerifiedDateTime(lastVerifiedDateTime: java.time.OffsetDateTime) = apply { this.lastVerifiedDateTime = lastVerifiedDateTime }
+        fun lastVerifiedDateTime(lastVerifiedDateTime: java.time.OffsetDateTime?) = apply { this.lastVerifiedDateTime = lastVerifiedDateTime }
 
-        fun verifiedFlag(verifiedFlag: kotlin.Boolean) = apply { this.verifiedFlag = verifiedFlag }
+        fun verifiedFlag(verifiedFlag: kotlin.Boolean?) = apply { this.verifiedFlag = verifiedFlag }
 
         fun build(): Telephone {
             // Check required params

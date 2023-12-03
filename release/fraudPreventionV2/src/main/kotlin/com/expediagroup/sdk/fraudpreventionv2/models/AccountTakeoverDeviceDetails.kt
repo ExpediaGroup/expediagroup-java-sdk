@@ -88,9 +88,9 @@ data class AccountTakeoverDeviceDetails(
 
         fun userAgent(userAgent: kotlin.String) = apply { this.userAgent = userAgent }
 
-        fun source(source: kotlin.String) = apply { this.source = source }
+        fun source(source: kotlin.String?) = apply { this.source = source }
 
-        fun type(type: AccountTakeoverDeviceDetails.Type) = apply { this.type = type }
+        fun type(type: AccountTakeoverDeviceDetails.Type?) = apply { this.type = type }
 
         fun build(): AccountTakeoverDeviceDetails {
             // Check required params

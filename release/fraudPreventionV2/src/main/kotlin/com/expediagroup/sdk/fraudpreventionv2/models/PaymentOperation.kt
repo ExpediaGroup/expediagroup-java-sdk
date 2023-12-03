@@ -64,11 +64,11 @@ data class PaymentOperation(
         private var amount: Amount? = null,
         private var outcome: PaymentOutcome? = null
     ) {
-        fun id(id: kotlin.String) = apply { this.id = id }
+        fun id(id: kotlin.String?) = apply { this.id = id }
 
-        fun amount(amount: Amount) = apply { this.amount = amount }
+        fun amount(amount: Amount?) = apply { this.amount = amount }
 
-        fun outcome(outcome: PaymentOutcome) = apply { this.outcome = outcome }
+        fun outcome(outcome: PaymentOutcome?) = apply { this.outcome = outcome }
 
         fun build(): PaymentOperation {
             return PaymentOperation(

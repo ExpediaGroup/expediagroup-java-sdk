@@ -115,9 +115,9 @@ data class Car(
 
         fun returnTime(returnTime: java.time.OffsetDateTime) = apply { this.returnTime = returnTime }
 
-        fun travelersReferences(travelersReferences: kotlin.collections.List<kotlin.String>) = apply { this.travelersReferences = travelersReferences }
+        fun travelersReferences(travelersReferences: kotlin.collections.List<kotlin.String>?) = apply { this.travelersReferences = travelersReferences }
 
-        fun payLater(payLater: kotlin.Boolean) = apply { this.payLater = payLater }
+        fun payLater(payLater: kotlin.Boolean?) = apply { this.payLater = payLater }
 
         fun build(): Car {
             // Check required params

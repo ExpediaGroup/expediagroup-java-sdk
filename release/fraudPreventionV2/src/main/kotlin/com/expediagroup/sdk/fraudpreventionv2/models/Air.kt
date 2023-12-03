@@ -125,15 +125,15 @@ data class Air(
 
         fun airSegments(airSegments: kotlin.collections.List<AirSegment>) = apply { this.airSegments = airSegments }
 
-        fun travelersReferences(travelersReferences: kotlin.collections.List<kotlin.String>) = apply { this.travelersReferences = travelersReferences }
+        fun travelersReferences(travelersReferences: kotlin.collections.List<kotlin.String>?) = apply { this.travelersReferences = travelersReferences }
 
-        fun payLater(payLater: kotlin.Boolean) = apply { this.payLater = payLater }
+        fun payLater(payLater: kotlin.Boolean?) = apply { this.payLater = payLater }
 
-        fun flightType(flightType: Air.FlightType) = apply { this.flightType = flightType }
+        fun flightType(flightType: Air.FlightType?) = apply { this.flightType = flightType }
 
-        fun passengerNameRecord(passengerNameRecord: kotlin.String) = apply { this.passengerNameRecord = passengerNameRecord }
+        fun passengerNameRecord(passengerNameRecord: kotlin.String?) = apply { this.passengerNameRecord = passengerNameRecord }
 
-        fun globalDistributionSystemType(globalDistributionSystemType: kotlin.String) = apply { this.globalDistributionSystemType = globalDistributionSystemType }
+        fun globalDistributionSystemType(globalDistributionSystemType: kotlin.String?) = apply { this.globalDistributionSystemType = globalDistributionSystemType }
 
         fun build(): Air {
             // Check required params
