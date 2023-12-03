@@ -96,7 +96,7 @@ data class TransactionDetails(
 
         fun travelers(travelers: kotlin.collections.List<Traveler>) = apply { this.travelers = travelers }
 
-        fun payments(payments: kotlin.collections.List<Payment>) = apply { this.payments = payments }
+        fun payments(payments: kotlin.collections.List<Payment>?) = apply { this.payments = payments }
 
         fun build(): TransactionDetails {
             // Check required params

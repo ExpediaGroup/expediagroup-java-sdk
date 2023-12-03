@@ -87,7 +87,7 @@ data class RailSegments(
 
         fun transportationMethod(transportationMethod: RailSegments.TransportationMethod) = apply { this.transportationMethod = transportationMethod }
 
-        fun operatingCompany(operatingCompany: RailSegmentsOperatingCompany) = apply { this.operatingCompany = operatingCompany }
+        fun operatingCompany(operatingCompany: RailSegmentsOperatingCompany?) = apply { this.operatingCompany = operatingCompany }
 
         fun build(): RailSegments {
             // Check required params

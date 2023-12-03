@@ -85,9 +85,9 @@ data class AirSegment(
 
         fun arrivalAirportCode(arrivalAirportCode: kotlin.String) = apply { this.arrivalAirportCode = arrivalAirportCode }
 
-        fun departureTime(departureTime: java.time.OffsetDateTime) = apply { this.departureTime = departureTime }
+        fun departureTime(departureTime: java.time.OffsetDateTime?) = apply { this.departureTime = departureTime }
 
-        fun arrivalTime(arrivalTime: java.time.OffsetDateTime) = apply { this.arrivalTime = arrivalTime }
+        fun arrivalTime(arrivalTime: java.time.OffsetDateTime?) = apply { this.arrivalTime = arrivalTime }
 
         fun build(): AirSegment {
             // Check required params

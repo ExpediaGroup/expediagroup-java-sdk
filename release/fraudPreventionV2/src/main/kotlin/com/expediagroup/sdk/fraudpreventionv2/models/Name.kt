@@ -87,11 +87,11 @@ data class Name(
 
         fun firstName(firstName: kotlin.String) = apply { this.firstName = firstName }
 
-        fun middleName(middleName: kotlin.String) = apply { this.middleName = middleName }
+        fun middleName(middleName: kotlin.String?) = apply { this.middleName = middleName }
 
-        fun title(title: kotlin.String) = apply { this.title = title }
+        fun title(title: kotlin.String?) = apply { this.title = title }
 
-        fun suffix(suffix: kotlin.String) = apply { this.suffix = suffix }
+        fun suffix(suffix: kotlin.String?) = apply { this.suffix = suffix }
 
         fun build(): Name {
             // Check required params

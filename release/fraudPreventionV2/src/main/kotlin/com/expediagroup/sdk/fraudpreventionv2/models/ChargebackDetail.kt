@@ -81,9 +81,9 @@ data class ChargebackDetail(
 
         fun chargebackAmount(chargebackAmount: Amount) = apply { this.chargebackAmount = chargebackAmount }
 
-        fun bankReasonCode(bankReasonCode: kotlin.String) = apply { this.bankReasonCode = bankReasonCode }
+        fun bankReasonCode(bankReasonCode: kotlin.String?) = apply { this.bankReasonCode = bankReasonCode }
 
-        fun chargebackReportedDateTime(chargebackReportedDateTime: java.time.OffsetDateTime) = apply { this.chargebackReportedDateTime = chargebackReportedDateTime }
+        fun chargebackReportedDateTime(chargebackReportedDateTime: java.time.OffsetDateTime?) = apply { this.chargebackReportedDateTime = chargebackReportedDateTime }
 
         fun build(): ChargebackDetail {
             // Check required params

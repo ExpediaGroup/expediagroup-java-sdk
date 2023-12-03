@@ -52,7 +52,7 @@ data class InsultFeedbackAllOf(
     class Builder(
         private var insultDetail: InsultDetail? = null
     ) {
-        fun insultDetail(insultDetail: InsultDetail) = apply { this.insultDetail = insultDetail }
+        fun insultDetail(insultDetail: InsultDetail?) = apply { this.insultDetail = insultDetail }
 
         fun build(): InsultFeedbackAllOf {
             return InsultFeedbackAllOf(

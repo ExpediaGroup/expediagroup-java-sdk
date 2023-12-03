@@ -52,7 +52,7 @@ data class VerifyAllOf(
     class Builder(
         private var type: VerificationType? = null
     ) {
-        fun type(type: VerificationType) = apply { this.type = type }
+        fun type(type: VerificationType?) = apply { this.type = type }
 
         fun build(): VerifyAllOf {
             return VerifyAllOf(

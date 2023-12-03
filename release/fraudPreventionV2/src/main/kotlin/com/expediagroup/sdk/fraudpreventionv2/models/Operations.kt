@@ -74,15 +74,15 @@ data class Operations(
         private var capture: Capture? = null,
         private var refunds: kotlin.collections.List<Refund>? = null
     ) {
-        fun verify(verify: Verify) = apply { this.verify = verify }
+        fun verify(verify: Verify?) = apply { this.verify = verify }
 
-        fun authorize(authorize: Authorize) = apply { this.authorize = authorize }
+        fun authorize(authorize: Authorize?) = apply { this.authorize = authorize }
 
-        fun authorizeReversal(authorizeReversal: AuthorizeReversal) = apply { this.authorizeReversal = authorizeReversal }
+        fun authorizeReversal(authorizeReversal: AuthorizeReversal?) = apply { this.authorizeReversal = authorizeReversal }
 
-        fun capture(capture: Capture) = apply { this.capture = capture }
+        fun capture(capture: Capture?) = apply { this.capture = capture }
 
-        fun refunds(refunds: kotlin.collections.List<Refund>) = apply { this.refunds = refunds }
+        fun refunds(refunds: kotlin.collections.List<Refund>?) = apply { this.refunds = refunds }
 
         fun build(): Operations {
             return Operations(

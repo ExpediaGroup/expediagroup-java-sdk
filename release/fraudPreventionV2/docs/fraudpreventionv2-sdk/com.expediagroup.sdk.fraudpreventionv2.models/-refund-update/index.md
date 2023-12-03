@@ -32,5 +32,3 @@ JVM
 | Name | Summary |
 |---|---|
 | [getRefundStatus](get-refund-status.md) | [JVM]<br>public abstract [RefundUpdate.RefundStatus](-refund-status/index.md)[getRefundStatus](get-refund-status.md)() |
-| [getRiskId](index.md#517328750%2FFunctions%2F-173342751) | [JVM]<br>public abstract [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[getRiskId](index.md#517328750%2FFunctions%2F-173342751)() |
-| [getType](index.md#-647865026%2FFunctions%2F-173342751) | [JVM]<br>public abstract [UpdateType](../-update-type/index.md)[getType](index.md#-647865026%2FFunctions%2F-173342751)() |

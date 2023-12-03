@@ -103,11 +103,11 @@ data class PaymentBillingAddress(
 
         fun countryCode(countryCode: kotlin.String) = apply { this.countryCode = countryCode }
 
-        fun addressType(addressType: PaymentBillingAddress.AddressType) = apply { this.addressType = addressType }
+        fun addressType(addressType: PaymentBillingAddress.AddressType?) = apply { this.addressType = addressType }
 
-        fun addressLine2(addressLine2: kotlin.String) = apply { this.addressLine2 = addressLine2 }
+        fun addressLine2(addressLine2: kotlin.String?) = apply { this.addressLine2 = addressLine2 }
 
-        fun state(state: kotlin.String) = apply { this.state = state }
+        fun state(state: kotlin.String?) = apply { this.state = state }
 
         fun build(): PaymentBillingAddress {
             // Check required params

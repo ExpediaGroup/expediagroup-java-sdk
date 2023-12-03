@@ -51,7 +51,7 @@ data class InsultDetail(
     class Builder(
         private var insultReportedDateTime: java.time.OffsetDateTime? = null
     ) {
-        fun insultReportedDateTime(insultReportedDateTime: java.time.OffsetDateTime) = apply { this.insultReportedDateTime = insultReportedDateTime }
+        fun insultReportedDateTime(insultReportedDateTime: java.time.OffsetDateTime?) = apply { this.insultReportedDateTime = insultReportedDateTime }
 
         fun build(): InsultDetail {
             return InsultDetail(
