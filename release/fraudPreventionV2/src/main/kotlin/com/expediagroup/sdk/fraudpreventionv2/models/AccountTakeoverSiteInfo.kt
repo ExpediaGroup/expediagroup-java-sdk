@@ -77,11 +77,11 @@ data class AccountTakeoverSiteInfo(
     ) {
         fun brandName(brandName: kotlin.String) = apply { this.brandName = brandName }
 
-        fun locale(locale: kotlin.String) = apply { this.locale = locale }
+        fun locale(locale: kotlin.String?) = apply { this.locale = locale }
 
-        fun name(name: kotlin.String) = apply { this.name = name }
+        fun name(name: kotlin.String?) = apply { this.name = name }
 
-        fun placementName(placementName: AccountTakeoverSiteInfo.PlacementName) = apply { this.placementName = placementName }
+        fun placementName(placementName: AccountTakeoverSiteInfo.PlacementName?) = apply { this.placementName = placementName }
 
         fun build(): AccountTakeoverSiteInfo {
             // Check required params

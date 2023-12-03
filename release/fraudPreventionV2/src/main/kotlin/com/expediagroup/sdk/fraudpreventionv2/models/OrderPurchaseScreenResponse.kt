@@ -60,9 +60,9 @@ data class OrderPurchaseScreenResponse(
         private var riskId: kotlin.String? = null,
         private var decision: FraudDecision? = null
     ) {
-        fun riskId(riskId: kotlin.String) = apply { this.riskId = riskId }
+        fun riskId(riskId: kotlin.String?) = apply { this.riskId = riskId }
 
-        fun decision(decision: FraudDecision) = apply { this.decision = decision }
+        fun decision(decision: FraudDecision?) = apply { this.decision = decision }
 
         fun build(): OrderPurchaseScreenResponse {
             return OrderPurchaseScreenResponse(

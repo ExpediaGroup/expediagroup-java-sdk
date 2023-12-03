@@ -72,9 +72,9 @@ data class DeviceDetails(
     ) {
         fun ipAddress(ipAddress: kotlin.String) = apply { this.ipAddress = ipAddress }
 
-        fun source(source: kotlin.String) = apply { this.source = source }
+        fun source(source: kotlin.String?) = apply { this.source = source }
 
-        fun deviceBox(deviceBox: kotlin.String) = apply { this.deviceBox = deviceBox }
+        fun deviceBox(deviceBox: kotlin.String?) = apply { this.deviceBox = deviceBox }
 
         fun build(): DeviceDetails {
             // Check required params

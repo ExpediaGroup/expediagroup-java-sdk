@@ -110,13 +110,13 @@ data class MultiFactorAuthenticationAttempt(
 
         fun attemptCount(attemptCount: java.math.BigDecimal) = apply { this.attemptCount = attemptCount }
 
-        fun updateStartDateTime(updateStartDateTime: java.time.OffsetDateTime) = apply { this.updateStartDateTime = updateStartDateTime }
+        fun updateStartDateTime(updateStartDateTime: java.time.OffsetDateTime?) = apply { this.updateStartDateTime = updateStartDateTime }
 
-        fun updateEndDateTime(updateEndDateTime: java.time.OffsetDateTime) = apply { this.updateEndDateTime = updateEndDateTime }
+        fun updateEndDateTime(updateEndDateTime: java.time.OffsetDateTime?) = apply { this.updateEndDateTime = updateEndDateTime }
 
-        fun telephone(telephone: Telephone) = apply { this.telephone = telephone }
+        fun telephone(telephone: Telephone?) = apply { this.telephone = telephone }
 
-        fun emailAddress(emailAddress: kotlin.String) = apply { this.emailAddress = emailAddress }
+        fun emailAddress(emailAddress: kotlin.String?) = apply { this.emailAddress = emailAddress }
 
         fun build(): MultiFactorAuthenticationAttempt {
             // Check required params

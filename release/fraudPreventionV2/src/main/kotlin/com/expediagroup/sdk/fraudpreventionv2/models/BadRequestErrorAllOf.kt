@@ -52,7 +52,7 @@ data class BadRequestErrorAllOf(
     class Builder(
         private var causes: kotlin.collections.List<BadRequestErrorAllOfCauses>? = null
     ) {
-        fun causes(causes: kotlin.collections.List<BadRequestErrorAllOfCauses>) = apply { this.causes = causes }
+        fun causes(causes: kotlin.collections.List<BadRequestErrorAllOfCauses>?) = apply { this.causes = causes }
 
         fun build(): BadRequestErrorAllOf {
             return BadRequestErrorAllOf(

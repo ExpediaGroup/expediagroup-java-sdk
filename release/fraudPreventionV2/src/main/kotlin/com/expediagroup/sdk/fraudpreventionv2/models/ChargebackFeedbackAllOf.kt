@@ -52,7 +52,7 @@ data class ChargebackFeedbackAllOf(
     class Builder(
         private var chargebackDetail: ChargebackDetail? = null
     ) {
-        fun chargebackDetail(chargebackDetail: ChargebackDetail) = apply { this.chargebackDetail = chargebackDetail }
+        fun chargebackDetail(chargebackDetail: ChargebackDetail?) = apply { this.chargebackDetail = chargebackDetail }
 
         fun build(): ChargebackFeedbackAllOf {
             return ChargebackFeedbackAllOf(

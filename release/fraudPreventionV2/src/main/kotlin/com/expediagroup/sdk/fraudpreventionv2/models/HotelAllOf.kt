@@ -98,9 +98,9 @@ data class HotelAllOf(
 
         fun checkoutTime(checkoutTime: java.time.OffsetDateTime) = apply { this.checkoutTime = checkoutTime }
 
-        fun priceWithheld(priceWithheld: kotlin.Boolean) = apply { this.priceWithheld = priceWithheld }
+        fun priceWithheld(priceWithheld: kotlin.Boolean?) = apply { this.priceWithheld = priceWithheld }
 
-        fun roomCount(roomCount: kotlin.Int) = apply { this.roomCount = roomCount }
+        fun roomCount(roomCount: kotlin.Int?) = apply { this.roomCount = roomCount }
 
         fun build(): HotelAllOf {
             // Check required params

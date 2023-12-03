@@ -67,7 +67,7 @@ data class BadRequestError(
 
         fun message(message: kotlin.String) = apply { this.message = message }
 
-        fun causes(causes: kotlin.collections.List<BadRequestErrorAllOfCauses>) = apply { this.causes = causes }
+        fun causes(causes: kotlin.collections.List<BadRequestErrorAllOfCauses>?) = apply { this.causes = causes }
 
         fun build(): BadRequestError {
             // Check required params

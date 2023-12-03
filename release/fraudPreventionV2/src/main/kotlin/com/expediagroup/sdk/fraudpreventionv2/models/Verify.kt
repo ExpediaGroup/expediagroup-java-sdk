@@ -69,13 +69,13 @@ data class Verify(
         private var outcome: PaymentOutcome? = null,
         private var type: VerificationType? = null
     ) {
-        fun id(id: kotlin.String) = apply { this.id = id }
+        fun id(id: kotlin.String?) = apply { this.id = id }
 
-        fun amount(amount: Amount) = apply { this.amount = amount }
+        fun amount(amount: Amount?) = apply { this.amount = amount }
 
-        fun outcome(outcome: PaymentOutcome) = apply { this.outcome = outcome }
+        fun outcome(outcome: PaymentOutcome?) = apply { this.outcome = outcome }
 
-        fun type(type: VerificationType) = apply { this.type = type }
+        fun type(type: VerificationType?) = apply { this.type = type }
 
         fun build(): Verify {
             return Verify(

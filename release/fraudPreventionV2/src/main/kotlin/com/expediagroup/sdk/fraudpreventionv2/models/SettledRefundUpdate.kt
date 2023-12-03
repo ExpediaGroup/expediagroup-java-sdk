@@ -67,7 +67,7 @@ data class SettledRefundUpdate(
     ) {
         fun riskId(riskId: kotlin.String) = apply { this.riskId = riskId }
 
-        fun refundDetails(refundDetails: SettledRefundUpdateDetails) = apply { this.refundDetails = refundDetails }
+        fun refundDetails(refundDetails: SettledRefundUpdateDetails?) = apply { this.refundDetails = refundDetails }
 
         fun build(): SettledRefundUpdate {
             // Check required params
