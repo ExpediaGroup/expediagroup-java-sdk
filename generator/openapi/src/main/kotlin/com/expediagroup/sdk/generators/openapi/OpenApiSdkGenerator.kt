@@ -80,7 +80,7 @@ class OpenApiSdkGenerator {
                 setOutputDir(outputDirectory)
                 setArtifactId(product.artifactId)
                 setArtifactVersion(version)
-                setGroupId(product.groupId)
+                setGroupId(product.groupId)f
                 setPackageName(product.packageName)
 
                 addGlobalProperty(CodegenConstants.APIS, "")
