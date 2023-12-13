@@ -16,9 +16,9 @@
 package com.expediagroup.sdk.core.plugin.encoding
 
 import com.expediagroup.sdk.core.constant.HeaderKey
+import com.expediagroup.sdk.core.constant.HeaderValue.GZIP
 import com.expediagroup.sdk.core.test.ClientFactory
 import com.expediagroup.sdk.core.test.TestConstants.ANY_URL
-import com.expediagroup.sdk.core.test.TestConstants.GZIP
 import com.expediagroup.sdk.core.test.TestConstants.SUCCESSFUL_DUMMY_REQUEST
 import com.expediagroup.sdk.core.test.TestConstants.TEXT_PLAIN
 import io.ktor.client.call.body
