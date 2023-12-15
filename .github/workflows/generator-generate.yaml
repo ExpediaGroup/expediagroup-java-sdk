@@ -36,13 +36,13 @@ jobs:
         working-directory: generator/openapi/target/sdk
         run: |
           mvn clean install
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: sdk
           path: |
             generator/openapi/target/sdk
             !generator/openapi/target/sdk/target
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: docs
           path: generator/openapi/target/sdk/target/dokka
