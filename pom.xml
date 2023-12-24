@@ -90,7 +90,7 @@
         <properties.maven.plugin.version>1.0.0</properties.maven.plugin.version>
 
         <!-- Kotlin Compatible Versions -->
-        <kotlin.version>1.9.21</kotlin.version>
+        <kotlin.version>1.9.22</kotlin.version>
         <kotlinx.coroutines.version>1.7.3</kotlinx.coroutines.version>
         <kotlinx.serialization.version>1.6.2</kotlinx.serialization.version>
         <ktor.version>2.3.7</ktor.version>
@@ -108,7 +108,7 @@
         <slf4j.version>2.0.9</slf4j.version>
         <log4j.version>2.22.0</log4j.version>
 
-        <swagger.core.version>2.2.19</swagger.core.version>
+        <swagger.core.version>2.2.20</swagger.core.version>
     </properties>
 
     <dependencyManagement>
@@ -266,12 +266,12 @@
             <dependency>
                 <groupId>org.checkerframework</groupId>
                 <artifactId>checker-qual</artifactId>
-                <version>3.41.0</version>
+                <version>3.42.0</version>
             </dependency>
             <dependency>
                 <groupId>com.google.errorprone</groupId>
                 <artifactId>error_prone_annotations</artifactId>
-                <version>2.23.0</version>
+                <version>2.24.0</version>
             </dependency>
             <dependency>
                 <groupId>com.squareup.okio</groupId>
