@@ -19,12 +19,12 @@ import com.expediagroup.sdk.core.client.Client
 import com.expediagroup.sdk.core.model.Response
 import io.ktor.client.statement.HttpResponse
 
-sealed class BasePaginator<T, R>(
+sealed class BasePaginator<R, T>(
     private val client: Client,
-    firstResponse: Response<R>,
-    private val getBody: suspend (HttpResponse) -> R
-) : Iterator<T> {
-    private var state: ResponseState<R> = DefaultResponseState(firstResponse)
+    firstResponse: Response<T>,
+    private val getBody: suspend (HttpResponse) -> T
+) : Iterator<R> {
+    private var state: ResponseState<T> = DefaultResponseState(firstResponse)
     val paginationTotalResults: Long = firstResponse.headers["pagination-total-results"]?.getOrNull(0)?.toLongOrNull() ?: 0
 
     override fun hasNext(): Boolean = state.hasNext()
@@ -37,7 +37,7 @@ sealed class BasePaginator<T, R>(
         }
     }
 
-    protected fun nextResponse(): Response<R> {
+    protected fun nextResponse(): Response<T> {
         val response = state.getNextResponse()
         state = ResponseStateFactory.getState(extractLink(response.headers), client, getBody)
         return response
