@@ -19,4 +19,8 @@ internal object HeaderKey {
     const val AUTHORIZATION = "Authorization"
 
     const val ACCEPT_ENCODING = "Accept-Encoding"
+
+    const val PAGINATION_TOTAL_RESULTS = "pagination-total-results"
+
+    const val LINK = "link"
 }
