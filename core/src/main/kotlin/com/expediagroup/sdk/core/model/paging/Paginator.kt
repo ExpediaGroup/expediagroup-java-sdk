@@ -16,6 +16,8 @@
 package com.expediagroup.sdk.core.model.paging
 
 import com.expediagroup.sdk.core.client.Client
+import com.expediagroup.sdk.core.constant.HeaderKey.LINK
+import com.expediagroup.sdk.core.constant.HeaderKey.PAGINATION_TOTAL_RESULTS
 import com.expediagroup.sdk.core.model.Response
 import io.ktor.client.statement.HttpResponse
 
@@ -25,12 +27,12 @@ sealed class BasePaginator<R, T>(
     private val getBody: suspend (HttpResponse) -> T
 ) : Iterator<R> {
     private var state: ResponseState<T> = DefaultResponseState(firstResponse)
-    val paginationTotalResults: Long = firstResponse.headers["pagination-total-results"]?.getOrNull(0)?.toLongOrNull() ?: 0
+    val paginationTotalResults: Long = firstResponse.headers[PAGINATION_TOTAL_RESULTS]?.getOrNull(0)?.toLongOrNull() ?: 0
 
     override fun hasNext(): Boolean = state.hasNext()
 
     private fun extractLink(headers: Map<String, List<String>>): String? {
-        return headers["link"]?.getOrNull(0)?.split(";")?.let {
+        return headers[LINK]?.getOrNull(0)?.split(";")?.let {
             if (it.isNotEmpty()) it[0] else null
         }?.let {
             it.substring(it.indexOf("<") + 1, it.indexOf(">"))

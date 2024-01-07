@@ -22,64 +22,64 @@ import com.expediagroup.sdk.core.test.ClientFactory.createExpediaGroupClient
 import com.expediagroup.sdk.core.test.TestConstants.SUCCESSFUL_DUMMY_REQUEST
 import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 class PaginatorTest {
+    companion object {
+        val client = createExpediaGroupClient()
+        val getBody: suspend (HttpResponse) -> String = { it.body<String>() }
+    }
+
     @Nested
     inner class PaginatorTest {
         @Test
         fun `test paginator with one response`() {
-            val client = createExpediaGroupClient()
             val firstResponse = Response(200, "first", emptyMap())
-            val getBody: suspend (HttpResponse) -> String = { it.body<String>() }
 
             val paginator = Paginator(client, firstResponse, getBody)
-            assert(paginator.hasNext())
-            assert(paginator.next() == "first")
-            assert(!paginator.hasNext())
+            assertTrue(paginator.hasNext())
+            assertEquals("first", paginator.next())
+            assertFalse(paginator.hasNext())
         }
 
         @Test
         fun `test paginator with multiple responses`() {
-            val client = createExpediaGroupClient()
             val firstResponse = Response(200, "first", mapOf("link" to listOf("<second>; rel=\"next\"")))
-            val getBody: suspend (HttpResponse) -> String = { it.body<String>() }
 
             val paginator = Paginator(client, firstResponse, getBody)
-            assert(paginator.hasNext())
-            assert(paginator.next() == "first")
-            assert(paginator.hasNext())
-            assert(paginator.next() == SUCCESSFUL_DUMMY_REQUEST)
-            assert(!paginator.hasNext())
+            assertTrue(paginator.hasNext())
+            assertEquals("first", paginator.next())
+            assertTrue(paginator.hasNext())
+            assertEquals(SUCCESSFUL_DUMMY_REQUEST, paginator.next())
+            assertFalse(paginator.hasNext())
         }
 
         @Test
         fun `test paginator with multiple responses and total results`() {
-            val client = createExpediaGroupClient()
             val firstResponse = Response(200, "first", mapOf("link" to listOf("<second>; rel=\"next\""), "pagination-total-results" to listOf("2")))
-            val getBody: suspend (HttpResponse) -> String = { it.body<String>() }
 
             val paginator = Paginator(client, firstResponse, getBody)
-            assert(paginator.hasNext())
-            assert(paginator.next() == "first")
-            assert(paginator.hasNext())
-            assert(paginator.next() == SUCCESSFUL_DUMMY_REQUEST)
-            assert(!paginator.hasNext())
-            assert(paginator.paginationTotalResults == 2L)
+            assertTrue(paginator.hasNext())
+            assertEquals("first", paginator.next())
+            assertTrue(paginator.hasNext())
+            assertEquals(SUCCESSFUL_DUMMY_REQUEST, paginator.next())
+            assertFalse(paginator.hasNext())
+            assertEquals(2, paginator.paginationTotalResults)
         }
 
         @Test
         fun `test paginator as list`() {
-            val client = createExpediaGroupClient()
             val firstResponse = Response(200, "first", mapOf("link" to listOf("<second>; rel=\"next\""), "pagination-total-results" to listOf("2")))
-            val getBody: suspend (HttpResponse) -> String = { it.body<String>() }
 
             val paginator = Paginator(client, firstResponse, getBody)
             val list = paginator.asSequence().toList()
-            assert(list.size == 2)
-            assert(list[0] == "first")
-            assert(list[1] == SUCCESSFUL_DUMMY_REQUEST)
+            assertEquals(2, list.size)
+            assertEquals("first", list[0])
+            assertEquals(SUCCESSFUL_DUMMY_REQUEST, list[1])
         }
     }
 
@@ -87,43 +87,37 @@ class PaginatorTest {
     inner class ResponsePaginatorTest {
         @Test
         fun `test response paginator with one response`() {
-            val client = createExpediaGroupClient()
             val firstResponse = Response(200, "first", emptyMap())
-            val getBody: suspend (HttpResponse) -> String = { it.body<String>() }
 
             val paginator = ResponsePaginator(client, firstResponse, getBody)
-            assert(paginator.hasNext())
-            assert(paginator.next().body == "first")
-            assert(!paginator.hasNext())
+            assertTrue(paginator.hasNext())
+            assertEquals("first", paginator.next().body)
+            assertFalse(paginator.hasNext())
         }
 
         @Test
         fun `test response paginator with multiple responses`() {
-            val client = createExpediaGroupClient()
             val firstResponse = Response(200, "first", mapOf("link" to listOf("<second>; rel=\"next\"")))
-            val getBody: suspend (HttpResponse) -> String = { it.body<String>() }
 
             val paginator = ResponsePaginator(client, firstResponse, getBody)
-            assert(paginator.hasNext())
-            assert(paginator.next().body == "first")
-            assert(paginator.hasNext())
-            assert(paginator.next().body == SUCCESSFUL_DUMMY_REQUEST)
-            assert(!paginator.hasNext())
+            assertTrue(paginator.hasNext())
+            assertEquals("first", paginator.next().body)
+            assertTrue(paginator.hasNext())
+            assertEquals(SUCCESSFUL_DUMMY_REQUEST, paginator.next().body)
+            assertFalse(paginator.hasNext())
         }
 
         @Test
         fun `test response paginator with multiple responses and total results`() {
-            val client = createExpediaGroupClient()
             val firstResponse = Response(200, "first", mapOf("link" to listOf("<second>; rel=\"next\""), "pagination-total-results" to listOf("2")))
-            val getBody: suspend (HttpResponse) -> String = { it.body<String>() }
 
             val paginator = ResponsePaginator(client, firstResponse, getBody)
-            assert(paginator.hasNext())
-            assert(paginator.next().body == "first")
-            assert(paginator.hasNext())
-            assert(paginator.next().body == SUCCESSFUL_DUMMY_REQUEST)
-            assert(!paginator.hasNext())
-            assert(paginator.paginationTotalResults == 2L)
+            assertTrue(paginator.hasNext())
+            assertEquals("first", paginator.next().body)
+            assertTrue(paginator.hasNext())
+            assertEquals(SUCCESSFUL_DUMMY_REQUEST, paginator.next().body)
+            assertFalse(paginator.hasNext())
+            assertEquals(2, paginator.paginationTotalResults)
         }
     }
 }
