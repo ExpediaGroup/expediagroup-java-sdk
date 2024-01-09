@@ -62,6 +62,7 @@
         <!-- Test/Develop Default Arguments -->
         <spec>${project.basedir}/src/test/resources/specs.yaml</spec>
         <out>${project.build.directory}/sdk/</out>
+        <namespace>example</namespace>
         <sdkVersion>0.0.1-SNAPSHOT</sdkVersion>
         <language>java</language>
 
