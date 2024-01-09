@@ -65,11 +65,11 @@ data class Chain(
         private var name: kotlin.String? = null,
         private var brands: kotlin.collections.Map<kotlin.String, Brand>? = null
     ) {
-        fun id(id: kotlin.String) = apply { this.id = id }
+        fun id(id: kotlin.String?) = apply { this.id = id }
 
-        fun name(name: kotlin.String) = apply { this.name = name }
+        fun name(name: kotlin.String?) = apply { this.name = name }
 
-        fun brands(brands: kotlin.collections.Map<kotlin.String, Brand>) = apply { this.brands = brands }
+        fun brands(brands: kotlin.collections.Map<kotlin.String, Brand>?) = apply { this.brands = brands }
 
         fun build(): Chain {
             return Chain(

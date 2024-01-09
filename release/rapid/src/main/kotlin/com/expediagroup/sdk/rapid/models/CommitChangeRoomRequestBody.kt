@@ -58,9 +58,9 @@ data class CommitChangeRoomRequestBody(
         private var changeReferenceId: kotlin.String? = null,
         private var payments: kotlin.collections.List<PaymentRequestWithPhone>? = null
     ) {
-        fun changeReferenceId(changeReferenceId: kotlin.String) = apply { this.changeReferenceId = changeReferenceId }
+        fun changeReferenceId(changeReferenceId: kotlin.String?) = apply { this.changeReferenceId = changeReferenceId }
 
-        fun payments(payments: kotlin.collections.List<PaymentRequestWithPhone>) = apply { this.payments = payments }
+        fun payments(payments: kotlin.collections.List<PaymentRequestWithPhone>?) = apply { this.payments = payments }
 
         fun build(): CommitChangeRoomRequestBody {
             return CommitChangeRoomRequestBody(

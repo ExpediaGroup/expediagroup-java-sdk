@@ -59,9 +59,9 @@ data class BusinessModel(
         private var expediaCollect: kotlin.Boolean? = null,
         private var propertyCollect: kotlin.Boolean? = null
     ) {
-        fun expediaCollect(expediaCollect: kotlin.Boolean) = apply { this.expediaCollect = expediaCollect }
+        fun expediaCollect(expediaCollect: kotlin.Boolean?) = apply { this.expediaCollect = expediaCollect }
 
-        fun propertyCollect(propertyCollect: kotlin.Boolean) = apply { this.propertyCollect = propertyCollect }
+        fun propertyCollect(propertyCollect: kotlin.Boolean?) = apply { this.propertyCollect = propertyCollect }
 
         fun build(): BusinessModel {
             return BusinessModel(

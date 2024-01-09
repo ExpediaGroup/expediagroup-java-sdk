@@ -81,11 +81,11 @@ data class CreateItineraryRequestRoom(
 
         fun familyName(familyName: kotlin.String) = apply { this.familyName = familyName }
 
-        fun smoking(smoking: kotlin.Boolean) = apply { this.smoking = smoking }
+        fun smoking(smoking: kotlin.Boolean?) = apply { this.smoking = smoking }
 
-        fun specialRequest(specialRequest: kotlin.String) = apply { this.specialRequest = specialRequest }
+        fun specialRequest(specialRequest: kotlin.String?) = apply { this.specialRequest = specialRequest }
 
-        fun loyaltyId(loyaltyId: kotlin.String) = apply { this.loyaltyId = loyaltyId }
+        fun loyaltyId(loyaltyId: kotlin.String?) = apply { this.loyaltyId = loyaltyId }
 
         fun build(): CreateItineraryRequestRoom {
             // Check required params

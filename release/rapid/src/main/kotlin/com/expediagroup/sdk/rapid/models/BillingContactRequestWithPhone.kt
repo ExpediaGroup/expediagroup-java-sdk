@@ -75,7 +75,7 @@ data class BillingContactRequestWithPhone(
 
         fun address(address: BillingContactRequestAddress) = apply { this.address = address }
 
-        fun phone(phone: PhoneRequest) = apply { this.phone = phone }
+        fun phone(phone: PhoneRequest?) = apply { this.phone = phone }
 
         fun build(): BillingContactRequestWithPhone {
             // Check required params

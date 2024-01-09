@@ -148,39 +148,39 @@ data class Region(
         private var categories: kotlin.collections.List<kotlin.String>? = null,
         private var tags: kotlin.collections.List<kotlin.String>? = null
     ) {
-        fun id(id: kotlin.String) = apply { this.id = id }
+        fun id(id: kotlin.String?) = apply { this.id = id }
 
-        fun type(type: kotlin.String) = apply { this.type = type }
+        fun type(type: kotlin.String?) = apply { this.type = type }
 
-        fun name(name: kotlin.String) = apply { this.name = name }
+        fun name(name: kotlin.String?) = apply { this.name = name }
 
-        fun nameFull(nameFull: kotlin.String) = apply { this.nameFull = nameFull }
+        fun nameFull(nameFull: kotlin.String?) = apply { this.nameFull = nameFull }
 
-        fun descriptor(descriptor: kotlin.String) = apply { this.descriptor = descriptor }
+        fun descriptor(descriptor: kotlin.String?) = apply { this.descriptor = descriptor }
 
-        fun iataAirportCode(iataAirportCode: kotlin.String) = apply { this.iataAirportCode = iataAirportCode }
+        fun iataAirportCode(iataAirportCode: kotlin.String?) = apply { this.iataAirportCode = iataAirportCode }
 
-        fun iataAirportMetroCode(iataAirportMetroCode: kotlin.String) = apply { this.iataAirportMetroCode = iataAirportMetroCode }
+        fun iataAirportMetroCode(iataAirportMetroCode: kotlin.String?) = apply { this.iataAirportMetroCode = iataAirportMetroCode }
 
-        fun countryCode(countryCode: kotlin.String) = apply { this.countryCode = countryCode }
+        fun countryCode(countryCode: kotlin.String?) = apply { this.countryCode = countryCode }
 
-        fun countrySubdivisionCode(countrySubdivisionCode: kotlin.String) = apply { this.countrySubdivisionCode = countrySubdivisionCode }
+        fun countrySubdivisionCode(countrySubdivisionCode: kotlin.String?) = apply { this.countrySubdivisionCode = countrySubdivisionCode }
 
-        fun coordinates(coordinates: CoordinatesRegion) = apply { this.coordinates = coordinates }
+        fun coordinates(coordinates: CoordinatesRegion?) = apply { this.coordinates = coordinates }
 
-        fun associations(associations: kotlin.collections.Map<kotlin.String, kotlin.collections.List<kotlin.String>>) = apply { this.associations = associations }
+        fun associations(associations: kotlin.collections.Map<kotlin.String, kotlin.collections.List<kotlin.String>>?) = apply { this.associations = associations }
 
-        fun ancestors(ancestors: kotlin.collections.List<Ancestors>) = apply { this.ancestors = ancestors }
+        fun ancestors(ancestors: kotlin.collections.List<Ancestors>?) = apply { this.ancestors = ancestors }
 
-        fun descendants(descendants: kotlin.collections.Map<kotlin.String, kotlin.collections.List<kotlin.String>>) = apply { this.descendants = descendants }
+        fun descendants(descendants: kotlin.collections.Map<kotlin.String, kotlin.collections.List<kotlin.String>>?) = apply { this.descendants = descendants }
 
-        fun propertyIds(propertyIds: kotlin.collections.List<kotlin.String>) = apply { this.propertyIds = propertyIds }
+        fun propertyIds(propertyIds: kotlin.collections.List<kotlin.String>?) = apply { this.propertyIds = propertyIds }
 
-        fun propertyIdsExpanded(propertyIdsExpanded: kotlin.collections.List<kotlin.String>) = apply { this.propertyIdsExpanded = propertyIdsExpanded }
+        fun propertyIdsExpanded(propertyIdsExpanded: kotlin.collections.List<kotlin.String>?) = apply { this.propertyIdsExpanded = propertyIdsExpanded }
 
-        fun categories(categories: kotlin.collections.List<kotlin.String>) = apply { this.categories = categories }
+        fun categories(categories: kotlin.collections.List<kotlin.String>?) = apply { this.categories = categories }
 
-        fun tags(tags: kotlin.collections.List<kotlin.String>) = apply { this.tags = tags }
+        fun tags(tags: kotlin.collections.List<kotlin.String>?) = apply { this.tags = tags }
 
         fun build(): Region {
             return Region(

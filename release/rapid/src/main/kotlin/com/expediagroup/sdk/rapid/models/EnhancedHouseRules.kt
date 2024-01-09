@@ -59,9 +59,9 @@ data class EnhancedHouseRules(
         private var rule: kotlin.String? = null,
         private var additionalInformation: kotlin.collections.List<kotlin.String>? = null
     ) {
-        fun rule(rule: kotlin.String) = apply { this.rule = rule }
+        fun rule(rule: kotlin.String?) = apply { this.rule = rule }
 
-        fun additionalInformation(additionalInformation: kotlin.collections.List<kotlin.String>) = apply { this.additionalInformation = additionalInformation }
+        fun additionalInformation(additionalInformation: kotlin.collections.List<kotlin.String>?) = apply { this.additionalInformation = additionalInformation }
 
         fun build(): EnhancedHouseRules {
             return EnhancedHouseRules(

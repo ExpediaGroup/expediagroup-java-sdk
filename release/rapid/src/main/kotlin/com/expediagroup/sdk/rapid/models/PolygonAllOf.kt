@@ -53,7 +53,7 @@ data class PolygonAllOf(
     class Builder(
         private var coordinates: kotlin.collections.List<kotlin.collections.List<kotlin.collections.List<java.math.BigDecimal>>>? = null
     ) {
-        fun coordinates(coordinates: kotlin.collections.List<kotlin.collections.List<kotlin.collections.List<java.math.BigDecimal>>>) = apply { this.coordinates = coordinates }
+        fun coordinates(coordinates: kotlin.collections.List<kotlin.collections.List<kotlin.collections.List<java.math.BigDecimal>>>?) = apply { this.coordinates = coordinates }
 
         fun build(): PolygonAllOf {
             return PolygonAllOf(

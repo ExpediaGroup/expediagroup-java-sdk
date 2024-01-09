@@ -77,15 +77,15 @@ data class SaleScenario(
         private var distribution: kotlin.Boolean? = null,
         private var mobilePromotion: kotlin.Boolean? = null
     ) {
-        fun `package`(`package`: kotlin.Boolean) = apply { this.`package` = `package` }
+        fun `package`(`package`: kotlin.Boolean?) = apply { this.`package` = `package` }
 
-        fun member(member: kotlin.Boolean) = apply { this.member = member }
+        fun member(member: kotlin.Boolean?) = apply { this.member = member }
 
-        fun corporate(corporate: kotlin.Boolean) = apply { this.corporate = corporate }
+        fun corporate(corporate: kotlin.Boolean?) = apply { this.corporate = corporate }
 
-        fun distribution(distribution: kotlin.Boolean) = apply { this.distribution = distribution }
+        fun distribution(distribution: kotlin.Boolean?) = apply { this.distribution = distribution }
 
-        fun mobilePromotion(mobilePromotion: kotlin.Boolean) = apply { this.mobilePromotion = mobilePromotion }
+        fun mobilePromotion(mobilePromotion: kotlin.Boolean?) = apply { this.mobilePromotion = mobilePromotion }
 
         fun build(): SaleScenario {
             return SaleScenario(

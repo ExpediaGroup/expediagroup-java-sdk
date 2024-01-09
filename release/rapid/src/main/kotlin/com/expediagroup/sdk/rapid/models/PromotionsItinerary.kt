@@ -53,7 +53,7 @@ data class PromotionsItinerary(
     class Builder(
         private var valueAdds: kotlin.collections.Map<kotlin.String, ValueAdd>? = null
     ) {
-        fun valueAdds(valueAdds: kotlin.collections.Map<kotlin.String, ValueAdd>) = apply { this.valueAdds = valueAdds }
+        fun valueAdds(valueAdds: kotlin.collections.Map<kotlin.String, ValueAdd>?) = apply { this.valueAdds = valueAdds }
 
         fun build(): PromotionsItinerary {
             return PromotionsItinerary(

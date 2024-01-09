@@ -62,11 +62,11 @@ data class RoomItineraryLinks(
         private var change: Link? = null,
         private var shopForChange: Link? = null
     ) {
-        fun cancel(cancel: Link) = apply { this.cancel = cancel }
+        fun cancel(cancel: Link?) = apply { this.cancel = cancel }
 
-        fun change(change: Link) = apply { this.change = change }
+        fun change(change: Link?) = apply { this.change = change }
 
-        fun shopForChange(shopForChange: Link) = apply { this.shopForChange = shopForChange }
+        fun shopForChange(shopForChange: Link?) = apply { this.shopForChange = shopForChange }
 
         fun build(): RoomItineraryLinks {
             return RoomItineraryLinks(

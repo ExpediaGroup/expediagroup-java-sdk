@@ -59,9 +59,9 @@ data class NonrefundableDateRange(
         private var start: kotlin.String? = null,
         private var end: kotlin.String? = null
     ) {
-        fun start(start: kotlin.String) = apply { this.start = start }
+        fun start(start: kotlin.String?) = apply { this.start = start }
 
-        fun end(end: kotlin.String) = apply { this.end = end }
+        fun end(end: kotlin.String?) = apply { this.end = end }
 
         fun build(): NonrefundableDateRange {
             return NonrefundableDateRange(

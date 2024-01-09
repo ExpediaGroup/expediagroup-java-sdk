@@ -64,11 +64,11 @@ data class PaymentSessions(
         private var encodedInitConfig: kotlin.String? = null,
         private var links: PaymentSessionsLinks? = null
     ) {
-        fun paymentSessionId(paymentSessionId: kotlin.String) = apply { this.paymentSessionId = paymentSessionId }
+        fun paymentSessionId(paymentSessionId: kotlin.String?) = apply { this.paymentSessionId = paymentSessionId }
 
-        fun encodedInitConfig(encodedInitConfig: kotlin.String) = apply { this.encodedInitConfig = encodedInitConfig }
+        fun encodedInitConfig(encodedInitConfig: kotlin.String?) = apply { this.encodedInitConfig = encodedInitConfig }
 
-        fun links(links: PaymentSessionsLinks) = apply { this.links = links }
+        fun links(links: PaymentSessionsLinks?) = apply { this.links = links }
 
         fun build(): PaymentSessions {
             return PaymentSessions(

@@ -65,11 +65,11 @@ data class RoomAvailability(
         private var roomName: kotlin.String? = null,
         private var rates: kotlin.collections.List<Rate>? = null
     ) {
-        fun id(id: kotlin.String) = apply { this.id = id }
+        fun id(id: kotlin.String?) = apply { this.id = id }
 
-        fun roomName(roomName: kotlin.String) = apply { this.roomName = roomName }
+        fun roomName(roomName: kotlin.String?) = apply { this.roomName = roomName }
 
-        fun rates(rates: kotlin.collections.List<Rate>) = apply { this.rates = rates }
+        fun rates(rates: kotlin.collections.List<Rate>?) = apply { this.rates = rates }
 
         fun build(): RoomAvailability {
             return RoomAvailability(

@@ -59,9 +59,9 @@ data class Dates(
         private var added: kotlin.String? = null,
         private var updated: kotlin.String? = null
     ) {
-        fun added(added: kotlin.String) = apply { this.added = added }
+        fun added(added: kotlin.String?) = apply { this.added = added }
 
-        fun updated(updated: kotlin.String) = apply { this.updated = updated }
+        fun updated(updated: kotlin.String?) = apply { this.updated = updated }
 
         fun build(): Dates {
             return Dates(

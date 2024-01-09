@@ -69,7 +69,7 @@ data class PhoneRequest(
 
         fun number(number: kotlin.String) = apply { this.number = number }
 
-        fun areaCode(areaCode: kotlin.String) = apply { this.areaCode = areaCode }
+        fun areaCode(areaCode: kotlin.String?) = apply { this.areaCode = areaCode }
 
         fun build(): PhoneRequest {
             // Check required params

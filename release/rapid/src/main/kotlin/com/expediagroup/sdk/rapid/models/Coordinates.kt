@@ -59,9 +59,9 @@ data class Coordinates(
         private var latitude: java.math.BigDecimal? = null,
         private var longitude: java.math.BigDecimal? = null
     ) {
-        fun latitude(latitude: java.math.BigDecimal) = apply { this.latitude = latitude }
+        fun latitude(latitude: java.math.BigDecimal?) = apply { this.latitude = latitude }
 
-        fun longitude(longitude: java.math.BigDecimal) = apply { this.longitude = longitude }
+        fun longitude(longitude: java.math.BigDecimal?) = apply { this.longitude = longitude }
 
         fun build(): Coordinates {
             return Coordinates(

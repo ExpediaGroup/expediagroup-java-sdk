@@ -53,7 +53,7 @@ data class DescriptionsRoom(
     class Builder(
         private var overview: kotlin.String? = null
     ) {
-        fun overview(overview: kotlin.String) = apply { this.overview = overview }
+        fun overview(overview: kotlin.String?) = apply { this.overview = overview }
 
         fun build(): DescriptionsRoom {
             return DescriptionsRoom(

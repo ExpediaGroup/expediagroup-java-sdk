@@ -59,9 +59,9 @@ data class OnsitePayments(
         private var currency: kotlin.String? = null,
         private var types: kotlin.collections.Map<kotlin.String, PaymentType>? = null
     ) {
-        fun currency(currency: kotlin.String) = apply { this.currency = currency }
+        fun currency(currency: kotlin.String?) = apply { this.currency = currency }
 
-        fun types(types: kotlin.collections.Map<kotlin.String, PaymentType>) = apply { this.types = types }
+        fun types(types: kotlin.collections.Map<kotlin.String, PaymentType>?) = apply { this.types = types }
 
         fun build(): OnsitePayments {
             return OnsitePayments(

@@ -52,7 +52,7 @@ data class PaymentSessionsLinks(
     class Builder(
         private var book: Link? = null
     ) {
-        fun book(book: Link) = apply { this.book = book }
+        fun book(book: Link?) = apply { this.book = book }
 
         fun build(): PaymentSessionsLinks {
             return PaymentSessionsLinks(

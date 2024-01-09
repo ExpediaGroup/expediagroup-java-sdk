@@ -57,9 +57,9 @@ data class ChargeCalculated(
         private var billableCurrency: Amount? = null,
         private var requestCurrency: Amount? = null
     ) {
-        fun billableCurrency(billableCurrency: Amount) = apply { this.billableCurrency = billableCurrency }
+        fun billableCurrency(billableCurrency: Amount?) = apply { this.billableCurrency = billableCurrency }
 
-        fun requestCurrency(requestCurrency: Amount) = apply { this.requestCurrency = requestCurrency }
+        fun requestCurrency(requestCurrency: Amount?) = apply { this.requestCurrency = requestCurrency }
 
         fun build(): ChargeCalculated {
             return ChargeCalculated(

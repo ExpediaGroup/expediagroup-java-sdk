@@ -56,9 +56,9 @@ data class StayConstraints(
         private var minStay: kotlin.Int? = null,
         private var maxStay: kotlin.Int? = null
     ) {
-        fun minStay(minStay: kotlin.Int) = apply { this.minStay = minStay }
+        fun minStay(minStay: kotlin.Int?) = apply { this.minStay = minStay }
 
-        fun maxStay(maxStay: kotlin.Int) = apply { this.maxStay = maxStay }
+        fun maxStay(maxStay: kotlin.Int?) = apply { this.maxStay = maxStay }
 
         fun build(): StayConstraints {
             return StayConstraints(

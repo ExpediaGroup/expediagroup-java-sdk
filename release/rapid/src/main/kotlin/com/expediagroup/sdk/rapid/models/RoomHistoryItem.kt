@@ -177,51 +177,51 @@ data class RoomHistoryItem(
         private var penalty: Charge? = null,
         private var rate: RateHistory? = null
     ) {
-        fun historyId(historyId: kotlin.String) = apply { this.historyId = historyId }
+        fun historyId(historyId: kotlin.String?) = apply { this.historyId = historyId }
 
-        fun eventTimestamp(eventTimestamp: kotlin.String) = apply { this.eventTimestamp = eventTimestamp }
+        fun eventTimestamp(eventTimestamp: kotlin.String?) = apply { this.eventTimestamp = eventTimestamp }
 
-        fun eventType(eventType: RoomHistoryItem.EventType) = apply { this.eventType = eventType }
+        fun eventType(eventType: RoomHistoryItem.EventType?) = apply { this.eventType = eventType }
 
-        fun eventSource(eventSource: RoomHistoryItem.EventSource) = apply { this.eventSource = eventSource }
+        fun eventSource(eventSource: RoomHistoryItem.EventSource?) = apply { this.eventSource = eventSource }
 
-        fun changeReferenceId(changeReferenceId: kotlin.String) = apply { this.changeReferenceId = changeReferenceId }
+        fun changeReferenceId(changeReferenceId: kotlin.String?) = apply { this.changeReferenceId = changeReferenceId }
 
-        fun agentId(agentId: kotlin.Int) = apply { this.agentId = agentId }
+        fun agentId(agentId: kotlin.Int?) = apply { this.agentId = agentId }
 
-        fun roomId(roomId: kotlin.String) = apply { this.roomId = roomId }
+        fun roomId(roomId: kotlin.String?) = apply { this.roomId = roomId }
 
-        fun confirmationId(confirmationId: ConfirmationId) = apply { this.confirmationId = confirmationId }
+        fun confirmationId(confirmationId: ConfirmationId?) = apply { this.confirmationId = confirmationId }
 
-        fun bedGroupId(bedGroupId: kotlin.String) = apply { this.bedGroupId = bedGroupId }
+        fun bedGroupId(bedGroupId: kotlin.String?) = apply { this.bedGroupId = bedGroupId }
 
-        fun checkin(checkin: kotlin.String) = apply { this.checkin = checkin }
+        fun checkin(checkin: kotlin.String?) = apply { this.checkin = checkin }
 
-        fun checkout(checkout: kotlin.String) = apply { this.checkout = checkout }
+        fun checkout(checkout: kotlin.String?) = apply { this.checkout = checkout }
 
-        fun numberOfAdults(numberOfAdults: java.math.BigDecimal) = apply { this.numberOfAdults = numberOfAdults }
+        fun numberOfAdults(numberOfAdults: java.math.BigDecimal?) = apply { this.numberOfAdults = numberOfAdults }
 
-        fun childAges(childAges: kotlin.collections.List<java.math.BigDecimal>) = apply { this.childAges = childAges }
+        fun childAges(childAges: kotlin.collections.List<java.math.BigDecimal>?) = apply { this.childAges = childAges }
 
-        fun givenName(givenName: kotlin.String) = apply { this.givenName = givenName }
+        fun givenName(givenName: kotlin.String?) = apply { this.givenName = givenName }
 
-        fun familyName(familyName: kotlin.String) = apply { this.familyName = familyName }
+        fun familyName(familyName: kotlin.String?) = apply { this.familyName = familyName }
 
-        fun status(status: StatusItinerary) = apply { this.status = status }
+        fun status(status: StatusItinerary?) = apply { this.status = status }
 
-        fun specialRequest(specialRequest: kotlin.String) = apply { this.specialRequest = specialRequest }
+        fun specialRequest(specialRequest: kotlin.String?) = apply { this.specialRequest = specialRequest }
 
-        fun smoking(smoking: kotlin.Boolean) = apply { this.smoking = smoking }
+        fun smoking(smoking: kotlin.Boolean?) = apply { this.smoking = smoking }
 
-        fun loyaltyId(loyaltyId: kotlin.String) = apply { this.loyaltyId = loyaltyId }
+        fun loyaltyId(loyaltyId: kotlin.String?) = apply { this.loyaltyId = loyaltyId }
 
-        fun amountCharged(amountCharged: Charge) = apply { this.amountCharged = amountCharged }
+        fun amountCharged(amountCharged: Charge?) = apply { this.amountCharged = amountCharged }
 
-        fun amountRefunded(amountRefunded: Charge) = apply { this.amountRefunded = amountRefunded }
+        fun amountRefunded(amountRefunded: Charge?) = apply { this.amountRefunded = amountRefunded }
 
-        fun penalty(penalty: Charge) = apply { this.penalty = penalty }
+        fun penalty(penalty: Charge?) = apply { this.penalty = penalty }
 
-        fun rate(rate: RateHistory) = apply { this.rate = rate }
+        fun rate(rate: RateHistory?) = apply { this.rate = rate }
 
         fun build(): RoomHistoryItem {
             return RoomHistoryItem(

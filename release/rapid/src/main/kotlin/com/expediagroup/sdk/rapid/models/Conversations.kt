@@ -53,7 +53,7 @@ data class Conversations(
     class Builder(
         private var links: kotlin.collections.Map<kotlin.String, Link>? = null
     ) {
-        fun links(links: kotlin.collections.Map<kotlin.String, Link>) = apply { this.links = links }
+        fun links(links: kotlin.collections.Map<kotlin.String, Link>?) = apply { this.links = links }
 
         fun build(): Conversations {
             return Conversations(

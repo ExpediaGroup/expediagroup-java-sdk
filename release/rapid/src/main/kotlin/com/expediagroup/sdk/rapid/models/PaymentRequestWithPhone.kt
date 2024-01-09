@@ -96,17 +96,17 @@ data class PaymentRequestWithPhone(
 
         fun billingContact(billingContact: BillingContactRequestWithPhone) = apply { this.billingContact = billingContact }
 
-        fun number(number: kotlin.String) = apply { this.number = number }
+        fun number(number: kotlin.String?) = apply { this.number = number }
 
-        fun securityCode(securityCode: kotlin.String) = apply { this.securityCode = securityCode }
+        fun securityCode(securityCode: kotlin.String?) = apply { this.securityCode = securityCode }
 
-        fun expirationMonth(expirationMonth: kotlin.String) = apply { this.expirationMonth = expirationMonth }
+        fun expirationMonth(expirationMonth: kotlin.String?) = apply { this.expirationMonth = expirationMonth }
 
-        fun expirationYear(expirationYear: kotlin.String) = apply { this.expirationYear = expirationYear }
+        fun expirationYear(expirationYear: kotlin.String?) = apply { this.expirationYear = expirationYear }
 
-        fun thirdPartyAuthentication(thirdPartyAuthentication: ThirdPartyAuthRequest) = apply { this.thirdPartyAuthentication = thirdPartyAuthentication }
+        fun thirdPartyAuthentication(thirdPartyAuthentication: ThirdPartyAuthRequest?) = apply { this.thirdPartyAuthentication = thirdPartyAuthentication }
 
-        fun enrollmentDate(enrollmentDate: kotlin.String) = apply { this.enrollmentDate = enrollmentDate }
+        fun enrollmentDate(enrollmentDate: kotlin.String?) = apply { this.enrollmentDate = enrollmentDate }
 
         fun build(): PaymentRequestWithPhone {
             // Check required params

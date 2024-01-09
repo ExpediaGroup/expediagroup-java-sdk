@@ -71,13 +71,13 @@ data class Essential(
         private var additionalInfo: kotlin.collections.Map<kotlin.String, kotlin.String>? = null,
         private var images: kotlin.collections.List<Image1>? = null
     ) {
-        fun name(name: kotlin.String) = apply { this.name = name }
+        fun name(name: kotlin.String?) = apply { this.name = name }
 
-        fun instructions(instructions: kotlin.String) = apply { this.instructions = instructions }
+        fun instructions(instructions: kotlin.String?) = apply { this.instructions = instructions }
 
-        fun additionalInfo(additionalInfo: kotlin.collections.Map<kotlin.String, kotlin.String>) = apply { this.additionalInfo = additionalInfo }
+        fun additionalInfo(additionalInfo: kotlin.collections.Map<kotlin.String, kotlin.String>?) = apply { this.additionalInfo = additionalInfo }
 
-        fun images(images: kotlin.collections.List<Image1>) = apply { this.images = images }
+        fun images(images: kotlin.collections.List<Image1>?) = apply { this.images = images }
 
         fun build(): Essential {
             return Essential(

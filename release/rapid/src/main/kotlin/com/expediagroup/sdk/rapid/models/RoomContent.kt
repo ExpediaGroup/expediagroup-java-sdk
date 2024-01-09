@@ -98,23 +98,23 @@ data class RoomContent(
         private var views: kotlin.collections.Map<kotlin.String, View>? = null,
         private var occupancy: Occupancy? = null
     ) {
-        fun id(id: kotlin.String) = apply { this.id = id }
+        fun id(id: kotlin.String?) = apply { this.id = id }
 
-        fun name(name: kotlin.String) = apply { this.name = name }
+        fun name(name: kotlin.String?) = apply { this.name = name }
 
-        fun descriptions(descriptions: DescriptionsRoom) = apply { this.descriptions = descriptions }
+        fun descriptions(descriptions: DescriptionsRoom?) = apply { this.descriptions = descriptions }
 
-        fun amenities(amenities: kotlin.collections.Map<kotlin.String, Amenity>) = apply { this.amenities = amenities }
+        fun amenities(amenities: kotlin.collections.Map<kotlin.String, Amenity>?) = apply { this.amenities = amenities }
 
-        fun images(images: kotlin.collections.List<Image>) = apply { this.images = images }
+        fun images(images: kotlin.collections.List<Image>?) = apply { this.images = images }
 
-        fun bedGroups(bedGroups: kotlin.collections.Map<kotlin.String, BedGroup>) = apply { this.bedGroups = bedGroups }
+        fun bedGroups(bedGroups: kotlin.collections.Map<kotlin.String, BedGroup>?) = apply { this.bedGroups = bedGroups }
 
-        fun area(area: Area) = apply { this.area = area }
+        fun area(area: Area?) = apply { this.area = area }
 
-        fun views(views: kotlin.collections.Map<kotlin.String, View>) = apply { this.views = views }
+        fun views(views: kotlin.collections.Map<kotlin.String, View>?) = apply { this.views = views }
 
-        fun occupancy(occupancy: Occupancy) = apply { this.occupancy = occupancy }
+        fun occupancy(occupancy: Occupancy?) = apply { this.occupancy = occupancy }
 
         fun build(): RoomContent {
             return RoomContent(

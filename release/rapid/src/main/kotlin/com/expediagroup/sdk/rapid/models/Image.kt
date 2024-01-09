@@ -71,13 +71,13 @@ data class Image(
         private var caption: kotlin.String? = null,
         private var links: kotlin.collections.Map<kotlin.String, Link>? = null
     ) {
-        fun heroImage(heroImage: kotlin.Boolean) = apply { this.heroImage = heroImage }
+        fun heroImage(heroImage: kotlin.Boolean?) = apply { this.heroImage = heroImage }
 
-        fun category(category: java.math.BigDecimal) = apply { this.category = category }
+        fun category(category: java.math.BigDecimal?) = apply { this.category = category }
 
-        fun caption(caption: kotlin.String) = apply { this.caption = caption }
+        fun caption(caption: kotlin.String?) = apply { this.caption = caption }
 
-        fun links(links: kotlin.collections.Map<kotlin.String, Link>) = apply { this.links = links }
+        fun links(links: kotlin.collections.Map<kotlin.String, Link>?) = apply { this.links = links }
 
         fun build(): Image {
             return Image(

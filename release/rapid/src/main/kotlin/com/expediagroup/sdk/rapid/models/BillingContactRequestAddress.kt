@@ -91,17 +91,17 @@ data class BillingContactRequestAddress(
     ) {
         fun countryCode(countryCode: kotlin.String) = apply { this.countryCode = countryCode }
 
-        fun line1(line1: kotlin.String) = apply { this.line1 = line1 }
+        fun line1(line1: kotlin.String?) = apply { this.line1 = line1 }
 
-        fun line2(line2: kotlin.String) = apply { this.line2 = line2 }
+        fun line2(line2: kotlin.String?) = apply { this.line2 = line2 }
 
-        fun line3(line3: kotlin.String) = apply { this.line3 = line3 }
+        fun line3(line3: kotlin.String?) = apply { this.line3 = line3 }
 
-        fun city(city: kotlin.String) = apply { this.city = city }
+        fun city(city: kotlin.String?) = apply { this.city = city }
 
-        fun stateProvinceCode(stateProvinceCode: kotlin.String) = apply { this.stateProvinceCode = stateProvinceCode }
+        fun stateProvinceCode(stateProvinceCode: kotlin.String?) = apply { this.stateProvinceCode = stateProvinceCode }
 
-        fun postalCode(postalCode: kotlin.String) = apply { this.postalCode = postalCode }
+        fun postalCode(postalCode: kotlin.String?) = apply { this.postalCode = postalCode }
 
         fun build(): BillingContactRequestAddress {
             // Check required params

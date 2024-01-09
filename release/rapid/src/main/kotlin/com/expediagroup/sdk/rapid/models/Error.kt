@@ -71,13 +71,13 @@ data class Error(
         private var fields: kotlin.collections.List<Field>? = null,
         private var errors: kotlin.collections.List<ErrorIndividual>? = null
     ) {
-        fun type(type: kotlin.String) = apply { this.type = type }
+        fun type(type: kotlin.String?) = apply { this.type = type }
 
-        fun message(message: kotlin.String) = apply { this.message = message }
+        fun message(message: kotlin.String?) = apply { this.message = message }
 
-        fun fields(fields: kotlin.collections.List<Field>) = apply { this.fields = fields }
+        fun fields(fields: kotlin.collections.List<Field>?) = apply { this.fields = fields }
 
-        fun errors(errors: kotlin.collections.List<ErrorIndividual>) = apply { this.errors = errors }
+        fun errors(errors: kotlin.collections.List<ErrorIndividual>?) = apply { this.errors = errors }
 
         fun build(): Error {
             return Error(

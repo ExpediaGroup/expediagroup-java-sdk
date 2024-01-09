@@ -83,17 +83,17 @@ data class CancelPenalty(
         private var nights: kotlin.String? = null,
         private var percent: kotlin.String? = null
     ) {
-        fun currency(currency: kotlin.String) = apply { this.currency = currency }
+        fun currency(currency: kotlin.String?) = apply { this.currency = currency }
 
-        fun start(start: kotlin.String) = apply { this.start = start }
+        fun start(start: kotlin.String?) = apply { this.start = start }
 
-        fun end(end: kotlin.String) = apply { this.end = end }
+        fun end(end: kotlin.String?) = apply { this.end = end }
 
-        fun amount(amount: kotlin.String) = apply { this.amount = amount }
+        fun amount(amount: kotlin.String?) = apply { this.amount = amount }
 
-        fun nights(nights: kotlin.String) = apply { this.nights = nights }
+        fun nights(nights: kotlin.String?) = apply { this.nights = nights }
 
-        fun percent(percent: kotlin.String) = apply { this.percent = percent }
+        fun percent(percent: kotlin.String?) = apply { this.percent = percent }
 
         fun build(): CancelPenalty {
             return CancelPenalty(

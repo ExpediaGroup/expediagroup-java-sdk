@@ -74,15 +74,15 @@ data class RateHistory(
         private var deposits: kotlin.collections.List<DepositItinerary>? = null,
         private var pricing: PricingInformation? = null
     ) {
-        fun id(id: kotlin.String) = apply { this.id = id }
+        fun id(id: kotlin.String?) = apply { this.id = id }
 
-        fun promotions(promotions: PromotionsItinerary) = apply { this.promotions = promotions }
+        fun promotions(promotions: PromotionsItinerary?) = apply { this.promotions = promotions }
 
-        fun cancelPenalties(cancelPenalties: kotlin.collections.List<CancelPenalty>) = apply { this.cancelPenalties = cancelPenalties }
+        fun cancelPenalties(cancelPenalties: kotlin.collections.List<CancelPenalty>?) = apply { this.cancelPenalties = cancelPenalties }
 
-        fun deposits(deposits: kotlin.collections.List<DepositItinerary>) = apply { this.deposits = deposits }
+        fun deposits(deposits: kotlin.collections.List<DepositItinerary>?) = apply { this.deposits = deposits }
 
-        fun pricing(pricing: PricingInformation) = apply { this.pricing = pricing }
+        fun pricing(pricing: PricingInformation?) = apply { this.pricing = pricing }
 
         fun build(): RateHistory {
             return RateHistory(

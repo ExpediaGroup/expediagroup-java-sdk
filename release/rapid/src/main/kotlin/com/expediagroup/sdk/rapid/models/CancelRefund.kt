@@ -59,9 +59,9 @@ data class CancelRefund(
         private var amount: kotlin.String? = null,
         private var currency: kotlin.String? = null
     ) {
-        fun amount(amount: kotlin.String) = apply { this.amount = amount }
+        fun amount(amount: kotlin.String?) = apply { this.amount = amount }
 
-        fun currency(currency: kotlin.String) = apply { this.currency = currency }
+        fun currency(currency: kotlin.String?) = apply { this.currency = currency }
 
         fun build(): CancelRefund {
             return CancelRefund(

@@ -69,13 +69,13 @@ data class SupplyContact(
         private var email: kotlin.String? = null,
         private var address: Address1? = null
     ) {
-        fun name(name: kotlin.String) = apply { this.name = name }
+        fun name(name: kotlin.String?) = apply { this.name = name }
 
-        fun phone(phone: Phone) = apply { this.phone = phone }
+        fun phone(phone: Phone?) = apply { this.phone = phone }
 
-        fun email(email: kotlin.String) = apply { this.email = email }
+        fun email(email: kotlin.String?) = apply { this.email = email }
 
-        fun address(address: Address1) = apply { this.address = address }
+        fun address(address: Address1?) = apply { this.address = address }
 
         fun build(): SupplyContact {
             return SupplyContact(

@@ -65,11 +65,11 @@ data class PropertyUnavailability(
         private var score: java.math.BigDecimal? = null,
         private var unavailableReason: UnavailableReason? = null
     ) {
-        fun propertyId(propertyId: kotlin.String) = apply { this.propertyId = propertyId }
+        fun propertyId(propertyId: kotlin.String?) = apply { this.propertyId = propertyId }
 
-        fun score(score: java.math.BigDecimal) = apply { this.score = score }
+        fun score(score: java.math.BigDecimal?) = apply { this.score = score }
 
-        fun unavailableReason(unavailableReason: UnavailableReason) = apply { this.unavailableReason = unavailableReason }
+        fun unavailableReason(unavailableReason: UnavailableReason?) = apply { this.unavailableReason = unavailableReason }
 
         fun build(): PropertyUnavailability {
             return PropertyUnavailability(
