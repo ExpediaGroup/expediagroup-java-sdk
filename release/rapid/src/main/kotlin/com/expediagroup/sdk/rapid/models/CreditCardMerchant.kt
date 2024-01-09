@@ -53,7 +53,7 @@ data class CreditCardMerchant(
     class Builder(
         private var name: kotlin.String? = null
     ) {
-        fun name(name: kotlin.String) = apply { this.name = name }
+        fun name(name: kotlin.String?) = apply { this.name = name }
 
         fun build(): CreditCardMerchant {
             return CreditCardMerchant(

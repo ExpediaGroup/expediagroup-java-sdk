@@ -57,9 +57,9 @@ data class PropertyAvailabilityLinks(
         private var additionalRates: Link? = null,
         private var recommendations: Link? = null
     ) {
-        fun additionalRates(additionalRates: Link) = apply { this.additionalRates = additionalRates }
+        fun additionalRates(additionalRates: Link?) = apply { this.additionalRates = additionalRates }
 
-        fun recommendations(recommendations: Link) = apply { this.recommendations = recommendations }
+        fun recommendations(recommendations: Link?) = apply { this.recommendations = recommendations }
 
         fun build(): PropertyAvailabilityLinks {
             return PropertyAvailabilityLinks(

@@ -58,9 +58,9 @@ data class PropertyCalendarAvailability(
         private var propertyId: kotlin.String? = null,
         private var days: kotlin.collections.List<Day>? = null
     ) {
-        fun propertyId(propertyId: kotlin.String) = apply { this.propertyId = propertyId }
+        fun propertyId(propertyId: kotlin.String?) = apply { this.propertyId = propertyId }
 
-        fun days(days: kotlin.collections.List<Day>) = apply { this.days = days }
+        fun days(days: kotlin.collections.List<Day>?) = apply { this.days = days }
 
         fun build(): PropertyCalendarAvailability {
             return PropertyCalendarAvailability(

@@ -71,13 +71,13 @@ data class Amenity(
         private var `value`: kotlin.String? = null,
         private var categories: kotlin.collections.List<kotlin.String>? = null
     ) {
-        fun id(id: kotlin.String) = apply { this.id = id }
+        fun id(id: kotlin.String?) = apply { this.id = id }
 
-        fun name(name: kotlin.String) = apply { this.name = name }
+        fun name(name: kotlin.String?) = apply { this.name = name }
 
-        fun `value`(`value`: kotlin.String) = apply { this.`value` = `value` }
+        fun `value`(`value`: kotlin.String?) = apply { this.`value` = `value` }
 
-        fun categories(categories: kotlin.collections.List<kotlin.String>) = apply { this.categories = categories }
+        fun categories(categories: kotlin.collections.List<kotlin.String>?) = apply { this.categories = categories }
 
         fun build(): Amenity {
             return Amenity(

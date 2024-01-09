@@ -59,9 +59,9 @@ data class Fees(
         private var mandatory: kotlin.String? = null,
         private var optional: kotlin.String? = null
     ) {
-        fun mandatory(mandatory: kotlin.String) = apply { this.mandatory = mandatory }
+        fun mandatory(mandatory: kotlin.String?) = apply { this.mandatory = mandatory }
 
-        fun optional(optional: kotlin.String) = apply { this.optional = optional }
+        fun optional(optional: kotlin.String?) = apply { this.optional = optional }
 
         fun build(): Fees {
             return Fees(

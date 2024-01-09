@@ -52,7 +52,7 @@ data class GuestReviews(
     class Builder(
         private var verified: GuestReviewsVerified? = null
     ) {
-        fun verified(verified: GuestReviewsVerified) = apply { this.verified = verified }
+        fun verified(verified: GuestReviewsVerified?) = apply { this.verified = verified }
 
         fun build(): GuestReviews {
             return GuestReviews(

@@ -62,11 +62,11 @@ data class FeesPricingInformation(
         private var resortFee: ChargeCalculated? = null,
         private var mandatoryTax: ChargeCalculated? = null
     ) {
-        fun mandatoryFee(mandatoryFee: ChargeCalculated) = apply { this.mandatoryFee = mandatoryFee }
+        fun mandatoryFee(mandatoryFee: ChargeCalculated?) = apply { this.mandatoryFee = mandatoryFee }
 
-        fun resortFee(resortFee: ChargeCalculated) = apply { this.resortFee = resortFee }
+        fun resortFee(resortFee: ChargeCalculated?) = apply { this.resortFee = resortFee }
 
-        fun mandatoryTax(mandatoryTax: ChargeCalculated) = apply { this.mandatoryTax = mandatoryTax }
+        fun mandatoryTax(mandatoryTax: ChargeCalculated?) = apply { this.mandatoryTax = mandatoryTax }
 
         fun build(): FeesPricingInformation {
             return FeesPricingInformation(

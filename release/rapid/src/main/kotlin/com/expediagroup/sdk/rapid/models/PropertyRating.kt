@@ -59,9 +59,9 @@ data class PropertyRating(
         private var rating: kotlin.String? = null,
         private var type: kotlin.String? = null
     ) {
-        fun rating(rating: kotlin.String) = apply { this.rating = rating }
+        fun rating(rating: kotlin.String?) = apply { this.rating = rating }
 
-        fun type(type: kotlin.String) = apply { this.type = type }
+        fun type(type: kotlin.String?) = apply { this.type = type }
 
         fun build(): PropertyRating {
             return PropertyRating(

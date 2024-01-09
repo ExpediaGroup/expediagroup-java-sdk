@@ -59,9 +59,9 @@ data class SpokenLanguage(
         private var id: kotlin.String? = null,
         private var name: kotlin.String? = null
     ) {
-        fun id(id: kotlin.String) = apply { this.id = id }
+        fun id(id: kotlin.String?) = apply { this.id = id }
 
-        fun name(name: kotlin.String) = apply { this.name = name }
+        fun name(name: kotlin.String?) = apply { this.name = name }
 
         fun build(): SpokenLanguage {
             return SpokenLanguage(

@@ -52,7 +52,7 @@ data class BedGroupAvailabilityLinks(
     class Builder(
         private var priceCheck: Link? = null
     ) {
-        fun priceCheck(priceCheck: Link) = apply { this.priceCheck = priceCheck }
+        fun priceCheck(priceCheck: Link?) = apply { this.priceCheck = priceCheck }
 
         fun build(): BedGroupAvailabilityLinks {
             return BedGroupAvailabilityLinks(

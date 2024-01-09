@@ -59,9 +59,9 @@ data class Area(
         private var squareMeters: java.math.BigDecimal? = null,
         private var squareFeet: java.math.BigDecimal? = null
     ) {
-        fun squareMeters(squareMeters: java.math.BigDecimal) = apply { this.squareMeters = squareMeters }
+        fun squareMeters(squareMeters: java.math.BigDecimal?) = apply { this.squareMeters = squareMeters }
 
-        fun squareFeet(squareFeet: java.math.BigDecimal) = apply { this.squareFeet = squareFeet }
+        fun squareFeet(squareFeet: java.math.BigDecimal?) = apply { this.squareFeet = squareFeet }
 
         fun build(): Area {
             return Area(

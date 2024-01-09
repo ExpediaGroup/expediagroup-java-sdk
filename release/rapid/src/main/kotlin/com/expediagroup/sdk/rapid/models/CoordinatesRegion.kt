@@ -64,11 +64,11 @@ data class CoordinatesRegion(
         private var centerLatitude: java.math.BigDecimal? = null,
         private var boundingPolygon: BoundingPolygon? = null
     ) {
-        fun centerLongitude(centerLongitude: java.math.BigDecimal) = apply { this.centerLongitude = centerLongitude }
+        fun centerLongitude(centerLongitude: java.math.BigDecimal?) = apply { this.centerLongitude = centerLongitude }
 
-        fun centerLatitude(centerLatitude: java.math.BigDecimal) = apply { this.centerLatitude = centerLatitude }
+        fun centerLatitude(centerLatitude: java.math.BigDecimal?) = apply { this.centerLatitude = centerLatitude }
 
-        fun boundingPolygon(boundingPolygon: BoundingPolygon) = apply { this.boundingPolygon = boundingPolygon }
+        fun boundingPolygon(boundingPolygon: BoundingPolygon?) = apply { this.boundingPolygon = boundingPolygon }
 
         fun build(): CoordinatesRegion {
             return CoordinatesRegion(

@@ -64,11 +64,11 @@ data class NightCharge(
         private var `value`: kotlin.String? = null,
         private var currency: kotlin.String? = null
     ) {
-        fun type(type: NightChargeType) = apply { this.type = type }
+        fun type(type: NightChargeType?) = apply { this.type = type }
 
-        fun `value`(`value`: kotlin.String) = apply { this.`value` = `value` }
+        fun `value`(`value`: kotlin.String?) = apply { this.`value` = `value` }
 
-        fun currency(currency: kotlin.String) = apply { this.currency = currency }
+        fun currency(currency: kotlin.String?) = apply { this.currency = currency }
 
         fun build(): NightCharge {
             return NightCharge(

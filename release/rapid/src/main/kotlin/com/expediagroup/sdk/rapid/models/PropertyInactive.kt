@@ -53,7 +53,7 @@ data class PropertyInactive(
     class Builder(
         private var propertyId: kotlin.String? = null
     ) {
-        fun propertyId(propertyId: kotlin.String) = apply { this.propertyId = propertyId }
+        fun propertyId(propertyId: kotlin.String?) = apply { this.propertyId = propertyId }
 
         fun build(): PropertyInactive {
             return PropertyInactive(

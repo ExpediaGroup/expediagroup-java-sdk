@@ -67,13 +67,13 @@ data class RoomPriceCheckLinks(
         private var paymentSession: Link? = null,
         private var additionalRates: Link? = null
     ) {
-        fun book(book: Link) = apply { this.book = book }
+        fun book(book: Link?) = apply { this.book = book }
 
-        fun commit(commit: Link) = apply { this.commit = commit }
+        fun commit(commit: Link?) = apply { this.commit = commit }
 
-        fun paymentSession(paymentSession: Link) = apply { this.paymentSession = paymentSession }
+        fun paymentSession(paymentSession: Link?) = apply { this.paymentSession = paymentSession }
 
-        fun additionalRates(additionalRates: Link) = apply { this.additionalRates = additionalRates }
+        fun additionalRates(additionalRates: Link?) = apply { this.additionalRates = additionalRates }
 
         fun build(): RoomPriceCheckLinks {
             return RoomPriceCheckLinks(

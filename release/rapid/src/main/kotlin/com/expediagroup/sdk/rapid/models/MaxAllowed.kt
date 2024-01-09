@@ -65,11 +65,11 @@ data class MaxAllowed(
         private var children: java.math.BigDecimal? = null,
         private var adults: java.math.BigDecimal? = null
     ) {
-        fun total(total: java.math.BigDecimal) = apply { this.total = total }
+        fun total(total: java.math.BigDecimal?) = apply { this.total = total }
 
-        fun children(children: java.math.BigDecimal) = apply { this.children = children }
+        fun children(children: java.math.BigDecimal?) = apply { this.children = children }
 
-        fun adults(adults: java.math.BigDecimal) = apply { this.adults = adults }
+        fun adults(adults: java.math.BigDecimal?) = apply { this.adults = adults }
 
         fun build(): MaxAllowed {
             return MaxAllowed(

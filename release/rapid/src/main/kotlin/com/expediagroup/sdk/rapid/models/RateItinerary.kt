@@ -111,29 +111,29 @@ data class RateItinerary(
         private var refundableDamageDeposit: Amount? = null,
         private var pricing: PricingInformation? = null
     ) {
-        fun id(id: kotlin.String) = apply { this.id = id }
+        fun id(id: kotlin.String?) = apply { this.id = id }
 
-        fun merchantOfRecord(merchantOfRecord: MerchantOfRecord) = apply { this.merchantOfRecord = merchantOfRecord }
+        fun merchantOfRecord(merchantOfRecord: MerchantOfRecord?) = apply { this.merchantOfRecord = merchantOfRecord }
 
-        fun refundable(refundable: kotlin.Boolean) = apply { this.refundable = refundable }
+        fun refundable(refundable: kotlin.Boolean?) = apply { this.refundable = refundable }
 
-        fun cancelRefund(cancelRefund: CancelRefund) = apply { this.cancelRefund = cancelRefund }
+        fun cancelRefund(cancelRefund: CancelRefund?) = apply { this.cancelRefund = cancelRefund }
 
-        fun amenities(amenities: kotlin.collections.List<kotlin.String>) = apply { this.amenities = amenities }
+        fun amenities(amenities: kotlin.collections.List<kotlin.String>?) = apply { this.amenities = amenities }
 
-        fun promotions(promotions: PromotionsItinerary) = apply { this.promotions = promotions }
+        fun promotions(promotions: PromotionsItinerary?) = apply { this.promotions = promotions }
 
-        fun cancelPenalties(cancelPenalties: kotlin.collections.List<CancelPenalty>) = apply { this.cancelPenalties = cancelPenalties }
+        fun cancelPenalties(cancelPenalties: kotlin.collections.List<CancelPenalty>?) = apply { this.cancelPenalties = cancelPenalties }
 
-        fun nonrefundableDateRanges(nonrefundableDateRanges: kotlin.collections.List<NonrefundableDateRange>) = apply { this.nonrefundableDateRanges = nonrefundableDateRanges }
+        fun nonrefundableDateRanges(nonrefundableDateRanges: kotlin.collections.List<NonrefundableDateRange>?) = apply { this.nonrefundableDateRanges = nonrefundableDateRanges }
 
-        fun deposits(deposits: kotlin.collections.List<DepositItinerary>) = apply { this.deposits = deposits }
+        fun deposits(deposits: kotlin.collections.List<DepositItinerary>?) = apply { this.deposits = deposits }
 
-        fun cardOnFileLimit(cardOnFileLimit: Amount) = apply { this.cardOnFileLimit = cardOnFileLimit }
+        fun cardOnFileLimit(cardOnFileLimit: Amount?) = apply { this.cardOnFileLimit = cardOnFileLimit }
 
-        fun refundableDamageDeposit(refundableDamageDeposit: Amount) = apply { this.refundableDamageDeposit = refundableDamageDeposit }
+        fun refundableDamageDeposit(refundableDamageDeposit: Amount?) = apply { this.refundableDamageDeposit = refundableDamageDeposit }
 
-        fun pricing(pricing: PricingInformation) = apply { this.pricing = pricing }
+        fun pricing(pricing: PricingInformation?) = apply { this.pricing = pricing }
 
         fun build(): RateItinerary {
             return RateItinerary(

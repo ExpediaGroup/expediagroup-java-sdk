@@ -100,23 +100,23 @@ data class Address(
         private var obfuscationRequired: kotlin.Boolean? = null,
         private var localized: Localized? = null
     ) {
-        fun line1(line1: kotlin.String) = apply { this.line1 = line1 }
+        fun line1(line1: kotlin.String?) = apply { this.line1 = line1 }
 
-        fun line2(line2: kotlin.String) = apply { this.line2 = line2 }
+        fun line2(line2: kotlin.String?) = apply { this.line2 = line2 }
 
-        fun city(city: kotlin.String) = apply { this.city = city }
+        fun city(city: kotlin.String?) = apply { this.city = city }
 
-        fun stateProvinceCode(stateProvinceCode: kotlin.String) = apply { this.stateProvinceCode = stateProvinceCode }
+        fun stateProvinceCode(stateProvinceCode: kotlin.String?) = apply { this.stateProvinceCode = stateProvinceCode }
 
-        fun stateProvinceName(stateProvinceName: kotlin.String) = apply { this.stateProvinceName = stateProvinceName }
+        fun stateProvinceName(stateProvinceName: kotlin.String?) = apply { this.stateProvinceName = stateProvinceName }
 
-        fun postalCode(postalCode: kotlin.String) = apply { this.postalCode = postalCode }
+        fun postalCode(postalCode: kotlin.String?) = apply { this.postalCode = postalCode }
 
-        fun countryCode(countryCode: kotlin.String) = apply { this.countryCode = countryCode }
+        fun countryCode(countryCode: kotlin.String?) = apply { this.countryCode = countryCode }
 
-        fun obfuscationRequired(obfuscationRequired: kotlin.Boolean) = apply { this.obfuscationRequired = obfuscationRequired }
+        fun obfuscationRequired(obfuscationRequired: kotlin.Boolean?) = apply { this.obfuscationRequired = obfuscationRequired }
 
-        fun localized(localized: Localized) = apply { this.localized = localized }
+        fun localized(localized: Localized?) = apply { this.localized = localized }
 
         fun build(): Address {
             return Address(

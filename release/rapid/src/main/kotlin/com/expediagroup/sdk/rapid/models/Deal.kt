@@ -59,9 +59,9 @@ data class Deal(
         private var id: kotlin.String? = null,
         private var description: kotlin.String? = null
     ) {
-        fun id(id: kotlin.String) = apply { this.id = id }
+        fun id(id: kotlin.String?) = apply { this.id = id }
 
-        fun description(description: kotlin.String) = apply { this.description = description }
+        fun description(description: kotlin.String?) = apply { this.description = description }
 
         fun build(): Deal {
             return Deal(

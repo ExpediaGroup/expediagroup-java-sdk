@@ -77,15 +77,15 @@ data class ChangeRoomDetailsRequest(
         private var specialRequest: kotlin.String? = null,
         private var loyaltyId: kotlin.String? = null
     ) {
-        fun givenName(givenName: kotlin.String) = apply { this.givenName = givenName }
+        fun givenName(givenName: kotlin.String?) = apply { this.givenName = givenName }
 
-        fun familyName(familyName: kotlin.String) = apply { this.familyName = familyName }
+        fun familyName(familyName: kotlin.String?) = apply { this.familyName = familyName }
 
-        fun smoking(smoking: kotlin.Boolean) = apply { this.smoking = smoking }
+        fun smoking(smoking: kotlin.Boolean?) = apply { this.smoking = smoking }
 
-        fun specialRequest(specialRequest: kotlin.String) = apply { this.specialRequest = specialRequest }
+        fun specialRequest(specialRequest: kotlin.String?) = apply { this.specialRequest = specialRequest }
 
-        fun loyaltyId(loyaltyId: kotlin.String) = apply { this.loyaltyId = loyaltyId }
+        fun loyaltyId(loyaltyId: kotlin.String?) = apply { this.loyaltyId = loyaltyId }
 
         fun build(): ChangeRoomDetailsRequest {
             return ChangeRoomDetailsRequest(

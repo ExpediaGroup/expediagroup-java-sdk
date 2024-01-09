@@ -59,9 +59,9 @@ data class Ancestors(
         private var id: kotlin.String? = null,
         private var type: kotlin.String? = null
     ) {
-        fun id(id: kotlin.String) = apply { this.id = id }
+        fun id(id: kotlin.String?) = apply { this.id = id }
 
-        fun type(type: kotlin.String) = apply { this.type = type }
+        fun type(type: kotlin.String?) = apply { this.type = type }
 
         fun build(): Ancestors {
             return Ancestors(

@@ -70,13 +70,13 @@ data class BedGroupAvailability(
         private var description: kotlin.String? = null,
         private var configuration: kotlin.collections.List<BedGroupConfiguration>? = null
     ) {
-        fun links(links: BedGroupAvailabilityLinks) = apply { this.links = links }
+        fun links(links: BedGroupAvailabilityLinks?) = apply { this.links = links }
 
-        fun id(id: kotlin.String) = apply { this.id = id }
+        fun id(id: kotlin.String?) = apply { this.id = id }
 
-        fun description(description: kotlin.String) = apply { this.description = description }
+        fun description(description: kotlin.String?) = apply { this.description = description }
 
-        fun configuration(configuration: kotlin.collections.List<BedGroupConfiguration>) = apply { this.configuration = configuration }
+        fun configuration(configuration: kotlin.collections.List<BedGroupConfiguration>?) = apply { this.configuration = configuration }
 
         fun build(): BedGroupAvailability {
             return BedGroupAvailability(

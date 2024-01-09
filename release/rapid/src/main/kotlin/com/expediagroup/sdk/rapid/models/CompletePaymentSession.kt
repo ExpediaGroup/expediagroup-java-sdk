@@ -63,11 +63,11 @@ data class CompletePaymentSession(
         private var links: CompletePaymentSessionLinks? = null,
         private var traderInformation: TraderInformation? = null
     ) {
-        fun itineraryId(itineraryId: kotlin.String) = apply { this.itineraryId = itineraryId }
+        fun itineraryId(itineraryId: kotlin.String?) = apply { this.itineraryId = itineraryId }
 
-        fun links(links: CompletePaymentSessionLinks) = apply { this.links = links }
+        fun links(links: CompletePaymentSessionLinks?) = apply { this.links = links }
 
-        fun traderInformation(traderInformation: TraderInformation) = apply { this.traderInformation = traderInformation }
+        fun traderInformation(traderInformation: TraderInformation?) = apply { this.traderInformation = traderInformation }
 
         fun build(): CompletePaymentSession {
             return CompletePaymentSession(
