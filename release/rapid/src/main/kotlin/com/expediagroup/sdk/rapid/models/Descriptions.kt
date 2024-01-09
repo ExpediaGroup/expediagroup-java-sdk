@@ -107,25 +107,25 @@ data class Descriptions(
         private var headline: kotlin.String? = null,
         private var general: kotlin.String? = null
     ) {
-        fun amenities(amenities: kotlin.String) = apply { this.amenities = amenities }
+        fun amenities(amenities: kotlin.String?) = apply { this.amenities = amenities }
 
-        fun dining(dining: kotlin.String) = apply { this.dining = dining }
+        fun dining(dining: kotlin.String?) = apply { this.dining = dining }
 
-        fun renovations(renovations: kotlin.String) = apply { this.renovations = renovations }
+        fun renovations(renovations: kotlin.String?) = apply { this.renovations = renovations }
 
-        fun nationalRatings(nationalRatings: kotlin.String) = apply { this.nationalRatings = nationalRatings }
+        fun nationalRatings(nationalRatings: kotlin.String?) = apply { this.nationalRatings = nationalRatings }
 
-        fun businessAmenities(businessAmenities: kotlin.String) = apply { this.businessAmenities = businessAmenities }
+        fun businessAmenities(businessAmenities: kotlin.String?) = apply { this.businessAmenities = businessAmenities }
 
-        fun rooms(rooms: kotlin.String) = apply { this.rooms = rooms }
+        fun rooms(rooms: kotlin.String?) = apply { this.rooms = rooms }
 
-        fun attractions(attractions: kotlin.String) = apply { this.attractions = attractions }
+        fun attractions(attractions: kotlin.String?) = apply { this.attractions = attractions }
 
-        fun location(location: kotlin.String) = apply { this.location = location }
+        fun location(location: kotlin.String?) = apply { this.location = location }
 
-        fun headline(headline: kotlin.String) = apply { this.headline = headline }
+        fun headline(headline: kotlin.String?) = apply { this.headline = headline }
 
-        fun general(general: kotlin.String) = apply { this.general = general }
+        fun general(general: kotlin.String?) = apply { this.general = general }
 
         fun build(): Descriptions {
             return Descriptions(

@@ -65,11 +65,11 @@ data class DepositItinerary(
         private var `value`: kotlin.String? = null,
         private var due: kotlin.String? = null
     ) {
-        fun currency(currency: kotlin.String) = apply { this.currency = currency }
+        fun currency(currency: kotlin.String?) = apply { this.currency = currency }
 
-        fun `value`(`value`: kotlin.String) = apply { this.`value` = `value` }
+        fun `value`(`value`: kotlin.String?) = apply { this.`value` = `value` }
 
-        fun due(due: kotlin.String) = apply { this.due = due }
+        fun due(due: kotlin.String?) = apply { this.due = due }
 
         fun build(): DepositItinerary {
             return DepositItinerary(

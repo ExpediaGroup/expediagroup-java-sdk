@@ -105,17 +105,17 @@ data class CreateItineraryRequest(
 
         fun rooms(rooms: kotlin.collections.List<CreateItineraryRequestRoom>) = apply { this.rooms = rooms }
 
-        fun affiliateReferenceId(affiliateReferenceId: kotlin.String) = apply { this.affiliateReferenceId = affiliateReferenceId }
+        fun affiliateReferenceId(affiliateReferenceId: kotlin.String?) = apply { this.affiliateReferenceId = affiliateReferenceId }
 
-        fun hold(hold: kotlin.Boolean) = apply { this.hold = hold }
+        fun hold(hold: kotlin.Boolean?) = apply { this.hold = hold }
 
-        fun payments(payments: kotlin.collections.List<PaymentRequest>) = apply { this.payments = payments }
+        fun payments(payments: kotlin.collections.List<PaymentRequest>?) = apply { this.payments = payments }
 
-        fun affiliateMetadata(affiliateMetadata: kotlin.String) = apply { this.affiliateMetadata = affiliateMetadata }
+        fun affiliateMetadata(affiliateMetadata: kotlin.String?) = apply { this.affiliateMetadata = affiliateMetadata }
 
-        fun taxRegistrationNumber(taxRegistrationNumber: kotlin.String) = apply { this.taxRegistrationNumber = taxRegistrationNumber }
+        fun taxRegistrationNumber(taxRegistrationNumber: kotlin.String?) = apply { this.taxRegistrationNumber = taxRegistrationNumber }
 
-        fun travelerHandlingInstructions(travelerHandlingInstructions: kotlin.String) = apply { this.travelerHandlingInstructions = travelerHandlingInstructions }
+        fun travelerHandlingInstructions(travelerHandlingInstructions: kotlin.String?) = apply { this.travelerHandlingInstructions = travelerHandlingInstructions }
 
         fun build(): CreateItineraryRequest {
             // Check required params

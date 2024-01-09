@@ -59,9 +59,9 @@ data class Attributes(
         private var general: kotlin.collections.Map<kotlin.String, Attribute>? = null,
         private var pets: kotlin.collections.Map<kotlin.String, Attribute>? = null
     ) {
-        fun general(general: kotlin.collections.Map<kotlin.String, Attribute>) = apply { this.general = general }
+        fun general(general: kotlin.collections.Map<kotlin.String, Attribute>?) = apply { this.general = general }
 
-        fun pets(pets: kotlin.collections.Map<kotlin.String, Attribute>) = apply { this.pets = pets }
+        fun pets(pets: kotlin.collections.Map<kotlin.String, Attribute>?) = apply { this.pets = pets }
 
         fun build(): Attributes {
             return Attributes(

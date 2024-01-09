@@ -139,39 +139,39 @@ data class Itinerary(
         private var itineraryHistory: kotlin.collections.List<ItineraryHistoryItem>? = null,
         private var roomHistory: kotlin.collections.List<kotlin.collections.List<RoomHistoryItem>>? = null
     ) {
-        fun itineraryId(itineraryId: kotlin.String) = apply { this.itineraryId = itineraryId }
+        fun itineraryId(itineraryId: kotlin.String?) = apply { this.itineraryId = itineraryId }
 
-        fun propertyId(propertyId: kotlin.String) = apply { this.propertyId = propertyId }
+        fun propertyId(propertyId: kotlin.String?) = apply { this.propertyId = propertyId }
 
-        fun links(links: ItineraryLinks) = apply { this.links = links }
+        fun links(links: ItineraryLinks?) = apply { this.links = links }
 
-        fun email(email: kotlin.String) = apply { this.email = email }
+        fun email(email: kotlin.String?) = apply { this.email = email }
 
-        fun phone(phone: Phone) = apply { this.phone = phone }
+        fun phone(phone: Phone?) = apply { this.phone = phone }
 
-        fun rooms(rooms: kotlin.collections.List<RoomItinerary>) = apply { this.rooms = rooms }
+        fun rooms(rooms: kotlin.collections.List<RoomItinerary>?) = apply { this.rooms = rooms }
 
-        fun billingContact(billingContact: BillingContact) = apply { this.billingContact = billingContact }
+        fun billingContact(billingContact: BillingContact?) = apply { this.billingContact = billingContact }
 
-        fun adjustment(adjustment: Adjustment) = apply { this.adjustment = adjustment }
+        fun adjustment(adjustment: Adjustment?) = apply { this.adjustment = adjustment }
 
-        fun creationDateTime(creationDateTime: kotlin.String) = apply { this.creationDateTime = creationDateTime }
+        fun creationDateTime(creationDateTime: kotlin.String?) = apply { this.creationDateTime = creationDateTime }
 
-        fun affiliateReferenceId(affiliateReferenceId: kotlin.String) = apply { this.affiliateReferenceId = affiliateReferenceId }
+        fun affiliateReferenceId(affiliateReferenceId: kotlin.String?) = apply { this.affiliateReferenceId = affiliateReferenceId }
 
-        fun affiliateMetadata(affiliateMetadata: kotlin.String) = apply { this.affiliateMetadata = affiliateMetadata }
+        fun affiliateMetadata(affiliateMetadata: kotlin.String?) = apply { this.affiliateMetadata = affiliateMetadata }
 
-        fun conversations(conversations: Conversations) = apply { this.conversations = conversations }
+        fun conversations(conversations: Conversations?) = apply { this.conversations = conversations }
 
-        fun traderInformation(traderInformation: TraderInformation) = apply { this.traderInformation = traderInformation }
+        fun traderInformation(traderInformation: TraderInformation?) = apply { this.traderInformation = traderInformation }
 
-        fun essentialInformation(essentialInformation: EssentialInformation) = apply { this.essentialInformation = essentialInformation }
+        fun essentialInformation(essentialInformation: EssentialInformation?) = apply { this.essentialInformation = essentialInformation }
 
-        fun travelPurpose(travelPurpose: Itinerary.TravelPurpose) = apply { this.travelPurpose = travelPurpose }
+        fun travelPurpose(travelPurpose: Itinerary.TravelPurpose?) = apply { this.travelPurpose = travelPurpose }
 
-        fun itineraryHistory(itineraryHistory: kotlin.collections.List<ItineraryHistoryItem>) = apply { this.itineraryHistory = itineraryHistory }
+        fun itineraryHistory(itineraryHistory: kotlin.collections.List<ItineraryHistoryItem>?) = apply { this.itineraryHistory = itineraryHistory }
 
-        fun roomHistory(roomHistory: kotlin.collections.List<kotlin.collections.List<RoomHistoryItem>>) = apply { this.roomHistory = roomHistory }
+        fun roomHistory(roomHistory: kotlin.collections.List<kotlin.collections.List<RoomHistoryItem>>?) = apply { this.roomHistory = roomHistory }
 
         fun build(): Itinerary {
             return Itinerary(

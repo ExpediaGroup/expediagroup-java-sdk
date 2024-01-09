@@ -133,35 +133,35 @@ data class RoomItinerary(
         private var rate: RateItinerary? = null,
         private var links: RoomItineraryLinks? = null
     ) {
-        fun id(id: kotlin.String) = apply { this.id = id }
+        fun id(id: kotlin.String?) = apply { this.id = id }
 
-        fun confirmationId(confirmationId: ConfirmationId) = apply { this.confirmationId = confirmationId }
+        fun confirmationId(confirmationId: ConfirmationId?) = apply { this.confirmationId = confirmationId }
 
-        fun bedGroupId(bedGroupId: kotlin.String) = apply { this.bedGroupId = bedGroupId }
+        fun bedGroupId(bedGroupId: kotlin.String?) = apply { this.bedGroupId = bedGroupId }
 
-        fun checkin(checkin: kotlin.String) = apply { this.checkin = checkin }
+        fun checkin(checkin: kotlin.String?) = apply { this.checkin = checkin }
 
-        fun checkout(checkout: kotlin.String) = apply { this.checkout = checkout }
+        fun checkout(checkout: kotlin.String?) = apply { this.checkout = checkout }
 
-        fun numberOfAdults(numberOfAdults: java.math.BigDecimal) = apply { this.numberOfAdults = numberOfAdults }
+        fun numberOfAdults(numberOfAdults: java.math.BigDecimal?) = apply { this.numberOfAdults = numberOfAdults }
 
-        fun childAges(childAges: kotlin.collections.List<java.math.BigDecimal>) = apply { this.childAges = childAges }
+        fun childAges(childAges: kotlin.collections.List<java.math.BigDecimal>?) = apply { this.childAges = childAges }
 
-        fun givenName(givenName: kotlin.String) = apply { this.givenName = givenName }
+        fun givenName(givenName: kotlin.String?) = apply { this.givenName = givenName }
 
-        fun familyName(familyName: kotlin.String) = apply { this.familyName = familyName }
+        fun familyName(familyName: kotlin.String?) = apply { this.familyName = familyName }
 
-        fun status(status: StatusItinerary) = apply { this.status = status }
+        fun status(status: StatusItinerary?) = apply { this.status = status }
 
-        fun specialRequest(specialRequest: kotlin.String) = apply { this.specialRequest = specialRequest }
+        fun specialRequest(specialRequest: kotlin.String?) = apply { this.specialRequest = specialRequest }
 
-        fun smoking(smoking: kotlin.Boolean) = apply { this.smoking = smoking }
+        fun smoking(smoking: kotlin.Boolean?) = apply { this.smoking = smoking }
 
-        fun loyaltyId(loyaltyId: kotlin.String) = apply { this.loyaltyId = loyaltyId }
+        fun loyaltyId(loyaltyId: kotlin.String?) = apply { this.loyaltyId = loyaltyId }
 
-        fun rate(rate: RateItinerary) = apply { this.rate = rate }
+        fun rate(rate: RateItinerary?) = apply { this.rate = rate }
 
-        fun links(links: RoomItineraryLinks) = apply { this.links = links }
+        fun links(links: RoomItineraryLinks?) = apply { this.links = links }
 
         fun build(): RoomItinerary {
             return RoomItinerary(

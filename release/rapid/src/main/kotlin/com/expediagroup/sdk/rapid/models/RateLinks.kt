@@ -52,7 +52,7 @@ data class RateLinks(
     class Builder(
         private var paymentOptions: Link? = null
     ) {
-        fun paymentOptions(paymentOptions: Link) = apply { this.paymentOptions = paymentOptions }
+        fun paymentOptions(paymentOptions: Link?) = apply { this.paymentOptions = paymentOptions }
 
         fun build(): RateLinks {
             return RateLinks(

@@ -59,9 +59,9 @@ data class CardOption(
         private var name: kotlin.String? = null,
         private var processingCountry: kotlin.String? = null
     ) {
-        fun name(name: kotlin.String) = apply { this.name = name }
+        fun name(name: kotlin.String?) = apply { this.name = name }
 
-        fun processingCountry(processingCountry: kotlin.String) = apply { this.processingCountry = processingCountry }
+        fun processingCountry(processingCountry: kotlin.String?) = apply { this.processingCountry = processingCountry }
 
         fun build(): CardOption {
             return CardOption(

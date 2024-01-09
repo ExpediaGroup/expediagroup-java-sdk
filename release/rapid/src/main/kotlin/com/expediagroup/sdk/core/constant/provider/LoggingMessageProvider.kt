@@ -26,4 +26,6 @@ internal object LoggingMessageProvider {
         property: String,
         providerName: String
     ) = "Successfully loaded [$property] from [$providerName]"
+
+    fun getResponseBodyMessage(body: String) = "Response Body: $body"
 }

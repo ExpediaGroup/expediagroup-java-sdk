@@ -88,19 +88,19 @@ data class PaymentSessionsRequestCustomerAccountDetails(
         private var addCardAttempts: java.math.BigDecimal? = null,
         private var accountPurchases: java.math.BigDecimal? = null
     ) {
-        fun authenticationMethod(authenticationMethod: PaymentSessionsRequestCustomerAccountDetails.AuthenticationMethod) = apply { this.authenticationMethod = authenticationMethod }
+        fun authenticationMethod(authenticationMethod: PaymentSessionsRequestCustomerAccountDetails.AuthenticationMethod?) = apply { this.authenticationMethod = authenticationMethod }
 
-        fun authenticationTimestamp(authenticationTimestamp: kotlin.String) = apply { this.authenticationTimestamp = authenticationTimestamp }
+        fun authenticationTimestamp(authenticationTimestamp: kotlin.String?) = apply { this.authenticationTimestamp = authenticationTimestamp }
 
-        fun createDate(createDate: kotlin.String) = apply { this.createDate = createDate }
+        fun createDate(createDate: kotlin.String?) = apply { this.createDate = createDate }
 
-        fun changeDate(changeDate: kotlin.String) = apply { this.changeDate = changeDate }
+        fun changeDate(changeDate: kotlin.String?) = apply { this.changeDate = changeDate }
 
-        fun passwordChangeDate(passwordChangeDate: kotlin.String) = apply { this.passwordChangeDate = passwordChangeDate }
+        fun passwordChangeDate(passwordChangeDate: kotlin.String?) = apply { this.passwordChangeDate = passwordChangeDate }
 
-        fun addCardAttempts(addCardAttempts: java.math.BigDecimal) = apply { this.addCardAttempts = addCardAttempts }
+        fun addCardAttempts(addCardAttempts: java.math.BigDecimal?) = apply { this.addCardAttempts = addCardAttempts }
 
-        fun accountPurchases(accountPurchases: java.math.BigDecimal) = apply { this.accountPurchases = accountPurchases }
+        fun accountPurchases(accountPurchases: java.math.BigDecimal?) = apply { this.accountPurchases = accountPurchases }
 
         fun build(): PaymentSessionsRequestCustomerAccountDetails {
             return PaymentSessionsRequestCustomerAccountDetails(

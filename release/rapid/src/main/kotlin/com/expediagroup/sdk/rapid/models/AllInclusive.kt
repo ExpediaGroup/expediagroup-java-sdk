@@ -65,11 +65,11 @@ data class AllInclusive(
         private var someRatePlans: kotlin.Boolean? = null,
         private var details: kotlin.String? = null
     ) {
-        fun allRatePlans(allRatePlans: kotlin.Boolean) = apply { this.allRatePlans = allRatePlans }
+        fun allRatePlans(allRatePlans: kotlin.Boolean?) = apply { this.allRatePlans = allRatePlans }
 
-        fun someRatePlans(someRatePlans: kotlin.Boolean) = apply { this.someRatePlans = someRatePlans }
+        fun someRatePlans(someRatePlans: kotlin.Boolean?) = apply { this.someRatePlans = someRatePlans }
 
-        fun details(details: kotlin.String) = apply { this.details = details }
+        fun details(details: kotlin.String?) = apply { this.details = details }
 
         fun build(): AllInclusive {
             return AllInclusive(

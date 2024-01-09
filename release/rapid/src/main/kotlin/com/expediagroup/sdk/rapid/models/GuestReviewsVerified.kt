@@ -53,7 +53,7 @@ data class GuestReviewsVerified(
     class Builder(
         private var recent: kotlin.collections.List<Review>? = null
     ) {
-        fun recent(recent: kotlin.collections.List<Review>) = apply { this.recent = recent }
+        fun recent(recent: kotlin.collections.List<Review>?) = apply { this.recent = recent }
 
         fun build(): GuestReviewsVerified {
             return GuestReviewsVerified(

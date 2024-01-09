@@ -53,7 +53,7 @@ data class Policies(
     class Builder(
         private var knowBeforeYouGo: kotlin.String? = null
     ) {
-        fun knowBeforeYouGo(knowBeforeYouGo: kotlin.String) = apply { this.knowBeforeYouGo = knowBeforeYouGo }
+        fun knowBeforeYouGo(knowBeforeYouGo: kotlin.String?) = apply { this.knowBeforeYouGo = knowBeforeYouGo }
 
         fun build(): Policies {
             return Policies(

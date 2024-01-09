@@ -57,9 +57,9 @@ data class ItineraryLinks(
         private var resume: Link? = null,
         private var cancel: Link? = null
     ) {
-        fun resume(resume: Link) = apply { this.resume = resume }
+        fun resume(resume: Link?) = apply { this.resume = resume }
 
-        fun cancel(cancel: Link) = apply { this.cancel = cancel }
+        fun cancel(cancel: Link?) = apply { this.cancel = cancel }
 
         fun build(): ItineraryLinks {
             return ItineraryLinks(

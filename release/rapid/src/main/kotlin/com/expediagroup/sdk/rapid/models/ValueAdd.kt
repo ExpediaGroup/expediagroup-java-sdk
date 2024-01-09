@@ -80,17 +80,17 @@ data class ValueAdd(
         private var frequency: Frequency? = null,
         private var personCount: java.math.BigDecimal? = null
     ) {
-        fun id(id: kotlin.String) = apply { this.id = id }
+        fun id(id: kotlin.String?) = apply { this.id = id }
 
-        fun description(description: kotlin.String) = apply { this.description = description }
+        fun description(description: kotlin.String?) = apply { this.description = description }
 
-        fun category(category: CategoryValueAdd) = apply { this.category = category }
+        fun category(category: CategoryValueAdd?) = apply { this.category = category }
 
-        fun offerType(offerType: OfferType) = apply { this.offerType = offerType }
+        fun offerType(offerType: OfferType?) = apply { this.offerType = offerType }
 
-        fun frequency(frequency: Frequency) = apply { this.frequency = frequency }
+        fun frequency(frequency: Frequency?) = apply { this.frequency = frequency }
 
-        fun personCount(personCount: java.math.BigDecimal) = apply { this.personCount = personCount }
+        fun personCount(personCount: java.math.BigDecimal?) = apply { this.personCount = personCount }
 
         fun build(): ValueAdd {
             return ValueAdd(

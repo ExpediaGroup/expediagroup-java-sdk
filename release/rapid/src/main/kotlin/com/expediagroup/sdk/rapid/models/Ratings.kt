@@ -57,9 +57,9 @@ data class Ratings(
         private var `property`: PropertyRating? = null,
         private var guest: GuestRating? = null
     ) {
-        fun `property`(`property`: PropertyRating) = apply { this.`property` = `property` }
+        fun `property`(`property`: PropertyRating?) = apply { this.`property` = `property` }
 
-        fun guest(guest: GuestRating) = apply { this.guest = guest }
+        fun guest(guest: GuestRating?) = apply { this.guest = guest }
 
         fun build(): Ratings {
             return Ratings(

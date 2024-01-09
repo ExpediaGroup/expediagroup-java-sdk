@@ -102,21 +102,21 @@ data class TraderDetailsInner(
     ) {
         fun contactMessage(contactMessage: kotlin.String) = apply { this.contactMessage = contactMessage }
 
-        fun name(name: kotlin.String) = apply { this.name = name }
+        fun name(name: kotlin.String?) = apply { this.name = name }
 
-        fun address(address: TraderAddress) = apply { this.address = address }
+        fun address(address: TraderAddress?) = apply { this.address = address }
 
-        fun businessRegisterName(businessRegisterName: kotlin.String) = apply { this.businessRegisterName = businessRegisterName }
+        fun businessRegisterName(businessRegisterName: kotlin.String?) = apply { this.businessRegisterName = businessRegisterName }
 
-        fun businessRegisterNumber(businessRegisterNumber: kotlin.String) = apply { this.businessRegisterNumber = businessRegisterNumber }
+        fun businessRegisterNumber(businessRegisterNumber: kotlin.String?) = apply { this.businessRegisterNumber = businessRegisterNumber }
 
-        fun selfCertification(selfCertification: kotlin.Boolean) = apply { this.selfCertification = selfCertification }
+        fun selfCertification(selfCertification: kotlin.Boolean?) = apply { this.selfCertification = selfCertification }
 
-        fun rightToWithdrawMessage(rightToWithdrawMessage: kotlin.String) = apply { this.rightToWithdrawMessage = rightToWithdrawMessage }
+        fun rightToWithdrawMessage(rightToWithdrawMessage: kotlin.String?) = apply { this.rightToWithdrawMessage = rightToWithdrawMessage }
 
-        fun email(email: kotlin.String) = apply { this.email = email }
+        fun email(email: kotlin.String?) = apply { this.email = email }
 
-        fun phone(phone: kotlin.String) = apply { this.phone = phone }
+        fun phone(phone: kotlin.String?) = apply { this.phone = phone }
 
         fun build(): TraderDetailsInner {
             // Check required params

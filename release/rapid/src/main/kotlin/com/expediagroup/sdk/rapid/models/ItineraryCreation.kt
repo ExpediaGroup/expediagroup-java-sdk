@@ -69,13 +69,13 @@ data class ItineraryCreation(
         private var encodedChallengeConfig: kotlin.String? = null,
         private var traderInformation: TraderInformation? = null
     ) {
-        fun itineraryId(itineraryId: kotlin.String) = apply { this.itineraryId = itineraryId }
+        fun itineraryId(itineraryId: kotlin.String?) = apply { this.itineraryId = itineraryId }
 
-        fun links(links: ItineraryCreationLinks) = apply { this.links = links }
+        fun links(links: ItineraryCreationLinks?) = apply { this.links = links }
 
-        fun encodedChallengeConfig(encodedChallengeConfig: kotlin.String) = apply { this.encodedChallengeConfig = encodedChallengeConfig }
+        fun encodedChallengeConfig(encodedChallengeConfig: kotlin.String?) = apply { this.encodedChallengeConfig = encodedChallengeConfig }
 
-        fun traderInformation(traderInformation: TraderInformation) = apply { this.traderInformation = traderInformation }
+        fun traderInformation(traderInformation: TraderInformation?) = apply { this.traderInformation = traderInformation }
 
         fun build(): ItineraryCreation {
             return ItineraryCreation(

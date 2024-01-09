@@ -20,9 +20,11 @@ import com.expediagroup.sdk.core.client.BaseRapidClient
 import com.expediagroup.sdk.core.configuration.RapidClientConfiguration
 import com.expediagroup.sdk.core.model.EmptyResponse
 import com.expediagroup.sdk.core.model.Nothing
-import com.expediagroup.sdk.core.model.Properties
 import com.expediagroup.sdk.core.model.Response
-import com.expediagroup.sdk.core.model.exception.ExpediaGroupException
+import com.expediagroup.sdk.core.model.exception.handle
+import com.expediagroup.sdk.core.model.paging.Paginator
+import com.expediagroup.sdk.core.model.paging.ResponsePaginator
+import com.expediagroup.sdk.domain.rapid.*
 import com.expediagroup.sdk.rapid.models.Chain
 import com.expediagroup.sdk.rapid.models.ChangeRoomDetailsRequest
 import com.expediagroup.sdk.rapid.models.CommitChangeRoomRequestBody
@@ -49,7 +51,6 @@ import com.expediagroup.sdk.rapid.models.TestNotificationRequest
 import com.expediagroup.sdk.rapid.models.exception.*
 import com.expediagroup.sdk.rapid.validation.PropertyConstraintsValidator.validateConstraints
 import io.ktor.client.call.body
-import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.request
 import io.ktor.client.request.setBody
 import io.ktor.client.request.url
@@ -60,18 +61,13 @@ import io.ktor.http.contentType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.future.future
-import kotlinx.coroutines.runBlocking
 import java.util.UUID
 
 /**
 *
 */
-class RapidClient private constructor(clientConfiguration: RapidClientConfiguration) : BaseRapidClient(clientConfiguration) {
-    private val properties = Properties.from(javaClass.classLoader.getResource("sdk.properties")!!)
-    private val javaVersion = System.getProperty("java.version")
-    private val operatingSystemName = System.getProperty("os.name")
-    private val operatingSystemVersion = System.getProperty("os.version")
-    private val userAgent = "expediagroup-sdk-java-rapid/${properties["sdk-version"]!!} (Java $javaVersion; $operatingSystemName $operatingSystemVersion)"
+class RapidClient private constructor(clientConfiguration: RapidClientConfiguration) : BaseRapidClient("rapid", clientConfiguration) {
+    @JvmField val helpers = RapidHelpers(this)
 
     class Builder : BaseRapidClient.Builder<Builder>() {
         override fun build(): RapidClient =
@@ -82,12 +78,6 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
 
     companion object {
         @JvmStatic fun builder() = Builder()
-    }
-
-    private fun HttpRequestBuilder.appendHeaders(transactionId: UUID) {
-        headers.append("x-sdk-title", properties["sdk-title"]!!)
-        headers.append("transaction-id", transactionId.toString())
-        headers.append("User-agent", userAgent)
     }
 
     override suspend fun throwServiceException(
@@ -219,12 +209,7 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
                 kchangeRoomDetailsWithResponse(customerIp, itineraryId, roomId, token, changeRoomDetailsRequest, customerSessionId, test, transactionId)
             }.get()
         } catch (exception: Exception) {
-            if (exception is ExpediaGroupException) throw exception
-
-            when (val cause = exception.cause) {
-                is ExpediaGroupException -> throw cause
-                else -> throw ExpediaGroupException("ExpediaGroup Error", exception)
-            }
+            exception.handle()
         }
     }
 
@@ -358,12 +343,7 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
                 kcommitChangeWithResponse(customerIp, itineraryId, roomId, token, customerSessionId, test, commitChangeRoomRequestBody, transactionId)
             }.get()
         } catch (exception: Exception) {
-            if (exception is ExpediaGroupException) throw exception
-
-            when (val cause = exception.cause) {
-                is ExpediaGroupException -> throw cause
-                else -> throw ExpediaGroupException("ExpediaGroup Error", exception)
-            }
+            exception.handle()
         }
     }
 
@@ -476,12 +456,7 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
                 kdeleteHeldBookingWithResponse(customerIp, itineraryId, token, customerSessionId, test, transactionId)
             }.get()
         } catch (exception: Exception) {
-            if (exception is ExpediaGroupException) throw exception
-
-            when (val cause = exception.cause) {
-                is ExpediaGroupException -> throw cause
-                else -> throw ExpediaGroupException("ExpediaGroup Error", exception)
-            }
+            exception.handle()
         }
     }
 
@@ -598,12 +573,7 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
                 kdeleteRoomWithResponse(customerIp, itineraryId, roomId, token, customerSessionId, test, transactionId)
             }.get()
         } catch (exception: Exception) {
-            if (exception is ExpediaGroupException) throw exception
-
-            when (val cause = exception.cause) {
-                is ExpediaGroupException -> throw cause
-                else -> throw ExpediaGroupException("ExpediaGroup Error", exception)
-            }
+            exception.handle()
         }
     }
 
@@ -775,12 +745,7 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
                 kgetAdditionalAvailabilityWithResponse(propertyId, token, customerIp, customerSessionId, test, checkin, checkout, exclusion, filter, include, occupancy, rateOption, salesChannel, salesEnvironment, transactionId)
             }.get()
         } catch (exception: Exception) {
-            if (exception is ExpediaGroupException) throw exception
-
-            when (val cause = exception.cause) {
-                is ExpediaGroupException -> throw cause
-                else -> throw ExpediaGroupException("ExpediaGroup Error", exception)
-            }
+            exception.handle()
         }
     }
 
@@ -1018,12 +983,7 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
                 kgetAvailabilityWithResponse(checkin, checkout, currency, countryCode, language, occupancy, propertyId, ratePlanCount, salesChannel, salesEnvironment, customerIp, customerSessionId, test, amenityCategory, exclusion, filter, include, rateOption, travelPurpose, billingTerms, paymentTerms, partnerPointOfSale, platformName, transactionId)
             }.get()
         } catch (exception: Exception) {
-            if (exception is ExpediaGroupException) throw exception
-
-            when (val cause = exception.cause) {
-                is ExpediaGroupException -> throw cause
-                else -> throw ExpediaGroupException("ExpediaGroup Error", exception)
-            }
+            exception.handle()
         }
     }
 
@@ -1132,12 +1092,7 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
                 kgetCalendarAvailabilityWithResponse(propertyId, startDate, endDate, test, transactionId)
             }.get()
         } catch (exception: Exception) {
-            if (exception is ExpediaGroupException) throw exception
-
-            when (val cause = exception.cause) {
-                is ExpediaGroupException -> throw cause
-                else -> throw ExpediaGroupException("ExpediaGroup Error", exception)
-            }
+            exception.handle()
         }
     }
 
@@ -1249,12 +1204,7 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
                 kgetChainReferenceWithResponse(customerSessionId, billingTerms, partnerPointOfSale, paymentTerms, platformName, transactionId)
             }.get()
         } catch (exception: Exception) {
-            if (exception is ExpediaGroupException) throw exception
-
-            when (val cause = exception.cause) {
-                is ExpediaGroupException -> throw cause
-                else -> throw ExpediaGroupException("ExpediaGroup Error", exception)
-            }
+            exception.handle()
         }
     }
 
@@ -1388,12 +1338,7 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
                 kgetInactivePropertiesWithResponse(customerSessionId, since, token, billingTerms, paymentTerms, partnerPointOfSale, platformName, transactionId)
             }.get()
         } catch (exception: Exception) {
-            if (exception is ExpediaGroupException) throw exception
-
-            when (val cause = exception.cause) {
-                is ExpediaGroupException -> throw cause
-                else -> throw ExpediaGroupException("ExpediaGroup Error", exception)
-            }
+            exception.handle()
         }
     }
 
@@ -1489,12 +1434,7 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
                 kgetPaymentOptionsWithResponse(propertyId, token, customerIp, customerSessionId, transactionId)
             }.get()
         } catch (exception: Exception) {
-            if (exception is ExpediaGroupException) throw exception
-
-            when (val cause = exception.cause) {
-                is ExpediaGroupException -> throw cause
-                else -> throw ExpediaGroupException("ExpediaGroup Error", exception)
-            }
+            exception.handle()
         }
     }
 
@@ -1628,12 +1568,7 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
                 kgetPropertyCatalogFileWithResponse(language, supplySource, customerSessionId, billingTerms, paymentTerms, partnerPointOfSale, platformName, transactionId)
             }.get()
         } catch (exception: Exception) {
-            if (exception is ExpediaGroupException) throw exception
-
-            when (val cause = exception.cause) {
-                is ExpediaGroupException -> throw cause
-                else -> throw ExpediaGroupException("ExpediaGroup Error", exception)
-            }
+            exception.handle()
         }
     }
 
@@ -1900,12 +1835,7 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
                 kgetPropertyContentWithResponse(language, supplySource, customerSessionId, allInclusive, amenityId, attributeId, brandId, businessModel, categoryId, categoryIdExclude, chainId, countryCode, dateAddedEnd, dateAddedStart, dateUpdatedEnd, dateUpdatedStart, include, multiUnit, propertyId, propertyRatingMax, propertyRatingMin, spokenLanguageId, billingTerms, partnerPointOfSale, paymentTerms, platformName, transactionId)
             }.get()
         } catch (exception: Exception) {
-            if (exception is ExpediaGroupException) throw exception
-
-            when (val cause = exception.cause) {
-                is ExpediaGroupException -> throw cause
-                else -> throw ExpediaGroupException("ExpediaGroup Error", exception)
-            }
+            exception.handle()
         }
     }
 
@@ -2039,12 +1969,7 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
                 kgetPropertyContentFileWithResponse(language, supplySource, customerSessionId, billingTerms, paymentTerms, partnerPointOfSale, platformName, transactionId)
             }.get()
         } catch (exception: Exception) {
-            if (exception is ExpediaGroupException) throw exception
-
-            when (val cause = exception.cause) {
-                is ExpediaGroupException -> throw cause
-                else -> throw ExpediaGroupException("ExpediaGroup Error", exception)
-            }
+            exception.handle()
         }
     }
 
@@ -2175,12 +2100,7 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
                 kgetPropertyGuestReviewsWithResponse(propertyId, language, customerSessionId, billingTerms, paymentTerms, partnerPointOfSale, platformName, transactionId)
             }.get()
         } catch (exception: Exception) {
-            if (exception is ExpediaGroupException) throw exception
-
-            when (val cause = exception.cause) {
-                is ExpediaGroupException -> throw cause
-                else -> throw ExpediaGroupException("ExpediaGroup Error", exception)
-            }
+            exception.handle()
         }
     }
 
@@ -2325,12 +2245,7 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
                 kgetRegionWithResponse(regionId, language, include, customerSessionId, billingTerms, partnerPointOfSale, paymentTerms, platformName, supplySource, transactionId)
             }.get()
         } catch (exception: Exception) {
-            if (exception is ExpediaGroupException) throw exception
-
-            when (val cause = exception.cause) {
-                is ExpediaGroupException -> throw cause
-                else -> throw ExpediaGroupException("ExpediaGroup Error", exception)
-            }
+            exception.handle()
         }
     }
 
@@ -2520,12 +2435,7 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
                 kgetRegionsWithResponse(include, language, customerSessionId, ancestorId, area, countryCode, countrySubdivisionCode, iataLocationCode, limit, supplySource, type, billingTerms, partnerPointOfSale, paymentTerms, platformName, transactionId)
             }.get()
         } catch (exception: Exception) {
-            if (exception is ExpediaGroupException) throw exception
-
-            when (val cause = exception.cause) {
-                is ExpediaGroupException -> throw cause
-                else -> throw ExpediaGroupException("ExpediaGroup Error", exception)
-            }
+            exception.handle()
         }
     }
 
@@ -2644,12 +2554,7 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
                 kgetReservationWithResponse(customerIp, affiliateReferenceId, email, customerSessionId, test, include, transactionId)
             }.get()
         } catch (exception: Exception) {
-            if (exception is ExpediaGroupException) throw exception
-
-            when (val cause = exception.cause) {
-                is ExpediaGroupException -> throw cause
-                else -> throw ExpediaGroupException("ExpediaGroup Error", exception)
-            }
+            exception.handle()
         }
     }
 
@@ -2776,12 +2681,7 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
                 kgetReservationByItineraryIdWithResponse(customerIp, itineraryId, customerSessionId, test, token, email, include, transactionId)
             }.get()
         } catch (exception: Exception) {
-            if (exception is ExpediaGroupException) throw exception
-
-            when (val cause = exception.cause) {
-                is ExpediaGroupException -> throw cause
-                else -> throw ExpediaGroupException("ExpediaGroup Error", exception)
-            }
+            exception.handle()
         }
     }
 
@@ -2920,12 +2820,7 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
                 kpostGeographyWithResponse(include, propertiesGeoJsonRequest, customerSessionId, billingTerms, partnerPointOfSale, paymentTerms, platformName, supplySource, transactionId)
             }.get()
         } catch (exception: Exception) {
-            if (exception is ExpediaGroupException) throw exception
-
-            when (val cause = exception.cause) {
-                is ExpediaGroupException -> throw cause
-                else -> throw ExpediaGroupException("ExpediaGroup Error", exception)
-            }
+            exception.handle()
         }
     }
 
@@ -3047,12 +2942,7 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
                 kpostItineraryWithResponse(customerIp, token, createItineraryRequest, customerSessionId, test, transactionId)
             }.get()
         } catch (exception: Exception) {
-            if (exception is ExpediaGroupException) throw exception
-
-            when (val cause = exception.cause) {
-                is ExpediaGroupException -> throw cause
-                else -> throw ExpediaGroupException("ExpediaGroup Error", exception)
-            }
+            exception.handle()
         }
     }
 
@@ -3166,12 +3056,7 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
                 kpostPaymentSessionsWithResponse(customerIp, token, paymentSessionsRequest, customerSessionId, test, transactionId)
             }.get()
         } catch (exception: Exception) {
-            if (exception is ExpediaGroupException) throw exception
-
-            when (val cause = exception.cause) {
-                is ExpediaGroupException -> throw cause
-                else -> throw ExpediaGroupException("ExpediaGroup Error", exception)
-            }
+            exception.handle()
         }
     }
 
@@ -3293,12 +3178,7 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
                 kpriceCheckWithResponse(propertyId, roomId, rateId, token, customerIp, customerSessionId, test, transactionId)
             }.get()
         } catch (exception: Exception) {
-            if (exception is ExpediaGroupException) throw exception
-
-            when (val cause = exception.cause) {
-                is ExpediaGroupException -> throw cause
-                else -> throw ExpediaGroupException("ExpediaGroup Error", exception)
-            }
+            exception.handle()
         }
     }
 
@@ -3411,12 +3291,7 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
                 kputCompletePaymentSessionWithResponse(customerIp, itineraryId, token, customerSessionId, test, transactionId)
             }.get()
         } catch (exception: Exception) {
-            if (exception is ExpediaGroupException) throw exception
-
-            when (val cause = exception.cause) {
-                is ExpediaGroupException -> throw cause
-                else -> throw ExpediaGroupException("ExpediaGroup Error", exception)
-            }
+            exception.handle()
         }
     }
 
@@ -3529,12 +3404,7 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
                 kputResumeBookingWithResponse(customerIp, itineraryId, token, customerSessionId, test, transactionId)
             }.get()
         } catch (exception: Exception) {
-            if (exception is ExpediaGroupException) throw exception
-
-            when (val cause = exception.cause) {
-                is ExpediaGroupException -> throw cause
-                else -> throw ExpediaGroupException("ExpediaGroup Error", exception)
-            }
+            exception.handle()
         }
     }
 
@@ -3630,12 +3500,7 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
                 krequestTestNotificationWithResponse(testNotificationRequest, billingTerms, partnerPointOfSale, paymentTerms, platformName, transactionId)
             }.get()
         } catch (exception: Exception) {
-            if (exception is ExpediaGroupException) throw exception
-
-            when (val cause = exception.cause) {
-                is ExpediaGroupException -> throw cause
-                else -> throw ExpediaGroupException("ExpediaGroup Error", exception)
-            }
+            exception.handle()
         }
     }
 
@@ -3723,20 +3588,7 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
                 krequestUndeliveredNotificationsWithResponse(undeliverable, billingTerms, partnerPointOfSale, paymentTerms, platformName, transactionId)
             }.get()
         } catch (exception: Exception) {
-            if (exception is ExpediaGroupException) throw exception
-
-            when (val cause = exception.cause) {
-                is ExpediaGroupException -> throw cause
-                else -> throw ExpediaGroupException("ExpediaGroup Error", exception)
-            }
-        }
-    }
-
-    internal suspend fun getFromLink(link: String): HttpResponse {
-        return httpClient.request {
-            method = HttpMethod.parse("GET")
-            url(link)
-            appendHeaders(UUID.randomUUID())
+            exception.handle()
         }
     }
 
@@ -3753,6 +3605,21 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
     ): Paginator<kotlin.collections.List<PropertyInactive>> {
         val response = getInactivePropertiesWithResponse(customerSessionId, since, token, billingTerms, paymentTerms, partnerPointOfSale, platformName, transactionId)
         return Paginator(this, response) { it.body<kotlin.collections.List<PropertyInactive>>() }
+    }
+
+    @JvmOverloads
+    fun getInactivePropertiesPaginatorWithResponse(
+        customerSessionId: kotlin.String? = null,
+        since: kotlin.String? = null,
+        token: kotlin.String? = null,
+        billingTerms: kotlin.String? = null,
+        paymentTerms: kotlin.String? = null,
+        partnerPointOfSale: kotlin.String? = null,
+        platformName: kotlin.String? = null,
+        transactionId: UUID = UUID.randomUUID()
+    ): ResponsePaginator<kotlin.collections.List<PropertyInactive>> {
+        val response = getInactivePropertiesWithResponse(customerSessionId, since, token, billingTerms, paymentTerms, partnerPointOfSale, platformName, transactionId)
+        return ResponsePaginator(this, response) { it.body<kotlin.collections.List<PropertyInactive>>() }
     }
 
     @JvmOverloads
@@ -3791,6 +3658,41 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
     }
 
     @JvmOverloads
+    fun getPropertyContentPaginatorWithResponse(
+        language: kotlin.String,
+        supplySource: kotlin.String,
+        customerSessionId: kotlin.String? = null,
+        allInclusive: kotlin.collections.List<kotlin.String>? = null,
+        amenityId: kotlin.collections.List<kotlin.String>? = null,
+        attributeId: kotlin.collections.List<kotlin.String>? = null,
+        brandId: kotlin.collections.List<kotlin.String>? = null,
+        businessModel: kotlin.collections.List<kotlin.String>? = null,
+        categoryId: kotlin.collections.List<kotlin.String>? = null,
+        categoryIdExclude: kotlin.collections.List<kotlin.String>? = null,
+        chainId: kotlin.collections.List<kotlin.String>? = null,
+        countryCode: kotlin.collections.List<kotlin.String>? = null,
+        dateAddedEnd: kotlin.String? = null,
+        dateAddedStart: kotlin.String? = null,
+        dateUpdatedEnd: kotlin.String? = null,
+        dateUpdatedStart: kotlin.String? = null,
+        include: kotlin.collections.List<kotlin.String>? = null,
+        multiUnit: kotlin.Boolean? = null,
+        propertyId: kotlin.collections.List<kotlin.String>? = null,
+        propertyRatingMax: kotlin.String? = null,
+        propertyRatingMin: kotlin.String? = null,
+        spokenLanguageId: kotlin.collections.List<kotlin.String>? = null,
+        billingTerms: kotlin.String? = null,
+        partnerPointOfSale: kotlin.String? = null,
+        paymentTerms: kotlin.String? = null,
+        platformName: kotlin.String? = null,
+        transactionId: UUID = UUID.randomUUID()
+    ): ResponsePaginator<kotlin.collections.Map<kotlin.String, PropertyContent>> {
+        val response =
+            getPropertyContentWithResponse(language, supplySource, customerSessionId, allInclusive, amenityId, attributeId, brandId, businessModel, categoryId, categoryIdExclude, chainId, countryCode, dateAddedEnd, dateAddedStart, dateUpdatedEnd, dateUpdatedStart, include, multiUnit, propertyId, propertyRatingMax, propertyRatingMin, spokenLanguageId, billingTerms, partnerPointOfSale, paymentTerms, platformName, transactionId)
+        return ResponsePaginator(this, response) { it.body<kotlin.collections.Map<kotlin.String, PropertyContent>>() }
+    }
+
+    @JvmOverloads
     fun getRegionsPaginator(
         include: kotlin.collections.List<kotlin.String>,
         language: kotlin.String,
@@ -3813,98 +3715,28 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
             getRegionsWithResponse(include, language, customerSessionId, ancestorId, area, countryCode, countrySubdivisionCode, iataLocationCode, limit, supplySource, type, billingTerms, partnerPointOfSale, paymentTerms, platformName, transactionId)
         return Paginator(this, response) { it.body<kotlin.collections.List<Region>>() }
     }
-}
 
-class Paginator<T>(
-    private val client: RapidClient,
-    firstResponse: Response<T>,
-    private val getBody: suspend (HttpResponse) -> T
-) : Iterator<T> {
-    private var state: ResponseState<T>
-    val paginationTotalResults: Long?
-
-    init {
-        state = FirstResponseState(firstResponse)
-        paginationTotalResults = extractPaginationTotalResults(firstResponse.headers)
+    @JvmOverloads
+    fun getRegionsPaginatorWithResponse(
+        include: kotlin.collections.List<kotlin.String>,
+        language: kotlin.String,
+        customerSessionId: kotlin.String? = null,
+        ancestorId: kotlin.String? = null,
+        area: kotlin.String? = null,
+        countryCode: kotlin.collections.List<kotlin.String>? = null,
+        countrySubdivisionCode: kotlin.collections.List<kotlin.String>? = null,
+        iataLocationCode: kotlin.String? = null,
+        limit: java.math.BigDecimal? = null,
+        supplySource: kotlin.String? = null,
+        type: kotlin.collections.List<kotlin.String>? = null,
+        billingTerms: kotlin.String? = null,
+        partnerPointOfSale: kotlin.String? = null,
+        paymentTerms: kotlin.String? = null,
+        platformName: kotlin.String? = null,
+        transactionId: UUID = UUID.randomUUID()
+    ): ResponsePaginator<kotlin.collections.List<Region>> {
+        val response =
+            getRegionsWithResponse(include, language, customerSessionId, ancestorId, area, countryCode, countrySubdivisionCode, iataLocationCode, limit, supplySource, type, billingTerms, partnerPointOfSale, paymentTerms, platformName, transactionId)
+        return ResponsePaginator(this, response) { it.body<kotlin.collections.List<Region>>() }
     }
-
-    override fun hasNext(): Boolean {
-        return state.hasNext()
-    }
-
-    override fun next(): T {
-        val response = state.getNextResponse()
-        state = ResponseStateFactory.getState(extractLink(response.headers), client, getBody)
-        return response.body
-    }
-
-    private fun extractPaginationTotalResults(headers: Map<String, List<String>>): Long? {
-        return headers["pagination-total-results"]?.getOrNull(0)?.toLongOrNull()
-    }
-
-    private fun extractLink(headers: Map<String, List<String>>): String? {
-        return headers["link"]?.getOrNull(0)?.split(";")?.let {
-            if (it.isNotEmpty()) it[0] else null
-        }?.let {
-            it.substring(it.indexOf("<") + 1, it.indexOf(">"))
-        }
-    }
-}
-
-internal class FirstResponseState<T>(
-    private val response: Response<T>
-) : ResponseState<T> {
-    override fun getNextResponse(): Response<T> {
-        return response
-    }
-
-    override fun hasNext(): Boolean {
-        return true
-    }
-}
-
-internal class FetchLinkState<T>(
-    private val link: String,
-    private val client: RapidClient,
-    private val getBody: suspend (HttpResponse) -> T
-) : ResponseState<T> {
-    override fun getNextResponse(): Response<T> {
-        return runBlocking {
-            val response = client.getFromLink(link)
-            val body = getBody(response)
-            Response(response.status.value, body, response.headers.entries())
-        }
-    }
-
-    override fun hasNext(): Boolean {
-        return true
-    }
-}
-
-internal class LastResponseState<T> : ResponseState<T> {
-    override fun getNextResponse(): Response<T> {
-        throw NoSuchElementException()
-    }
-
-    override fun hasNext(): Boolean {
-        return false
-    }
-}
-
-internal class ResponseStateFactory {
-    companion object {
-        fun <T> getState(
-            link: String?,
-            client: RapidClient,
-            getBody: suspend (HttpResponse) -> T
-        ): ResponseState<T> {
-            return link?.let { FetchLinkState(it, client, getBody) } ?: LastResponseState()
-        }
-    }
-}
-
-internal interface ResponseState<T> {
-    fun getNextResponse(): Response<T>
-
-    fun hasNext(): Boolean
 }

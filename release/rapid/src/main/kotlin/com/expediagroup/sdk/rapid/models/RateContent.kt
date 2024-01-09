@@ -65,11 +65,11 @@ data class RateContent(
         private var amenities: kotlin.collections.Map<kotlin.String, Amenity>? = null,
         private var specialOfferDescription: kotlin.String? = null
     ) {
-        fun id(id: kotlin.String) = apply { this.id = id }
+        fun id(id: kotlin.String?) = apply { this.id = id }
 
-        fun amenities(amenities: kotlin.collections.Map<kotlin.String, Amenity>) = apply { this.amenities = amenities }
+        fun amenities(amenities: kotlin.collections.Map<kotlin.String, Amenity>?) = apply { this.amenities = amenities }
 
-        fun specialOfferDescription(specialOfferDescription: kotlin.String) = apply { this.specialOfferDescription = specialOfferDescription }
+        fun specialOfferDescription(specialOfferDescription: kotlin.String?) = apply { this.specialOfferDescription = specialOfferDescription }
 
         fun build(): RateContent {
             return RateContent(

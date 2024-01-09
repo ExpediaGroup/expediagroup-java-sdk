@@ -58,9 +58,9 @@ data class Occupancy(
         private var maxAllowed: MaxAllowed? = null,
         private var ageCategories: kotlin.collections.Map<kotlin.String, CategoryAge>? = null
     ) {
-        fun maxAllowed(maxAllowed: MaxAllowed) = apply { this.maxAllowed = maxAllowed }
+        fun maxAllowed(maxAllowed: MaxAllowed?) = apply { this.maxAllowed = maxAllowed }
 
-        fun ageCategories(ageCategories: kotlin.collections.Map<kotlin.String, CategoryAge>) = apply { this.ageCategories = ageCategories }
+        fun ageCategories(ageCategories: kotlin.collections.Map<kotlin.String, CategoryAge>?) = apply { this.ageCategories = ageCategories }
 
         fun build(): Occupancy {
             return Occupancy(

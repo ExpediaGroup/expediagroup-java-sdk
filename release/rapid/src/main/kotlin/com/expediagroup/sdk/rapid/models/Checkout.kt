@@ -53,7 +53,7 @@ data class Checkout(
     class Builder(
         private var time: kotlin.String? = null
     ) {
-        fun time(time: kotlin.String) = apply { this.time = time }
+        fun time(time: kotlin.String?) = apply { this.time = time }
 
         fun build(): Checkout {
             return Checkout(

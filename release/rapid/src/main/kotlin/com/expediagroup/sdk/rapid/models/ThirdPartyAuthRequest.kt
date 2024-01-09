@@ -109,15 +109,15 @@ data class ThirdPartyAuthRequest(
 
         fun dsTransactionId(dsTransactionId: kotlin.String) = apply { this.dsTransactionId = dsTransactionId }
 
-        fun paResStatus(paResStatus: kotlin.String) = apply { this.paResStatus = paResStatus }
+        fun paResStatus(paResStatus: kotlin.String?) = apply { this.paResStatus = paResStatus }
 
-        fun veResStatus(veResStatus: kotlin.String) = apply { this.veResStatus = veResStatus }
+        fun veResStatus(veResStatus: kotlin.String?) = apply { this.veResStatus = veResStatus }
 
-        fun xid(xid: kotlin.String) = apply { this.xid = xid }
+        fun xid(xid: kotlin.String?) = apply { this.xid = xid }
 
-        fun cavvAlgorithm(cavvAlgorithm: kotlin.String) = apply { this.cavvAlgorithm = cavvAlgorithm }
+        fun cavvAlgorithm(cavvAlgorithm: kotlin.String?) = apply { this.cavvAlgorithm = cavvAlgorithm }
 
-        fun ucafIndicator(ucafIndicator: kotlin.String) = apply { this.ucafIndicator = ucafIndicator }
+        fun ucafIndicator(ucafIndicator: kotlin.String?) = apply { this.ucafIndicator = ucafIndicator }
 
         fun build(): ThirdPartyAuthRequest {
             // Check required params

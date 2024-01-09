@@ -57,9 +57,9 @@ data class PaymentOption(
         private var affiliateCollect: AffiliateCollect? = null,
         private var creditCard: CreditCard? = null
     ) {
-        fun affiliateCollect(affiliateCollect: AffiliateCollect) = apply { this.affiliateCollect = affiliateCollect }
+        fun affiliateCollect(affiliateCollect: AffiliateCollect?) = apply { this.affiliateCollect = affiliateCollect }
 
-        fun creditCard(creditCard: CreditCard) = apply { this.creditCard = creditCard }
+        fun creditCard(creditCard: CreditCard?) = apply { this.creditCard = creditCard }
 
         fun build(): PaymentOption {
             return PaymentOption(

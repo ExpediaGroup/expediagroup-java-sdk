@@ -52,7 +52,7 @@ data class RentalAgreement(
     class Builder(
         private var links: RentalAgreementLinks? = null
     ) {
-        fun links(links: RentalAgreementLinks) = apply { this.links = links }
+        fun links(links: RentalAgreementLinks?) = apply { this.links = links }
 
         fun build(): RentalAgreement {
             return RentalAgreement(

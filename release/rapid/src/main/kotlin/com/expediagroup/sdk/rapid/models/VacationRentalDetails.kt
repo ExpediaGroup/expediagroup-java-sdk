@@ -134,35 +134,35 @@ data class VacationRentalDetails(
         private var unitConfigurations: kotlin.collections.Map<kotlin.String, kotlin.collections.List<UnitConfiguration>>? = null,
         private var freeText: kotlin.String? = null
     ) {
-        fun registryNumber(registryNumber: kotlin.String) = apply { this.registryNumber = registryNumber }
+        fun registryNumber(registryNumber: kotlin.String?) = apply { this.registryNumber = registryNumber }
 
-        fun privateHost(privateHost: kotlin.Boolean) = apply { this.privateHost = privateHost }
+        fun privateHost(privateHost: kotlin.Boolean?) = apply { this.privateHost = privateHost }
 
-        fun propertyManager(propertyManager: PropertyManager) = apply { this.propertyManager = propertyManager }
+        fun propertyManager(propertyManager: PropertyManager?) = apply { this.propertyManager = propertyManager }
 
-        fun rentalAgreement(rentalAgreement: RentalAgreement) = apply { this.rentalAgreement = rentalAgreement }
+        fun rentalAgreement(rentalAgreement: RentalAgreement?) = apply { this.rentalAgreement = rentalAgreement }
 
-        fun houseRules(houseRules: kotlin.collections.List<kotlin.String>) = apply { this.houseRules = houseRules }
+        fun houseRules(houseRules: kotlin.collections.List<kotlin.String>?) = apply { this.houseRules = houseRules }
 
-        fun enhancedHouseRules(enhancedHouseRules: kotlin.collections.Map<kotlin.String, EnhancedHouseRules>) = apply { this.enhancedHouseRules = enhancedHouseRules }
+        fun enhancedHouseRules(enhancedHouseRules: kotlin.collections.Map<kotlin.String, EnhancedHouseRules>?) = apply { this.enhancedHouseRules = enhancedHouseRules }
 
-        fun amenities(amenities: Amenity) = apply { this.amenities = amenities }
+        fun amenities(amenities: Amenity?) = apply { this.amenities = amenities }
 
-        fun vrboSrpId(vrboSrpId: kotlin.String) = apply { this.vrboSrpId = vrboSrpId }
+        fun vrboSrpId(vrboSrpId: kotlin.String?) = apply { this.vrboSrpId = vrboSrpId }
 
-        fun listingId(listingId: kotlin.String) = apply { this.listingId = listingId }
+        fun listingId(listingId: kotlin.String?) = apply { this.listingId = listingId }
 
-        fun listingNumber(listingNumber: kotlin.String) = apply { this.listingNumber = listingNumber }
+        fun listingNumber(listingNumber: kotlin.String?) = apply { this.listingNumber = listingNumber }
 
-        fun listingSource(listingSource: kotlin.String) = apply { this.listingSource = listingSource }
+        fun listingSource(listingSource: kotlin.String?) = apply { this.listingSource = listingSource }
 
-        fun listingUnit(listingUnit: kotlin.String) = apply { this.listingUnit = listingUnit }
+        fun listingUnit(listingUnit: kotlin.String?) = apply { this.listingUnit = listingUnit }
 
-        fun ipmName(ipmName: kotlin.String) = apply { this.ipmName = ipmName }
+        fun ipmName(ipmName: kotlin.String?) = apply { this.ipmName = ipmName }
 
-        fun unitConfigurations(unitConfigurations: kotlin.collections.Map<kotlin.String, kotlin.collections.List<UnitConfiguration>>) = apply { this.unitConfigurations = unitConfigurations }
+        fun unitConfigurations(unitConfigurations: kotlin.collections.Map<kotlin.String, kotlin.collections.List<UnitConfiguration>>?) = apply { this.unitConfigurations = unitConfigurations }
 
-        fun freeText(freeText: kotlin.String) = apply { this.freeText = freeText }
+        fun freeText(freeText: kotlin.String?) = apply { this.freeText = freeText }
 
         fun build(): VacationRentalDetails {
             return VacationRentalDetails(

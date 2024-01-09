@@ -83,17 +83,17 @@ data class Checkin(
         private var specialInstructions: kotlin.String? = null,
         private var minAge: java.math.BigDecimal? = null
     ) {
-        fun `24hour`(`24hour`: kotlin.String) = apply { this.`24hour` = `24hour` }
+        fun `24hour`(`24hour`: kotlin.String?) = apply { this.`24hour` = `24hour` }
 
-        fun beginTime(beginTime: kotlin.String) = apply { this.beginTime = beginTime }
+        fun beginTime(beginTime: kotlin.String?) = apply { this.beginTime = beginTime }
 
-        fun endTime(endTime: kotlin.String) = apply { this.endTime = endTime }
+        fun endTime(endTime: kotlin.String?) = apply { this.endTime = endTime }
 
-        fun instructions(instructions: kotlin.String) = apply { this.instructions = instructions }
+        fun instructions(instructions: kotlin.String?) = apply { this.instructions = instructions }
 
-        fun specialInstructions(specialInstructions: kotlin.String) = apply { this.specialInstructions = specialInstructions }
+        fun specialInstructions(specialInstructions: kotlin.String?) = apply { this.specialInstructions = specialInstructions }
 
-        fun minAge(minAge: java.math.BigDecimal) = apply { this.minAge = minAge }
+        fun minAge(minAge: java.math.BigDecimal?) = apply { this.minAge = minAge }
 
         fun build(): Checkin {
             return Checkin(

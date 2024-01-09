@@ -93,21 +93,21 @@ data class Review(
         private var travelCompanion: TravelCompanion? = null,
         private var text: kotlin.String? = null
     ) {
-        fun verificationSource(verificationSource: kotlin.String) = apply { this.verificationSource = verificationSource }
+        fun verificationSource(verificationSource: kotlin.String?) = apply { this.verificationSource = verificationSource }
 
-        fun title(title: kotlin.String) = apply { this.title = title }
+        fun title(title: kotlin.String?) = apply { this.title = title }
 
-        fun dateSubmitted(dateSubmitted: kotlin.String) = apply { this.dateSubmitted = dateSubmitted }
+        fun dateSubmitted(dateSubmitted: kotlin.String?) = apply { this.dateSubmitted = dateSubmitted }
 
-        fun rating(rating: kotlin.String) = apply { this.rating = rating }
+        fun rating(rating: kotlin.String?) = apply { this.rating = rating }
 
-        fun reviewerName(reviewerName: kotlin.String) = apply { this.reviewerName = reviewerName }
+        fun reviewerName(reviewerName: kotlin.String?) = apply { this.reviewerName = reviewerName }
 
-        fun tripReason(tripReason: TripReason) = apply { this.tripReason = tripReason }
+        fun tripReason(tripReason: TripReason?) = apply { this.tripReason = tripReason }
 
-        fun travelCompanion(travelCompanion: TravelCompanion) = apply { this.travelCompanion = travelCompanion }
+        fun travelCompanion(travelCompanion: TravelCompanion?) = apply { this.travelCompanion = travelCompanion }
 
-        fun text(text: kotlin.String) = apply { this.text = text }
+        fun text(text: kotlin.String?) = apply { this.text = text }
 
         fun build(): Review {
             return Review(

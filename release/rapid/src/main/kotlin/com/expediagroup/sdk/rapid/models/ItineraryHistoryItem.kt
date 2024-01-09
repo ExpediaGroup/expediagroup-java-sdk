@@ -74,15 +74,15 @@ data class ItineraryHistoryItem(
         private var amount: Amount? = null,
         private var agentId: kotlin.Int? = null
     ) {
-        fun historyId(historyId: kotlin.String) = apply { this.historyId = historyId }
+        fun historyId(historyId: kotlin.String?) = apply { this.historyId = historyId }
 
-        fun eventTimestamp(eventTimestamp: kotlin.String) = apply { this.eventTimestamp = eventTimestamp }
+        fun eventTimestamp(eventTimestamp: kotlin.String?) = apply { this.eventTimestamp = eventTimestamp }
 
-        fun eventType(eventType: ItineraryHistoryItem.EventType) = apply { this.eventType = eventType }
+        fun eventType(eventType: ItineraryHistoryItem.EventType?) = apply { this.eventType = eventType }
 
-        fun amount(amount: Amount) = apply { this.amount = amount }
+        fun amount(amount: Amount?) = apply { this.amount = amount }
 
-        fun agentId(agentId: kotlin.Int) = apply { this.agentId = agentId }
+        fun agentId(agentId: kotlin.Int?) = apply { this.agentId = agentId }
 
         fun build(): ItineraryHistoryItem {
             return ItineraryHistoryItem(

@@ -142,39 +142,39 @@ data class Rate(
         private var refundableDamageDeposit: Amount? = null,
         private var deposits: kotlin.collections.List<Deposit>? = null
     ) {
-        fun id(id: kotlin.String) = apply { this.id = id }
+        fun id(id: kotlin.String?) = apply { this.id = id }
 
-        fun status(status: Status) = apply { this.status = status }
+        fun status(status: Status?) = apply { this.status = status }
 
-        fun availableRooms(availableRooms: java.math.BigDecimal) = apply { this.availableRooms = availableRooms }
+        fun availableRooms(availableRooms: java.math.BigDecimal?) = apply { this.availableRooms = availableRooms }
 
-        fun refundable(refundable: kotlin.Boolean) = apply { this.refundable = refundable }
+        fun refundable(refundable: kotlin.Boolean?) = apply { this.refundable = refundable }
 
-        fun memberDealAvailable(memberDealAvailable: kotlin.Boolean) = apply { this.memberDealAvailable = memberDealAvailable }
+        fun memberDealAvailable(memberDealAvailable: kotlin.Boolean?) = apply { this.memberDealAvailable = memberDealAvailable }
 
-        fun saleScenario(saleScenario: SaleScenario) = apply { this.saleScenario = saleScenario }
+        fun saleScenario(saleScenario: SaleScenario?) = apply { this.saleScenario = saleScenario }
 
-        fun merchantOfRecord(merchantOfRecord: MerchantOfRecord) = apply { this.merchantOfRecord = merchantOfRecord }
+        fun merchantOfRecord(merchantOfRecord: MerchantOfRecord?) = apply { this.merchantOfRecord = merchantOfRecord }
 
-        fun amenities(amenities: kotlin.collections.Map<kotlin.String, Amenity>) = apply { this.amenities = amenities }
+        fun amenities(amenities: kotlin.collections.Map<kotlin.String, Amenity>?) = apply { this.amenities = amenities }
 
-        fun links(links: RateLinks) = apply { this.links = links }
+        fun links(links: RateLinks?) = apply { this.links = links }
 
-        fun bedGroups(bedGroups: kotlin.collections.Map<kotlin.String, BedGroupAvailability>) = apply { this.bedGroups = bedGroups }
+        fun bedGroups(bedGroups: kotlin.collections.Map<kotlin.String, BedGroupAvailability>?) = apply { this.bedGroups = bedGroups }
 
-        fun cancelPenalties(cancelPenalties: kotlin.collections.List<CancelPenalty>) = apply { this.cancelPenalties = cancelPenalties }
+        fun cancelPenalties(cancelPenalties: kotlin.collections.List<CancelPenalty>?) = apply { this.cancelPenalties = cancelPenalties }
 
-        fun nonrefundableDateRanges(nonrefundableDateRanges: kotlin.collections.List<NonrefundableDateRange>) = apply { this.nonrefundableDateRanges = nonrefundableDateRanges }
+        fun nonrefundableDateRanges(nonrefundableDateRanges: kotlin.collections.List<NonrefundableDateRange>?) = apply { this.nonrefundableDateRanges = nonrefundableDateRanges }
 
-        fun occupancyPricing(occupancyPricing: kotlin.collections.Map<kotlin.String, PricingInformation>) = apply { this.occupancyPricing = occupancyPricing }
+        fun occupancyPricing(occupancyPricing: kotlin.collections.Map<kotlin.String, PricingInformation>?) = apply { this.occupancyPricing = occupancyPricing }
 
-        fun promotions(promotions: Promotions) = apply { this.promotions = promotions }
+        fun promotions(promotions: Promotions?) = apply { this.promotions = promotions }
 
-        fun cardOnFileLimit(cardOnFileLimit: Amount) = apply { this.cardOnFileLimit = cardOnFileLimit }
+        fun cardOnFileLimit(cardOnFileLimit: Amount?) = apply { this.cardOnFileLimit = cardOnFileLimit }
 
-        fun refundableDamageDeposit(refundableDamageDeposit: Amount) = apply { this.refundableDamageDeposit = refundableDamageDeposit }
+        fun refundableDamageDeposit(refundableDamageDeposit: Amount?) = apply { this.refundableDamageDeposit = refundableDamageDeposit }
 
-        fun deposits(deposits: kotlin.collections.List<Deposit>) = apply { this.deposits = deposits }
+        fun deposits(deposits: kotlin.collections.List<Deposit>?) = apply { this.deposits = deposits }
 
         fun build(): Rate {
             return Rate(

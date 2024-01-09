@@ -87,21 +87,21 @@ data class Totals(
         private var minimumSellingPrice: Charge? = null,
         private var propertyFees: Charge? = null
     ) {
-        fun inclusive(inclusive: Charge) = apply { this.inclusive = inclusive }
+        fun inclusive(inclusive: Charge?) = apply { this.inclusive = inclusive }
 
-        fun exclusive(exclusive: Charge) = apply { this.exclusive = exclusive }
+        fun exclusive(exclusive: Charge?) = apply { this.exclusive = exclusive }
 
-        fun inclusiveStrikethrough(inclusiveStrikethrough: Charge) = apply { this.inclusiveStrikethrough = inclusiveStrikethrough }
+        fun inclusiveStrikethrough(inclusiveStrikethrough: Charge?) = apply { this.inclusiveStrikethrough = inclusiveStrikethrough }
 
-        fun strikethrough(strikethrough: Charge) = apply { this.strikethrough = strikethrough }
+        fun strikethrough(strikethrough: Charge?) = apply { this.strikethrough = strikethrough }
 
-        fun marketingFee(marketingFee: Charge) = apply { this.marketingFee = marketingFee }
+        fun marketingFee(marketingFee: Charge?) = apply { this.marketingFee = marketingFee }
 
-        fun grossProfit(grossProfit: Charge) = apply { this.grossProfit = grossProfit }
+        fun grossProfit(grossProfit: Charge?) = apply { this.grossProfit = grossProfit }
 
-        fun minimumSellingPrice(minimumSellingPrice: Charge) = apply { this.minimumSellingPrice = minimumSellingPrice }
+        fun minimumSellingPrice(minimumSellingPrice: Charge?) = apply { this.minimumSellingPrice = minimumSellingPrice }
 
-        fun propertyFees(propertyFees: Charge) = apply { this.propertyFees = propertyFees }
+        fun propertyFees(propertyFees: Charge?) = apply { this.propertyFees = propertyFees }
 
         fun build(): Totals {
             return Totals(
