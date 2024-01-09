@@ -41,7 +41,6 @@ import io.ktor.http.contentType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.future.future
-import kotlinx.coroutines.runBlocking
 import java.util.UUID
 
 /**
@@ -466,98 +465,4 @@ class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGr
             exception.handle()
         }
     }
-}
-
-class Paginator<T>(
-    private val client: FraudPreventionV2Client,
-    firstResponse: Response<T>,
-    private val getBody: suspend (HttpResponse) -> T
-) : Iterator<T> {
-    private var state: ResponseState<T>
-    val paginationTotalResults: Long?
-
-    init {
-        state = FirstResponseState(firstResponse)
-        paginationTotalResults = extractPaginationTotalResults(firstResponse.headers)
-    }
-
-    override fun hasNext(): Boolean {
-        return state.hasNext()
-    }
-
-    override fun next(): T {
-        val response = state.getNextResponse()
-        state = ResponseStateFactory.getState(extractLink(response.headers), client, getBody)
-        return response.body
-    }
-
-    private fun extractPaginationTotalResults(headers: Map<String, List<String>>): Long? {
-        return headers["pagination-total-results"]?.getOrNull(0)?.toLongOrNull()
-    }
-
-    private fun extractLink(headers: Map<String, List<String>>): String? {
-        return headers["link"]?.getOrNull(0)?.split(";")?.let {
-            if (it.isNotEmpty()) it[0] else null
-        }?.let {
-            it.substring(it.indexOf("<") + 1, it.indexOf(">"))
-        }
-    }
-}
-
-internal class FirstResponseState<T>(
-    private val response: Response<T>
-) : ResponseState<T> {
-    override fun getNextResponse(): Response<T> {
-        return response
-    }
-
-    override fun hasNext(): Boolean {
-        return true
-    }
-}
-
-internal class FetchLinkState<T>(
-    private val link: String,
-    private val client: FraudPreventionV2Client,
-    private val getBody: suspend (HttpResponse) -> T
-) : ResponseState<T> {
-    override fun getNextResponse(): Response<T> {
-        return runBlocking {
-            val response = client.performGet(link)
-            val body = getBody(response)
-            Response(response.status.value, body, response.headers.entries())
-        }
-    }
-
-    override fun hasNext(): Boolean {
-        return true
-    }
-}
-
-internal class LastResponseState<T> : ResponseState<T> {
-    override fun getNextResponse(): Response<T> {
-        throw NoSuchElementException()
-    }
-
-    override fun hasNext(): Boolean {
-        return false
-    }
-}
-
-internal class ResponseStateFactory {
-    companion object {
-        fun <T> getState(
-            link: String?,
-            client: FraudPreventionV2Client,
-            getBody: suspend (HttpResponse) -> T
-        ): ResponseState<T> {
-            return link?.let { FetchLinkState(it, client, getBody) } ?: LastResponseState()
-        }
-    }
-}
-
-internal interface ResponseState<T> {
-    fun getNextResponse(): Response<T>
-
-    fun hasNext(): Boolean
 }

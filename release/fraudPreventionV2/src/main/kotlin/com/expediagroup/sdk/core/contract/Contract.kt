@@ -13,12 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.domain.rapid
+package com.expediagroup.sdk.core.contract
 
-import com.expediagroup.sdk.core.client.BaseRapidClient
-import com.expediagroup.sdk.core.client.ClientHelpers
+internal typealias Operation = (String) -> String
 
-class RapidHelpers(client: BaseRapidClient) : ClientHelpers(client) {
-    /** Extracts the token parameter from a URL string if it exists; otherwise, returns null. */
-    fun extractToken(url: String): String? = Regex("token=([^&]*)").find(url)?.groupValues?.getOrNull(1)
+/**
+ * A contract for a specific [operation].
+ *
+ * @property operation The operation to perform on a string.
+ */
+internal enum class Contract(val operation: Operation) {
+    TRAILING_SLASH({ if (it.endsWith("/")) it else "$it/" })
 }
+
+/**
+ * Adheres to the given [contract] on a [String].
+ *
+ * @param contract the [Contract] to adhere to.
+ * @return the [String] adhering to the given [contract].
+ */
+internal fun String.adhereTo(contract: Contract): String = contract.operation(this)
