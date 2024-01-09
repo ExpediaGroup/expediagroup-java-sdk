@@ -329,7 +329,7 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${basedir}/target/sdk/src/main/kotlin/com/expediagroup/sdk/domain</outputDirectory>
+                            <outputDirectory>${basedir}/target/sdk/src/main/kotlin/com/expediagroup/sdk/domain/${namespace}</outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>../../core/src/main/kotlin/com/expediagroup/sdk/domain/${namespace}</directory>
