@@ -30,8 +30,6 @@ object TestConstants {
 
     const val ANY_URL = "http://any-url"
 
-    const val GZIP = "gzip"
-
     const val TEXT_PLAIN = "text/plain"
 
     const val SUCCESSFUL_DUMMY_REQUEST = "successful dummy request"

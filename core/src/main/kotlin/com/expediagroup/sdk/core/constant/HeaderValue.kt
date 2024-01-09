@@ -16,5 +16,5 @@
 package com.expediagroup.sdk.core.constant
 
 internal object HeaderValue {
-    const val CLIENT_CREDENTIALS = "client_credentials"
+    const val GZIP = "gzip"
 }
