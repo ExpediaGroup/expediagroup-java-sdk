@@ -13,10 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.com.expediagroup.sdk.core.client
+package com.expediagroup.sdk.core.client
 
-import com.expediagroup.sdk.core.client.DefaultEnvironmentProvider
-import com.expediagroup.sdk.core.client.DefaultHttpHandler
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
