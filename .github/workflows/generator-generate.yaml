@@ -30,8 +30,7 @@ jobs:
       - name: generate
         working-directory: generator/openapi
         run: |
-          mvn clean install
-          mvn exec:java "-Dnamespace=${{ inputs.name }}" -DsdkVersion=${{ inputs.version }} "-Dspec=./specs.yaml"
+          mvn clean install exec:java "-Dnamespace=${{ inputs.name }}" -DsdkVersion=${{ inputs.version }} "-Dspec=./specs.yaml"
       - name: install sdk
         working-directory: generator/openapi/target/sdk
         run: |
