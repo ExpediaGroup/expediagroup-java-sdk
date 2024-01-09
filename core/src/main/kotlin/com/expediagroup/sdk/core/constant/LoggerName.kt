@@ -13,19 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.constant.provider
+package com.expediagroup.sdk.core.constant
 
-import io.ktor.http.HttpStatusCode
-
-internal object LoggingMessageProvider {
-    fun getTokenExpiresInMessage(expiresIn: Int) = "New token expires in $expiresIn seconds"
-
-    fun getResponseUnsuccessfulMessage(httpStatusCode: HttpStatusCode) = "Unsuccessful response [$httpStatusCode]"
-
-    fun getChosenProviderMessage(
-        property: String,
-        providerName: String
-    ) = "Successfully loaded [$property] from [$providerName]"
-
-    fun getResponseBodyMessage(body: String) = "Response Body: $body"
+internal object LoggerName {
+    const val RESPONSE_BODY_LOGGER: String = "ResponseBodyLogger"
 }
