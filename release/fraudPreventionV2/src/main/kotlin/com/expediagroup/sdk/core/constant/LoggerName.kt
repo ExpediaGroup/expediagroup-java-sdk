@@ -13,12 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.domain.rapid
+package com.expediagroup.sdk.core.constant
 
-import com.expediagroup.sdk.core.client.BaseRapidClient
-import com.expediagroup.sdk.core.client.ClientHelpers
-
-class RapidHelpers(client: BaseRapidClient) : ClientHelpers(client) {
-    /** Extracts the token parameter from a URL string if it exists; otherwise, returns null. */
-    fun extractToken(url: String): String? = Regex("token=([^&]*)").find(url)?.groupValues?.getOrNull(1)
+internal object LoggerName {
+    const val RESPONSE_BODY_LOGGER: String = "ResponseBodyLogger"
 }
