@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.com.expediagroup.sdk.core.client
+package com.expediagroup.sdk.core.client
 
-import com.expediagroup.sdk.core.client.DefaultEnvironmentProvider
 import io.ktor.client.request.HttpRequestBuilder
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
