@@ -65,11 +65,11 @@ data class Statistic(
         private var name: kotlin.String? = null,
         private var `value`: kotlin.String? = null
     ) {
-        fun id(id: kotlin.String) = apply { this.id = id }
+        fun id(id: kotlin.String?) = apply { this.id = id }
 
-        fun name(name: kotlin.String) = apply { this.name = name }
+        fun name(name: kotlin.String?) = apply { this.name = name }
 
-        fun `value`(`value`: kotlin.String) = apply { this.`value` = `value` }
+        fun `value`(`value`: kotlin.String?) = apply { this.`value` = `value` }
 
         fun build(): Statistic {
             return Statistic(

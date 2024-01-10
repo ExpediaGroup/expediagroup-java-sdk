@@ -65,11 +65,11 @@ data class Image1(
         private var width: kotlin.String? = null,
         private var height: kotlin.String? = null
     ) {
-        fun url(url: kotlin.String) = apply { this.url = url }
+        fun url(url: kotlin.String?) = apply { this.url = url }
 
-        fun width(width: kotlin.String) = apply { this.width = width }
+        fun width(width: kotlin.String?) = apply { this.width = width }
 
-        fun height(height: kotlin.String) = apply { this.height = height }
+        fun height(height: kotlin.String?) = apply { this.height = height }
 
         fun build(): Image1 {
             return Image1(

@@ -52,7 +52,7 @@ data class PropertyManagerLinks(
     class Builder(
         private var image: Link? = null
     ) {
-        fun image(image: Link) = apply { this.image = image }
+        fun image(image: Link?) = apply { this.image = image }
 
         fun build(): PropertyManagerLinks {
             return PropertyManagerLinks(

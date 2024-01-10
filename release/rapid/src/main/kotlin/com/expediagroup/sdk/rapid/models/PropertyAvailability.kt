@@ -71,13 +71,13 @@ data class PropertyAvailability(
         private var rooms: kotlin.collections.List<RoomAvailability>? = null,
         private var links: PropertyAvailabilityLinks? = null
     ) {
-        fun propertyId(propertyId: kotlin.String) = apply { this.propertyId = propertyId }
+        fun propertyId(propertyId: kotlin.String?) = apply { this.propertyId = propertyId }
 
-        fun score(score: java.math.BigDecimal) = apply { this.score = score }
+        fun score(score: java.math.BigDecimal?) = apply { this.score = score }
 
-        fun rooms(rooms: kotlin.collections.List<RoomAvailability>) = apply { this.rooms = rooms }
+        fun rooms(rooms: kotlin.collections.List<RoomAvailability>?) = apply { this.rooms = rooms }
 
-        fun links(links: PropertyAvailabilityLinks) = apply { this.links = links }
+        fun links(links: PropertyAvailabilityLinks?) = apply { this.links = links }
 
         fun build(): PropertyAvailability {
             return PropertyAvailability(

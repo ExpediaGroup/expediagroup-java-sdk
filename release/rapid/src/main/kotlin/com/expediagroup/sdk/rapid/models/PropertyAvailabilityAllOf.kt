@@ -58,9 +58,9 @@ data class PropertyAvailabilityAllOf(
         private var rooms: kotlin.collections.List<RoomAvailability>? = null,
         private var links: PropertyAvailabilityLinks? = null
     ) {
-        fun rooms(rooms: kotlin.collections.List<RoomAvailability>) = apply { this.rooms = rooms }
+        fun rooms(rooms: kotlin.collections.List<RoomAvailability>?) = apply { this.rooms = rooms }
 
-        fun links(links: PropertyAvailabilityLinks) = apply { this.links = links }
+        fun links(links: PropertyAvailabilityLinks?) = apply { this.links = links }
 
         fun build(): PropertyAvailabilityAllOf {
             return PropertyAvailabilityAllOf(

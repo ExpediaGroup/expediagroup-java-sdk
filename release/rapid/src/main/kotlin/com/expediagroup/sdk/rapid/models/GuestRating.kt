@@ -119,29 +119,29 @@ data class GuestRating(
         private var amenities: kotlin.String? = null,
         private var recommendationPercent: kotlin.String? = null
     ) {
-        fun count(count: java.math.BigDecimal) = apply { this.count = count }
+        fun count(count: java.math.BigDecimal?) = apply { this.count = count }
 
-        fun overall(overall: kotlin.String) = apply { this.overall = overall }
+        fun overall(overall: kotlin.String?) = apply { this.overall = overall }
 
-        fun cleanliness(cleanliness: kotlin.String) = apply { this.cleanliness = cleanliness }
+        fun cleanliness(cleanliness: kotlin.String?) = apply { this.cleanliness = cleanliness }
 
-        fun service(service: kotlin.String) = apply { this.service = service }
+        fun service(service: kotlin.String?) = apply { this.service = service }
 
-        fun comfort(comfort: kotlin.String) = apply { this.comfort = comfort }
+        fun comfort(comfort: kotlin.String?) = apply { this.comfort = comfort }
 
-        fun condition(condition: kotlin.String) = apply { this.condition = condition }
+        fun condition(condition: kotlin.String?) = apply { this.condition = condition }
 
-        fun location(location: kotlin.String) = apply { this.location = location }
+        fun location(location: kotlin.String?) = apply { this.location = location }
 
-        fun neighborhood(neighborhood: kotlin.String) = apply { this.neighborhood = neighborhood }
+        fun neighborhood(neighborhood: kotlin.String?) = apply { this.neighborhood = neighborhood }
 
-        fun quality(quality: kotlin.String) = apply { this.quality = quality }
+        fun quality(quality: kotlin.String?) = apply { this.quality = quality }
 
-        fun `value`(`value`: kotlin.String) = apply { this.`value` = `value` }
+        fun `value`(`value`: kotlin.String?) = apply { this.`value` = `value` }
 
-        fun amenities(amenities: kotlin.String) = apply { this.amenities = amenities }
+        fun amenities(amenities: kotlin.String?) = apply { this.amenities = amenities }
 
-        fun recommendationPercent(recommendationPercent: kotlin.String) = apply { this.recommendationPercent = recommendationPercent }
+        fun recommendationPercent(recommendationPercent: kotlin.String?) = apply { this.recommendationPercent = recommendationPercent }
 
         fun build(): GuestRating {
             return GuestRating(

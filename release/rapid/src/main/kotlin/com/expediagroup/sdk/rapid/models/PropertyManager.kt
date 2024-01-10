@@ -58,9 +58,9 @@ data class PropertyManager(
         private var name: kotlin.String? = null,
         private var links: PropertyManagerLinks? = null
     ) {
-        fun name(name: kotlin.String) = apply { this.name = name }
+        fun name(name: kotlin.String?) = apply { this.name = name }
 
-        fun links(links: PropertyManagerLinks) = apply { this.links = links }
+        fun links(links: PropertyManagerLinks?) = apply { this.links = links }
 
         fun build(): PropertyManager {
             return PropertyManager(

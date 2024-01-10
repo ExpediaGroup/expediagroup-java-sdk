@@ -99,25 +99,25 @@ data class RoomPriceCheck(
         private var penalty: Charge? = null,
         private var traderInformation: TraderInformation? = null
     ) {
-        fun status(status: StatusPriceCheck) = apply { this.status = status }
+        fun status(status: StatusPriceCheck?) = apply { this.status = status }
 
-        fun occupancyPricing(occupancyPricing: kotlin.collections.Map<kotlin.String, PricingInformation>) = apply { this.occupancyPricing = occupancyPricing }
+        fun occupancyPricing(occupancyPricing: kotlin.collections.Map<kotlin.String, PricingInformation>?) = apply { this.occupancyPricing = occupancyPricing }
 
-        fun links(links: RoomPriceCheckLinks) = apply { this.links = links }
+        fun links(links: RoomPriceCheckLinks?) = apply { this.links = links }
 
-        fun cardOnFileLimit(cardOnFileLimit: Amount) = apply { this.cardOnFileLimit = cardOnFileLimit }
+        fun cardOnFileLimit(cardOnFileLimit: Amount?) = apply { this.cardOnFileLimit = cardOnFileLimit }
 
-        fun refundableDamageDeposit(refundableDamageDeposit: Amount) = apply { this.refundableDamageDeposit = refundableDamageDeposit }
+        fun refundableDamageDeposit(refundableDamageDeposit: Amount?) = apply { this.refundableDamageDeposit = refundableDamageDeposit }
 
-        fun deposits(deposits: kotlin.collections.List<Deposit>) = apply { this.deposits = deposits }
+        fun deposits(deposits: kotlin.collections.List<Deposit>?) = apply { this.deposits = deposits }
 
-        fun refund(refund: Charge) = apply { this.refund = refund }
+        fun refund(refund: Charge?) = apply { this.refund = refund }
 
-        fun amountOwed(amountOwed: Charge) = apply { this.amountOwed = amountOwed }
+        fun amountOwed(amountOwed: Charge?) = apply { this.amountOwed = amountOwed }
 
-        fun penalty(penalty: Charge) = apply { this.penalty = penalty }
+        fun penalty(penalty: Charge?) = apply { this.penalty = penalty }
 
-        fun traderInformation(traderInformation: TraderInformation) = apply { this.traderInformation = traderInformation }
+        fun traderInformation(traderInformation: TraderInformation?) = apply { this.traderInformation = traderInformation }
 
         fun build(): RoomPriceCheck {
             return RoomPriceCheck(

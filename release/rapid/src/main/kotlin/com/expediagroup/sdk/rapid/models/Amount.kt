@@ -59,9 +59,9 @@ data class Amount(
         private var `value`: kotlin.String? = null,
         private var currency: kotlin.String? = null
     ) {
-        fun `value`(`value`: kotlin.String) = apply { this.`value` = `value` }
+        fun `value`(`value`: kotlin.String?) = apply { this.`value` = `value` }
 
-        fun currency(currency: kotlin.String) = apply { this.currency = currency }
+        fun currency(currency: kotlin.String?) = apply { this.currency = currency }
 
         fun build(): Amount {
             return Amount(

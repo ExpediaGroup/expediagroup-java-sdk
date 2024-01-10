@@ -53,7 +53,7 @@ data class Preferred(
     class Builder(
         private var iataAirportCode: kotlin.String? = null
     ) {
-        fun iataAirportCode(iataAirportCode: kotlin.String) = apply { this.iataAirportCode = iataAirportCode }
+        fun iataAirportCode(iataAirportCode: kotlin.String?) = apply { this.iataAirportCode = iataAirportCode }
 
         fun build(): Preferred {
             return Preferred(

@@ -52,7 +52,7 @@ data class PropertyUnavailabilityAllOf(
     class Builder(
         private var unavailableReason: UnavailableReason? = null
     ) {
-        fun unavailableReason(unavailableReason: UnavailableReason) = apply { this.unavailableReason = unavailableReason }
+        fun unavailableReason(unavailableReason: UnavailableReason?) = apply { this.unavailableReason = unavailableReason }
 
         fun build(): PropertyUnavailabilityAllOf {
             return PropertyUnavailabilityAllOf(

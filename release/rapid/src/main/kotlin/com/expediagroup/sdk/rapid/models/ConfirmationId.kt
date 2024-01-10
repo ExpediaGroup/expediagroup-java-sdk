@@ -59,9 +59,9 @@ data class ConfirmationId(
         private var expedia: kotlin.String? = null,
         private var `property`: kotlin.String? = null
     ) {
-        fun expedia(expedia: kotlin.String) = apply { this.expedia = expedia }
+        fun expedia(expedia: kotlin.String?) = apply { this.expedia = expedia }
 
-        fun `property`(`property`: kotlin.String) = apply { this.`property` = `property` }
+        fun `property`(`property`: kotlin.String?) = apply { this.`property` = `property` }
 
         fun build(): ConfirmationId {
             return ConfirmationId(

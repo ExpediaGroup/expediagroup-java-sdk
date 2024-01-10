@@ -63,11 +63,11 @@ data class CreditCard(
         private var merchant: CreditCardMerchant? = null,
         private var name: kotlin.String? = null
     ) {
-        fun cardOptions(cardOptions: kotlin.collections.List<CardOption>) = apply { this.cardOptions = cardOptions }
+        fun cardOptions(cardOptions: kotlin.collections.List<CardOption>?) = apply { this.cardOptions = cardOptions }
 
-        fun merchant(merchant: CreditCardMerchant) = apply { this.merchant = merchant }
+        fun merchant(merchant: CreditCardMerchant?) = apply { this.merchant = merchant }
 
-        fun name(name: kotlin.String) = apply { this.name = name }
+        fun name(name: kotlin.String?) = apply { this.name = name }
 
         fun build(): CreditCard {
             return CreditCard(

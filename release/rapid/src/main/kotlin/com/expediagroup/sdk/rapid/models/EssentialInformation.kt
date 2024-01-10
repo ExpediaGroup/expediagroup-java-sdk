@@ -63,11 +63,11 @@ data class EssentialInformation(
         private var essentials: kotlin.collections.List<Essential>? = null,
         private var updateAvailableDate: kotlin.String? = null
     ) {
-        fun contact(contact: SupplyContact) = apply { this.contact = contact }
+        fun contact(contact: SupplyContact?) = apply { this.contact = contact }
 
-        fun essentials(essentials: kotlin.collections.List<Essential>) = apply { this.essentials = essentials }
+        fun essentials(essentials: kotlin.collections.List<Essential>?) = apply { this.essentials = essentials }
 
-        fun updateAvailableDate(updateAvailableDate: kotlin.String) = apply { this.updateAvailableDate = updateAvailableDate }
+        fun updateAvailableDate(updateAvailableDate: kotlin.String?) = apply { this.updateAvailableDate = updateAvailableDate }
 
         fun build(): EssentialInformation {
             return EssentialInformation(

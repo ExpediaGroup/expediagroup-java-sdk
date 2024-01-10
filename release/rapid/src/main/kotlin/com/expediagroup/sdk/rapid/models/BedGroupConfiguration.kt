@@ -65,11 +65,11 @@ data class BedGroupConfiguration(
         private var propertySize: kotlin.String? = null,
         private var quantity: java.math.BigDecimal? = null
     ) {
-        fun type(type: kotlin.String) = apply { this.type = type }
+        fun type(type: kotlin.String?) = apply { this.type = type }
 
-        fun propertySize(propertySize: kotlin.String) = apply { this.propertySize = propertySize }
+        fun propertySize(propertySize: kotlin.String?) = apply { this.propertySize = propertySize }
 
-        fun quantity(quantity: java.math.BigDecimal) = apply { this.quantity = quantity }
+        fun quantity(quantity: java.math.BigDecimal?) = apply { this.quantity = quantity }
 
         fun build(): BedGroupConfiguration {
             return BedGroupConfiguration(

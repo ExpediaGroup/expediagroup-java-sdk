@@ -52,7 +52,7 @@ data class AssociatedAirports(
     class Builder(
         private var preferred: Preferred? = null
     ) {
-        fun preferred(preferred: Preferred) = apply { this.preferred = preferred }
+        fun preferred(preferred: Preferred?) = apply { this.preferred = preferred }
 
         fun build(): AssociatedAirports {
             return AssociatedAirports(

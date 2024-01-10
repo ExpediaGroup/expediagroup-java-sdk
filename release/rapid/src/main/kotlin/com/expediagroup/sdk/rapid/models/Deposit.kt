@@ -65,11 +65,11 @@ data class Deposit(
         private var due: kotlin.String? = null,
         private var currency: kotlin.String? = null
     ) {
-        fun `value`(`value`: kotlin.String) = apply { this.`value` = `value` }
+        fun `value`(`value`: kotlin.String?) = apply { this.`value` = `value` }
 
-        fun due(due: kotlin.String) = apply { this.due = due }
+        fun due(due: kotlin.String?) = apply { this.due = due }
 
-        fun currency(currency: kotlin.String) = apply { this.currency = currency }
+        fun currency(currency: kotlin.String?) = apply { this.currency = currency }
 
         fun build(): Deposit {
             return Deposit(

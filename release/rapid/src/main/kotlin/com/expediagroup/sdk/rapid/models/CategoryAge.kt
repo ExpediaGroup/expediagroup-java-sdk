@@ -59,9 +59,9 @@ data class CategoryAge(
         private var name: kotlin.String? = null,
         private var minimumAge: java.math.BigDecimal? = null
     ) {
-        fun name(name: kotlin.String) = apply { this.name = name }
+        fun name(name: kotlin.String?) = apply { this.name = name }
 
-        fun minimumAge(minimumAge: java.math.BigDecimal) = apply { this.minimumAge = minimumAge }
+        fun minimumAge(minimumAge: java.math.BigDecimal?) = apply { this.minimumAge = minimumAge }
 
         fun build(): CategoryAge {
             return CategoryAge(

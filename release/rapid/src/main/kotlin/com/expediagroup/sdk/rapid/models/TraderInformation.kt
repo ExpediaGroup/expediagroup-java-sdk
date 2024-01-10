@@ -61,7 +61,7 @@ data class TraderInformation(
     ) {
         fun termsAndConditions(termsAndConditions: kotlin.String) = apply { this.termsAndConditions = termsAndConditions }
 
-        fun traders(traders: kotlin.collections.List<TraderDetailsInner>) = apply { this.traders = traders }
+        fun traders(traders: kotlin.collections.List<TraderDetailsInner>?) = apply { this.traders = traders }
 
         fun build(): TraderInformation {
             // Check required params

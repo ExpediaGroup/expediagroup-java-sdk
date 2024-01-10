@@ -65,11 +65,11 @@ data class Link(
         private var href: kotlin.String? = null,
         private var expires: kotlin.String? = null
     ) {
-        fun method(method: kotlin.String) = apply { this.method = method }
+        fun method(method: kotlin.String?) = apply { this.method = method }
 
-        fun href(href: kotlin.String) = apply { this.href = href }
+        fun href(href: kotlin.String?) = apply { this.href = href }
 
-        fun expires(expires: kotlin.String) = apply { this.expires = expires }
+        fun expires(expires: kotlin.String?) = apply { this.expires = expires }
 
         fun build(): Link {
             return Link(

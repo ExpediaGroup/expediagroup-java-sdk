@@ -30,19 +30,23 @@ import io.ktor.client.engine.HttpClientEngine
  * @param clientConfiguration The configuration for the client.
  */
 abstract class BaseRapidClient(
+    namespace: String,
     clientConfiguration: RapidClientConfiguration,
     httpClientEngine: HttpClientEngine = DEFAULT_HTTP_CLIENT_ENGINE
-) : Client() {
-    private val configurationProvider: ConfigurationProvider =
+) : Client(namespace) {
+    private val _configurationProvider: ConfigurationProvider =
         ConfigurationCollector.create(
             clientConfiguration.toProvider(),
             RapidConfigurationProvider
         )
-    private val _httpClient: HttpClient = buildHttpClient(configurationProvider, AuthenticationStrategy.AuthenticationType.SIGNATURE, httpClientEngine)
+    private val _httpClient: HttpClient = buildHttpClient(_configurationProvider, AuthenticationStrategy.AuthenticationType.SIGNATURE, httpClientEngine)
 
     init {
         finalize()
     }
+
+    override val configurationProvider: ConfigurationProvider
+        get() = _configurationProvider
 
     override val httpClient: HttpClient
         get() = _httpClient

@@ -314,10 +314,25 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${basedir}/target/sdk/src/main</outputDirectory>
+                            <outputDirectory>${basedir}/target/sdk/src/main/kotlin/com/expediagroup/sdk/core</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>../../core/src/main</directory>
+                                    <directory>../../core/src/main/kotlin/com/expediagroup/sdk/core</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>include-domain-helpers</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/sdk/src/main/kotlin/com/expediagroup/sdk/domain/${namespace}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>../../core/src/main/kotlin/com/expediagroup/sdk/domain/${namespace}</directory>
                                 </resource>
                             </resources>
                         </configuration>

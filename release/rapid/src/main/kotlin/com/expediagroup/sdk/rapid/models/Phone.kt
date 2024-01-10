@@ -65,11 +65,11 @@ data class Phone(
         private var areaCode: kotlin.String? = null,
         private var number: kotlin.String? = null
     ) {
-        fun countryCode(countryCode: kotlin.String) = apply { this.countryCode = countryCode }
+        fun countryCode(countryCode: kotlin.String?) = apply { this.countryCode = countryCode }
 
-        fun areaCode(areaCode: kotlin.String) = apply { this.areaCode = areaCode }
+        fun areaCode(areaCode: kotlin.String?) = apply { this.areaCode = areaCode }
 
-        fun number(number: kotlin.String) = apply { this.number = number }
+        fun number(number: kotlin.String?) = apply { this.number = number }
 
         fun build(): Phone {
             return Phone(

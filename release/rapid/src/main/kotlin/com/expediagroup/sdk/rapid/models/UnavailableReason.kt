@@ -58,9 +58,9 @@ data class UnavailableReason(
         private var code: UnavailableReason.Code? = null,
         private var `data`: kotlin.String? = null
     ) {
-        fun code(code: UnavailableReason.Code) = apply { this.code = code }
+        fun code(code: UnavailableReason.Code?) = apply { this.code = code }
 
-        fun `data`(`data`: kotlin.String) = apply { this.`data` = `data` }
+        fun `data`(`data`: kotlin.String?) = apply { this.`data` = `data` }
 
         fun build(): UnavailableReason {
             return UnavailableReason(

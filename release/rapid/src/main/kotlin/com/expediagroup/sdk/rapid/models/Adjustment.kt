@@ -65,11 +65,11 @@ data class Adjustment(
         private var type: kotlin.String? = null,
         private var currency: kotlin.String? = null
     ) {
-        fun `value`(`value`: kotlin.String) = apply { this.`value` = `value` }
+        fun `value`(`value`: kotlin.String?) = apply { this.`value` = `value` }
 
-        fun type(type: kotlin.String) = apply { this.type = type }
+        fun type(type: kotlin.String?) = apply { this.type = type }
 
-        fun currency(currency: kotlin.String) = apply { this.currency = currency }
+        fun currency(currency: kotlin.String?) = apply { this.currency = currency }
 
         fun build(): Adjustment {
             return Adjustment(

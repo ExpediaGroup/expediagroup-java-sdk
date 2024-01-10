@@ -233,73 +233,73 @@ data class PropertyContent(
         private var vacationRentalDetails: VacationRentalDetails? = null,
         private var supplySource: kotlin.String? = null
     ) {
-        fun propertyId(propertyId: kotlin.String) = apply { this.propertyId = propertyId }
+        fun propertyId(propertyId: kotlin.String?) = apply { this.propertyId = propertyId }
 
-        fun name(name: kotlin.String) = apply { this.name = name }
+        fun name(name: kotlin.String?) = apply { this.name = name }
 
-        fun address(address: Address) = apply { this.address = address }
+        fun address(address: Address?) = apply { this.address = address }
 
-        fun ratings(ratings: Ratings) = apply { this.ratings = ratings }
+        fun ratings(ratings: Ratings?) = apply { this.ratings = ratings }
 
-        fun location(location: Location) = apply { this.location = location }
+        fun location(location: Location?) = apply { this.location = location }
 
-        fun phone(phone: kotlin.String) = apply { this.phone = phone }
+        fun phone(phone: kotlin.String?) = apply { this.phone = phone }
 
-        fun fax(fax: kotlin.String) = apply { this.fax = fax }
+        fun fax(fax: kotlin.String?) = apply { this.fax = fax }
 
-        fun category(category: CategoryProperty) = apply { this.category = category }
+        fun category(category: CategoryProperty?) = apply { this.category = category }
 
-        fun businessModel(businessModel: BusinessModel) = apply { this.businessModel = businessModel }
+        fun businessModel(businessModel: BusinessModel?) = apply { this.businessModel = businessModel }
 
-        fun rank(rank: java.math.BigDecimal) = apply { this.rank = rank }
+        fun rank(rank: java.math.BigDecimal?) = apply { this.rank = rank }
 
-        fun checkin(checkin: Checkin) = apply { this.checkin = checkin }
+        fun checkin(checkin: Checkin?) = apply { this.checkin = checkin }
 
-        fun checkout(checkout: Checkout) = apply { this.checkout = checkout }
+        fun checkout(checkout: Checkout?) = apply { this.checkout = checkout }
 
-        fun fees(fees: Fees) = apply { this.fees = fees }
+        fun fees(fees: Fees?) = apply { this.fees = fees }
 
-        fun policies(policies: Policies) = apply { this.policies = policies }
+        fun policies(policies: Policies?) = apply { this.policies = policies }
 
-        fun attributes(attributes: Attributes) = apply { this.attributes = attributes }
+        fun attributes(attributes: Attributes?) = apply { this.attributes = attributes }
 
-        fun amenities(amenities: kotlin.collections.Map<kotlin.String, Amenity>) = apply { this.amenities = amenities }
+        fun amenities(amenities: kotlin.collections.Map<kotlin.String, Amenity>?) = apply { this.amenities = amenities }
 
-        fun images(images: kotlin.collections.List<Image>) = apply { this.images = images }
+        fun images(images: kotlin.collections.List<Image>?) = apply { this.images = images }
 
-        fun onsitePayments(onsitePayments: OnsitePayments) = apply { this.onsitePayments = onsitePayments }
+        fun onsitePayments(onsitePayments: OnsitePayments?) = apply { this.onsitePayments = onsitePayments }
 
-        fun rooms(rooms: kotlin.collections.Map<kotlin.String, RoomContent>) = apply { this.rooms = rooms }
+        fun rooms(rooms: kotlin.collections.Map<kotlin.String, RoomContent>?) = apply { this.rooms = rooms }
 
-        fun rates(rates: kotlin.collections.Map<kotlin.String, RateContent>) = apply { this.rates = rates }
+        fun rates(rates: kotlin.collections.Map<kotlin.String, RateContent>?) = apply { this.rates = rates }
 
-        fun dates(dates: Dates) = apply { this.dates = dates }
+        fun dates(dates: Dates?) = apply { this.dates = dates }
 
-        fun descriptions(descriptions: Descriptions) = apply { this.descriptions = descriptions }
+        fun descriptions(descriptions: Descriptions?) = apply { this.descriptions = descriptions }
 
-        fun statistics(statistics: kotlin.collections.Map<kotlin.String, Statistic>) = apply { this.statistics = statistics }
+        fun statistics(statistics: kotlin.collections.Map<kotlin.String, Statistic>?) = apply { this.statistics = statistics }
 
-        fun airports(airports: AssociatedAirports) = apply { this.airports = airports }
+        fun airports(airports: AssociatedAirports?) = apply { this.airports = airports }
 
-        fun themes(themes: kotlin.collections.Map<kotlin.String, Theme>) = apply { this.themes = themes }
+        fun themes(themes: kotlin.collections.Map<kotlin.String, Theme>?) = apply { this.themes = themes }
 
-        fun allInclusive(allInclusive: AllInclusive) = apply { this.allInclusive = allInclusive }
+        fun allInclusive(allInclusive: AllInclusive?) = apply { this.allInclusive = allInclusive }
 
-        fun taxId(taxId: kotlin.String) = apply { this.taxId = taxId }
+        fun taxId(taxId: kotlin.String?) = apply { this.taxId = taxId }
 
-        fun chain(chain: Chain) = apply { this.chain = chain }
+        fun chain(chain: Chain?) = apply { this.chain = chain }
 
-        fun brand(brand: Brand) = apply { this.brand = brand }
+        fun brand(brand: Brand?) = apply { this.brand = brand }
 
-        fun spokenLanguages(spokenLanguages: kotlin.collections.Map<kotlin.String, SpokenLanguage>) = apply { this.spokenLanguages = spokenLanguages }
+        fun spokenLanguages(spokenLanguages: kotlin.collections.Map<kotlin.String, SpokenLanguage>?) = apply { this.spokenLanguages = spokenLanguages }
 
-        fun multiUnit(multiUnit: kotlin.Boolean) = apply { this.multiUnit = multiUnit }
+        fun multiUnit(multiUnit: kotlin.Boolean?) = apply { this.multiUnit = multiUnit }
 
-        fun paymentRegistrationRecommended(paymentRegistrationRecommended: kotlin.Boolean) = apply { this.paymentRegistrationRecommended = paymentRegistrationRecommended }
+        fun paymentRegistrationRecommended(paymentRegistrationRecommended: kotlin.Boolean?) = apply { this.paymentRegistrationRecommended = paymentRegistrationRecommended }
 
-        fun vacationRentalDetails(vacationRentalDetails: VacationRentalDetails) = apply { this.vacationRentalDetails = vacationRentalDetails }
+        fun vacationRentalDetails(vacationRentalDetails: VacationRentalDetails?) = apply { this.vacationRentalDetails = vacationRentalDetails }
 
-        fun supplySource(supplySource: kotlin.String) = apply { this.supplySource = supplySource }
+        fun supplySource(supplySource: kotlin.String?) = apply { this.supplySource = supplySource }
 
         fun build(): PropertyContent {
             return PropertyContent(

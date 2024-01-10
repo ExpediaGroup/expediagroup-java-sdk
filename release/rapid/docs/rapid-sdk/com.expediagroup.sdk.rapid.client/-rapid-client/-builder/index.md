@@ -16,9 +16,3 @@ public final class [Builder](index.md) extends BaseRapidClient.Builder&lt;[Rapid
 | Name | Summary |
 |---|---|
 | [build](build.md) | [JVM]<br>public [RapidClient](../index.md)[build](build.md)() |
-| [endpoint](index.md#2052625140%2FFunctions%2F700308213) | [JVM]<br>public final [RapidClient.Builder](index.md)[endpoint](index.md#2052625140%2FFunctions%2F700308213)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)endpoint) |
-| [key](index.md#-659042354%2FFunctions%2F700308213) | [JVM]<br>public final [RapidClient.Builder](index.md)[key](index.md#-659042354%2FFunctions%2F700308213)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)key) |
-| [maskedLoggingBodyFields](index.md#2097849710%2FFunctions%2F700308213) | [JVM]<br>public final [RapidClient.Builder](index.md)[maskedLoggingBodyFields](index.md#2097849710%2FFunctions%2F700308213)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)fields) |
-| [maskedLoggingHeaders](index.md#1847708801%2FFunctions%2F700308213) | [JVM]<br>public final [RapidClient.Builder](index.md)[maskedLoggingHeaders](index.md#1847708801%2FFunctions%2F700308213)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)headers) |
-| [requestTimeout](index.md#1912912614%2FFunctions%2F700308213) | [JVM]<br>public final [RapidClient.Builder](index.md)[requestTimeout](index.md#1912912614%2FFunctions%2F700308213)([Long](https://docs.oracle.com/javase/8/docs/api/java/lang/Long.html)milliseconds) |
-| [secret](index.md#195814863%2FFunctions%2F700308213) | [JVM]<br>public final [RapidClient.Builder](index.md)[secret](index.md#195814863%2FFunctions%2F700308213)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)secret) |

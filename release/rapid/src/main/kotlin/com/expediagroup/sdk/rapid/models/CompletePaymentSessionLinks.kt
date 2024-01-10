@@ -62,11 +62,11 @@ data class CompletePaymentSessionLinks(
         private var resume: Link? = null,
         private var cancel: Link? = null
     ) {
-        fun retrieve(retrieve: Link) = apply { this.retrieve = retrieve }
+        fun retrieve(retrieve: Link?) = apply { this.retrieve = retrieve }
 
-        fun resume(resume: Link) = apply { this.resume = resume }
+        fun resume(resume: Link?) = apply { this.resume = resume }
 
-        fun cancel(cancel: Link) = apply { this.cancel = cancel }
+        fun cancel(cancel: Link?) = apply { this.cancel = cancel }
 
         fun build(): CompletePaymentSessionLinks {
             return CompletePaymentSessionLinks(

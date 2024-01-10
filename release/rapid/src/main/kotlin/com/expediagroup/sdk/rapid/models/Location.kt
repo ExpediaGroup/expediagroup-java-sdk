@@ -63,11 +63,11 @@ data class Location(
         private var obfuscatedCoordinates: Coordinates? = null,
         private var obfuscationRequired: kotlin.Boolean? = null
     ) {
-        fun coordinates(coordinates: Coordinates) = apply { this.coordinates = coordinates }
+        fun coordinates(coordinates: Coordinates?) = apply { this.coordinates = coordinates }
 
-        fun obfuscatedCoordinates(obfuscatedCoordinates: Coordinates) = apply { this.obfuscatedCoordinates = obfuscatedCoordinates }
+        fun obfuscatedCoordinates(obfuscatedCoordinates: Coordinates?) = apply { this.obfuscatedCoordinates = obfuscatedCoordinates }
 
-        fun obfuscationRequired(obfuscationRequired: kotlin.Boolean) = apply { this.obfuscationRequired = obfuscationRequired }
+        fun obfuscationRequired(obfuscationRequired: kotlin.Boolean?) = apply { this.obfuscationRequired = obfuscationRequired }
 
         fun build(): Location {
             return Location(

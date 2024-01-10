@@ -75,15 +75,15 @@ data class Day(
         private var checkout: kotlin.String? = null,
         private var stayConstraints: StayConstraints? = null
     ) {
-        fun date(date: java.time.LocalDate) = apply { this.date = date }
+        fun date(date: java.time.LocalDate?) = apply { this.date = date }
 
-        fun available(available: kotlin.Boolean) = apply { this.available = available }
+        fun available(available: kotlin.Boolean?) = apply { this.available = available }
 
-        fun checkin(checkin: kotlin.String) = apply { this.checkin = checkin }
+        fun checkin(checkin: kotlin.String?) = apply { this.checkin = checkin }
 
-        fun checkout(checkout: kotlin.String) = apply { this.checkout = checkout }
+        fun checkout(checkout: kotlin.String?) = apply { this.checkout = checkout }
 
-        fun stayConstraints(stayConstraints: StayConstraints) = apply { this.stayConstraints = stayConstraints }
+        fun stayConstraints(stayConstraints: StayConstraints?) = apply { this.stayConstraints = stayConstraints }
 
         fun build(): Day {
             return Day(

@@ -67,13 +67,13 @@ data class ItineraryCreationLinks(
         private var completePaymentSession: Link? = null,
         private var cancel: Link? = null
     ) {
-        fun retrieve(retrieve: Link) = apply { this.retrieve = retrieve }
+        fun retrieve(retrieve: Link?) = apply { this.retrieve = retrieve }
 
-        fun resume(resume: Link) = apply { this.resume = resume }
+        fun resume(resume: Link?) = apply { this.resume = resume }
 
-        fun completePaymentSession(completePaymentSession: Link) = apply { this.completePaymentSession = completePaymentSession }
+        fun completePaymentSession(completePaymentSession: Link?) = apply { this.completePaymentSession = completePaymentSession }
 
-        fun cancel(cancel: Link) = apply { this.cancel = cancel }
+        fun cancel(cancel: Link?) = apply { this.cancel = cancel }
 
         fun build(): ItineraryCreationLinks {
             return ItineraryCreationLinks(

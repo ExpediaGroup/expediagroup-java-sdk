@@ -64,11 +64,11 @@ data class BillingContact(
         private var familyName: kotlin.String? = null,
         private var address: Address1? = null
     ) {
-        fun givenName(givenName: kotlin.String) = apply { this.givenName = givenName }
+        fun givenName(givenName: kotlin.String?) = apply { this.givenName = givenName }
 
-        fun familyName(familyName: kotlin.String) = apply { this.familyName = familyName }
+        fun familyName(familyName: kotlin.String?) = apply { this.familyName = familyName }
 
-        fun address(address: Address1) = apply { this.address = address }
+        fun address(address: Address1?) = apply { this.address = address }
 
         fun build(): BillingContact {
             return BillingContact(

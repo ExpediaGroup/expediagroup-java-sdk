@@ -89,19 +89,19 @@ data class Notification(
         private var message: kotlin.String? = null,
         private var affiliateReferenceId: kotlin.String? = null
     ) {
-        fun eventId(eventId: kotlin.String) = apply { this.eventId = eventId }
+        fun eventId(eventId: kotlin.String?) = apply { this.eventId = eventId }
 
-        fun eventType(eventType: kotlin.String) = apply { this.eventType = eventType }
+        fun eventType(eventType: kotlin.String?) = apply { this.eventType = eventType }
 
-        fun eventTime(eventTime: kotlin.String) = apply { this.eventTime = eventTime }
+        fun eventTime(eventTime: kotlin.String?) = apply { this.eventTime = eventTime }
 
-        fun itineraryId(itineraryId: kotlin.String) = apply { this.itineraryId = itineraryId }
+        fun itineraryId(itineraryId: kotlin.String?) = apply { this.itineraryId = itineraryId }
 
-        fun email(email: kotlin.String) = apply { this.email = email }
+        fun email(email: kotlin.String?) = apply { this.email = email }
 
-        fun message(message: kotlin.String) = apply { this.message = message }
+        fun message(message: kotlin.String?) = apply { this.message = message }
 
-        fun affiliateReferenceId(affiliateReferenceId: kotlin.String) = apply { this.affiliateReferenceId = affiliateReferenceId }
+        fun affiliateReferenceId(affiliateReferenceId: kotlin.String?) = apply { this.affiliateReferenceId = affiliateReferenceId }
 
         fun build(): Notification {
             return Notification(

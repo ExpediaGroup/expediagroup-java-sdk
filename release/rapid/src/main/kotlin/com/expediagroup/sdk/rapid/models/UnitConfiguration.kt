@@ -65,11 +65,11 @@ data class UnitConfiguration(
         private var description: kotlin.String? = null,
         private var quantity: kotlin.Int? = null
     ) {
-        fun type(type: kotlin.String) = apply { this.type = type }
+        fun type(type: kotlin.String?) = apply { this.type = type }
 
-        fun description(description: kotlin.String) = apply { this.description = description }
+        fun description(description: kotlin.String?) = apply { this.description = description }
 
-        fun quantity(quantity: kotlin.Int) = apply { this.quantity = quantity }
+        fun quantity(quantity: kotlin.Int?) = apply { this.quantity = quantity }
 
         fun build(): UnitConfiguration {
             return UnitConfiguration(

@@ -69,13 +69,13 @@ data class PricingInformation(
         private var totals: Totals? = null,
         private var fees: FeesPricingInformation? = null
     ) {
-        fun nightly(nightly: kotlin.collections.List<kotlin.collections.List<NightCharge>>) = apply { this.nightly = nightly }
+        fun nightly(nightly: kotlin.collections.List<kotlin.collections.List<NightCharge>>?) = apply { this.nightly = nightly }
 
-        fun stay(stay: kotlin.collections.List<Stay>) = apply { this.stay = stay }
+        fun stay(stay: kotlin.collections.List<Stay>?) = apply { this.stay = stay }
 
-        fun totals(totals: Totals) = apply { this.totals = totals }
+        fun totals(totals: Totals?) = apply { this.totals = totals }
 
-        fun fees(fees: FeesPricingInformation) = apply { this.fees = fees }
+        fun fees(fees: FeesPricingInformation?) = apply { this.fees = fees }
 
         fun build(): PricingInformation {
             return PricingInformation(
