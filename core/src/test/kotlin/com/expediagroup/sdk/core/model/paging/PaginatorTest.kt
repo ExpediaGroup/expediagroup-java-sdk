@@ -13,11 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package model.paginator
+package com.expediagroup.sdk.core.model.paging
 
 import com.expediagroup.sdk.core.model.Response
-import com.expediagroup.sdk.core.model.paging.Paginator
-import com.expediagroup.sdk.core.model.paging.ResponsePaginator
 import com.expediagroup.sdk.core.test.ClientFactory.createExpediaGroupClient
 import com.expediagroup.sdk.core.test.TestConstants.SUCCESSFUL_DUMMY_REQUEST
 import io.ktor.client.call.body
