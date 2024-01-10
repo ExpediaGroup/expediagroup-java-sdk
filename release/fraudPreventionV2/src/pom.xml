@@ -13,7 +13,7 @@
     <packaging>jar</packaging>
 
         <name>EG SDK :: fraudpreventionv2-sdk</name>
-        <description>EG SDK :: fraudpreventionv2-sdk v3.6.0</description>
+        <description>EG SDK :: fraudpreventionv2-sdk v3.6.1</description>
 
     <artifactId>fraudpreventionv2-sdk</artifactId>
     <version>${revision}</version>
@@ -58,7 +58,7 @@
     <properties>
         <sdk-version>${project.version}</sdk-version>
         <sdk-title>${project.artifactId}</sdk-title>
-        <revision>3.6.0</revision>
+        <revision>3.6.1</revision>
         <shadePrefix>com.expediagroup.sdk</shadePrefix>
     </properties>
 
@@ -295,7 +295,12 @@
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                             </transformers>
-
+                            <relocations>
+                                <relocation>
+                                    <pattern>org.hibernate</pattern>
+                                    <shadedPattern>${shadePrefix}.dependencies.org.hibernate</shadedPattern>
+                                </relocation>
+                            </relocations>
                             <artifactSet>
                                 <excludes>
                                     <exclude>org.jetbrains.kotlin:*</exclude>
