@@ -14,6 +14,6 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Create draft release
-        run: npx semantic-release
+        run: ./update-github-release.sh
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
