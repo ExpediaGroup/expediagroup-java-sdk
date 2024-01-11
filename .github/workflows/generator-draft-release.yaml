@@ -19,6 +19,6 @@ jobs:
           echo "latest: $latest_tag"
           echo "today: $today"
 
-          gh release create "$today" --draft --generate-notes --latest -title "$today"
+          gh release create "$today" --draft --generate-notes
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
