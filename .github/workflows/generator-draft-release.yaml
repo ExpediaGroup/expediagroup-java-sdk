@@ -1,26 +1,19 @@
 name: Publish Release
 on:
-  workflow_dispatch:
+  workflow_call:
 jobs:
   publish-release:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.18.2
+      - name: Install dependencies
+        run: npm install
       - name: Create draft release
-        shell: sh
-        run: |
-          git fetch --tags
-          tags=$(git tag -l "v*")
-          latest_tag=$(echo "$tags" | grep -E '^v[0-9]+$' | sort -Vr | head -n 1)
-          today="v$(date "+%Y%m%d%H%M%S")"
-
-          echo "tags: $tags"
-          echo "latest: $latest_tag"
-          echo "today: $today"
-
-          git tag "$today"
-          git push --tags
-          gh release create "$today" --draft --generate-notes --latest --notes-start-tag "$latest_tag" --title "$today"
+        run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
