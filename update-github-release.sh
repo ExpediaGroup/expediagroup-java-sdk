@@ -9,6 +9,3 @@ echo "latest: $latest_tag"
 echo "today: $today"
 
 gh release create "$today" --draft --generate-notes --latest --notes-start-tag "$latest_tag" --title "$today"
-
-
-
