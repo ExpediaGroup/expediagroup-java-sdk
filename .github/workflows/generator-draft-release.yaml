@@ -11,6 +11,7 @@ jobs:
         shell: sh
         run: |
           git pull
+          git fetch --tags
           git tag -l
           tags=$(git tag -l "v*")
           latest_tag=$(echo "$tags" | grep -E '^v[0-9]+$' | sort -Vr | head -n 1)
