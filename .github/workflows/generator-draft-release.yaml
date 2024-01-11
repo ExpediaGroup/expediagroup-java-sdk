@@ -7,13 +7,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18.18.2
-      - name: Install dependencies
-        run: npm install
       - name: Create draft release
+        shell: sh
         run: |
           tags=$(git tag -l "v*")
           latest_tag=$(echo "$tags" | grep -E '^v[0-9]+$' | sort -Vr | head -n 1)
