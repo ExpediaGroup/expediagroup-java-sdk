@@ -64,7 +64,8 @@
     [
       "@semantic-release/exec",
       {
-        "successCmd": "echo \"${nextRelease.notes}\" &> osama.txt"
+        "verifyConditionsCmd": "git tag $(./get-latest-tag) v1.0.0",
+        "successCmd": "echo \"${nextRelease.notes}\" &> release-notes.txt && ./update-github-release.sh"
       }
     ]
   ]
