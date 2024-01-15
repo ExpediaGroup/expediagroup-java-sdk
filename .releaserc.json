@@ -64,7 +64,6 @@
     [
       "@semantic-release/exec",
       {
-        "analyzeCommitsCmd": "git tag $(./get-latest-tag) v1.0.0",
         "successCmd": "echo \"${nextRelease.notes}\" &> release-notes.txt && ./update-github-release.sh"
       }
     ]
