@@ -14,7 +14,7 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Prepare tags
-        run: git tag $(./get-latest-tag) v1.0.0
+        run: git tag $(./get-latest-tag.sh) v1.0.0
       - name: Create draft release
         run: npx semantic-release
         env:
