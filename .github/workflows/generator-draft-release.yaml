@@ -18,7 +18,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               ref: 'refs/tags/v1.0.0',
-              sha: 'd91f62127859b50e806d2b858a1bcc04b47b6138'
+              sha: 'b62553a3428cd3a260ceea62d832159743723c59'
             })
       - name: Setup Node.js
         uses: actions/setup-node@v4
