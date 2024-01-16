@@ -9,17 +9,16 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-tags: true
-
-      - name: Prepare tags
-        run: |
-          chmod +x ./get-latest-tag.sh
-          latest=$(./get-latest-tag.sh)
-          echo "Latest tag is $latest"
-          git config user.password ${{ secrets.GH_PAT }}
-          git tag v1.0.0 $latest
-          git push --tags
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+      - name: Create tag
+        uses: actions/github-script@v5
+        with:
+          script: |
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'osama'
+              sha: 'd91f62127859b50e806d2b858a1bcc04b47b6138'
+            })
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
