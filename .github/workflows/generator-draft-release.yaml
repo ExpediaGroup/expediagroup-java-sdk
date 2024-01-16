@@ -15,8 +15,8 @@ jobs:
         run: npm install
       - name: Prepare tags
         run: |
-          git pull
-          echo "tags: $(git tags -b)"
+          git fetch --tags
+          echo "tag: $(git tags -b)"
           git tag v1.0.0 v20240111133045
       - name: Create draft release
         run: npx semantic-release
