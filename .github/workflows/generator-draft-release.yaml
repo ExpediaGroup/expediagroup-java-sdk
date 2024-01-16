@@ -15,12 +15,9 @@ jobs:
         run: npm install
       - name: Prepare tags
         run: |
-          git fetch --tags
-          tags=$(git tag -l "v*")
-          latest_tag=$(echo "$tags" | grep -E '^v[0-9]+$' | sort -Vr | head -n 1)
-
-          echo "Latest tag: $latest_tag"
-          git tag v1.0.0 "$latest_tag"
+          latest=$(./get-latest-tag.sh)
+          echo "Latest tag: $latest"
+          git tag v1.0.0 "$latest"
           git push origin --tags
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
