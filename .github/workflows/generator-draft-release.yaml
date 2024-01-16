@@ -16,8 +16,7 @@ jobs:
       - name: Prepare tags
         run: |
           git tag v1.0.0 $(./get-latest-tag.sh)
-#          git push origin --tags
       - name: Create draft release
         run: npx semantic-release
         env:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
