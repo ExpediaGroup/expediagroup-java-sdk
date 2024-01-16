@@ -19,8 +19,3 @@ for tag in "${tags[@]}"; do
         echo "Deleted $tag"
     fi
 done
-
-git push origin --delete v1.0.0
-git push origin --delete v1.0.1
-git push origin --delete v1.1.0
-git push origin --delete v2.0.0
