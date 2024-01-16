@@ -1,5 +1,7 @@
 #!/bin/bash
 
+release_notes=$1
+echo "$release_notes" &> release-notes.txt
 today="v$(date "+%Y%m%d%H%M%S")"
 
 echo "today: $today"

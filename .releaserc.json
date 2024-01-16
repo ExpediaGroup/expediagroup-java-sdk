@@ -64,7 +64,7 @@
     [
       "@semantic-release/exec",
       {
-        "successCmd": "echo \"${nextRelease.notes}\" &> release-notes.txt && ./update-github-release.sh"
+        "successCmd": "./update-github-release.sh \"${nextRelease.notes}\""
       }
     ]
   ]
