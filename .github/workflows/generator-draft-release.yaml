@@ -11,7 +11,7 @@ jobs:
           fetch-tags: true
       - name: Get latest tag
         run: |
-          latest_tag=$(./get-latest-tag.sh)
+          latest_tag=$(git show-ref -s "$(./get-latest-tag.sh)")
           echo "LATEST_TAG=$latest_tag" >> $GITHUB_ENV
       - name: Create tag
         uses: actions/github-script@v5
