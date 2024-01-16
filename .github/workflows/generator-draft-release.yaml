@@ -16,7 +16,7 @@ jobs:
       - name: Prepare tags
         run: |
           git tag v1.0.0 $(./get-latest-tag.sh)
-          git push --tags
+          git push origin --tags
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Create draft release
