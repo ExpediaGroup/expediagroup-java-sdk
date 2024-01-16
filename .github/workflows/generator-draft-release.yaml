@@ -7,19 +7,21 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Prepare tags
+        run: |
+          chmod +x ./get-latest-tag.sh
+          latest=$(./get-latest-tag.sh)
+          echo "Latest tag is $latest"
+          git tag v1.0.0 "$latest"
+          git push origin --tags
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18.18.2
       - name: Install dependencies
         run: npm install
-      - name: Prepare tags
-        run: |
-          chmod +x ./get-latest-tag.sh
-          git tag v1.0.0 $(./get-latest-tag.sh)
-          git push origin --tags
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
       - name: Create draft release
         run: npx semantic-release
         env:
