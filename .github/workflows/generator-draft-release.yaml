@@ -16,7 +16,7 @@ jobs:
             github.rest.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: 'osama',
+              ref: 'refs/tags/osama',
               sha: 'd91f62127859b50e806d2b858a1bcc04b47b6138'
             })
       - name: Setup Node.js
