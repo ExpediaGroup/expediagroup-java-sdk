@@ -15,7 +15,9 @@ jobs:
         run: npm install
       - name: Prepare tags
         run: |
-          git tag v1.0.0 $(./get-latest-tag.sh)
+          latest=$(./get-latest-tag.sh)
+          echo "Latest tag: $latest"
+          git tag v1.0.0 "$latest"
       - name: Create draft release
         run: npx semantic-release
         env:
