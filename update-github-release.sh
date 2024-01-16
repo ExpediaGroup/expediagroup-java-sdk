@@ -11,15 +11,15 @@ git tag "$today"
 git push --tags
 gh release create "$today" --draft --generate-notes --latest --notes-file release-notes.txt --notes-start-tag "$previous_tag" --title "$today"
 
-tags=("v1.0.0" "v1.0.1" "v1.1.0" "v2.0.0")
-
-for tag in "${tags[@]}"; do
-    if [ git tag -l "$tag" ]; then
-        git push origin --delete "$tag"
-    fi
-done
-
-git push origin --delete v1.0.0
-git push origin --delete v1.0.1
-git push origin --delete v1.1.0
-git push origin --delete v2.0.0
+#tags=("v1.0.0" "v1.0.1" "v1.1.0" "v2.0.0")
+#
+#for tag in "${tags[@]}"; do
+#    if [ git tag -l "$tag" ]; then
+#        git push origin --delete "$tag"
+#    fi
+#done
+#
+#git push origin --delete v1.0.0
+#git push origin --delete v1.0.1
+#git push origin --delete v1.1.0
+#git push origin --delete v2.0.0
