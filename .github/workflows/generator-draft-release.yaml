@@ -13,7 +13,7 @@ jobs:
           latest=$(./get-latest-tag.sh)
           echo "Latest tag is $latest"
           git tag v1.0.0 $latest
-#          git push origin --tags
+          git push origin v1.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
       - name: Setup Node.js
