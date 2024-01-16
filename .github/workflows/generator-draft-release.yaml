@@ -15,6 +15,7 @@ jobs:
         run: npm install
       - name: Prepare tags
         run: |
+          chmod +x ./get-latest-tag.sh
           git tag v1.0.0 $(./get-latest-tag.sh)
           git push origin --tags
         env:
