@@ -13,6 +13,10 @@ jobs:
           node-version: 18.18.2
       - name: Install dependencies
         run: npm install
+      - name: Prepare tags
+        run: |
+          git tag v1.0.0 $(./get-latest-tag.sh)
+          git push origin --tags
       - name: Create draft release
         run: npx semantic-release
         env:
