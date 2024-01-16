@@ -39,6 +39,7 @@
     [
       "@semantic-release/release-notes-generator",
       {
+        "linkCompare": false,
         "preset": "conventionalcommits",
         "parserOpts": {
           "noteKeywords": [

@@ -9,6 +9,10 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-tags: true
+      - name: Get latest tag
+        run: |
+          latest_tag=$(./get-latest-tag.sh)
+          echo "LATEST_TAG=$latest_tag" >> $GITHUB_ENV
       - name: Create tag
         uses: actions/github-script@v5
         with:
@@ -18,7 +22,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               ref: 'refs/tags/v1.0.0',
-              sha: 'b62553a3428cd3a260ceea62d832159743723c59'
+              sha: '${{ env.LATEST_TAG}}'
             })
       - name: Setup Node.js
         uses: actions/setup-node@v4
