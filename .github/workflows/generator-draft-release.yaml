@@ -11,8 +11,6 @@ jobs:
           fetch-tags: true
       - name: Prepare tags
         run: |
-          git config user.name "GitHub Actions"
-          git config user.email "github-actions@users.noreply.github.com"
           chmod +x ./get-latest-tag.sh
           latest=$(./get-latest-tag.sh)
           echo "Latest tag is $latest"
