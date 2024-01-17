@@ -8,4 +8,3 @@ for tag in "${tags[@]}"; do
         echo "Deleted $tag"
     fi
 done
-
