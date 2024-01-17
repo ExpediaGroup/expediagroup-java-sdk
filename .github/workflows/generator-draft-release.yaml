@@ -16,7 +16,7 @@ jobs:
       - name: Create tag
         uses: actions/github-script@v5
         with:
-          github-token: ${{ secrets.GH_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           script: |
             github.rest.git.createRef({
               owner: context.repo.owner,
@@ -33,4 +33,4 @@ jobs:
       - name: Create draft release
         run: npx semantic-release
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
