@@ -105,7 +105,6 @@ internal class ExpediaGroupAuthenticationStrategy(
         )
     }
 
-
     override fun isIdentityRequest(request: HttpRequestBuilder): Boolean = request.url.clone().apply { encodedParameters = ParametersBuilder() }.buildString() == configs.authUrl
 
     override fun getAuthorizationHeader() = "${Authentication.BEARER} ${getTokens().accessToken}"
