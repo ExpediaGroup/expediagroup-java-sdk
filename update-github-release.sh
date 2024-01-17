@@ -5,7 +5,7 @@ echo "$release_notes" &> release-notes.txt
 sed -i '1d' release-notes.txt
 
 previous_tag=$(./get-latest-tag.sh)
-today="v$(date "+%Y%m%d%H%M%S")"
+today="v$(date "+%Y%m%d")"
 
 echo "today: $today"
 
