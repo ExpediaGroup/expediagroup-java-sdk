@@ -1,6 +1,6 @@
 name: Publish Release
 on:
-  workflow_dispatch:
+  workflow_call:
 jobs:
   publish-release:
     runs-on: ubuntu-latest
@@ -21,7 +21,7 @@ jobs:
             github.rest.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: 'refs/tags/v1.0.0'
+              ref: 'refs/tags/v1.0.0',
               sha: '${{ env.LATEST_TAG}}'
             })
       - name: Setup Node.js
