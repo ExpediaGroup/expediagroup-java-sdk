@@ -31,10 +31,9 @@ internal object SerializationPlugin : Plugin<SerializationConfiguration> {
         configurations.httpClientConfiguration.install(ContentNegotiation) {
             jackson {
                 enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS)
-                enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT)
-                propertyNamingStrategy = PropertyNamingStrategies.SNAKE_CASE
-                configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-                dateFormat = SimpleDateFormat()
+                disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+                setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE)
+                setDateFormat(SimpleDateFormat())
                 findAndRegisterModules()
             }
         }
