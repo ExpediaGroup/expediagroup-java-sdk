@@ -17,8 +17,10 @@ jobs:
       - name: verify core
         working-directory: core
         run: mvn verify -P github-verify-action-profile
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v3
+      - uses: actions/setup-python@v5
         with:
-          fail_ci_if_error: true
-          token: ${{ secrets.CODECOV_TOKEN }}
+          python-version: '3.9'
+      - name: Upload coverage reports to Codecov
+        run: |
+          pip install codecov-cli
+          codecovcli upload-process -t ${{ secrets.CODECOV_TOKEN }}
