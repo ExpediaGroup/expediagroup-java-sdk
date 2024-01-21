@@ -17,7 +17,9 @@ package com.expediagroup.sdk.core.model.paging
 
 import com.expediagroup.sdk.core.client.Client
 import com.expediagroup.sdk.core.model.Response
+import com.fasterxml.jackson.databind.exc.MismatchedInputException
 import io.ktor.client.statement.HttpResponse
+import io.ktor.serialization.JsonConvertException
 import kotlinx.coroutines.runBlocking
 
 internal interface ResponseState<T> {
@@ -51,14 +53,24 @@ internal class LastResponseState<T> : ResponseState<T> {
 internal class FetchLinkState<T>(
     private val link: String,
     private val client: Client,
+    private val fallbackBody: T,
     private val getBody: suspend (HttpResponse) -> T
 ) : ResponseState<T> {
     override fun getNextResponse(): Response<T> {
         return runBlocking {
-            val response = client.performGet(link)
-            val body = getBody(response)
+            val response: HttpResponse = client.performGet(link)
+            val body: T = parseBody(response)
             Response(response.status.value, body, response.headers.entries())
         }
+    }
+
+    private suspend fun FetchLinkState<T>.parseBody(response: HttpResponse): T = try {
+        getBody(response)
+    } catch (exception: JsonConvertException) {
+        if (exception.cause is MismatchedInputException && exception.message == "No content to map due to end-of-input") {
+            fallbackBody
+        }
+        throw exception
     }
 
     override fun hasNext(): Boolean {
@@ -71,9 +83,10 @@ internal class ResponseStateFactory {
         fun <T> getState(
             link: String?,
             client: Client,
+            fallbackBody: T,
             getBody: suspend (HttpResponse) -> T
         ): ResponseState<T> {
-            return link?.let { FetchLinkState(it, client, getBody) } ?: LastResponseState()
+            return link?.let { FetchLinkState(it, client, fallbackBody, getBody) } ?: LastResponseState()
         }
     }
 }

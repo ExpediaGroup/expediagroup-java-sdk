@@ -57,5 +57,17 @@ val mustacheHelpers = mapOf(
                 }
             }
         }
+    },
+    "fallbackBody" to {
+        Mustache.Lambda { fragment, writer ->
+            val dataType: String = fragment.context() as String
+            if (dataType.startsWith("kotlin.collections.List")) {
+                writer.write("emptyList()")
+            } else if (dataType.startsWith("kotlin.collections.Map")) {
+                writer.write("emptyMap()")
+            } else if (dataType.startsWith("kotlin.collections.Set")) {
+                writer.write("emptySet()")
+            }
+        }
     }
 )
