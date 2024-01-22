@@ -15,6 +15,7 @@
  */
 package com.expediagroup.sdk.core.model.paging
 
+import com.expediagroup.sdk.core.constant.Constant.EMPTY_STRING
 import com.expediagroup.sdk.core.model.Response
 import com.expediagroup.sdk.core.test.ClientFactory.createExpediaGroupClient
 import com.expediagroup.sdk.core.test.TestConstants.SUCCESSFUL_DUMMY_REQUEST
@@ -38,7 +39,7 @@ class PaginatorTest {
         fun `test paginator with one response`() {
             val firstResponse = Response(200, "first", emptyMap())
 
-            val paginator = Paginator(client, firstResponse, getBody)
+            val paginator = Paginator(client, firstResponse, EMPTY_STRING, getBody)
             assertTrue(paginator.hasNext())
             assertEquals("first", paginator.next())
             assertFalse(paginator.hasNext())
@@ -48,7 +49,7 @@ class PaginatorTest {
         fun `test paginator with multiple responses`() {
             val firstResponse = Response(200, "first", mapOf("link" to listOf("<second>; rel=\"next\"")))
 
-            val paginator = Paginator(client, firstResponse, getBody)
+            val paginator = Paginator(client, firstResponse, EMPTY_STRING, getBody)
             assertTrue(paginator.hasNext())
             assertEquals("first", paginator.next())
             assertTrue(paginator.hasNext())
@@ -60,7 +61,7 @@ class PaginatorTest {
         fun `test paginator with multiple responses and total results`() {
             val firstResponse = Response(200, "first", mapOf("link" to listOf("<second>; rel=\"next\""), "pagination-total-results" to listOf("2")))
 
-            val paginator = Paginator(client, firstResponse, getBody)
+            val paginator = Paginator(client, firstResponse, EMPTY_STRING, getBody)
             assertTrue(paginator.hasNext())
             assertEquals("first", paginator.next())
             assertTrue(paginator.hasNext())
@@ -73,7 +74,7 @@ class PaginatorTest {
         fun `test paginator as list`() {
             val firstResponse = Response(200, "first", mapOf("link" to listOf("<second>; rel=\"next\""), "pagination-total-results" to listOf("2")))
 
-            val paginator = Paginator(client, firstResponse, getBody)
+            val paginator = Paginator(client, firstResponse, EMPTY_STRING, getBody)
             val list = paginator.asSequence().toList()
             assertEquals(2, list.size)
             assertEquals("first", list[0])
@@ -87,7 +88,7 @@ class PaginatorTest {
         fun `test response paginator with one response`() {
             val firstResponse = Response(200, "first", emptyMap())
 
-            val paginator = ResponsePaginator(client, firstResponse, getBody)
+            val paginator = ResponsePaginator(client, firstResponse, EMPTY_STRING, getBody)
             assertTrue(paginator.hasNext())
             assertEquals("first", paginator.next().body)
             assertFalse(paginator.hasNext())
@@ -97,7 +98,7 @@ class PaginatorTest {
         fun `test response paginator with multiple responses`() {
             val firstResponse = Response(200, "first", mapOf("link" to listOf("<second>; rel=\"next\"")))
 
-            val paginator = ResponsePaginator(client, firstResponse, getBody)
+            val paginator = ResponsePaginator(client, firstResponse, EMPTY_STRING, getBody)
             assertTrue(paginator.hasNext())
             assertEquals("first", paginator.next().body)
             assertTrue(paginator.hasNext())
@@ -109,7 +110,7 @@ class PaginatorTest {
         fun `test response paginator with multiple responses and total results`() {
             val firstResponse = Response(200, "first", mapOf("link" to listOf("<second>; rel=\"next\""), "pagination-total-results" to listOf("2")))
 
-            val paginator = ResponsePaginator(client, firstResponse, getBody)
+            val paginator = ResponsePaginator(client, firstResponse, EMPTY_STRING, getBody)
             assertTrue(paginator.hasNext())
             assertEquals("first", paginator.next().body)
             assertTrue(paginator.hasNext())

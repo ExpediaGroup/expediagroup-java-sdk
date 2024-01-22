@@ -64,15 +64,16 @@ internal class FetchLinkState<T>(
         }
     }
 
-    private suspend fun FetchLinkState<T>.parseBody(response: HttpResponse): T = try {
-        getBody(response)
-    } catch (exception: JsonConvertException) {
-        if (exception.cause is MismatchedInputException && exception.cause?.message?.startsWith("No content to map due to end-of-input") == true) {
-            fallbackBody
-        } else {
-            throw exception
+    private suspend fun FetchLinkState<T>.parseBody(response: HttpResponse): T =
+        try {
+            getBody(response)
+        } catch (exception: JsonConvertException) {
+            if (exception.cause is MismatchedInputException && exception.cause?.message?.startsWith("No content to map due to end-of-input") == true) {
+                fallbackBody
+            } else {
+                throw exception
+            }
         }
-    }
 
     override fun hasNext(): Boolean {
         return true
