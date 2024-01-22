@@ -16,6 +16,7 @@
 package com.expediagroup.sdk.core.model.paging
 
 import com.expediagroup.sdk.core.client.Client
+import com.expediagroup.sdk.core.constant.ExceptionMessage
 import com.expediagroup.sdk.core.model.Response
 import com.fasterxml.jackson.databind.exc.MismatchedInputException
 import io.ktor.client.statement.HttpResponse
@@ -68,7 +69,7 @@ internal class FetchLinkState<T>(
         try {
             getBody(response)
         } catch (exception: JsonConvertException) {
-            if (exception.cause is MismatchedInputException && exception.cause?.message?.startsWith("No content to map due to end-of-input") == true) {
+            if (exception.cause is MismatchedInputException && exception.cause?.message?.startsWith(ExceptionMessage.NO_CONTENT_TO_MAP) == true) {
                 fallbackBody
             } else {
                 throw exception
