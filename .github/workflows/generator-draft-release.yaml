@@ -5,6 +5,8 @@ jobs:
   publish-release:
     runs-on: ubuntu-latest
     steps:
+      - name: Clean release tags
+        run: ./clean-release-tags.sh
       - name: Checkout
         uses: actions/checkout@v4
         with:
