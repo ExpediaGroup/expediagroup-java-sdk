@@ -23,6 +23,5 @@ on:
         default: false
 jobs:
   draft_release:
-    needs: [ generate ]
     secrets: inherit
     uses: ./.github/workflows/generator-draft-release.yaml
