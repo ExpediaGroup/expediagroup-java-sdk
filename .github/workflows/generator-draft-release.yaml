@@ -5,12 +5,12 @@ jobs:
   publish-release:
     runs-on: ubuntu-latest
     steps:
-      - name: Clean release tags
-        run: ./clean-release-tags.sh
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-tags: true
+      - name: Clean release tags
+        run: ./clean-release-tags.sh
       - name: Get latest tag
         run: |
           latest_tag=$(git show-ref -s "$(./get-latest-tag.sh)")
