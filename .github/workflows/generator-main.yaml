@@ -53,4 +53,5 @@ jobs:
   draft_release:
     if: ${{ github.event.inputs.production_release == 'true' }}
     needs: [ generate ]
+    secrets: inherit
     uses: ./.github/workflows/generator-draft-release.yaml
