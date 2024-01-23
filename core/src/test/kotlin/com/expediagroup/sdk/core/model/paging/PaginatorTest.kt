@@ -18,6 +18,8 @@ package com.expediagroup.sdk.core.model.paging
 import com.expediagroup.sdk.core.constant.Constant.EMPTY_STRING
 import com.expediagroup.sdk.core.model.Response
 import com.expediagroup.sdk.core.test.ClientFactory.createExpediaGroupClient
+import com.expediagroup.sdk.core.test.ClientFactory.createRapidClient
+import com.expediagroup.sdk.core.test.MockEngineFactory.createEmptyResponseEngine
 import com.expediagroup.sdk.core.test.TestConstants.SUCCESSFUL_DUMMY_REQUEST
 import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse
@@ -26,6 +28,8 @@ import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.ValueSource
 
 class PaginatorTest {
     companion object {
@@ -117,6 +121,20 @@ class PaginatorTest {
             assertEquals(SUCCESSFUL_DUMMY_REQUEST, paginator.next().body)
             assertFalse(paginator.hasNext())
             assertEquals(2, paginator.paginationTotalResults)
+        }
+
+        @ParameterizedTest
+        @ValueSource(strings = [EMPTY_STRING, "second", "some_value"])
+        fun `should return fallback value when next response body is empty`(fallbackBody: String) {
+            val client = createRapidClient(createEmptyResponseEngine())
+            val firstResponse = Response(200, "first", mapOf("link" to listOf("<second>; rel=\"next\""), "pagination-total-results" to listOf("2")))
+
+            val paginator = ResponsePaginator(client, firstResponse, fallbackBody, getBody)
+            assertTrue(paginator.hasNext())
+            assertEquals("first", paginator.next().body)
+            assertTrue(paginator.hasNext())
+            assertEquals(fallbackBody, paginator.next().body)
+            assertFalse(paginator.hasNext())
         }
     }
 }

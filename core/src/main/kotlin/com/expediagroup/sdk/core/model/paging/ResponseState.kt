@@ -16,11 +16,10 @@
 package com.expediagroup.sdk.core.model.paging
 
 import com.expediagroup.sdk.core.client.Client
-import com.expediagroup.sdk.core.constant.ExceptionMessage
 import com.expediagroup.sdk.core.model.Response
-import com.fasterxml.jackson.databind.exc.MismatchedInputException
 import io.ktor.client.statement.HttpResponse
-import io.ktor.serialization.JsonConvertException
+import io.ktor.util.InternalAPI
+import io.ktor.utils.io.ByteReadChannel
 import kotlinx.coroutines.runBlocking
 
 internal interface ResponseState<T> {
@@ -65,16 +64,13 @@ internal class FetchLinkState<T>(
         }
     }
 
-    private suspend fun FetchLinkState<T>.parseBody(response: HttpResponse): T =
-        try {
-            getBody(response)
-        } catch (exception: JsonConvertException) {
-            if (exception.cause is MismatchedInputException && exception.cause?.message?.startsWith(ExceptionMessage.NO_CONTENT_TO_MAP) == true) {
-                fallbackBody
-            } else {
-                throw exception
-            }
-        }
+    @OptIn(InternalAPI::class)
+    private suspend fun parseBody(response: HttpResponse): T {
+        // TODO: Find out if the body is empty
+        val byteReadChannel: ByteReadChannel = response.content
+        val body: String = byteReadChannel.readRemaining().readText()
+        return if (body.isEmpty()) fallbackBody else getBody(response)
+    }
 
     override fun hasNext(): Boolean {
         return true
