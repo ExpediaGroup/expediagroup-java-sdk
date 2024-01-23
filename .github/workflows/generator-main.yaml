@@ -22,6 +22,35 @@ on:
         type: boolean
         default: false
 jobs:
+  download_specs:
+    uses: ./.github/workflows/generator-download-specs.yaml
+    with:
+      url: ${{ github.event.inputs.specs_url }}
+  transform_specs:
+    needs: [ download_specs ]
+    uses: ./.github/workflows/generator-transform-specs.yaml
+    with:
+      configurations: -th -te ${{ github.event.inputs.endpoint_prefix }} -tt ${{ github.event.inputs.name }}
+  generate:
+    needs: [ transform_specs ]
+    uses: ./.github/workflows/generator-generate.yaml
+    with:
+      name: ${{ github.event.inputs.name }}
+      version: ${{ github.event.inputs.version }}
+  publish_sources:
+    if: ${{ github.event.inputs.production_release == 'true' }}
+    needs: [ generate ]
+    uses: ./.github/workflows/generator-publish-sources.yaml
+    with:
+      name: ${{ github.event.inputs.name }}
+      version: ${{ github.event.inputs.version }}
+  publish_artifact:
+    needs: [ generate ]
+    uses: ./.github/workflows/generator-publish-artifact.yaml
+    secrets: inherit
+    with:
+      production_release: ${{ github.event.inputs.production_release == 'true' }}
   draft_release:
+    needs: [ generate ]
     secrets: inherit
     uses: ./.github/workflows/generator-draft-release.yaml
