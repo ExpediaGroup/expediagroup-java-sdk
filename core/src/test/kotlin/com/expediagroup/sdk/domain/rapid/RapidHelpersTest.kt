@@ -118,7 +118,7 @@ class RapidHelpersTest {
     inner class TestExtractRoomBookingId {
         @Test
         fun `Verify extractRoomBookingId returns roomId when present`() {
-            assertEquals("123-456", rapidHelpers.extractRoomBookingId("https://www.example.com/rooms/123-456?token=abc"))
+            assertEquals("abc-123-xyz", rapidHelpers.extractRoomBookingId("https://www.example.com/rooms/abc-123-xyz?token=abc"))
         }
 
         @Test
@@ -134,8 +134,8 @@ class RapidHelpersTest {
             Response<String>(
                 200,
                 "body",
-                mapOf("transaction-id" to listOf("123-456"))
-            ).let { assertEquals("123-456", rapidHelpers.extractTransactionId(it)) }
+                mapOf("transaction-id" to listOf("abc-123-xyz"))
+            ).let { assertEquals("abc-123-xyz", rapidHelpers.extractTransactionId(it)) }
         }
 
         @Test
