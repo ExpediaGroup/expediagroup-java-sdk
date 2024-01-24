@@ -80,10 +80,10 @@ internal class FetchLinkState<T>(
 
     @OptIn(InternalAPI::class)
     private suspend fun decodeBody(response: HttpResponse): String {
-        val maxCopiedBytes = 128
-        val buffer = ByteBuffer.allocate(maxCopiedBytes)
-        val numberOfBytesRead = response.content.peekTo(Memory(buffer), 0, 0, 0, maxCopiedBytes.toLong())
-        val byteReadChannel = ByteReadChannel(buffer.moveToByteArray(), 0, numberOfBytesRead.toInt())
+        val bufferSize = response.content.availableForRead
+        val buffer = ByteBuffer.allocate(bufferSize)
+        val numberOfBytesRead = response.content.peekTo(Memory(buffer), 0, 0, 0, bufferSize.toLong()).toInt()
+        val byteReadChannel = ByteReadChannel(buffer.moveToByteArray(), 0, numberOfBytesRead)
         val decodedByteReadChannel = if (response.contentEncoding().equals(HeaderValue.GZIP)) client.httpClient.decode(byteReadChannel) else byteReadChannel
         val bodyString: String = decodedByteReadChannel.readRemaining().readText()
         return bodyString
