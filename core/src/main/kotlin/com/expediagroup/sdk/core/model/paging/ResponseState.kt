@@ -72,12 +72,12 @@ internal class FetchLinkState<T>(
 
     @OptIn(InternalAPI::class)
     private suspend fun parseBody(response: HttpResponse): T {
-        val buffer = ByteBuffer.allocate(1024)
-        val numberOfBytes = response.content.peekTo(Memory(buffer), 0, 0, 0, 1024)
+        val buffer = ByteBuffer.allocate(128)
+        val numberOfBytes = response.content.peekTo(Memory(buffer), 0, 0, 0, 128)
         val byteReadChannel = ByteReadChannel(buffer.moveToByteArray(), 0, numberOfBytes.toInt())
         val decodedByteReadChannel: ByteReadChannel = if (response.contentEncoding().equals(HeaderValue.GZIP)) client.httpClient.decode(byteReadChannel) else byteReadChannel
-        val body: String = decodedByteReadChannel.readRemaining().readText()
-        return if (body.isEmpty()) fallbackBody else getBody(response)
+        val bodyString: String = decodedByteReadChannel.readRemaining().readText()
+        return if (bodyString.isEmpty()) fallbackBody else getBody(response)
     }
 
     override fun hasNext(): Boolean {
