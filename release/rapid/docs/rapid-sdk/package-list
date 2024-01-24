@@ -1,5 +1,11 @@
 $dokka.format:gfm-v1
 $dokka.linkExtension:md
+$dokka.location:com.expediagroup.sdk.domain.rapid////PointingToDeclaration/rapid-sdk/com.expediagroup.sdk.domain.rapid/index.md
+$dokka.location:com.expediagroup.sdk.domain.rapid/RapidHelpers///PointingToDeclaration/rapid-sdk/com.expediagroup.sdk.domain.rapid/-rapid-helpers/index.md
+$dokka.location:com.expediagroup.sdk.domain.rapid/RapidHelpers/RapidHelpers/#com.expediagroup.sdk.core.client.BaseRapidClient/PointingToDeclaration/rapid-sdk/com.expediagroup.sdk.domain.rapid/-rapid-helpers/-rapid-helpers.md
+$dokka.location:com.expediagroup.sdk.domain.rapid/RapidHelpers/extractRoomBookingId/#kotlin.String/PointingToDeclaration/rapid-sdk/com.expediagroup.sdk.domain.rapid/-rapid-helpers/extract-room-booking-id.md
+$dokka.location:com.expediagroup.sdk.domain.rapid/RapidHelpers/extractToken/#kotlin.String/PointingToDeclaration/rapid-sdk/com.expediagroup.sdk.domain.rapid/-rapid-helpers/extract-token.md
+$dokka.location:com.expediagroup.sdk.domain.rapid/RapidHelpers/extractTransactionId/#com.expediagroup.sdk.core.model.Response[TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration/rapid-sdk/com.expediagroup.sdk.domain.rapid/-rapid-helpers/extract-transaction-id.md
 $dokka.location:com.expediagroup.sdk.rapid.client////PointingToDeclaration/rapid-sdk/com.expediagroup.sdk.rapid.client/index.md
 $dokka.location:com.expediagroup.sdk.rapid.client/RapidClient.Builder///PointingToDeclaration/rapid-sdk/com.expediagroup.sdk.rapid.client/-rapid-client/-builder/index.md
 $dokka.location:com.expediagroup.sdk.rapid.client/RapidClient.Builder/RapidClient.Builder/#/PointingToDeclaration/rapid-sdk/com.expediagroup.sdk.rapid.client/-rapid-client/-builder/-rapid-client.-builder.md
@@ -2366,6 +2372,7 @@ $dokka.location:com.expediagroup.sdk.rapid.models/View///PointingToDeclaration/
 $dokka.location:com.expediagroup.sdk.rapid.models/View/View/#kotlin.String?#kotlin.String?/PointingToDeclaration/rapid-sdk/com.expediagroup.sdk.rapid.models/-view/-view.md
 $dokka.location:com.expediagroup.sdk.rapid.models/View/getId/#/PointingToDeclaration/rapid-sdk/com.expediagroup.sdk.rapid.models/-view/get-id.md
 $dokka.location:com.expediagroup.sdk.rapid.models/View/getName/#/PointingToDeclaration/rapid-sdk/com.expediagroup.sdk.rapid.models/-view/get-name.md
+com.expediagroup.sdk.domain.rapid
 com.expediagroup.sdk.rapid.client
 com.expediagroup.sdk.rapid.models
 com.expediagroup.sdk.rapid.models.exception

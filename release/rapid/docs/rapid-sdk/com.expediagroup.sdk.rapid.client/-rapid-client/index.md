@@ -15,7 +15,7 @@ public final class [RapidClient](index.md) extends BaseRapidClient
 
 | Name | Summary |
 |---|---|
-| [helpers](index.md#-1924658552%2FProperties%2F700308213) | [JVM]<br>@[JvmField](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-field/index.html)()<br>public final RapidHelpers[helpers](index.md#-1924658552%2FProperties%2F700308213) |
+| [helpers](index.md#-1924658552%2FProperties%2F700308213) | [JVM]<br>@[JvmField](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-field/index.html)()<br>public final [RapidHelpers](../../com.expediagroup.sdk.domain.rapid/-rapid-helpers/index.md)[helpers](index.md#-1924658552%2FProperties%2F700308213) |
 
 ## Functions
 

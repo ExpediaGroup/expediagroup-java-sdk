@@ -17,6 +17,7 @@ package com.expediagroup.sdk.domain.rapid
 
 import com.expediagroup.sdk.core.client.BaseRapidClient
 import com.expediagroup.sdk.core.configuration.RapidClientConfiguration
+import com.expediagroup.sdk.core.model.Response
 import io.ktor.client.statement.HttpResponse
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
@@ -110,6 +111,40 @@ class RapidHelpersTest {
         @Test
         fun `extractToken should return an empty string when token is empty in the middle of other parameters`() {
             assertEquals("", rapidHelpers.extractToken("https://www.example.com?foo=bar&token=&baz=qux"))
+        }
+    }
+
+    @Nested
+    inner class TestExtractRoomBookingId {
+        @Test
+        fun `Verify extractRoomBookingId returns roomId when present`() {
+            assertEquals("abc-123-xyz", rapidHelpers.extractRoomBookingId("https://www.example.com/rooms/abc-123-xyz?token=abc"))
+        }
+
+        @Test
+        fun `Verify extractRoomBookingId returns null when roomId is not present`() {
+            assertNull(rapidHelpers.extractRoomBookingId("https://www.example.com?token=abc"))
+        }
+    }
+
+    @Nested
+    inner class TestExtractTransactionId {
+        @Test
+        fun `Verify extractTransactionId returns transactionId when present`() {
+            Response<String>(
+                200,
+                "body",
+                mapOf("transaction-id" to listOf("abc-123-xyz"))
+            ).let { assertEquals("abc-123-xyz", rapidHelpers.extractTransactionId(it)) }
+        }
+
+        @Test
+        fun `Verify extractTransactionId returns null when transactionId is not present`() {
+            Response<String>(
+                200,
+                "body",
+                mapOf("some-header" to listOf("some data"))
+            ).let { assertNull(rapidHelpers.extractTransactionId(it)) }
         }
     }
 }

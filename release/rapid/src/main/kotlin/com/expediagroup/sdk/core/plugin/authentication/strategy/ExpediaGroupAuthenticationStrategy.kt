@@ -59,7 +59,7 @@ internal class ExpediaGroupAuthenticationStrategy(
         }
     }
 
-    override fun isTokenAboutToExpire(): Boolean = bearerTokenStorage.isAboutToExpire()
+    override fun isTokenAboutToExpire(): Boolean = bearerTokenStorage.isAboutToExpire().also { if (it) log.info(LoggingMessage.TOKEN_EXPIRED) }
 
     override fun renewToken() {
         val httpClient = httpClientProvider()
@@ -128,7 +128,6 @@ internal class ExpediaGroupAuthenticationStrategy(
         }
     }
 
-    //
     internal data class TokenResponse(
         val accessToken: String,
         val expiresIn: Int
