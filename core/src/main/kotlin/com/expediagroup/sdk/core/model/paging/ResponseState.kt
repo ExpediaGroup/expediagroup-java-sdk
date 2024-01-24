@@ -16,10 +16,17 @@
 package com.expediagroup.sdk.core.model.paging
 
 import com.expediagroup.sdk.core.client.Client
+import com.expediagroup.sdk.core.constant.HeaderValue
 import com.expediagroup.sdk.core.model.Response
+import com.expediagroup.sdk.core.plugin.logging.GZipEncoder.decode
+import com.expediagroup.sdk.core.plugin.logging.contentEncoding
 import io.ktor.client.statement.HttpResponse
 import io.ktor.util.InternalAPI
+import io.ktor.util.moveToByteArray
+import io.ktor.utils.io.ByteReadChannel
+import io.ktor.utils.io.bits.Memory
 import kotlinx.coroutines.runBlocking
+import java.nio.ByteBuffer
 
 internal interface ResponseState<T> {
     fun getNextResponse(): Response<T>
@@ -65,7 +72,12 @@ internal class FetchLinkState<T>(
 
     @OptIn(InternalAPI::class)
     private suspend fun parseBody(response: HttpResponse): T {
-        return if (response.content.isClosedForRead) fallbackBody else getBody(response)
+        val buffer = ByteBuffer.allocate(1024)
+        val numberOfBytes = response.content.peekTo(Memory(buffer), 0, 0, 0, 1024)
+        val byteReadChannel = ByteReadChannel(buffer.moveToByteArray(), 0, numberOfBytes.toInt())
+        val decodedByteReadChannel: ByteReadChannel = if (response.contentEncoding().equals(HeaderValue.GZIP)) client.httpClient.decode(byteReadChannel) else byteReadChannel
+        val body: String = decodedByteReadChannel.readRemaining().readText()
+        return if (body.isEmpty()) fallbackBody else getBody(response)
     }
 
     override fun hasNext(): Boolean {
