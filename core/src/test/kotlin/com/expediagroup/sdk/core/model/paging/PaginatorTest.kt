@@ -19,7 +19,7 @@ import com.expediagroup.sdk.core.constant.Constant.EMPTY_STRING
 import com.expediagroup.sdk.core.model.Response
 import com.expediagroup.sdk.core.test.ClientFactory.createExpediaGroupClient
 import com.expediagroup.sdk.core.test.ClientFactory.createRapidClient
-import com.expediagroup.sdk.core.test.MockEngineFactory.createEmptyResponseEngine
+import com.expediagroup.sdk.core.test.MockEngineFactory.createGzipEncodedEmptyResponseEngine
 import com.expediagroup.sdk.core.test.TestConstants.SUCCESSFUL_DUMMY_REQUEST
 import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse
@@ -126,7 +126,7 @@ class PaginatorTest {
         @ParameterizedTest
         @ValueSource(strings = [EMPTY_STRING, "second", "some_value"])
         fun `should return fallback value when next response body is empty`(fallbackBody: String) {
-            val client = createRapidClient(createEmptyResponseEngine())
+            val client = createRapidClient(createGzipEncodedEmptyResponseEngine())
             val firstResponse = Response(200, "first", mapOf("link" to listOf("<second>; rel=\"next\""), "pagination-total-results" to listOf("2")))
 
             val paginator = ResponsePaginator(client, firstResponse, fallbackBody, getBody)

@@ -19,7 +19,6 @@ import com.expediagroup.sdk.core.client.Client
 import com.expediagroup.sdk.core.model.Response
 import io.ktor.client.statement.HttpResponse
 import io.ktor.util.InternalAPI
-import io.ktor.utils.io.ByteReadChannel
 import kotlinx.coroutines.runBlocking
 
 internal interface ResponseState<T> {
@@ -66,10 +65,7 @@ internal class FetchLinkState<T>(
 
     @OptIn(InternalAPI::class)
     private suspend fun parseBody(response: HttpResponse): T {
-        // TODO: Find out if the body is empty
-        val byteReadChannel: ByteReadChannel = response.content
-        val body: String = byteReadChannel.readRemaining().readText()
-        return if (body.isEmpty()) fallbackBody else getBody(response)
+        return if (response.content.isClosedForRead) fallbackBody else getBody(response)
     }
 
     override fun hasNext(): Boolean {
