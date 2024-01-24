@@ -64,18 +64,18 @@ internal class FetchLinkState<T>(
 ) : ResponseState<T> {
     override fun getNextResponse(): Response<T> {
         return runBlocking {
-            val response: HttpResponse = client.performGet(link)
-            val body: T = parseBody(response)
+            val response = client.performGet(link)
+            val body = parseBody(response)
             Response(response.status.value, body, response.headers.entries())
         }
     }
 
-    private suspend fun parseBody(response: HttpResponse): T {
-        return if (decodeBody(response).isEmpty()) fallbackBody else getBody(response)
-    }
-
     override fun hasNext(): Boolean {
         return true
+    }
+
+    private suspend fun parseBody(response: HttpResponse): T {
+        return if (decodeBody(response).isEmpty()) fallbackBody else getBody(response)
     }
 
     @OptIn(InternalAPI::class)
