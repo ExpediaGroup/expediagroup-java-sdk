@@ -70,18 +70,23 @@ internal class FetchLinkState<T>(
         }
     }
 
-    @OptIn(InternalAPI::class)
     private suspend fun parseBody(response: HttpResponse): T {
-        val buffer = ByteBuffer.allocate(128)
-        val numberOfBytes = response.content.peekTo(Memory(buffer), 0, 0, 0, 128)
-        val byteReadChannel = ByteReadChannel(buffer.moveToByteArray(), 0, numberOfBytes.toInt())
-        val decodedByteReadChannel: ByteReadChannel = if (response.contentEncoding().equals(HeaderValue.GZIP)) client.httpClient.decode(byteReadChannel) else byteReadChannel
-        val bodyString: String = decodedByteReadChannel.readRemaining().readText()
-        return if (bodyString.isEmpty()) fallbackBody else getBody(response)
+        return if (decodeBody(response).isEmpty()) fallbackBody else getBody(response)
     }
 
     override fun hasNext(): Boolean {
         return true
+    }
+
+    @OptIn(InternalAPI::class)
+    private suspend fun decodeBody(response: HttpResponse): String {
+        val maxCopiedBytes = 128
+        val buffer = ByteBuffer.allocate(maxCopiedBytes)
+        val numberOfBytesRead = response.content.peekTo(Memory(buffer), 0, 0, 0, maxCopiedBytes.toLong())
+        val byteReadChannel = ByteReadChannel(buffer.moveToByteArray(), 0, numberOfBytesRead.toInt())
+        val decodedByteReadChannel = if (response.contentEncoding().equals(HeaderValue.GZIP)) client.httpClient.decode(byteReadChannel) else byteReadChannel
+        val bodyString: String = decodedByteReadChannel.readRemaining().readText()
+        return bodyString
     }
 }
 

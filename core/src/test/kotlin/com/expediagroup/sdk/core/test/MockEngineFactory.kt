@@ -130,7 +130,7 @@ object MockEngineFactory {
     fun createEmptyResponseEngine(): MockEngine =
         MockEngine {
             respond(
-                content = EMPTY_STRING,
+                content = EMPTY_STRING
             )
         }
 
