@@ -101,7 +101,7 @@
 
         <!-- Shared Library Versions -->
         <airline.version>3.0.0</airline.version>
-        <assertj.version>3.25.1</assertj.version>
+        <assertj.version>3.25.2</assertj.version>
         <junit5.version>5.10.1</junit5.version>
         <mockk.version>1.13.9</mockk.version>
         <mockito.version>5.10.0</mockito.version>
