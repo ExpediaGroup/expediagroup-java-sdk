@@ -79,10 +79,10 @@ import {{import}}
     /**
      * {{{summary}}}
      * {{{notes}}}
-    {{#queryParams}} * @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}
-    {{/queryParams}}{{#bodyParams}} * @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}
-    {{/bodyParams}} {{#formParams}} * @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}
-    {{/formParams}}{{#throwsExceptions}}{{/throwsExceptions}}
+{{#allParams}}     * @param {{{paramName}}} {{{description}}}{{^required}} (optional{{#defaultValue}}, defaults to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (defaults to {{{.}}}){{/defaultValue}}{{/required}}
+{{/allParams}}
+     * @param transactionId The transaction id for the request (optional, defaults to a new UUID)
+     {{#throwsExceptions}}{{/throwsExceptions}}
      * @return {{{returnType}}}{{^returnType}}Nothing{{/returnType}}
      */
     @Throws(
@@ -96,10 +96,10 @@ import {{import}}
     /**
      * {{{summary}}}
      * {{{notes}}}
-    {{#queryParams}} * @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}
-    {{/queryParams}}{{#bodyParams}} * @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}
-    {{/bodyParams}} {{#formParams}} * @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}
-    {{/formParams}}{{#throwsExceptions}}{{/throwsExceptions}}
+{{#allParams}}     * @param {{{paramName}}} {{{description}}}{{^required}} (optional{{#defaultValue}}, defaults to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (defaults to {{{.}}}){{/defaultValue}}{{/required}}
+{{/allParams}}
+     * @param transactionId The transaction id for the request (optional, defaults to a new UUID)
+     {{#throwsExceptions}}{{/throwsExceptions}}
      * @return a [Response] object with a body of type {{{returnType}}}{{^returnType}}Nothing{{/returnType}}
      */
     @Throws(
