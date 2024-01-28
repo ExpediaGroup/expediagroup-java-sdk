@@ -77,20 +77,16 @@ import {{import}}
     {{^isKotlin}}
 
     /**
-    * {{summary}}
-    * {{notes}}
+     * {{{summary}}}
+     * {{{notes}}}
     {{#queryParams}} * @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}
     {{/queryParams}}{{#bodyParams}} * @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}
     {{/bodyParams}} {{#formParams}} * @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}
-    {{/formParams}}{{#responses}}{{^is2xx}}* @throws ExpediaGroupApi{{{dataType}}}Exception{{/is2xx}}
-    {{/responses}}* @return {{{returnType}}}{{^returnType}}Nothing{{/returnType}}
-    */
+    {{/formParams}}{{#throwsExceptions}}{{/throwsExceptions}}
+     * @return {{{returnType}}}{{^returnType}}Nothing{{/returnType}}
+     */
     @Throws(
-    {{#responses}}
-        {{^is2xx}}
-            ExpediaGroupApi{{{dataType}}}Exception::class{{^-last}},{{/-last}}
-        {{/is2xx}}
-    {{/responses}}
+        {{#throwsExceptionsClasses}}{{/throwsExceptionsClasses}}
     )
     @JvmOverloads
     fun {{operationId}}({{>client/apiParamsDecleration}}) : {{{returnType}}}{{^returnType}}Nothing{{/returnType}} {
@@ -98,20 +94,16 @@ import {{import}}
     }
 
     /**
-    * {{summary}}
-    * {{notes}}
+     * {{{summary}}}
+     * {{{notes}}}
     {{#queryParams}} * @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}
     {{/queryParams}}{{#bodyParams}} * @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}
     {{/bodyParams}} {{#formParams}} * @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}
-    {{/formParams}}{{#responses}}{{^is2xx}}* @throws ExpediaGroupApi{{{dataType}}}Exception{{/is2xx}}
-    {{/responses}}* @return a [Response] object with a body of type {{{returnType}}}{{^returnType}}Nothing{{/returnType}}
-    */
+    {{/formParams}}{{#throwsExceptions}}{{/throwsExceptions}}
+     * @return a [Response] object with a body of type {{{returnType}}}{{^returnType}}Nothing{{/returnType}}
+     */
     @Throws(
-    {{#responses}}
-        {{^is2xx}}
-            ExpediaGroupApi{{{dataType}}}Exception::class{{^-last}},{{/-last}}
-        {{/is2xx}}
-    {{/responses}}
+        {{#throwsExceptionsClasses}}{{/throwsExceptionsClasses}}
     )
     @JvmOverloads
     fun {{operationId}}WithResponse({{>client/apiParamsDecleration}}) : {{#returnType}}Response<{{{returnType}}}>{{/returnType}}{{^returnType}}Response<Nothing>{{/returnType}} {
