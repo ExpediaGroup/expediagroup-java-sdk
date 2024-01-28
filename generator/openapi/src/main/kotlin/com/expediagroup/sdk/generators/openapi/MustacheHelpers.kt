@@ -17,7 +17,6 @@ package com.expediagroup.sdk.generators.openapi
 
 import com.samskivert.mustache.Mustache
 import org.openapitools.codegen.CodegenModel
-import org.openapitools.codegen.CodegenOperation
 import org.openapitools.codegen.CodegenProperty
 import org.openapitools.codegen.model.OperationsMap
 
@@ -61,13 +60,7 @@ val mustacheHelpers = mapOf(
     },
     "throwsExceptions" to {
         Mustache.Lambda { fragment, writer ->
-            val dataTypes: MutableSet<String> = mutableSetOf()
-            val operation: CodegenOperation = fragment.context() as CodegenOperation
-            operation.responses.forEach { response ->
-                response.takeIf { !it.is2xx && !dataTypes.contains(it.dataType) }?.dataType?.also {
-                    dataTypes.add(it)
-                }
-            }
+            val dataTypes: Set<String> = collectDataTypes(fragment)
             val stringBuilder = StringBuilder()
             dataTypes.forEachIndexed { index, dataType ->
                 if (index > 0) stringBuilder.append(" ".repeat(5))
@@ -79,13 +72,7 @@ val mustacheHelpers = mapOf(
     },
     "throwsExceptionsClasses" to {
         Mustache.Lambda { fragment, writer ->
-            val dataTypes: MutableSet<String> = mutableSetOf()
-            val operation: CodegenOperation = fragment.context() as CodegenOperation
-            operation.responses.forEach { response ->
-                response.takeIf { !it.is2xx && !dataTypes.contains(it.dataType) }?.dataType?.also {
-                    dataTypes.add(it)
-                }
-            }
+            val dataTypes: Set<String> = collectDataTypes(fragment)
             val stringBuilder = StringBuilder()
             dataTypes.forEachIndexed { index, dataType ->
                 if (index > 0) stringBuilder.append(" ".repeat(8))
