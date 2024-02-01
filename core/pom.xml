@@ -156,8 +156,8 @@
                             <version>${detekt.version}</version>
                         </dependency>
                         <dependency>
-                            <groupId>com.pinterest</groupId>
-                            <artifactId>ktlint</artifactId>
+                            <groupId>com.pinterest.ktlint</groupId>
+                            <artifactId>ktlint-cli</artifactId>
                             <version>${ktlint.version}</version>
                         </dependency>
                     </dependencies>
