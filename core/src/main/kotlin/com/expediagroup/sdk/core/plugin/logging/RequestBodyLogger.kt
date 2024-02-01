@@ -50,9 +50,10 @@ internal class RequestBodyLogger {
         private suspend fun PipelineContext<Any, HttpRequestBuilder>.getBody(): String {
             val body = context.body
             if (body is OutputStreamContent) {
-                val channel = ByteChannel()
-                body.writeTo(channel)
-                return channel.readRemaining().readText()
+                with(ByteChannel()) {
+                    body.writeTo(this)
+                    return readRemaining().readText()
+                }
             }
             return body.toString()
         }
