@@ -23,4 +23,6 @@ internal object HeaderKey {
     const val PAGINATION_TOTAL_RESULTS = "pagination-total-results"
 
     const val LINK = "link"
+
+    const val TRANSACTION_ID = "transaction-id"
 }
