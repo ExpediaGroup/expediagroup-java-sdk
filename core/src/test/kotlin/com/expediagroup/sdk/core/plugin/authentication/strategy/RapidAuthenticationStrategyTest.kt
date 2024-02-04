@@ -16,7 +16,6 @@
 package com.expediagroup.sdk.core.plugin.authentication.strategy
 
 import com.expediagroup.sdk.core.constant.Authentication.EAN
-import com.expediagroup.sdk.core.constant.HeaderKey
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationPluginTest
 import com.expediagroup.sdk.core.plugin.authentication.getAuthenticationStrategy
 import com.expediagroup.sdk.core.test.ClientFactory
@@ -24,6 +23,7 @@ import com.expediagroup.sdk.core.test.TestConstants
 import com.expediagroup.sdk.core.test.TestConstants.ANY_URL
 import io.ktor.client.request.get
 import io.ktor.client.statement.request
+import io.ktor.http.HttpHeaders
 import io.mockk.mockkObject
 import io.mockk.verify
 import kotlinx.coroutines.delay
@@ -40,7 +40,7 @@ internal class RapidAuthenticationStrategyTest : AuthenticationPluginTest() {
             val request = httpClient.get(ANY_URL)
 
             assertThat(
-                request.request.headers[HeaderKey.AUTHORIZATION]!!.startsWith("$EAN apikey=${TestConstants.CLIENT_KEY_TEST_CREDENTIAL},signature=")
+                request.request.headers[HttpHeaders.Authorization]!!.startsWith("$EAN apikey=${TestConstants.CLIENT_KEY_TEST_CREDENTIAL},signature=")
             )
         }
     }
@@ -54,8 +54,8 @@ internal class RapidAuthenticationStrategyTest : AuthenticationPluginTest() {
             delay(1000)
             val secondRequest = httpClient.get(ANY_URL)
 
-            val firstRequestAuth = firstRequest.request.headers[HeaderKey.AUTHORIZATION]
-            val secondRequestAuth = secondRequest.request.headers[HeaderKey.AUTHORIZATION]
+            val firstRequestAuth = firstRequest.request.headers[HttpHeaders.Authorization]
+            val secondRequestAuth = secondRequest.request.headers[HttpHeaders.Authorization]
 
             assertThat(firstRequestAuth).isNotNull
             assertThat(secondRequestAuth).isNotNull
