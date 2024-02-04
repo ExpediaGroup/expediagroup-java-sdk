@@ -34,8 +34,10 @@ class DefaultEnvironmentProvider(
 
     @Suppress("MemberVisibilityCanBePrivate")
     override fun HttpRequestBuilder.appendHeaders(transactionId: UUID) {
-        headers.append("x-sdk-title", properties["sdk-title"]!!)
-        headers.append("transaction-id", transactionId.toString())
-        headers.append("User-agent", userAgent)
+        with(headers) {
+            append("User-agent", userAgent)
+            append("x-sdk-title", properties["sdk-title"]!!)
+            append("transaction-id", transactionId.toString())
+        }
     }
 }
