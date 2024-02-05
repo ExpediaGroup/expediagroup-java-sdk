@@ -15,7 +15,6 @@
  */
 package com.expediagroup.sdk.core.plugin.encoding
 
-import com.expediagroup.sdk.core.constant.HeaderKey
 import com.expediagroup.sdk.core.constant.HeaderValue.GZIP
 import com.expediagroup.sdk.core.test.ClientFactory
 import com.expediagroup.sdk.core.test.TestConstants.ANY_URL
@@ -46,7 +45,7 @@ internal class EncodingPluginTest {
             val httpClient = ClientFactory.createExpediaGroupClient().httpClient
             val testRequest = httpClient.get(ANY_URL)
 
-            Assertions.assertThat(testRequest.request.headers[HeaderKey.ACCEPT_ENCODING]).isEqualTo(
+            Assertions.assertThat(testRequest.request.headers[HttpHeaders.AcceptEncoding]).isEqualTo(
                 GZIP
             )
         }

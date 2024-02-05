@@ -18,7 +18,6 @@ package com.expediagroup.sdk.core.test
 import com.expediagroup.sdk.core.configuration.provider.ExpediaGroupConfigurationProvider
 import com.expediagroup.sdk.core.constant.Authentication.BEARER
 import com.expediagroup.sdk.core.constant.Constant.EMPTY_STRING
-import com.expediagroup.sdk.core.constant.HeaderKey
 import com.expediagroup.sdk.core.constant.HeaderValue
 import com.expediagroup.sdk.core.model.exception.service.ExpediaGroupAuthException
 import com.expediagroup.sdk.core.test.TestConstants.ACCESS_TOKEN
@@ -149,9 +148,9 @@ object MockEngineFactory {
 
     private fun isBadRequest(request: HttpRequestData): Boolean = request.attributes.getOrNull(AttributeKey(BAD_REQUEST_ATTRIBUTE)) != null
 
-    private fun isValidCredentialsRequest(request: HttpRequestData) = request.headers[HeaderKey.AUTHORIZATION] == "$BASIC ${TestConstants.ENCODED_CREDENTIALS}"
+    private fun isValidCredentialsRequest(request: HttpRequestData) = request.headers[HttpHeaders.Authorization] == "$BASIC ${TestConstants.ENCODED_CREDENTIALS}"
 
-    private fun isAuthorizedHeader(request: HttpRequestData): Boolean = request.headers[HeaderKey.AUTHORIZATION] == "$BEARER $ACCESS_TOKEN"
+    private fun isAuthorizedHeader(request: HttpRequestData): Boolean = request.headers[HttpHeaders.Authorization] == "$BEARER $ACCESS_TOKEN"
 
     private fun MockRequestHandleScope.tokenResponse(httpStatusCode: HttpStatusCode): HttpResponseData =
         respond(

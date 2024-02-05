@@ -15,8 +15,10 @@
  */
 package com.expediagroup.sdk.core.client
 
+import com.expediagroup.sdk.core.constant.HeaderKey
 import com.expediagroup.sdk.core.model.Properties
 import io.ktor.client.request.HttpRequestBuilder
+import io.ktor.http.HttpHeaders
 import java.util.UUID
 
 interface EnvironmentProvider {
@@ -34,8 +36,10 @@ class DefaultEnvironmentProvider(
 
     @Suppress("MemberVisibilityCanBePrivate")
     override fun HttpRequestBuilder.appendHeaders(transactionId: UUID) {
-        headers.append("x-sdk-title", properties["sdk-title"]!!)
-        headers.append("transaction-id", transactionId.toString())
-        headers.append("User-agent", userAgent)
+        with(headers) {
+            append(HttpHeaders.UserAgent, userAgent)
+            append(HeaderKey.X_SDK_TITLE, properties["sdk-title"]!!)
+            append(HeaderKey.TRANSACTION_ID, transactionId.toString())
+        }
     }
 }
