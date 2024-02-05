@@ -13,14 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.constant
+package com.expediagroup.sdk.generators.openapi
 
-internal object HeaderKey {
-    const val PAGINATION_TOTAL_RESULTS = "pagination-total-results"
+import com.samskivert.mustache.Template
+import org.openapitools.codegen.CodegenOperation
 
-    const val LINK = "link"
-
-    const val TRANSACTION_ID = "transaction-id"
-
-    const val X_SDK_TITLE = "x-sdk-title"
+internal fun collectDataTypes(fragment: Template.Fragment): Set<String> {
+    val operation: CodegenOperation = fragment.context() as CodegenOperation
+    return operation.responses.filter { !it.is2xx }.map { it.dataType }.toSet()
 }
