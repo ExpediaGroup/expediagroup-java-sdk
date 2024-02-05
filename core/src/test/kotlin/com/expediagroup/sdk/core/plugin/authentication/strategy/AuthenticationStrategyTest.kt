@@ -17,10 +17,9 @@ package com.expediagroup.sdk.core.plugin.authentication.strategy
 
 import com.expediagroup.sdk.core.configuration.Credentials
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationConfiguration
+import com.expediagroup.sdk.core.test.ClientFactory.createExpediaGroupClient
 import com.expediagroup.sdk.core.test.TestConstants
-import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
-import io.ktor.client.engine.okhttp.OkHttp
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -40,7 +39,7 @@ internal class AuthenticationStrategyTest {
                     "authEndpoint"
                 )
 
-            val strategy = AuthenticationStrategy.from(configuration) { HttpClient(OkHttp.create()) }
+            val strategy = AuthenticationStrategy.from(configuration, createExpediaGroupClient())
             assertThat(strategy is ExpediaGroupAuthenticationStrategy)
         }
     }
