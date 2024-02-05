@@ -37,7 +37,7 @@ internal class DefaultHttpHandler(
         link: String
     ): HttpResponse {
         return httpClient.request {
-            method = HttpMethod.parse("GET")
+            method = HttpMethod.Get
             url(link)
             appendHeaders(UUID.randomUUID())
         }
