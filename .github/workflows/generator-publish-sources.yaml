@@ -41,7 +41,7 @@ jobs:
 
           cp -r ./docs ../../release/"${{github.event.inputs.name}}"/docs
       - name: Create PR
-        uses: peter-evans/create-pull-request@v5
+        uses: peter-evans/create-pull-request@v6
         with:
           branch: "${{github.event.inputs.name}}-${{github.event.inputs.version}}"
           commit-message: "chore: Publish ${{github.event.inputs.name}} [${{github.event.inputs.version}}] SDK"
