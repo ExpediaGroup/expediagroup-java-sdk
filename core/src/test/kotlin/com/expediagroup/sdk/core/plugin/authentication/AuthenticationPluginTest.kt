@@ -17,7 +17,6 @@ package com.expediagroup.sdk.core.plugin.authentication
 
 import com.expediagroup.sdk.core.constant.Authentication.BEARER
 import com.expediagroup.sdk.core.constant.Authentication.EAN
-import com.expediagroup.sdk.core.constant.HeaderKey
 import com.expediagroup.sdk.core.model.exception.service.ExpediaGroupAuthException
 import com.expediagroup.sdk.core.test.ClientFactory
 import com.expediagroup.sdk.core.test.MockEngineFactory
@@ -26,6 +25,7 @@ import com.expediagroup.sdk.core.test.TestConstants.ANY_URL
 import com.expediagroup.sdk.core.test.TestConstants.CLIENT_KEY_TEST_CREDENTIAL
 import io.ktor.client.request.get
 import io.ktor.client.statement.request
+import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.mockk.clearAllMocks
 import io.mockk.mockkObject
@@ -60,12 +60,12 @@ internal open class AuthenticationPluginTest {
                 val signatureRequest = signatureHttpClient.get(ANY_URL)
                 val bearerRequest = bearerHttpClient.get(ANY_URL)
 
-                assertThat(bearerRequest.request.headers[HeaderKey.AUTHORIZATION]).isEqualTo(
+                assertThat(bearerRequest.request.headers[HttpHeaders.Authorization]).isEqualTo(
                     "$BEARER $ACCESS_TOKEN"
                 )
 
                 assertThat(
-                    signatureRequest.request.headers[HeaderKey.AUTHORIZATION]!!.startsWith("$EAN apikey=$CLIENT_KEY_TEST_CREDENTIAL,signature=")
+                    signatureRequest.request.headers[HttpHeaders.Authorization]!!.startsWith("$EAN apikey=$CLIENT_KEY_TEST_CREDENTIAL,signature=")
                 )
             }
         }

@@ -15,10 +15,12 @@
  */
 package com.expediagroup.sdk.core.client
 
+import com.expediagroup.sdk.core.constant.HeaderKey
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
 import io.ktor.http.Headers
+import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.util.flattenEntries
 import kotlinx.coroutines.runBlocking
@@ -55,9 +57,9 @@ class HttpHandlerTest {
 
             val requestHeaders = capturedRequestHeaders[0].flattenEntries().toMap()
 
-            assert(requestHeaders.containsKey("x-sdk-title") && requestHeaders["x-sdk-title"] == "dummy-title")
-            assert(requestHeaders.containsKey("User-agent"))
-            assert(requestHeaders.containsKey("transaction-id"))
+            assert(requestHeaders.containsKey(HeaderKey.X_SDK_TITLE) && requestHeaders[HeaderKey.X_SDK_TITLE] == "dummy-title")
+            assert(requestHeaders.containsKey(HttpHeaders.UserAgent))
+            assert(requestHeaders.containsKey(HeaderKey.TRANSACTION_ID))
         }
     }
 }

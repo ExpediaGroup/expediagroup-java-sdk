@@ -88,8 +88,11 @@ internal class ExpediaGroupAuthenticationStrategyTest : AuthenticationPluginTest
             assertThat(authRequests.first().method).isEqualTo(HttpMethod.Post)
             assertThat(authRequests.first().headers[HttpHeaders.Authorization]).isEqualTo("${TestConstants.BASIC} ${TestConstants.ENCODED_CREDENTIALS}")
             assertThat(authRequests.first().headers[HttpHeaders.ContentType]).isEqualTo(ContentType.Application.FormUrlEncoded.toString())
+            assertThat(authRequests.first().headers[HeaderKey.X_SDK_TITLE]).isEqualTo("dummy-title")
+            assertThat(authRequests.first().headers[HttpHeaders.UserAgent]).isNotNull()
+            assertThat(authRequests.first().headers[HeaderKey.TRANSACTION_ID]).isNotNull()
 
-            assertThat(testRequest.request.headers[HeaderKey.AUTHORIZATION]).isEqualTo(
+            assertThat(testRequest.request.headers[HttpHeaders.Authorization]).isEqualTo(
                 "$BEARER $ACCESS_TOKEN"
             )
         }
