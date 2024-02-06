@@ -30,7 +30,7 @@ internal object AuthenticationPlugin : Plugin<AuthenticationConfiguration> {
         client: Client,
         configurations: AuthenticationConfiguration
     ) {
-        val strategy = AuthenticationStrategy.from(configurations) { client.httpClient }
+        val strategy = AuthenticationStrategy.from(configurations, client)
         clientAuthenticationStrategies[client] = strategy
         configurations.httpClientConfiguration.install(Auth) {
             strategy.loadAuth(this)
