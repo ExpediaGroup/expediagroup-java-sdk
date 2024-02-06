@@ -35,6 +35,7 @@ internal class LogMaskerTest {
                 "card_avs_response",
                 "pin",
                 "card_cvv",
+                "access_token",
                 "account_number",
                 "card_cvv2",
                 "card_cvv2_response",
