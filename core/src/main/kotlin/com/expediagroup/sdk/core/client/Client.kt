@@ -16,6 +16,7 @@
 package com.expediagroup.sdk.core.client
 
 import com.expediagroup.sdk.core.configuration.Credentials
+import com.expediagroup.sdk.core.configuration.interceptor.OkHttpEventsLoggingInterceptor
 import com.expediagroup.sdk.core.configuration.provider.ConfigurationProvider
 import com.expediagroup.sdk.core.constant.ConfigurationName
 import com.expediagroup.sdk.core.constant.Constant
@@ -47,7 +48,12 @@ import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.statement.HttpResponse
 
-val DEFAULT_HTTP_CLIENT_ENGINE: HttpClientEngine = OkHttp.create()
+val DEFAULT_HTTP_CLIENT_ENGINE: HttpClientEngine =
+    OkHttp.create {
+        addInterceptor(
+            OkHttpEventsLoggingInterceptor()
+        )
+    }
 
 /**
  * The base integration point between the SDK Core and the product SDKs.
