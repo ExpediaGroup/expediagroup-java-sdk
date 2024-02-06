@@ -15,6 +15,7 @@
  */
 package com.expediagroup.sdk.core.plugin.authentication.strategy
 
+import com.expediagroup.sdk.core.client.Client
 import com.expediagroup.sdk.core.configuration.Credentials
 import com.expediagroup.sdk.core.constant.Authentication
 import com.expediagroup.sdk.core.constant.Constant
@@ -43,9 +44,10 @@ import io.ktor.http.clone
 import io.ktor.http.contentType
 import kotlinx.coroutines.runBlocking
 import java.time.LocalDateTime
+import java.util.UUID
 
 internal class ExpediaGroupAuthenticationStrategy(
-    private val httpClientProvider: () -> HttpClient,
+    private val client: Client,
     private val configs: AuthenticationConfiguration
 ) : AuthenticationStrategy {
     private val log = ExpediaGroupLoggerFactory.getLogger(javaClass)
@@ -59,10 +61,10 @@ internal class ExpediaGroupAuthenticationStrategy(
         }
     }
 
-    override fun isTokenAboutToExpire(): Boolean = bearerTokenStorage.isAboutToExpire()
+    override fun isTokenAboutToExpire(): Boolean = bearerTokenStorage.isAboutToExpire().also { if (it) log.info(LoggingMessage.TOKEN_EXPIRED) }
 
     override fun renewToken() {
-        val httpClient = httpClientProvider()
+        val httpClient = client.httpClient
         log.info(LoggingMessage.TOKEN_RENEWAL_IN_PROCESS)
         clearTokens(httpClient)
         val renewTokenResponse =
@@ -73,6 +75,7 @@ internal class ExpediaGroupAuthenticationStrategy(
                     contentType(ContentType.Application.FormUrlEncoded)
                     url(configs.authUrl)
                     basicAuth(configs.credentials)
+                    with(client) { appendHeaders(UUID.randomUUID()) }
                 }
             }
         if (renewTokenResponse.status.value !in Constant.SUCCESSFUL_STATUS_CODES_RANGE) {
@@ -128,7 +131,6 @@ internal class ExpediaGroupAuthenticationStrategy(
         }
     }
 
-    //
     internal data class TokenResponse(
         val accessToken: String,
         val expiresIn: Int

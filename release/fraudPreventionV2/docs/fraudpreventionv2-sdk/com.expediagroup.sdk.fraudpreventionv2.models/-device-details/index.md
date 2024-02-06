@@ -30,7 +30,7 @@ JVM
 
 | Name | Summary |
 |---|---|
-| [deviceBox](index.md#-465497208%2FProperties%2F-173342751) | [JVM]<br>@Length(max = 16000)<br>@Valid()<br>private final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[deviceBox](index.md#-465497208%2FProperties%2F-173342751) |
+| [deviceBox](index.md#-465497208%2FProperties%2F-173342751) | [JVM]<br>@Valid()<br>private final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[deviceBox](index.md#-465497208%2FProperties%2F-173342751) |
 | [ipAddress](index.md#-974076592%2FProperties%2F-173342751) | [JVM]<br>@Pattern(regexp = &quot;^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$|^(?:[A-F0-9]{1,4}:){7}[A-F0-9]{1,4}$&quot;)<br>@Valid()<br>private final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[ipAddress](index.md#-974076592%2FProperties%2F-173342751) |
 | [source](index.md#942500418%2FProperties%2F-173342751) | [JVM]<br>@Length(max = 50)<br>@Valid()<br>private final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[source](index.md#942500418%2FProperties%2F-173342751) |
 
