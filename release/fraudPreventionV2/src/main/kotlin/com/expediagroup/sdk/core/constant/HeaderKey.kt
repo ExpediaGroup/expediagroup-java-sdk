@@ -16,11 +16,11 @@
 package com.expediagroup.sdk.core.constant
 
 internal object HeaderKey {
-    const val AUTHORIZATION = "Authorization"
-
-    const val ACCEPT_ENCODING = "Accept-Encoding"
-
     const val PAGINATION_TOTAL_RESULTS = "pagination-total-results"
 
     const val LINK = "link"
+
+    const val TRANSACTION_ID = "transaction-id"
+
+    const val X_SDK_TITLE = "x-sdk-title"
 }
