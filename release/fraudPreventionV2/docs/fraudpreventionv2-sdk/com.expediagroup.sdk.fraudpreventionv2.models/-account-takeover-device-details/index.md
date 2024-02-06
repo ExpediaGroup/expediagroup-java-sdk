@@ -35,11 +35,11 @@ JVM
 
 | Name | Summary |
 |---|---|
-| [deviceBox](index.md#1175843190%2FProperties%2F-173342751) | [JVM]<br>@Length(max = 16000)<br>@Valid()<br>private final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[deviceBox](index.md#1175843190%2FProperties%2F-173342751) |
+| [deviceBox](index.md#1175843190%2FProperties%2F-173342751) | [JVM]<br>@Valid()<br>private final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[deviceBox](index.md#1175843190%2FProperties%2F-173342751) |
 | [ipAddress](index.md#667263806%2FProperties%2F-173342751) | [JVM]<br>@Pattern(regexp = &quot;^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$|^(?:[A-F0-9]{1,4}:){7}[A-F0-9]{1,4}$&quot;)<br>@Valid()<br>private final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[ipAddress](index.md#667263806%2FProperties%2F-173342751) |
 | [source](index.md#-1057946860%2FProperties%2F-173342751) | [JVM]<br>@Length(max = 50)<br>@Valid()<br>private final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[source](index.md#-1057946860%2FProperties%2F-173342751) |
 | [type](index.md#1697605973%2FProperties%2F-173342751) | [JVM]<br>private final [AccountTakeoverDeviceDetails.Type](-type/index.md)[type](index.md#1697605973%2FProperties%2F-173342751) |
-| [userAgent](index.md#-813191503%2FProperties%2F-173342751) | [JVM]<br>@Length(max = 200)<br>@Valid()<br>private final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[userAgent](index.md#-813191503%2FProperties%2F-173342751) |
+| [userAgent](index.md#-813191503%2FProperties%2F-173342751) | [JVM]<br>@Valid()<br>private final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[userAgent](index.md#-813191503%2FProperties%2F-173342751) |
 
 ## Functions
 

@@ -25,6 +25,7 @@ JVM
 | | |
 |---|---|
 | orderPurchaseUpdateRequest | An OrderPurchaseUpdate request may be of one of the following types `ORDER_UPDATE`, `CHARGEBACK_FEEDBACK`, `INSULT_FEEDBACK`, `REFUND_UPDATE`, `PAYMENT_UPDATE`. |
+| transactionId | The transaction id for the request (optional, defaults to a new UUID) |
 
 #### Throws
 
