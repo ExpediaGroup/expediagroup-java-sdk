@@ -26,6 +26,7 @@ internal data object LogMaskingFields {
             "card_cvv",
             "card_cvv2",
             "card_number",
+            "access_token",
             "security_code",
             "account_number",
             "card_avs_response",
