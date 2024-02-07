@@ -13,49 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package main.kotlin.com.expediagroup.sdk.core.client
+package com.expediagroup.sdk.core.client
 
+import com.expediagroup.sdk.core.constant.HeaderKey
 import com.expediagroup.sdk.core.plugin.logging.ExpediaGroupLoggerFactory
 import okhttp3.Call
 import okhttp3.Connection
 import okhttp3.EventListener
 import okhttp3.Handshake
 import okhttp3.Protocol
+import okhttp3.Request
+import okhttp3.Response
 import java.io.IOException
-import java.net.InetAddress
 import java.net.InetSocketAddress
 import java.net.Proxy
 
-class OkHttpEventListener : EventListener() {
-    companion object {
-        private val log = ExpediaGroupLoggerFactory.getLogger(this::class.java)
-    }
+object OkHttpEventListener : EventListener() {
+    private val log = ExpediaGroupLoggerFactory.getLogger(this::class.java)
+
+    fun Call.getTransactionId() = request().headers[HeaderKey.TRANSACTION_ID]
 
     override fun callStart(call: Call) {
         super.callStart(call)
-        log.debug("call start")
+        log.debug("Call start for transaction-id: [${call.getTransactionId()}]")
     }
 
     override fun callEnd(call: Call) {
         super.callEnd(call)
-        log.debug("call end")
-    }
-
-    override fun dnsStart(
-        call: Call,
-        domainName: String
-    ) {
-        super.dnsStart(call, domainName)
-        log.debug("dns lookup start for domain: %s".format(domainName))
-    }
-
-    override fun dnsEnd(
-        call: Call,
-        domainName: String,
-        inetAddressList: List<InetAddress>
-    ) {
-        super.dnsEnd(call, domainName, inetAddressList)
-        log.debug("dns lookup end for domain: %s".format(domainName))
+        log.debug("Call end for transaction-id: [${call.getTransactionId()}]")
     }
 
     override fun callFailed(
@@ -63,12 +48,12 @@ class OkHttpEventListener : EventListener() {
         ioe: IOException
     ) {
         super.callFailed(call, ioe)
-        log.debug("call failed with exception: %s".format(ioe.message))
+        log.debug("Call failed for transaction-id: [${call.getTransactionId()}] with exception message: ${ioe.message}")
     }
 
     override fun canceled(call: Call) {
         super.canceled(call)
-        log.debug("call canceled")
+        log.debug("Call canceled for transaction-id: [${call.getTransactionId()}]")
     }
 
     override fun connectStart(
@@ -77,7 +62,7 @@ class OkHttpEventListener : EventListener() {
         proxy: Proxy
     ) {
         super.connectStart(call, inetSocketAddress, proxy)
-        log.debug("connect start")
+        log.debug("Connect start for transaction-id: [${call.getTransactionId()}]")
     }
 
     override fun connectEnd(
@@ -87,7 +72,7 @@ class OkHttpEventListener : EventListener() {
         protocol: Protocol?
     ) {
         super.connectEnd(call, inetSocketAddress, proxy, protocol)
-        log.debug("connect end")
+        log.debug("Connect end for transaction-id: [${call.getTransactionId()}]")
     }
 
     override fun connectFailed(
@@ -98,7 +83,7 @@ class OkHttpEventListener : EventListener() {
         ioe: IOException
     ) {
         super.connectFailed(call, inetSocketAddress, proxy, protocol, ioe)
-        log.debug("connect failed with exception: %s".format(ioe.message))
+        log.debug("Connect failed for transaction-id: [${call.getTransactionId()}] with exception message: ${ioe.message}")
     }
 
     override fun connectionAcquired(
@@ -106,7 +91,7 @@ class OkHttpEventListener : EventListener() {
         connection: Connection
     ) {
         super.connectionAcquired(call, connection)
-        log.debug("connection acquired")
+        log.debug("Connection acquired for transaction-id: [${call.getTransactionId()}]")
     }
 
     override fun connectionReleased(
@@ -114,12 +99,12 @@ class OkHttpEventListener : EventListener() {
         connection: Connection
     ) {
         super.connectionReleased(call, connection)
-        log.debug("connection released")
+        log.debug("Connection released for transaction-id: [${call.getTransactionId()}]")
     }
 
     override fun secureConnectStart(call: Call) {
         super.secureConnectStart(call)
-        log.debug("secure connect start")
+        log.debug("Secure connect start for transaction-id: [${call.getTransactionId()}]")
     }
 
     override fun secureConnectEnd(
@@ -127,6 +112,74 @@ class OkHttpEventListener : EventListener() {
         handshake: Handshake?
     ) {
         super.secureConnectEnd(call, handshake)
-        log.debug("secure connect end")
+        log.debug("Secure connect end for transaction-id: [${call.getTransactionId()}]")
+    }
+
+    override fun requestHeadersStart(call: Call) {
+        super.requestHeadersStart(call)
+        log.debug("Sending request headers start for transaction-id: [${call.getTransactionId()}]")
+    }
+
+    override fun requestHeadersEnd(
+        call: Call,
+        request: Request
+    ) {
+        super.requestHeadersEnd(call, request)
+        log.debug("Sending request headers end for transaction-id: [${call.getTransactionId()}]")
+    }
+
+    override fun requestBodyStart(call: Call) {
+        super.requestBodyStart(call)
+        log.debug("Sending request body start for transaction-id: [${call.getTransactionId()}]")
+    }
+
+    override fun requestBodyEnd(
+        call: Call,
+        byteCount: Long
+    ) {
+        super.requestBodyEnd(call, byteCount)
+        log.debug("Sending request body end for transaction-id: [${call.getTransactionId()}] with byte count: $byteCount")
+    }
+
+    override fun requestFailed(
+        call: Call,
+        ioe: IOException
+    ) {
+        super.requestFailed(call, ioe)
+        log.debug("Request failed for transaction-id: [${call.getTransactionId()}] with exception message: ${ioe.message}")
+    }
+
+    override fun responseHeadersStart(call: Call) {
+        super.responseHeadersStart(call)
+        log.debug("Receiving response headers start for transaction-id: [${call.getTransactionId()}]")
+    }
+
+    override fun responseHeadersEnd(
+        call: Call,
+        response: Response
+    ) {
+        super.responseHeadersEnd(call, response)
+        log.debug("Receiving response headers end for transaction-id: [${call.getTransactionId()}]")
+    }
+
+    override fun responseBodyStart(call: Call) {
+        super.responseBodyStart(call)
+        log.debug("Receiving response body start for transaction-id: [${call.getTransactionId()}]")
+    }
+
+    override fun responseBodyEnd(
+        call: Call,
+        byteCount: Long
+    ) {
+        super.responseBodyEnd(call, byteCount)
+        log.debug("Receiving response body end for transaction-id: [${call.getTransactionId()}] with byte count: $byteCount")
+    }
+
+    override fun responseFailed(
+        call: Call,
+        ioe: IOException
+    ) {
+        super.responseFailed(call, ioe)
+        log.debug("Receiving response failed for transaction-id: [${call.getTransactionId()}] with exception message: ${ioe.message}")
     }
 }

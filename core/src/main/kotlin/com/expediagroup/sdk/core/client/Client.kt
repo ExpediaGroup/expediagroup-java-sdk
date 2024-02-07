@@ -46,12 +46,11 @@ import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.statement.HttpResponse
-import main.kotlin.com.expediagroup.sdk.core.client.OkHttpEventListener
 
 val DEFAULT_HTTP_CLIENT_ENGINE: HttpClientEngine =
     OkHttp.create {
         config {
-            eventListener(OkHttpEventListener())
+            eventListener(OkHttpEventListener)
         }
     }
 
