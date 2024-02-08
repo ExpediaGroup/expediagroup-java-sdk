@@ -78,15 +78,20 @@ internal class FetchLinkState<T>(
         return if (decodeBody(response).isEmpty()) fallbackBody else getBody(response)
     }
 
-    @OptIn(InternalAPI::class)
     private suspend fun decodeBody(response: HttpResponse): String {
+        val byteReadChannel = prepareByteReadChannel(response)
+        val decodedByteReadChannel = if (response.contentEncoding().equals(HeaderValue.GZIP)) client.httpClient.decode(byteReadChannel) else byteReadChannel
+        val bodyString: String = decodedByteReadChannel.readRemaining().readText()
+        return bodyString
+    }
+
+    @OptIn(InternalAPI::class)
+    private suspend fun prepareByteReadChannel(response: HttpResponse): ByteReadChannel {
         val bufferSize = response.content.availableForRead
         val buffer = ByteBuffer.allocate(bufferSize)
         val numberOfBytesRead = response.content.peekTo(Memory(buffer), 0, 0, 0, bufferSize.toLong()).toInt()
         val byteReadChannel = ByteReadChannel(buffer.moveToByteArray(), 0, numberOfBytesRead)
-        val decodedByteReadChannel = if (response.contentEncoding().equals(HeaderValue.GZIP)) client.httpClient.decode(byteReadChannel) else byteReadChannel
-        val bodyString: String = decodedByteReadChannel.readRemaining().readText()
-        return bodyString
+        return byteReadChannel
     }
 }
 
