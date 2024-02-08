@@ -25,6 +25,8 @@ internal class ExpediaGroupLogger(private val logger: Logger, private val client
 
     override fun warn(msg: String) = logger.warn(decorate(msg))
 
+    override fun debug(msg: String) = logger.debug(decorate(msg))
+
     private fun decorate(msg: String): String = "$LOGGING_PREFIX ${mask(msg, getMaskedBodyFields())}"
 
     private fun getMaskedBodyFields(): Set<String> = client?.getLoggingMaskedFieldsProvider()?.getMaskedBodyFields() ?: LogMaskingFields.DEFAULT_MASKED_BODY_FIELDS
