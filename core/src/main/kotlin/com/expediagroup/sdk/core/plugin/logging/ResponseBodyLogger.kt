@@ -57,7 +57,7 @@ class ResponseBodyLogger {
     }
 }
 
-private fun HttpResponse.contentEncoding(): String? = headers[HttpHeaders.ContentEncoding]
+fun HttpResponse.contentEncoding(): String? = headers[HttpHeaders.ContentEncoding]
 
 internal object GZipEncoder : ContentEncoder, Encoder by GZip {
     override val name: String = HeaderValue.GZIP
