@@ -15,6 +15,7 @@
  */
 package com.expediagroup.sdk.core.plugin.logging
 
+import com.expediagroup.sdk.core.constant.HeaderKey
 import com.expediagroup.sdk.core.constant.HeaderValue
 import com.expediagroup.sdk.core.constant.LoggerName
 import com.expediagroup.sdk.core.constant.provider.LoggingMessageProvider
@@ -24,6 +25,7 @@ import io.ktor.client.plugins.HttpClientPlugin
 import io.ktor.client.plugins.compression.ContentEncoder
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.HttpResponsePipeline
+import io.ktor.http.Headers
 import io.ktor.http.HttpHeaders
 import io.ktor.util.AttributeKey
 import io.ktor.util.Encoder
@@ -46,10 +48,12 @@ class ResponseBodyLogger {
                 val response: HttpResponse = context.response
                 val byteReadChannel: ByteReadChannel = if (response.contentEncoding().equals(HeaderValue.GZIP)) scope.decode(response.content) else response.content
                 val body: String = byteReadChannel.readRemaining().readText()
-                plugin.log.info(LoggingMessageProvider.getResponseBodyMessage(body))
+                plugin.log.debug(LoggingMessageProvider.getResponseBodyMessage(body, response.headers.getTransactionId()))
                 proceed()
             }
         }
+
+        private fun Headers.getTransactionId(): String? = get(HeaderKey.TRANSACTION_ID)
 
         override fun prepare(block: ResponseBodyLoggerConfig.() -> Unit): ResponseBodyLogger {
             return ResponseBodyLogger()
