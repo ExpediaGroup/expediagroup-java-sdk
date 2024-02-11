@@ -400,6 +400,8 @@
 
                             <exclude>**/client/*Client*</exclude>
 
+                            <exclude>**/client/*EventListener*</exclude>
+
                             <exclude>**/configuration/**ClientBuilder*</exclude>
                             <exclude>**/configuration/NetworkConfiguration*</exclude>
                             <exclude>**/config/**</exclude>
