@@ -5,13 +5,13 @@
                 @JvmOverloads
                 fun {{operationId}}Paginator({{>client/apiParamsDecleration}}): Paginator<{{{returnType}}}> {
                     val response = {{operationId}}WithResponse({{>client/apiParamsPassed}})
-                    return Paginator(this, response) { it.body<{{{returnType}}}>() }
+                    return Paginator(this, response, {{#fallbackBody}}{{/fallbackBody}}) { it.body<{{{returnType}}}>() }
                 }
 
                 @JvmOverloads
                 fun {{operationId}}PaginatorWithResponse({{>client/apiParamsDecleration}}): ResponsePaginator<{{{returnType}}}> {
                     val response = {{operationId}}WithResponse({{>client/apiParamsPassed}})
-                    return ResponsePaginator(this, response) { it.body<{{{returnType}}}>() }
+                    return ResponsePaginator(this, response, {{#fallbackBody}}{{/fallbackBody}}) { it.body<{{{returnType}}}>() }
                 }
 
             {{/returnType}}

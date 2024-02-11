@@ -96,7 +96,7 @@
         <ktor.version>2.3.8</ktor.version>
         <kotlin-logging.version>3.0.5</kotlin-logging.version>
         <kotlin-atomic.version>0.23.2</kotlin-atomic.version>
-        <ktlint.version>0.50.0</ktlint.version>
+        <ktlint.version>1.1.1</ktlint.version>
         <detekt.version>1.23.1</detekt.version>
 
         <!-- Shared Library Versions -->
@@ -399,6 +399,8 @@
                             <exclude>**/constant/**</exclude>
 
                             <exclude>**/client/*Client*</exclude>
+
+                            <exclude>**/client/*EventListener*</exclude>
 
                             <exclude>**/configuration/**ClientBuilder*</exclude>
                             <exclude>**/configuration/NetworkConfiguration*</exclude>
