@@ -40,7 +40,7 @@ internal class RequestBodyLogger {
         ) {
             scope.sendPipeline.intercept(HttpSendPipeline.Monitoring) {
                 val body: String = getBody()
-                plugin.log.info(LoggingMessageProvider.getRequestBodyMessage(body, context.headers.getTransactionId()))
+                plugin.log.debug(LoggingMessageProvider.getRequestBodyMessage(body, context.headers.getTransactionId()))
                 proceed()
             }
         }

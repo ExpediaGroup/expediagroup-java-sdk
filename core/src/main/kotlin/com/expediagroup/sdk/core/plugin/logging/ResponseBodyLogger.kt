@@ -48,7 +48,7 @@ class ResponseBodyLogger {
                 val response: HttpResponse = context.response
                 val byteReadChannel: ByteReadChannel = if (response.contentEncoding().equals(HeaderValue.GZIP)) scope.decode(response.content) else response.content
                 val body: String = byteReadChannel.readRemaining().readText()
-                plugin.log.info(LoggingMessageProvider.getResponseBodyMessage(body, response.headers.getTransactionId()))
+                plugin.log.debug(LoggingMessageProvider.getResponseBodyMessage(body, response.headers.getTransactionId()))
                 proceed()
             }
         }
