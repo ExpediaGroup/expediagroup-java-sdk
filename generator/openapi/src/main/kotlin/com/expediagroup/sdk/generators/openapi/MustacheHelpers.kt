@@ -51,7 +51,10 @@ val mustacheHelpers = mapOf(
             operationsMap.operations.operation.forEach { operation ->
                 operation.responses.forEach { response ->
                     response.takeIf { !it.is2xx && !dataTypes.contains(it.dataType) }?.dataType?.also {
-                        writer.write("class ExpediaGroupApi${it}Exception(code: Int, override val errorObject: $it) : ExpediaGroupApiException(code, errorObject)\n")
+                        writer.write(
+                            "class ExpediaGroupApi${it}Exception(code: Int, override val errorObject: $it, transactionId: String?) : " +
+                                "ExpediaGroupApiException(code, errorObject, transactionId)\n"
+                        )
                         dataTypes.add(it)
                     }
                 }

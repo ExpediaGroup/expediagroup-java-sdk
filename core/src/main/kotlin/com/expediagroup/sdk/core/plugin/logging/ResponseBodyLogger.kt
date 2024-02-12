@@ -15,17 +15,16 @@
  */
 package com.expediagroup.sdk.core.plugin.logging
 
-import com.expediagroup.sdk.core.constant.HeaderKey
 import com.expediagroup.sdk.core.constant.HeaderValue
 import com.expediagroup.sdk.core.constant.LoggerName
 import com.expediagroup.sdk.core.constant.provider.LoggingMessageProvider
+import com.expediagroup.sdk.core.model.getTransactionId
 import com.expediagroup.sdk.core.plugin.logging.GZipEncoder.decode
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpClientPlugin
 import io.ktor.client.plugins.compression.ContentEncoder
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.HttpResponsePipeline
-import io.ktor.http.Headers
 import io.ktor.http.HttpHeaders
 import io.ktor.util.AttributeKey
 import io.ktor.util.Encoder
@@ -52,8 +51,6 @@ class ResponseBodyLogger {
                 proceed()
             }
         }
-
-        private fun Headers.getTransactionId(): String? = get(HeaderKey.TRANSACTION_ID)
 
         override fun prepare(block: ResponseBodyLoggerConfig.() -> Unit): ResponseBodyLogger {
             return ResponseBodyLogger()

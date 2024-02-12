@@ -24,6 +24,7 @@ import com.expediagroup.sdk.core.constant.provider.LoggingMessageProvider
 import com.expediagroup.sdk.core.contract.Contract
 import com.expediagroup.sdk.core.contract.adhereTo
 import com.expediagroup.sdk.core.model.exception.client.ExpediaGroupConfigurationException
+import com.expediagroup.sdk.core.model.getTransactionId
 import com.expediagroup.sdk.core.plugin.Hooks
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationConfiguration
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationHookFactory
@@ -119,7 +120,7 @@ abstract class Client(
     @Suppress("unused") // This is used by the product SDKs.
     suspend fun throwIfError(response: HttpResponse, operationId: String) {
         if (isNotSuccessfulResponse(response)) {
-            log.info(LoggingMessageProvider.getResponseUnsuccessfulMessage(response.status))
+            log.info(LoggingMessageProvider.getResponseUnsuccessfulMessage(response.status, response.headers.getTransactionId()))
             throwServiceException(response, operationId)
         }
     }
