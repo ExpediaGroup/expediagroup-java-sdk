@@ -13,20 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.constant
+package com.expediagroup.sdk.core.model
 
-internal object LoggingMessage {
-    const val LOGGING_PREFIX = "ExpediaSDK:"
+import com.expediagroup.sdk.core.constant.HeaderKey
+import io.ktor.http.Headers
+import io.ktor.http.HeadersBuilder
 
-    const val TOKEN_RENEWAL_IN_PROGRESS = "Renewing token"
+internal fun Headers.getTransactionId(): String? = get(HeaderKey.TRANSACTION_ID)
 
-    const val TOKEN_RENEWAL_SUCCESSFUL = "Token renewal successful"
-
-    const val TOKEN_CLEARING_IN_PROGRESS = "Clearing tokens"
-
-    const val TOKEN_CLEARING_SUCCESSFUL = "Tokens successfully cleared"
-
-    const val TOKEN_EXPIRED = "Token expired or is about to expire. Request will wait until token is renewed"
-
-    const val OMITTED = "<-- omitted -->"
-}
+internal fun HeadersBuilder.getTransactionId(): String? = get(HeaderKey.TRANSACTION_ID)

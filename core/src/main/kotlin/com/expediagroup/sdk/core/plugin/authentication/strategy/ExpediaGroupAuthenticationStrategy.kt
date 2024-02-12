@@ -65,7 +65,7 @@ internal class ExpediaGroupAuthenticationStrategy(
 
     override fun renewToken() {
         val httpClient = client.httpClient
-        log.info(LoggingMessage.TOKEN_RENEWAL_IN_PROCESS)
+        log.info(LoggingMessage.TOKEN_RENEWAL_IN_PROGRESS)
         clearTokens(httpClient)
         val renewTokenResponse =
             runBlocking {
@@ -93,7 +93,7 @@ internal class ExpediaGroupAuthenticationStrategy(
     }
 
     private fun clearTokens(client: HttpClient) {
-        log.info(LoggingMessage.TOKEN_CLEARING_IN_PROCESS)
+        log.info(LoggingMessage.TOKEN_CLEARING_IN_PROGRESS)
         client.plugin(Auth).providers.filterIsInstance<BearerAuthProvider>().first().clearToken()
         bearerTokenStorage = BearerTokensInfo.emptyBearerTokenInfo
         log.info(LoggingMessage.TOKEN_CLEARING_SUCCESSFUL)
