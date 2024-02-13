@@ -20,7 +20,7 @@ internal open class HttpStatusCodeRange(
 
 internal object DefaultHttpStatusCodeRange : HttpStatusCodeRange(
     "DefaultHttpStatusCodeRange",
-    { ExpediaGroupServiceDefaultErrorException(it.status.value, runBlocking { it.bodyAsText() }, it.headers.getTransactionId()) }
+    { ExpediaGroupServiceDefaultErrorException(it.status.value, runBlocking { it.bodyAsText() }, it.request.headers.getTransactionId()) }
 ) {
     override fun matches(statusCode: String): Boolean = true
     override fun isRangeDefinition(): Boolean = true
@@ -54,7 +54,7 @@ internal object ErrorObjectMapper {
         httpStatusCodeRanges.getOrDefault(operationId, defaultHttpStatusCodeRanges).filter { it.matches(httpResponse.status.value.toString()) }.min().getException(httpResponse)
 
     private inline fun <reified T> fetchErrorObject(httpResponse: HttpResponse): T = runBlocking {
-        runCatching { httpResponse.body<T>() }.getOrElse { throw ExpediaGroupServiceDefaultErrorException(httpResponse.status.value, httpResponse.bodyAsText(), httpResponse.headers.getTransactionId()) }
+        runCatching { httpResponse.body<T>() }.getOrElse { throw ExpediaGroupServiceDefaultErrorException(httpResponse.status.value, httpResponse.bodyAsText(), httpResponse.request.headers.getTransactionId()) }
     }
 }
 

@@ -47,6 +47,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.statement.HttpResponse
+import io.ktor.client.statement.request
 
 val DEFAULT_HTTP_CLIENT_ENGINE: HttpClientEngine =
     OkHttp.create {
@@ -120,7 +121,7 @@ abstract class Client(
     @Suppress("unused") // This is used by the product SDKs.
     suspend fun throwIfError(response: HttpResponse, operationId: String) {
         if (isNotSuccessfulResponse(response)) {
-            log.info(LoggingMessageProvider.getResponseUnsuccessfulMessage(response.status, response.headers.getTransactionId()))
+            log.info(LoggingMessageProvider.getResponseUnsuccessfulMessage(response.status, response.request.headers.getTransactionId()))
             throwServiceException(response, operationId)
         }
     }
