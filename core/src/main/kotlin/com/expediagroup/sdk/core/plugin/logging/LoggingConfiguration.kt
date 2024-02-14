@@ -26,7 +26,7 @@ internal data class LoggingConfiguration(
     override val httpClientConfiguration: HttpClientConfig<out HttpClientEngineConfig>,
     val maskedLoggingHeaders: Set<String>,
     val maskedLoggingBodyFields: Set<String>,
-    val level: LogLevel = LogLevel.ALL,
+    val level: LogLevel = LogLevel.HEADERS,
     val getLogger: (client: Client) -> Logger = createCustomLogger
 ) : KtorPluginConfiguration(httpClientConfiguration) {
     companion object {
@@ -41,7 +41,7 @@ internal data class LoggingConfiguration(
 private val createCustomLogger: (client: Client) -> Logger
     get() = {
         object : Logger {
-            private val delegate = ExpediaGroupLoggerFactory.getLogger(Client::class.java, it)
+            val delegate = ExpediaGroupLoggerFactory.getLogger(Client::class.java, it)
 
             override fun log(message: String) = delegate.info(message)
         }

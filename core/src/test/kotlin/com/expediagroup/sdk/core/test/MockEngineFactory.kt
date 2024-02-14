@@ -18,6 +18,7 @@ package com.expediagroup.sdk.core.test
 import com.expediagroup.sdk.core.configuration.provider.ExpediaGroupConfigurationProvider
 import com.expediagroup.sdk.core.constant.Authentication.BEARER
 import com.expediagroup.sdk.core.constant.Constant.EMPTY_STRING
+import com.expediagroup.sdk.core.constant.HeaderValue
 import com.expediagroup.sdk.core.model.exception.service.ExpediaGroupAuthException
 import com.expediagroup.sdk.core.test.TestConstants.ACCESS_TOKEN
 import com.expediagroup.sdk.core.test.TestConstants.APPLICATION_JSON
@@ -129,6 +130,14 @@ object MockEngineFactory {
         MockEngine {
             respond(
                 content = EMPTY_STRING
+            )
+        }
+
+    fun createGzipEncodedEmptyResponseEngine(): MockEngine =
+        MockEngine {
+            respond(
+                content = byteArrayOf(31, -117, 8, 0, 0, 0, 0, 0, 0, -1, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+                headers = headersOf(HttpHeaders.ContentEncoding, HeaderValue.GZIP)
             )
         }
 

@@ -156,8 +156,8 @@
                             <version>${detekt.version}</version>
                         </dependency>
                         <dependency>
-                            <groupId>com.pinterest</groupId>
-                            <artifactId>ktlint</artifactId>
+                            <groupId>com.pinterest.ktlint</groupId>
+                            <artifactId>ktlint-cli</artifactId>
                             <version>${ktlint.version}</version>
                         </dependency>
                     </dependencies>
@@ -180,6 +180,12 @@
                 <dependency>
                     <groupId>org.jetbrains.kotlin</groupId>
                     <artifactId>kotlin-stdlib</artifactId>
+                </dependency>
+
+                <dependency>
+                    <groupId>com.squareup.okhttp3</groupId>
+                    <artifactId>okhttp</artifactId>
+                    <version>4.12.0</version>
                 </dependency>
             </dependencies>
 

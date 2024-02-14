@@ -92,9 +92,9 @@ class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGr
 
     /**
      * Send an update as a result of an account screen transaction
-     * The Account Update API is called when there is an account lifecycle transition such as a challenge outcome, account restoration, or remediation action completion. For example, if a user&#39;s account is disabled, deleted, or restored, the Account Update API is called to notify Expedia Group about the change. The Account Update API is also called when a user responds to a login Multi-Factor Authentication based on a Fraud recommendation.
-     * @param accountUpdateRequest An AccountUpdate request may be of one of the following types &#x60;MULTI_FACTOR_AUTHENTICATION_UPDATE&#x60;, &#x60;REMEDIATION_UPDATE&#x60;.
-
+     * The Account Update API is called when there is an account lifecycle transition such as a challenge outcome, account restoration, or remediation action completion. For example, if a user's account is disabled, deleted, or restored, the Account Update API is called to notify Expedia Group about the change. The Account Update API is also called when a user responds to a login Multi-Factor Authentication based on a Fraud recommendation.
+     * @param accountUpdateRequest An AccountUpdate request may be of one of the following types `MULTI_FACTOR_AUTHENTICATION_UPDATE`, `REMEDIATION_UPDATE`.
+     * @param transactionId The transaction id for the request (optional, defaults to a new UUID)
      * @throws ExpediaGroupApiAccountTakeoverBadRequestErrorException
      * @throws ExpediaGroupApiAccountTakeoverUnauthorizedErrorException
      * @throws ExpediaGroupApiForbiddenErrorException
@@ -127,9 +127,9 @@ class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGr
 
     /**
      * Send an update as a result of an account screen transaction
-     * The Account Update API is called when there is an account lifecycle transition such as a challenge outcome, account restoration, or remediation action completion. For example, if a user&#39;s account is disabled, deleted, or restored, the Account Update API is called to notify Expedia Group about the change. The Account Update API is also called when a user responds to a login Multi-Factor Authentication based on a Fraud recommendation.
-     * @param accountUpdateRequest An AccountUpdate request may be of one of the following types &#x60;MULTI_FACTOR_AUTHENTICATION_UPDATE&#x60;, &#x60;REMEDIATION_UPDATE&#x60;.
-
+     * The Account Update API is called when there is an account lifecycle transition such as a challenge outcome, account restoration, or remediation action completion. For example, if a user's account is disabled, deleted, or restored, the Account Update API is called to notify Expedia Group about the change. The Account Update API is also called when a user responds to a login Multi-Factor Authentication based on a Fraud recommendation.
+     * @param accountUpdateRequest An AccountUpdate request may be of one of the following types `MULTI_FACTOR_AUTHENTICATION_UPDATE`, `REMEDIATION_UPDATE`.
+     * @param transactionId The transaction id for the request (optional, defaults to a new UUID)
      * @throws ExpediaGroupApiAccountTakeoverBadRequestErrorException
      * @throws ExpediaGroupApiAccountTakeoverUnauthorizedErrorException
      * @throws ExpediaGroupApiForbiddenErrorException
@@ -193,8 +193,8 @@ class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGr
     /**
      * Send an update for a transaction
      * The Order Purchase Update API is called when the status of the order has changed.  For example, if the customer cancels the reservation, changes reservation in any way, or adds additional products or travelers to the reservation, the Order Purchase Update API is called to notify Expedia Group about the change.  The Order Purchase Update API is also called when the merchant cancels or changes an order based on a Fraud recommendation.
-     * @param orderPurchaseUpdateRequest An OrderPurchaseUpdate request may be of one of the following types &#x60;ORDER_UPDATE&#x60;, &#x60;CHARGEBACK_FEEDBACK&#x60;, &#x60;INSULT_FEEDBACK&#x60;, &#x60;REFUND_UPDATE&#x60;, &#x60;PAYMENT_UPDATE&#x60;.
-
+     * @param orderPurchaseUpdateRequest An OrderPurchaseUpdate request may be of one of the following types `ORDER_UPDATE`, `CHARGEBACK_FEEDBACK`, `INSULT_FEEDBACK`, `REFUND_UPDATE`, `PAYMENT_UPDATE`.
+     * @param transactionId The transaction id for the request (optional, defaults to a new UUID)
      * @throws ExpediaGroupApiBadRequestErrorException
      * @throws ExpediaGroupApiUnauthorizedErrorException
      * @throws ExpediaGroupApiForbiddenErrorException
@@ -228,8 +228,8 @@ class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGr
     /**
      * Send an update for a transaction
      * The Order Purchase Update API is called when the status of the order has changed.  For example, if the customer cancels the reservation, changes reservation in any way, or adds additional products or travelers to the reservation, the Order Purchase Update API is called to notify Expedia Group about the change.  The Order Purchase Update API is also called when the merchant cancels or changes an order based on a Fraud recommendation.
-     * @param orderPurchaseUpdateRequest An OrderPurchaseUpdate request may be of one of the following types &#x60;ORDER_UPDATE&#x60;, &#x60;CHARGEBACK_FEEDBACK&#x60;, &#x60;INSULT_FEEDBACK&#x60;, &#x60;REFUND_UPDATE&#x60;, &#x60;PAYMENT_UPDATE&#x60;.
-
+     * @param orderPurchaseUpdateRequest An OrderPurchaseUpdate request may be of one of the following types `ORDER_UPDATE`, `CHARGEBACK_FEEDBACK`, `INSULT_FEEDBACK`, `REFUND_UPDATE`, `PAYMENT_UPDATE`.
+     * @param transactionId The transaction id for the request (optional, defaults to a new UUID)
      * @throws ExpediaGroupApiBadRequestErrorException
      * @throws ExpediaGroupApiUnauthorizedErrorException
      * @throws ExpediaGroupApiForbiddenErrorException
@@ -294,7 +294,7 @@ class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGr
      * Run fraud screening for one transaction
      * The Account Screen API gives a Fraud recommendation for an account transaction. A recommendation can be ACCEPT, CHALLENGE, or REJECT. A transaction is marked as CHALLENGE whenever there are insufficient signals to recommend ACCEPT or REJECT. These CHALLENGE incidents are manually reviewed, and a corrected recommendation is made asynchronously.
      * @param accountScreenRequest
-
+     * @param transactionId The transaction id for the request (optional, defaults to a new UUID)
      * @throws ExpediaGroupApiAccountTakeoverBadRequestErrorException
      * @throws ExpediaGroupApiAccountTakeoverUnauthorizedErrorException
      * @throws ExpediaGroupApiForbiddenErrorException
@@ -329,7 +329,7 @@ class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGr
      * Run fraud screening for one transaction
      * The Account Screen API gives a Fraud recommendation for an account transaction. A recommendation can be ACCEPT, CHALLENGE, or REJECT. A transaction is marked as CHALLENGE whenever there are insufficient signals to recommend ACCEPT or REJECT. These CHALLENGE incidents are manually reviewed, and a corrected recommendation is made asynchronously.
      * @param accountScreenRequest
-
+     * @param transactionId The transaction id for the request (optional, defaults to a new UUID)
      * @throws ExpediaGroupApiAccountTakeoverBadRequestErrorException
      * @throws ExpediaGroupApiAccountTakeoverUnauthorizedErrorException
      * @throws ExpediaGroupApiForbiddenErrorException
@@ -394,7 +394,7 @@ class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGr
      * Run fraud screening for one transaction
      * The Order Purchase API gives a Fraud recommendation for a transaction. A recommendation can be Accept, Reject, or Review. A transaction is marked as Review whenever there are insufficient signals to recommend Accept or Reject. These incidents are manually reviewed, and a corrected recommendation is made asynchronously.
      * @param orderPurchaseScreenRequest
-
+     * @param transactionId The transaction id for the request (optional, defaults to a new UUID)
      * @throws ExpediaGroupApiBadRequestErrorException
      * @throws ExpediaGroupApiUnauthorizedErrorException
      * @throws ExpediaGroupApiForbiddenErrorException
@@ -429,7 +429,7 @@ class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGr
      * Run fraud screening for one transaction
      * The Order Purchase API gives a Fraud recommendation for a transaction. A recommendation can be Accept, Reject, or Review. A transaction is marked as Review whenever there are insufficient signals to recommend Accept or Reject. These incidents are manually reviewed, and a corrected recommendation is made asynchronously.
      * @param orderPurchaseScreenRequest
-
+     * @param transactionId The transaction id for the request (optional, defaults to a new UUID)
      * @throws ExpediaGroupApiBadRequestErrorException
      * @throws ExpediaGroupApiUnauthorizedErrorException
      * @throws ExpediaGroupApiForbiddenErrorException

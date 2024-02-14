@@ -25,6 +25,7 @@ JVM
 | | |
 |---|---|
 | accountUpdateRequest | An AccountUpdate request may be of one of the following types `MULTI_FACTOR_AUTHENTICATION_UPDATE`, `REMEDIATION_UPDATE`. |
+| transactionId | The transaction id for the request (optional, defaults to a new UUID) |
 
 #### Throws
 
