@@ -13,9 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.constant
+package com.expediagroup.sdk.core.contract
 
-internal object LoggerName {
-    const val REQUEST_BODY_LOGGER: String = "RequestBodyLogger"
-    const val RESPONSE_BODY_LOGGER: String = "ResponseBodyLogger"
+internal typealias Operation = (String) -> String
+
+/**
+ * A contract for a specific [operation].
+ *
+ * @property operation The operation to perform on a string.
+ */
+internal enum class Contract(val operation: Operation) {
+    TRAILING_SLASH({ if (it.endsWith("/")) it else "$it/" })
 }
+
+/**
+ * Adheres to the given [contract] on a [String].
+ *
+ * @param contract the [Contract] to adhere to.
+ * @return the [String] adhering to the given [contract].
+ */
+internal fun String.adhereTo(contract: Contract): String = contract.operation(this)

@@ -27,5 +27,15 @@ internal object LoggingMessageProvider {
         providerName: String
     ) = "Successfully loaded [$property] from [$providerName]"
 
-    fun getResponseBodyMessage(body: String) = "Response Body: $body"
+    fun getResponseBodyMessage(
+        body: String,
+        transactionId: String?
+    ) = "Response Body${getTransactionIdMessage(transactionId)}: $body"
+
+    fun getRequestBodyMessage(
+        body: String,
+        transactionId: String?
+    ) = "Request Body${getTransactionIdMessage(transactionId)}: $body"
+
+    private fun getTransactionIdMessage(transactionId: String?) = if (transactionId != null) " [transactionId=$transactionId]" else ""
 }
