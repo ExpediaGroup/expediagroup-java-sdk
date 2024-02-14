@@ -15,7 +15,7 @@
  */
 package com.expediagroup.sdk.core.model.exception.service
 
-abstract class ExpediaGroupApiException(val statusCode: Int, open val errorObject: Any, val transactionId: String?) :
-    ExpediaGroupServiceException("Unsuccessful response code [$statusCode] for transaction-id [$transactionId]${stringifyErrorObject(errorObject.toString())}")
+abstract class ExpediaGroupApiException(val statusCode: Int, open val errorObject: Any, transactionId: String?) :
+    ExpediaGroupServiceException("Unsuccessful response code [$statusCode] for transaction-id [$transactionId]${stringifyErrorObject(errorObject.toString())}", transactionId = transactionId)
 
 private fun stringifyErrorObject(stringValue: String): String = if (stringValue.isBlank()) " with an empty response body" else ": $stringValue"

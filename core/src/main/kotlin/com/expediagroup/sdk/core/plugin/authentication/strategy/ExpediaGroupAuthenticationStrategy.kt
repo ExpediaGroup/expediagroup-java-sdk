@@ -67,6 +67,7 @@ internal class ExpediaGroupAuthenticationStrategy(
         val httpClient = client.httpClient
         log.info(LoggingMessage.TOKEN_RENEWAL_IN_PROGRESS)
         clearTokens(httpClient)
+        val transactionId = UUID.randomUUID()
         val renewTokenResponse =
             runBlocking {
                 httpClient.request {
@@ -75,11 +76,11 @@ internal class ExpediaGroupAuthenticationStrategy(
                     contentType(ContentType.Application.FormUrlEncoded)
                     url(configs.authUrl)
                     basicAuth(configs.credentials)
-                    with(client) { appendHeaders(UUID.randomUUID()) }
+                    with(client) { appendHeaders(transactionId) }
                 }
             }
         if (renewTokenResponse.status.value !in Constant.SUCCESSFUL_STATUS_CODES_RANGE) {
-            throw ExpediaGroupAuthException(renewTokenResponse.status, ExceptionMessage.AUTHENTICATION_FAILURE)
+            throw ExpediaGroupAuthException(renewTokenResponse.status, ExceptionMessage.AUTHENTICATION_FAILURE, transactionId.toString())
         }
         val renewedTokenInfo: TokenResponse = runBlocking { renewTokenResponse.body() }
         log.info(LoggingMessage.TOKEN_RENEWAL_SUCCESSFUL)

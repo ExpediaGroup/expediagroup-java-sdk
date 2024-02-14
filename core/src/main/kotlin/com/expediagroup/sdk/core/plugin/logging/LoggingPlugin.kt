@@ -18,7 +18,7 @@ package com.expediagroup.sdk.core.plugin.logging
 import com.expediagroup.sdk.core.client.Client
 import com.expediagroup.sdk.core.constant.ExceptionMessage
 import com.expediagroup.sdk.core.constant.LoggingMessage
-import com.expediagroup.sdk.core.model.exception.service.ExpediaGroupAuthException
+import com.expediagroup.sdk.core.model.exception.client.ExpediaGroupClientException
 import com.expediagroup.sdk.core.plugin.Plugin
 import io.ktor.client.plugins.logging.Logging
 
@@ -47,4 +47,4 @@ internal object LoggingPlugin : Plugin<LoggingConfiguration> {
 }
 
 internal fun Client.getLoggingMaskedFieldsProvider(): LoggingMaskedFieldsProvider =
-    LoggingPlugin.clientLoggingMaskedFieldsProviders[this] ?: throw ExpediaGroupAuthException(ExceptionMessage.LOGGING_MASKED_FIELDS_NOT_CONFIGURED_FOR_CLIENT)
+    LoggingPlugin.clientLoggingMaskedFieldsProviders[this] ?: throw ExpediaGroupClientException(ExceptionMessage.LOGGING_MASKED_FIELDS_NOT_CONFIGURED_FOR_CLIENT)

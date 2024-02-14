@@ -23,5 +23,6 @@ package com.expediagroup.sdk.core.model.exception
  */
 open class ExpediaGroupException(
     message: String? = null,
-    cause: Throwable? = null
+    cause: Throwable? = null,
+    open val transactionId: String? = null
 ) : RuntimeException(message, cause)

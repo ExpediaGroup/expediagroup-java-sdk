@@ -16,11 +16,11 @@
 package com.expediagroup.sdk.core.model.exception
 
 /** Make sure that we only throw [ExpediaGroupException]s. */
-fun Exception.handle(): Nothing {
+fun Exception.handleWith(transactionId: String): Nothing {
     if (this is ExpediaGroupException) throw this
 
     when (val cause = this.cause) {
         is ExpediaGroupException -> throw cause
-        else -> throw ExpediaGroupException(cause = this)
+        else -> throw ExpediaGroupException(cause = this, transactionId = transactionId)
     }
 }

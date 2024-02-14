@@ -17,6 +17,7 @@ package com.expediagroup.sdk.core.model.exception
 
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import java.util.UUID
 
 class ExceptionUtilsTest {
     @Nested
@@ -25,7 +26,7 @@ class ExceptionUtilsTest {
         fun `should throw ExpediaGroupException when it is ExpediaGroupException`() {
             val exception = ExpediaGroupException()
             try {
-                exception.handle()
+                exception.handleWith(UUID.randomUUID().toString())
             } catch (e: Exception) {
                 assert(e is ExpediaGroupException)
             }
@@ -35,7 +36,7 @@ class ExceptionUtilsTest {
         fun `should throw ExpediaGroupException when cause is ExpediaGroupException`() {
             val exception = RuntimeException(ExpediaGroupException())
             try {
-                exception.handle()
+                exception.handleWith(UUID.randomUUID().toString())
             } catch (e: Exception) {
                 assert(e is ExpediaGroupException)
             }
@@ -45,7 +46,7 @@ class ExceptionUtilsTest {
         fun `should throw ExpediaGroupException even when cause is not ExpediaGroupException`() {
             val exception = RuntimeException()
             try {
-                exception.handle()
+                exception.handleWith(UUID.randomUUID().toString())
             } catch (e: Exception) {
                 assert(e is ExpediaGroupException)
             }

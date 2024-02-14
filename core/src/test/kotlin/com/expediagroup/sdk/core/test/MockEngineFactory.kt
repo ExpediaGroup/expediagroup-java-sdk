@@ -20,6 +20,7 @@ import com.expediagroup.sdk.core.constant.Authentication.BEARER
 import com.expediagroup.sdk.core.constant.Constant.EMPTY_STRING
 import com.expediagroup.sdk.core.constant.HeaderValue
 import com.expediagroup.sdk.core.model.exception.service.ExpediaGroupAuthException
+import com.expediagroup.sdk.core.model.getTransactionId
 import com.expediagroup.sdk.core.test.TestConstants.ACCESS_TOKEN
 import com.expediagroup.sdk.core.test.TestConstants.APPLICATION_JSON
 import com.expediagroup.sdk.core.test.TestConstants.BAD_REQUEST_ATTRIBUTE
@@ -57,7 +58,7 @@ object MockEngineFactory {
             } else if (isBadRequest(request)) {
                 errorResponse()
             } else {
-                throw ExpediaGroupAuthException(HttpStatusCode.InternalServerError, "unsupported case in the mock engine")
+                throw ExpediaGroupAuthException(HttpStatusCode.InternalServerError, "unsupported case in the mock engine", request.headers.getTransactionId().orEmpty())
             }
         }
 
