@@ -16,28 +16,7 @@
 package com.expediagroup.sdk.core.constant.provider
 
 internal object ExceptionMessageProvider {
-    fun getConfigurationDefinedMultipleTimesMessage(configurationName: String): String = "Configuration $configurationName is defined multiple times"
-
-    fun getPropertyNotFoundMessage(path: Any): String = "Could not read properties from file [$path]"
-
-    fun getRequiredConfigurationsNotDefinedMessage(configurations: String): String = "Some required configurations are not defined: $configurations"
-
-    fun getExpectedActualNameValueMessage(
-        expected: String,
-        actual: String,
-        name: String,
-        value: Any
-    ): String = "Expected value to be a $expected, but it was a $actual, name: $name, value: $value"
-
-    fun getExpectedNameValueMessage(
-        expected: String,
-        name: String,
-        value: Any
-    ): String = "Expected value to be a $expected, name: $name, value: $value"
-
-    fun getConfigurationKeyNotDefinedMessage(name: String): String = "Configuration key not defined, name: $name"
-
-    fun getConfigurationUnknownMessage(key: String): String = "Unknown configuration $key"
-
     fun getMissingRequiredConfigurationMessage(name: String): String = "Missing required configuration: $name"
+
+    fun getExceptionOccurredMessage(transactionId: String): String = "Exception occurred for transaction-id [$transactionId]"
 }
