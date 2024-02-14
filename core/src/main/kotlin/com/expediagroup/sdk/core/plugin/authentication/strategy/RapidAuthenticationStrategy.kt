@@ -48,13 +48,14 @@ internal class RapidAuthenticationStrategy(private val configs: AuthenticationCo
         timestamp: Long
     ): String {
         val toBeHashed = apiKey + secret + timestamp
-        val md = MessageDigest.getInstance(MGF1ParameterSpec.SHA512.digestAlgorithm)
-        val bytes = md.digest(toBeHashed.toByteArray(StandardCharsets.UTF_8))
-        val sb = StringBuilder()
-        for (aByte in bytes) {
-            sb.append(((aByte.toInt() and SignatureValues.ONE_BYTE_MASK) + SignatureValues.INCREMENT).toString(SignatureValues.RADIX).substring(BigInteger.ONE.toInt()))
-        }
-        val signature = sb.toString()
+        val messageDigest = MessageDigest.getInstance(MGF1ParameterSpec.SHA512.digestAlgorithm)
+        val bytes = messageDigest.digest(toBeHashed.toByteArray(StandardCharsets.UTF_8))
+        val signature =
+            buildString {
+                bytes.forEach {
+                    append(((it.toInt() and SignatureValues.ONE_BYTE_MASK) + SignatureValues.INCREMENT).toString(SignatureValues.RADIX).substring(BigInteger.ONE.toInt()))
+                }
+            }
         return "${SignatureValues.API_KEY}=$apiKey,${SignatureValues.SIGNATURE}=$signature,${SignatureValues.TIMESTAMP}=$timestamp"
     }
 }

@@ -17,15 +17,13 @@ package com.expediagroup.sdk.core.plugin.authentication
 
 import com.expediagroup.sdk.core.client.Client
 import com.expediagroup.sdk.core.constant.Authentication.AUTHORIZATION_REQUEST_LOCK_DELAY
-import com.expediagroup.sdk.core.constant.HeaderKey
-import com.expediagroup.sdk.core.constant.LoggingMessage.TOKEN_EXPIRED
 import com.expediagroup.sdk.core.plugin.Hook
 import com.expediagroup.sdk.core.plugin.HookBuilder
 import com.expediagroup.sdk.core.plugin.HookFactory
-import com.expediagroup.sdk.core.plugin.logging.ExpediaGroupLoggerFactory
 import io.ktor.client.plugins.HttpSend
 import io.ktor.client.plugins.plugin
 import io.ktor.client.request.HttpRequestBuilder
+import io.ktor.http.HttpHeaders
 import kotlinx.atomicfu.atomic
 import kotlinx.coroutines.delay
 
@@ -39,7 +37,6 @@ internal object AuthenticationHookFactory : HookFactory<AuthenticationConfigurat
 }
 
 private class AuthenticationHookBuilder(private val client: Client) : HookBuilder<AuthenticationConfiguration> {
-    private val log = ExpediaGroupLoggerFactory.getLogger(javaClass)
     private val lock = atomic(false)
     private val authenticationStrategy = client.getAuthenticationStrategy()
 
@@ -49,7 +46,6 @@ private class AuthenticationHookBuilder(private val client: Client) : HookBuilde
         httpClient.plugin(HttpSend).intercept { request ->
             if (!authenticationStrategy.isIdentityRequest(request)) {
                 if (authenticationStrategy.isTokenAboutToExpire()) {
-                    log.info(TOKEN_EXPIRED)
                     if (!lock.getAndSet(true)) {
                         try {
                             authenticationStrategy.renewToken()
@@ -66,6 +62,6 @@ private class AuthenticationHookBuilder(private val client: Client) : HookBuilde
     }
 
     private fun assignLatestToken(request: HttpRequestBuilder) {
-        request.headers[HeaderKey.AUTHORIZATION] = authenticationStrategy.getAuthorizationHeader()
+        request.headers[HttpHeaders.Authorization] = authenticationStrategy.getAuthorizationHeader()
     }
 }

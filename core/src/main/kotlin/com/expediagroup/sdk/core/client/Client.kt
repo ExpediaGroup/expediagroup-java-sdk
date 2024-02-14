@@ -47,7 +47,12 @@ import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.statement.HttpResponse
 
-val DEFAULT_HTTP_CLIENT_ENGINE: HttpClientEngine = OkHttp.create()
+val DEFAULT_HTTP_CLIENT_ENGINE: HttpClientEngine =
+    OkHttp.create {
+        config {
+            eventListener(OkHttpEventListener)
+        }
+    }
 
 /**
  * The base integration point between the SDK Core and the product SDKs.

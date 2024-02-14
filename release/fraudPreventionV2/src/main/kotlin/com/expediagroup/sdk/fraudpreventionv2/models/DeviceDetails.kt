@@ -56,7 +56,6 @@ data class DeviceDetails(
     val source: kotlin.String? = null,
     // Device related information retrieved from TrustWidget.
     @JsonProperty("device_box")
-    @field:Length(max = 16000)
     @field:Valid
     val deviceBox: kotlin.String? = null
 ) {

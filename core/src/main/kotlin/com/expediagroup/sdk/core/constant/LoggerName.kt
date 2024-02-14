@@ -16,5 +16,6 @@
 package com.expediagroup.sdk.core.constant
 
 internal object LoggerName {
+    const val REQUEST_BODY_LOGGER: String = "RequestBodyLogger"
     const val RESPONSE_BODY_LOGGER: String = "ResponseBodyLogger"
 }

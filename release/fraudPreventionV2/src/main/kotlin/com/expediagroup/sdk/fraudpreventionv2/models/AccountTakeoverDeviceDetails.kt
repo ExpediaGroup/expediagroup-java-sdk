@@ -48,7 +48,6 @@ import javax.validation.constraints.Pattern
 data class AccountTakeoverDeviceDetails(
     // Device related information retrieved from TrustWidget.
     @JsonProperty("device_box")
-    @field:Length(max = 16000)
     @field:Valid
     val deviceBox: kotlin.String,
     // IP address of the device used for this event.
@@ -58,7 +57,6 @@ data class AccountTakeoverDeviceDetails(
     val ipAddress: kotlin.String,
     // The application type, operating system, software vendor, or software version of the originating request.
     @JsonProperty("user_agent")
-    @field:Length(max = 200)
     @field:Valid
     val userAgent: kotlin.String,
     // Source of the device_box. Default value is `TrustWidget`.
