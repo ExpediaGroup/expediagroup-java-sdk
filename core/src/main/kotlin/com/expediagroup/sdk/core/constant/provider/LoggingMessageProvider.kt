@@ -23,7 +23,7 @@ internal object LoggingMessageProvider {
     fun getResponseUnsuccessfulMessage(
         httpStatusCode: HttpStatusCode,
         transactionId: String?
-    ) = "Unsuccessful response [$httpStatusCode] for transaction-id [$transactionId]"
+    ) = "Unsuccessful response [$httpStatusCode]${getTransactionIdMessage(transactionId)}"
 
     fun getChosenProviderMessage(
         property: String,
@@ -40,5 +40,5 @@ internal object LoggingMessageProvider {
         transactionId: String?
     ) = "Request Body${getTransactionIdMessage(transactionId)}: $body"
 
-    private fun getTransactionIdMessage(transactionId: String?) = if (transactionId != null) " of transaction-id [$transactionId]" else ""
+    fun getTransactionIdMessage(transactionId: String?) = if (transactionId != null) " for transaction-id [$transactionId]" else ""
 }
