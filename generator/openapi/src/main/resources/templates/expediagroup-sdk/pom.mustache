@@ -12,14 +12,8 @@
 
     <packaging>jar</packaging>
 
-    {{#isRapid}}
-        <name>EG Rapid SDK for Java</name>
-        <description>EG Rapid SDK v{{artifactVersion}}</description>
-    {{/isRapid}}
-    {{#isExpediaGroup}}
-        <name>EG SDK :: {{artifactId}}</name>
-        <description>EG SDK :: {{artifactId}} v{{artifactVersion}}</description>
-    {{/isExpediaGroup}}
+    <name>{{>maven/name}}</name>
+    <description>{{>maven/description}}</description>
 
     <artifactId>{{artifactId}}</artifactId>
     <version>${revision}</version>
