@@ -49,9 +49,9 @@ class HttpHandlerTest {
                     }
                 }
 
-                runBlocking {
+            runBlocking {
                 httpHandler.performGet(httpClient, "https://www.example.com")
-                }
+            }
 
             assertEquals(1, capturedRequestHeaders.size)
 
