@@ -40,7 +40,7 @@ import {{import}}
         val response = httpClient.request {
             method = HttpMethod.parse("{{httpMethod}}")
             url("{{#removeLeadingSlash}}{{path}}{{/removeLeadingSlash}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}"${{{paramName}}}"{{/isContainer}}){{/pathParams}})
-            appendHeaders(UUID.randomUUID())
+            appendHeaders()
         {{#headerParams}}
             {{paramName}}{{^required}}?{{/required}}.also{ headers.append("{{baseName}}", it) }
         {{/headerParams}}
