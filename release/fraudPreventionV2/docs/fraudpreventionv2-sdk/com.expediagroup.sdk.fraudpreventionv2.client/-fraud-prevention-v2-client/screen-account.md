@@ -6,10 +6,6 @@
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final [AccountScreenResponse](../../com.expediagroup.sdk.fraudpreventionv2.models/-account-screen-response/index.md)[screenAccount](screen-account.md)([AccountScreenRequest](../../com.expediagroup.sdk.fraudpreventionv2.models/-account-screen-request/index.md)accountScreenRequest, [UUID](https://docs.oracle.com/javase/8/docs/api/java/util/UUID.html)transactionId)
-
-@[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
-
 public final [AccountScreenResponse](../../com.expediagroup.sdk.fraudpreventionv2.models/-account-screen-response/index.md)[screenAccount](screen-account.md)([AccountScreenRequest](../../com.expediagroup.sdk.fraudpreventionv2.models/-account-screen-request/index.md)accountScreenRequest)
 
 Run fraud screening for one transaction The Account Screen API gives a Fraud recommendation for an account transaction. A recommendation can be ACCEPT, CHALLENGE, or REJECT. A transaction is marked as CHALLENGE whenever there are insufficient signals to recommend ACCEPT or REJECT. These CHALLENGE incidents are manually reviewed, and a corrected recommendation is made asynchronously.
@@ -25,7 +21,6 @@ JVM
 | |
 |---|
 | accountScreenRequest |
-| transactionId | The transaction id for the request (optional, defaults to a new UUID) |
 
 #### Throws
 
