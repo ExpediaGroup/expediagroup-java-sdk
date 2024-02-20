@@ -35,9 +35,11 @@ class DefaultEnvironmentProviderTest {
         @Test
         fun `Verify headers are appended`() {
             environmentProvider.apply {
-                httpRequestBuilder.appendHeaders()
+                val transactionId = java.util.UUID.randomUUID()
+                httpRequestBuilder.appendHeaders(transactionId)
 
                 assertEquals("dummy-title", httpRequestBuilder.headers["x-sdk-title"])
+                assertEquals(transactionId.toString(), httpRequestBuilder.headers["transaction-id"])
                 assertEquals("expediagroup-sdk-java-dummy/dummy-version (Java $javaVersion; $operatingSystemName $operatingSystemVersion)", httpRequestBuilder.headers["User-agent"])
             }
         }

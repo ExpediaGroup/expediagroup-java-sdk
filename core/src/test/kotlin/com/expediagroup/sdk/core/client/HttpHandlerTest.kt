@@ -16,11 +16,15 @@
 package com.expediagroup.sdk.core.client
 
 import com.expediagroup.sdk.core.constant.HeaderKey
-import com.expediagroup.sdk.core.test.ClientFactory
-import io.ktor.client.statement.request
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.mock.MockEngine
+import io.ktor.client.engine.mock.respond
+import io.ktor.http.Headers
 import io.ktor.http.HttpHeaders
+import io.ktor.http.HttpStatusCode
+import io.ktor.util.flattenEntries
 import kotlinx.coroutines.runBlocking
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
@@ -34,17 +38,28 @@ class HttpHandlerTest {
     inner class PerformGet {
         @Test
         fun `performGet should make a GET request and add certain headers`() {
-            val client = ClientFactory.createExpediaGroupClient()
-
-            val response =
-                runBlocking {
-                    httpHandler.performGet(client.httpClient, "https://www.example.com")
+            val capturedRequestHeaders = mutableListOf<Headers>()
+            val httpClient =
+                HttpClient(MockEngine) {
+                    engine {
+                        addHandler { request ->
+                            capturedRequestHeaders.add(request.headers)
+                            respond("Mock response", HttpStatusCode.OK)
+                        }
+                    }
                 }
 
-            val requestHeaders = response.request.headers
-            assertTrue(requestHeaders.contains(HeaderKey.X_SDK_TITLE) && requestHeaders[HeaderKey.X_SDK_TITLE] == "dummy-title")
-            assertTrue(requestHeaders.contains(HttpHeaders.UserAgent))
-            assertTrue(requestHeaders.contains(HeaderKey.TRANSACTION_ID))
+                runBlocking {
+                httpHandler.performGet(httpClient, "https://www.example.com")
+                }
+
+            assertEquals(1, capturedRequestHeaders.size)
+
+            val requestHeaders = capturedRequestHeaders[0].flattenEntries().toMap()
+
+            assert(requestHeaders.containsKey(HeaderKey.X_SDK_TITLE) && requestHeaders[HeaderKey.X_SDK_TITLE] == "dummy-title")
+            assert(requestHeaders.containsKey(HttpHeaders.UserAgent))
+            assert(requestHeaders.containsKey(HeaderKey.TRANSACTION_ID))
         }
     }
 }

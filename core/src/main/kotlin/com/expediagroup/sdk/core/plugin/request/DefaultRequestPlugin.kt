@@ -16,11 +16,8 @@
 package com.expediagroup.sdk.core.plugin.request
 
 import com.expediagroup.sdk.core.client.Client
-import com.expediagroup.sdk.core.constant.HeaderKey.TRANSACTION_ID
 import com.expediagroup.sdk.core.plugin.Plugin
 import io.ktor.client.plugins.DefaultRequest
-import io.ktor.client.request.header
-import java.util.UUID
 
 internal object DefaultRequestPlugin : Plugin<DefaultRequestConfiguration> {
     override fun install(
@@ -29,7 +26,6 @@ internal object DefaultRequestPlugin : Plugin<DefaultRequestConfiguration> {
     ) {
         configurations.httpClientConfiguration.install(DefaultRequest) {
             url(configurations.endpoint)
-            header(TRANSACTION_ID, UUID.randomUUID())
         }
     }
 }
