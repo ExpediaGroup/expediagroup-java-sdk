@@ -20,7 +20,6 @@ import io.ktor.client.request.request
 import io.ktor.client.request.url
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.HttpMethod
-import java.util.UUID
 
 internal interface HttpHandler {
     suspend fun performGet(
@@ -39,7 +38,7 @@ internal class DefaultHttpHandler(
         return httpClient.request {
             method = HttpMethod.Get
             url(link)
-            appendHeaders(UUID.randomUUID())
+            appendHeaders()
         }
     }
 }
