@@ -38,6 +38,6 @@ class ExpediaGroupAuthException(
     constructor(
         errorCode: HttpStatusCode,
         message: String,
-        transactionId: String
+        transactionId: String?
     ) : this(message = "[${errorCode.value}] $message", transactionId = transactionId)
 }

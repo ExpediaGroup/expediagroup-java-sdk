@@ -23,6 +23,7 @@ import com.expediagroup.sdk.core.constant.ExceptionMessage
 import com.expediagroup.sdk.core.constant.LoggingMessage
 import com.expediagroup.sdk.core.constant.provider.LoggingMessageProvider
 import com.expediagroup.sdk.core.model.exception.service.ExpediaGroupAuthException
+import com.expediagroup.sdk.core.model.getTransactionId
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationConfiguration
 import com.expediagroup.sdk.core.plugin.logging.ExpediaGroupLoggerFactory
 import io.ktor.client.HttpClient
@@ -78,7 +79,7 @@ internal class ExpediaGroupAuthenticationStrategy(
                 }
             }
         if (renewTokenResponse.status.value !in Constant.SUCCESSFUL_STATUS_CODES_RANGE) {
-            throw ExpediaGroupAuthException(renewTokenResponse.status, ExceptionMessage.AUTHENTICATION_FAILURE, transactionId.toString())
+            throw ExpediaGroupAuthException(renewTokenResponse.status, ExceptionMessage.AUTHENTICATION_FAILURE, renewTokenResponse.headers.getTransactionId())
         }
         val renewedTokenInfo: TokenResponse = runBlocking { renewTokenResponse.body() }
         log.info(LoggingMessage.TOKEN_RENEWAL_SUCCESSFUL)
