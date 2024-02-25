@@ -44,7 +44,6 @@ import io.ktor.http.clone
 import io.ktor.http.contentType
 import kotlinx.coroutines.runBlocking
 import java.time.LocalDateTime
-import java.util.UUID
 
 internal class ExpediaGroupAuthenticationStrategy(
     private val client: Client,
@@ -67,7 +66,6 @@ internal class ExpediaGroupAuthenticationStrategy(
         val httpClient = client.httpClient
         log.info(LoggingMessage.TOKEN_RENEWAL_IN_PROGRESS)
         clearTokens(httpClient)
-        val transactionId = UUID.randomUUID()
         val renewTokenResponse =
             runBlocking {
                 httpClient.request {
@@ -76,7 +74,7 @@ internal class ExpediaGroupAuthenticationStrategy(
                     contentType(ContentType.Application.FormUrlEncoded)
                     url(configs.authUrl)
                     basicAuth(configs.credentials)
-                    with(client) { appendHeaders(transactionId) }
+                    with(client) { appendHeaders() }
                 }
             }
         if (renewTokenResponse.status.value !in Constant.SUCCESSFUL_STATUS_CODES_RANGE) {

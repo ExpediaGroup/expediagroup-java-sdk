@@ -5,7 +5,7 @@
 <dependency>
     <groupId>com.expediagroup</groupId>
     <artifactId>fraudpreventionv2-sdk</artifactId>
-    <version>3.8.0</version>
+    <version>4.0.0</version>
 </dependency>
 ```
 

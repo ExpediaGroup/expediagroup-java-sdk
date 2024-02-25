@@ -6,10 +6,6 @@
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final [AccountUpdateResponse](../../com.expediagroup.sdk.fraudpreventionv2.models/-account-update-response/index.md)[notifyWithAccountUpdate](notify-with-account-update.md)([AccountUpdateRequest](../../com.expediagroup.sdk.fraudpreventionv2.models/-account-update-request/index.md)accountUpdateRequest, [UUID](https://docs.oracle.com/javase/8/docs/api/java/util/UUID.html)transactionId)
-
-@[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
-
 public final [AccountUpdateResponse](../../com.expediagroup.sdk.fraudpreventionv2.models/-account-update-response/index.md)[notifyWithAccountUpdate](notify-with-account-update.md)([AccountUpdateRequest](../../com.expediagroup.sdk.fraudpreventionv2.models/-account-update-request/index.md)accountUpdateRequest)
 
 Send an update as a result of an account screen transaction The Account Update API is called when there is an account lifecycle transition such as a challenge outcome, account restoration, or remediation action completion. For example, if a user's account is disabled, deleted, or restored, the Account Update API is called to notify Expedia Group about the change. The Account Update API is also called when a user responds to a login Multi-Factor Authentication based on a Fraud recommendation.
@@ -25,7 +21,6 @@ JVM
 | | |
 |---|---|
 | accountUpdateRequest | An AccountUpdate request may be of one of the following types `MULTI_FACTOR_AUTHENTICATION_UPDATE`, `REMEDIATION_UPDATE`. |
-| transactionId | The transaction id for the request (optional, defaults to a new UUID) |
 
 #### Throws
 

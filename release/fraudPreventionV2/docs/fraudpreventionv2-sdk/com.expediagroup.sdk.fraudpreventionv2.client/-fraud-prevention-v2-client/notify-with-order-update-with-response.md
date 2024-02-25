@@ -6,10 +6,6 @@
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final Response&lt;[OrderPurchaseUpdateResponse](../../com.expediagroup.sdk.fraudpreventionv2.models/-order-purchase-update-response/index.md)&gt;[notifyWithOrderUpdateWithResponse](notify-with-order-update-with-response.md)([OrderPurchaseUpdateRequest](../../com.expediagroup.sdk.fraudpreventionv2.models/-order-purchase-update-request/index.md)orderPurchaseUpdateRequest, [UUID](https://docs.oracle.com/javase/8/docs/api/java/util/UUID.html)transactionId)
-
-@[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
-
 public final Response&lt;[OrderPurchaseUpdateResponse](../../com.expediagroup.sdk.fraudpreventionv2.models/-order-purchase-update-response/index.md)&gt;[notifyWithOrderUpdateWithResponse](notify-with-order-update-with-response.md)([OrderPurchaseUpdateRequest](../../com.expediagroup.sdk.fraudpreventionv2.models/-order-purchase-update-request/index.md)orderPurchaseUpdateRequest)
 
 Send an update for a transaction The Order Purchase Update API is called when the status of the order has changed.  For example, if the customer cancels the reservation, changes reservation in any way, or adds additional products or travelers to the reservation, the Order Purchase Update API is called to notify Expedia Group about the change.  The Order Purchase Update API is also called when the merchant cancels or changes an order based on a Fraud recommendation.
@@ -25,7 +21,6 @@ JVM
 | | |
 |---|---|
 | orderPurchaseUpdateRequest | An OrderPurchaseUpdate request may be of one of the following types `ORDER_UPDATE`, `CHARGEBACK_FEEDBACK`, `INSULT_FEEDBACK`, `REFUND_UPDATE`, `PAYMENT_UPDATE`. |
-| transactionId | The transaction id for the request (optional, defaults to a new UUID) |
 
 #### Throws
 
