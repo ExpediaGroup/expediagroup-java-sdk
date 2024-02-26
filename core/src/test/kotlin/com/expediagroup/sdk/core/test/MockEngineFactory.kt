@@ -58,7 +58,7 @@ object MockEngineFactory {
             } else if (isBadRequest(request)) {
                 errorResponse()
             } else {
-                throw ExpediaGroupAuthException(HttpStatusCode.InternalServerError, "unsupported case in the mock engine", request.headers.getTransactionId().orEmpty())
+                throw ExpediaGroupAuthException(HttpStatusCode.InternalServerError, "unsupported case in the mock engine", request.headers.getTransactionId())
             }
         }
 
@@ -229,4 +229,9 @@ object MockEngineFactory {
             status = HttpStatusCode.BadRequest,
             headersOf(HttpHeaders.ContentType, APPLICATION_JSON)
         )
+
+    fun createEngineWithCustomResponse(block: MockRequestHandleScope.() -> HttpResponseData): MockEngine =
+        MockEngine {
+            if (isIdentityRequest(it)) tokenResponse(HttpStatusCode.OK) else block()
+        }
 }
