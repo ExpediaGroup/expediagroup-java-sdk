@@ -32,6 +32,8 @@ import com.expediagroup.sdk.core.plugin.authentication.AuthenticationPlugin
 import com.expediagroup.sdk.core.plugin.authentication.strategy.AuthenticationStrategy
 import com.expediagroup.sdk.core.plugin.encoding.EncodingConfiguration
 import com.expediagroup.sdk.core.plugin.encoding.EncodingPlugin
+import com.expediagroup.sdk.core.plugin.exception.ExceptionHandlingConfiguration
+import com.expediagroup.sdk.core.plugin.exception.ExceptionHandlingPlugin
 import com.expediagroup.sdk.core.plugin.hooks
 import com.expediagroup.sdk.core.plugin.httptimeout.HttpTimeoutConfiguration
 import com.expediagroup.sdk.core.plugin.httptimeout.HttpTimeoutPlugin
@@ -106,6 +108,7 @@ abstract class Client(
                 use(DefaultRequestPlugin).with(DefaultRequestConfiguration.from(httpClientConfig, endpoint))
                 use(EncodingPlugin).with(EncodingConfiguration.from(httpClientConfig))
                 use(HttpTimeoutPlugin).with(HttpTimeoutConfiguration.from(httpClientConfig, requestTimeout))
+                use(ExceptionHandlingPlugin).with(ExceptionHandlingConfiguration.from(httpClientConfig))
             }
 
             hooks {

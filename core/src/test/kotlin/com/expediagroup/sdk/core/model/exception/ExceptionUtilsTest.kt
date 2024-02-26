@@ -15,9 +15,13 @@
  */
 package com.expediagroup.sdk.core.model.exception
 
+import com.expediagroup.sdk.core.constant.provider.ExceptionMessageProvider
+import com.expediagroup.sdk.core.model.exception.service.ExpediaGroupServiceException
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import java.util.UUID
+import java.util.*
 
 class ExceptionUtilsTest {
     @Nested
@@ -26,9 +30,43 @@ class ExceptionUtilsTest {
         fun `should throw ExpediaGroupException when it is ExpediaGroupException`() {
             val exception = ExpediaGroupException()
             try {
+                exception.handle()
+            } catch (e: Exception) {
+                assertTrue(e is ExpediaGroupException)
+            }
+        }
+
+        @Test
+        fun `should throw ExpediaGroupException when cause is ExpediaGroupException`() {
+            val exception = RuntimeException(ExpediaGroupException())
+            try {
+                exception.handle()
+            } catch (e: Exception) {
+                assertTrue(e is ExpediaGroupException)
+            }
+        }
+
+        @Test
+        fun `should throw ExpediaGroupException even when cause is not ExpediaGroupException`() {
+            val exception = RuntimeException()
+            try {
+                exception.handle()
+            } catch (e: Exception) {
+                assertTrue(e is ExpediaGroupException)
+                assertEquals(ExceptionMessageProvider.getExceptionOccurredMessage(), (e as ExpediaGroupException).message)
+            }
+        }
+    }
+
+    @Nested
+    inner class HandleWith {
+        @Test
+        fun `should throw ExpediaGroupException when it is ExpediaGroupException`() {
+            val exception = ExpediaGroupException()
+            try {
                 exception.handleWith(UUID.randomUUID().toString())
             } catch (e: Exception) {
-                assert(e is ExpediaGroupException)
+                assertTrue(e is ExpediaGroupException)
             }
         }
 
@@ -38,17 +76,19 @@ class ExceptionUtilsTest {
             try {
                 exception.handleWith(UUID.randomUUID().toString())
             } catch (e: Exception) {
-                assert(e is ExpediaGroupException)
+                assertTrue(e is ExpediaGroupException)
             }
         }
 
         @Test
         fun `should throw ExpediaGroupException even when cause is not ExpediaGroupException`() {
             val exception = RuntimeException()
+            val transactionId = UUID.randomUUID().toString()
             try {
-                exception.handleWith(UUID.randomUUID().toString())
+                exception.handleWith(transactionId)
             } catch (e: Exception) {
-                assert(e is ExpediaGroupException)
+                assertTrue(e is ExpediaGroupServiceException)
+                assertEquals(transactionId, (e as ExpediaGroupServiceException).transactionId)
             }
         }
     }

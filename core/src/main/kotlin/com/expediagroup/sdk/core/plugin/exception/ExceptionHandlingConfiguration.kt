@@ -13,18 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.model.exception.service
+package com.expediagroup.sdk.core.plugin.exception
 
-import com.expediagroup.sdk.core.model.exception.ExpediaGroupException
+import com.expediagroup.sdk.core.plugin.KtorPluginConfiguration
+import io.ktor.client.HttpClientConfig
+import io.ktor.client.engine.HttpClientEngineConfig
 
-/**
- * An exception that is thrown when a service error occurs.
- *
- * @param message An optional error message.
- * @param cause An optional cause of the error.
- */
-open class ExpediaGroupServiceException(
-    message: String? = null,
-    cause: Throwable? = null,
-    val transactionId: String? = null
-) : ExpediaGroupException(message, cause)
+internal data class ExceptionHandlingConfiguration(
+    override val httpClientConfiguration: HttpClientConfig<out HttpClientEngineConfig>,
+) : KtorPluginConfiguration(httpClientConfiguration) {
+    companion object {
+        fun from(httpClientConfig: HttpClientConfig<out HttpClientEngineConfig>) = ExceptionHandlingConfiguration(httpClientConfig)
+    }
+}

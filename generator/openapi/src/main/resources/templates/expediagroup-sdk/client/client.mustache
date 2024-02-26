@@ -110,7 +110,7 @@ import {{import}}
                 k{{operationId}}WithResponse({{>client/apiParamsPassed}})
             }.get()
         } catch (exception: Exception) {
-            exception.handleWith(transactionId.toString())
+            exception.handle()
         }
     }
     {{/isKotlin}}
