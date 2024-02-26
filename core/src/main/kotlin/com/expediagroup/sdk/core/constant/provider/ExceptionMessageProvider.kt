@@ -21,5 +21,6 @@ internal object ExceptionMessageProvider {
     fun getMissingRequiredConfigurationMessage(name: String): String = "Missing required configuration: $name"
 
     fun getExceptionOccurredWithTransactionIdMessage(transactionId: String): String = getExceptionOccurredMessage() + getTransactionIdMessage(transactionId)
+
     fun getExceptionOccurredMessage(): String = "Exception occurred"
 }

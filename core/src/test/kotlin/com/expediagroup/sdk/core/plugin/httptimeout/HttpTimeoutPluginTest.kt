@@ -17,6 +17,7 @@ package com.expediagroup.sdk.core.plugin.httptimeout
 
 import com.expediagroup.sdk.core.configuration.ExpediaGroupClientConfiguration
 import com.expediagroup.sdk.core.configuration.provider.ExpediaGroupConfigurationProvider
+import com.expediagroup.sdk.core.model.exception.service.ExpediaGroupServiceException
 import com.expediagroup.sdk.core.test.ClientFactory
 import com.expediagroup.sdk.core.test.MockEngineFactory
 import com.expediagroup.sdk.core.test.TestConstants
@@ -25,7 +26,7 @@ import io.ktor.client.request.get
 import io.ktor.http.HttpStatusCode
 import io.mockk.clearAllMocks
 import kotlinx.coroutines.runBlocking
-import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -59,9 +60,11 @@ internal class HttpTimeoutPluginTest {
                 configuration = expediaGroupConfiguration
             )
 
-        assertThrows<HttpRequestTimeoutException> {
-            runBlocking { client.httpClient.get("/any-url") }
-        }
+        val exception =
+            assertThrows<ExpediaGroupServiceException> {
+                runBlocking { client.httpClient.get("/any-url") }
+            }
+        assertThat(exception).hasCauseExactlyInstanceOf(HttpRequestTimeoutException::class.java)
     }
 
     @Test
@@ -74,7 +77,7 @@ internal class HttpTimeoutPluginTest {
 
         runBlocking {
             val request = client.httpClient.get("/any-url")
-            Assertions.assertThat(request.status).isEqualTo(HttpStatusCode.OK)
+            assertThat(request.status).isEqualTo(HttpStatusCode.OK)
         }
     }
 }
