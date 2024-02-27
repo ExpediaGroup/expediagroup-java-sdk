@@ -20,7 +20,5 @@ import com.expediagroup.sdk.core.constant.provider.LoggingMessageProvider.getTra
 internal object ExceptionMessageProvider {
     fun getMissingRequiredConfigurationMessage(name: String): String = "Missing required configuration: $name"
 
-    fun getExceptionOccurredWithTransactionIdMessage(transactionId: String): String = getExceptionOccurredMessage() + getTransactionIdMessage(transactionId)
-
-    fun getExceptionOccurredMessage(): String = "Exception occurred"
+    fun getExceptionOccurredWithTransactionIdMessage(transactionId: String?): String = "Exception occurred" + getTransactionIdMessage(transactionId)
 }

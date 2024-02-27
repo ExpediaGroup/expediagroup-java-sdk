@@ -15,9 +15,9 @@
  */
 package com.expediagroup.sdk.core.model.exception
 
-import com.expediagroup.sdk.core.constant.provider.ExceptionMessageProvider
 import com.expediagroup.sdk.core.model.exception.service.ExpediaGroupServiceException
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -52,8 +52,9 @@ class ExceptionUtilsTest {
             try {
                 exception.handle()
             } catch (e: Exception) {
-                assertTrue(e is ExpediaGroupException)
-                assertEquals(ExceptionMessageProvider.getExceptionOccurredMessage(), (e as ExpediaGroupException).message)
+                assertTrue(e is ExpediaGroupServiceException)
+                assertEquals("Exception occurred", (e as ExpediaGroupServiceException).message)
+                assertNull(e.transactionId)
             }
         }
     }
@@ -88,7 +89,8 @@ class ExceptionUtilsTest {
                 exception.handleWith(transactionId)
             } catch (e: Exception) {
                 assertTrue(e is ExpediaGroupServiceException)
-                assertEquals(transactionId, (e as ExpediaGroupServiceException).transactionId)
+                assertEquals("Exception occurred for transaction-id [$transactionId]", (e as ExpediaGroupServiceException).message)
+                assertEquals(transactionId, e.transactionId)
             }
         }
     }

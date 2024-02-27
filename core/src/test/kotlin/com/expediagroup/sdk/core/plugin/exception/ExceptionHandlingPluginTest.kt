@@ -16,7 +16,6 @@
 package com.expediagroup.sdk.core.plugin.exception
 
 import com.expediagroup.sdk.core.constant.HeaderKey.TRANSACTION_ID
-import com.expediagroup.sdk.core.model.exception.ExpediaGroupException
 import com.expediagroup.sdk.core.model.exception.service.ExpediaGroupServiceException
 import com.expediagroup.sdk.core.test.ClientFactory
 import com.expediagroup.sdk.core.test.MockEngineFactory
@@ -26,7 +25,7 @@ import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import java.util.*
+import java.util.UUID
 
 internal class ExceptionHandlingPluginTest {
     @Test
@@ -54,7 +53,7 @@ internal class ExceptionHandlingPluginTest {
     }
 
     @Test
-    fun `request without transaction-id exceptions get wrapped with ExpediaGroupException`() {
+    fun `request without transaction-id exceptions get wrapped with ExpediaGroupServiceException`() {
         runBlocking {
             val httpClient =
                 ClientFactory.createExpediaGroupClient(
@@ -63,12 +62,12 @@ internal class ExceptionHandlingPluginTest {
                     }
                 ).httpClient
 
-
             val exception =
-                assertThrows<ExpediaGroupException> {
+                assertThrows<ExpediaGroupServiceException> {
                     httpClient.get(TestConstants.ANY_URL)
                 }
             assertThat(exception.message).isEqualTo("Exception occurred")
+            assertThat(exception.transactionId).isNull()
             assertThat(exception).hasCauseExactlyInstanceOf(IllegalArgumentException::class.java)
             assertThat(exception.cause?.message).isEqualTo("Argument must be legal")
         }

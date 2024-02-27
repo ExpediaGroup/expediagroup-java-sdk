@@ -416,6 +416,8 @@
                             <exclude>**/authentication/AuthenticationConfiguration*</exclude>
                             <exclude>**/authentication/AuthenticationPlugin*</exclude>
 
+                            <exclude>**/exception/ExceptionHandlingPlugin*</exclude>
+
                             <exclude>**/logging/**</exclude>
                             <exclude>**/serialization/**</exclude>
 
