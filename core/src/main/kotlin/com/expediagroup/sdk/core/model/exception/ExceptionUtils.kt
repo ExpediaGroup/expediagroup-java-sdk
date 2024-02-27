@@ -18,10 +18,14 @@ package com.expediagroup.sdk.core.model.exception
 import com.expediagroup.sdk.core.constant.provider.ExceptionMessageProvider
 import com.expediagroup.sdk.core.model.exception.service.ExpediaGroupServiceException
 
-/** Make sure that we only throw [ExpediaGroupException]s. */
+/** Handles exceptions by ensuring that only instances of [ExpediaGroupException] are thrown. */
 fun Throwable.handle(): Nothing = handleWith(null)
 
-/** Make sure that we only throw [ExpediaGroupException]s. */
+/**
+ * Handles exceptions by ensuring that only instances of [ExpediaGroupException] are thrown.
+ *
+ * @param transactionId the transaction ID to be included in the exception message, can be null.
+ */
 fun Throwable.handleWith(transactionId: String?): Nothing {
     if (this is ExpediaGroupException) throw this
 
