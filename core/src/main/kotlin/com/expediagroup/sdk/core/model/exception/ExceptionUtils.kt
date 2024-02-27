@@ -27,6 +27,10 @@ fun Throwable.handleWith(transactionId: String?): Nothing {
 
     when (val cause = this.cause) {
         is ExpediaGroupException -> throw cause
-        else -> throw ExpediaGroupServiceException(ExceptionMessageProvider.getExceptionOccurredWithTransactionIdMessage(transactionId), this, transactionId)
+        else -> throw ExpediaGroupServiceException(
+            ExceptionMessageProvider.getExceptionOccurredWithTransactionIdMessage(transactionId, message),
+            this,
+            transactionId
+        )
     }
 }

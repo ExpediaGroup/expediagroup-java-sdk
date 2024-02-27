@@ -45,7 +45,7 @@ internal class ExceptionHandlingPluginTest {
                         headers.append(TRANSACTION_ID, transactionId)
                     }
                 }
-            assertThat(exception.message).isEqualTo("Exception occurred for transaction-id [$transactionId]")
+            assertThat(exception.message).isEqualTo("Exception occurred for transaction-id [$transactionId]: Division by zero")
             assertThat(exception.transactionId).isEqualTo(transactionId)
             assertThat(exception).hasCauseExactlyInstanceOf(ArithmeticException::class.java)
             assertThat(exception.cause?.message).isEqualTo("Division by zero")
@@ -66,7 +66,7 @@ internal class ExceptionHandlingPluginTest {
                 assertThrows<ExpediaGroupServiceException> {
                     httpClient.get(TestConstants.ANY_URL)
                 }
-            assertThat(exception.message).isEqualTo("Exception occurred")
+            assertThat(exception.message).isEqualTo("Exception occurred: Argument must be legal")
             assertThat(exception.transactionId).isNull()
             assertThat(exception).hasCauseExactlyInstanceOf(IllegalArgumentException::class.java)
             assertThat(exception.cause?.message).isEqualTo("Argument must be legal")

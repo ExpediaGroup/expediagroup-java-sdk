@@ -48,12 +48,12 @@ class ExceptionUtilsTest {
 
         @Test
         fun `should throw ExpediaGroupException even when cause is not ExpediaGroupException`() {
-            val exception = RuntimeException()
+            val exception = RuntimeException("Some message")
             try {
                 exception.handle()
             } catch (e: Exception) {
                 assertTrue(e is ExpediaGroupServiceException)
-                assertEquals("Exception occurred", (e as ExpediaGroupServiceException).message)
+                assertEquals("Exception occurred: Some message", (e as ExpediaGroupServiceException).message)
                 assertNull(e.transactionId)
             }
         }
