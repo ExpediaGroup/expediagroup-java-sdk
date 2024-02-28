@@ -38,20 +38,20 @@ jobs:
       name: ${{ github.event.inputs.name }}
       version: ${{ github.event.inputs.version }}
   publish_sources:
-    if: ${{ github.event.inputs.production_release == 'true' }}
+#    if: ${{ github.event.inputs.production_release == 'true' }}
     needs: [ generate ]
     uses: ./.github/workflows/generator-publish-sources.yaml
     with:
       name: ${{ github.event.inputs.name }}
       version: ${{ github.event.inputs.version }}
-  publish_artifact:
-    needs: [ generate ]
-    uses: ./.github/workflows/generator-publish-artifact.yaml
-    secrets: inherit
-    with:
-      production_release: ${{ github.event.inputs.production_release == 'true' }}
-  draft_release:
-    if: ${{ github.event.inputs.production_release == 'true' }}
-    needs: [ generate ]
-    secrets: inherit
-    uses: ./.github/workflows/generator-draft-release.yaml
+#  publish_artifact:
+#    needs: [ generate ]
+#    uses: ./.github/workflows/generator-publish-artifact.yaml
+#    secrets: inherit
+#    with:
+#      production_release: ${{ github.event.inputs.production_release == 'true' }}
+#  draft_release:
+#    if: ${{ github.event.inputs.production_release == 'true' }}
+#    needs: [ generate ]
+#    secrets: inherit
+#    uses: ./.github/workflows/generator-draft-release.yaml
