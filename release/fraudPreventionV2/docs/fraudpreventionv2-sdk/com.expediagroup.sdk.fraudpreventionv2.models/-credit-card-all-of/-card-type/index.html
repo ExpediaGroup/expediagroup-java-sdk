@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>CardType</title>
+    <link href="../../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../../styles/style.css" rel="Stylesheet">
+<link href="../../../../styles/main.css" rel="Stylesheet">
+<link href="../../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+                    <a class="library-name--link" href="../../../../index.html">
+                            fraudpreventionv2-sdk
+                    </a>
+            </div>
+            <div class="library-version">
+            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter="fraudpreventionv2-sdk/JVM">JVM</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="fraudpreventionv2-sdk::com.expediagroup.sdk.fraudpreventionv2.models/CreditCardAllOf.CardType///PointingToDeclaration//-173342751">
+  <div class="breadcrumbs"><a href="../../../../index.html">fraudpreventionv2-sdk</a><span class="delimiter">/</span><a href="../../index.html">com.expediagroup.sdk.fraudpreventionv2.models</a><span class="delimiter">/</span><a href="../index.html">CreditCardAllOf</a><span class="delimiter">/</span><span class="current">CardType</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Card</span><wbr></wbr><span><span>Type</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace"><span class="token keyword">public </span><span class="token keyword">enum </span><a href="index.html">CardType</a><span class="token keyword"> extends </span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html">Enum</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">CreditCardAllOf.CardType</a><span class="token operator">&gt;</span></div><p class="paragraph">The 'card_type' field value is an enum value which is associated with the payment method of the specific payment instrument. For credit card payment method ensure attributes mentioned in dictionary below are set to corresponding values only. Ensure to comply with the naming standards provided in below dictionary. For example, some Payment processors use “Japan Credit Bureau” but “JCB” should be used when calling Fraud API. Incorrect <code class="lang-kotlin">card_type</code> - <code class="lang-kotlin">brand</code> combination will result in data quality issues and result in degraded risk recommendation. 'card_type' is an enum value with the following mapping with Payment <code class="lang-kotlin">brand</code> attribute: *       card_type            :          brand * -------------------------------------------------------- * <code class="lang-kotlin">AMERICAN_EXPRESS</code>         : <code class="lang-kotlin">AMERICAN_EXPRESS</code> * <code class="lang-kotlin">DINERS_CLUB</code>              : <code class="lang-kotlin">DINERS_CLUB_INTERNATIONAL</code> * <code class="lang-kotlin">DINERS_CLUB</code>              : <code class="lang-kotlin">BC_CARD</code> * <code class="lang-kotlin">DISCOVER</code>                 : <code class="lang-kotlin">DISCOVER</code> * <code class="lang-kotlin">DISCOVER</code>                 : <code class="lang-kotlin">BC_CARD</code> * <code class="lang-kotlin">DISCOVER</code>                 : <code class="lang-kotlin">DINERS_CLUB_INTERNATIONAL</code> * <code class="lang-kotlin">DISCOVER</code>                 : <code class="lang-kotlin">JCB</code> * <code class="lang-kotlin">JCB</code>                      : <code class="lang-kotlin">JCB</code> * <code class="lang-kotlin">MASTER_CARD</code>              : <code class="lang-kotlin">MASTER_CARD</code> * <code class="lang-kotlin">MASTER_CARD</code>              : <code class="lang-kotlin">MAESTRO</code> * <code class="lang-kotlin">MASTER_CARD</code>              : <code class="lang-kotlin">POSTEPAY_MASTERCARD</code> * <code class="lang-kotlin">SOLO</code>                     : <code class="lang-kotlin">SOLO</code> * <code class="lang-kotlin">SWITCH</code>                   : <code class="lang-kotlin">SWITCH</code> * <code class="lang-kotlin">MAESTRO</code>                  : <code class="lang-kotlin">MAESTRO</code> * <code class="lang-kotlin">CHINA_UNION_PAY</code>          : <code class="lang-kotlin">CHINA_UNION_PAY</code> * <code class="lang-kotlin">UATP</code>                     : <code class="lang-kotlin">UATP</code> * <code class="lang-kotlin">UATP</code>                     : <code class="lang-kotlin">UATP_SUPPLY</code> * <code class="lang-kotlin">UATP</code>                     : <code class="lang-kotlin">AIR_PLUS</code> * <code class="lang-kotlin">UATP</code>                     : <code class="lang-kotlin">UA_PASS_PLUS</code> * <code class="lang-kotlin">VISA</code>                     : <code class="lang-kotlin">VISA</code> * <code class="lang-kotlin">VISA</code>                     : <code class="lang-kotlin">VISA_DELTA</code> * <code class="lang-kotlin">VISA</code>                     : <code class="lang-kotlin">VISA_ELECTRON</code> * <code class="lang-kotlin">VISA</code>                     : <code class="lang-kotlin">CARTA_SI</code> * <code class="lang-kotlin">VISA</code>                     : <code class="lang-kotlin">CARTE_BLEUE</code> * <code class="lang-kotlin">VISA</code>                     : <code class="lang-kotlin">VISA_DANKORT</code> * <code class="lang-kotlin">VISA</code>                     : <code class="lang-kotlin">POSTEPAY_VISA_ELECTRON</code> Values: AMERICAN_EXPRESS,DINERS_CLUB,DISCOVER,JCB,MASTER_CARD,SOLO,SWITCH,MAESTRO,CHINA_UNION_PAY,UATP,VISA</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button><button class="section-tab" data-togglable="ENTRY">Entries</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="ENTRY">
+        <h2 class="">Entries</h2>
+        <div class="table"><a data-name="325734317%2FClasslikes%2F-173342751" anchor-label="AMERICAN_EXPRESS" id="325734317%2FClasslikes%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-togglable="ENTRY" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-a-m-e-r-i-c-a-n_-e-x-p-r-e-s-s/index.html">AMERICAN_EXPRESS</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="325734317%2FClasslikes%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace"><a href="-a-m-e-r-i-c-a-n_-e-x-p-r-e-s-s/index.html">AMERICAN_EXPRESS</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-232016284%2FClasslikes%2F-173342751" anchor-label="DINERS_CLUB" id="-232016284%2FClasslikes%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-togglable="ENTRY" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-d-i-n-e-r-s_-c-l-u-b/index.html">DINERS_CLUB</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-232016284%2FClasslikes%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace"><a href="-d-i-n-e-r-s_-c-l-u-b/index.html">DINERS_CLUB</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-150571163%2FClasslikes%2F-173342751" anchor-label="DISCOVER" id="-150571163%2FClasslikes%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-togglable="ENTRY" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-d-i-s-c-o-v-e-r/index.html">DISCOVER</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-150571163%2FClasslikes%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace"><a href="-d-i-s-c-o-v-e-r/index.html">DISCOVER</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1813421739%2FClasslikes%2F-173342751" anchor-label="JCB" id="-1813421739%2FClasslikes%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-togglable="ENTRY" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-j-c-b/index.html">JCB</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1813421739%2FClasslikes%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace"><a href="-j-c-b/index.html">JCB</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1516355321%2FClasslikes%2F-173342751" anchor-label="MASTER_CARD" id="1516355321%2FClasslikes%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-togglable="ENTRY" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-m-a-s-t-e-r_-c-a-r-d/index.html">MASTER_CARD</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1516355321%2FClasslikes%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace"><a href="-m-a-s-t-e-r_-c-a-r-d/index.html">MASTER_CARD</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2014934491%2FClasslikes%2F-173342751" anchor-label="SOLO" id="2014934491%2FClasslikes%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-togglable="ENTRY" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-s-o-l-o/index.html">SOLO</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2014934491%2FClasslikes%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace"><a href="-s-o-l-o/index.html">SOLO</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="438020976%2FClasslikes%2F-173342751" anchor-label="SWITCH" id="438020976%2FClasslikes%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-togglable="ENTRY" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-s-w-i-t-c-h/index.html">SWITCH</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="438020976%2FClasslikes%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace"><a href="-s-w-i-t-c-h/index.html">SWITCH</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1538448965%2FClasslikes%2F-173342751" anchor-label="MAESTRO" id="-1538448965%2FClasslikes%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-togglable="ENTRY" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-m-a-e-s-t-r-o/index.html">MAESTRO</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1538448965%2FClasslikes%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace"><a href="-m-a-e-s-t-r-o/index.html">MAESTRO</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-657537316%2FClasslikes%2F-173342751" anchor-label="CHINA_UNION_PAY" id="-657537316%2FClasslikes%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-togglable="ENTRY" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-c-h-i-n-a_-u-n-i-o-n_-p-a-y/index.html">CHINA_UNION_PAY</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-657537316%2FClasslikes%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace"><a href="-c-h-i-n-a_-u-n-i-o-n_-p-a-y/index.html">CHINA_UNION_PAY</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="327668036%2FClasslikes%2F-173342751" anchor-label="UATP" id="327668036%2FClasslikes%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-togglable="ENTRY" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-u-a-t-p/index.html">UATP</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="327668036%2FClasslikes%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace"><a href="-u-a-t-p/index.html">UATP</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="424218045%2FClasslikes%2F-173342751" anchor-label="VISA" id="424218045%2FClasslikes%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-togglable="ENTRY" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-v-i-s-a/index.html">VISA</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="424218045%2FClasslikes%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace"><a href="-v-i-s-a/index.html">VISA</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="-1801136938%2FProperties%2F-173342751" anchor-label="entries" id="-1801136938%2FProperties%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1801136938%2FProperties%2F-173342751"><span><span>entries</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1801136938%2FProperties%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.enums/-enum-entries/index.html">EnumEntries</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">CreditCardAllOf.CardType</a><span class="token operator">&gt;</span> <a href="index.html#-1801136938%2FProperties%2F-173342751">entries</a></div><div class="brief "><p class="paragraph">Returns a representation of an immutable list of all enum entries, in the order they're declared.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1089285461%2FProperties%2F-173342751" anchor-label="value" id="1089285461%2FProperties%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1089285461%2FProperties%2F-173342751"><span><span>value</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1089285461%2FProperties%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a> <a href="index.html#1089285461%2FProperties%2F-173342751">value</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="1845927002%2FFunctions%2F-173342751" anchor-label="getEntries" id="1845927002%2FFunctions%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-entries.html"><span>get</span><wbr></wbr><span><span>Entries</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1845927002%2FFunctions%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.enums/-enum-entries/index.html">EnumEntries</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">CreditCardAllOf.CardType</a><span class="token operator">&gt;</span> <a href="get-entries.html"><span class="token function">getEntries</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">The 'card_type' field value is an enum value which is associated with the payment method of the specific payment instrument. For credit card payment method ensure attributes mentioned in dictionary below are set to corresponding values only. Ensure to comply with the naming standards provided in below dictionary. For example, some Payment processors use “Japan Credit Bureau” but “JCB” should be used when calling Fraud API. Incorrect <code class="lang-kotlin">card_type</code> - <code class="lang-kotlin">brand</code> combination will result in data quality issues and result in degraded risk recommendation. 'card_type' is an enum value with the following mapping with Payment <code class="lang-kotlin">brand</code> attribute: *       card_type            :          brand * -------------------------------------------------------- * <code class="lang-kotlin">AMERICAN_EXPRESS</code>         : <code class="lang-kotlin">AMERICAN_EXPRESS</code> * <code class="lang-kotlin">DINERS_CLUB</code>              : <code class="lang-kotlin">DINERS_CLUB_INTERNATIONAL</code> * <code class="lang-kotlin">DINERS_CLUB</code>              : <code class="lang-kotlin">BC_CARD</code> * <code class="lang-kotlin">DISCOVER</code>                 : <code class="lang-kotlin">DISCOVER</code> * <code class="lang-kotlin">DISCOVER</code>                 : <code class="lang-kotlin">BC_CARD</code> * <code class="lang-kotlin">DISCOVER</code>                 : <code class="lang-kotlin">DINERS_CLUB_INTERNATIONAL</code> * <code class="lang-kotlin">DISCOVER</code>                 : <code class="lang-kotlin">JCB</code> * <code class="lang-kotlin">JCB</code>                      : <code class="lang-kotlin">JCB</code> * <code class="lang-kotlin">MASTER_CARD</code>              : <code class="lang-kotlin">MASTER_CARD</code> * <code class="lang-kotlin">MASTER_CARD</code>              : <code class="lang-kotlin">MAESTRO</code> * <code class="lang-kotlin">MASTER_CARD</code>              : <code class="lang-kotlin">POSTEPAY_MASTERCARD</code> * <code class="lang-kotlin">SOLO</code>                     : <code class="lang-kotlin">SOLO</code> * <code class="lang-kotlin">SWITCH</code>                   : <code class="lang-kotlin">SWITCH</code> * <code class="lang-kotlin">MAESTRO</code>                  : <code class="lang-kotlin">MAESTRO</code> * <code class="lang-kotlin">CHINA_UNION_PAY</code>          : <code class="lang-kotlin">CHINA_UNION_PAY</code> * <code class="lang-kotlin">UATP</code>                     : <code class="lang-kotlin">UATP</code> * <code class="lang-kotlin">UATP</code>                     : <code class="lang-kotlin">UATP_SUPPLY</code> * <code class="lang-kotlin">UATP</code>                     : <code class="lang-kotlin">AIR_PLUS</code> * <code class="lang-kotlin">UATP</code>                     : <code class="lang-kotlin">UA_PASS_PLUS</code> * <code class="lang-kotlin">VISA</code>                     : <code class="lang-kotlin">VISA</code> * <code class="lang-kotlin">VISA</code>                     : <code class="lang-kotlin">VISA_DELTA</code> * <code class="lang-kotlin">VISA</code>                     : <code class="lang-kotlin">VISA_ELECTRON</code> * <code class="lang-kotlin">VISA</code>                     : <code class="lang-kotlin">CARTA_SI</code> * <code class="lang-kotlin">VISA</code>                     : <code class="lang-kotlin">CARTE_BLEUE</code> * <code class="lang-kotlin">VISA</code>                     : <code class="lang-kotlin">VISA_DANKORT</code> * <code class="lang-kotlin">VISA</code>                     : <code class="lang-kotlin">POSTEPAY_VISA_ELECTRON</code> Values: AMERICAN_EXPRESS,DINERS_CLUB,DISCOVER,JCB,MASTER_CARD,SOLO,SWITCH,MAESTRO,CHINA_UNION_PAY,UATP,VISA</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="543360473%2FFunctions%2F-173342751" anchor-label="getValue" id="543360473%2FFunctions%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-value.html"><span>get</span><wbr></wbr><span><span>Value</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="543360473%2FFunctions%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a> <a href="get-value.html"><span class="token function">getValue</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1912204154%2FFunctions%2F-173342751" anchor-label="valueOf" id="-1912204154%2FFunctions%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="value-of.html"><span>value</span><wbr></wbr><span><span>Of</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1912204154%2FFunctions%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="index.html">CreditCardAllOf.CardType</a> <a href="value-of.html"><span class="token function">valueOf</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a> value</span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Returns the enum constant of this type with the specified name. The string must match exactly an identifier used to declare an enum constant in this type. (Extraneous whitespace characters are not permitted.)</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="974365714%2FFunctions%2F-173342751" anchor-label="values" id="974365714%2FFunctions%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="values.html"><span><span>values</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="974365714%2FFunctions%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html">Array</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">CreditCardAllOf.CardType</a><span class="token operator">&gt;</span> <a href="values.html"><span class="token function">values</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Returns an array containing the constants of this enum type, in the order they're declared.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

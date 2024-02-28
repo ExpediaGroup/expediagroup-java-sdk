@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>Payment</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+                    <a class="library-name--link" href="../../../index.html">
+                            fraudpreventionv2-sdk
+                    </a>
+            </div>
+            <div class="library-version">
+            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter="fraudpreventionv2-sdk/JVM">JVM</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="fraudpreventionv2-sdk::com.expediagroup.sdk.fraudpreventionv2.models/Payment///PointingToDeclaration//-173342751">
+  <div class="breadcrumbs"><a href="../../../index.html">fraudpreventionv2-sdk</a><span class="delimiter">/</span><a href="../index.html">com.expediagroup.sdk.fraudpreventionv2.models</a><span class="delimiter">/</span><span class="current">Payment</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>Payment</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace"><span class="token keyword">public </span><span class="token keyword">interface </span><a href="index.html">Payment</a></div><p class="paragraph">The <code class="lang-kotlin">method</code> field value is used as a discriminator, with the following mapping: * <code class="lang-kotlin">CREDIT_CARD</code>: <code class="lang-kotlin">CreditCard</code> * <code class="lang-kotlin">PAYPAL</code>: <code class="lang-kotlin">PayPal</code> * <code class="lang-kotlin">POINTS</code>: <code class="lang-kotlin">Points</code> * <code class="lang-kotlin">GIFT_CARD</code>: <code class="lang-kotlin">GiftCard</code> * <code class="lang-kotlin">INTERNET_BANK_PAYMENT</code>: <code class="lang-kotlin">InternetBankPayment</code> * <code class="lang-kotlin">DIRECT_DEBIT</code>: <code class="lang-kotlin">DirectDebit</code></p><h4 class="">Parameters</h4><div class="table"><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>brand</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The <code class="lang-kotlin">brand</code> field value is the payment brand used for payment on this transaction. For credit card payment method ensure attributes mentioned in dictionary below are set to corresponding values only. Ensure to comply with the naming standards provided in below dictionary. For example, some Payment processors use “Japan Credit Bureau” but “JCB” should be used when calling Fraud API. Incorrect <code class="lang-kotlin">brand</code> - <code class="lang-kotlin">card_type</code> combination will result in data quality issues and result in degraded risk recommendation. 'brand' is an enum value with the following mapping with CreditCard 'card_type' attribute: *       brand                 :      card_type * ------------------------------------------------------- * <code class="lang-kotlin">AMERICAN_EXPRESS</code>          : <code class="lang-kotlin">AMERICAN_EXPRESS</code> * <code class="lang-kotlin">DINERS_CLUB_INTERNATIONAL</code> : <code class="lang-kotlin">DINERS_CLUB</code> * <code class="lang-kotlin">BC_CARD</code>                   : <code class="lang-kotlin">DINERS_CLUB</code> * <code class="lang-kotlin">DISCOVER</code>                  : <code class="lang-kotlin">DISCOVER</code> * <code class="lang-kotlin">BC_CARD</code>                   : <code class="lang-kotlin">DISCOVER</code> * <code class="lang-kotlin">DINERS_CLUB_INTERNATIONAL</code> : <code class="lang-kotlin">DISCOVER</code> * <code class="lang-kotlin">JCB</code>                       : <code class="lang-kotlin">DISCOVER</code> * <code class="lang-kotlin">JCB</code>                       : <code class="lang-kotlin">JCB</code> * <code class="lang-kotlin">MASTER_CARD</code>               : <code class="lang-kotlin">MASTER_CARD</code> * <code class="lang-kotlin">MAESTRO</code>                   : <code class="lang-kotlin">MASTER_CARD</code> * <code class="lang-kotlin">POSTEPAY_MASTERCARD</code>       : <code class="lang-kotlin">MASTER_CARD</code> * <code class="lang-kotlin">SOLO</code>                      : <code class="lang-kotlin">SOLO</code> * <code class="lang-kotlin">SWITCH</code>                    : <code class="lang-kotlin">SWITCH</code> * <code class="lang-kotlin">MAESTRO</code>                   : <code class="lang-kotlin">MAESTRO</code> * <code class="lang-kotlin">CHINA_UNION_PAY</code>           : <code class="lang-kotlin">CHINA_UNION_PAY</code> * <code class="lang-kotlin">UATP</code>                      : <code class="lang-kotlin">UATP</code> * <code class="lang-kotlin">UATP_SUPPLY</code>               : <code class="lang-kotlin">UATP</code> * <code class="lang-kotlin">AIR_PLUS</code>                  : <code class="lang-kotlin">UATP</code> * <code class="lang-kotlin">UA_PASS_PLUS</code>              : <code class="lang-kotlin">UATP</code> * <code class="lang-kotlin">VISA</code>                      : <code class="lang-kotlin">VISA</code> * <code class="lang-kotlin">VISA_DELTA</code>                : <code class="lang-kotlin">VISA</code> * <code class="lang-kotlin">VISA_ELECTRON</code>             : <code class="lang-kotlin">VISA</code> * <code class="lang-kotlin">CARTA_SI</code>                  : <code class="lang-kotlin">VISA</code> * <code class="lang-kotlin">CARTE_BLEUE</code>               : <code class="lang-kotlin">VISA</code> * <code class="lang-kotlin">VISA_DANKORT</code>              : <code class="lang-kotlin">VISA</code> * <code class="lang-kotlin">POSTEPAY_VISA_ELECTRON</code>    : <code class="lang-kotlin">VISA</code> * <code class="lang-kotlin">PAYPAL</code>                    :  'brand' with 'Points' payment_type is an enum value with following: * <code class="lang-kotlin">EXPEDIA_REWARDS</code> * <code class="lang-kotlin">AMEX_POINTS</code> * <code class="lang-kotlin">BANK_OF_AMERICA_REWARDS</code> * <code class="lang-kotlin">DISCOVER_POINTS</code> * <code class="lang-kotlin">MASTER_CARD_POINTS</code> * <code class="lang-kotlin">CITI_THANK_YOU_POINTS</code> * <code class="lang-kotlin">MERRILL_LYNCH_REWARDS</code> * <code class="lang-kotlin">WELLS_FARGO_POINTS</code> * <code class="lang-kotlin">DELTA_SKY_MILES</code> * <code class="lang-kotlin">UNITED_POINTS</code> * <code class="lang-kotlin">DISCOVER_MILES</code> * <code class="lang-kotlin">ALASKA_MILES</code> * <code class="lang-kotlin">RBC_REWARDS</code> * <code class="lang-kotlin">BILT_REWARDS</code> * <code class="lang-kotlin">ORBUCKS</code> * <code class="lang-kotlin">CHEAP_CASH</code> * <code class="lang-kotlin">BONUS_PLUS</code> * <code class="lang-kotlin">ULTIMATE_REWARDS</code>  'brand' with 'GiftCard' payment_type is an enum value with following: * <code class="lang-kotlin">GIFT_CARD</code>  'brand' with 'InternetBankPayment' payment_type is an enum value with following: * <code class="lang-kotlin">IBP</code> * <code class="lang-kotlin">LOCAL_DEBIT_CARD</code> * <code class="lang-kotlin">SOFORT</code> * <code class="lang-kotlin">YANDEX</code> * <code class="lang-kotlin">WEB_MONEY</code> * <code class="lang-kotlin">QIWI</code> * <code class="lang-kotlin">BITCOIN</code>  'brand' with 'DirectDebit' payment_type is an enum value with following: * <code class="lang-kotlin">ELV</code> * <code class="lang-kotlin">INTER_COMPANY</code> * <code class="lang-kotlin">SEPA_ELV</code></p></div></div></div></div><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>method</span></span></u></div></span></div><div></div></div></div><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>billing</span><wbr></wbr><span><span>Name</span></span></u></div></span></div><div></div></div></div><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>billing</span><wbr></wbr><span><span>Address</span></span></u></div></span></div><div></div></div></div><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>billing</span><wbr></wbr><span>Email</span><wbr></wbr><span><span>Address</span></span></u></div></span></div><div><div class="title"><p class="paragraph">Email address associated with the payment.</p></div></div></div></div><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>reason</span></span></u></div></span></div><div></div></div></div><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>authorized</span><wbr></wbr><span><span>Amount</span></span></u></div></span></div><div></div></div></div><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>verified</span><wbr></wbr><span><span>Amount</span></span></u></div></span></div><div></div></div></div><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>three</span><wbr></wbr><span>Digits</span><wbr></wbr><span>Secure</span><wbr></wbr><span><span>Criteria</span></span></u></div></span></div><div></div></div></div><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>operations</span></span></u></div></span></div><div></div></div></div><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>extensions</span></span></u></div></span></div><div><div class="title"><p class="paragraph">A key-value pair map to hold additional attributes.</p></div></div></div></div></div><h4 class="">Inheritors</h4><div class="table"><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="../-credit-card/index.html">CreditCard</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="../-direct-debit/index.html">DirectDebit</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="../-gift-card/index.html">GiftCard</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="../-internet-bank-payment/index.html">InternetBankPayment</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="../-pay-pal/index.html">PayPal</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="../-points/index.html">Points</a></div></span></div><div></div></div></div></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="TYPE">
+        <h2 class="">Types</h2>
+        <div class="table"><a data-name="1045383599%2FClasslikes%2F-173342751" anchor-label="Brand" id="1045383599%2FClasslikes%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-brand/index.html"><span><span>Brand</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1045383599%2FClasslikes%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace"><span class="token keyword">public </span><span class="token keyword">enum </span><a href="-brand/index.html">Brand</a><span class="token keyword"> extends </span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html">Enum</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="-brand/index.html">Payment.Brand</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">The <code class="lang-kotlin">brand</code> field value is the payment brand used for payment on this transaction. For credit card payment method ensure attributes mentioned in dictionary below are set to corresponding values only. Ensure to comply with the naming standards provided in below dictionary. For example, some Payment processors use “Japan Credit Bureau” but “JCB” should be used when calling Fraud API. Incorrect <code class="lang-kotlin">brand</code> - <code class="lang-kotlin">card_type</code> combination will result in data quality issues and result in degraded risk recommendation. 'brand' is an enum value with the following mapping with CreditCard 'card_type' attribute: *       brand                 :      card_type * ------------------------------------------------------- * <code class="lang-kotlin">AMERICAN_EXPRESS</code>          : <code class="lang-kotlin">AMERICAN_EXPRESS</code> * <code class="lang-kotlin">DINERS_CLUB_INTERNATIONAL</code> : <code class="lang-kotlin">DINERS_CLUB</code> * <code class="lang-kotlin">BC_CARD</code>                   : <code class="lang-kotlin">DINERS_CLUB</code> * <code class="lang-kotlin">DISCOVER</code>                  : <code class="lang-kotlin">DISCOVER</code> * <code class="lang-kotlin">BC_CARD</code>                   : <code class="lang-kotlin">DISCOVER</code> * <code class="lang-kotlin">DINERS_CLUB_INTERNATIONAL</code> : <code class="lang-kotlin">DISCOVER</code> * <code class="lang-kotlin">JCB</code>                       : <code class="lang-kotlin">DISCOVER</code> * <code class="lang-kotlin">JCB</code>                       : <code class="lang-kotlin">JCB</code> * <code class="lang-kotlin">MASTER_CARD</code>               : <code class="lang-kotlin">MASTER_CARD</code> * <code class="lang-kotlin">MAESTRO</code>                   : <code class="lang-kotlin">MASTER_CARD</code> * <code class="lang-kotlin">POSTEPAY_MASTERCARD</code>       : <code class="lang-kotlin">MASTER_CARD</code> * <code class="lang-kotlin">SOLO</code>                      : <code class="lang-kotlin">SOLO</code> * <code class="lang-kotlin">SWITCH</code>                    : <code class="lang-kotlin">SWITCH</code> * <code class="lang-kotlin">MAESTRO</code>                   : <code class="lang-kotlin">MAESTRO</code> * <code class="lang-kotlin">CHINA_UNION_PAY</code>           : <code class="lang-kotlin">CHINA_UNION_PAY</code> * <code class="lang-kotlin">UATP</code>                      : <code class="lang-kotlin">UATP</code> * <code class="lang-kotlin">UATP_SUPPLY</code>               : <code class="lang-kotlin">UATP</code> * <code class="lang-kotlin">AIR_PLUS</code>                  : <code class="lang-kotlin">UATP</code> * <code class="lang-kotlin">UA_PASS_PLUS</code>              : <code class="lang-kotlin">UATP</code> * <code class="lang-kotlin">VISA</code>                      : <code class="lang-kotlin">VISA</code> * <code class="lang-kotlin">VISA_DELTA</code>                : <code class="lang-kotlin">VISA</code> * <code class="lang-kotlin">VISA_ELECTRON</code>             : <code class="lang-kotlin">VISA</code> * <code class="lang-kotlin">CARTA_SI</code>                  : <code class="lang-kotlin">VISA</code> * <code class="lang-kotlin">CARTE_BLEUE</code>               : <code class="lang-kotlin">VISA</code> * <code class="lang-kotlin">VISA_DANKORT</code>              : <code class="lang-kotlin">VISA</code> * <code class="lang-kotlin">POSTEPAY_VISA_ELECTRON</code>    : <code class="lang-kotlin">VISA</code> * <code class="lang-kotlin">PAYPAL</code>                    :  'brand' with 'Points' payment_type is an enum value with following: * <code class="lang-kotlin">EXPEDIA_REWARDS</code> * <code class="lang-kotlin">AMEX_POINTS</code> * <code class="lang-kotlin">BANK_OF_AMERICA_REWARDS</code> * <code class="lang-kotlin">DISCOVER_POINTS</code> * <code class="lang-kotlin">MASTER_CARD_POINTS</code> * <code class="lang-kotlin">CITI_THANK_YOU_POINTS</code> * <code class="lang-kotlin">MERRILL_LYNCH_REWARDS</code> * <code class="lang-kotlin">WELLS_FARGO_POINTS</code> * <code class="lang-kotlin">DELTA_SKY_MILES</code> * <code class="lang-kotlin">UNITED_POINTS</code> * <code class="lang-kotlin">DISCOVER_MILES</code> * <code class="lang-kotlin">ALASKA_MILES</code> * <code class="lang-kotlin">RBC_REWARDS</code> * <code class="lang-kotlin">BILT_REWARDS</code> * <code class="lang-kotlin">ORBUCKS</code> * <code class="lang-kotlin">CHEAP_CASH</code> * <code class="lang-kotlin">BONUS_PLUS</code> * <code class="lang-kotlin">ULTIMATE_REWARDS</code>  'brand' with 'GiftCard' payment_type is an enum value with following: * <code class="lang-kotlin">GIFT_CARD</code>  'brand' with 'InternetBankPayment' payment_type is an enum value with following: * <code class="lang-kotlin">IBP</code> * <code class="lang-kotlin">LOCAL_DEBIT_CARD</code> * <code class="lang-kotlin">SOFORT</code> * <code class="lang-kotlin">YANDEX</code> * <code class="lang-kotlin">WEB_MONEY</code> * <code class="lang-kotlin">QIWI</code> * <code class="lang-kotlin">BITCOIN</code>  'brand' with 'DirectDebit' payment_type is an enum value with following: * <code class="lang-kotlin">ELV</code> * <code class="lang-kotlin">INTER_COMPANY</code> * <code class="lang-kotlin">SEPA_ELV</code> Values: AMERICAN_EXPRESS,DINERS_CLUB_INTERNATIONAL,BC_CARD,DISCOVER,JCB,MASTER_CARD,MAESTRO,POSTEPAY_MASTERCARD,SOLO,SWITCH,CHINA_UNION_PAY,UATP,UATP_SUPPLY,AIR_PLUS,UA_PASS_PLUS,VISA,VISA_DELTA,VISA_ELECTRON,CARTA_SI,CARTE_BLEUE,VISA_DANKORT,POSTEPAY_VISA_ELECTRON,PAYPAL,EXPEDIA_REWARDS,AMEX_POINTS,BANK_OF_AMERICA_REWARDS,DISCOVER_POINTS,MASTER_CARD_POINTS,CITI_THANK_YOU_POINTS,MERRILL_LYNCH_REWARDS,WELLS_FARGO_POINTS,DELTA_SKY_MILES,UNITED_POINTS,DISCOVER_MILES,ALASKA_MILES,RBC_REWARDS,BILT_REWARDS,ORBUCKS,CHEAP_CASH,BONUS_PLUS,ULTIMATE_REWARDS,GIFT_CARD,IBP,LOCAL_DEBIT_CARD,SOFORT,YANDEX,WEB_MONEY,QIWI,BITCOIN,ELV,INTER_COMPANY,SEPA_ELV</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="1223577946%2FFunctions%2F-173342751" anchor-label="getAuthorizedAmount" id="1223577946%2FFunctions%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-authorized-amount.html"><span>get</span><wbr></wbr><span>Authorized</span><wbr></wbr><span><span>Amount</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1223577946%2FFunctions%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">abstract </span><span class="token keyword"></span><a href="../-amount/index.html">Amount</a> <a href="get-authorized-amount.html"><span class="token function">getAuthorizedAmount</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-925156108%2FFunctions%2F-173342751" anchor-label="getBillingAddress" id="-925156108%2FFunctions%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-billing-address.html"><span>get</span><wbr></wbr><span>Billing</span><wbr></wbr><span><span>Address</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-925156108%2FFunctions%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">abstract </span><span class="token keyword"></span><a href="../-payment-billing-address/index.html">PaymentBillingAddress</a> <a href="get-billing-address.html"><span class="token function">getBillingAddress</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1066785338%2FFunctions%2F-173342751" anchor-label="getBillingEmailAddress" id="1066785338%2FFunctions%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-billing-email-address.html"><span>get</span><wbr></wbr><span>Billing</span><wbr></wbr><span>Email</span><wbr></wbr><span><span>Address</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1066785338%2FFunctions%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">abstract </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a> <a href="get-billing-email-address.html"><span class="token function">getBillingEmailAddress</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-572725049%2FFunctions%2F-173342751" anchor-label="getBillingName" id="-572725049%2FFunctions%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-billing-name.html"><span>get</span><wbr></wbr><span>Billing</span><wbr></wbr><span><span>Name</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-572725049%2FFunctions%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">abstract </span><span class="token keyword"></span><a href="../-name/index.html">Name</a> <a href="get-billing-name.html"><span class="token function">getBillingName</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2023547898%2FFunctions%2F-173342751" anchor-label="getBrand" id="-2023547898%2FFunctions%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-brand.html"><span>get</span><wbr></wbr><span><span>Brand</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2023547898%2FFunctions%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">abstract </span><span class="token keyword"></span><a href="-brand/index.html">Payment.Brand</a> <a href="get-brand.html"><span class="token function">getBrand</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1583865401%2FFunctions%2F-173342751" anchor-label="getExtensions" id="1583865401%2FFunctions%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-extensions.html"><span>get</span><wbr></wbr><span><span>Extensions</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1583865401%2FFunctions%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">abstract </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html">Map</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span class="token operator">&gt;</span> <a href="get-extensions.html"><span class="token function">getExtensions</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1717506572%2FFunctions%2F-173342751" anchor-label="getMethod" id="1717506572%2FFunctions%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-method.html"><span>get</span><wbr></wbr><span><span>Method</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1717506572%2FFunctions%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">abstract </span><span class="token keyword"></span><a href="../-payment-method/index.html">PaymentMethod</a> <a href="get-method.html"><span class="token function">getMethod</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-175442591%2FFunctions%2F-173342751" anchor-label="getOperations" id="-175442591%2FFunctions%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-operations.html"><span>get</span><wbr></wbr><span><span>Operations</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-175442591%2FFunctions%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">abstract </span><span class="token keyword"></span><a href="../-operations/index.html">Operations</a> <a href="get-operations.html"><span class="token function">getOperations</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="695571977%2FFunctions%2F-173342751" anchor-label="getReason" id="695571977%2FFunctions%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-reason.html"><span>get</span><wbr></wbr><span><span>Reason</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="695571977%2FFunctions%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">abstract </span><span class="token keyword"></span><a href="../-payment-reason/index.html">PaymentReason</a> <a href="get-reason.html"><span class="token function">getReason</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1578481229%2FFunctions%2F-173342751" anchor-label="getThreeDigitsSecureCriteria" id="-1578481229%2FFunctions%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-three-digits-secure-criteria.html"><span>get</span><wbr></wbr><span>Three</span><wbr></wbr><span>Digits</span><wbr></wbr><span>Secure</span><wbr></wbr><span><span>Criteria</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1578481229%2FFunctions%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">abstract </span><span class="token keyword"></span><a href="../-payment-three-d-s-criteria/index.html">PaymentThreeDSCriteria</a> <a href="get-three-digits-secure-criteria.html"><span class="token function">getThreeDigitsSecureCriteria</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-331807091%2FFunctions%2F-173342751" anchor-label="getVerifiedAmount" id="-331807091%2FFunctions%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-verified-amount.html"><span>get</span><wbr></wbr><span>Verified</span><wbr></wbr><span><span>Amount</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-331807091%2FFunctions%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">abstract </span><span class="token keyword"></span><a href="../-amount/index.html">Amount</a> <a href="get-verified-amount.html"><span class="token function">getVerifiedAmount</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

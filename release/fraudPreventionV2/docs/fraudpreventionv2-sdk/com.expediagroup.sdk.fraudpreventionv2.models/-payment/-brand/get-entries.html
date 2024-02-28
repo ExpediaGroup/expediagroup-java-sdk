@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>getEntries</title>
+    <link href="../../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../../styles/style.css" rel="Stylesheet">
+<link href="../../../../styles/main.css" rel="Stylesheet">
+<link href="../../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+                    <a class="library-name--link" href="../../../../index.html">
+                            fraudpreventionv2-sdk
+                    </a>
+            </div>
+            <div class="library-version">
+            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter="fraudpreventionv2-sdk/JVM">JVM</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="member" id="content" pageIds="fraudpreventionv2-sdk::com.expediagroup.sdk.fraudpreventionv2.models/Payment.Brand/getEntries/#/PointingToDeclaration//-173342751">
+  <div class="breadcrumbs"><a href="../../../../index.html">fraudpreventionv2-sdk</a><span class="delimiter">/</span><a href="../../index.html">com.expediagroup.sdk.fraudpreventionv2.models</a><span class="delimiter">/</span><a href="../index.html">Payment</a><span class="delimiter">/</span><a href="index.html">Brand</a><span class="delimiter">/</span><span class="current">getEntries</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>get</span><wbr></wbr><span><span>Entries</span></span></h1>
+  </div>
+  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.enums/-enum-entries/index.html">EnumEntries</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">Payment.Brand</a><span class="token operator">&gt;</span> <a href="get-entries.html"><span class="token function">getEntries</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><p class="paragraph">The <code class="lang-kotlin">brand</code> field value is the payment brand used for payment on this transaction. For credit card payment method ensure attributes mentioned in dictionary below are set to corresponding values only. Ensure to comply with the naming standards provided in below dictionary. For example, some Payment processors use “Japan Credit Bureau” but “JCB” should be used when calling Fraud API. Incorrect <code class="lang-kotlin">brand</code> - <code class="lang-kotlin">card_type</code> combination will result in data quality issues and result in degraded risk recommendation. 'brand' is an enum value with the following mapping with CreditCard 'card_type' attribute: *       brand                 :      card_type * ------------------------------------------------------- * <code class="lang-kotlin">AMERICAN_EXPRESS</code>          : <code class="lang-kotlin">AMERICAN_EXPRESS</code> * <code class="lang-kotlin">DINERS_CLUB_INTERNATIONAL</code> : <code class="lang-kotlin">DINERS_CLUB</code> * <code class="lang-kotlin">BC_CARD</code>                   : <code class="lang-kotlin">DINERS_CLUB</code> * <code class="lang-kotlin">DISCOVER</code>                  : <code class="lang-kotlin">DISCOVER</code> * <code class="lang-kotlin">BC_CARD</code>                   : <code class="lang-kotlin">DISCOVER</code> * <code class="lang-kotlin">DINERS_CLUB_INTERNATIONAL</code> : <code class="lang-kotlin">DISCOVER</code> * <code class="lang-kotlin">JCB</code>                       : <code class="lang-kotlin">DISCOVER</code> * <code class="lang-kotlin">JCB</code>                       : <code class="lang-kotlin">JCB</code> * <code class="lang-kotlin">MASTER_CARD</code>               : <code class="lang-kotlin">MASTER_CARD</code> * <code class="lang-kotlin">MAESTRO</code>                   : <code class="lang-kotlin">MASTER_CARD</code> * <code class="lang-kotlin">POSTEPAY_MASTERCARD</code>       : <code class="lang-kotlin">MASTER_CARD</code> * <code class="lang-kotlin">SOLO</code>                      : <code class="lang-kotlin">SOLO</code> * <code class="lang-kotlin">SWITCH</code>                    : <code class="lang-kotlin">SWITCH</code> * <code class="lang-kotlin">MAESTRO</code>                   : <code class="lang-kotlin">MAESTRO</code> * <code class="lang-kotlin">CHINA_UNION_PAY</code>           : <code class="lang-kotlin">CHINA_UNION_PAY</code> * <code class="lang-kotlin">UATP</code>                      : <code class="lang-kotlin">UATP</code> * <code class="lang-kotlin">UATP_SUPPLY</code>               : <code class="lang-kotlin">UATP</code> * <code class="lang-kotlin">AIR_PLUS</code>                  : <code class="lang-kotlin">UATP</code> * <code class="lang-kotlin">UA_PASS_PLUS</code>              : <code class="lang-kotlin">UATP</code> * <code class="lang-kotlin">VISA</code>                      : <code class="lang-kotlin">VISA</code> * <code class="lang-kotlin">VISA_DELTA</code>                : <code class="lang-kotlin">VISA</code> * <code class="lang-kotlin">VISA_ELECTRON</code>             : <code class="lang-kotlin">VISA</code> * <code class="lang-kotlin">CARTA_SI</code>                  : <code class="lang-kotlin">VISA</code> * <code class="lang-kotlin">CARTE_BLEUE</code>               : <code class="lang-kotlin">VISA</code> * <code class="lang-kotlin">VISA_DANKORT</code>              : <code class="lang-kotlin">VISA</code> * <code class="lang-kotlin">POSTEPAY_VISA_ELECTRON</code>    : <code class="lang-kotlin">VISA</code> * <code class="lang-kotlin">PAYPAL</code>                    :  'brand' with 'Points' payment_type is an enum value with following: * <code class="lang-kotlin">EXPEDIA_REWARDS</code> * <code class="lang-kotlin">AMEX_POINTS</code> * <code class="lang-kotlin">BANK_OF_AMERICA_REWARDS</code> * <code class="lang-kotlin">DISCOVER_POINTS</code> * <code class="lang-kotlin">MASTER_CARD_POINTS</code> * <code class="lang-kotlin">CITI_THANK_YOU_POINTS</code> * <code class="lang-kotlin">MERRILL_LYNCH_REWARDS</code> * <code class="lang-kotlin">WELLS_FARGO_POINTS</code> * <code class="lang-kotlin">DELTA_SKY_MILES</code> * <code class="lang-kotlin">UNITED_POINTS</code> * <code class="lang-kotlin">DISCOVER_MILES</code> * <code class="lang-kotlin">ALASKA_MILES</code> * <code class="lang-kotlin">RBC_REWARDS</code> * <code class="lang-kotlin">BILT_REWARDS</code> * <code class="lang-kotlin">ORBUCKS</code> * <code class="lang-kotlin">CHEAP_CASH</code> * <code class="lang-kotlin">BONUS_PLUS</code> * <code class="lang-kotlin">ULTIMATE_REWARDS</code>  'brand' with 'GiftCard' payment_type is an enum value with following: * <code class="lang-kotlin">GIFT_CARD</code>  'brand' with 'InternetBankPayment' payment_type is an enum value with following: * <code class="lang-kotlin">IBP</code> * <code class="lang-kotlin">LOCAL_DEBIT_CARD</code> * <code class="lang-kotlin">SOFORT</code> * <code class="lang-kotlin">YANDEX</code> * <code class="lang-kotlin">WEB_MONEY</code> * <code class="lang-kotlin">QIWI</code> * <code class="lang-kotlin">BITCOIN</code>  'brand' with 'DirectDebit' payment_type is an enum value with following: * <code class="lang-kotlin">ELV</code> * <code class="lang-kotlin">INTER_COMPANY</code> * <code class="lang-kotlin">SEPA_ELV</code> Values: AMERICAN_EXPRESS,DINERS_CLUB_INTERNATIONAL,BC_CARD,DISCOVER,JCB,MASTER_CARD,MAESTRO,POSTEPAY_MASTERCARD,SOLO,SWITCH,CHINA_UNION_PAY,UATP,UATP_SUPPLY,AIR_PLUS,UA_PASS_PLUS,VISA,VISA_DELTA,VISA_ELECTRON,CARTA_SI,CARTE_BLEUE,VISA_DANKORT,POSTEPAY_VISA_ELECTRON,PAYPAL,EXPEDIA_REWARDS,AMEX_POINTS,BANK_OF_AMERICA_REWARDS,DISCOVER_POINTS,MASTER_CARD_POINTS,CITI_THANK_YOU_POINTS,MERRILL_LYNCH_REWARDS,WELLS_FARGO_POINTS,DELTA_SKY_MILES,UNITED_POINTS,DISCOVER_MILES,ALASKA_MILES,RBC_REWARDS,BILT_REWARDS,ORBUCKS,CHEAP_CASH,BONUS_PLUS,ULTIMATE_REWARDS,GIFT_CARD,IBP,LOCAL_DEBIT_CARD,SOFORT,YANDEX,WEB_MONEY,QIWI,BITCOIN,ELV,INTER_COMPANY,SEPA_ELV</p></div></div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
