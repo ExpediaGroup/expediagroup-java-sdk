@@ -38,12 +38,16 @@ jobs:
       name: ${{ github.event.inputs.name }}
       version: ${{ github.event.inputs.version }}
   publish_sources:
-#    if: ${{ github.event.inputs.production_release == 'true' }}
+    #    if: ${{ github.event.inputs.production_release == 'true' }}
     needs: [ generate ]
     uses: ./.github/workflows/generator-publish-sources.yaml
     with:
       name: ${{ github.event.inputs.name }}
       version: ${{ github.event.inputs.version }}
+  publish_docs:
+    needs: [ publish_sources ]
+    uses: ./.github/workflows/generator-publish-docs.yaml
+
 #  publish_artifact:
 #    needs: [ generate ]
 #    uses: ./.github/workflows/generator-publish-artifact.yaml

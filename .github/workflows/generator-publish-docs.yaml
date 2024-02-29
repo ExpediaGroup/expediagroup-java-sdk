@@ -1,0 +1,25 @@
+on:
+  workflow_call:
+
+jobs:
+  create-gh-pages-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create new branch
+        run: |
+          git checkout -b gh-pages
+
+      - name: Copy docs to new branch
+        run: |
+          cp -r release/fraudPreventionV2/docs/* .
+
+      - name: Push to repository
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+          git add .
+          git commit -m "Update GitHub Pages"
+          git push origin gh-pages
