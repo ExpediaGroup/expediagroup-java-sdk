@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>LoginTransactionDetailsAllOf</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+                    <a class="library-name--link" href="../../../index.html">
+                            fraudpreventionv2-sdk
+                    </a>
+            </div>
+            <div class="library-version">
+            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter="fraudpreventionv2-sdk/JVM">JVM</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="fraudpreventionv2-sdk::com.expediagroup.sdk.fraudpreventionv2.models/LoginTransactionDetailsAllOf///PointingToDeclaration//-173342751">
+  <div class="breadcrumbs"><a href="../../../index.html">fraudpreventionv2-sdk</a><span class="delimiter">/</span><a href="../index.html">com.expediagroup.sdk.fraudpreventionv2.models</a><span class="delimiter">/</span><span class="current">LoginTransactionDetailsAllOf</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Login</span><wbr></wbr><span>Transaction</span><wbr></wbr><span>Details</span><wbr></wbr><span>All</span><wbr></wbr><span><span>Of</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><span class="token keyword">class </span><a href="index.html">LoginTransactionDetailsAllOf</a></div><p class="paragraph">Specific information about a login transaction for a user.</p><h4 class="">Parameters</h4><div class="table"><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>authentication</span><wbr></wbr><span><span>Type</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The type of login authentication method used by a user. For <code class="lang-kotlin">authentication_type</code> ensure attributes mentioned in dictionary below are set to corresponding values only. <code class="lang-kotlin">authentication_type</code> is an enum value with the following mapping with <code class="lang-kotlin">authentication_sub_type</code> attribute: *       authentication_type       :     authentication_sub_type * ------------------------------------------------------------------------------- * <code class="lang-kotlin">CREDENTIALS</code>                         : <code class="lang-kotlin">EMAIL</code> * <code class="lang-kotlin">CREDENTIALS</code>                         : * <code class="lang-kotlin">PASSWORD_RESET</code>                      : <code class="lang-kotlin">EMAIL</code> * <code class="lang-kotlin">SINGLE_SIGN_ON</code>                      : <code class="lang-kotlin">EMAIL</code> * <code class="lang-kotlin">MULTI_FACTOR_AUTHENTICATION</code>         : <code class="lang-kotlin">EMAIL</code> * <code class="lang-kotlin">MULTI_FACTOR_AUTHENTICATION</code>         : <code class="lang-kotlin">PHONE</code> * <code class="lang-kotlin">SOCIAL</code>                              : <code class="lang-kotlin">GOOGLE</code> * <code class="lang-kotlin">SOCIAL</code>                              : <code class="lang-kotlin">FACEBOOK</code> * <code class="lang-kotlin">SOCIAL</code>                              : <code class="lang-kotlin">APPLE</code></p></div></div></div></div><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>successful</span><wbr></wbr><span>Login</span><wbr></wbr><span><span>Flag</span></span></u></div></span></div><div><div class="title"><p class="paragraph">Identifies if a login attempt by a user was successful or not.</p></div></div></div></div><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>authentication</span><wbr></wbr><span>Sub</span><wbr></wbr><span><span>Type</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The sub type of login authentication method used by a user. For <code class="lang-kotlin">authentication_sub_type</code> ensure attributes mentioned in dictionary below are set to corresponding values only. <code class="lang-kotlin">authentication_sub_type</code> is an enum value with the following mapping with <code class="lang-kotlin">authentication_type</code> attribute: *       authentication_sub_type   :     authentication_type * ------------------------------------------------------------------------------- * <code class="lang-kotlin">EMAIL</code>                               : <code class="lang-kotlin">CREDENTIALS</code> * <code class="lang-kotlin">EMAIL</code>                               : <code class="lang-kotlin">PASSWORD_RESET</code> * <code class="lang-kotlin">EMAIL</code>                               : <code class="lang-kotlin">SINGLE_SIGN_ON</code> * <code class="lang-kotlin">EMAIL</code>                               : <code class="lang-kotlin">MULTI_FACTOR_AUTHENTICATION</code> * <code class="lang-kotlin">PHONE</code>                               : <code class="lang-kotlin">MULTI_FACTOR_AUTHENTICATION</code> * <code class="lang-kotlin">GOOGLE</code>                              : <code class="lang-kotlin">SOCIAL</code> * <code class="lang-kotlin">FACEBOOK</code>                            : <code class="lang-kotlin">SOCIAL</code> * <code class="lang-kotlin">APPLE</code>                               : <code class="lang-kotlin">SOCIAL</code> *                                       : <code class="lang-kotlin">CREDENTIALS</code></p></div></div></div></div><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>failed</span><wbr></wbr><span>Login</span><wbr></wbr><span><span>Reason</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The reason for the failed login attempt in the Partner''s system, related to user failure or Partner''s system failure. - <code class="lang-kotlin">INVALID_CREDENTIALS</code> - Applicable if the user provided invalid login credentials for this login attempt. - <code class="lang-kotlin">ACCOUNT_NOT_FOUND</code> - Applicable if the user attempted to login to an account that doesn't exist. - <code class="lang-kotlin">VERIFICATION_FAILED</code> - Applicable if the user failed the verification for this login, or any authentication exception occured in the Partner system for this login attempt. - <code class="lang-kotlin">ACCOUNT_LOCKED</code> - Applicable if the user attempted to login to an account that is locked.</p></div></div></div></div></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="">Constructors</h2>
+        <div class="table"><a data-name="-280158862%2FConstructors%2F-173342751" anchor-label="LoginTransactionDetailsAllOf" id="-280158862%2FConstructors%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-login-transaction-details-all-of.html"><span>Login</span><wbr></wbr><span>Transaction</span><wbr></wbr><span>Details</span><wbr></wbr><span>All</span><wbr></wbr><span><span>Of</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-280158862%2FConstructors%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword"></span><a href="index.html">LoginTransactionDetailsAllOf</a> <a href="-login-transaction-details-all-of.html"><span class="token function">LoginTransactionDetailsAllOf</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword"></span><a href="-authentication-type/index.html">LoginTransactionDetailsAllOf.AuthenticationType</a> authenticationType<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html">Boolean</a> successfulLoginFlag<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="-authentication-sub-type/index.html">LoginTransactionDetailsAllOf.AuthenticationSubType</a> authenticationSubType<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="-failed-login-reason/index.html">LoginTransactionDetailsAllOf.FailedLoginReason</a> failedLoginReason</span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="TYPE">
+        <h2 class="">Types</h2>
+        <div class="table"><a data-name="-1628687275%2FClasslikes%2F-173342751" anchor-label="AuthenticationSubType" id="-1628687275%2FClasslikes%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-authentication-sub-type/index.html"><span>Authentication</span><wbr></wbr><span>Sub</span><wbr></wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1628687275%2FClasslikes%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace"><span class="token keyword">public </span><span class="token keyword">enum </span><a href="-authentication-sub-type/index.html">AuthenticationSubType</a><span class="token keyword"> extends </span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html">Enum</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="-authentication-sub-type/index.html">LoginTransactionDetailsAllOf.AuthenticationSubType</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">The sub type of login authentication method used by a user. For <code class="lang-kotlin">authentication_sub_type</code> ensure attributes mentioned in dictionary below are set to corresponding values only. <code class="lang-kotlin">authentication_sub_type</code> is an enum value with the following mapping with <code class="lang-kotlin">authentication_type</code> attribute: *       authentication_sub_type   :     authentication_type * ------------------------------------------------------------------------------- * <code class="lang-kotlin">EMAIL</code>                               : <code class="lang-kotlin">CREDENTIALS</code> * <code class="lang-kotlin">EMAIL</code>                               : <code class="lang-kotlin">PASSWORD_RESET</code> * <code class="lang-kotlin">EMAIL</code>                               : <code class="lang-kotlin">SINGLE_SIGN_ON</code> * <code class="lang-kotlin">EMAIL</code>                               : <code class="lang-kotlin">MULTI_FACTOR_AUTHENTICATION</code> * <code class="lang-kotlin">PHONE</code>                               : <code class="lang-kotlin">MULTI_FACTOR_AUTHENTICATION</code> * <code class="lang-kotlin">GOOGLE</code>                              : <code class="lang-kotlin">SOCIAL</code> * <code class="lang-kotlin">FACEBOOK</code>                            : <code class="lang-kotlin">SOCIAL</code> * <code class="lang-kotlin">APPLE</code>                               : <code class="lang-kotlin">SOCIAL</code> *                                       : <code class="lang-kotlin">CREDENTIALS</code> Values: EMAIL,PHONE,GOOGLE,FACEBOOK,APPLE</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1682628217%2FClasslikes%2F-173342751" anchor-label="AuthenticationType" id="1682628217%2FClasslikes%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-authentication-type/index.html"><span>Authentication</span><wbr></wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1682628217%2FClasslikes%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace"><span class="token keyword">public </span><span class="token keyword">enum </span><a href="-authentication-type/index.html">AuthenticationType</a><span class="token keyword"> extends </span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html">Enum</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="-authentication-type/index.html">LoginTransactionDetailsAllOf.AuthenticationType</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">The type of login authentication method used by a user. For <code class="lang-kotlin">authentication_type</code> ensure attributes mentioned in dictionary below are set to corresponding values only. <code class="lang-kotlin">authentication_type</code> is an enum value with the following mapping with <code class="lang-kotlin">authentication_sub_type</code> attribute: *       authentication_type       :     authentication_sub_type * ------------------------------------------------------------------------------- * <code class="lang-kotlin">CREDENTIALS</code>                         : <code class="lang-kotlin">EMAIL</code> * <code class="lang-kotlin">CREDENTIALS</code>                         : * <code class="lang-kotlin">PASSWORD_RESET</code>                      : <code class="lang-kotlin">EMAIL</code> * <code class="lang-kotlin">SINGLE_SIGN_ON</code>                      : <code class="lang-kotlin">EMAIL</code> * <code class="lang-kotlin">MULTI_FACTOR_AUTHENTICATION</code>         : <code class="lang-kotlin">EMAIL</code> * <code class="lang-kotlin">MULTI_FACTOR_AUTHENTICATION</code>         : <code class="lang-kotlin">PHONE</code> * <code class="lang-kotlin">SOCIAL</code>                              : <code class="lang-kotlin">GOOGLE</code> * <code class="lang-kotlin">SOCIAL</code>                              : <code class="lang-kotlin">FACEBOOK</code> * <code class="lang-kotlin">SOCIAL</code>                              : <code class="lang-kotlin">APPLE</code> Values: CREDENTIALS,PASSWORD_RESET,SOCIAL,SINGLE_SIGN_ON,MULTI_FACTOR_AUTHENTICATION</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2025659740%2FClasslikes%2F-173342751" anchor-label="Builder" id="2025659740%2FClasslikes%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-builder/index.html"><span><span>Builder</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2025659740%2FClasslikes%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><span class="token keyword">class </span><a href="-builder/index.html">Builder</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1414700167%2FClasslikes%2F-173342751" anchor-label="FailedLoginReason" id="1414700167%2FClasslikes%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-failed-login-reason/index.html"><span>Failed</span><wbr></wbr><span>Login</span><wbr></wbr><span><span>Reason</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1414700167%2FClasslikes%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace"><span class="token keyword">public </span><span class="token keyword">enum </span><a href="-failed-login-reason/index.html">FailedLoginReason</a><span class="token keyword"> extends </span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html">Enum</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="-failed-login-reason/index.html">LoginTransactionDetailsAllOf.FailedLoginReason</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">The reason for the failed login attempt in the Partner''s system, related to user failure or Partner''s system failure. - <code class="lang-kotlin">INVALID_CREDENTIALS</code> - Applicable if the user provided invalid login credentials for this login attempt. - <code class="lang-kotlin">ACCOUNT_NOT_FOUND</code> - Applicable if the user attempted to login to an account that doesn't exist. - <code class="lang-kotlin">VERIFICATION_FAILED</code> - Applicable if the user failed the verification for this login, or any authentication exception occured in the Partner system for this login attempt. - <code class="lang-kotlin">ACCOUNT_LOCKED</code> - Applicable if the user attempted to login to an account that is locked. Values: INVALID_CREDENTIALS,ACCOUNT_NOT_FOUND,VERIFICATION_FAILED,ACCOUNT_LOCKED</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="1933925378%2FProperties%2F-173342751" anchor-label="authenticationSubType" id="1933925378%2FProperties%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1933925378%2FProperties%2F-173342751"><span>authentication</span><wbr></wbr><span>Sub</span><wbr></wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1933925378%2FProperties%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="-authentication-sub-type/index.html">LoginTransactionDetailsAllOf.AuthenticationSubType</a> <a href="index.html#1933925378%2FProperties%2F-173342751">authenticationSubType</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-11375228%2FProperties%2F-173342751" anchor-label="authenticationType" id="-11375228%2FProperties%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-11375228%2FProperties%2F-173342751"><span>authentication</span><wbr></wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-11375228%2FProperties%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="-authentication-type/index.html">LoginTransactionDetailsAllOf.AuthenticationType</a> <a href="index.html#-11375228%2FProperties%2F-173342751">authenticationType</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1445461172%2FProperties%2F-173342751" anchor-label="failedLoginReason" id="1445461172%2FProperties%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1445461172%2FProperties%2F-173342751"><span>failed</span><wbr></wbr><span>Login</span><wbr></wbr><span><span>Reason</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1445461172%2FProperties%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="-failed-login-reason/index.html">LoginTransactionDetailsAllOf.FailedLoginReason</a> <a href="index.html#1445461172%2FProperties%2F-173342751">failedLoginReason</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2089411305%2FProperties%2F-173342751" anchor-label="successfulLoginFlag" id="2089411305%2FProperties%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#2089411305%2FProperties%2F-173342751"><span>successful</span><wbr></wbr><span>Login</span><wbr></wbr><span><span>Flag</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2089411305%2FProperties%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="javax.validation/Valid///PointingToDeclaration/"><span class="token annotation builtin">Valid</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html">Boolean</a> <a href="index.html#2089411305%2FProperties%2F-173342751">successfulLoginFlag</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="593909259%2FFunctions%2F-173342751" anchor-label="builder" id="593909259%2FFunctions%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="builder.html"><span><span>builder</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="593909259%2FFunctions%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword">static </span><a href="-builder/index.html">LoginTransactionDetailsAllOf.Builder</a> <a href="builder.html"><span class="token function">builder</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1741464694%2FFunctions%2F-173342751" anchor-label="getAuthenticationSubType" id="-1741464694%2FFunctions%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-authentication-sub-type.html"><span>get</span><wbr></wbr><span>Authentication</span><wbr></wbr><span>Sub</span><wbr></wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1741464694%2FFunctions%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="-authentication-sub-type/index.html">LoginTransactionDetailsAllOf.AuthenticationSubType</a> <a href="get-authentication-sub-type.html"><span class="token function">getAuthenticationSubType</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-737682692%2FFunctions%2F-173342751" anchor-label="getAuthenticationType" id="-737682692%2FFunctions%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-authentication-type.html"><span>get</span><wbr></wbr><span>Authentication</span><wbr></wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-737682692%2FFunctions%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="-authentication-type/index.html">LoginTransactionDetailsAllOf.AuthenticationType</a> <a href="get-authentication-type.html"><span class="token function">getAuthenticationType</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1764556740%2FFunctions%2F-173342751" anchor-label="getFailedLoginReason" id="-1764556740%2FFunctions%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-failed-login-reason.html"><span>get</span><wbr></wbr><span>Failed</span><wbr></wbr><span>Login</span><wbr></wbr><span><span>Reason</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1764556740%2FFunctions%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="-failed-login-reason/index.html">LoginTransactionDetailsAllOf.FailedLoginReason</a> <a href="get-failed-login-reason.html"><span class="token function">getFailedLoginReason</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1048716401%2FFunctions%2F-173342751" anchor-label="getSuccessfulLoginFlag" id="1048716401%2FFunctions%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-successful-login-flag.html"><span>get</span><wbr></wbr><span>Successful</span><wbr></wbr><span>Login</span><wbr></wbr><span><span>Flag</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1048716401%2FFunctions%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html">Boolean</a> <a href="get-successful-login-flag.html"><span class="token function">getSuccessfulLoginFlag</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

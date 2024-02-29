@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>AccountTakeoverCustomerAccount</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+                    <a class="library-name--link" href="../../../index.html">
+                            fraudpreventionv2-sdk
+                    </a>
+            </div>
+            <div class="library-version">
+            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter="fraudpreventionv2-sdk/JVM">JVM</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="fraudpreventionv2-sdk::com.expediagroup.sdk.fraudpreventionv2.models/AccountTakeoverCustomerAccount///PointingToDeclaration//-173342751">
+  <div class="breadcrumbs"><a href="../../../index.html">fraudpreventionv2-sdk</a><span class="delimiter">/</span><a href="../index.html">com.expediagroup.sdk.fraudpreventionv2.models</a><span class="delimiter">/</span><span class="current">AccountTakeoverCustomerAccount</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Account</span><wbr></wbr><span>Takeover</span><wbr></wbr><span>Customer</span><wbr></wbr><span><span>Account</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><span class="token keyword">class </span><a href="index.html">AccountTakeoverCustomerAccount</a></div><p class="paragraph">Information about a user's account.</p><h4 class="">Parameters</h4><div class="table"><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>user</span><wbr></wbr><span><span>Id</span></span></u></div></span></div><div><div class="title"><p class="paragraph">Unique account identifier provided by the Partner's Identity Provider/System assigned to the account owner by the partner. <code class="lang-kotlin">user_id</code> is specific to the Partner's namespace. Used to track repeat account activity by the same user.</p></div></div></div></div><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>account</span><wbr></wbr><span><span>Type</span></span></u></div></span></div><div><div class="title"><p class="paragraph">Identifies the account type of a user''s account. Possible values are: - <code class="lang-kotlin">INDIVIDUAL</code> - Applicable if this account is for an individual traveler. - <code class="lang-kotlin">BUSINESS</code> - Applicable if this account is for a business or organization account used by suppliers or Partners.</p></div></div></div></div><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>username</span></span></u></div></span></div><div><div class="title"><p class="paragraph">Username of the account.</p></div></div></div></div><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>email</span><wbr></wbr><span><span>Address</span></span></u></div></span></div><div><div class="title"><p class="paragraph">Email address for the account owner.</p></div></div></div></div><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>registered</span><wbr></wbr><span><span>Time</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The local date and time that the customer first registered on the Partner's site, in ISO-8601 date and time format <code class="lang-kotlin">yyyy-MM-ddTHH:mm:ss.SSSZ</code>.</p></div></div></div></div><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>active</span><wbr></wbr><span><span>Flag</span></span></u></div></span></div><div><div class="title"><p class="paragraph">Indicator for if this account is an active account or not.</p></div></div></div></div><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>account</span><wbr></wbr><span><span>Role</span></span></u></div></span></div><div><div class="title"><p class="paragraph">Identifies the account role and associated permissions of a user''s account. Possible values are: - <code class="lang-kotlin">USER</code>: Basic account with no special privileges. - <code class="lang-kotlin">MANAGER</code>: Account with additional privileges, such as the ability to make bookings for others. - <code class="lang-kotlin">ADMIN</code>: Account with higher privileges than a manager, including the ability to grant manager access to other users.</p></div></div></div></div><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>name</span></span></u></div></span></div><div></div></div></div><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>telephones</span></span></u></div></span></div><div></div></div></div><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>address</span></span></u></div></span></div><div></div></div></div><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>loyalty</span><wbr></wbr><span>Member</span><wbr></wbr><span><span>Id</span></span></u></div></span></div><div><div class="title"><p class="paragraph">Unique loyalty identifier for a user.</p></div></div></div></div></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="">Constructors</h2>
+        <div class="table"><a data-name="1713056810%2FConstructors%2F-173342751" anchor-label="AccountTakeoverCustomerAccount" id="1713056810%2FConstructors%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-account-takeover-customer-account.html"><span>Account</span><wbr></wbr><span>Takeover</span><wbr></wbr><span>Customer</span><wbr></wbr><span><span>Account</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1713056810%2FConstructors%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword"></span><a href="index.html">AccountTakeoverCustomerAccount</a> <a href="-account-takeover-customer-account.html"><span class="token function">AccountTakeoverCustomerAccount</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a> userId<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="-account-type/index.html">AccountTakeoverCustomerAccount.AccountType</a> accountType<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a> username<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a> emailAddress<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/time/OffsetDateTime.html">OffsetDateTime</a> registeredTime<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html">Boolean</a> activeFlag<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="-account-role/index.html">AccountTakeoverCustomerAccount.AccountRole</a> accountRole<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="../-account-takeover-name/index.html">AccountTakeoverName</a> name<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-telephone/index.html">Telephone</a><span class="token operator">&gt;</span> telephones<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="../-customer-account-address/index.html">CustomerAccountAddress</a> address<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a> loyaltyMemberId</span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="TYPE">
+        <h2 class="">Types</h2>
+        <div class="table"><a data-name="-587211304%2FClasslikes%2F-173342751" anchor-label="AccountRole" id="-587211304%2FClasslikes%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-account-role/index.html"><span>Account</span><wbr></wbr><span><span>Role</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-587211304%2FClasslikes%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace"><span class="token keyword">public </span><span class="token keyword">enum </span><a href="-account-role/index.html">AccountRole</a><span class="token keyword"> extends </span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html">Enum</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="-account-role/index.html">AccountTakeoverCustomerAccount.AccountRole</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Identifies the account role and associated permissions of a user''s account. Possible values are: - <code class="lang-kotlin">USER</code>: Basic account with no special privileges. - <code class="lang-kotlin">MANAGER</code>: Account with additional privileges, such as the ability to make bookings for others. - <code class="lang-kotlin">ADMIN</code>: Account with higher privileges than a manager, including the ability to grant manager access to other users. Values: USER,MANAGER,ADMIN</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2098082708%2FClasslikes%2F-173342751" anchor-label="AccountType" id="2098082708%2FClasslikes%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-account-type/index.html"><span>Account</span><wbr></wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2098082708%2FClasslikes%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace"><span class="token keyword">public </span><span class="token keyword">enum </span><a href="-account-type/index.html">AccountType</a><span class="token keyword"> extends </span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html">Enum</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="-account-type/index.html">AccountTakeoverCustomerAccount.AccountType</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Identifies the account type of a user''s account. Possible values are: - <code class="lang-kotlin">INDIVIDUAL</code> - Applicable if this account is for an individual traveler. - <code class="lang-kotlin">BUSINESS</code> - Applicable if this account is for a business or organization account used by suppliers or Partners. Values: INDIVIDUAL,BUSINESS</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1714673280%2FClasslikes%2F-173342751" anchor-label="Builder" id="1714673280%2FClasslikes%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-builder/index.html"><span><span>Builder</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1714673280%2FClasslikes%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><span class="token keyword">class </span><a href="-builder/index.html">Builder</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="-1468265787%2FProperties%2F-173342751" anchor-label="accountRole" id="-1468265787%2FProperties%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1468265787%2FProperties%2F-173342751"><span>account</span><wbr></wbr><span><span>Role</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1468265787%2FProperties%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="-account-role/index.html">AccountTakeoverCustomerAccount.AccountRole</a> <a href="index.html#-1468265787%2FProperties%2F-173342751">accountRole</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1217028225%2FProperties%2F-173342751" anchor-label="accountType" id="1217028225%2FProperties%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1217028225%2FProperties%2F-173342751"><span>account</span><wbr></wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1217028225%2FProperties%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="-account-type/index.html">AccountTakeoverCustomerAccount.AccountType</a> <a href="index.html#1217028225%2FProperties%2F-173342751">accountType</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-265110240%2FProperties%2F-173342751" anchor-label="activeFlag" id="-265110240%2FProperties%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-265110240%2FProperties%2F-173342751"><span>active</span><wbr></wbr><span><span>Flag</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-265110240%2FProperties%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="javax.validation/Valid///PointingToDeclaration/"><span class="token annotation builtin">Valid</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html">Boolean</a> <a href="index.html#-265110240%2FProperties%2F-173342751">activeFlag</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="938775988%2FProperties%2F-173342751" anchor-label="address" id="938775988%2FProperties%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#938775988%2FProperties%2F-173342751"><span><span>address</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="938775988%2FProperties%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="javax.validation/Valid///PointingToDeclaration/"><span class="token annotation builtin">Valid</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="../-customer-account-address/index.html">CustomerAccountAddress</a> <a href="index.html#938775988%2FProperties%2F-173342751">address</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-902432390%2FProperties%2F-173342751" anchor-label="emailAddress" id="-902432390%2FProperties%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-902432390%2FProperties%2F-173342751"><span>email</span><wbr></wbr><span><span>Address</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-902432390%2FProperties%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="javax.validation/Valid///PointingToDeclaration/"><span class="token annotation builtin">Valid</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a> <a href="index.html#-902432390%2FProperties%2F-173342751">emailAddress</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1099087053%2FProperties%2F-173342751" anchor-label="loyaltyMemberId" id="1099087053%2FProperties%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1099087053%2FProperties%2F-173342751"><span>loyalty</span><wbr></wbr><span>Member</span><wbr></wbr><span><span>Id</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1099087053%2FProperties%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.hibernate.validator.constraints/Length///PointingToDeclaration/"><span class="token annotation builtin">Length</span></span><span class="token punctuation">(</span><span>max<span class="token operator"> = </span><span class="breakable-word"><span class="token constant">200</span></span></span><wbr></wbr><span class="token punctuation">)</span></div><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="javax.validation/Valid///PointingToDeclaration/"><span class="token annotation builtin">Valid</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a> <a href="index.html#1099087053%2FProperties%2F-173342751">loyaltyMemberId</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-181385209%2FProperties%2F-173342751" anchor-label="name" id="-181385209%2FProperties%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-181385209%2FProperties%2F-173342751"><span><span>name</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-181385209%2FProperties%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="javax.validation/Valid///PointingToDeclaration/"><span class="token annotation builtin">Valid</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="../-account-takeover-name/index.html">AccountTakeoverName</a> <a href="index.html#-181385209%2FProperties%2F-173342751">name</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1661388899%2FProperties%2F-173342751" anchor-label="registeredTime" id="1661388899%2FProperties%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1661388899%2FProperties%2F-173342751"><span>registered</span><wbr></wbr><span><span>Time</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1661388899%2FProperties%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/time/OffsetDateTime.html">OffsetDateTime</a> <a href="index.html#1661388899%2FProperties%2F-173342751">registeredTime</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-58932637%2FProperties%2F-173342751" anchor-label="telephones" id="-58932637%2FProperties%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-58932637%2FProperties%2F-173342751"><span><span>telephones</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-58932637%2FProperties%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="javax.validation.constraints/Size///PointingToDeclaration/"><span class="token annotation builtin">Size</span></span><span class="token punctuation">(</span><span>max<span class="token operator"> = </span><span class="breakable-word"><span class="token constant">20</span></span></span><wbr></wbr><span class="token punctuation">)</span></div><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="javax.validation/Valid///PointingToDeclaration/"><span class="token annotation builtin">Valid</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-telephone/index.html">Telephone</a><span class="token operator">&gt;</span> <a href="index.html#-58932637%2FProperties%2F-173342751">telephones</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="557474668%2FProperties%2F-173342751" anchor-label="userId" id="557474668%2FProperties%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#557474668%2FProperties%2F-173342751"><span>user</span><wbr></wbr><span><span>Id</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="557474668%2FProperties%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.hibernate.validator.constraints/Length///PointingToDeclaration/"><span class="token annotation builtin">Length</span></span><span class="token punctuation">(</span><span>max<span class="token operator"> = </span><span class="breakable-word"><span class="token constant">200</span></span></span><wbr></wbr><span class="token punctuation">)</span></div><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="javax.validation/Valid///PointingToDeclaration/"><span class="token annotation builtin">Valid</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a> <a href="index.html#557474668%2FProperties%2F-173342751">userId</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="467931548%2FProperties%2F-173342751" anchor-label="username" id="467931548%2FProperties%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#467931548%2FProperties%2F-173342751"><span><span>username</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="467931548%2FProperties%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.hibernate.validator.constraints/Length///PointingToDeclaration/"><span class="token annotation builtin">Length</span></span><span class="token punctuation">(</span><span>max<span class="token operator"> = </span><span class="breakable-word"><span class="token constant">200</span></span></span><wbr></wbr><span class="token punctuation">)</span></div><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="javax.validation/Valid///PointingToDeclaration/"><span class="token annotation builtin">Valid</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div><span class="token keyword">private </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a> <a href="index.html#467931548%2FProperties%2F-173342751">username</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="1790112303%2FFunctions%2F-173342751" anchor-label="builder" id="1790112303%2FFunctions%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="builder.html"><span><span>builder</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1790112303%2FFunctions%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword">static </span><a href="-builder/index.html">AccountTakeoverCustomerAccount.Builder</a> <a href="builder.html"><span class="token function">builder</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2078688133%2FFunctions%2F-173342751" anchor-label="getAccountRole" id="2078688133%2FFunctions%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-account-role.html"><span>get</span><wbr></wbr><span>Account</span><wbr></wbr><span><span>Role</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2078688133%2FFunctions%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="-account-role/index.html">AccountTakeoverCustomerAccount.AccountRole</a> <a href="get-account-role.html"><span class="token function">getAccountRole</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="469014849%2FFunctions%2F-173342751" anchor-label="getAccountType" id="469014849%2FFunctions%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-account-type.html"><span>get</span><wbr></wbr><span>Account</span><wbr></wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="469014849%2FFunctions%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="-account-type/index.html">AccountTakeoverCustomerAccount.AccountType</a> <a href="get-account-type.html"><span class="token function">getAccountType</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-566334368%2FFunctions%2F-173342751" anchor-label="getActiveFlag" id="-566334368%2FFunctions%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-active-flag.html"><span>get</span><wbr></wbr><span>Active</span><wbr></wbr><span><span>Flag</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-566334368%2FFunctions%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html">Boolean</a> <a href="get-active-flag.html"><span class="token function">getActiveFlag</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1260835212%2FFunctions%2F-173342751" anchor-label="getAddress" id="-1260835212%2FFunctions%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-address.html"><span>get</span><wbr></wbr><span><span>Address</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1260835212%2FFunctions%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="../-customer-account-address/index.html">CustomerAccountAddress</a> <a href="get-address.html"><span class="token function">getAddress</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1678956730%2FFunctions%2F-173342751" anchor-label="getEmailAddress" id="1678956730%2FFunctions%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-email-address.html"><span>get</span><wbr></wbr><span>Email</span><wbr></wbr><span><span>Address</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1678956730%2FFunctions%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a> <a href="get-email-address.html"><span class="token function">getEmailAddress</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1872926093%2FFunctions%2F-173342751" anchor-label="getLoyaltyMemberId" id="1872926093%2FFunctions%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-loyalty-member-id.html"><span>get</span><wbr></wbr><span>Loyalty</span><wbr></wbr><span>Member</span><wbr></wbr><span><span>Id</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1872926093%2FFunctions%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a> <a href="get-loyalty-member-id.html"><span class="token function">getLoyaltyMemberId</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2071959737%2FFunctions%2F-173342751" anchor-label="getName" id="-2071959737%2FFunctions%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-name.html"><span>get</span><wbr></wbr><span><span>Name</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2071959737%2FFunctions%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="../-account-takeover-name/index.html">AccountTakeoverName</a> <a href="get-name.html"><span class="token function">getName</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-114763869%2FFunctions%2F-173342751" anchor-label="getRegisteredTime" id="-114763869%2FFunctions%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-registered-time.html"><span>get</span><wbr></wbr><span>Registered</span><wbr></wbr><span><span>Time</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-114763869%2FFunctions%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/time/OffsetDateTime.html">OffsetDateTime</a> <a href="get-registered-time.html"><span class="token function">getRegisteredTime</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-360156765%2FFunctions%2F-173342751" anchor-label="getTelephones" id="-360156765%2FFunctions%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-telephones.html"><span>get</span><wbr></wbr><span><span>Telephones</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-360156765%2FFunctions%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-telephone/index.html">Telephone</a><span class="token operator">&gt;</span> <a href="get-telephones.html"><span class="token function">getTelephones</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="486519468%2FFunctions%2F-173342751" anchor-label="getUserId" id="486519468%2FFunctions%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-user-id.html"><span>get</span><wbr></wbr><span>User</span><wbr></wbr><span><span>Id</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="486519468%2FFunctions%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a> <a href="get-user-id.html"><span class="token function">getUserId</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="999461084%2FFunctions%2F-173342751" anchor-label="getUsername" id="999461084%2FFunctions%2F-173342751" data-filterable-set="fraudpreventionv2-sdk/JVM"></a>
+          <div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-username.html"><span>get</span><wbr></wbr><span><span>Username</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="999461084%2FFunctions%2F-173342751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a> <a href="get-username.html"><span class="token function">getUsername</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

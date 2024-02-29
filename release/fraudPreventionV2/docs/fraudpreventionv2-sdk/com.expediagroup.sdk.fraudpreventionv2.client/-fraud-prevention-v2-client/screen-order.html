@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>screenOrder</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+                    <a class="library-name--link" href="../../../index.html">
+                            fraudpreventionv2-sdk
+                    </a>
+            </div>
+            <div class="library-version">
+            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter="fraudpreventionv2-sdk/JVM">JVM</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="member" id="content" pageIds="fraudpreventionv2-sdk::com.expediagroup.sdk.fraudpreventionv2.client/FraudPreventionV2Client/screenOrder/#com.expediagroup.sdk.fraudpreventionv2.models.OrderPurchaseScreenRequest/PointingToDeclaration//-173342751">
+  <div class="breadcrumbs"><a href="../../../index.html">fraudpreventionv2-sdk</a><span class="delimiter">/</span><a href="../index.html">com.expediagroup.sdk.fraudpreventionv2.client</a><span class="delimiter">/</span><a href="index.html">FraudPreventionV2Client</a><span class="delimiter">/</span><span class="current">screenOrder</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>screen</span><wbr></wbr><span><span>Order</span></span></h1>
+  </div>
+  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html"><span class="token annotation builtin">JvmOverloads</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div><span class="token keyword">public </span><span class="token keyword">final </span><span class="token keyword"></span><a href="../../com.expediagroup.sdk.fraudpreventionv2.models/-order-purchase-screen-response/index.html">OrderPurchaseScreenResponse</a> <a href="screen-order.html"><span class="token function">screenOrder</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword"></span><a href="../../com.expediagroup.sdk.fraudpreventionv2.models/-order-purchase-screen-request/index.html">OrderPurchaseScreenRequest</a> orderPurchaseScreenRequest</span></span><span class="token punctuation">)</span></div><p class="paragraph">Run fraud screening for one transaction The Order Purchase API gives a Fraud recommendation for a transaction. A recommendation can be Accept, Reject, or Review. A transaction is marked as Review whenever there are insufficient signals to recommend Accept or Reject. These incidents are manually reviewed, and a corrected recommendation is made asynchronously.</p><span class="kdoc-tag"><h4 class="">Return</h4><p class="paragraph">OrderPurchaseScreenResponse</p></span><h4 class="">Parameters</h4><div class="table"><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>order</span><wbr></wbr><span>Purchase</span><wbr></wbr><span>Screen</span><wbr></wbr><span><span>Request</span></span></u></div></span></div><div></div></div></div></div><h4 class="">Throws</h4><div class="table"><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="../../com.expediagroup.sdk.fraudpreventionv2.models.exception/-expedia-group-api-bad-request-error-exception/index.html"><span>Expedia</span><wbr></wbr><span>Group</span><wbr></wbr><span>Api</span><wbr></wbr><span>Bad</span><wbr></wbr><span>Request</span><wbr></wbr><span>Error</span><wbr></wbr><span><span>Exception</span></span></a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="../../com.expediagroup.sdk.fraudpreventionv2.models.exception/-expedia-group-api-unauthorized-error-exception/index.html"><span>Expedia</span><wbr></wbr><span>Group</span><wbr></wbr><span>Api</span><wbr></wbr><span>Unauthorized</span><wbr></wbr><span>Error</span><wbr></wbr><span><span>Exception</span></span></a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="../../com.expediagroup.sdk.fraudpreventionv2.models.exception/-expedia-group-api-forbidden-error-exception/index.html"><span>Expedia</span><wbr></wbr><span>Group</span><wbr></wbr><span>Api</span><wbr></wbr><span>Forbidden</span><wbr></wbr><span>Error</span><wbr></wbr><span><span>Exception</span></span></a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="../../com.expediagroup.sdk.fraudpreventionv2.models.exception/-expedia-group-api-not-found-error-exception/index.html"><span>Expedia</span><wbr></wbr><span>Group</span><wbr></wbr><span>Api</span><wbr></wbr><span>Not</span><wbr></wbr><span>Found</span><wbr></wbr><span>Error</span><wbr></wbr><span><span>Exception</span></span></a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="../../com.expediagroup.sdk.fraudpreventionv2.models.exception/-expedia-group-api-too-many-requests-error-exception/index.html"><span>Expedia</span><wbr></wbr><span>Group</span><wbr></wbr><span>Api</span><wbr></wbr><span>Too</span><wbr></wbr><span>Many</span><wbr></wbr><span>Requests</span><wbr></wbr><span>Error</span><wbr></wbr><span><span>Exception</span></span></a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="../../com.expediagroup.sdk.fraudpreventionv2.models.exception/-expedia-group-api-internal-server-error-exception/index.html"><span>Expedia</span><wbr></wbr><span>Group</span><wbr></wbr><span>Api</span><wbr></wbr><span>Internal</span><wbr></wbr><span>Server</span><wbr></wbr><span>Error</span><wbr></wbr><span><span>Exception</span></span></a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="../../com.expediagroup.sdk.fraudpreventionv2.models.exception/-expedia-group-api-bad-gateway-error-exception/index.html"><span>Expedia</span><wbr></wbr><span>Group</span><wbr></wbr><span>Api</span><wbr></wbr><span>Bad</span><wbr></wbr><span>Gateway</span><wbr></wbr><span>Error</span><wbr></wbr><span><span>Exception</span></span></a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="../../com.expediagroup.sdk.fraudpreventionv2.models.exception/-expedia-group-api-retryable-order-purchase-screen-failure-exception/index.html"><span>Expedia</span><wbr></wbr><span>Group</span><wbr></wbr><span>Api</span><wbr></wbr><span>Retryable</span><wbr></wbr><span>Order</span><wbr></wbr><span>Purchase</span><wbr></wbr><span>Screen</span><wbr></wbr><span>Failure</span><wbr></wbr><span><span>Exception</span></span></a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="../../com.expediagroup.sdk.fraudpreventionv2.models.exception/-expedia-group-api-gateway-timeout-error-exception/index.html"><span>Expedia</span><wbr></wbr><span>Group</span><wbr></wbr><span>Api</span><wbr></wbr><span>Gateway</span><wbr></wbr><span>Timeout</span><wbr></wbr><span>Error</span><wbr></wbr><span><span>Exception</span></span></a></div></span></div><div></div></div></div></div></div></div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

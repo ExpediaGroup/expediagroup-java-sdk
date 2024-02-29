@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>DirectDebit</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+                    <a class="library-name--link" href="../../../index.html">
+                            fraudpreventionv2-sdk
+                    </a>
+            </div>
+            <div class="library-version">
+            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter="fraudpreventionv2-sdk/JVM">JVM</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="member" id="content" pageIds="fraudpreventionv2-sdk::com.expediagroup.sdk.fraudpreventionv2.models/DirectDebit/DirectDebit/#com.expediagroup.sdk.fraudpreventionv2.models.Payment.Brand#com.expediagroup.sdk.fraudpreventionv2.models.Name#com.expediagroup.sdk.fraudpreventionv2.models.PaymentBillingAddress#kotlin.String#kotlin.String#kotlin.collections.List[com.expediagroup.sdk.fraudpreventionv2.models.Telephone]#com.expediagroup.sdk.fraudpreventionv2.models.PaymentReason?#com.expediagroup.sdk.fraudpreventionv2.models.Amount?#com.expediagroup.sdk.fraudpreventionv2.models.Amount?#com.expediagroup.sdk.fraudpreventionv2.models.PaymentThreeDSCriteria?#com.expediagroup.sdk.fraudpreventionv2.models.Operations?#kotlin.collections.Map[kotlin.String,kotlin.String]?#kotlin.String?#com.expediagroup.sdk.fraudpreventionv2.models.DirectDebit.MandateType?/PointingToDeclaration//-173342751">
+  <div class="breadcrumbs"><a href="../../../index.html">fraudpreventionv2-sdk</a><span class="delimiter">/</span><a href="../index.html">com.expediagroup.sdk.fraudpreventionv2.models</a><span class="delimiter">/</span><a href="index.html">DirectDebit</a><span class="delimiter">/</span><span class="current">DirectDebit</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Direct</span><wbr></wbr><span><span>Debit</span></span></h1>
+  </div>
+  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="fraudpreventionv2-sdk/JVM"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword"></span><a href="index.html">DirectDebit</a> <a href="-direct-debit.html"><span class="token function">DirectDebit</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword"></span><a href="../-payment/-brand/index.html">Payment.Brand</a> brand<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="../-name/index.html">Name</a> billingName<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="../-payment-billing-address/index.html">PaymentBillingAddress</a> billingAddress<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a> billingEmailAddress<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a> accountNumber<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-telephone/index.html">Telephone</a><span class="token operator">&gt;</span> telephones<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="../-payment-reason/index.html">PaymentReason</a> reason<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="../-amount/index.html">Amount</a> authorizedAmount<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="../-amount/index.html">Amount</a> verifiedAmount<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="../-payment-three-d-s-criteria/index.html">PaymentThreeDSCriteria</a> threeDigitsSecureCriteria<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="../-operations/index.html">Operations</a> operations<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html">Map</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span class="token operator">&gt;</span> extensions<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a> routingNumber<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="-mandate-type/index.html">DirectDebit.MandateType</a> mandateType</span></span><span class="token punctuation">)</span></div><h4 class="">Parameters</h4><div class="table"><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>account</span><wbr></wbr><span><span>Number</span></span></u></div></span></div><div><div class="title"><p class="paragraph">Cleartext (unencrypted) DirectDebit bank account number associated with the payment instrument.</p></div></div></div></div><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>telephones</span></span></u></div></span></div><div><div class="title"><p class="paragraph">Telephone(s) associated with direct debit payment provider.</p></div></div></div></div><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>routing</span><wbr></wbr><span><span>Number</span></span></u></div></span></div><div><div class="title"><p class="paragraph">A code that identifies the financial institution for a specific bank account. <code class="lang-kotlin">routing_number</code> is required if given <code class="lang-kotlin">INTER_COMPANY</code> or <code class="lang-kotlin">ELV</code> as <code class="lang-kotlin">brand</code>.</p></div></div></div></div><div class="table-row" data-filterable-current="fraudpreventionv2-sdk/JVM" data-filterable-set="fraudpreventionv2-sdk/JVM"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>mandate</span><wbr></wbr><span><span>Type</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The <code class="lang-kotlin">mandate_type</code> is required if given <code class="lang-kotlin">brand</code> as <code class="lang-kotlin">SEPA_ELV</code> under <code class="lang-kotlin">DirectDebit</code>.  It is used for the wire transfer or direct debit transaction whose <code class="lang-kotlin">routing_number</code> could not be provided or not supported.   Allows values:  - <code class="lang-kotlin">ONE_OFF</code>  - <code class="lang-kotlin">RECURRING</code></p></div></div></div></div></div></div></div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
