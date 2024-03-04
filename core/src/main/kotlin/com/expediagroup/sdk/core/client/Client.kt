@@ -24,6 +24,7 @@ import com.expediagroup.sdk.core.constant.provider.LoggingMessageProvider
 import com.expediagroup.sdk.core.contract.Contract
 import com.expediagroup.sdk.core.contract.adhereTo
 import com.expediagroup.sdk.core.model.exception.client.ExpediaGroupConfigurationException
+import com.expediagroup.sdk.core.model.getTransactionId
 import com.expediagroup.sdk.core.plugin.Hooks
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationConfiguration
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationHookFactory
@@ -31,6 +32,8 @@ import com.expediagroup.sdk.core.plugin.authentication.AuthenticationPlugin
 import com.expediagroup.sdk.core.plugin.authentication.strategy.AuthenticationStrategy
 import com.expediagroup.sdk.core.plugin.encoding.EncodingConfiguration
 import com.expediagroup.sdk.core.plugin.encoding.EncodingPlugin
+import com.expediagroup.sdk.core.plugin.exception.ExceptionHandlingConfiguration
+import com.expediagroup.sdk.core.plugin.exception.ExceptionHandlingPlugin
 import com.expediagroup.sdk.core.plugin.hooks
 import com.expediagroup.sdk.core.plugin.httptimeout.HttpTimeoutConfiguration
 import com.expediagroup.sdk.core.plugin.httptimeout.HttpTimeoutPlugin
@@ -46,6 +49,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.statement.HttpResponse
+import io.ktor.client.statement.request
 
 val DEFAULT_HTTP_CLIENT_ENGINE: HttpClientEngine =
     OkHttp.create {
@@ -104,6 +108,7 @@ abstract class Client(
                 use(DefaultRequestPlugin).with(DefaultRequestConfiguration.from(httpClientConfig, endpoint))
                 use(EncodingPlugin).with(EncodingConfiguration.from(httpClientConfig))
                 use(HttpTimeoutPlugin).with(HttpTimeoutConfiguration.from(httpClientConfig, requestTimeout))
+                use(ExceptionHandlingPlugin).with(ExceptionHandlingConfiguration.from(httpClientConfig))
             }
 
             hooks {
@@ -119,7 +124,7 @@ abstract class Client(
     @Suppress("unused") // This is used by the product SDKs.
     suspend fun throwIfError(response: HttpResponse, operationId: String) {
         if (isNotSuccessfulResponse(response)) {
-            log.info(LoggingMessageProvider.getResponseUnsuccessfulMessage(response.status))
+            log.info(LoggingMessageProvider.getResponseUnsuccessfulMessage(response.status, response.request.headers.getTransactionId()))
             throwServiceException(response, operationId)
         }
     }

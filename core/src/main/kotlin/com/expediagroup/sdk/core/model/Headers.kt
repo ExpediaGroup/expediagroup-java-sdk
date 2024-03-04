@@ -13,18 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.model.exception.service
+package com.expediagroup.sdk.core.model
 
-import com.expediagroup.sdk.core.model.exception.ExpediaGroupException
+import com.expediagroup.sdk.core.constant.HeaderKey
+import io.ktor.http.Headers
+import io.ktor.http.HeadersBuilder
 
-/**
- * An exception that is thrown when a service error occurs.
- *
- * @param message An optional error message.
- * @param cause An optional cause of the error.
- */
-open class ExpediaGroupServiceException(
-    message: String? = null,
-    cause: Throwable? = null,
-    val transactionId: String? = null
-) : ExpediaGroupException(message, cause)
+internal fun Headers.getTransactionId(): String? = get(HeaderKey.TRANSACTION_ID)
+
+internal fun HeadersBuilder.getTransactionId(): String? = get(HeaderKey.TRANSACTION_ID)
