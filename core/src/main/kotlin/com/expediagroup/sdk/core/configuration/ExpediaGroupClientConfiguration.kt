@@ -25,6 +25,8 @@ import com.expediagroup.sdk.core.configuration.provider.RuntimeConfigurationProv
  * @property secret The API secret to use for authentication.
  * @property endpoint The API endpoint to use for requests.
  * @property requestTimeout The request timeout to be used in milliseconds.
+ * @property connectionTimeout The connection timeout to be used in milliseconds.
+ * @property socketTimeout The socket timeout to be used in milliseconds.
  * @property maskedLoggingHeaders The headers to be masked in logging.
  * @property maskedLoggingBodyFields The body fields to be masked in logging.
  * @property authEndpoint The API endpoint to use for authentication.
@@ -34,6 +36,8 @@ data class ExpediaGroupClientConfiguration(
     override val secret: String? = null,
     override val endpoint: String? = null,
     override val requestTimeout: Long? = null,
+    override val connectionTimeout: Long? = null,
+    override val socketTimeout: Long? = null,
     override val maskedLoggingHeaders: Set<String>? = null,
     override val maskedLoggingBodyFields: Set<String>? = null,
     val authEndpoint: String? = null

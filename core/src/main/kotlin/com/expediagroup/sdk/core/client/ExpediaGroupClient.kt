@@ -20,6 +20,7 @@ import com.expediagroup.sdk.core.configuration.collector.ConfigurationCollector
 import com.expediagroup.sdk.core.configuration.provider.ConfigurationProvider
 import com.expediagroup.sdk.core.configuration.provider.ExpediaGroupConfigurationProvider
 import com.expediagroup.sdk.core.plugin.authentication.strategy.AuthenticationStrategy
+import com.expediagroup.sdk.core.plugin.logging.ExpediaGroupLoggerFactory
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 
@@ -34,6 +35,10 @@ abstract class ExpediaGroupClient(
     clientConfiguration: ExpediaGroupClientConfiguration,
     httpClientEngine: HttpClientEngine = DEFAULT_HTTP_CLIENT_ENGINE
 ) : Client(namespace) {
+    companion object {
+        private val log = ExpediaGroupLoggerFactory.getLogger(this::class.java)
+    }
+
     private val _configurationProvider: ConfigurationProvider =
         ConfigurationCollector.create(
             clientConfiguration.toProvider(),
@@ -51,19 +56,10 @@ abstract class ExpediaGroupClient(
     override val httpClient: HttpClient
         get() = _httpClient
 
-    /**
-     * An [ExpediaGroupClient] builder.
-     *
-     * @property key The API key to use for requests.
-     * @property secret The API secret to use for requests.
-     * @property endpoint The API endpoint to use for requests.
-     * @property authEndpoint The API auth endpoint to use for requests.
-     * @property requestTimeout The request timeout to be used.
-     * @property maskedLoggingHeaders The headers to be masked in logging.
-     * @property maskedLoggingBodyFields The body fields to be masked in logging.
-     */
+    /** An [ExpediaGroupClient] builder. */
     @Suppress("unused") // This is used by the generated SDK clients.
     abstract class Builder<SELF : Builder<SELF>> : Client.Builder<SELF>() {
+        /** Sets the API auth endpoint to use for requests. */
         protected var authEndpoint: String? = null
 
         /** Sets the API auth endpoint to use for requests.
