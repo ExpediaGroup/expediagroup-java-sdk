@@ -77,10 +77,11 @@ val mustacheHelpers = mapOf(
         Mustache.Lambda { fragment, writer ->
             val dataTypes: Set<String> = collectDataTypes(fragment)
             val stringBuilder = StringBuilder()
-            dataTypes.forEachIndexed { index, dataType ->
+            val notNullDataTypes = dataTypes.filterNotNull()
+            notNullDataTypes.forEachIndexed { index, dataType ->
                 if (index > 0) stringBuilder.append(" ".repeat(8))
                 stringBuilder.append("ExpediaGroupApi${dataType}Exception::class")
-                if (index < dataTypes.size - 1) stringBuilder.append(",\n")
+                if (index < notNullDataTypes.size - 1) stringBuilder.append(",\n")
             }
             writer.write(stringBuilder.toString())
         }
@@ -95,6 +96,12 @@ val mustacheHelpers = mapOf(
             } else if (dataType.startsWith("kotlin.collections.Set")) {
                 writer.write("emptySet()")
             }
+        }
+    },
+    "removeDoubleQuotes" to {
+        Mustache.Lambda { fragment, writer ->
+            val data: String = fragment.context() as String
+            writer.write("\"${data.replace(Regex("^\"+|\"$"), "")}\"")
         }
     }
 )
