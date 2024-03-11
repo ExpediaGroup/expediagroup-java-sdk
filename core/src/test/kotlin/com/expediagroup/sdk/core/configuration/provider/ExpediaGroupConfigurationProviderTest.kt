@@ -16,6 +16,8 @@
 package com.expediagroup.sdk.core.configuration.provider
 
 import com.expediagroup.sdk.core.constant.Constant.EMPTY_STRING
+import com.expediagroup.sdk.core.constant.Constant.FIFTEEN_SECONDS_IN_MILLIS
+import com.expediagroup.sdk.core.constant.Constant.INFINITE_TIMEOUT
 import com.expediagroup.sdk.core.constant.Constant.TEN_SECONDS_IN_MILLIS
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -27,6 +29,8 @@ internal class ExpediaGroupConfigurationProviderTest {
         assertEquals(EMPTY_STRING, ExpediaGroupConfigurationProvider.secret)
         assertEquals("https://api.expediagroup.com/", ExpediaGroupConfigurationProvider.endpoint)
         assertEquals("https://api.expediagroup.com/identity/oauth2/v3/token/", ExpediaGroupConfigurationProvider.authEndpoint)
-        assertEquals(TEN_SECONDS_IN_MILLIS, ExpediaGroupConfigurationProvider.requestTimeout)
+        assertEquals(INFINITE_TIMEOUT, ExpediaGroupConfigurationProvider.requestTimeout)
+        assertEquals(TEN_SECONDS_IN_MILLIS, ExpediaGroupConfigurationProvider.connectionTimeout)
+        assertEquals(FIFTEEN_SECONDS_IN_MILLIS, ExpediaGroupConfigurationProvider.socketTimeout)
     }
 }
