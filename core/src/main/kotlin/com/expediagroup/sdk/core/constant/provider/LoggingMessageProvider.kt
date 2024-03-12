@@ -30,6 +30,11 @@ internal object LoggingMessageProvider {
         providerName: String
     ) = "Successfully loaded [$property] from [$providerName]"
 
+    fun <T> getRuntimeConfigurationProviderMessage(
+        property: String,
+        value: T
+    ) = "Setting [$property] to [$value] from runtime configuration provider"
+
     fun getResponseBodyMessage(
         body: String,
         transactionId: String?

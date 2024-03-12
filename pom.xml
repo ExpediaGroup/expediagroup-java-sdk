@@ -78,9 +78,9 @@
         <maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
         <build-helper-maven-plugin.version>3.4.0</build-helper-maven-plugin.version>
         <exec-maven-plugin.version>3.2.0</exec-maven-plugin.version>
-        <ktlint-plugin.version>3.0.0</ktlint-plugin.version>
+        <ktlint-plugin.version>3.2.0</ktlint-plugin.version>
         <jacoco-plugin.version>0.8.11</jacoco-plugin.version>
-        <dokka-plugin.version>1.9.10</dokka-plugin.version>
+        <dokka-plugin.version>1.9.20</dokka-plugin.version>
         <maven.gpg.plugin.version>3.1.0</maven.gpg.plugin.version>
         <maven.release.plugin.version>3.4.1</maven.release.plugin.version>
         <maven.nexus-staging.plugin.version>1.6.13</maven.nexus-staging.plugin.version>
@@ -90,10 +90,10 @@
         <properties.maven.plugin.version>1.0.0</properties.maven.plugin.version>
 
         <!-- Kotlin Compatible Versions -->
-        <kotlin.version>1.9.22</kotlin.version>
+        <kotlin.version>1.9.23</kotlin.version>
         <kotlinx.coroutines.version>1.8.0</kotlinx.coroutines.version>
         <kotlinx.serialization.version>1.6.3</kotlinx.serialization.version>
-        <ktor.version>2.3.8</ktor.version>
+        <ktor.version>2.3.9</ktor.version>
         <kotlin-logging.version>3.0.5</kotlin-logging.version>
         <kotlin-atomic.version>0.23.2</kotlin-atomic.version>
         <ktlint.version>1.1.1</ktlint.version>
@@ -254,7 +254,7 @@
             <dependency>
                 <groupId>com.fasterxml.jackson</groupId>
                 <artifactId>jackson-bom</artifactId>
-                <version>2.16.1</version>
+                <version>2.16.2</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -291,7 +291,7 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-annotations</artifactId>
-                <version>2.16.1</version>
+                <version>2.16.2</version>
             </dependency>
             <dependency>
                 <groupId>org.hibernate.validator</groupId>

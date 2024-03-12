@@ -39,9 +39,14 @@ interface ConfigurationProvider {
     val authEndpoint: String?
         get() = Constant.EMPTY_STRING
 
-    /** The timeout to use for API requests. */
+    /** The time period from the start of the request to the completion of the response. */
     val requestTimeout: Long?
-        get() = Constant.TEN_SECONDS_IN_MILLIS
+
+    /** The time period from the start of the request to the establishment of the connection with the server. */
+    val connectionTimeout: Long?
+
+    /** The maximum period of inactivity between two consecutive data packets. */
+    val socketTimeout: Long?
 
     /** The headers to be masked in logging. */
     val maskedLoggingHeaders: Set<String>?
