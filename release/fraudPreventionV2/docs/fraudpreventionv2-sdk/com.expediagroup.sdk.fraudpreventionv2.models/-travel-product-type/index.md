@@ -5,7 +5,7 @@
 [JVM]\
 public enum [TravelProductType](index.md) extends [Enum](https://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html)&lt;[TravelProductType](index.md)&gt;
 
-Type of product. Values: CRUISE,AIR,CAR,INSURANCE,HOTEL,RAIL
+Type of product. Values: CRUISE,AIR,CAR,INSURANCE,HOTEL,RAIL,ACTIVITY
 
 ## Entries
 
@@ -17,6 +17,7 @@ Type of product. Values: CRUISE,AIR,CAR,INSURANCE,HOTEL,RAIL
 | [INSURANCE](-i-n-s-u-r-a-n-c-e/index.md) | [JVM]<br>[INSURANCE](-i-n-s-u-r-a-n-c-e/index.md) |
 | [HOTEL](-h-o-t-e-l/index.md) | [JVM]<br>[HOTEL](-h-o-t-e-l/index.md) |
 | [RAIL](-r-a-i-l/index.md) | [JVM]<br>[RAIL](-r-a-i-l/index.md) |
+| [ACTIVITY](-a-c-t-i-v-i-t-y/index.md) | [JVM]<br>[ACTIVITY](-a-c-t-i-v-i-t-y/index.md) |
 
 ## Properties
 
@@ -29,7 +30,7 @@ Type of product. Values: CRUISE,AIR,CAR,INSURANCE,HOTEL,RAIL
 
 | Name | Summary |
 |---|---|
-| [getEntries](get-entries.md) | [JVM]<br>public final [EnumEntries](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.enums/-enum-entries/index.html)&lt;[TravelProductType](index.md)&gt;[getEntries](get-entries.md)()<br>Type of product. Values: CRUISE,AIR,CAR,INSURANCE,HOTEL,RAIL |
+| [getEntries](get-entries.md) | [JVM]<br>public final [EnumEntries](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.enums/-enum-entries/index.html)&lt;[TravelProductType](index.md)&gt;[getEntries](get-entries.md)()<br>Type of product. Values: CRUISE,AIR,CAR,INSURANCE,HOTEL,RAIL,ACTIVITY |
 | [getValue](get-value.md) | [JVM]<br>public final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[getValue](get-value.md)() |
 | [valueOf](value-of.md) | [JVM]<br>public final [TravelProductType](index.md)[valueOf](value-of.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)value)<br>Returns the enum constant of this type with the specified name. The string must match exactly an identifier used to declare an enum constant in this type. (Extraneous whitespace characters are not permitted.) |
 | [values](values.md) | [JVM]<br>public final [Array](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html)&lt;[TravelProductType](index.md)&gt;[values](values.md)()<br>Returns an array containing the constants of this enum type, in the order they're declared. |

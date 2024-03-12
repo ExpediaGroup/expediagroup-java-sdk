@@ -15,8 +15,10 @@
  */
 package com.expediagroup.sdk.core.client
 
+import com.expediagroup.sdk.core.constant.HeaderKey.TRANSACTION_ID
 import io.ktor.client.request.HttpRequestBuilder
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
@@ -35,11 +37,10 @@ class DefaultEnvironmentProviderTest {
         @Test
         fun `Verify headers are appended`() {
             environmentProvider.apply {
-                val transactionId = java.util.UUID.randomUUID()
-                httpRequestBuilder.appendHeaders(transactionId)
+                httpRequestBuilder.appendHeaders()
 
                 assertEquals("dummy-title", httpRequestBuilder.headers["x-sdk-title"])
-                assertEquals(transactionId.toString(), httpRequestBuilder.headers["transaction-id"])
+                assertTrue(httpRequestBuilder.headers.contains(TRANSACTION_ID))
                 assertEquals("expediagroup-sdk-java-dummy/dummy-version (Java $javaVersion; $operatingSystemName $operatingSystemVersion)", httpRequestBuilder.headers["User-agent"])
             }
         }

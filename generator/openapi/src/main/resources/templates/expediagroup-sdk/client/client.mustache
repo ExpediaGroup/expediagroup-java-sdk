@@ -19,7 +19,7 @@ import {{import}}
 
     class Builder : {{>partials/clientBase}}.Builder<Builder>() {
         override fun build(): {{classname}} = {{classname}}(
-            {{>partials/clientConfiguration}}(key, secret, endpoint, requestTimeout, maskedLoggingHeaders, maskedLoggingBodyFields {{>partials/authEndpoint}})
+            {{>partials/clientConfiguration}}(key, secret, endpoint, requestTimeout, connectionTimeout, socketTimeout, maskedLoggingHeaders, maskedLoggingBodyFields {{>partials/authEndpoint}})
         )
     }
 
@@ -40,7 +40,7 @@ import {{import}}
         val response = httpClient.request {
             method = HttpMethod.parse("{{httpMethod}}")
             url("{{#removeLeadingSlash}}{{path}}{{/removeLeadingSlash}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}"${{{paramName}}}"{{/isContainer}}){{/pathParams}})
-            appendHeaders(transactionId)
+            appendHeaders()
         {{#headerParams}}
             {{paramName}}{{^required}}?{{/required}}.also{ headers.append("{{baseName}}", it) }
         {{/headerParams}}
@@ -81,7 +81,6 @@ import {{import}}
      * {{{notes}}}
 {{#allParams}}     * @param {{{paramName}}} {{{description}}}{{^required}} (optional{{#defaultValue}}, defaults to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (defaults to {{{.}}}){{/defaultValue}}{{/required}}
 {{/allParams}}
-     * @param transactionId The transaction id for the request (optional, defaults to a new UUID)
      {{#throwsExceptions}}{{/throwsExceptions}}
      * @return {{{returnType}}}{{^returnType}}Nothing{{/returnType}}
      */
@@ -98,7 +97,6 @@ import {{import}}
      * {{{notes}}}
 {{#allParams}}     * @param {{{paramName}}} {{{description}}}{{^required}} (optional{{#defaultValue}}, defaults to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (defaults to {{{.}}}){{/defaultValue}}{{/required}}
 {{/allParams}}
-     * @param transactionId The transaction id for the request (optional, defaults to a new UUID)
      {{#throwsExceptions}}{{/throwsExceptions}}
      * @return a [Response] object with a body of type {{{returnType}}}{{^returnType}}Nothing{{/returnType}}
      */

@@ -41,7 +41,6 @@ import io.ktor.http.contentType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.future.future
-import java.util.UUID
 
 /**
 *
@@ -66,22 +65,16 @@ class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGr
         throw ErrorObjectMapper.process(response, operationId)
     }
 
-    private suspend inline fun knotifyWithAccountUpdate(
-        accountUpdateRequest: AccountUpdateRequest,
-        transactionId: UUID = UUID.randomUUID()
-    ): AccountUpdateResponse {
-        return knotifyWithAccountUpdateWithResponse(accountUpdateRequest, transactionId).body
+    private suspend inline fun knotifyWithAccountUpdate(accountUpdateRequest: AccountUpdateRequest): AccountUpdateResponse {
+        return knotifyWithAccountUpdateWithResponse(accountUpdateRequest).body
     }
 
-    private suspend inline fun knotifyWithAccountUpdateWithResponse(
-        accountUpdateRequest: AccountUpdateRequest,
-        transactionId: UUID = UUID.randomUUID()
-    ): Response<AccountUpdateResponse> {
+    private suspend inline fun knotifyWithAccountUpdateWithResponse(accountUpdateRequest: AccountUpdateRequest): Response<AccountUpdateResponse> {
         val response =
             httpClient.request {
                 method = HttpMethod.parse("POST")
                 url("fraud-prevention/v2/account/update")
-                appendHeaders(transactionId)
+                appendHeaders()
                 validateConstraints(accountUpdateRequest)
                 contentType(ContentType.Application.Json)
                 setBody(accountUpdateRequest)
@@ -94,7 +87,6 @@ class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGr
      * Send an update as a result of an account screen transaction
      * The Account Update API is called when there is an account lifecycle transition such as a challenge outcome, account restoration, or remediation action completion. For example, if a user's account is disabled, deleted, or restored, the Account Update API is called to notify Expedia Group about the change. The Account Update API is also called when a user responds to a login Multi-Factor Authentication based on a Fraud recommendation.
      * @param accountUpdateRequest An AccountUpdate request may be of one of the following types `MULTI_FACTOR_AUTHENTICATION_UPDATE`, `REMEDIATION_UPDATE`.
-     * @param transactionId The transaction id for the request (optional, defaults to a new UUID)
      * @throws ExpediaGroupApiAccountTakeoverBadRequestErrorException
      * @throws ExpediaGroupApiAccountTakeoverUnauthorizedErrorException
      * @throws ExpediaGroupApiForbiddenErrorException
@@ -118,18 +110,14 @@ class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGr
         ExpediaGroupApiGatewayTimeoutErrorException::class
     )
     @JvmOverloads
-    fun notifyWithAccountUpdate(
-        accountUpdateRequest: AccountUpdateRequest,
-        transactionId: UUID = UUID.randomUUID()
-    ): AccountUpdateResponse {
-        return notifyWithAccountUpdateWithResponse(accountUpdateRequest, transactionId).body
+    fun notifyWithAccountUpdate(accountUpdateRequest: AccountUpdateRequest): AccountUpdateResponse {
+        return notifyWithAccountUpdateWithResponse(accountUpdateRequest).body
     }
 
     /**
      * Send an update as a result of an account screen transaction
      * The Account Update API is called when there is an account lifecycle transition such as a challenge outcome, account restoration, or remediation action completion. For example, if a user's account is disabled, deleted, or restored, the Account Update API is called to notify Expedia Group about the change. The Account Update API is also called when a user responds to a login Multi-Factor Authentication based on a Fraud recommendation.
      * @param accountUpdateRequest An AccountUpdate request may be of one of the following types `MULTI_FACTOR_AUTHENTICATION_UPDATE`, `REMEDIATION_UPDATE`.
-     * @param transactionId The transaction id for the request (optional, defaults to a new UUID)
      * @throws ExpediaGroupApiAccountTakeoverBadRequestErrorException
      * @throws ExpediaGroupApiAccountTakeoverUnauthorizedErrorException
      * @throws ExpediaGroupApiForbiddenErrorException
@@ -153,35 +141,26 @@ class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGr
         ExpediaGroupApiGatewayTimeoutErrorException::class
     )
     @JvmOverloads
-    fun notifyWithAccountUpdateWithResponse(
-        accountUpdateRequest: AccountUpdateRequest,
-        transactionId: UUID = UUID.randomUUID()
-    ): Response<AccountUpdateResponse> {
+    fun notifyWithAccountUpdateWithResponse(accountUpdateRequest: AccountUpdateRequest): Response<AccountUpdateResponse> {
         try {
             return GlobalScope.future(Dispatchers.IO) {
-                knotifyWithAccountUpdateWithResponse(accountUpdateRequest, transactionId)
+                knotifyWithAccountUpdateWithResponse(accountUpdateRequest)
             }.get()
         } catch (exception: Exception) {
             exception.handle()
         }
     }
 
-    private suspend inline fun knotifyWithOrderUpdate(
-        orderPurchaseUpdateRequest: OrderPurchaseUpdateRequest,
-        transactionId: UUID = UUID.randomUUID()
-    ): OrderPurchaseUpdateResponse {
-        return knotifyWithOrderUpdateWithResponse(orderPurchaseUpdateRequest, transactionId).body
+    private suspend inline fun knotifyWithOrderUpdate(orderPurchaseUpdateRequest: OrderPurchaseUpdateRequest): OrderPurchaseUpdateResponse {
+        return knotifyWithOrderUpdateWithResponse(orderPurchaseUpdateRequest).body
     }
 
-    private suspend inline fun knotifyWithOrderUpdateWithResponse(
-        orderPurchaseUpdateRequest: OrderPurchaseUpdateRequest,
-        transactionId: UUID = UUID.randomUUID()
-    ): Response<OrderPurchaseUpdateResponse> {
+    private suspend inline fun knotifyWithOrderUpdateWithResponse(orderPurchaseUpdateRequest: OrderPurchaseUpdateRequest): Response<OrderPurchaseUpdateResponse> {
         val response =
             httpClient.request {
                 method = HttpMethod.parse("POST")
                 url("fraud-prevention/v2/order/purchase/update")
-                appendHeaders(transactionId)
+                appendHeaders()
                 validateConstraints(orderPurchaseUpdateRequest)
                 contentType(ContentType.Application.Json)
                 setBody(orderPurchaseUpdateRequest)
@@ -194,7 +173,6 @@ class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGr
      * Send an update for a transaction
      * The Order Purchase Update API is called when the status of the order has changed.  For example, if the customer cancels the reservation, changes reservation in any way, or adds additional products or travelers to the reservation, the Order Purchase Update API is called to notify Expedia Group about the change.  The Order Purchase Update API is also called when the merchant cancels or changes an order based on a Fraud recommendation.
      * @param orderPurchaseUpdateRequest An OrderPurchaseUpdate request may be of one of the following types `ORDER_UPDATE`, `CHARGEBACK_FEEDBACK`, `INSULT_FEEDBACK`, `REFUND_UPDATE`, `PAYMENT_UPDATE`.
-     * @param transactionId The transaction id for the request (optional, defaults to a new UUID)
      * @throws ExpediaGroupApiBadRequestErrorException
      * @throws ExpediaGroupApiUnauthorizedErrorException
      * @throws ExpediaGroupApiForbiddenErrorException
@@ -218,18 +196,14 @@ class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGr
         ExpediaGroupApiGatewayTimeoutErrorException::class
     )
     @JvmOverloads
-    fun notifyWithOrderUpdate(
-        orderPurchaseUpdateRequest: OrderPurchaseUpdateRequest,
-        transactionId: UUID = UUID.randomUUID()
-    ): OrderPurchaseUpdateResponse {
-        return notifyWithOrderUpdateWithResponse(orderPurchaseUpdateRequest, transactionId).body
+    fun notifyWithOrderUpdate(orderPurchaseUpdateRequest: OrderPurchaseUpdateRequest): OrderPurchaseUpdateResponse {
+        return notifyWithOrderUpdateWithResponse(orderPurchaseUpdateRequest).body
     }
 
     /**
      * Send an update for a transaction
      * The Order Purchase Update API is called when the status of the order has changed.  For example, if the customer cancels the reservation, changes reservation in any way, or adds additional products or travelers to the reservation, the Order Purchase Update API is called to notify Expedia Group about the change.  The Order Purchase Update API is also called when the merchant cancels or changes an order based on a Fraud recommendation.
      * @param orderPurchaseUpdateRequest An OrderPurchaseUpdate request may be of one of the following types `ORDER_UPDATE`, `CHARGEBACK_FEEDBACK`, `INSULT_FEEDBACK`, `REFUND_UPDATE`, `PAYMENT_UPDATE`.
-     * @param transactionId The transaction id for the request (optional, defaults to a new UUID)
      * @throws ExpediaGroupApiBadRequestErrorException
      * @throws ExpediaGroupApiUnauthorizedErrorException
      * @throws ExpediaGroupApiForbiddenErrorException
@@ -253,35 +227,26 @@ class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGr
         ExpediaGroupApiGatewayTimeoutErrorException::class
     )
     @JvmOverloads
-    fun notifyWithOrderUpdateWithResponse(
-        orderPurchaseUpdateRequest: OrderPurchaseUpdateRequest,
-        transactionId: UUID = UUID.randomUUID()
-    ): Response<OrderPurchaseUpdateResponse> {
+    fun notifyWithOrderUpdateWithResponse(orderPurchaseUpdateRequest: OrderPurchaseUpdateRequest): Response<OrderPurchaseUpdateResponse> {
         try {
             return GlobalScope.future(Dispatchers.IO) {
-                knotifyWithOrderUpdateWithResponse(orderPurchaseUpdateRequest, transactionId)
+                knotifyWithOrderUpdateWithResponse(orderPurchaseUpdateRequest)
             }.get()
         } catch (exception: Exception) {
             exception.handle()
         }
     }
 
-    private suspend inline fun kscreenAccount(
-        accountScreenRequest: AccountScreenRequest,
-        transactionId: UUID = UUID.randomUUID()
-    ): AccountScreenResponse {
-        return kscreenAccountWithResponse(accountScreenRequest, transactionId).body
+    private suspend inline fun kscreenAccount(accountScreenRequest: AccountScreenRequest): AccountScreenResponse {
+        return kscreenAccountWithResponse(accountScreenRequest).body
     }
 
-    private suspend inline fun kscreenAccountWithResponse(
-        accountScreenRequest: AccountScreenRequest,
-        transactionId: UUID = UUID.randomUUID()
-    ): Response<AccountScreenResponse> {
+    private suspend inline fun kscreenAccountWithResponse(accountScreenRequest: AccountScreenRequest): Response<AccountScreenResponse> {
         val response =
             httpClient.request {
                 method = HttpMethod.parse("POST")
                 url("fraud-prevention/v2/account/screen")
-                appendHeaders(transactionId)
+                appendHeaders()
                 validateConstraints(accountScreenRequest)
                 contentType(ContentType.Application.Json)
                 setBody(accountScreenRequest)
@@ -294,7 +259,6 @@ class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGr
      * Run fraud screening for one transaction
      * The Account Screen API gives a Fraud recommendation for an account transaction. A recommendation can be ACCEPT, CHALLENGE, or REJECT. A transaction is marked as CHALLENGE whenever there are insufficient signals to recommend ACCEPT or REJECT. These CHALLENGE incidents are manually reviewed, and a corrected recommendation is made asynchronously.
      * @param accountScreenRequest
-     * @param transactionId The transaction id for the request (optional, defaults to a new UUID)
      * @throws ExpediaGroupApiAccountTakeoverBadRequestErrorException
      * @throws ExpediaGroupApiAccountTakeoverUnauthorizedErrorException
      * @throws ExpediaGroupApiForbiddenErrorException
@@ -318,18 +282,14 @@ class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGr
         ExpediaGroupApiGatewayTimeoutErrorException::class
     )
     @JvmOverloads
-    fun screenAccount(
-        accountScreenRequest: AccountScreenRequest,
-        transactionId: UUID = UUID.randomUUID()
-    ): AccountScreenResponse {
-        return screenAccountWithResponse(accountScreenRequest, transactionId).body
+    fun screenAccount(accountScreenRequest: AccountScreenRequest): AccountScreenResponse {
+        return screenAccountWithResponse(accountScreenRequest).body
     }
 
     /**
      * Run fraud screening for one transaction
      * The Account Screen API gives a Fraud recommendation for an account transaction. A recommendation can be ACCEPT, CHALLENGE, or REJECT. A transaction is marked as CHALLENGE whenever there are insufficient signals to recommend ACCEPT or REJECT. These CHALLENGE incidents are manually reviewed, and a corrected recommendation is made asynchronously.
      * @param accountScreenRequest
-     * @param transactionId The transaction id for the request (optional, defaults to a new UUID)
      * @throws ExpediaGroupApiAccountTakeoverBadRequestErrorException
      * @throws ExpediaGroupApiAccountTakeoverUnauthorizedErrorException
      * @throws ExpediaGroupApiForbiddenErrorException
@@ -353,35 +313,26 @@ class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGr
         ExpediaGroupApiGatewayTimeoutErrorException::class
     )
     @JvmOverloads
-    fun screenAccountWithResponse(
-        accountScreenRequest: AccountScreenRequest,
-        transactionId: UUID = UUID.randomUUID()
-    ): Response<AccountScreenResponse> {
+    fun screenAccountWithResponse(accountScreenRequest: AccountScreenRequest): Response<AccountScreenResponse> {
         try {
             return GlobalScope.future(Dispatchers.IO) {
-                kscreenAccountWithResponse(accountScreenRequest, transactionId)
+                kscreenAccountWithResponse(accountScreenRequest)
             }.get()
         } catch (exception: Exception) {
             exception.handle()
         }
     }
 
-    private suspend inline fun kscreenOrder(
-        orderPurchaseScreenRequest: OrderPurchaseScreenRequest,
-        transactionId: UUID = UUID.randomUUID()
-    ): OrderPurchaseScreenResponse {
-        return kscreenOrderWithResponse(orderPurchaseScreenRequest, transactionId).body
+    private suspend inline fun kscreenOrder(orderPurchaseScreenRequest: OrderPurchaseScreenRequest): OrderPurchaseScreenResponse {
+        return kscreenOrderWithResponse(orderPurchaseScreenRequest).body
     }
 
-    private suspend inline fun kscreenOrderWithResponse(
-        orderPurchaseScreenRequest: OrderPurchaseScreenRequest,
-        transactionId: UUID = UUID.randomUUID()
-    ): Response<OrderPurchaseScreenResponse> {
+    private suspend inline fun kscreenOrderWithResponse(orderPurchaseScreenRequest: OrderPurchaseScreenRequest): Response<OrderPurchaseScreenResponse> {
         val response =
             httpClient.request {
                 method = HttpMethod.parse("POST")
                 url("fraud-prevention/v2/order/purchase/screen")
-                appendHeaders(transactionId)
+                appendHeaders()
                 validateConstraints(orderPurchaseScreenRequest)
                 contentType(ContentType.Application.Json)
                 setBody(orderPurchaseScreenRequest)
@@ -394,7 +345,6 @@ class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGr
      * Run fraud screening for one transaction
      * The Order Purchase API gives a Fraud recommendation for a transaction. A recommendation can be Accept, Reject, or Review. A transaction is marked as Review whenever there are insufficient signals to recommend Accept or Reject. These incidents are manually reviewed, and a corrected recommendation is made asynchronously.
      * @param orderPurchaseScreenRequest
-     * @param transactionId The transaction id for the request (optional, defaults to a new UUID)
      * @throws ExpediaGroupApiBadRequestErrorException
      * @throws ExpediaGroupApiUnauthorizedErrorException
      * @throws ExpediaGroupApiForbiddenErrorException
@@ -418,18 +368,14 @@ class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGr
         ExpediaGroupApiGatewayTimeoutErrorException::class
     )
     @JvmOverloads
-    fun screenOrder(
-        orderPurchaseScreenRequest: OrderPurchaseScreenRequest,
-        transactionId: UUID = UUID.randomUUID()
-    ): OrderPurchaseScreenResponse {
-        return screenOrderWithResponse(orderPurchaseScreenRequest, transactionId).body
+    fun screenOrder(orderPurchaseScreenRequest: OrderPurchaseScreenRequest): OrderPurchaseScreenResponse {
+        return screenOrderWithResponse(orderPurchaseScreenRequest).body
     }
 
     /**
      * Run fraud screening for one transaction
      * The Order Purchase API gives a Fraud recommendation for a transaction. A recommendation can be Accept, Reject, or Review. A transaction is marked as Review whenever there are insufficient signals to recommend Accept or Reject. These incidents are manually reviewed, and a corrected recommendation is made asynchronously.
      * @param orderPurchaseScreenRequest
-     * @param transactionId The transaction id for the request (optional, defaults to a new UUID)
      * @throws ExpediaGroupApiBadRequestErrorException
      * @throws ExpediaGroupApiUnauthorizedErrorException
      * @throws ExpediaGroupApiForbiddenErrorException
@@ -453,13 +399,10 @@ class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGr
         ExpediaGroupApiGatewayTimeoutErrorException::class
     )
     @JvmOverloads
-    fun screenOrderWithResponse(
-        orderPurchaseScreenRequest: OrderPurchaseScreenRequest,
-        transactionId: UUID = UUID.randomUUID()
-    ): Response<OrderPurchaseScreenResponse> {
+    fun screenOrderWithResponse(orderPurchaseScreenRequest: OrderPurchaseScreenRequest): Response<OrderPurchaseScreenResponse> {
         try {
             return GlobalScope.future(Dispatchers.IO) {
-                kscreenOrderWithResponse(orderPurchaseScreenRequest, transactionId)
+                kscreenOrderWithResponse(orderPurchaseScreenRequest)
             }.get()
         } catch (exception: Exception) {
             exception.handle()

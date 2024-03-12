@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
 * Type of product.
-* Values: CRUISE,AIR,CAR,INSURANCE,HOTEL,RAIL
+* Values: CRUISE,AIR,CAR,INSURANCE,HOTEL,RAIL,ACTIVITY
 */
 enum class TravelProductType(val value: kotlin.String) {
     @JsonProperty("CRUISE")
@@ -39,5 +39,8 @@ enum class TravelProductType(val value: kotlin.String) {
     HOTEL("HOTEL"),
 
     @JsonProperty("RAIL")
-    RAIL("RAIL")
+    RAIL("RAIL"),
+
+    @JsonProperty("ACTIVITY")
+    ACTIVITY("ACTIVITY")
 }

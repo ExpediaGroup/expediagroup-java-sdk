@@ -26,6 +26,8 @@ internal object HttpTimeoutPlugin : Plugin<HttpTimeoutConfiguration> {
     ) {
         configurations.httpClientConfiguration.install(HttpTimeout) {
             requestTimeoutMillis = configurations.requestTimeout
+            connectTimeoutMillis = configurations.connectionTimeout
+            socketTimeoutMillis = configurations.socketTimeout
         }
     }
 }

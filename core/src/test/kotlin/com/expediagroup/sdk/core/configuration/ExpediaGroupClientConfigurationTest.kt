@@ -28,6 +28,10 @@ class ExpediaGroupClientConfigurationTest {
             assertNull(it.endpoint)
             assertNull(it.authEndpoint)
             assertNull(it.requestTimeout)
+            assertNull(it.connectionTimeout)
+            assertNull(it.socketTimeout)
+            assertNull(it.maskedLoggingHeaders)
+            assertNull(it.maskedLoggingBodyFields)
         }
     }
 
@@ -38,13 +42,21 @@ class ExpediaGroupClientConfigurationTest {
             secret = "secret",
             endpoint = "endpoint",
             authEndpoint = "authEndpoint",
-            requestTimeout = 10_000
+            requestTimeout = 10_000,
+            connectionTimeout = 5_000,
+            socketTimeout = 15_000,
+            maskedLoggingHeaders = setOf("header1", "header2"),
+            maskedLoggingBodyFields = setOf("field1", "field2")
         ).let {
             assertEquals("key", it.key)
             assertEquals("secret", it.secret)
             assertEquals("endpoint", it.endpoint)
             assertEquals("authEndpoint", it.authEndpoint)
             assertEquals(10_000, it.requestTimeout)
+            assertEquals(5_000, it.connectionTimeout)
+            assertEquals(15_000, it.socketTimeout)
+            assertEquals(setOf("header1", "header2"), it.maskedLoggingHeaders)
+            assertEquals(setOf("field1", "field2"), it.maskedLoggingBodyFields)
         }
     }
 
@@ -56,6 +68,10 @@ class ExpediaGroupClientConfigurationTest {
             assertNull(it.endpoint)
             assertNull(it.authEndpoint)
             assertNull(it.requestTimeout)
+            assertNull(it.connectionTimeout)
+            assertNull(it.socketTimeout)
+            assertNull(it.maskedLoggingHeaders)
+            assertNull(it.maskedLoggingBodyFields)
         }
     }
 
@@ -66,13 +82,21 @@ class ExpediaGroupClientConfigurationTest {
             secret = "secret",
             endpoint = "endpoint",
             authEndpoint = "authEndpoint",
-            requestTimeout = 10_000
+            requestTimeout = 10_000,
+            connectionTimeout = 5_000,
+            socketTimeout = 15_000,
+            maskedLoggingHeaders = setOf("header1", "header2"),
+            maskedLoggingBodyFields = setOf("field1", "field2")
         ).toProvider().let {
             assertEquals("key", it.key)
             assertEquals("secret", it.secret)
             assertEquals("endpoint", it.endpoint)
             assertEquals("authEndpoint", it.authEndpoint)
             assertEquals(10_000, it.requestTimeout)
+            assertEquals(5_000, it.connectionTimeout)
+            assertEquals(15_000, it.socketTimeout)
+            assertEquals(setOf("header1", "header2"), it.maskedLoggingHeaders)
+            assertEquals(setOf("field1", "field2"), it.maskedLoggingBodyFields)
         }
     }
 }

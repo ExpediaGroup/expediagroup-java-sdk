@@ -20,12 +20,20 @@ import io.ktor.http.HttpStatusCode
 internal object LoggingMessageProvider {
     fun getTokenExpiresInMessage(expiresIn: Int) = "New token expires in $expiresIn seconds"
 
-    fun getResponseUnsuccessfulMessage(httpStatusCode: HttpStatusCode) = "Unsuccessful response [$httpStatusCode]"
+    fun getResponseUnsuccessfulMessage(
+        httpStatusCode: HttpStatusCode,
+        transactionId: String?
+    ) = "Unsuccessful response [$httpStatusCode]${getTransactionIdMessage(transactionId)}"
 
     fun getChosenProviderMessage(
         property: String,
         providerName: String
     ) = "Successfully loaded [$property] from [$providerName]"
+
+    fun <T> getRuntimeConfigurationProviderMessage(
+        property: String,
+        value: T
+    ) = "Setting [$property] to [$value] from runtime configuration provider"
 
     fun getResponseBodyMessage(
         body: String,
@@ -37,5 +45,5 @@ internal object LoggingMessageProvider {
         transactionId: String?
     ) = "Request Body${getTransactionIdMessage(transactionId)}: $body"
 
-    private fun getTransactionIdMessage(transactionId: String?) = if (transactionId != null) " [transactionId=$transactionId]" else ""
+    fun getTransactionIdMessage(transactionId: String?) = if (transactionId != null) " for transaction-id [$transactionId]" else ""
 }
