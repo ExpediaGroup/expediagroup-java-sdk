@@ -6,10 +6,6 @@
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[Notification](../../com.expediagroup.sdk.rapid.models/-notification/index.md)&gt;[requestUndeliveredNotifications](request-undelivered-notifications.md)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html)undeliverable, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)billingTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)partnerPointOfSale, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)paymentTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)platformName, [UUID](https://docs.oracle.com/javase/8/docs/api/java/util/UUID.html)transactionId)
-
-@[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
-
 public final [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[Notification](../../com.expediagroup.sdk.rapid.models/-notification/index.md)&gt;[requestUndeliveredNotifications](request-undelivered-notifications.md)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html)undeliverable, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)billingTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)partnerPointOfSale, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)paymentTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)platformName)
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
