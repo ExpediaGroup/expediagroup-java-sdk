@@ -16,9 +16,12 @@
 package com.expediagroup.sdk.core.configuration.provider
 
 import com.expediagroup.sdk.core.configuration.provider.ExpediaGroupConfigurationProvider.authEndpoint
+import com.expediagroup.sdk.core.configuration.provider.ExpediaGroupConfigurationProvider.connectionTimeout
 import com.expediagroup.sdk.core.configuration.provider.ExpediaGroupConfigurationProvider.endpoint
 import com.expediagroup.sdk.core.configuration.provider.ExpediaGroupConfigurationProvider.name
 import com.expediagroup.sdk.core.configuration.provider.ExpediaGroupConfigurationProvider.requestTimeout
+import com.expediagroup.sdk.core.configuration.provider.ExpediaGroupConfigurationProvider.socketTimeout
+import com.expediagroup.sdk.core.constant.Constant
 
 /**
  * Default configuration provider for ExpediaGroup.
@@ -27,9 +30,14 @@ import com.expediagroup.sdk.core.configuration.provider.ExpediaGroupConfiguratio
  * @property endpoint The API endpoint to use for requests.
  * @property authEndpoint The API endpoint to use for authentication.
  * @property requestTimeout The API response timeout to use for requests.
+ * @property connectionTimeout The connection timeout to be used in milliseconds.
+ * @property socketTimeout The socket timeout to be used in milliseconds.
  */
 internal object ExpediaGroupConfigurationProvider : ConfigurationProvider {
     override val name: String = "ExpediaGroup Configuration Provider"
     override val endpoint: String = "https://api.expediagroup.com/"
     override val authEndpoint: String = "${endpoint}identity/oauth2/v3/token/"
+    override val requestTimeout: Long = Constant.INFINITE_TIMEOUT
+    override val connectionTimeout: Long = Constant.TEN_SECONDS_IN_MILLIS
+    override val socketTimeout: Long = Constant.FIFTEEN_SECONDS_IN_MILLIS
 }

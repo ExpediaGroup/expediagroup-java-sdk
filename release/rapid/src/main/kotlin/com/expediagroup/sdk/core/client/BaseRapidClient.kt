@@ -51,16 +51,7 @@ abstract class BaseRapidClient(
     override val httpClient: HttpClient
         get() = _httpClient
 
-    /**
-     * A [BaseRapidClient] builder.
-     *
-     * @property key The API key to use for authentication.
-     * @property secret The API secret to use for authentication.
-     * @property endpoint The API endpoint to use for requests.
-     * @property requestTimeout The request timeout to be used.
-     * @property maskedLoggingHeaders The headers to be masked in logging.
-     * @property maskedLoggingBodyFields The body fields to be masked in logging.
-     */
+    /** A [BaseRapidClient] builder. */
     @Suppress("unused", "UnnecessaryAbstractClass") // This is used by the generated SDK clients.
-    abstract class Builder<SELF : com.expediagroup.sdk.core.client.BaseRapidClient.Builder<SELF>> : com.expediagroup.sdk.core.client.Client.Builder<SELF>()
+    abstract class Builder<SELF : Builder<SELF>> : Client.Builder<SELF>()
 }

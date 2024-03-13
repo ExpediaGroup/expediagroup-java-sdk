@@ -22,6 +22,8 @@ interface ClientConfiguration {
     val secret: String?
     val endpoint: String?
     val requestTimeout: Long?
+    val connectionTimeout: Long?
+    val socketTimeout: Long?
     val maskedLoggingHeaders: Set<String>?
     val maskedLoggingBodyFields: Set<String>?
 
@@ -32,6 +34,8 @@ interface ClientConfiguration {
             secret = secret,
             endpoint = endpoint,
             requestTimeout = requestTimeout,
+            connectionTimeout = connectionTimeout,
+            socketTimeout = socketTimeout,
             maskedLoggingHeaders = maskedLoggingHeaders,
             maskedLoggingBodyFields = maskedLoggingBodyFields
         )

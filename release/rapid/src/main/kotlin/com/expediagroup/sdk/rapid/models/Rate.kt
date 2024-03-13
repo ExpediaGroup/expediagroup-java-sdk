@@ -49,6 +49,7 @@ import javax.validation.Valid
  * @param bedGroups A map of the room's bed groups.
  * @param cancelPenalties Array of `cancel_penalty` objects containing cancel penalty information.
  * @param nonrefundableDateRanges An array of stay date ranges within this check-in / check-out range that are not refundable. Stay dates within these ranges provide no refund on cancellation, regardless of cancel penalty windows. The stay dates are determined by the would be check-in of that night. With a check-in date of 2023-09-01, and a check-out date of 2023-09-06, this would be a 5 night stay. A `nonrefundable_date_range` with start: 2023-09-02 and end: 2023-09-03 would mean 2 of the nights are nonrefundable. The 1st night is refundable, the 2nd and 3rd nights are nonrefundable, and the 4th and 5th nights are refundable, subject to `cancel_penalties` restrictions.
+ * @param marketingFeeIncentives An array of stay date ranges within this check-in / check-out range that have an incentive applied. The stay dates are determined by the would be check-in of that night. With a check-in date of 2023-09-01, and a check-out date of 2023-09-06, this would be a 5 night stay. A `marketing_fee_incentive` with start: 2023-09-02 and end: 2023-09-03 would mean 2 of the nights have an incentive applied. The 1st night is not part of the incentive, the 2nd and 3rd nights are part of the incentive, and the 4th and 5th nights are not part of the incentive.
  * @param occupancyPricing A map of room information by occupancy.
  * @param promotions
  * @param cardOnFileLimit
@@ -100,6 +101,10 @@ data class Rate(
     @JsonProperty("nonrefundable_date_ranges")
     @field:Valid
     val nonrefundableDateRanges: kotlin.collections.List<NonrefundableDateRange>? = null,
+    // An array of stay date ranges within this check-in / check-out range that have an incentive applied. The stay dates are determined by the would be check-in of that night. With a check-in date of 2023-09-01, and a check-out date of 2023-09-06, this would be a 5 night stay. A `marketing_fee_incentive` with start: 2023-09-02 and end: 2023-09-03 would mean 2 of the nights have an incentive applied. The 1st night is not part of the incentive, the 2nd and 3rd nights are part of the incentive, and the 4th and 5th nights are not part of the incentive.
+    @JsonProperty("marketing_fee_incentives")
+    @field:Valid
+    val marketingFeeIncentives: kotlin.collections.List<MarketingFeeIncentive>? = null,
     // A map of room information by occupancy.
     @JsonProperty("occupancy_pricing")
     @field:Valid
@@ -136,6 +141,7 @@ data class Rate(
         private var bedGroups: kotlin.collections.Map<kotlin.String, BedGroupAvailability>? = null,
         private var cancelPenalties: kotlin.collections.List<CancelPenalty>? = null,
         private var nonrefundableDateRanges: kotlin.collections.List<NonrefundableDateRange>? = null,
+        private var marketingFeeIncentives: kotlin.collections.List<MarketingFeeIncentive>? = null,
         private var occupancyPricing: kotlin.collections.Map<kotlin.String, PricingInformation>? = null,
         private var promotions: Promotions? = null,
         private var cardOnFileLimit: Amount? = null,
@@ -166,6 +172,8 @@ data class Rate(
 
         fun nonrefundableDateRanges(nonrefundableDateRanges: kotlin.collections.List<NonrefundableDateRange>?) = apply { this.nonrefundableDateRanges = nonrefundableDateRanges }
 
+        fun marketingFeeIncentives(marketingFeeIncentives: kotlin.collections.List<MarketingFeeIncentive>?) = apply { this.marketingFeeIncentives = marketingFeeIncentives }
+
         fun occupancyPricing(occupancyPricing: kotlin.collections.Map<kotlin.String, PricingInformation>?) = apply { this.occupancyPricing = occupancyPricing }
 
         fun promotions(promotions: Promotions?) = apply { this.promotions = promotions }
@@ -190,6 +198,7 @@ data class Rate(
                 bedGroups = bedGroups,
                 cancelPenalties = cancelPenalties,
                 nonrefundableDateRanges = nonrefundableDateRanges,
+                marketingFeeIncentives = marketingFeeIncentives,
                 occupancyPricing = occupancyPricing,
                 promotions = promotions,
                 cardOnFileLimit = cardOnFileLimit,
