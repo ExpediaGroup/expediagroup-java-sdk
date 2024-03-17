@@ -13,10 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.configuration
+package com.expediagroup.sdk.core.model
 
-internal data class NetworkConfiguration(
-    val connectionTimeout: Long = 10_000,
-    val readTimeout: Long = 10_000,
-    val writeTimeout: Long = 10_000
-)
+import com.expediagroup.sdk.core.constant.HeaderKey
+import io.ktor.http.Headers
+import io.ktor.http.HeadersBuilder
+
+internal fun Headers.getTransactionId(): String? = get(HeaderKey.TRANSACTION_ID)
+
+internal fun HeadersBuilder.getTransactionId(): String? = get(HeaderKey.TRANSACTION_ID)
