@@ -15,16 +15,26 @@
  */
 package com.expediagroup.sdk.core.configuration.provider
 
+import com.expediagroup.sdk.core.configuration.provider.RapidConfigurationProvider.connectionTimeout
 import com.expediagroup.sdk.core.configuration.provider.RapidConfigurationProvider.endpoint
 import com.expediagroup.sdk.core.configuration.provider.RapidConfigurationProvider.name
+import com.expediagroup.sdk.core.configuration.provider.RapidConfigurationProvider.requestTimeout
+import com.expediagroup.sdk.core.configuration.provider.RapidConfigurationProvider.socketTimeout
+import com.expediagroup.sdk.core.constant.Constant
 
 /**
  * Default configuration provider for Rapid.
  *
  * @property name The name of the provider.
  * @property endpoint The API endpoint to use for requests.
+ * @property requestTimeout The API response timeout to use for requests.
+ * @property connectionTimeout The connection timeout to use for requests.
+ * @property socketTimeout The socket timeout to use for requests.
  */
 internal object RapidConfigurationProvider : ConfigurationProvider {
     override val name: String = "Rapid Configuration Provider"
     override val endpoint: String = "https://api.ean.com/v3"
+    override val requestTimeout: Long = Constant.INFINITE_TIMEOUT
+    override val connectionTimeout: Long = Constant.TEN_SECONDS_IN_MILLIS
+    override val socketTimeout: Long = Constant.FIFTEEN_SECONDS_IN_MILLIS
 }

@@ -81,6 +81,7 @@
 | [Link](-link/index.md) | [JVM]<br>public final class [Link](-link/index.md)<br>An individual link. |
 | [Localized](-localized/index.md) | [JVM]<br>public final class [Localized](-localized/index.md)<br>Container for localized address information. |
 | [Location](-location/index.md) | [JVM]<br>public final class [Location](-location/index.md)<br>The property's location information. |
+| [MarketingFeeIncentive](-marketing-fee-incentive/index.md) | [JVM]<br>public final class [MarketingFeeIncentive](-marketing-fee-incentive/index.md)<br>An object representing one incentive source and the stay dates relevant to that particular incentive. |
 | [MaxAllowed](-max-allowed/index.md) | [JVM]<br>public final class [MaxAllowed](-max-allowed/index.md)<br>Maximum occupancy counts. |
 | [MerchantOfRecord](-merchant-of-record/index.md) | [JVM]<br>public enum [MerchantOfRecord](-merchant-of-record/index.md) extends [Enum](https://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html)&lt;[MerchantOfRecord](-merchant-of-record/index.md)&gt; |
 | [MultiPolygon](-multi-polygon/index.md) | [JVM]<br>public final class [MultiPolygon](-multi-polygon/index.md) implements [BoundingPolygon](-bounding-polygon/index.md) |

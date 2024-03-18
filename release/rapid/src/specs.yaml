@@ -10,7 +10,6 @@ tags:
 paths:
   /v3/properties/content:
     get:
-      x-sdk-paginated: true
       tags:
         &a1
         - rapid
@@ -2179,7 +2178,6 @@ paths:
         - rapidAuth: []
   /v3/properties/inactive:
     get:
-      x-sdk-paginated: true
       tags: *a1
       summary: Inactive Properties
       description: >
@@ -3770,7 +3768,6 @@ paths:
         - rapidAuth: []
   /v3/regions:
     get:
-      x-sdk-paginated: true
       tags: *a1
       summary: Regions
       description: >
@@ -5284,7 +5281,7 @@ paths:
           required: true
           schema:
             type: string
-          example: 2024-02-10
+          example: 2024-04-22
         - name: checkout
           in: query
           description: >
@@ -5294,7 +5291,7 @@ paths:
           required: true
           schema:
             type: string
-          example: 2024-02-12
+          example: 2024-04-24
         - name: currency
           in: query
           description: >
@@ -5488,6 +5485,8 @@ paths:
             * `unavailable_reason` - When a property is unavailable for an actionable reason, return a response with that reason - See [Unavailable Reason Codes](https://developers.expediagroup.com/docs/rapid/resources/reference/unavailable-reason-codes) for possible values.
 
             * `sale_scenario.mobile_promotion` - Enable the `mobile_promotion` flag under the `room.rate.sale_scenario` section of the response.
+
+            * `rooms.rates.marketing_fee_incentives` - When a rate has a marketing fee incentive applied, the response will include the `marketing_fee_incentives` array if this flag is provided in the request.
           schema:
             type: array
             items:
@@ -5495,6 +5494,7 @@ paths:
               enum:
                 - unavailable_reason
                 - sale_scenario.mobile_promotion
+                - rooms.rates.marketing_fee_incentives
           example: unavailable_reason
         - name: rate_option
           in: query
@@ -5663,6 +5663,10 @@ paths:
                                   amount: "10.00"
                               nonrefundable_date_ranges:
                                 - start: 2022-02-02
+                                  end: 2022-02-02
+                              marketing_fee_incentives:
+                                - source: property
+                                  start: 2022-02-02
                                   end: 2022-02-02
                               occupancy_pricing:
                                 "2":
@@ -6439,7 +6443,7 @@ paths:
             If specified must also specify `checkout`.
           schema:
             type: string
-          example: 2024-02-10
+          example: 2024-04-22
         - name: checkout
           in: query
           description: >
@@ -6453,7 +6457,7 @@ paths:
             If specified must also specify `checkin`.<br>
           schema:
             type: string
-          example: 2024-02-12
+          example: 2024-04-24
         - name: exclusion
           in: query
           description: >
@@ -14912,6 +14916,23 @@ components:
             restrictions.
           items:
             $ref: "#/components/schemas/NonrefundableDateRange"
+        marketing_fee_incentives:
+          type: array
+          description: >
+            An array of stay date ranges within this check-in / check-out range
+            that have an incentive applied. The stay
+
+            dates are determined by the would be check-in of that night. With a check-in date of 2023-09-01, and a
+
+            check-out date of 2023-09-06, this would be a 5 night stay. A `marketing_fee_incentive` with start:
+
+            2023-09-02 and end: 2023-09-03 would mean 2 of the nights have an incentive applied. The 1st night is not
+
+            part of the incentive, the 2nd and 3rd nights are part of the incentive, and the 4th and 5th nights are not
+
+            part of the incentive.
+          items:
+            $ref: "#/components/schemas/MarketingFeeIncentive"
         occupancy_pricing:
           type: object
           additionalProperties:
@@ -15021,6 +15042,24 @@ components:
         $ref: "#/components/schemas/Link"
       description: A map of links, including links to confirm pricing and availability
         for the selected rate.
+    MarketingFeeIncentive:
+      type: object
+      properties:
+        source:
+          type: string
+          description: >
+            The source of the incentive. This can be used to differentiate
+            between incentives in the case that more than
+
+            one incentive applies to a particular rate.
+        start:
+          type: string
+          description: The first stay date with the incentive applied in ISO 8601 format.
+        end:
+          type: string
+          description: The last stay date with the incentive applied in ISO 8601 format.
+      description: An object representing one incentive source and the stay dates
+        relevant to that particular incentive.
     Promotions:
       type: object
       properties:

@@ -18,12 +18,14 @@ package com.expediagroup.sdk.core.plugin.logging
 import com.expediagroup.sdk.core.constant.HeaderValue
 import com.expediagroup.sdk.core.constant.LoggerName
 import com.expediagroup.sdk.core.constant.provider.LoggingMessageProvider
+import com.expediagroup.sdk.core.model.getTransactionId
 import com.expediagroup.sdk.core.plugin.logging.GZipEncoder.decode
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpClientPlugin
 import io.ktor.client.plugins.compression.ContentEncoder
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.HttpResponsePipeline
+import io.ktor.client.statement.request
 import io.ktor.http.HttpHeaders
 import io.ktor.util.AttributeKey
 import io.ktor.util.Encoder
@@ -46,7 +48,7 @@ class ResponseBodyLogger {
                 val response: HttpResponse = context.response
                 val byteReadChannel: ByteReadChannel = if (response.contentEncoding().equals(HeaderValue.GZIP)) scope.decode(response.content) else response.content
                 val body: String = byteReadChannel.readRemaining().readText()
-                plugin.log.info(LoggingMessageProvider.getResponseBodyMessage(body))
+                plugin.log.debug(LoggingMessageProvider.getResponseBodyMessage(body, response.request.headers.getTransactionId()))
                 proceed()
             }
         }
@@ -57,7 +59,7 @@ class ResponseBodyLogger {
     }
 }
 
-private fun HttpResponse.contentEncoding(): String? = headers[HttpHeaders.ContentEncoding]
+fun HttpResponse.contentEncoding(): String? = headers[HttpHeaders.ContentEncoding]
 
 internal object GZipEncoder : ContentEncoder, Encoder by GZip {
     override val name: String = HeaderValue.GZIP
