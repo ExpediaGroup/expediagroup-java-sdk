@@ -22,11 +22,13 @@ import io.ktor.http.HttpStatusCode
  *
  * @param message The error message.
  * @param cause The cause of the error.
+ * @param transactionId The transaction-id of the auth request.
  */
 class ExpediaGroupAuthException(
     message: String? = null,
-    cause: Throwable? = null
-) : ExpediaGroupServiceException(message, cause) {
+    cause: Throwable? = null,
+    transactionId: String? = null
+) : ExpediaGroupServiceException(message, cause, transactionId) {
     /**
      * An exception that is thrown when an authentication error occurs.
      *
@@ -35,6 +37,7 @@ class ExpediaGroupAuthException(
      */
     constructor(
         errorCode: HttpStatusCode,
-        message: String
-    ) : this(message = "[${errorCode.value}] $message")
+        message: String,
+        transactionId: String?
+    ) : this(message = "[${errorCode.value}] $message", transactionId = transactionId)
 }

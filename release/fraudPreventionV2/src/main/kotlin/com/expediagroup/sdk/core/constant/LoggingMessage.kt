@@ -18,11 +18,11 @@ package com.expediagroup.sdk.core.constant
 internal object LoggingMessage {
     const val LOGGING_PREFIX = "ExpediaSDK:"
 
-    const val TOKEN_RENEWAL_IN_PROCESS = "Renewing token"
+    const val TOKEN_RENEWAL_IN_PROGRESS = "Renewing token"
 
     const val TOKEN_RENEWAL_SUCCESSFUL = "Token renewal successful"
 
-    const val TOKEN_CLEARING_IN_PROCESS = "Clearing tokens"
+    const val TOKEN_CLEARING_IN_PROGRESS = "Clearing tokens"
 
     const val TOKEN_CLEARING_SUCCESSFUL = "Tokens successfully cleared"
 

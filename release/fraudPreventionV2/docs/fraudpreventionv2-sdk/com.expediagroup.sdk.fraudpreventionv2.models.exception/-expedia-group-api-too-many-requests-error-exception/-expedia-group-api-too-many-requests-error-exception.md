@@ -4,4 +4,4 @@
 
 [JVM]\
 
-public [ExpediaGroupApiTooManyRequestsErrorException](index.md)[ExpediaGroupApiTooManyRequestsErrorException](-expedia-group-api-too-many-requests-error-exception.md)([Integer](https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html)code, [TooManyRequestsError](../../com.expediagroup.sdk.fraudpreventionv2.models/-too-many-requests-error/index.md)errorObject)
+public [ExpediaGroupApiTooManyRequestsErrorException](index.md)[ExpediaGroupApiTooManyRequestsErrorException](-expedia-group-api-too-many-requests-error-exception.md)([Integer](https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html)code, [TooManyRequestsError](../../com.expediagroup.sdk.fraudpreventionv2.models/-too-many-requests-error/index.md)errorObject, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)transactionId)

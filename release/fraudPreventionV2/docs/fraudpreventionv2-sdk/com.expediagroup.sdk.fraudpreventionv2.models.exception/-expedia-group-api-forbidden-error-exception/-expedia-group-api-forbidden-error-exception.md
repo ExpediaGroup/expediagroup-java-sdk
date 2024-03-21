@@ -4,4 +4,4 @@
 
 [JVM]\
 
-public [ExpediaGroupApiForbiddenErrorException](index.md)[ExpediaGroupApiForbiddenErrorException](-expedia-group-api-forbidden-error-exception.md)([Integer](https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html)code, [ForbiddenError](../../com.expediagroup.sdk.fraudpreventionv2.models/-forbidden-error/index.md)errorObject)
+public [ExpediaGroupApiForbiddenErrorException](index.md)[ExpediaGroupApiForbiddenErrorException](-expedia-group-api-forbidden-error-exception.md)([Integer](https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html)code, [ForbiddenError](../../com.expediagroup.sdk.fraudpreventionv2.models/-forbidden-error/index.md)errorObject, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)transactionId)

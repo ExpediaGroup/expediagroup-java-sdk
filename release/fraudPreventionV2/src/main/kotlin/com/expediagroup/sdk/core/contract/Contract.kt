@@ -13,18 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.model.exception.service
+package com.expediagroup.sdk.core.contract
 
-import com.expediagroup.sdk.core.model.exception.ExpediaGroupException
+internal typealias Operation = (String) -> String
 
 /**
- * An exception that is thrown when a service error occurs.
+ * A contract for a specific [operation].
  *
- * @param message An optional error message.
- * @param cause An optional cause of the error.
+ * @property operation The operation to perform on a string.
  */
-open class ExpediaGroupServiceException(
-    message: String? = null,
-    cause: Throwable? = null,
-    val transactionId: String? = null
-) : ExpediaGroupException(message, cause)
+internal enum class Contract(val operation: Operation) {
+    TRAILING_SLASH({ if (it.endsWith("/")) it else "$it/" })
+}
+
+/**
+ * Adheres to the given [contract] on a [String].
+ *
+ * @param contract the [Contract] to adhere to.
+ * @return the [String] adhering to the given [contract].
+ */
+internal fun String.adhereTo(contract: Contract): String = contract.operation(this)
