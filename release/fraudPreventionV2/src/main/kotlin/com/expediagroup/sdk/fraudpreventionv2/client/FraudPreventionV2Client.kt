@@ -73,7 +73,7 @@ class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGr
         val response =
             httpClient.request {
                 method = HttpMethod.parse("POST")
-                url("/fraud-prevention/v2/account/update")
+                url("fraud-prevention/v2/account/update")
                 appendHeaders()
                 validateConstraints(accountUpdateRequest)
                 contentType(ContentType.Application.Json)
@@ -159,7 +159,7 @@ class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGr
         val response =
             httpClient.request {
                 method = HttpMethod.parse("POST")
-                url("/fraud-prevention/v2/order/purchase/update")
+                url("fraud-prevention/v2/order/purchase/update")
                 appendHeaders()
                 validateConstraints(orderPurchaseUpdateRequest)
                 contentType(ContentType.Application.Json)
@@ -245,7 +245,7 @@ class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGr
         val response =
             httpClient.request {
                 method = HttpMethod.parse("POST")
-                url("/fraud-prevention/v2/account/screen")
+                url("fraud-prevention/v2/account/screen")
                 appendHeaders()
                 validateConstraints(accountScreenRequest)
                 contentType(ContentType.Application.Json)
@@ -331,7 +331,7 @@ class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGr
         val response =
             httpClient.request {
                 method = HttpMethod.parse("POST")
-                url("/fraud-prevention/v2/order/purchase/screen")
+                url("fraud-prevention/v2/order/purchase/screen")
                 appendHeaders()
                 validateConstraints(orderPurchaseScreenRequest)
                 contentType(ContentType.Application.Json)
