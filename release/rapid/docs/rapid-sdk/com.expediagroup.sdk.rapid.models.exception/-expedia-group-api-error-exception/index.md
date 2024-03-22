@@ -9,7 +9,7 @@ public final class [ExpediaGroupApiErrorException](index.md) extends ExpediaGrou
 
 | | |
 |---|---|
-| [ExpediaGroupApiErrorException](-expedia-group-api-error-exception.md) | [JVM]<br>public [ExpediaGroupApiErrorException](index.md)[ExpediaGroupApiErrorException](-expedia-group-api-error-exception.md)([Integer](https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html)code, [Error](../../com.expediagroup.sdk.rapid.models/-error/index.md)errorObject) |
+| [ExpediaGroupApiErrorException](-expedia-group-api-error-exception.md) | [JVM]<br>public [ExpediaGroupApiErrorException](index.md)[ExpediaGroupApiErrorException](-expedia-group-api-error-exception.md)([Integer](https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html)code, [Error](../../com.expediagroup.sdk.rapid.models/-error/index.md)errorObject, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)transactionId) |
 
 ## Properties
 
