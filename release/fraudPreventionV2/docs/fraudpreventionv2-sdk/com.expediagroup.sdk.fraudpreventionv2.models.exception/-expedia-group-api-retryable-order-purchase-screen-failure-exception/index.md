@@ -9,7 +9,7 @@ public final class [ExpediaGroupApiRetryableOrderPurchaseScreenFailureException]
 
 | | |
 |---|---|
-| [ExpediaGroupApiRetryableOrderPurchaseScreenFailureException](-expedia-group-api-retryable-order-purchase-screen-failure-exception.md) | [JVM]<br>public [ExpediaGroupApiRetryableOrderPurchaseScreenFailureException](index.md)[ExpediaGroupApiRetryableOrderPurchaseScreenFailureException](-expedia-group-api-retryable-order-purchase-screen-failure-exception.md)([Integer](https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html)code, [RetryableOrderPurchaseScreenFailure](../../com.expediagroup.sdk.fraudpreventionv2.models/-retryable-order-purchase-screen-failure/index.md)errorObject) |
+| [ExpediaGroupApiRetryableOrderPurchaseScreenFailureException](-expedia-group-api-retryable-order-purchase-screen-failure-exception.md) | [JVM]<br>public [ExpediaGroupApiRetryableOrderPurchaseScreenFailureException](index.md)[ExpediaGroupApiRetryableOrderPurchaseScreenFailureException](-expedia-group-api-retryable-order-purchase-screen-failure-exception.md)([Integer](https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html)code, [RetryableOrderPurchaseScreenFailure](../../com.expediagroup.sdk.fraudpreventionv2.models/-retryable-order-purchase-screen-failure/index.md)errorObject, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)transactionId) |
 
 ## Properties
 

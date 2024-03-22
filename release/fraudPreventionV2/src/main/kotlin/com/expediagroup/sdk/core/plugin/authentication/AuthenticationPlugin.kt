@@ -17,7 +17,7 @@ package com.expediagroup.sdk.core.plugin.authentication
 
 import com.expediagroup.sdk.core.client.Client
 import com.expediagroup.sdk.core.constant.ExceptionMessage.AUTHENTICATION_NOT_CONFIGURED_FOR_CLIENT
-import com.expediagroup.sdk.core.model.exception.service.ExpediaGroupAuthException
+import com.expediagroup.sdk.core.model.exception.client.ExpediaGroupClientException
 import com.expediagroup.sdk.core.plugin.Plugin
 import com.expediagroup.sdk.core.plugin.authentication.strategy.AuthenticationStrategy
 import io.ktor.client.plugins.auth.Auth
@@ -39,4 +39,4 @@ internal object AuthenticationPlugin : Plugin<AuthenticationConfiguration> {
 }
 
 internal fun Client.getAuthenticationStrategy(): AuthenticationStrategy =
-    AuthenticationPlugin.clientAuthenticationStrategies[this] ?: throw ExpediaGroupAuthException(AUTHENTICATION_NOT_CONFIGURED_FOR_CLIENT)
+    AuthenticationPlugin.clientAuthenticationStrategies[this] ?: throw ExpediaGroupClientException(AUTHENTICATION_NOT_CONFIGURED_FOR_CLIENT)

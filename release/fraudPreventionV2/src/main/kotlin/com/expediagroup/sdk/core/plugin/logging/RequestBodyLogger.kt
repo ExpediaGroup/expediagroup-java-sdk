@@ -15,14 +15,13 @@
  */
 package com.expediagroup.sdk.core.plugin.logging
 
-import com.expediagroup.sdk.core.constant.HeaderKey.TRANSACTION_ID
 import com.expediagroup.sdk.core.constant.LoggerName
 import com.expediagroup.sdk.core.constant.provider.LoggingMessageProvider
+import com.expediagroup.sdk.core.model.getTransactionId
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpClientPlugin
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.HttpSendPipeline
-import io.ktor.http.HeadersBuilder
 import io.ktor.http.content.OutputStreamContent
 import io.ktor.util.AttributeKey
 import io.ktor.util.pipeline.PipelineContext
@@ -44,8 +43,6 @@ internal class RequestBodyLogger {
                 proceed()
             }
         }
-
-        private fun HeadersBuilder.getTransactionId(): String? = get(TRANSACTION_ID)
 
         private suspend fun PipelineContext<Any, HttpRequestBuilder>.getBody(): String {
             val body = context.body

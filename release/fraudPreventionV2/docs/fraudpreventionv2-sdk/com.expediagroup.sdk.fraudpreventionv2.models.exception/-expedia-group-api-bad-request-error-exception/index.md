@@ -9,7 +9,7 @@ public final class [ExpediaGroupApiBadRequestErrorException](index.md) extends E
 
 | | |
 |---|---|
-| [ExpediaGroupApiBadRequestErrorException](-expedia-group-api-bad-request-error-exception.md) | [JVM]<br>public [ExpediaGroupApiBadRequestErrorException](index.md)[ExpediaGroupApiBadRequestErrorException](-expedia-group-api-bad-request-error-exception.md)([Integer](https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html)code, [BadRequestError](../../com.expediagroup.sdk.fraudpreventionv2.models/-bad-request-error/index.md)errorObject) |
+| [ExpediaGroupApiBadRequestErrorException](-expedia-group-api-bad-request-error-exception.md) | [JVM]<br>public [ExpediaGroupApiBadRequestErrorException](index.md)[ExpediaGroupApiBadRequestErrorException](-expedia-group-api-bad-request-error-exception.md)([Integer](https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html)code, [BadRequestError](../../com.expediagroup.sdk.fraudpreventionv2.models/-bad-request-error/index.md)errorObject, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)transactionId) |
 
 ## Properties
 
