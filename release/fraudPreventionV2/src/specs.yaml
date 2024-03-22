@@ -12,7 +12,7 @@ servers:
 tags:
   - name: fraudPreventionV2
 paths:
-  //fraud-prevention/v2/order/purchase/screen:
+  /fraud-prevention/v2/order/purchase/screen:
     post:
       tags:
         &a1
@@ -95,7 +95,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/GatewayTimeoutError"
-  //fraud-prevention/v2/order/purchase/update:
+  /fraud-prevention/v2/order/purchase/update:
     post:
       tags: *a1
       description: >
@@ -229,7 +229,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/GatewayTimeoutError"
-  //fraud-prevention/v2/account/screen:
+  /fraud-prevention/v2/account/screen:
     post:
       tags: *a1
       description: The Account Screen API gives a Fraud recommendation for an account
@@ -311,7 +311,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/GatewayTimeoutError"
-  //fraud-prevention/v2/account/update:
+  /fraud-prevention/v2/account/update:
     post:
       tags: *a1
       description: The Account Update API is called when there is an account lifecycle
