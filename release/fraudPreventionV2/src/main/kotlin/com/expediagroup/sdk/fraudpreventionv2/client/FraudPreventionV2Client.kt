@@ -50,7 +50,7 @@ class FraudPreventionV2Client private constructor(clientConfiguration: ExpediaGr
     class Builder : ExpediaGroupClient.Builder<Builder>() {
         override fun build(): FraudPreventionV2Client =
             FraudPreventionV2Client(
-                ExpediaGroupClientConfiguration(key, secret, endpoint, requestTimeout, maskedLoggingHeaders, maskedLoggingBodyFields, authEndpoint)
+                ExpediaGroupClientConfiguration(key, secret, endpoint, requestTimeout, connectionTimeout, socketTimeout, maskedLoggingHeaders, maskedLoggingBodyFields, authEndpoint)
             )
     }
 

@@ -23,6 +23,7 @@ import com.expediagroup.sdk.core.constant.ExceptionMessage
 import com.expediagroup.sdk.core.constant.LoggingMessage
 import com.expediagroup.sdk.core.constant.provider.LoggingMessageProvider
 import com.expediagroup.sdk.core.model.exception.service.ExpediaGroupAuthException
+import com.expediagroup.sdk.core.model.getTransactionId
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationConfiguration
 import com.expediagroup.sdk.core.plugin.logging.ExpediaGroupLoggerFactory
 import io.ktor.client.HttpClient
@@ -64,7 +65,7 @@ internal class ExpediaGroupAuthenticationStrategy(
 
     override fun renewToken() {
         val httpClient = client.httpClient
-        log.info(LoggingMessage.TOKEN_RENEWAL_IN_PROCESS)
+        log.info(LoggingMessage.TOKEN_RENEWAL_IN_PROGRESS)
         clearTokens(httpClient)
         val renewTokenResponse =
             runBlocking {
@@ -78,7 +79,7 @@ internal class ExpediaGroupAuthenticationStrategy(
                 }
             }
         if (renewTokenResponse.status.value !in Constant.SUCCESSFUL_STATUS_CODES_RANGE) {
-            throw ExpediaGroupAuthException(renewTokenResponse.status, ExceptionMessage.AUTHENTICATION_FAILURE)
+            throw ExpediaGroupAuthException(renewTokenResponse.status, ExceptionMessage.AUTHENTICATION_FAILURE, renewTokenResponse.headers.getTransactionId())
         }
         val renewedTokenInfo: TokenResponse = runBlocking { renewTokenResponse.body() }
         log.info(LoggingMessage.TOKEN_RENEWAL_SUCCESSFUL)
@@ -92,7 +93,7 @@ internal class ExpediaGroupAuthenticationStrategy(
     }
 
     private fun clearTokens(client: HttpClient) {
-        log.info(LoggingMessage.TOKEN_CLEARING_IN_PROCESS)
+        log.info(LoggingMessage.TOKEN_CLEARING_IN_PROGRESS)
         client.plugin(Auth).providers.filterIsInstance<BearerAuthProvider>().first().clearToken()
         bearerTokenStorage = BearerTokensInfo.emptyBearerTokenInfo
         log.info(LoggingMessage.TOKEN_CLEARING_SUCCESSFUL)

@@ -9,7 +9,7 @@ public final class [ExpediaGroupApiInternalServerErrorException](index.md) exten
 
 | | |
 |---|---|
-| [ExpediaGroupApiInternalServerErrorException](-expedia-group-api-internal-server-error-exception.md) | [JVM]<br>public [ExpediaGroupApiInternalServerErrorException](index.md)[ExpediaGroupApiInternalServerErrorException](-expedia-group-api-internal-server-error-exception.md)([Integer](https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html)code, [InternalServerError](../../com.expediagroup.sdk.fraudpreventionv2.models/-internal-server-error/index.md)errorObject) |
+| [ExpediaGroupApiInternalServerErrorException](-expedia-group-api-internal-server-error-exception.md) | [JVM]<br>public [ExpediaGroupApiInternalServerErrorException](index.md)[ExpediaGroupApiInternalServerErrorException](-expedia-group-api-internal-server-error-exception.md)([Integer](https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html)code, [InternalServerError](../../com.expediagroup.sdk.fraudpreventionv2.models/-internal-server-error/index.md)errorObject, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)transactionId) |
 
 ## Properties
 

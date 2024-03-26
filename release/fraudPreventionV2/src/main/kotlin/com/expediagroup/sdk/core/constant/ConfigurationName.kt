@@ -26,6 +26,10 @@ internal object ConfigurationName {
 
     const val REQUEST_TIMEOUT_MILLIS = "request timeout in milliseconds"
 
+    const val CONNECTION_TIMEOUT_MILLIS = "connection timeout in milliseconds"
+
+    const val SOCKET_TIMEOUT_MILLIS = "socket timeout in milliseconds"
+
     const val MASKED_LOGGING_HEADERS = "masked logging headers"
 
     const val MASKED_LOGGING_BODY_FIELDS = "masked logging body fields"
