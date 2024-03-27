@@ -1,0 +1,50 @@
+name: New - Generate and Publish Sources
+on:
+  workflow_call:
+    inputs:
+      name:
+        description: 'SDK Name'
+        required: true
+        type: string
+      version:
+        description: 'SDK Version'
+        required: true
+        type: string
+      target_repo:
+        description: 'Target Repository'
+        required: true
+        type: string
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ github.event.inputs.target_repo }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: sdk
+          path: generator/sdk
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: specs
+          path: generator/sdk
+
+      - name: Add generated source code
+        working-directory: generator/sdk
+        run: |
+          # list all files in the current directory
+          ls -l
+
+      - name: Create PR
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: "${{github.event.inputs.name}}-${{github.event.inputs.version}}"
+          commit-message: "chore: Publish ${{github.event.inputs.name}} [${{github.event.inputs.version}}] SDK"
+          title: "chore: Publish ${{github.event.inputs.name}} [${{github.event.inputs.version}}] SDK"
+          add-paths: |
+            release/*
