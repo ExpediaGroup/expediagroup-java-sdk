@@ -21,12 +21,16 @@ import io.ktor.client.engine.HttpClientEngineConfig
 
 internal data class HttpTimeoutConfiguration(
     override val httpClientConfiguration: HttpClientConfig<out HttpClientEngineConfig>,
-    val requestTimeout: Long
+    val requestTimeout: Long,
+    val connectionTimeout: Long,
+    val socketTimeout: Long
 ) : KtorPluginConfiguration(httpClientConfiguration) {
     companion object {
         fun from(
             httpClientConfig: HttpClientConfig<out HttpClientEngineConfig>,
-            requestTimeout: Long
-        ) = HttpTimeoutConfiguration(httpClientConfig, requestTimeout)
+            requestTimeout: Long,
+            connectionTimeout: Long,
+            socketTimeout: Long
+        ) = HttpTimeoutConfiguration(httpClientConfig, requestTimeout, connectionTimeout, socketTimeout)
     }
 }

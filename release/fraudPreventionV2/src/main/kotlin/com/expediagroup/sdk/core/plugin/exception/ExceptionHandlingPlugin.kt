@@ -13,21 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.plugin.httptimeout
+package com.expediagroup.sdk.core.plugin.exception
 
 import com.expediagroup.sdk.core.client.Client
+import com.expediagroup.sdk.core.model.exception.handleWith
+import com.expediagroup.sdk.core.model.getTransactionId
 import com.expediagroup.sdk.core.plugin.Plugin
-import io.ktor.client.plugins.HttpTimeout
+import io.ktor.client.plugins.HttpResponseValidator
 
-internal object HttpTimeoutPlugin : Plugin<HttpTimeoutConfiguration> {
+internal object ExceptionHandlingPlugin : Plugin<ExceptionHandlingConfiguration> {
     override fun install(
         client: Client,
-        configurations: HttpTimeoutConfiguration
+        configurations: ExceptionHandlingConfiguration
     ) {
-        configurations.httpClientConfiguration.install(HttpTimeout) {
-            requestTimeoutMillis = configurations.requestTimeout
-            connectTimeoutMillis = configurations.connectionTimeout
-            socketTimeoutMillis = configurations.socketTimeout
+        with(configurations.httpClientConfiguration) {
+            HttpResponseValidator {
+                handleResponseExceptionWithRequest { exception, request ->
+                    exception.handleWith(request.headers.getTransactionId())
+                }
+            }
         }
     }
 }

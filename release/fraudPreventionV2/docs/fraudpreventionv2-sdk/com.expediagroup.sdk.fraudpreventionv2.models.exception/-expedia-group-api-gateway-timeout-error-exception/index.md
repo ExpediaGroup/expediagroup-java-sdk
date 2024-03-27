@@ -9,7 +9,7 @@ public final class [ExpediaGroupApiGatewayTimeoutErrorException](index.md) exten
 
 | | |
 |---|---|
-| [ExpediaGroupApiGatewayTimeoutErrorException](-expedia-group-api-gateway-timeout-error-exception.md) | [JVM]<br>public [ExpediaGroupApiGatewayTimeoutErrorException](index.md)[ExpediaGroupApiGatewayTimeoutErrorException](-expedia-group-api-gateway-timeout-error-exception.md)([Integer](https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html)code, [GatewayTimeoutError](../../com.expediagroup.sdk.fraudpreventionv2.models/-gateway-timeout-error/index.md)errorObject) |
+| [ExpediaGroupApiGatewayTimeoutErrorException](-expedia-group-api-gateway-timeout-error-exception.md) | [JVM]<br>public [ExpediaGroupApiGatewayTimeoutErrorException](index.md)[ExpediaGroupApiGatewayTimeoutErrorException](-expedia-group-api-gateway-timeout-error-exception.md)([Integer](https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html)code, [GatewayTimeoutError](../../com.expediagroup.sdk.fraudpreventionv2.models/-gateway-timeout-error/index.md)errorObject, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)transactionId) |
 
 ## Properties
 
