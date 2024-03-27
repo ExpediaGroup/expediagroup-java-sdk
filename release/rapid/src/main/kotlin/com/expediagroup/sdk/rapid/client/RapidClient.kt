@@ -22,6 +22,8 @@ import com.expediagroup.sdk.core.model.EmptyResponse
 import com.expediagroup.sdk.core.model.Nothing
 import com.expediagroup.sdk.core.model.Response
 import com.expediagroup.sdk.core.model.exception.handle
+import com.expediagroup.sdk.core.model.paging.Paginator
+import com.expediagroup.sdk.core.model.paging.ResponsePaginator
 import com.expediagroup.sdk.domain.rapid.*
 import com.expediagroup.sdk.rapid.models.Chain
 import com.expediagroup.sdk.rapid.models.ChangeRoomDetailsRequest
@@ -3179,5 +3181,233 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
         } catch (exception: Exception) {
             exception.handle()
         }
+    }
+
+    @JvmOverloads
+    fun getInactivePropertiesPaginator(
+        customerSessionId: kotlin.String? = null,
+        since: kotlin.String? = null,
+        token: kotlin.String? = null,
+        billingTerms: kotlin.String? = null,
+        paymentTerms: kotlin.String? = null,
+        partnerPointOfSale: kotlin.String? = null,
+        platformName: kotlin.String? = null
+    ): Paginator<kotlin.collections.List<PropertyInactive>> {
+        val response = getInactivePropertiesWithResponse(customerSessionId, since, token, billingTerms, paymentTerms, partnerPointOfSale, platformName)
+        return Paginator(this, response, emptyList()) { it.body<kotlin.collections.List<PropertyInactive>>() }
+    }
+
+    @JvmOverloads
+    fun getInactivePropertiesPaginatorWithResponse(
+        customerSessionId: kotlin.String? = null,
+        since: kotlin.String? = null,
+        token: kotlin.String? = null,
+        billingTerms: kotlin.String? = null,
+        paymentTerms: kotlin.String? = null,
+        partnerPointOfSale: kotlin.String? = null,
+        platformName: kotlin.String? = null
+    ): ResponsePaginator<kotlin.collections.List<PropertyInactive>> {
+        val response = getInactivePropertiesWithResponse(customerSessionId, since, token, billingTerms, paymentTerms, partnerPointOfSale, platformName)
+        return ResponsePaginator(this, response, emptyList()) { it.body<kotlin.collections.List<PropertyInactive>>() }
+    }
+
+    @JvmOverloads
+    fun getPropertyContentPaginator(
+        language: kotlin.String,
+        supplySource: kotlin.String,
+        customerSessionId: kotlin.String? = null,
+        allInclusive: kotlin.collections.List<kotlin.String>? = null,
+        amenityId: kotlin.collections.List<kotlin.String>? = null,
+        attributeId: kotlin.collections.List<kotlin.String>? = null,
+        brandId: kotlin.collections.List<kotlin.String>? = null,
+        businessModel: kotlin.collections.List<kotlin.String>? = null,
+        categoryId: kotlin.collections.List<kotlin.String>? = null,
+        categoryIdExclude: kotlin.collections.List<kotlin.String>? = null,
+        chainId: kotlin.collections.List<kotlin.String>? = null,
+        countryCode: kotlin.collections.List<kotlin.String>? = null,
+        dateAddedEnd: kotlin.String? = null,
+        dateAddedStart: kotlin.String? = null,
+        dateUpdatedEnd: kotlin.String? = null,
+        dateUpdatedStart: kotlin.String? = null,
+        include: kotlin.collections.List<kotlin.String>? = null,
+        multiUnit: kotlin.Boolean? = null,
+        propertyId: kotlin.collections.List<kotlin.String>? = null,
+        propertyRatingMax: kotlin.String? = null,
+        propertyRatingMin: kotlin.String? = null,
+        spokenLanguageId: kotlin.collections.List<kotlin.String>? = null,
+        billingTerms: kotlin.String? = null,
+        partnerPointOfSale: kotlin.String? = null,
+        paymentTerms: kotlin.String? = null,
+        platformName: kotlin.String? = null
+    ): Paginator<kotlin.collections.Map<kotlin.String, PropertyContent>> {
+        val response =
+            getPropertyContentWithResponse(
+                language,
+                supplySource,
+                customerSessionId,
+                allInclusive,
+                amenityId,
+                attributeId,
+                brandId,
+                businessModel,
+                categoryId,
+                categoryIdExclude,
+                chainId,
+                countryCode,
+                dateAddedEnd,
+                dateAddedStart,
+                dateUpdatedEnd,
+                dateUpdatedStart,
+                include,
+                multiUnit,
+                propertyId,
+                propertyRatingMax,
+                propertyRatingMin,
+                spokenLanguageId,
+                billingTerms,
+                partnerPointOfSale,
+                paymentTerms,
+                platformName
+            )
+        return Paginator(this, response, emptyMap()) { it.body<kotlin.collections.Map<kotlin.String, PropertyContent>>() }
+    }
+
+    @JvmOverloads
+    fun getPropertyContentPaginatorWithResponse(
+        language: kotlin.String,
+        supplySource: kotlin.String,
+        customerSessionId: kotlin.String? = null,
+        allInclusive: kotlin.collections.List<kotlin.String>? = null,
+        amenityId: kotlin.collections.List<kotlin.String>? = null,
+        attributeId: kotlin.collections.List<kotlin.String>? = null,
+        brandId: kotlin.collections.List<kotlin.String>? = null,
+        businessModel: kotlin.collections.List<kotlin.String>? = null,
+        categoryId: kotlin.collections.List<kotlin.String>? = null,
+        categoryIdExclude: kotlin.collections.List<kotlin.String>? = null,
+        chainId: kotlin.collections.List<kotlin.String>? = null,
+        countryCode: kotlin.collections.List<kotlin.String>? = null,
+        dateAddedEnd: kotlin.String? = null,
+        dateAddedStart: kotlin.String? = null,
+        dateUpdatedEnd: kotlin.String? = null,
+        dateUpdatedStart: kotlin.String? = null,
+        include: kotlin.collections.List<kotlin.String>? = null,
+        multiUnit: kotlin.Boolean? = null,
+        propertyId: kotlin.collections.List<kotlin.String>? = null,
+        propertyRatingMax: kotlin.String? = null,
+        propertyRatingMin: kotlin.String? = null,
+        spokenLanguageId: kotlin.collections.List<kotlin.String>? = null,
+        billingTerms: kotlin.String? = null,
+        partnerPointOfSale: kotlin.String? = null,
+        paymentTerms: kotlin.String? = null,
+        platformName: kotlin.String? = null
+    ): ResponsePaginator<kotlin.collections.Map<kotlin.String, PropertyContent>> {
+        val response =
+            getPropertyContentWithResponse(
+                language,
+                supplySource,
+                customerSessionId,
+                allInclusive,
+                amenityId,
+                attributeId,
+                brandId,
+                businessModel,
+                categoryId,
+                categoryIdExclude,
+                chainId,
+                countryCode,
+                dateAddedEnd,
+                dateAddedStart,
+                dateUpdatedEnd,
+                dateUpdatedStart,
+                include,
+                multiUnit,
+                propertyId,
+                propertyRatingMax,
+                propertyRatingMin,
+                spokenLanguageId,
+                billingTerms,
+                partnerPointOfSale,
+                paymentTerms,
+                platformName
+            )
+        return ResponsePaginator(this, response, emptyMap()) { it.body<kotlin.collections.Map<kotlin.String, PropertyContent>>() }
+    }
+
+    @JvmOverloads
+    fun getRegionsPaginator(
+        include: kotlin.collections.List<kotlin.String>,
+        language: kotlin.String,
+        customerSessionId: kotlin.String? = null,
+        ancestorId: kotlin.String? = null,
+        area: kotlin.String? = null,
+        countryCode: kotlin.collections.List<kotlin.String>? = null,
+        countrySubdivisionCode: kotlin.collections.List<kotlin.String>? = null,
+        iataLocationCode: kotlin.String? = null,
+        limit: java.math.BigDecimal? = null,
+        supplySource: kotlin.String? = null,
+        type: kotlin.collections.List<kotlin.String>? = null,
+        billingTerms: kotlin.String? = null,
+        partnerPointOfSale: kotlin.String? = null,
+        paymentTerms: kotlin.String? = null,
+        platformName: kotlin.String? = null
+    ): Paginator<kotlin.collections.List<Region>> {
+        val response =
+            getRegionsWithResponse(
+                include,
+                language,
+                customerSessionId,
+                ancestorId,
+                area,
+                countryCode,
+                countrySubdivisionCode,
+                iataLocationCode,
+                limit,
+                supplySource,
+                type,
+                billingTerms,
+                partnerPointOfSale,
+                paymentTerms,
+                platformName
+            )
+        return Paginator(this, response, emptyList()) { it.body<kotlin.collections.List<Region>>() }
+    }
+
+    @JvmOverloads
+    fun getRegionsPaginatorWithResponse(
+        include: kotlin.collections.List<kotlin.String>,
+        language: kotlin.String,
+        customerSessionId: kotlin.String? = null,
+        ancestorId: kotlin.String? = null,
+        area: kotlin.String? = null,
+        countryCode: kotlin.collections.List<kotlin.String>? = null,
+        countrySubdivisionCode: kotlin.collections.List<kotlin.String>? = null,
+        iataLocationCode: kotlin.String? = null,
+        limit: java.math.BigDecimal? = null,
+        supplySource: kotlin.String? = null,
+        type: kotlin.collections.List<kotlin.String>? = null,
+        billingTerms: kotlin.String? = null,
+        partnerPointOfSale: kotlin.String? = null,
+        paymentTerms: kotlin.String? = null,
+        platformName: kotlin.String? = null
+    ): ResponsePaginator<kotlin.collections.List<Region>> {
+        val response =
+            getRegionsWithResponse(
+                include,
+                language,
+                customerSessionId,
+                ancestorId,
+                area,
+                countryCode,
+                countrySubdivisionCode,
+                iataLocationCode,
+                limit,
+                supplySource,
+                type,
+                billingTerms,
+                partnerPointOfSale,
+                paymentTerms,
+                platformName
+            )
+        return ResponsePaginator(this, response, emptyList()) { it.body<kotlin.collections.List<Region>>() }
     }
 }
