@@ -10,6 +10,7 @@ tags:
 paths:
   /v3/properties/content:
     get:
+      x-sdk-paginated: true
       tags:
         &a1
         - rapid
@@ -2178,6 +2179,7 @@ paths:
         - rapidAuth: []
   /v3/properties/inactive:
     get:
+      x-sdk-paginated: true
       tags: *a1
       summary: Inactive Properties
       description: >
@@ -3768,6 +3770,7 @@ paths:
         - rapidAuth: []
   /v3/regions:
     get:
+      x-sdk-paginated: true
       tags: *a1
       summary: Regions
       description: >
