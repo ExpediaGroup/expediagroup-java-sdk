@@ -39,6 +39,7 @@ jobs:
           java-version: '21'
 
       - name: Increment version
+        working-directory: core
         id: increment_version
         run: |
           version=$(mvn -q \
