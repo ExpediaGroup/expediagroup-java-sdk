@@ -22,7 +22,6 @@ jobs:
     uses: ./.github/workflows/core-upgrade.yaml
     with:
       upgrade_type: ${{ github.event.inputs.upgrade_type }}
-      update_source: ${{ github.event.inputs.production_release == true }}
     secrets:
       GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
