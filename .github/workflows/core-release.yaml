@@ -63,7 +63,13 @@ jobs:
           gpg-passphrase: GPG_PASSPHRASE
           settings-path: ${{ github.workspace }}
 
+      - name: Generate SDK
+        working-directory: core
+        run: |
+          mvn clean install -DskipTests -B -U
+
       - name: "Release artifacts"
+        working-directory: core
         env:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
