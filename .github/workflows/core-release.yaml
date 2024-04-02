@@ -82,8 +82,8 @@ jobs:
             VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
             SNAPSHOT_VERSION="${VERSION%-SNAPSHOT}-SNAPSHOT"
             echo "Releasing as snapshot"
-            mvn versions:set -DnewVersion=$SNAPSHOT_VERSION
             exit 1 # Debugging
+            mvn versions:set -DnewVersion=$SNAPSHOT_VERSION
             mvn deploy --settings $GITHUB_WORKSPACE/settings.xml -B -U -P release
           fi
           echo "version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout) released"
