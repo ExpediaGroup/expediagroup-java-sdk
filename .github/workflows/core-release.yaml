@@ -46,7 +46,6 @@ jobs:
           fi
           echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
           echo "BRANCH_NAME=$BRANCH_NAME"
-          exit 1 # Debugging
 
       - uses: actions/checkout@v4
         with:
@@ -83,7 +82,6 @@ jobs:
             VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
             SNAPSHOT_VERSION="${VERSION%-SNAPSHOT}-SNAPSHOT"
             echo "Releasing as snapshot"
-            exit 1 # Debugging
             mvn versions:set -DnewVersion=$SNAPSHOT_VERSION
             mvn deploy --settings $GITHUB_WORKSPACE/settings.xml -B -U -P release
           fi
