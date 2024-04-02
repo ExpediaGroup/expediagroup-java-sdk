@@ -8,6 +8,11 @@ on:
         required: true
         type: string
         default: 'none'
+      update_source:
+        description: 'Update Source. Options: true, false'
+        required: true
+        type: boolean
+        default: true
     secrets:
       GH_PERSONAL_ACCESS_TOKEN:
         description: 'GitHub Personal Access Token'
@@ -95,6 +100,7 @@ jobs:
           path: branch_name.txt
 
       - name: Create Pull Request
+        if: ${{ github.event.inputs.update_source }}
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}

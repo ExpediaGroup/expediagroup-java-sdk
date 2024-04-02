@@ -22,6 +22,7 @@ jobs:
     uses: ./.github/workflows/core-upgrade.yaml
     with:
       upgrade_type: ${{ github.event.inputs.upgrade_type }}
+      update_source: ${{ github.event.inputs.production_release }}
     secrets:
       GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
@@ -82,6 +83,7 @@ jobs:
             VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
             SNAPSHOT_VERSION="${VERSION%-SNAPSHOT}-SNAPSHOT"
             echo "Releasing as snapshot"
+            exit 1 # Debugging
             mvn versions:set -DnewVersion=$SNAPSHOT_VERSION
             mvn deploy --settings $GITHUB_WORKSPACE/settings.xml -B -U -P release
           fi
