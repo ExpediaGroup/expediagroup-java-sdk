@@ -19,7 +19,7 @@ on:
 
 jobs:
   upgrade:
-    uses: ./.github/workflows/upgrade.yaml
+    uses: ./.github/workflows/core-upgrade.yaml
     with:
       upgrade_version: ${{ github.event.inputs.upgrade_type != 'none' }}
       upgrade_type: ${{ github.event.inputs.upgrade_type }}
