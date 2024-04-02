@@ -12,10 +12,10 @@ on:
         description: 'Upgrade Type. Choose none to skip upgrade'
         type: choice
         options:
-          - "major"
-          - "minor"
-          - "patch"
-          - "none"
+          - 'major'
+          - 'minor'
+          - 'patch'
+          - 'none'
 
 jobs:
   upgrade:
