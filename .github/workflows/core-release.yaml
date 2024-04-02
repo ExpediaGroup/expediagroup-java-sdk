@@ -46,6 +46,7 @@ jobs:
           fi
           echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
           echo "BRANCH_NAME=$BRANCH_NAME"
+          exit 1 # Debugging
 
       - uses: actions/checkout@v4
         with:
