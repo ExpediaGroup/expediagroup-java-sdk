@@ -3,15 +3,11 @@ name: Upgrade SDK Core
 on:
   workflow_call:
     inputs:
-      upgrade_version:
-        description: 'Upgrade?'
-        required: true
-        type: boolean
       upgrade_type:
-        description: 'Upgrade Type. Options: major, minor, patch'
+        description: 'Upgrade Type. Options: major, minor, patch, none'
         required: true
         type: string
-        default: 'patch'
+        default: 'none'
     secrets:
       GH_PERSONAL_ACCESS_TOKEN:
         description: 'GitHub Personal Access Token'
@@ -26,9 +22,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check confirmation
+      - name: Confirm Upgrade
         run: |
-          if ! ${{ github.event.inputs.upgrade_version }}; then
+          if [ "${{ github.event.inputs.upgrade_type }}" == "none" ]; then
             echo "Upgrade not requested. Skipping."
             exit 1
           else
