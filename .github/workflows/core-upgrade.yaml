@@ -52,6 +52,7 @@ jobs:
           MINOR=${VERSION_PARTS[1]}
           PATCH=${VERSION_PARTS[2]}
 
+          echo "Upgrade type: ${{ github.event.inputs.upgrade_type }}"
           case "${{ github.event.inputs.upgrade_type }}" in
             "major")
               ((MAJOR++))
