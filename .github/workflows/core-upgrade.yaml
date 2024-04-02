@@ -70,7 +70,9 @@ jobs:
               ;;
             "patch")
               echo "Incrementing patch version"
+              echo "Patch before increment: $PATCH"
               ((PATCH++))
+              echo "Patch after increment: $PATCH"
               ;;
             *)
               echo "Invalid upgrade type. Must be one of: major, minor, patch."
