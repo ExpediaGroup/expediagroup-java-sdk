@@ -1,0 +1,90 @@
+name: Release SDK Core
+
+on:
+  workflow_dispatch:
+    inputs:
+      production_release:
+        description: '(!!!) Release to production'
+        required: true
+        type: boolean
+        default: false
+      upgrade_type:
+        description: 'Upgrade Type. Choose none to skip upgrade'
+        type: choice
+        options:
+          - "major"
+          - "minor"
+          - "patch"
+          - "none"
+
+jobs:
+  upgrade:
+    uses: ./.github/workflows/upgrade.yaml
+    with:
+      upgrade_version: ${{ github.event.inputs.upgrade_type != 'none' }}
+      upgrade_type: ${{ github.event.inputs.upgrade_type }}
+    secrets:
+      GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+
+  release:
+    if: always()
+    needs: [ upgrade ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download branch name
+        uses: actions/download-artifact@v4
+        with:
+          name: branch-name
+        continue-on-error: true
+
+      - name: Set branch name
+        id: set_branch
+        run: |
+          if [ -f branch_name.txt ]; then
+            BRANCH_NAME=$(cat branch_name.txt)
+          else
+            BRANCH_NAME="${GITHUB_REF#refs/heads/}"
+          fi
+          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
+          echo "BRANCH_NAME=$BRANCH_NAME"
+
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.BRANCH_NAME }}
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'corretto'
+          java-version: '21'
+          server-id: oss-sonatype
+          server-username: SONATYPE_USERNAME
+          server-password: SONATYPE_PASSWORD
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg-passphrase: GPG_PASSPHRASE
+          settings-path: ${{ github.workspace }}
+
+      - name: Generate SDK
+        working-directory: core
+        run: |
+          mvn clean install -DskipTests -B -U
+
+      - name: "Release artifacts"
+        working-directory: core
+        env:
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PRIVATE_KEY_PASSPHRASE }}
+        run: |
+          if ${{github.event.inputs.production_release}}; then
+            echo "Releasing to production"
+            exit 1 # Debugging
+            mvn deploy --settings $GITHUB_WORKSPACE/settings.xml -B -U -P release
+          else
+            VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+            SNAPSHOT_VERSION="${VERSION%-SNAPSHOT}-SNAPSHOT"
+            echo "Releasing as snapshot"
+            mvn versions:set -DnewVersion=$SNAPSHOT_VERSION
+            mvn deploy --settings $GITHUB_WORKSPACE/settings.xml -B -U -P release
+          fi
+          echo "version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout) released"
+          echo "version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_OUTPUT
