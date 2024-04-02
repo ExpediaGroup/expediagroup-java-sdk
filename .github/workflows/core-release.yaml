@@ -79,12 +79,14 @@ jobs:
             echo "Releasing to production"
             exit 1 # Debugging
             mvn deploy --settings $GITHUB_WORKSPACE/settings.xml -B -U -P release
+            echo ">> SonaType release URL: https://repo1.maven.org/maven2/com/expediagroup/sdk-core/"
           else
             VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
             SNAPSHOT_VERSION="${VERSION%-SNAPSHOT}-SNAPSHOT"
             echo "Releasing as snapshot"
             mvn versions:set -DnewVersion=$SNAPSHOT_VERSION
             mvn deploy --settings $GITHUB_WORKSPACE/settings.xml -B -U -P release
+            echo ">> SonaType snapshots URL: https://oss.sonatype.org/content/repositories/snapshots/com/expediagroup/sdk-core/"
           fi
-          echo "version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout) released"
+          echo ">> v$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout) released"
           echo "version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_OUTPUT
