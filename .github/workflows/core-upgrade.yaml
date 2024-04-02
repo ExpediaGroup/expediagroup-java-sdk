@@ -99,7 +99,7 @@ jobs:
           name: branch-name
           path: branch_name.txt
 
-      - name: Create Pull Request
+      - name: Publish Updated Version PR
         if: ${{ github.event.inputs.update_source }}
         uses: peter-evans/create-pull-request@v6
         with:
