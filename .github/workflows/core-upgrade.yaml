@@ -58,15 +58,18 @@ jobs:
           echo "Patch: $PATCH"
           case "${{ github.event.inputs.upgrade_type }}" in
             "major")
+              echo "Incrementing major version"
               ((MAJOR++))
               MINOR=0
               PATCH=0
               ;;
             "minor")
+              echo "Incrementing minor version"
               ((MINOR++))
               PATCH=0
               ;;
             "patch")
+              echo "Incrementing patch version"
               ((PATCH++))
               ;;
             *)
