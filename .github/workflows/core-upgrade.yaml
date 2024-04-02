@@ -71,7 +71,11 @@ jobs:
             "patch")
               echo "Incrementing patch version"
               echo "Patch before increment: $PATCH"
-              ((PATCH++))
+              declare -p PATCH
+              echo "Incrementing patch now"
+              PATCH=$(expr $PATCH + 1)
+              echo "Incremented patch done"
+              declare -p PATCH
               echo "Patch after increment: $PATCH"
               ;;
             *)
