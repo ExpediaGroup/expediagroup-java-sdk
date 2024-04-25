@@ -22,7 +22,7 @@ import org.openapitools.codegen.model.OperationsMap
 
 val mustacheHelpers = mapOf(
     "removeLeadingSlash" to {
-        Mustache.Lambda { fragment, writer -> writer.write(fragment.execute().removePrefix("/")) }
+        Mustache.Lambda { fragment, writer -> writer.write(fragment.execute().replace("^/+".toRegex(), "")) }
     },
     "assignDiscriminators" to {
         Mustache.Lambda { fragment, writer ->
