@@ -38,7 +38,9 @@ internal object ErrorObjectMapper {
                             listOf(
                                 {{#responses}}
                                     {{^is2xx}}
-                                        HttpStatusCodeRange("{{code}}") { ExpediaGroupApi{{dataType}}Exception(it.status.value, fetchErrorObject(it) as {{dataType}}, it.headers.getTransactionId()) },
+                                        {{#dataType}}
+                                            HttpStatusCodeRange("{{code}}") { ExpediaGroupApi{{dataType}}Exception(it.status.value, fetchErrorObject(it) as {{dataType}}, it.headers.getTransactionId()) },
+                                        {{/dataType}}
                                     {{/is2xx}}
                                 {{/responses}}
                                 DefaultHttpStatusCodeRange

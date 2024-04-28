@@ -103,6 +103,7 @@ class OpenApiSdkGenerator {
                 addAdditionalProperty("isKotlin", ProgrammingLanguage.isKotlin(product.programmingLanguage))
                 addAdditionalProperty("isRapid", ProductFamily.isRapid(product.namespace))
                 addAdditionalProperty("isExpediaGroup", ProductFamily.isExpediaGroup(product.namespace))
+                addAdditionalProperty("isXap", ProductFamily.isXap(product.namespace))
 
                 // Mustache Helpers
                 mustacheHelpers.forEach { (name, function) -> addAdditionalProperty(name, function()) }

@@ -18,6 +18,7 @@ package com.expediagroup.sdk.generators.openapi
 import com.samskivert.mustache.Mustache
 import org.openapitools.codegen.CodegenModel
 import org.openapitools.codegen.CodegenProperty
+import org.openapitools.codegen.CodegenResponse
 import org.openapitools.codegen.model.OperationsMap
 
 val mustacheHelpers = mapOf(
@@ -77,10 +78,11 @@ val mustacheHelpers = mapOf(
         Mustache.Lambda { fragment, writer ->
             val dataTypes: Set<String> = collectDataTypes(fragment)
             val stringBuilder = StringBuilder()
-            dataTypes.forEachIndexed { index, dataType ->
+            val notNullDataTypes = dataTypes.filterNotNull()
+            notNullDataTypes.forEachIndexed { index, dataType ->
                 if (index > 0) stringBuilder.append(" ".repeat(8))
                 stringBuilder.append("ExpediaGroupApi${dataType}Exception::class")
-                if (index < dataTypes.size - 1) stringBuilder.append(",\n")
+                if (index < notNullDataTypes.size - 1) stringBuilder.append(",\n")
             }
             writer.write(stringBuilder.toString())
         }
@@ -94,6 +96,21 @@ val mustacheHelpers = mapOf(
                 writer.write("emptyMap()")
             } else if (dataType.startsWith("kotlin.collections.Set")) {
                 writer.write("emptySet()")
+            }
+        }
+    },
+    "removeDoubleQuotes" to {
+        Mustache.Lambda { fragment, writer ->
+            val data: String = fragment.context() as String
+            writer.write("\"${data.replace(Regex("^\"+|\"$"), "")}\"")
+        }
+    },
+    "httpAcceptHeader" to {
+        Mustache.Lambda { fragment, writer ->
+            val response: CodegenResponse = fragment.context() as CodegenResponse
+            if (response.code == "200") {
+                val mediaTypes: MutableSet<String> = response.content.keys
+                writer.write("headers.append(\"Accept\", \"${mediaTypes.joinToString(",")}\")\n")
             }
         }
     }
