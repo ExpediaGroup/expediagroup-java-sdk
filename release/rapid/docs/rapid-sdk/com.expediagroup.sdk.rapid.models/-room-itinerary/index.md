@@ -24,7 +24,8 @@ JVM
 | status |
 | specialRequest | Any special request info associated with the room. |
 | smoking | Indicates if the room is smoking or non-smoking. |
-| loyaltyId | A loyalty identifier for a hotel loyalty program associated with this room guest. |
+| loyaltyId | Deprecated. Please use the loyalty id inside the loyalty object. |
+| loyalty |
 | rate |
 | links |
 
@@ -32,7 +33,7 @@ JVM
 
 | | |
 |---|---|
-| [RoomItinerary](-room-itinerary.md) | [JVM]<br>public [RoomItinerary](index.md)[RoomItinerary](-room-itinerary.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)id, [ConfirmationId](../-confirmation-id/index.md)confirmationId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)bedGroupId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)checkin, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)checkout, [BigDecimal](https://docs.oracle.com/javase/8/docs/api/java/math/BigDecimal.html)numberOfAdults, [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[BigDecimal](https://docs.oracle.com/javase/8/docs/api/java/math/BigDecimal.html)&gt;childAges, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)givenName, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)familyName, [StatusItinerary](../-status-itinerary/index.md)status, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)specialRequest, [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html)smoking, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)loyaltyId, [RateItinerary](../-rate-itinerary/index.md)rate, [RoomItineraryLinks](../-room-itinerary-links/index.md)links) |
+| [RoomItinerary](-room-itinerary.md) | [JVM]<br>public [RoomItinerary](index.md)[RoomItinerary](-room-itinerary.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)id, [ConfirmationId](../-confirmation-id/index.md)confirmationId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)bedGroupId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)checkin, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)checkout, [BigDecimal](https://docs.oracle.com/javase/8/docs/api/java/math/BigDecimal.html)numberOfAdults, [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[BigDecimal](https://docs.oracle.com/javase/8/docs/api/java/math/BigDecimal.html)&gt;childAges, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)givenName, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)familyName, [StatusItinerary](../-status-itinerary/index.md)status, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)specialRequest, [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html)smoking, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)loyaltyId, [Loyalty](../-loyalty/index.md)loyalty, [RateItinerary](../-rate-itinerary/index.md)rate, [RoomItineraryLinks](../-room-itinerary-links/index.md)links) |
 
 ## Types
 
@@ -53,6 +54,7 @@ JVM
 | [givenName](index.md#727711965%2FProperties%2F700308213) | [JVM]<br>@Valid()<br>private final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[givenName](index.md#727711965%2FProperties%2F700308213) |
 | [id](index.md#861789242%2FProperties%2F700308213) | [JVM]<br>@Valid()<br>private final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[id](index.md#861789242%2FProperties%2F700308213) |
 | [links](index.md#136853996%2FProperties%2F700308213) | [JVM]<br>@Valid()<br>private final [RoomItineraryLinks](../-room-itinerary-links/index.md)[links](index.md#136853996%2FProperties%2F700308213) |
+| [loyalty](index.md#-522634241%2FProperties%2F700308213) | [JVM]<br>@Valid()<br>private final [Loyalty](../-loyalty/index.md)[loyalty](index.md#-522634241%2FProperties%2F700308213) |
 | [loyaltyId](index.md#936800932%2FProperties%2F700308213) | [JVM]<br>@Valid()<br>private final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[loyaltyId](index.md#936800932%2FProperties%2F700308213) |
 | [numberOfAdults](index.md#973059580%2FProperties%2F700308213) | [JVM]<br>@Valid()<br>private final [BigDecimal](https://docs.oracle.com/javase/8/docs/api/java/math/BigDecimal.html)[numberOfAdults](index.md#973059580%2FProperties%2F700308213) |
 | [rate](index.md#1065813525%2FProperties%2F700308213) | [JVM]<br>@Valid()<br>private final [RateItinerary](../-rate-itinerary/index.md)[rate](index.md#1065813525%2FProperties%2F700308213) |
@@ -74,6 +76,7 @@ JVM
 | [getGivenName](get-given-name.md) | [JVM]<br>public final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[getGivenName](get-given-name.md)() |
 | [getId](get-id.md) | [JVM]<br>public final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[getId](get-id.md)() |
 | [getLinks](get-links.md) | [JVM]<br>public final [RoomItineraryLinks](../-room-itinerary-links/index.md)[getLinks](get-links.md)() |
+| [getLoyalty](get-loyalty.md) | [JVM]<br>public final [Loyalty](../-loyalty/index.md)[getLoyalty](get-loyalty.md)() |
 | [getLoyaltyId](get-loyalty-id.md) | [JVM]<br>public final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[getLoyaltyId](get-loyalty-id.md)() |
 | [getNumberOfAdults](get-number-of-adults.md) | [JVM]<br>public final [BigDecimal](https://docs.oracle.com/javase/8/docs/api/java/math/BigDecimal.html)[getNumberOfAdults](get-number-of-adults.md)() |
 | [getRate](get-rate.md) | [JVM]<br>public final [RateItinerary](../-rate-itinerary/index.md)[getRate](get-rate.md)() |
