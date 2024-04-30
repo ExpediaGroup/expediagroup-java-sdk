@@ -5284,7 +5284,7 @@ paths:
           required: true
           schema:
             type: string
-          example: 2024-04-22
+          example: 2024-07-10
         - name: checkout
           in: query
           description: >
@@ -5294,7 +5294,7 @@ paths:
           required: true
           schema:
             type: string
-          example: 2024-04-24
+          example: 2024-07-12
         - name: currency
           in: query
           description: >
@@ -5467,6 +5467,8 @@ paths:
             * `expedia_collect` - Filters results to only show rates where payment is collected by Expedia at the time of booking. These properties can be eligible for payments via Expedia Affiliate Collect(EAC).
 
             * `property_collect` - Filters results to only show rates where payment is collected by the property after booking. This can include rates that require a deposit by the property, dependent upon the deposit policies.
+
+            * `loyalty` - Filters results to only show rates that are eligible for loyalty points.
           style: form
           explode: true
           schema:
@@ -5705,12 +5707,26 @@ paths:
                                       request_currency:
                                         value: "475.00"
                                         currency: USD
+                                    property_inclusive:
+                                      billable_currency:
+                                        value: "717.00"
+                                        currency: CAD
+                                      request_currency:
+                                        value: "539.00"
+                                        currency: USD
                                     strikethrough:
                                       billable_currency:
                                         value: "650.00"
                                         currency: CAD
                                       request_currency:
                                         value: "490.00"
+                                        currency: USD
+                                    property_inclusive_strikethrough:
+                                      billable_currency:
+                                        value: "750.00"
+                                        currency: CAD
+                                      request_currency:
+                                        value: "565.00"
                                         currency: USD
                                     marketing_fee:
                                       billable_currency:
@@ -6446,7 +6462,7 @@ paths:
             If specified must also specify `checkout`.
           schema:
             type: string
-          example: 2024-04-22
+          example: 2024-07-10
         - name: checkout
           in: query
           description: >
@@ -6460,7 +6476,7 @@ paths:
             If specified must also specify `checkin`.<br>
           schema:
             type: string
-          example: 2024-04-24
+          example: 2024-07-12
         - name: exclusion
           in: query
           description: >
@@ -6493,6 +6509,8 @@ paths:
             * `expedia_collect` - Filters results to only show rates where payment is collected by Expedia at the time of booking. These properties can be eligible for payments via Expedia Affiliate Collect(EAC).
 
             * `property_collect` - Filters results to only show rates where payment is collected by the property after booking. This can include rates that require a deposit by the property, dependent upon the deposit policies.
+
+            * `loyalty` - Filters results to only show rates that are eligible for loyalty points.
           style: form
           explode: true
           schema:
@@ -7853,6 +7871,65 @@ paths:
                 errors:
                   - type: link.invalid
                     message: Link is invalid.
+        "404":
+          description: Not Found
+          headers:
+            Rate-Limit-Day:
+              description: Reserved for future use. Optional header for request capacity per
+                day.
+              schema:
+                type: number
+            Rate-Limit-Day-Remaining:
+              description: Optional header for the remaining capacity, as a percentage, for
+                the daily time window.
+              schema:
+                type: number
+            Rate-Limit-Day-Reset:
+              description: Optional header for the timestamp, as the number of milliseconds
+                since the Unix Epoch, when the daily capacity resets.
+              schema:
+                type: number
+            Rate-Limit-Minute:
+              description: Reserved for future use. Optional header for request capacity per
+                minute.
+              schema:
+                type: number
+            Rate-Limit-Minute-Remaining:
+              description: Optional header for the remaining capacity, as a percentage, for
+                the per minute time window.
+              schema:
+                type: number
+            Rate-Limit-Minute-Reset:
+              description: Optional header for the timestamp, as the number of milliseconds
+                since the Unix Epoch, when the per minute capacity resets.
+              schema:
+                type: number
+            Rate-Limit-Reduction-Status:
+              description: Optional header that indicates the state (inactive, active) of
+                minute capacity reduction triggered once all daily capacity has
+                been used.
+              schema:
+                type: string
+            Region:
+              $ref: "#/components/headers/Region"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                type: payment_options.not_found
+                message: The requested property returned no payment options that are enabled for
+                  this point of sale.
+                fields:
+                  - name: property_id
+                    type: path
+                    value: "1337"
+                  - name: token.currency
+                    type: querystring
+                    value: USD
+                  - name: token.country_code
+                    type: querystring
+                    value: US
         "426":
           description: Upgrade Required
           headers:
@@ -15822,8 +15899,9 @@ components:
           description: Indicates if the room is smoking or non-smoking.
         loyalty_id:
           type: string
-          description: A loyalty identifier for a hotel loyalty program associated with
-            this room guest.
+          description: Deprecated. Please use the loyalty id inside the loyalty object.
+        loyalty:
+          $ref: "#/components/schemas/Loyalty"
         rate:
           $ref: "#/components/schemas/RateItinerary"
         links:
@@ -15846,6 +15924,18 @@ components:
         - pending
         - booked
         - canceled
+    Loyalty:
+      type: object
+      properties:
+        member_id:
+          type: string
+          description: The identifier for the individual associated with a loyalty program.
+          example: ABC123
+        program_id:
+          type: string
+          description: The identifier for the loyalty program.
+          example: SN
+      description: A loyalty object for a loyalty program.
     RateItinerary:
       type: object
       properties:
@@ -16275,6 +16365,9 @@ components:
             smoking: false
             special_request: Top floor or away from street please
             loyalty_id: ABC123
+            loyalty:
+              member_id: ABD123
+              program_id: SN
         payments:
           - type: customer_card
             number: "4111111111111111"
@@ -16359,8 +16452,9 @@ components:
             be re-encoded.
         loyalty_id:
           type: string
-          description: A loyalty identifier for a hotel loyalty program associated with
-            this room guest.
+          description: Deprecated. Please use the loyalty id inside the loyalty object.
+        loyalty:
+          $ref: "#/components/schemas/Loyalty"
     ItineraryCreation:
       type: object
       properties:
@@ -16443,14 +16537,18 @@ components:
             be re-encoded.
         loyalty_id:
           type: string
-          description: A loyalty identifier for a hotel loyalty program associated with
-            this room guest.
+          description: Deprecated. Please use the loyalty id inside the loyalty object.
+        loyalty:
+          $ref: "#/components/schemas/Loyalty"
       example:
         given_name: John
         family_name: Smith
         smoking: false
         special_request: Top floor or away from street please
         loyalty_id: ABC123
+        loyalty:
+          member_id: ABD123
+          program_id: SN
     CommitChangeRoomRequestBody:
       type: object
       properties:
@@ -16766,9 +16864,13 @@ components:
           $ref: "#/components/schemas/Charge"
         exclusive:
           $ref: "#/components/schemas/Charge"
+        property_inclusive:
+          $ref: "#/components/schemas/Charge"
         inclusive_strikethrough:
           $ref: "#/components/schemas/Charge"
         strikethrough:
+          $ref: "#/components/schemas/Charge"
+        property_inclusive_strikethrough:
           $ref: "#/components/schemas/Charge"
         marketing_fee:
           $ref: "#/components/schemas/Charge"
@@ -16779,15 +16881,19 @@ components:
         property_fees:
           $ref: "#/components/schemas/Charge"
       description: >
-        The total price of charges, given various critera.
+        The total price of charges, given various criteria.
 
-        * `inclusive` - provides the total price including taxes and fees. This does not include hotel collected fees such as resort, mandatory taxes, and mandatory fees.
+        * `inclusive` - provides the total price including taxes and fees. This does not include property collected fees such as resort, mandatory taxes, and mandatory fees.
 
         * `exclusive` - provides the total price excluding taxes and fees.
 
-        * `inclusive_strikethrough` - provides the tax `inclusive` total price with any hotel funded discounts added back. Can be used to merchandise the savings due to a discount.
+        * `property_inclusive` - provides the total price including taxes, fees, and property collected fees such as resort, mandatory taxes, and mandatory fees.
 
-        * `strikethrough` - provides the tax `exclusive` total price with any hotel funded discounts added back. Can be used to merchandise the savings due to a discount.
+        * `inclusive_strikethrough` - provides the tax `inclusive` total price with any property funded discounts added back. Can be used to merchandise the savings due to a discount.
+
+        * `strikethrough` - provides the tax `exclusive` total price with any property funded discounts added back. Can be used to merchandise the savings due to a discount.
+
+        * `property_inclusive_strikethrough` - provides the tax, fees, and property collected fees `inclusive` total price with any property funded discounts added back. Can be used to merchandise the savings due to a discount.
 
         * `marketing_fee` - provides the potential owed earnings per transaction.
 
