@@ -18,7 +18,7 @@ package com.expediagroup.sdk.generators.openapi
 import com.samskivert.mustache.Mustache
 import org.openapitools.codegen.CodegenModel
 import org.openapitools.codegen.CodegenProperty
-import org.openapitools.codegen.model.OperationsMap
+import org.openapitools.codegen.model.ApiInfoMap
 
 val mustacheHelpers = mapOf(
     "removeLeadingSlash" to {
@@ -47,17 +47,22 @@ val mustacheHelpers = mapOf(
     "defineApiExceptions" to {
         Mustache.Lambda { fragment, writer ->
             val dataTypes: MutableSet<String> = mutableSetOf()
-            val operationsMap: OperationsMap = fragment.context() as OperationsMap
-            operationsMap.operations.operation.forEach { operation ->
-                operation.responses.forEach { response ->
-                    response.takeIf { !it.is2xx && !dataTypes.contains(it.dataType) }?.dataType?.also {
-                        writer.write(
-                            "class ExpediaGroupApi${it}Exception(code: Int, override val errorObject: $it, transactionId: String?) : " +
-                                "ExpediaGroupApiException(code, errorObject, transactionId)\n"
-                        )
-                        dataTypes.add(it)
+            val apisMap: ApiInfoMap = fragment.context() as ApiInfoMap
+            apisMap.apis.forEach { operationsMap ->
+                operationsMap.operations.operation.forEach { operation ->
+                    operation.responses.forEach { response ->
+                        response.takeIf { !it.is2xx && !dataTypes.contains(it.dataType) }?.dataType?.also {
+                            dataTypes.add(it)
+                        }
                     }
                 }
+            }
+
+            dataTypes.forEach { dataType ->
+                writer.write(
+                    "class ExpediaGroupApi${dataType}Exception(code: Int, override val errorObject: $dataType, transactionId: String?) : " +
+                        "ExpediaGroupApiException(code, errorObject, transactionId)\n"
+                )
             }
         }
     },

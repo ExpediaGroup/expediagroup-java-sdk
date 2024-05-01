@@ -1,5 +1,5 @@
 {{#imports}}
-import {{import}}
+    import {{import}}
 {{/imports}}
 
 {{>imports/domain}}
@@ -11,14 +11,14 @@ import {{import}}
 {{>imports/defaults}}
 
 /**
-* {{{description}}}
+* {{#openAPI}}{{#info}}{{{description}}}{{/info}}{{/openAPI}}
 */
-{{#operations}}
- class {{classname}} private constructor(clientConfiguration: {{>partials/clientConfiguration}}) : {{>partials/clientBase}}("{{namespace}}", clientConfiguration){
+
+class {{namespace}}Client private constructor(clientConfiguration: {{>partials/clientConfiguration}}) : {{>partials/clientBase}}("{{namespace}}", clientConfiguration){
     {{>partials/helpers}}
 
     class Builder : {{>partials/clientBase}}.Builder<Builder>() {
-        override fun build(): {{classname}} = {{classname}}(
+        override fun build(): {{namespace}}Client = {{namespace}}Client(
             {{>partials/clientConfiguration}}(key, secret, endpoint, requestTimeout, connectionTimeout, socketTimeout, maskedLoggingHeaders, maskedLoggingBodyFields {{>partials/authEndpoint}})
         )
     }
@@ -31,91 +31,113 @@ import {{import}}
         throw ErrorObjectMapper.process(response, operationId)
     }
 
-{{#operation}}
-    {{^isKotlin}}private {{/isKotlin}}suspend {{^isKotlin}}inline {{/isKotlin}}fun {{^isKotlin}}k{{/isKotlin}}{{operationId}}({{>client/apiParamsDecleration}}): {{{returnType}}}{{^returnType}}Nothing{{/returnType}} {
-        return {{^isKotlin}}k{{/isKotlin}}{{operationId}}WithResponse({{>client/apiParamsPassed}}).body
-    }
-
-    private suspend {{^isKotlin}}inline {{/isKotlin}}fun {{^isKotlin}}k{{/isKotlin}}{{operationId}}WithResponse({{>client/apiParamsDecleration}}): {{#returnType}}Response<{{{returnType}}}>{{/returnType}}{{^returnType}}Response<Nothing>{{/returnType}} {
-        val response = httpClient.request {
-            method = HttpMethod.parse("{{httpMethod}}")
-            url("{{#removeLeadingSlash}}{{path}}{{/removeLeadingSlash}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}"${{{paramName}}}"{{/isContainer}}){{/pathParams}})
-            appendHeaders()
-        {{#headerParams}}
-            {{paramName}}{{^required}}?{{/required}}.also{ headers.append("{{baseName}}", it) }
-        {{/headerParams}}
-        {{#queryParams}}
-            {{{paramName}}}{{^required}}?{{/required}}.also { url.parameters.{{#isContainer}}appendAll("{{{baseName}}}", it){{/isContainer}}{{^isContainer}}append("{{{baseName}}}", it.toString()){{/isContainer}} }
-        {{/queryParams}}
-        {{#hasBodyParam}}
-            validateConstraints({{#bodyParam}}{{{paramName}}}{{/bodyParam}})
-            contentType(ContentType.Application.Json)
-            setBody({{#bodyParam}}{{{paramName}}}{{/bodyParam}})
-        {{/hasBodyParam}}
-        {{^hasBodyParam}}
-            {{#hasFormParams}}
-                {{#isMultipart}}
-            setBody(MultiPartFormDataContent(formData {
-                {{#formParams}}
-                {{{paramName}}}?.apply { append("{{{baseName}}}", {{{paramName}}}) }
-                {{/formParams}}
-            })
-                {{/isMultipart}}
-                {{^isMultipart}}
-            url.parameters.appendAll(ParametersBuilder().also {
-                {{#formParams}}
-                {{{paramName}}}?.apply { it.append("{{{baseName}}}", {{{paramName}}}.toString()) }
-                {{/formParams}}
-            }.build())
-                {{/isMultipart}}
-            {{/hasFormParams}}
-        {{/hasBodyParam}}
-        }
-        throwIfError(response, "{{operationId}}")
-        return {{^returnType}}EmptyResponse(response.status.value, response.headers.entries()){{/returnType}}{{#returnType}}Response(response.status.value, response.body<{{{returnType}}}>(), response.headers.entries()){{/returnType}}
-    }
-    {{^isKotlin}}
-
-    /**
-     * {{{summary}}}
-     * {{{notes}}}
-{{#allParams}}     * @param {{{paramName}}} {{{description}}}{{^required}} (optional{{#defaultValue}}, defaults to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (defaults to {{{.}}}){{/defaultValue}}{{/required}}
-{{/allParams}}
-     {{#throwsExceptions}}{{/throwsExceptions}}
-     * @return {{{returnType}}}{{^returnType}}Nothing{{/returnType}}
-     */
-    @Throws(
-        {{#throwsExceptionsClasses}}{{/throwsExceptionsClasses}}
-    )
-    @JvmOverloads
-    fun {{operationId}}({{>client/apiParamsDecleration}}) : {{{returnType}}}{{^returnType}}Nothing{{/returnType}} {
-        return {{operationId}}WithResponse({{>client/apiParamsPassed}}).body
-    }
-
-    /**
-     * {{{summary}}}
-     * {{{notes}}}
-{{#allParams}}     * @param {{{paramName}}} {{{description}}}{{^required}} (optional{{#defaultValue}}, defaults to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (defaults to {{{.}}}){{/defaultValue}}{{/required}}
-{{/allParams}}
-     {{#throwsExceptions}}{{/throwsExceptions}}
-     * @return a [Response] object with a body of type {{{returnType}}}{{^returnType}}Nothing{{/returnType}}
-     */
-    @Throws(
-        {{#throwsExceptionsClasses}}{{/throwsExceptionsClasses}}
-    )
-    @JvmOverloads
-    fun {{operationId}}WithResponse({{>client/apiParamsDecleration}}) : {{#returnType}}Response<{{{returnType}}}>{{/returnType}}{{^returnType}}Response<Nothing>{{/returnType}} {
+    private inline fun <reified RequestType, reified ResponseType> execute(operation: Operation<RequestType>) : ResponseType {
         try {
             return GlobalScope.future(Dispatchers.IO) {
-                k{{operationId}}WithResponse({{>client/apiParamsPassed}})
-            }.get()
+                val response = httpClient.request {
+                    method = HttpMethod.parse(operation.method)
+                    url(operation.url)
+                    // appendHeaders(request.transactionId().dequeue())
+                    validateConstraints(operation.request)
+                    contentType(ContentType.Application.Json)
+                    setBody(operation.request)
+                }
+                throwIfError(response, operation.operationId)
+                Response(response.status.value, response.body<ResponseType>(), response.headers.entries())
+            }.get().body
         } catch (exception: Exception) {
             exception.handle()
         }
     }
-    {{/isKotlin}}
-{{/operation}}
 
+    {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
+        fun execute(operation: {{operationIdCamelCase}}Operation) : {{{returnType}}}{{^returnType}}Nothing{{/returnType}} {
+            return execute<{{#bodyParam}}{{dataType}}{{/bodyParam}}, {{{returnType}}}{{^returnType}}Nothing{{/returnType}}>(operation)
+        }
+
+        {{^isKotlin}}private {{/isKotlin}}suspend {{^isKotlin}}inline {{/isKotlin}}fun {{^isKotlin}}k{{/isKotlin}}{{operationId}}({{>client/apiParamsDecleration}}): {{{returnType}}}{{^returnType}}Nothing{{/returnType}} {
+            return {{^isKotlin}}k{{/isKotlin}}{{operationId}}WithResponse({{>client/apiParamsPassed}}).body
+        }
+
+        private suspend {{^isKotlin}}inline {{/isKotlin}}fun {{^isKotlin}}k{{/isKotlin}}{{operationId}}WithResponse({{>client/apiParamsDecleration}}): {{#returnType}}Response<{{{returnType}}}>{{/returnType}}{{^returnType}}Response<Nothing>{{/returnType}} {
+            val response = httpClient.request {
+                method = HttpMethod.parse("{{httpMethod}}")
+                url("{{#removeLeadingSlash}}{{path}}{{/removeLeadingSlash}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}"${{{paramName}}}"{{/isContainer}}){{/pathParams}})
+                appendHeaders()
+                {{#headerParams}}
+                    {{paramName}}{{^required}}?{{/required}}.also{ headers.append("{{baseName}}", it) }
+                {{/headerParams}}
+                {{#queryParams}}
+                    {{{paramName}}}{{^required}}?{{/required}}.also { url.parameters.{{#isContainer}}appendAll("{{{baseName}}}", it){{/isContainer}}{{^isContainer}}append("{{{baseName}}}", it.toString()){{/isContainer}} }
+                {{/queryParams}}
+                {{#hasBodyParam}}
+                    validateConstraints({{#bodyParam}}{{{paramName}}}{{/bodyParam}})
+                    contentType(ContentType.Application.Json)
+                    setBody({{#bodyParam}}{{{paramName}}}{{/bodyParam}})
+                {{/hasBodyParam}}
+                {{^hasBodyParam}}
+                    {{#hasFormParams}}
+                        {{#isMultipart}}
+                            setBody(MultiPartFormDataContent(formData {
+                            {{#formParams}}
+                                {{{paramName}}}?.apply { append("{{{baseName}}}", {{{paramName}}}) }
+                            {{/formParams}}
+                            })
+                        {{/isMultipart}}
+                        {{^isMultipart}}
+                            url.parameters.appendAll(ParametersBuilder().also {
+                            {{#formParams}}
+                                {{{paramName}}}?.apply { it.append("{{{baseName}}}", {{{paramName}}}.toString()) }
+                            {{/formParams}}
+                            }.build())
+                        {{/isMultipart}}
+                    {{/hasFormParams}}
+                {{/hasBodyParam}}
+            }
+            throwIfError(response, "{{operationId}}")
+            return {{^returnType}}EmptyResponse(response.status.value, response.headers.entries()){{/returnType}}{{#returnType}}Response(response.status.value, response.body<{{{returnType}}}>(), response.headers.entries()){{/returnType}}
+        }
+
+        {{^isKotlin}}
+            /**
+            * {{{summary}}}
+            * {{{notes}}}
+            {{#allParams}}
+                * @param {{{paramName}}} {{{description}}}{{^required}} (optional{{#defaultValue}}, defaults to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (defaults to {{{.}}}){{/defaultValue}}{{/required}}
+            {{/allParams}}
+            {{#throwsExceptions}}{{/throwsExceptions}}
+            * @return {{{returnType}}}{{^returnType}}Nothing{{/returnType}}
+            */
+            @Throws({{#throwsExceptionsClasses}}{{/throwsExceptionsClasses}})
+            @JvmOverloads
+            @Deprecated("")
+            fun {{operationId}}({{>client/apiParamsDecleration}}) : {{{returnType}}}{{^returnType}}Nothing{{/returnType}} {
+                return {{operationId}}WithResponse({{>client/apiParamsPassed}}).body
+            }
+
+            /**
+            * {{{summary}}}
+            * {{{notes}}}
+            {{#allParams}}
+                * @param {{{paramName}}} {{{description}}}{{^required}} (optional{{#defaultValue}}, defaults to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (defaults to {{{.}}}){{/defaultValue}}{{/required}}
+            {{/allParams}}
+            {{#throwsExceptions}}{{/throwsExceptions}}
+            * @return a [Response] object with a body of type {{{returnType}}}{{^returnType}}Nothing{{/returnType}}
+            */
+            @Throws({{#throwsExceptionsClasses}}{{/throwsExceptionsClasses}})
+            @JvmOverloads
+            @Deprecated("")
+            fun {{operationId}}WithResponse({{>client/apiParamsDecleration}}) : {{#returnType}}Response<{{{returnType}}}>{{/returnType}}{{^returnType}}Response<Nothing>{{/returnType}} {
+                try {
+                    return GlobalScope.future(Dispatchers.IO) {
+                        k{{operationId}}WithResponse({{>client/apiParamsPassed}})
+                    }.get()
+                } catch (exception: Exception) {
+                    exception.handle()
+                }
+            }
+        {{/isKotlin}}
+    {{/operation}}
     {{>client/paginatorMethods}}
+    {{/operations}}{{/apis}}{{/apiInfo}}
 }
-{{/operations}}

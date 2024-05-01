@@ -36,6 +36,7 @@ class OpenApiSdkGenerator {
     private val supportingFiles = listOf(
         "pom.xml",
         "README.md",
+        "Client.kt",
         "ApiException.kt",
         "PropertyConstraintViolation.kt",
         "PropertyConstraintsValidator.kt",
@@ -88,8 +89,9 @@ class OpenApiSdkGenerator {
                 addGlobalProperty(CodegenConstants.MODELS, "")
                 addGlobalProperty(CodegenConstants.MODEL_DOCS, "false")
                 addGlobalProperty(CodegenConstants.SUPPORTING_FILES, supportingFiles.joinToString(","))
+                // addGlobalProperty("debugSupportingFiles", "")
 
-                addAdditionalProperty(CodegenConstants.API_SUFFIX, "Client")
+                addAdditionalProperty(CodegenConstants.API_SUFFIX, "Operation")
                 addAdditionalProperty(CodegenConstants.API_PACKAGE, product.apiPackage)
                 addAdditionalProperty(CodegenConstants.ENUM_PROPERTY_NAMING, "UPPERCASE")
                 addAdditionalProperty(CodegenConstants.LIBRARY, "jvm-ktor")
@@ -112,6 +114,12 @@ class OpenApiSdkGenerator {
                 val packagePath = product.packagePath
                 userDefinedTemplates(
                     listOf(
+                        // template,
+                        SupportingFile(
+                            "api_client.mustache",
+                            "$packagePath/client/",
+                            "Client.kt"
+                        ),
                         SupportingFile("pom.mustache", "pom.xml"),
                         SupportingFile("README.mustache", "README.md"),
                         SupportingFile(

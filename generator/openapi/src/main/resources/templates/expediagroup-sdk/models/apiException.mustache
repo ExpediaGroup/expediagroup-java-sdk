@@ -46,6 +46,7 @@ internal object ErrorObjectMapper {
                         ){{^-last}},{{/-last}}
                     {{/operation}}
                 {{/operations}}
+                {{^-last}},{{/-last}}
             {{/apis}}
         {{/apiInfo}}
     )
@@ -59,7 +60,5 @@ internal object ErrorObjectMapper {
 }
 
 {{#apiInfo}}
-    {{#apis}}
-        {{#defineApiExceptions}}{{/defineApiExceptions}}
-    {{/apis}}
+    {{#defineApiExceptions}}{{/defineApiExceptions}}
 {{/apiInfo}}

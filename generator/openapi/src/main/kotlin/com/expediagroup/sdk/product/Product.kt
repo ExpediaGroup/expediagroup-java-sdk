@@ -29,7 +29,7 @@ class Product(
     val namespace: String = inputNamespace.replace(NON_ALPHANUMERIC_REGEX, "").lowercase()
 
     val apiPackage: String
-        get() = "com.expediagroup.sdk.$namespace.client"
+        get() = "com.expediagroup.sdk.$namespace.operations"
 
     val artifactId: String
         get() = "$namespace-sdk"
