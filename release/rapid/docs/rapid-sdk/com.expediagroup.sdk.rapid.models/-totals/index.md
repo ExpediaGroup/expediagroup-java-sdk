@@ -4,7 +4,7 @@
 
 public final class [Totals](index.md)
 
-The total price of charges, given various critera. * `inclusive` - provides the total price including taxes and fees. This does not include hotel collected fees such as resort, mandatory taxes, and mandatory fees. * `exclusive` - provides the total price excluding taxes and fees. * `inclusive_strikethrough` - provides the tax `inclusive` total price with any hotel funded discounts added back. Can be used to merchandise the savings due to a discount. * `strikethrough` - provides the tax `exclusive` total price with any hotel funded discounts added back. Can be used to merchandise the savings due to a discount. * `marketing_fee` - provides the potential owed earnings per transaction. * `gross_profit` - provides the estimated gross profit per transaction. * `minimum_selling_price` - provides the minimum selling price. * `property_fees` - provides the total of the fees collected by the property.
+The total price of charges, given various criteria. * `inclusive` - provides the total price including taxes and fees. This does not include property collected fees such as resort, mandatory taxes, and mandatory fees. * `exclusive` - provides the total price excluding taxes and fees. * `property_inclusive` - provides the total price including taxes, fees, and property collected fees such as resort, mandatory taxes, and mandatory fees. * `inclusive_strikethrough` - provides the tax `inclusive` total price with any property funded discounts added back. Can be used to merchandise the savings due to a discount. * `strikethrough` - provides the tax `exclusive` total price with any property funded discounts added back. Can be used to merchandise the savings due to a discount. * `property_inclusive_strikethrough` - provides the tax, fees, and property collected fees `inclusive` total price with any property funded discounts added back. Can be used to merchandise the savings due to a discount. * `marketing_fee` - provides the potential owed earnings per transaction. * `gross_profit` - provides the estimated gross profit per transaction. * `minimum_selling_price` - provides the minimum selling price. * `property_fees` - provides the total of the fees collected by the property.
 
 #### Parameters
 
@@ -14,8 +14,10 @@ JVM
 |---|
 | inclusive |
 | exclusive |
+| propertyInclusive |
 | inclusiveStrikethrough |
 | strikethrough |
+| propertyInclusiveStrikethrough |
 | marketingFee |
 | grossProfit |
 | minimumSellingPrice |
@@ -25,7 +27,7 @@ JVM
 
 | | |
 |---|---|
-| [Totals](-totals.md) | [JVM]<br>public [Totals](index.md)[Totals](-totals.md)([Charge](../-charge/index.md)inclusive, [Charge](../-charge/index.md)exclusive, [Charge](../-charge/index.md)inclusiveStrikethrough, [Charge](../-charge/index.md)strikethrough, [Charge](../-charge/index.md)marketingFee, [Charge](../-charge/index.md)grossProfit, [Charge](../-charge/index.md)minimumSellingPrice, [Charge](../-charge/index.md)propertyFees) |
+| [Totals](-totals.md) | [JVM]<br>public [Totals](index.md)[Totals](-totals.md)([Charge](../-charge/index.md)inclusive, [Charge](../-charge/index.md)exclusive, [Charge](../-charge/index.md)propertyInclusive, [Charge](../-charge/index.md)inclusiveStrikethrough, [Charge](../-charge/index.md)strikethrough, [Charge](../-charge/index.md)propertyInclusiveStrikethrough, [Charge](../-charge/index.md)marketingFee, [Charge](../-charge/index.md)grossProfit, [Charge](../-charge/index.md)minimumSellingPrice, [Charge](../-charge/index.md)propertyFees) |
 
 ## Types
 
@@ -44,6 +46,8 @@ JVM
 | [marketingFee](index.md#-107967450%2FProperties%2F700308213) | [JVM]<br>@Valid()<br>private final [Charge](../-charge/index.md)[marketingFee](index.md#-107967450%2FProperties%2F700308213) |
 | [minimumSellingPrice](index.md#-225503603%2FProperties%2F700308213) | [JVM]<br>@Valid()<br>private final [Charge](../-charge/index.md)[minimumSellingPrice](index.md#-225503603%2FProperties%2F700308213) |
 | [propertyFees](index.md#-1228877628%2FProperties%2F700308213) | [JVM]<br>@Valid()<br>private final [Charge](../-charge/index.md)[propertyFees](index.md#-1228877628%2FProperties%2F700308213) |
+| [propertyInclusive](index.md#-680455747%2FProperties%2F700308213) | [JVM]<br>@Valid()<br>private final [Charge](../-charge/index.md)[propertyInclusive](index.md#-680455747%2FProperties%2F700308213) |
+| [propertyInclusiveStrikethrough](index.md#-1087494550%2FProperties%2F700308213) | [JVM]<br>@Valid()<br>private final [Charge](../-charge/index.md)[propertyInclusiveStrikethrough](index.md#-1087494550%2FProperties%2F700308213) |
 | [strikethrough](index.md#31104385%2FProperties%2F700308213) | [JVM]<br>@Valid()<br>private final [Charge](../-charge/index.md)[strikethrough](index.md#31104385%2FProperties%2F700308213) |
 
 ## Functions
@@ -58,4 +62,6 @@ JVM
 | [getMarketingFee](get-marketing-fee.md) | [JVM]<br>public final [Charge](../-charge/index.md)[getMarketingFee](get-marketing-fee.md)() |
 | [getMinimumSellingPrice](get-minimum-selling-price.md) | [JVM]<br>public final [Charge](../-charge/index.md)[getMinimumSellingPrice](get-minimum-selling-price.md)() |
 | [getPropertyFees](get-property-fees.md) | [JVM]<br>public final [Charge](../-charge/index.md)[getPropertyFees](get-property-fees.md)() |
+| [getPropertyInclusive](get-property-inclusive.md) | [JVM]<br>public final [Charge](../-charge/index.md)[getPropertyInclusive](get-property-inclusive.md)() |
+| [getPropertyInclusiveStrikethrough](get-property-inclusive-strikethrough.md) | [JVM]<br>public final [Charge](../-charge/index.md)[getPropertyInclusiveStrikethrough](get-property-inclusive-strikethrough.md)() |
 | [getStrikethrough](get-strikethrough.md) | [JVM]<br>public final [Charge](../-charge/index.md)[getStrikethrough](get-strikethrough.md)() |
