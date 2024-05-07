@@ -12,4 +12,4 @@ JVM
 
 | | |
 |---|---|
-| loyaltyId | A loyalty identifier for a hotel loyalty program associated with this room guest. |
+| loyaltyId | Deprecated. Please use the loyalty id inside the loyalty object. |

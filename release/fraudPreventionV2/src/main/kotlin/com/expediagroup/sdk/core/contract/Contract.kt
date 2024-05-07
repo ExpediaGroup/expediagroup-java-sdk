@@ -13,10 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.configuration
+package com.expediagroup.sdk.core.contract
 
-internal data class NetworkConfiguration(
-    val connectionTimeout: Long = 10_000,
-    val readTimeout: Long = 10_000,
-    val writeTimeout: Long = 10_000
-)
+internal typealias Operation = (String) -> String
+
+/**
+ * A contract for a specific [operation].
+ *
+ * @property operation The operation to perform on a string.
+ */
+internal enum class Contract(val operation: Operation) {
+    TRAILING_SLASH({ if (it.endsWith("/")) it else "$it/" })
+}
+
+/**
+ * Adheres to the given [contract] on a [String].
+ *
+ * @param contract the [Contract] to adhere to.
+ * @return the [String] adhering to the given [contract].
+ */
+internal fun String.adhereTo(contract: Contract): String = contract.operation(this)

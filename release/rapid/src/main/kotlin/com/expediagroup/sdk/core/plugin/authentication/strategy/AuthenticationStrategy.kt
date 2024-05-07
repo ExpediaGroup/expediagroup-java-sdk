@@ -15,10 +15,10 @@
  */
 package com.expediagroup.sdk.core.plugin.authentication.strategy
 
+import com.expediagroup.sdk.core.client.Client
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationConfiguration
 import com.expediagroup.sdk.core.plugin.authentication.strategy.AuthenticationStrategy.AuthenticationType.BEARER
 import com.expediagroup.sdk.core.plugin.authentication.strategy.AuthenticationStrategy.AuthenticationType.SIGNATURE
-import io.ktor.client.HttpClient
 import io.ktor.client.plugins.auth.Auth
 import io.ktor.client.request.HttpRequestBuilder
 
@@ -36,10 +36,10 @@ internal interface AuthenticationStrategy {
     companion object {
         fun from(
             configs: AuthenticationConfiguration,
-            httpClientProvider: () -> HttpClient
+            client: Client
         ): AuthenticationStrategy =
             when (configs.authType) {
-                BEARER -> ExpediaGroupAuthenticationStrategy(httpClientProvider, configs)
+                BEARER -> ExpediaGroupAuthenticationStrategy(client, configs)
                 SIGNATURE -> RapidAuthenticationStrategy(configs)
             }
     }

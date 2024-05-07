@@ -34,6 +34,10 @@ internal class ConfigurationCollectorTest {
         assertNull(collector.endpoint)
         assertNull(collector.authEndpoint)
         assertNull(collector.requestTimeout)
+        assertNull(collector.connectionTimeout)
+        assertNull(collector.socketTimeout)
+        assertNull(collector.maskedLoggingHeaders)
+        assertNull(collector.maskedLoggingBodyFields)
     }
 
     @Test
@@ -55,7 +59,11 @@ internal class ConfigurationCollectorTest {
                 secret = CLIENT_SECRET_TEST_CREDENTIAL,
                 endpoint = ExpediaGroupConfigurationProvider.endpoint,
                 authEndpoint = ExpediaGroupConfigurationProvider.authEndpoint,
-                requestTimeout = ExpediaGroupConfigurationProvider.requestTimeout
+                requestTimeout = ExpediaGroupConfigurationProvider.requestTimeout,
+                connectionTimeout = ExpediaGroupConfigurationProvider.connectionTimeout,
+                socketTimeout = ExpediaGroupConfigurationProvider.socketTimeout,
+                maskedLoggingHeaders = ExpediaGroupConfigurationProvider.maskedLoggingHeaders,
+                maskedLoggingBodyFields = ExpediaGroupConfigurationProvider.maskedLoggingBodyFields
             )
 
         val collector =
@@ -68,6 +76,10 @@ internal class ConfigurationCollectorTest {
         assertEquals(ExpediaGroupConfigurationProvider.endpoint, collector.endpoint)
         assertEquals(ExpediaGroupConfigurationProvider.authEndpoint, collector.authEndpoint)
         assertEquals(ExpediaGroupConfigurationProvider.requestTimeout, collector.requestTimeout)
+        assertEquals(ExpediaGroupConfigurationProvider.connectionTimeout, collector.connectionTimeout)
+        assertEquals(ExpediaGroupConfigurationProvider.socketTimeout, collector.socketTimeout)
+        assertEquals(ExpediaGroupConfigurationProvider.maskedLoggingHeaders, collector.maskedLoggingHeaders)
+        assertEquals(ExpediaGroupConfigurationProvider.maskedLoggingBodyFields, collector.maskedLoggingBodyFields)
     }
 
     @Test
@@ -89,6 +101,10 @@ internal class ConfigurationCollectorTest {
         assertEquals(ExpediaGroupConfigurationProvider.endpoint, collector.endpoint)
         assertNull(collector.authEndpoint)
         assertNull(collector.requestTimeout)
+        assertNull(collector.connectionTimeout)
+        assertNull(collector.socketTimeout)
+        assertNull(collector.maskedLoggingHeaders)
+        assertNull(collector.maskedLoggingBodyFields)
     }
 
     @Test
@@ -109,6 +125,10 @@ internal class ConfigurationCollectorTest {
         assertEquals(CLIENT_SECRET_TEST_CREDENTIAL, collector.secret) // from client configuration
         assertEquals(ExpediaGroupConfigurationProvider.endpoint, collector.endpoint) // from client configuration
         assertEquals(ExpediaGroupConfigurationProvider.authEndpoint, collector.authEndpoint) // from default provider
-        assertEquals(ExpediaGroupConfigurationProvider.requestTimeout, collector.requestTimeout)
+        assertEquals(ExpediaGroupConfigurationProvider.requestTimeout, collector.requestTimeout) // from default provider
+        assertEquals(ExpediaGroupConfigurationProvider.connectionTimeout, collector.connectionTimeout) // from default provider
+        assertEquals(ExpediaGroupConfigurationProvider.socketTimeout, collector.socketTimeout) // from default provider
+        assertEquals(ExpediaGroupConfigurationProvider.maskedLoggingHeaders, collector.maskedLoggingHeaders) // from default provider
+        assertEquals(ExpediaGroupConfigurationProvider.maskedLoggingBodyFields, collector.maskedLoggingBodyFields) // from default provider
     }
 }

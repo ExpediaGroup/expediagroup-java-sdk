@@ -9,7 +9,7 @@ public final class [ExpediaGroupApiNotFoundErrorException](index.md) extends Exp
 
 | | |
 |---|---|
-| [ExpediaGroupApiNotFoundErrorException](-expedia-group-api-not-found-error-exception.md) | [JVM]<br>public [ExpediaGroupApiNotFoundErrorException](index.md)[ExpediaGroupApiNotFoundErrorException](-expedia-group-api-not-found-error-exception.md)([Integer](https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html)code, [NotFoundError](../../com.expediagroup.sdk.fraudpreventionv2.models/-not-found-error/index.md)errorObject) |
+| [ExpediaGroupApiNotFoundErrorException](-expedia-group-api-not-found-error-exception.md) | [JVM]<br>public [ExpediaGroupApiNotFoundErrorException](index.md)[ExpediaGroupApiNotFoundErrorException](-expedia-group-api-not-found-error-exception.md)([Integer](https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html)code, [NotFoundError](../../com.expediagroup.sdk.fraudpreventionv2.models/-not-found-error/index.md)errorObject, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)transactionId) |
 
 ## Properties
 

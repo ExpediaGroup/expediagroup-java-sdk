@@ -24,6 +24,7 @@ import com.expediagroup.sdk.core.constant.provider.LoggingMessageProvider
 import com.expediagroup.sdk.core.contract.Contract
 import com.expediagroup.sdk.core.contract.adhereTo
 import com.expediagroup.sdk.core.model.exception.client.ExpediaGroupConfigurationException
+import com.expediagroup.sdk.core.model.getTransactionId
 import com.expediagroup.sdk.core.plugin.Hooks
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationConfiguration
 import com.expediagroup.sdk.core.plugin.authentication.AuthenticationHookFactory
@@ -31,6 +32,8 @@ import com.expediagroup.sdk.core.plugin.authentication.AuthenticationPlugin
 import com.expediagroup.sdk.core.plugin.authentication.strategy.AuthenticationStrategy
 import com.expediagroup.sdk.core.plugin.encoding.EncodingConfiguration
 import com.expediagroup.sdk.core.plugin.encoding.EncodingPlugin
+import com.expediagroup.sdk.core.plugin.exception.ExceptionHandlingConfiguration
+import com.expediagroup.sdk.core.plugin.exception.ExceptionHandlingPlugin
 import com.expediagroup.sdk.core.plugin.hooks
 import com.expediagroup.sdk.core.plugin.httptimeout.HttpTimeoutConfiguration
 import com.expediagroup.sdk.core.plugin.httptimeout.HttpTimeoutPlugin
@@ -46,8 +49,14 @@ import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.statement.HttpResponse
+import io.ktor.client.statement.request
 
-val DEFAULT_HTTP_CLIENT_ENGINE: HttpClientEngine = OkHttp.create()
+val DEFAULT_HTTP_CLIENT_ENGINE: HttpClientEngine =
+    OkHttp.create {
+        config {
+            eventListener(OkHttpEventListener)
+        }
+    }
 
 /**
  * The base integration point between the SDK Core and the product SDKs.
@@ -81,6 +90,8 @@ abstract class Client(
             val endpoint: String = configurationProvider.endpoint ?: fireMissingConfigurationIssue(ConfigurationName.ENDPOINT)
             val authEndpoint: String = configurationProvider.authEndpoint ?: fireMissingConfigurationIssue(ConfigurationName.AUTH_ENDPOINT)
             val requestTimeout: Long = configurationProvider.requestTimeout ?: fireMissingConfigurationIssue(ConfigurationName.REQUEST_TIMEOUT_MILLIS)
+            val connectionTimeout: Long = configurationProvider.connectionTimeout ?: fireMissingConfigurationIssue(ConfigurationName.CONNECTION_TIMEOUT_MILLIS)
+            val socketTimeout: Long = configurationProvider.socketTimeout ?: fireMissingConfigurationIssue(ConfigurationName.SOCKET_TIMEOUT_MILLIS)
             val maskedLoggingHeaders: Set<String> = configurationProvider.maskedLoggingHeaders ?: setOf()
             val maskedLoggingBodyFields: Set<String> = configurationProvider.maskedLoggingBodyFields ?: setOf()
 
@@ -98,7 +109,8 @@ abstract class Client(
                 use(AuthenticationPlugin).with(authenticationConfiguration)
                 use(DefaultRequestPlugin).with(DefaultRequestConfiguration.from(httpClientConfig, endpoint))
                 use(EncodingPlugin).with(EncodingConfiguration.from(httpClientConfig))
-                use(HttpTimeoutPlugin).with(HttpTimeoutConfiguration.from(httpClientConfig, requestTimeout))
+                use(HttpTimeoutPlugin).with(HttpTimeoutConfiguration.from(httpClientConfig, requestTimeout, connectionTimeout, socketTimeout))
+                use(ExceptionHandlingPlugin).with(ExceptionHandlingConfiguration.from(httpClientConfig))
             }
 
             hooks {
@@ -114,7 +126,7 @@ abstract class Client(
     @Suppress("unused") // This is used by the product SDKs.
     suspend fun throwIfError(response: HttpResponse, operationId: String) {
         if (isNotSuccessfulResponse(response)) {
-            log.info(LoggingMessageProvider.getResponseUnsuccessfulMessage(response.status))
+            log.info(LoggingMessageProvider.getResponseUnsuccessfulMessage(response.status, response.request.headers.getTransactionId()))
             throwServiceException(response, operationId)
         }
     }
@@ -128,20 +140,48 @@ abstract class Client(
 
     /**
      * A [Client] builder.
-     *
-     * @property key The API key to use for authentication.
-     * @property secret The API secret to use for authentication.
-     * @property endpoint The API endpoint to use for requests.
-     * @property requestTimeout The request timeout to be used.
-     * @property maskedLoggingHeaders The headers to be masked in logging.
-     * @property maskedLoggingBodyFields The body fields to be masked in logging.
      */
     abstract class Builder<SELF : Builder<SELF>> {
+        /** Sets the API key to use for authentication. */
         protected var key: String? = null
+
+        /** Sets the API secret to use for authentication. */
         protected var secret: String? = null
+
+        /** Sets the API endpoint to use for requests. */
         protected var endpoint: String? = null
+
+        /**
+         * Sets the request timeout in milliseconds.
+         *
+         * Request timeout is the time period from the start of the request to the completion of the response.
+         *
+         * Default is infinite - no timeout.
+         */
         protected var requestTimeout: Long? = null
+
+        /**
+         * Sets the connection timeout in milliseconds.
+         *
+         * Connection timeout is the time period from the start of the request to the establishment of the connection with the server.
+         *
+         * Default is 10 seconds (10000 milliseconds).
+         */
+        protected var connectionTimeout: Long? = null
+
+        /**
+         * Sets the socket timeout in milliseconds.
+         *
+         * Socket timeout is the maximum period of inactivity between two consecutive data packets.
+         *
+         * Default is 15 seconds (15000 milliseconds).
+         */
+        protected var socketTimeout: Long? = null
+
+        /** Sets tne body fields to be masked in logging. */
         protected var maskedLoggingHeaders: Set<String>? = null
+
+        /** Sets tne body fields to be masked in logging. */
         protected var maskedLoggingBodyFields: Set<String>? = null
 
         /** Sets the API key to use for authentication.
@@ -171,17 +211,49 @@ abstract class Client(
          */
         fun endpoint(endpoint: String): SELF {
             this.endpoint = endpoint.adhereTo(Contract.TRAILING_SLASH)
+            log.info(LoggingMessageProvider.getRuntimeConfigurationProviderMessage(ConfigurationName.ENDPOINT, endpoint))
             return self()
         }
 
         /**
          * Sets the request timeout in milliseconds.
+         * Request timeout is the time period from the start of the request to the completion of the response.
+         * Default is infinite - no timeout.
          *
          * @param milliseconds The request timeout to be used.
          * @return The [Builder] instance.
          */
         fun requestTimeout(milliseconds: Long): SELF {
             this.requestTimeout = milliseconds
+            log.info(LoggingMessageProvider.getRuntimeConfigurationProviderMessage(ConfigurationName.REQUEST_TIMEOUT_MILLIS, milliseconds.toString()))
+            return self()
+        }
+
+        /**
+         * Sets the connection timeout in milliseconds.
+         * Connection timeout is the time period from the start of the request to the establishment of the connection with the server.
+         * Default is 10 seconds (10000 milliseconds).
+         *
+         * @param milliseconds The connection timeout to be used.
+         * @return The [Builder] instance.
+         */
+        fun connectionTimeout(milliseconds: Long): SELF {
+            this.connectionTimeout = milliseconds
+            log.info(LoggingMessageProvider.getRuntimeConfigurationProviderMessage(ConfigurationName.CONNECTION_TIMEOUT_MILLIS, milliseconds.toString()))
+            return self()
+        }
+
+        /**
+         * Sets the socket timeout in milliseconds.
+         * Socket timeout is the maximum period of inactivity between two consecutive data packets.
+         * Default is 15 seconds (15000 milliseconds).
+         *
+         * @param milliseconds The socket timeout to be used.
+         * @return The [Builder] instance.
+         */
+        fun socketTimeout(milliseconds: Long): SELF {
+            this.socketTimeout = milliseconds
+            log.info(LoggingMessageProvider.getRuntimeConfigurationProviderMessage(ConfigurationName.SOCKET_TIMEOUT_MILLIS, milliseconds.toString()))
             return self()
         }
 
@@ -193,6 +265,7 @@ abstract class Client(
          */
         fun maskedLoggingHeaders(vararg headers: String): SELF {
             this.maskedLoggingHeaders = headers.toSet()
+            log.info(LoggingMessageProvider.getRuntimeConfigurationProviderMessage(ConfigurationName.MASKED_LOGGING_HEADERS, headers.joinToString()))
             return self()
         }
 
@@ -204,6 +277,7 @@ abstract class Client(
          */
         fun maskedLoggingBodyFields(vararg fields: String): SELF {
             this.maskedLoggingBodyFields = fields.toSet()
+            log.info(LoggingMessageProvider.getRuntimeConfigurationProviderMessage(ConfigurationName.MASKED_LOGGING_BODY_FIELDS, fields.joinToString()))
             return self()
         }
 

@@ -9,7 +9,7 @@ public final class [Builder](index.md)
 
 | | |
 |---|---|
-| [Totals.Builder](-totals.-builder.md) | [JVM]<br>public [Totals.Builder](index.md)[Totals.Builder](-totals.-builder.md)([Charge](../../-charge/index.md)inclusive, [Charge](../../-charge/index.md)exclusive, [Charge](../../-charge/index.md)inclusiveStrikethrough, [Charge](../../-charge/index.md)strikethrough, [Charge](../../-charge/index.md)marketingFee, [Charge](../../-charge/index.md)grossProfit, [Charge](../../-charge/index.md)minimumSellingPrice, [Charge](../../-charge/index.md)propertyFees) |
+| [Totals.Builder](-totals.-builder.md) | [JVM]<br>public [Totals.Builder](index.md)[Totals.Builder](-totals.-builder.md)([Charge](../../-charge/index.md)inclusive, [Charge](../../-charge/index.md)exclusive, [Charge](../../-charge/index.md)propertyInclusive, [Charge](../../-charge/index.md)inclusiveStrikethrough, [Charge](../../-charge/index.md)strikethrough, [Charge](../../-charge/index.md)propertyInclusiveStrikethrough, [Charge](../../-charge/index.md)marketingFee, [Charge](../../-charge/index.md)grossProfit, [Charge](../../-charge/index.md)minimumSellingPrice, [Charge](../../-charge/index.md)propertyFees) |
 
 ## Functions
 
@@ -23,4 +23,6 @@ public final class [Builder](index.md)
 | [marketingFee](marketing-fee.md) | [JVM]<br>public final [Totals.Builder](index.md)[marketingFee](marketing-fee.md)([Charge](../../-charge/index.md)marketingFee) |
 | [minimumSellingPrice](minimum-selling-price.md) | [JVM]<br>public final [Totals.Builder](index.md)[minimumSellingPrice](minimum-selling-price.md)([Charge](../../-charge/index.md)minimumSellingPrice) |
 | [propertyFees](property-fees.md) | [JVM]<br>public final [Totals.Builder](index.md)[propertyFees](property-fees.md)([Charge](../../-charge/index.md)propertyFees) |
+| [propertyInclusive](property-inclusive.md) | [JVM]<br>public final [Totals.Builder](index.md)[propertyInclusive](property-inclusive.md)([Charge](../../-charge/index.md)propertyInclusive) |
+| [propertyInclusiveStrikethrough](property-inclusive-strikethrough.md) | [JVM]<br>public final [Totals.Builder](index.md)[propertyInclusiveStrikethrough](property-inclusive-strikethrough.md)([Charge](../../-charge/index.md)propertyInclusiveStrikethrough) |
 | [strikethrough](strikethrough.md) | [JVM]<br>public final [Totals.Builder](index.md)[strikethrough](strikethrough.md)([Charge](../../-charge/index.md)strikethrough) |

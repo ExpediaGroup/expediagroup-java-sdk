@@ -1,0 +1,104 @@
+name: Upgrade SDK Core
+
+on:
+  workflow_call:
+    inputs:
+      upgrade_type:
+        description: 'Upgrade Type. Options: major, minor, patch, none'
+        required: true
+        type: string
+        default: 'none'
+    secrets:
+      GH_PERSONAL_ACCESS_TOKEN:
+        description: 'GitHub Personal Access Token'
+        required: true
+
+jobs:
+  upgrade:
+    permissions:
+      contents: write
+      pull-requests: write
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Confirm Upgrade
+        run: |
+          if [ "${{ github.event.inputs.upgrade_type }}" == "none" ]; then
+            echo "Upgrade not requested. Skipping."
+            exit 1
+          else
+            echo "Upgrade requested. Proceeding."
+          fi
+
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'corretto'
+          java-version: '21'
+
+      - name: Increment version
+        working-directory: core
+        id: increment_version
+        run: |
+          version=$(mvn -q \
+            -Dexec.executable=echo \
+            -Dexec.args='${project.version}' \
+            --non-recursive \
+            exec:exec)
+          IFS='.' read -ra VERSION_PARTS <<< "$version"
+          MAJOR=${VERSION_PARTS[0]}
+          MINOR=${VERSION_PARTS[1]}
+          PATCH=${VERSION_PARTS[2]}
+
+          echo "Upgrade type: ${{ github.event.inputs.upgrade_type }}"
+          echo "Major: $MAJOR"
+          echo "Minor: $MINOR"
+          echo "Patch: $PATCH"
+          case "${{ github.event.inputs.upgrade_type }}" in
+            "major")
+              MAJOR=$(expr $MAJOR + 1)
+              MINOR=0
+              PATCH=0
+              ;;
+            "minor")
+              MINOR=$(expr $MINOR + 1)
+              PATCH=0
+              ;;
+            "patch")
+              PATCH=$(expr $PATCH + 1)
+              ;;
+            *)
+              echo "Invalid upgrade type. Must be one of: major, minor, patch."
+              exit 1
+              ;;
+          esac
+
+          NEW_VERSION="$MAJOR.$MINOR.$PATCH"
+          echo "New version: $NEW_VERSION"
+          mvn versions:set -DnewVersion=$NEW_VERSION
+          echo "version=$NEW_VERSION" >> $GITHUB_ENV
+
+      - name: Commit changes
+        run: |
+          git config --global user.email "oss@expediagroup.com"
+          git config --global user.name "eg-oss-ci"
+          git commit -am "chore: upgrade core version to ${{ env.version }}"
+          echo "branch_name=upgrade-core-to-v${{ env.version }}" >> $GITHUB_ENV
+          echo "upgrade-core-to-v${{ env.version }}" > branch_name.txt
+
+      - name: Upload branch name
+        uses: actions/upload-artifact@v4
+        with:
+          name: branch-name
+          path: branch_name.txt
+
+      - name: Publish Updated Version PR
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+          commit-message: "chore: upgrade core version to ${{ env.version }}"
+          title: "chore: upgrade core version to ${{ env.version }}"
+          branch: ${{ env.branch_name }}
+          body: "This PR upgrades the core version to ${{ env.version }}."

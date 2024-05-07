@@ -19,7 +19,7 @@ import {{import}}
 
     class Builder : {{>partials/clientBase}}.Builder<Builder>() {
         override fun build(): {{classname}} = {{classname}}(
-            {{>partials/clientConfiguration}}(key, secret, endpoint, requestTimeout, maskedLoggingHeaders, maskedLoggingBodyFields {{>partials/authEndpoint}})
+            {{>partials/clientConfiguration}}(key, secret, endpoint, requestTimeout, connectionTimeout, socketTimeout, maskedLoggingHeaders, maskedLoggingBodyFields {{>partials/authEndpoint}})
         )
     }
 

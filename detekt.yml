@@ -1,6 +1,7 @@
 style:
   MaxLineLength:
     maxLineLength: 200
+    excludeCommentStatements: true
   ClassOrdering:
     active: false
   ReturnCount:
