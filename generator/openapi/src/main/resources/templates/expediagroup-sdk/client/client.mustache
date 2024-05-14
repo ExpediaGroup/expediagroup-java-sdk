@@ -99,44 +99,6 @@ class {{namespace}}Client private constructor(clientConfiguration: {{>partials/c
             )
 
             return execute(operation)
-
-
-            val response = httpClient.request {
-                method = HttpMethod.parse("{{httpMethod}}")
-                url("{{#removeLeadingSlash}}{{path}}{{/removeLeadingSlash}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}"${{{paramName}}}"{{/isContainer}}){{/pathParams}})
-                appendHeaders()
-                {{#headerParams}}
-                    {{paramName}}{{^required}}?{{/required}}.also{ headers.append("{{baseName}}", it) }
-                {{/headerParams}}
-                {{#queryParams}}
-                    {{{paramName}}}{{^required}}?{{/required}}.also { url.parameters.{{#isContainer}}appendAll("{{{baseName}}}", it){{/isContainer}}{{^isContainer}}append("{{{baseName}}}", it.toString()){{/isContainer}} }
-                {{/queryParams}}
-                {{#hasBodyParam}}
-                    validateConstraints({{#bodyParam}}{{{paramName}}}{{/bodyParam}})
-                    contentType(ContentType.Application.Json)
-                    setBody({{#bodyParam}}{{{paramName}}}{{/bodyParam}})
-                {{/hasBodyParam}}
-                {{^hasBodyParam}}
-                    {{#hasFormParams}}
-                        {{#isMultipart}}
-                            setBody(MultiPartFormDataContent(formData {
-                            {{#formParams}}
-                                {{{paramName}}}?.apply { append("{{{baseName}}}", {{{paramName}}}) }
-                            {{/formParams}}
-                            })
-                        {{/isMultipart}}
-                        {{^isMultipart}}
-                            url.parameters.appendAll(ParametersBuilder().also {
-                            {{#formParams}}
-                                {{{paramName}}}?.apply { it.append("{{{baseName}}}", {{{paramName}}}.toString()) }
-                            {{/formParams}}
-                            }.build())
-                        {{/isMultipart}}
-                    {{/hasFormParams}}
-                {{/hasBodyParam}}
-            }
-            throwIfError(response, "{{operationId}}")
-            return {{^returnType}}EmptyResponse(response.status.value, response.headers.entries()){{/returnType}}{{#returnType}}Response(response.status.value, response.body<{{{returnType}}}>(), response.headers.entries()){{/returnType}}
         }
 
         {{^isKotlin}}
