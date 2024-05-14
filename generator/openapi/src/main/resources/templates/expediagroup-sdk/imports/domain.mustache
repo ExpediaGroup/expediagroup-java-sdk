@@ -1,20 +1,4 @@
 import {{packageName}}.validation.PropertyConstraintsValidator.validateConstraints
 import {{packageName}}.models.exception.*
 import {{packageName}}.operations.*
-
-{{#apiInfo}}
-    {{#apis}}
-        {{#operations}}
-            {{#operation}}
-                {{#bodyParam}}
-                    {{#dataType}}
-                        import {{packageName}}.models.{{dataType}}
-                    {{/dataType}}
-                {{/bodyParam}}
-                {{#returnType}}
-                    import {{packageName}}.models.{{returnType}}
-                {{/returnType}}
-            {{/operation}}
-        {{/operations}}
-    {{/apis}}
-{{/apiInfo}}
+import {{packageName}}.models.*

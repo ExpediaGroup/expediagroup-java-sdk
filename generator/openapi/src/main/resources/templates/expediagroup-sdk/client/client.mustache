@@ -18,7 +18,7 @@ class {{namespace}}Client private constructor(clientConfiguration: {{>partials/c
     {{>partials/helpers}}
 
     class Builder : {{>partials/clientBase}}.Builder<Builder>() {
-        override fun build(): {{namespace}}Client = {{namespace}}Client(
+        override fun build() = {{namespace}}Client(
             {{>partials/clientConfiguration}}(key, secret, endpoint, requestTimeout, connectionTimeout, socketTimeout, maskedLoggingHeaders, maskedLoggingBodyFields {{>partials/authEndpoint}})
         )
     }
@@ -31,35 +31,76 @@ class {{namespace}}Client private constructor(clientConfiguration: {{>partials/c
         throw ErrorObjectMapper.process(response, operationId)
     }
 
-    private inline fun <reified RequestType, reified ResponseType> execute(operation: Operation<RequestType>) : ResponseType {
+    private inline fun <reified RequestType, reified ResponseType> execute(operation: Operation<RequestType>) : Response<ResponseType> {
         try {
             return GlobalScope.future(Dispatchers.IO) {
                 val response = httpClient.request {
                     method = HttpMethod.parse(operation.method)
                     url(operation.url)
-                    // appendHeaders(request.transactionId().dequeue())
-                    validateConstraints(operation.request)
+
+                    operation.params.getHeaders()?.forEach { (key, value) ->
+                       headers.append(key, value)
+                    }
+
+                    operation.params.getQueryParams()?.forEach { (key, value) ->
+                        url.parameters.appendAll(key, value)
+                    }
+
+                    appendHeaders()
+                    validateConstraints(operation.requestBody)
                     contentType(ContentType.Application.Json)
-                    setBody(operation.request)
+                    setBody(operation.requestBody)
                 }
                 throwIfError(response, operation.operationId)
                 Response(response.status.value, response.body<ResponseType>(), response.headers.entries())
-            }.get().body
+            }.get()
         } catch (exception: Exception) {
             exception.handle()
         }
     }
 
     {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
-        fun execute(operation: {{operationIdCamelCase}}Operation) : {{{returnType}}}{{^returnType}}Nothing{{/returnType}} {
-            return execute<{{#bodyParam}}{{dataType}}{{/bodyParam}}, {{{returnType}}}{{^returnType}}Nothing{{/returnType}}>(operation)
-        }
-
-        {{^isKotlin}}private {{/isKotlin}}suspend {{^isKotlin}}inline {{/isKotlin}}fun {{^isKotlin}}k{{/isKotlin}}{{operationId}}({{>client/apiParamsDecleration}}): {{{returnType}}}{{^returnType}}Nothing{{/returnType}} {
-            return {{^isKotlin}}k{{/isKotlin}}{{operationId}}WithResponse({{>client/apiParamsPassed}}).body
+        fun execute(operation: {{operationIdCamelCase}}Operation) : {{#returnType}}Response<{{{returnType}}}>{{/returnType}}{{^returnType}}Response<Nothing>{{/returnType}} {
+            return execute<
+                {{#bodyParam}}{{dataType}}{{/bodyParam}}{{^hasBodyParam}}Nothing{{/hasBodyParam}},
+                {{{returnType}}}{{^returnType}}Nothing{{/returnType}}
+            >(operation)
         }
 
         private suspend {{^isKotlin}}inline {{/isKotlin}}fun {{^isKotlin}}k{{/isKotlin}}{{operationId}}WithResponse({{>client/apiParamsDecleration}}): {{#returnType}}Response<{{{returnType}}}>{{/returnType}}{{^returnType}}Response<Nothing>{{/returnType}} {
+
+            val params =  {{operationIdCamelCase}}OperationParams(
+                {{#pathParams}}
+                    {{{paramName}}} = {{{paramName}}}{{^-last}}, {{/-last}}
+                {{/pathParams}}
+                {{#hasPathParams}}{{#hasHeaderParams}}, {{/hasHeaderParams}}{{/hasPathParams}}
+                {{#headerParams}}
+                    {{{paramName}}} = {{{paramName}}}{{^-last}}, {{/-last}}
+                {{/headerParams}}
+                {{#hasHeaderParams}}{{#hasQueryParams}}, {{/hasQueryParams}}{{/hasHeaderParams}}
+                {{#queryParams}}
+                    {{{paramName}}} = {{{paramName}}}{{^-last}}, {{/-last}}
+                {{/queryParams}}
+            )
+
+            val operation = {{operationIdCamelCase}}Operation(
+                {{#hasBodyParam}}
+                    requestBody = {{#bodyParam}}{{{paramName}}}{{/bodyParam}},
+                {{/hasBodyParam}}
+                {{#hasPathParams}}
+                    params = params
+                {{/hasPathParams}}
+                {{^hasPathParams}}{{#hasHeaderParams}}
+                    params = params
+                {{/hasHeaderParams}}{{/hasPathParams}}
+                {{^hasPathParams}}{{^hasHeaderParams}}{{#hasQueryParams}}
+                    params = params
+                {{/hasQueryParams}}{{/hasHeaderParams}}{{/hasPathParams}}
+            )
+
+            return execute(operation)
+
+
             val response = httpClient.request {
                 method = HttpMethod.parse("{{httpMethod}}")
                 url("{{#removeLeadingSlash}}{{path}}{{/removeLeadingSlash}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}"${{{paramName}}}"{{/isContainer}}){{/pathParams}})

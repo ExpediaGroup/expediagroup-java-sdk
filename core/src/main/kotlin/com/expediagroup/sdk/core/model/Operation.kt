@@ -19,5 +19,6 @@ abstract class Operation<T>(
     val url: String,
     val method: String,
     val operationId: String,
-    val request: T
+    val requestBody: T?,
+    val params: OperationParams
 )
