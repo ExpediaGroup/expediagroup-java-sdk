@@ -40,9 +40,9 @@ import javax.validation.Valid
  * @param contactMessage The trader contact message.
  * @param name The trader name.
  * @param address
- * @param businessRegisterName Name of the register where the trader is registered, and is related to the `business_register_number`<br> <i><b>NOTE:</b> See our [Digital Services Act](https://developers.expediagroup.com/docs/rapid/resources/reference/digital-services-act) information on Developer Hub.</i>
- * @param businessRegisterNumber Business registration number<br> <i><b>NOTE:</b> See our [Digital Services Act](https://developers.expediagroup.com/docs/rapid/resources/reference/digital-services-act) information on Developer Hub.</i>
- * @param selfCertification Certification that the trader has confirmed their commitment to only offer products or services that comply with the applicable rules of Union law.<br> <i><b>NOTE:</b> See our [Digital Services Act](https://developers.expediagroup.com/docs/rapid/resources/reference/digital-services-act) information on Developer Hub.</i>
+ * @param businessRegisterName Name of the register where the trader is registered, and is related to the `business_register_number`
+ * @param businessRegisterNumber Business registration number
+ * @param selfCertification Certification that the trader has confirmed their commitment to only offer products or services that comply with the applicable rules of Union law.
  * @param rightToWithdrawMessage The trader right to withdraw message.
  * @param email The trader email address.
  * @param phone The trader phone number.
@@ -59,15 +59,15 @@ data class TraderDetailsInner(
     @JsonProperty("address")
     @field:Valid
     val address: TraderAddress? = null,
-    // Name of the register where the trader is registered, and is related to the `business_register_number`<br> <i><b>NOTE:</b> See our [Digital Services Act](https://developers.expediagroup.com/docs/rapid/resources/reference/digital-services-act) information on Developer Hub.</i>
+    // Name of the register where the trader is registered, and is related to the `business_register_number`
     @JsonProperty("business_register_name")
     @field:Valid
     val businessRegisterName: kotlin.String? = null,
-    // Business registration number<br> <i><b>NOTE:</b> See our [Digital Services Act](https://developers.expediagroup.com/docs/rapid/resources/reference/digital-services-act) information on Developer Hub.</i>
+    // Business registration number
     @JsonProperty("business_register_number")
     @field:Valid
     val businessRegisterNumber: kotlin.String? = null,
-    // Certification that the trader has confirmed their commitment to only offer products or services that comply with the applicable rules of Union law.<br> <i><b>NOTE:</b> See our [Digital Services Act](https://developers.expediagroup.com/docs/rapid/resources/reference/digital-services-act) information on Developer Hub.</i>
+    // Certification that the trader has confirmed their commitment to only offer products or services that comply with the applicable rules of Union law.
     @JsonProperty("self_certification")
     @field:Valid
     val selfCertification: kotlin.Boolean? = null,

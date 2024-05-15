@@ -551,8 +551,8 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
      * @param customerIp IP address of the customer, as captured by your integration.<br> Ensure your integration passes the customer's IP, not your own. This value helps determine their location and assign the correct payment gateway.<br> Also used for fraud recovery and other important analytics.  (optional)
      * @param customerSessionId Insert your own unique value for each user session, beginning with the first API call. Continue to pass the same value for each subsequent API call during the user's session, using a new value for every new customer session.<br> Including this value greatly eases EPS's internal debugging process for issues with partner requests, as it explicitly links together request paths for individual user's session.  (optional)
      * @param test Shop calls have a test header that can be used to return set responses with the following keywords:<br> * `standard` * `service_unavailable` * `unknown_internal_error` * `no_availability` * `forbidden`  (optional)
-     * @param checkin Check-in date, in ISO 8601 format (YYYY-MM-DD)<br> Note: Only needed for hard change if desired check-in date is different than original booking. If specified must also specify `checkout`.  (optional)
-     * @param checkout Check-out date, in ISO 8601 format (YYYY-MM-DD). Availability can be searched up to 500 days in advance of this date. Total length of stay cannot exceed 28 nights.<br> Note: Only needed for hard change if desired check-out date is different than original booking. If specified must also specify `checkin`.<br>  (optional)
+     * @param checkin Check-in date, in ISO 8601 format (YYYY-MM-DD). This can be up to 365 days in the future. Some partner configurations may extend this up to 500 days.<br> Note: Only needed for hard change if desired check-in date is different than original booking. If specified must also specify `checkout`.  (optional)
+     * @param checkout Check-out date, in ISO 8601 format (YYYY-MM-DD). Total length of stay cannot exceed 28 nights.<br> Note: Only needed for hard change if desired check-out date is different than original booking. If specified must also specify `checkin`.<br>  (optional)
      * @param exclusion Single exclusion type. Send multiple instances of this parameter to request multiple exclusions.<br> Note: Optional parameter for use with hard change requests. <br> * `refundable_damage_deposit` - Excludes rates with refundable damage deposits from the response.  (optional)
      * @param filter Single filter type. Send multiple instances of this parameter to request multiple filters.<br> Note: Optional parameter for use with hard change requests.<br> * `refundable` - Filters results to only show fully refundable rates. * `expedia_collect` - Filters results to only show rates where payment is collected by Expedia at the time of booking. These properties can be eligible for payments via Expedia Affiliate Collect(EAC). * `property_collect` - Filters results to only show rates where payment is collected by the property after booking. This can include rates that require a deposit by the property, dependent upon the deposit policies. * `loyalty` - Filters results to only show rates that are eligible for loyalty points.  (optional)
      * @param include Modify the response by including types of responses that are not provided by default.<br> * `sale_scenario.mobile_promotion` - Enable the `mobile_promotion` flag under the `sale_scenario` section of the response.  (optional)
@@ -609,8 +609,8 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
      * @param customerIp IP address of the customer, as captured by your integration.<br> Ensure your integration passes the customer's IP, not your own. This value helps determine their location and assign the correct payment gateway.<br> Also used for fraud recovery and other important analytics.  (optional)
      * @param customerSessionId Insert your own unique value for each user session, beginning with the first API call. Continue to pass the same value for each subsequent API call during the user's session, using a new value for every new customer session.<br> Including this value greatly eases EPS's internal debugging process for issues with partner requests, as it explicitly links together request paths for individual user's session.  (optional)
      * @param test Shop calls have a test header that can be used to return set responses with the following keywords:<br> * `standard` * `service_unavailable` * `unknown_internal_error` * `no_availability` * `forbidden`  (optional)
-     * @param checkin Check-in date, in ISO 8601 format (YYYY-MM-DD)<br> Note: Only needed for hard change if desired check-in date is different than original booking. If specified must also specify `checkout`.  (optional)
-     * @param checkout Check-out date, in ISO 8601 format (YYYY-MM-DD). Availability can be searched up to 500 days in advance of this date. Total length of stay cannot exceed 28 nights.<br> Note: Only needed for hard change if desired check-out date is different than original booking. If specified must also specify `checkin`.<br>  (optional)
+     * @param checkin Check-in date, in ISO 8601 format (YYYY-MM-DD). This can be up to 365 days in the future. Some partner configurations may extend this up to 500 days.<br> Note: Only needed for hard change if desired check-in date is different than original booking. If specified must also specify `checkout`.  (optional)
+     * @param checkout Check-out date, in ISO 8601 format (YYYY-MM-DD). Total length of stay cannot exceed 28 nights.<br> Note: Only needed for hard change if desired check-out date is different than original booking. If specified must also specify `checkin`.<br>  (optional)
      * @param exclusion Single exclusion type. Send multiple instances of this parameter to request multiple exclusions.<br> Note: Optional parameter for use with hard change requests. <br> * `refundable_damage_deposit` - Excludes rates with refundable damage deposits from the response.  (optional)
      * @param filter Single filter type. Send multiple instances of this parameter to request multiple filters.<br> Note: Optional parameter for use with hard change requests.<br> * `refundable` - Filters results to only show fully refundable rates. * `expedia_collect` - Filters results to only show rates where payment is collected by Expedia at the time of booking. These properties can be eligible for payments via Expedia Affiliate Collect(EAC). * `property_collect` - Filters results to only show rates where payment is collected by the property after booking. This can include rates that require a deposit by the property, dependent upon the deposit policies. * `loyalty` - Filters results to only show rates that are eligible for loyalty points.  (optional)
      * @param include Modify the response by including types of responses that are not provided by default.<br> * `sale_scenario.mobile_promotion` - Enable the `mobile_promotion` flag under the `sale_scenario` section of the response.  (optional)
@@ -778,8 +778,8 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
     /**
      * Get property room rates and availability
      * Returns rates on available room types for specified properties (maximum of 250 properties per request).  The response includes rate details such as promos, whether the rate is refundable, cancellation penalties and a full price breakdown to meet the price display requirements for your market. _Note_: If there are no available rooms, the response will be an empty array. * Multiple rooms of the same type may be requested by including multiple instances of the `occupancy` parameter. * The `nightly` array includes each individual night's charges. When the total price includes fees, charges, or adjustments that are not divided by night, these amounts will be included in the `stay` rate array, which details charges applied to the entire stay (each check-in).
-     * @param checkin Check-in date, in ISO 8601 format (YYYY-MM-DD)
-     * @param checkout Check-out date, in ISO 8601 format (YYYY-MM-DD). Availability can be searched up to 500 days in advance of this date. Total length of stay cannot exceed 28 nights.
+     * @param checkin Check-in date, in ISO 8601 format (YYYY-MM-DD). This can be up to 365 days in the future. Some partner configurations may extend this up to 500 days.
+     * @param checkout Check-out date, in ISO 8601 format (YYYY-MM-DD). Total length of stay cannot exceed 28 nights.
      * @param currency Requested currency for the rates, in ISO 4217 format<br><br> Currency Options: [https://developers.expediagroup.com/docs/rapid/resources/reference/currency-options](https://developers.expediagroup.com/docs/rapid/resources/reference/currency-options)
      * @param countryCode The country code of the traveler's point of sale, in ISO 3166-1 alpha-2 format. This should represent the country where the shopping transaction is taking place.<br> For more information see: [https://www.iso.org/obp/ui/#search/code/](https://www.iso.org/obp/ui/#search/code/)
      * @param language Desired language for the response as a subset of BCP47 format that only uses hyphenated pairs of two-digit language and country codes. Use only ISO 639-1 alpha-2 language codes and ISO 3166-1 alpha-2 country codes. See [https://www.w3.org/International/articles/language-tags/](https://www.w3.org/International/articles/language-tags/)<br> Language Options: [https://developers.expediagroup.com/docs/rapid/resources/reference/language-options](https://developers.expediagroup.com/docs/rapid/resources/reference/language-options)
@@ -863,8 +863,8 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
     /**
      * Get property room rates and availability
      * Returns rates on available room types for specified properties (maximum of 250 properties per request).  The response includes rate details such as promos, whether the rate is refundable, cancellation penalties and a full price breakdown to meet the price display requirements for your market. _Note_: If there are no available rooms, the response will be an empty array. * Multiple rooms of the same type may be requested by including multiple instances of the `occupancy` parameter. * The `nightly` array includes each individual night's charges. When the total price includes fees, charges, or adjustments that are not divided by night, these amounts will be included in the `stay` rate array, which details charges applied to the entire stay (each check-in).
-     * @param checkin Check-in date, in ISO 8601 format (YYYY-MM-DD)
-     * @param checkout Check-out date, in ISO 8601 format (YYYY-MM-DD). Availability can be searched up to 500 days in advance of this date. Total length of stay cannot exceed 28 nights.
+     * @param checkin Check-in date, in ISO 8601 format (YYYY-MM-DD). This can be up to 365 days in the future. Some partner configurations may extend this up to 500 days.
+     * @param checkout Check-out date, in ISO 8601 format (YYYY-MM-DD). Total length of stay cannot exceed 28 nights.
      * @param currency Requested currency for the rates, in ISO 4217 format<br><br> Currency Options: [https://developers.expediagroup.com/docs/rapid/resources/reference/currency-options](https://developers.expediagroup.com/docs/rapid/resources/reference/currency-options)
      * @param countryCode The country code of the traveler's point of sale, in ISO 3166-1 alpha-2 format. This should represent the country where the shopping transaction is taking place.<br> For more information see: [https://www.iso.org/obp/ui/#search/code/](https://www.iso.org/obp/ui/#search/code/)
      * @param language Desired language for the response as a subset of BCP47 format that only uses hyphenated pairs of two-digit language and country codes. Use only ISO 639-1 alpha-2 language codes and ISO 3166-1 alpha-2 country codes. See [https://www.w3.org/International/articles/language-tags/](https://www.w3.org/International/articles/language-tags/)<br> Language Options: [https://developers.expediagroup.com/docs/rapid/resources/reference/language-options](https://developers.expediagroup.com/docs/rapid/resources/reference/language-options)
@@ -2281,7 +2281,7 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
 
     /**
      * Search for and retrieve Bookings with Affiliate Reference Id
-     * This can be called directly without a token when an affiliate reference id is provided. It returns details about bookings associated with an affiliate reference id, along with cancel links to cancel the bookings.  <i>Note: Newly created itineraries may sometimes have a small delay between the time of creation and the time that the itinerary can be retrieved. If you receive no results while trying to find an itinerary that was successfully created, please wait a few minutes before trying to search for the itinerary again.</i>
+     * This can be called directly without a token when an affiliate reference id is provided. It returns details about bookings associated with an affiliate reference id, along with cancel links to cancel the bookings.  <i>Note: Newly created itineraries may sometimes have a small delay between the time of creation and the time that the itinerary can be retrieved. If you receive no results while trying to search for an itinerary that was successfully created, or if you receive a response with two fields, namely, `itinerary_id` and `creation_date_time`, then please wait a few minutes before trying to search for the itinerary again.</i>
      * @param customerIp IP address of the customer, as captured by your integration.<br> Ensure your integration passes the customer's IP, not your own. This value helps determine their location and assign the correct payment gateway.<br> Also used for fraud recovery and other important analytics.
      * @param affiliateReferenceId The affilliate reference id value. This field supports a maximum of 28 characters.
      * @param email Email associated with the booking. Special characters in the local part or domain should be encoded.<br>
@@ -2308,7 +2308,7 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
 
     /**
      * Search for and retrieve Bookings with Affiliate Reference Id
-     * This can be called directly without a token when an affiliate reference id is provided. It returns details about bookings associated with an affiliate reference id, along with cancel links to cancel the bookings.  <i>Note: Newly created itineraries may sometimes have a small delay between the time of creation and the time that the itinerary can be retrieved. If you receive no results while trying to find an itinerary that was successfully created, please wait a few minutes before trying to search for the itinerary again.</i>
+     * This can be called directly without a token when an affiliate reference id is provided. It returns details about bookings associated with an affiliate reference id, along with cancel links to cancel the bookings.  <i>Note: Newly created itineraries may sometimes have a small delay between the time of creation and the time that the itinerary can be retrieved. If you receive no results while trying to search for an itinerary that was successfully created, or if you receive a response with two fields, namely, `itinerary_id` and `creation_date_time`, then please wait a few minutes before trying to search for the itinerary again.</i>
      * @param customerIp IP address of the customer, as captured by your integration.<br> Ensure your integration passes the customer's IP, not your own. This value helps determine their location and assign the correct payment gateway.<br> Also used for fraud recovery and other important analytics.
      * @param affiliateReferenceId The affilliate reference id value. This field supports a maximum of 28 characters.
      * @param email Email associated with the booking. Special characters in the local part or domain should be encoded.<br>
@@ -2378,7 +2378,7 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
 
     /**
      * Retrieve Booking
-     * This API call returns itinerary details and links to resume or cancel the booking. There are two methods to retrieve a booking: * Using the link included in the original Book response, example: https://api.ean.com/v3/itineraries/8955599932111?token=QldfCGlcUA4GXVlSAQ4W * Using the email of the booking. If the email contains special characters, they must be encoded to successfully retrieve the booking. Example: https://api.ean.com/v3/itineraries/8955599932111?email=customer@email.com  <i>Note: Newly created itineraries may sometimes have a small delay between the time of creation and the time that the itinerary can be retrieved. If you receive an error when trying to retrieve an itinerary that was successfully created, please wait a few minutes before trying to retrieve the itinerary again.</i>
+     * This API call returns itinerary details and links to resume or cancel the booking. There are two methods to retrieve a booking: * Using the link included in the original Book response, example: https://api.ean.com/v3/itineraries/8955599932111?token=QldfCGlcUA4GXVlSAQ4W * Using the email of the booking. If the email contains special characters, they must be encoded to successfully retrieve the booking. Example: https://api.ean.com/v3/itineraries/8955599932111?email=customer@email.com  <i>Note: Newly created itineraries may sometimes have a small delay between the time of creation and the time that the itinerary can be retrieved. If you receive an error when trying to retrieve an itinerary that was successfully created, or if you receive a response with two fields, namely, `itinerary_id` and `creation_date_time`, then please wait a few minutes before trying to retrieve the itinerary again.</i>
      * @param customerIp IP address of the customer, as captured by your integration.<br> Ensure your integration passes the customer's IP, not your own. This value helps determine their location and assign the correct payment gateway.<br> Also used for fraud recovery and other important analytics.
      * @param itineraryId This parameter is used only to prefix the token value - no ID value is used.<br>
      * @param customerSessionId Insert your own unique value for each user session, beginning with the first API call. Continue to pass the same value for each subsequent API call during the user's session, using a new value for every new customer session.<br> Including this value greatly eases EPS's internal debugging process for issues with partner requests, as it explicitly links together request paths for individual user's session.  (optional)
@@ -2407,7 +2407,7 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
 
     /**
      * Retrieve Booking
-     * This API call returns itinerary details and links to resume or cancel the booking. There are two methods to retrieve a booking: * Using the link included in the original Book response, example: https://api.ean.com/v3/itineraries/8955599932111?token=QldfCGlcUA4GXVlSAQ4W * Using the email of the booking. If the email contains special characters, they must be encoded to successfully retrieve the booking. Example: https://api.ean.com/v3/itineraries/8955599932111?email=customer@email.com  <i>Note: Newly created itineraries may sometimes have a small delay between the time of creation and the time that the itinerary can be retrieved. If you receive an error when trying to retrieve an itinerary that was successfully created, please wait a few minutes before trying to retrieve the itinerary again.</i>
+     * This API call returns itinerary details and links to resume or cancel the booking. There are two methods to retrieve a booking: * Using the link included in the original Book response, example: https://api.ean.com/v3/itineraries/8955599932111?token=QldfCGlcUA4GXVlSAQ4W * Using the email of the booking. If the email contains special characters, they must be encoded to successfully retrieve the booking. Example: https://api.ean.com/v3/itineraries/8955599932111?email=customer@email.com  <i>Note: Newly created itineraries may sometimes have a small delay between the time of creation and the time that the itinerary can be retrieved. If you receive an error when trying to retrieve an itinerary that was successfully created, or if you receive a response with two fields, namely, `itinerary_id` and `creation_date_time`, then please wait a few minutes before trying to retrieve the itinerary again.</i>
      * @param customerIp IP address of the customer, as captured by your integration.<br> Ensure your integration passes the customer's IP, not your own. This value helps determine their location and assign the correct payment gateway.<br> Also used for fraud recovery and other important analytics.
      * @param itineraryId This parameter is used only to prefix the token value - no ID value is used.<br>
      * @param customerSessionId Insert your own unique value for each user session, beginning with the first API call. Continue to pass the same value for each subsequent API call during the user's session, using a new value for every new customer session.<br> Including this value greatly eases EPS's internal debugging process for issues with partner requests, as it explicitly links together request paths for individual user's session.  (optional)
@@ -3184,34 +3184,6 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
     }
 
     @JvmOverloads
-    fun getInactivePropertiesPaginator(
-        customerSessionId: kotlin.String? = null,
-        since: kotlin.String? = null,
-        token: kotlin.String? = null,
-        billingTerms: kotlin.String? = null,
-        paymentTerms: kotlin.String? = null,
-        partnerPointOfSale: kotlin.String? = null,
-        platformName: kotlin.String? = null
-    ): Paginator<kotlin.collections.List<PropertyInactive>> {
-        val response = getInactivePropertiesWithResponse(customerSessionId, since, token, billingTerms, paymentTerms, partnerPointOfSale, platformName)
-        return Paginator(this, response, emptyList()) { it.body<kotlin.collections.List<PropertyInactive>>() }
-    }
-
-    @JvmOverloads
-    fun getInactivePropertiesPaginatorWithResponse(
-        customerSessionId: kotlin.String? = null,
-        since: kotlin.String? = null,
-        token: kotlin.String? = null,
-        billingTerms: kotlin.String? = null,
-        paymentTerms: kotlin.String? = null,
-        partnerPointOfSale: kotlin.String? = null,
-        platformName: kotlin.String? = null
-    ): ResponsePaginator<kotlin.collections.List<PropertyInactive>> {
-        val response = getInactivePropertiesWithResponse(customerSessionId, since, token, billingTerms, paymentTerms, partnerPointOfSale, platformName)
-        return ResponsePaginator(this, response, emptyList()) { it.body<kotlin.collections.List<PropertyInactive>>() }
-    }
-
-    @JvmOverloads
     fun getPropertyContentPaginator(
         language: kotlin.String,
         supplySource: kotlin.String,
@@ -3331,83 +3303,5 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
                 platformName
             )
         return ResponsePaginator(this, response, emptyMap()) { it.body<kotlin.collections.Map<kotlin.String, PropertyContent>>() }
-    }
-
-    @JvmOverloads
-    fun getRegionsPaginator(
-        include: kotlin.collections.List<kotlin.String>,
-        language: kotlin.String,
-        customerSessionId: kotlin.String? = null,
-        ancestorId: kotlin.String? = null,
-        area: kotlin.String? = null,
-        countryCode: kotlin.collections.List<kotlin.String>? = null,
-        countrySubdivisionCode: kotlin.collections.List<kotlin.String>? = null,
-        iataLocationCode: kotlin.String? = null,
-        limit: java.math.BigDecimal? = null,
-        supplySource: kotlin.String? = null,
-        type: kotlin.collections.List<kotlin.String>? = null,
-        billingTerms: kotlin.String? = null,
-        partnerPointOfSale: kotlin.String? = null,
-        paymentTerms: kotlin.String? = null,
-        platformName: kotlin.String? = null
-    ): Paginator<kotlin.collections.List<Region>> {
-        val response =
-            getRegionsWithResponse(
-                include,
-                language,
-                customerSessionId,
-                ancestorId,
-                area,
-                countryCode,
-                countrySubdivisionCode,
-                iataLocationCode,
-                limit,
-                supplySource,
-                type,
-                billingTerms,
-                partnerPointOfSale,
-                paymentTerms,
-                platformName
-            )
-        return Paginator(this, response, emptyList()) { it.body<kotlin.collections.List<Region>>() }
-    }
-
-    @JvmOverloads
-    fun getRegionsPaginatorWithResponse(
-        include: kotlin.collections.List<kotlin.String>,
-        language: kotlin.String,
-        customerSessionId: kotlin.String? = null,
-        ancestorId: kotlin.String? = null,
-        area: kotlin.String? = null,
-        countryCode: kotlin.collections.List<kotlin.String>? = null,
-        countrySubdivisionCode: kotlin.collections.List<kotlin.String>? = null,
-        iataLocationCode: kotlin.String? = null,
-        limit: java.math.BigDecimal? = null,
-        supplySource: kotlin.String? = null,
-        type: kotlin.collections.List<kotlin.String>? = null,
-        billingTerms: kotlin.String? = null,
-        partnerPointOfSale: kotlin.String? = null,
-        paymentTerms: kotlin.String? = null,
-        platformName: kotlin.String? = null
-    ): ResponsePaginator<kotlin.collections.List<Region>> {
-        val response =
-            getRegionsWithResponse(
-                include,
-                language,
-                customerSessionId,
-                ancestorId,
-                area,
-                countryCode,
-                countrySubdivisionCode,
-                iataLocationCode,
-                limit,
-                supplySource,
-                type,
-                billingTerms,
-                partnerPointOfSale,
-                paymentTerms,
-                platformName
-            )
-        return ResponsePaginator(this, response, emptyList()) { it.body<kotlin.collections.List<Region>>() }
     }
 }

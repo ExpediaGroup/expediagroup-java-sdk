@@ -15,9 +15,9 @@ JVM
 | contactMessage | The trader contact message. |
 | name | The trader name. |
 | address |
-| businessRegisterName | Name of the register where the trader is registered, and is related to the `business_register_number`<br><i><b>NOTE:</b> See our [Digital Services Act](https://developers.expediagroup.com/docs/rapid/resources/reference/digital-services-act) information on Developer Hub.</i> |
-| businessRegisterNumber | Business registration number<br><i><b>NOTE:</b> See our [Digital Services Act](https://developers.expediagroup.com/docs/rapid/resources/reference/digital-services-act) information on Developer Hub.</i> |
-| selfCertification | Certification that the trader has confirmed their commitment to only offer products or services that comply with the applicable rules of Union law.<br><i><b>NOTE:</b> See our [Digital Services Act](https://developers.expediagroup.com/docs/rapid/resources/reference/digital-services-act) information on Developer Hub.</i> |
+| businessRegisterName | Name of the register where the trader is registered, and is related to the `business_register_number` |
+| businessRegisterNumber | Business registration number |
+| selfCertification | Certification that the trader has confirmed their commitment to only offer products or services that comply with the applicable rules of Union law. |
 | rightToWithdrawMessage | The trader right to withdraw message. |
 | email | The trader email address. |
 | phone | The trader phone number. |

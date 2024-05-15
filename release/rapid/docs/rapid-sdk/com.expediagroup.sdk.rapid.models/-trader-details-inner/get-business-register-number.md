@@ -12,4 +12,4 @@ JVM
 
 | | |
 |---|---|
-| businessRegisterNumber | Business registration number<br><i><b>NOTE:</b> See our [Digital Services Act](https://developers.expediagroup.com/docs/rapid/resources/reference/digital-services-act) information on Developer Hub.</i> |
+| businessRegisterNumber | Business registration number |
