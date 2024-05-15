@@ -5279,22 +5279,23 @@ paths:
               - unknown_internal_error
         - name: checkin
           in: query
-          description: |
-            Check-in date, in ISO 8601 format (YYYY-MM-DD)
+          description: >
+            Check-in date, in ISO 8601 format (YYYY-MM-DD). This can be up to
+            365 days in the future. Some partner configurations may extend this
+            up to 500 days.
           required: true
           schema:
             type: string
-          example: 2024-07-10
+          example: 2024-08-01
         - name: checkout
           in: query
           description: >
-            Check-out date, in ISO 8601 format (YYYY-MM-DD). Availability can be
-            searched up to 500 days in advance of this date. Total length of
+            Check-out date, in ISO 8601 format (YYYY-MM-DD). Total length of
             stay cannot exceed 28 nights.
           required: true
           schema:
             type: string
-          example: 2024-07-12
+          example: 2024-08-03
         - name: currency
           in: query
           description: >
@@ -6455,28 +6456,28 @@ paths:
         - name: checkin
           in: query
           description: >
-            Check-in date, in ISO 8601 format (YYYY-MM-DD)<br>
+            Check-in date, in ISO 8601 format (YYYY-MM-DD). This can be up to
+            365 days in the future. Some partner configurations may extend this
+            up to 500 days.<br>
 
             Note: Only needed for hard change if desired check-in date is different than original booking.
 
             If specified must also specify `checkout`.
           schema:
             type: string
-          example: 2024-07-10
+          example: 2024-08-01
         - name: checkout
           in: query
           description: >
-            Check-out date, in ISO 8601 format (YYYY-MM-DD). Availability can be
-            searched up to 500 days
-
-            in advance of this date. Total length of stay cannot exceed 28 nights.<br>
+            Check-out date, in ISO 8601 format (YYYY-MM-DD). Total length of
+            stay cannot exceed 28 nights.<br>
 
             Note: Only needed for hard change if desired check-out date is different than original booking.
 
             If specified must also specify `checkin`.<br>
           schema:
             type: string
-          example: 2024-07-12
+          example: 2024-08-03
         - name: exclusion
           in: query
           description: >
@@ -8681,7 +8682,7 @@ paths:
         affiliate reference id, along with cancel links to cancel the bookings.
 
 
-        <i>Note: Newly created itineraries may sometimes have a small delay between the time of creation and the time that the itinerary can be retrieved. If you receive no results while trying to find an itinerary that was successfully created, please wait a few minutes before trying to search for the itinerary again.</i>
+        <i>Note: Newly created itineraries may sometimes have a small delay between the time of creation and the time that the itinerary can be retrieved. If you receive no results while trying to search for an itinerary that was successfully created, or if you receive a response with two fields, namely, `itinerary_id` and `creation_date_time`, then please wait a few minutes before trying to search for the itinerary again.</i>
       operationId: getReservation
       parameters:
         - name: Customer-Ip
@@ -9950,7 +9951,7 @@ paths:
         * Using the email of the booking. If the email contains special characters, they must be encoded to successfully retrieve the booking. Example: https://api.ean.com/v3/itineraries/8955599932111?email=customer@email.com
 
 
-        <i>Note: Newly created itineraries may sometimes have a small delay between the time of creation and the time that the itinerary can be retrieved. If you receive an error when trying to retrieve an itinerary that was successfully created, please wait a few minutes before trying to retrieve the itinerary again.</i>
+        <i>Note: Newly created itineraries may sometimes have a small delay between the time of creation and the time that the itinerary can be retrieved. If you receive an error when trying to retrieve an itinerary that was successfully created, or if you receive a response with two fields, namely, `itinerary_id` and `creation_date_time`, then please wait a few minutes before trying to retrieve the itinerary again.</i>
       operationId: getReservationByItineraryId
       parameters:
         - name: Customer-Ip
@@ -17025,20 +17026,12 @@ components:
             type: string
             description: >
               Name of the register where the trader is registered, and is
-              related to the `business_register_number`<br>
-
-              <i><b>NOTE:</b> See our [Digital Services Act](https://developers.expediagroup.com/docs/rapid/resources/reference/digital-services-act)
-
-              information on Developer Hub.</i>
+              related to the `business_register_number`
             example: A real business register name
           business_register_number:
             type: string
-            description: >
-              Business registration number<br>
-
-              <i><b>NOTE:</b> See our [Digital Services Act](https://developers.expediagroup.com/docs/rapid/resources/reference/digital-services-act)
-
-              information on Developer Hub.</i>
+            description: |
+              Business registration number
             example: 792837491b
           self_certification:
             type: boolean
@@ -17046,11 +17039,7 @@ components:
               Certification that the trader has confirmed their commitment to
               only offer products or services that
 
-              comply with the applicable rules of Union law.<br>
-
-              <i><b>NOTE:</b> See our [Digital Services Act](https://developers.expediagroup.com/docs/rapid/resources/reference/digital-services-act)
-
-              information on Developer Hub.</i>
+              comply with the applicable rules of Union law.
             example: true
           contact_message:
             $ref: "#/components/schemas/TraderContactMessage"

@@ -12,4 +12,4 @@ JVM
 
 | | |
 |---|---|
-| selfCertification | Certification that the trader has confirmed their commitment to only offer products or services that comply with the applicable rules of Union law.<br><i><b>NOTE:</b> See our [Digital Services Act](https://developers.expediagroup.com/docs/rapid/resources/reference/digital-services-act) information on Developer Hub.</i> |
+| selfCertification | Certification that the trader has confirmed their commitment to only offer products or services that comply with the applicable rules of Union law. |
