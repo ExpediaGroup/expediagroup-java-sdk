@@ -15,13 +15,16 @@
  */
 package com.expediagroup.sdk.core.model
 
-abstract class Operation<T>(
-    val url: String,
-    val method: String,
-    val operationId: String,
-    val requestBody: T?,
-    val params: OperationParams
-) {
-    var transactionId: TransactionId = TransactionId()
-        private set
+import java.util.UUID
+
+class TransactionId {
+    private var transactionId: UUID = UUID.randomUUID()
+
+    fun peek(): UUID {
+        return transactionId
+    }
+
+    fun dequeue(): UUID {
+        return transactionId.also { transactionId = UUID.randomUUID() }
+    }
 }
