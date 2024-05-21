@@ -46,7 +46,7 @@ class {{#lambda.titlecase}}{{namespace}}{{/lambda.titlecase}}Client private cons
                         url.parameters.appendAll(key, value)
                     }
 
-                    appendHeaders()
+                    appendHeaders(operation.transactionId)
                     validateConstraints(operation.requestBody)
                     contentType(ContentType.Application.Json)
                     setBody(operation.requestBody)
