@@ -5291,7 +5291,8 @@ paths:
           in: query
           description: >
             Check-out date, in ISO 8601 format (YYYY-MM-DD). Total length of
-            stay cannot exceed 28 nights.
+            stay cannot exceed 28 nights or 365 nights depending on Vacation
+            Rental configurations.
           required: true
           schema:
             type: string
@@ -6232,6 +6233,17 @@ paths:
                       - name: checkin
                         type: querystring
                         value: 2019-01-1
+                  - type: checkout.invalid_length_of_stay_too_long_vrbo
+                    message: >
+                      Invalid date range. Checkin and checkout dates cannot
+                      differ by more than 365 days.
+                    fields:
+                      - name: checkin
+                        type: querystring
+                        value: 2024-09-21
+                      - name: checkout
+                        type: querystring
+                        value: 2025-10-21
                   - type: number_of_occupancies.invalid_above_maximum
                     message: Number of occupancies must be less than 9.
                     fields:
@@ -6470,7 +6482,8 @@ paths:
           in: query
           description: >
             Check-out date, in ISO 8601 format (YYYY-MM-DD). Total length of
-            stay cannot exceed 28 nights.<br>
+            stay cannot exceed 28 nights or 365 nights depending on Vacation
+            Rental configurations.<br>
 
             Note: Only needed for hard change if desired check-out date is different than original booking.
 
@@ -7007,6 +7020,17 @@ paths:
                       - name: checkin
                         type: querystring
                         value: 2019-01-1
+                  - type: checkout.invalid_length_of_stay_too_long_vrbo
+                    message: >
+                      Invalid date range. Checkin and checkout dates cannot
+                      differ by more than 365 days.
+                    fields:
+                      - name: checkin
+                        type: querystring
+                        value: 2024-09-21
+                      - name: checkout
+                        type: querystring
+                        value: 2025-10-21
                   - type: number_of_occupancies.invalid_above_maximum
                     message: Number of occupancies must be less than 9.
                     fields:
