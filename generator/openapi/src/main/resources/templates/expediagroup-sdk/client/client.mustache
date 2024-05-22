@@ -113,7 +113,7 @@ class {{#lambda.titlecase}}{{namespace}}{{/lambda.titlecase}}Client private cons
             */
             @Throws({{#throwsExceptionsClasses}}{{/throwsExceptionsClasses}})
             @JvmOverloads
-            @Deprecated("")
+            @Deprecated("Use execute method instead", ReplaceWith("execute(operation: {{operationIdCamelCase}}Operation)"))
             fun {{operationId}}({{>client/apiParamsDecleration}}) : {{{returnType}}}{{^returnType}}Nothing{{/returnType}} {
                 return {{operationId}}WithResponse({{>client/apiParamsPassed}}).body
             }
@@ -129,7 +129,7 @@ class {{#lambda.titlecase}}{{namespace}}{{/lambda.titlecase}}Client private cons
             */
             @Throws({{#throwsExceptionsClasses}}{{/throwsExceptionsClasses}})
             @JvmOverloads
-            @Deprecated("")
+            @Deprecated("Use execute method instead", ReplaceWith("execute(operation: {{operationIdCamelCase}}Operation)"))
             fun {{operationId}}WithResponse({{>client/apiParamsDecleration}}) : {{#returnType}}Response<{{{returnType}}}>{{/returnType}}{{^returnType}}Response<Nothing>{{/returnType}} {
                 try {
                     return GlobalScope.future(Dispatchers.IO) {
