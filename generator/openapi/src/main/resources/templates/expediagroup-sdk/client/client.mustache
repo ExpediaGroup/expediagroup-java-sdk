@@ -101,6 +101,8 @@ class {{#lambda.titlecase}}{{namespace}}{{/lambda.titlecase}}Client private cons
             return execute(operation)
         }
 
+        {{#paginator}}{{/paginator}}
+
         {{^isKotlin}}
             /**
             * {{{summary}}}
