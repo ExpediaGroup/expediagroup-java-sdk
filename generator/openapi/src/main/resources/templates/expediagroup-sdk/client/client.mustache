@@ -117,7 +117,7 @@ class {{#lambda.titlecase}}{{namespace}}{{/lambda.titlecase}}Client private cons
             @JvmOverloads
             @Deprecated("Use execute method instead", ReplaceWith("execute(operation: {{operationIdCamelCase}}Operation)"))
             fun {{operationId}}({{>client/apiParamsDecleration}}) : {{{returnType}}}{{^returnType}}Nothing{{/returnType}} {
-                return {{operationId}}WithResponse({{>client/apiParamsPassed}}).body
+                return {{operationId}}WithResponse({{>client/apiParamsPassed}}).data
             }
 
             /**
