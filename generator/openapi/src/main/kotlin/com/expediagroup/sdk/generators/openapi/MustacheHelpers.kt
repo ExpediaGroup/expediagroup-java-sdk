@@ -16,12 +16,10 @@
 package com.expediagroup.sdk.generators.openapi
 
 import com.samskivert.mustache.Mustache
-import com.samskivert.mustache.Template
 import org.openapitools.codegen.CodegenModel
 import org.openapitools.codegen.CodegenOperation
 import org.openapitools.codegen.CodegenProperty
 import org.openapitools.codegen.model.ApiInfoMap
-import java.io.Writer
 
 val fallbackBody = fun(dataType: String): String {
     return if (dataType.startsWith("kotlin.collections.List")) {
