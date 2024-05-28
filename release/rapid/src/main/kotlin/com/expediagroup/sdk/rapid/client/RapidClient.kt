@@ -484,7 +484,7 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
         occupancy: kotlin.collections.List<kotlin.String>? = null,
         rateOption: kotlin.collections.List<kotlin.String>? = null,
         salesChannel: kotlin.String? = null,
-        salesEnvironment: kotlin.String? = null
+        currency: kotlin.String? = null
     ): kotlin.collections.List<PropertyAvailability> {
         return kgetAdditionalAvailabilityWithResponse(
             propertyId,
@@ -500,7 +500,7 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
             occupancy,
             rateOption,
             salesChannel,
-            salesEnvironment
+            currency
         ).body
     }
 
@@ -518,7 +518,7 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
         occupancy: kotlin.collections.List<kotlin.String>? = null,
         rateOption: kotlin.collections.List<kotlin.String>? = null,
         salesChannel: kotlin.String? = null,
-        salesEnvironment: kotlin.String? = null
+        currency: kotlin.String? = null
     ): Response<kotlin.collections.List<PropertyAvailability>> {
         val response =
             httpClient.request {
@@ -537,7 +537,7 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
                 occupancy?.also { url.parameters.appendAll("occupancy", it) }
                 rateOption?.also { url.parameters.appendAll("rate_option", it) }
                 salesChannel?.also { url.parameters.append("sales_channel", it.toString()) }
-                salesEnvironment?.also { url.parameters.append("sales_environment", it.toString()) }
+                currency?.also { url.parameters.append("currency", it.toString()) }
             }
         throwIfError(response, "getAdditionalAvailability")
         return Response(response.status.value, response.body<kotlin.collections.List<PropertyAvailability>>(), response.headers.entries())
@@ -554,12 +554,12 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
      * @param checkin Check-in date, in ISO 8601 format (YYYY-MM-DD). This can be up to 365 days in the future. Some partner configurations may extend this up to 500 days.<br> Note: Only needed for hard change if desired check-in date is different than original booking. If specified must also specify `checkout`.  (optional)
      * @param checkout Check-out date, in ISO 8601 format (YYYY-MM-DD). Total length of stay cannot exceed 28 nights or 365 nights depending on Vacation Rental configurations.<br> Note: Only needed for hard change if desired check-out date is different than original booking. If specified must also specify `checkin`.<br>  (optional)
      * @param exclusion Single exclusion type. Send multiple instances of this parameter to request multiple exclusions.<br> Note: Optional parameter for use with hard change requests. <br> * `refundable_damage_deposit` - Excludes rates with refundable damage deposits from the response.  (optional)
-     * @param filter Single filter type. Send multiple instances of this parameter to request multiple filters.<br> Note: Optional parameter for use with hard change requests.<br> * `refundable` - Filters results to only show fully refundable rates. * `expedia_collect` - Filters results to only show rates where payment is collected by Expedia at the time of booking. These properties can be eligible for payments via Expedia Affiliate Collect(EAC). * `property_collect` - Filters results to only show rates where payment is collected by the property after booking. This can include rates that require a deposit by the property, dependent upon the deposit policies. * `loyalty` - Filters results to only show rates that are eligible for loyalty points.  (optional)
+     * @param filter Single filter type. Send multiple instances of this parameter to request multiple filters.<br> Note: Optional parameter for use with hard change requests.<br> This parameter cannot be set to `property_collect` if the existing booking is `expedia_collect` and vice versa.<br> * `refundable` - Filters results to only show fully refundable rates. * `expedia_collect` - Filters results to only show rates where payment is collected by Expedia at the time of booking. These properties can be eligible for payments via Expedia Affiliate Collect(EAC). * `property_collect` - Filters results to only show rates where payment is collected by the property after booking. This can include rates that require a deposit by the property, dependent upon the deposit policies. * `loyalty` - Filters results to only show rates that are eligible for loyalty points.  (optional)
      * @param include Modify the response by including types of responses that are not provided by default.<br> * `sale_scenario.mobile_promotion` - Enable the `mobile_promotion` flag under the `sale_scenario` section of the response.  (optional)
      * @param occupancy Defines the requested occupancy for a single room. Each room must have at least 1 adult occupant.<br> Format: `numberOfAdults[-firstChildAge[,nextChildAge]]`<br> To request multiple rooms (of the same type), include one instance of occupancy for each room requested. Up to 8 rooms may be requested or booked at once.<br> Note: Only needed for hard change if desired occupancy is different than original booking.<br> Examples: * 2 adults, one 9-year-old and one 4-year-old would be represented by `occupancy=2-9,4`.<br> * A multi-room request to lodge an additional 2 adults would be represented by `occupancy=2-9,4&occupancy=2`  (optional)
      * @param rateOption Request specific rate options for each property. Send multiple instances of this parameter to request multiple rate options. Note: Optional parameter for use with hard change requests.<br> Accepted values:<br> * `member` - Return member rates for each property. This feature must be enabled and requires a user to be logged in to request these rates. * `net_rates` - Return net rates for each property. This feature must be enabled to request these rates. * `cross_sell` - Identify if the traffic is coming from a cross sell booking. Where the traveler has booked another service (flight, car, activities...) before hotel.  (optional)
      * @param salesChannel Provide the sales channel if you wish to override the sales_channel provided in the previous call. EPS dynamically provides the best content for optimal conversion on each sales channel.<br> Note: Must specify this value for hard change requests.<br> * `website` - Standard website accessed from the customer's computer * `agent_tool` - Your own agent tool used by your call center or retail store agent * `mobile_app` - An application installed on a phone or tablet device * `mobile_web` - A web browser application on a phone or tablet device * `meta` - Rates will be passed to and displayed on a 3rd party comparison website * `cache` - Rates will be used to populate a local cache  (optional)
-     * @param salesEnvironment Provide the sales environment if you wish to override the sales_environment provided in the previous call. EPS dynamically provides the best content for optimal conversion. If you have a sales environment that is not currently supported in this list, please contact our support team.<br> Note: Must specify this value for hard change requests.<br> * `hotel_package` - Standard website accessed from the customer's computer * `hotel_only` - Your own agent tool used by your call center or retail store agent * `loyalty` - An application installed on a phone or tablet device  (optional)
+     * @param currency Determines the returned currency type throughout the response <br> Note: This parameter is only valid for hard change requests and is ignored in all other cases  (optional)
      * @throws ExpediaGroupApiErrorException
      * @return kotlin.collections.List<PropertyAvailability>
      */
@@ -581,7 +581,7 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
         occupancy: kotlin.collections.List<kotlin.String>? = null,
         rateOption: kotlin.collections.List<kotlin.String>? = null,
         salesChannel: kotlin.String? = null,
-        salesEnvironment: kotlin.String? = null
+        currency: kotlin.String? = null
     ): kotlin.collections.List<PropertyAvailability> {
         return getAdditionalAvailabilityWithResponse(
             propertyId,
@@ -597,7 +597,7 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
             occupancy,
             rateOption,
             salesChannel,
-            salesEnvironment
+            currency
         ).body
     }
 
@@ -612,12 +612,12 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
      * @param checkin Check-in date, in ISO 8601 format (YYYY-MM-DD). This can be up to 365 days in the future. Some partner configurations may extend this up to 500 days.<br> Note: Only needed for hard change if desired check-in date is different than original booking. If specified must also specify `checkout`.  (optional)
      * @param checkout Check-out date, in ISO 8601 format (YYYY-MM-DD). Total length of stay cannot exceed 28 nights or 365 nights depending on Vacation Rental configurations.<br> Note: Only needed for hard change if desired check-out date is different than original booking. If specified must also specify `checkin`.<br>  (optional)
      * @param exclusion Single exclusion type. Send multiple instances of this parameter to request multiple exclusions.<br> Note: Optional parameter for use with hard change requests. <br> * `refundable_damage_deposit` - Excludes rates with refundable damage deposits from the response.  (optional)
-     * @param filter Single filter type. Send multiple instances of this parameter to request multiple filters.<br> Note: Optional parameter for use with hard change requests.<br> * `refundable` - Filters results to only show fully refundable rates. * `expedia_collect` - Filters results to only show rates where payment is collected by Expedia at the time of booking. These properties can be eligible for payments via Expedia Affiliate Collect(EAC). * `property_collect` - Filters results to only show rates where payment is collected by the property after booking. This can include rates that require a deposit by the property, dependent upon the deposit policies. * `loyalty` - Filters results to only show rates that are eligible for loyalty points.  (optional)
+     * @param filter Single filter type. Send multiple instances of this parameter to request multiple filters.<br> Note: Optional parameter for use with hard change requests.<br> This parameter cannot be set to `property_collect` if the existing booking is `expedia_collect` and vice versa.<br> * `refundable` - Filters results to only show fully refundable rates. * `expedia_collect` - Filters results to only show rates where payment is collected by Expedia at the time of booking. These properties can be eligible for payments via Expedia Affiliate Collect(EAC). * `property_collect` - Filters results to only show rates where payment is collected by the property after booking. This can include rates that require a deposit by the property, dependent upon the deposit policies. * `loyalty` - Filters results to only show rates that are eligible for loyalty points.  (optional)
      * @param include Modify the response by including types of responses that are not provided by default.<br> * `sale_scenario.mobile_promotion` - Enable the `mobile_promotion` flag under the `sale_scenario` section of the response.  (optional)
      * @param occupancy Defines the requested occupancy for a single room. Each room must have at least 1 adult occupant.<br> Format: `numberOfAdults[-firstChildAge[,nextChildAge]]`<br> To request multiple rooms (of the same type), include one instance of occupancy for each room requested. Up to 8 rooms may be requested or booked at once.<br> Note: Only needed for hard change if desired occupancy is different than original booking.<br> Examples: * 2 adults, one 9-year-old and one 4-year-old would be represented by `occupancy=2-9,4`.<br> * A multi-room request to lodge an additional 2 adults would be represented by `occupancy=2-9,4&occupancy=2`  (optional)
      * @param rateOption Request specific rate options for each property. Send multiple instances of this parameter to request multiple rate options. Note: Optional parameter for use with hard change requests.<br> Accepted values:<br> * `member` - Return member rates for each property. This feature must be enabled and requires a user to be logged in to request these rates. * `net_rates` - Return net rates for each property. This feature must be enabled to request these rates. * `cross_sell` - Identify if the traffic is coming from a cross sell booking. Where the traveler has booked another service (flight, car, activities...) before hotel.  (optional)
      * @param salesChannel Provide the sales channel if you wish to override the sales_channel provided in the previous call. EPS dynamically provides the best content for optimal conversion on each sales channel.<br> Note: Must specify this value for hard change requests.<br> * `website` - Standard website accessed from the customer's computer * `agent_tool` - Your own agent tool used by your call center or retail store agent * `mobile_app` - An application installed on a phone or tablet device * `mobile_web` - A web browser application on a phone or tablet device * `meta` - Rates will be passed to and displayed on a 3rd party comparison website * `cache` - Rates will be used to populate a local cache  (optional)
-     * @param salesEnvironment Provide the sales environment if you wish to override the sales_environment provided in the previous call. EPS dynamically provides the best content for optimal conversion. If you have a sales environment that is not currently supported in this list, please contact our support team.<br> Note: Must specify this value for hard change requests.<br> * `hotel_package` - Standard website accessed from the customer's computer * `hotel_only` - Your own agent tool used by your call center or retail store agent * `loyalty` - An application installed on a phone or tablet device  (optional)
+     * @param currency Determines the returned currency type throughout the response <br> Note: This parameter is only valid for hard change requests and is ignored in all other cases  (optional)
      * @throws ExpediaGroupApiErrorException
      * @return a [Response] object with a body of type kotlin.collections.List<PropertyAvailability>
      */
@@ -639,7 +639,7 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
         occupancy: kotlin.collections.List<kotlin.String>? = null,
         rateOption: kotlin.collections.List<kotlin.String>? = null,
         salesChannel: kotlin.String? = null,
-        salesEnvironment: kotlin.String? = null
+        currency: kotlin.String? = null
     ): Response<kotlin.collections.List<PropertyAvailability>> {
         try {
             return GlobalScope.future(Dispatchers.IO) {
@@ -657,7 +657,7 @@ class RapidClient private constructor(clientConfiguration: RapidClientConfigurat
                     occupancy,
                     rateOption,
                     salesChannel,
-                    salesEnvironment
+                    currency
                 )
             }.get()
         } catch (exception: Exception) {
