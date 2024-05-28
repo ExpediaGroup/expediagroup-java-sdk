@@ -128,7 +128,7 @@ class OpenApiSdkGenerator {
                     listOf(
                         template,
                         SupportingFile(
-                            "api_client.mustache",
+                            "client.mustache",
                             "$packagePath/client/",
                             "${namespace}Client.kt"
                         ),

@@ -1,3 +1,10 @@
+{{>licenseInfo}}
+package com.expediagroup.sdk.{{namespace}}.client
+
+import kotlinx.coroutines.runBlocking
+import java.util.stream.Collectors
+import kotlin.collections.Map.Entry
+
 {{#imports}}
     import {{import}}
 {{/imports}}
@@ -39,7 +46,7 @@ class {{#lambda.titlecase}}{{namespace}}{{/lambda.titlecase}}Client private cons
                     url(operation.url)
 
                     operation.params.getHeaders()?.forEach { (key, value) ->
-                       headers.append(key, value)
+                        headers.append(key, value)
                     }
 
                     operation.params.getQueryParams()?.forEach { (key, value) ->
@@ -51,6 +58,7 @@ class {{#lambda.titlecase}}{{namespace}}{{/lambda.titlecase}}Client private cons
                     contentType(ContentType.Application.Json)
                     setBody(operation.requestBody)
                 }
+
                 throwIfError(response, operation.operationId)
                 Response(response.status.value, response.body<ResponseType>(), response.headers.entries())
             }.get()
@@ -142,7 +150,7 @@ class {{#lambda.titlecase}}{{namespace}}{{/lambda.titlecase}}Client private cons
                 }
             }
         {{/isKotlin}}
-    {{/operation}}
-    {{>client/paginatorMethods}}
+        {{/operation}}
+        {{>client/paginatorMethods}}
     {{/operations}}{{/apis}}{{/apiInfo}}
 }
