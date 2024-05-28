@@ -38,7 +38,6 @@ class OpenApiSdkGenerator {
     private val supportingFiles = mutableListOf(
         "pom.xml",
         "README.md",
-        "Client.kt",
         "ApiException.kt",
         "PropertyConstraintViolation.kt",
         "PropertyConstraintsValidator.kt",
@@ -128,7 +127,7 @@ class OpenApiSdkGenerator {
                     listOf(
                         template,
                         SupportingFile(
-                            "api_client.mustache",
+                            "client.mustache",
                             "$packagePath/client/",
                             "${namespace}Client.kt"
                         ),
