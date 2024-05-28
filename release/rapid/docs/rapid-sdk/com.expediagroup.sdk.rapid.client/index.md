@@ -6,4 +6,4 @@
 
 | Name | Summary |
 |---|---|
-| [RapidClient](-rapid-client/index.md) | [JVM]<br>public final class [RapidClient](-rapid-client/index.md) extends BaseRapidClient |
+| [RapidClient](-rapid-client/index.md) | [JVM]<br>public final class [RapidClient](-rapid-client/index.md) extends BaseRapidClient<br>EPS Rapid V3 |

@@ -6,23 +6,46 @@
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final Response&lt;[List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[Notification](../../com.expediagroup.sdk.rapid.models/-notification/index.md)&gt;&gt;[requestUndeliveredNotificationsWithResponse](request-undelivered-notifications-with-response.md)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html)undeliverable, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)billingTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)partnerPointOfSale, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)paymentTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)platformName)
+@[Deprecated](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-deprecated/index.html)(message = &quot;Use execute method instead&quot;, replaceWith = @[ReplaceWith](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-replace-with/index.html)(imports = {}, expression = &quot;execute(operation: RequestUndeliveredNotificationsOperation)&quot;))
+
+public final Response&lt;[List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[Notification](../../com.expediagroup.sdk.rapid.models/-notification/index.md)&gt;&gt;[~~requestUndeliveredNotificationsWithResponse~~](request-undelivered-notifications-with-response.md)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html)undeliverable, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)billingTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)partnerPointOfSale, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)paymentTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)platformName)
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final Response&lt;[List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[Notification](../../com.expediagroup.sdk.rapid.models/-notification/index.md)&gt;&gt;[requestUndeliveredNotificationsWithResponse](request-undelivered-notifications-with-response.md)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html)undeliverable, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)billingTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)partnerPointOfSale, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)paymentTerms)
+@[Deprecated](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-deprecated/index.html)(message = &quot;Use execute method instead&quot;, replaceWith = @[ReplaceWith](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-replace-with/index.html)(imports = {}, expression = &quot;execute(operation: RequestUndeliveredNotificationsOperation)&quot;))
+
+public final Response&lt;[List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[Notification](../../com.expediagroup.sdk.rapid.models/-notification/index.md)&gt;&gt;[~~requestUndeliveredNotificationsWithResponse~~](request-undelivered-notifications-with-response.md)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html)undeliverable, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)billingTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)partnerPointOfSale, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)paymentTerms)
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final Response&lt;[List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[Notification](../../com.expediagroup.sdk.rapid.models/-notification/index.md)&gt;&gt;[requestUndeliveredNotificationsWithResponse](request-undelivered-notifications-with-response.md)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html)undeliverable, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)billingTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)partnerPointOfSale)
+@[Deprecated](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-deprecated/index.html)(message = &quot;Use execute method instead&quot;, replaceWith = @[ReplaceWith](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-replace-with/index.html)(imports = {}, expression = &quot;execute(operation: RequestUndeliveredNotificationsOperation)&quot;))
+
+public final Response&lt;[List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[Notification](../../com.expediagroup.sdk.rapid.models/-notification/index.md)&gt;&gt;[~~requestUndeliveredNotificationsWithResponse~~](request-undelivered-notifications-with-response.md)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html)undeliverable, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)billingTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)partnerPointOfSale)
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final Response&lt;[List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[Notification](../../com.expediagroup.sdk.rapid.models/-notification/index.md)&gt;&gt;[requestUndeliveredNotificationsWithResponse](request-undelivered-notifications-with-response.md)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html)undeliverable, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)billingTerms)
+@[Deprecated](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-deprecated/index.html)(message = &quot;Use execute method instead&quot;, replaceWith = @[ReplaceWith](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-replace-with/index.html)(imports = {}, expression = &quot;execute(operation: RequestUndeliveredNotificationsOperation)&quot;))
+
+public final Response&lt;[List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[Notification](../../com.expediagroup.sdk.rapid.models/-notification/index.md)&gt;&gt;[~~requestUndeliveredNotificationsWithResponse~~](request-undelivered-notifications-with-response.md)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html)undeliverable, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)billingTerms)
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final Response&lt;[List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[Notification](../../com.expediagroup.sdk.rapid.models/-notification/index.md)&gt;&gt;[requestUndeliveredNotificationsWithResponse](request-undelivered-notifications-with-response.md)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html)undeliverable)
+@[Deprecated](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-deprecated/index.html)(message = &quot;Use execute method instead&quot;, replaceWith = @[ReplaceWith](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-replace-with/index.html)(imports = {}, expression = &quot;execute(operation: RequestUndeliveredNotificationsOperation)&quot;))
+
+public final Response&lt;[List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[Notification](../../com.expediagroup.sdk.rapid.models/-notification/index.md)&gt;&gt;[~~requestUndeliveredNotificationsWithResponse~~](request-undelivered-notifications-with-response.md)([Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html)undeliverable)
+
+---
+
+### Deprecated
+
+Use execute method instead
+
+#### Replace with
+
+```kotlin
+execute(operation: RequestUndeliveredNotificationsOperation)
+```
+---
 
 Request Undelivered Notifications Use this API to fetch undelivered notifications. Up to 25 notifications are returned with each call. Each undelivered notification will be returned only once.
 

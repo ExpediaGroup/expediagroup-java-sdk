@@ -6,15 +6,34 @@
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final Response&lt;[ItineraryCreation](../../com.expediagroup.sdk.rapid.models/-itinerary-creation/index.md)&gt;[postItineraryWithResponse](post-itinerary-with-response.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerIp, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)token, [CreateItineraryRequest](../../com.expediagroup.sdk.rapid.models/-create-itinerary-request/index.md)createItineraryRequest, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)test)
+@[Deprecated](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-deprecated/index.html)(message = &quot;Use execute method instead&quot;, replaceWith = @[ReplaceWith](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-replace-with/index.html)(imports = {}, expression = &quot;execute(operation: PostItineraryOperation)&quot;))
+
+public final Response&lt;[ItineraryCreation](../../com.expediagroup.sdk.rapid.models/-itinerary-creation/index.md)&gt;[~~postItineraryWithResponse~~](post-itinerary-with-response.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerIp, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)token, [CreateItineraryRequest](../../com.expediagroup.sdk.rapid.models/-create-itinerary-request/index.md)createItineraryRequest, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)test)
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final Response&lt;[ItineraryCreation](../../com.expediagroup.sdk.rapid.models/-itinerary-creation/index.md)&gt;[postItineraryWithResponse](post-itinerary-with-response.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerIp, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)token, [CreateItineraryRequest](../../com.expediagroup.sdk.rapid.models/-create-itinerary-request/index.md)createItineraryRequest, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId)
+@[Deprecated](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-deprecated/index.html)(message = &quot;Use execute method instead&quot;, replaceWith = @[ReplaceWith](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-replace-with/index.html)(imports = {}, expression = &quot;execute(operation: PostItineraryOperation)&quot;))
+
+public final Response&lt;[ItineraryCreation](../../com.expediagroup.sdk.rapid.models/-itinerary-creation/index.md)&gt;[~~postItineraryWithResponse~~](post-itinerary-with-response.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerIp, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)token, [CreateItineraryRequest](../../com.expediagroup.sdk.rapid.models/-create-itinerary-request/index.md)createItineraryRequest, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId)
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final Response&lt;[ItineraryCreation](../../com.expediagroup.sdk.rapid.models/-itinerary-creation/index.md)&gt;[postItineraryWithResponse](post-itinerary-with-response.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerIp, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)token, [CreateItineraryRequest](../../com.expediagroup.sdk.rapid.models/-create-itinerary-request/index.md)createItineraryRequest)
+@[Deprecated](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-deprecated/index.html)(message = &quot;Use execute method instead&quot;, replaceWith = @[ReplaceWith](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-replace-with/index.html)(imports = {}, expression = &quot;execute(operation: PostItineraryOperation)&quot;))
+
+public final Response&lt;[ItineraryCreation](../../com.expediagroup.sdk.rapid.models/-itinerary-creation/index.md)&gt;[~~postItineraryWithResponse~~](post-itinerary-with-response.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerIp, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)token, [CreateItineraryRequest](../../com.expediagroup.sdk.rapid.models/-create-itinerary-request/index.md)createItineraryRequest)
+
+---
+
+### Deprecated
+
+Use execute method instead
+
+#### Replace with
+
+```kotlin
+execute(operation: PostItineraryOperation)
+```
+---
 
 Create Booking This link will be available in the Price Check response or in the register payments response when Two-Factor Authentication is used. It returns an itinerary id and links to retrieve reservation details, cancel a held booking, resume a held booking or complete payment session. Please note that depending on the state of the booking, the response will contain only the applicable link(s).
 
