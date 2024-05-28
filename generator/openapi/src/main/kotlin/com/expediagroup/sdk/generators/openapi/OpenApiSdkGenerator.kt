@@ -38,7 +38,6 @@ class OpenApiSdkGenerator {
     private val supportingFiles = mutableListOf(
         "pom.xml",
         "README.md",
-        "Client.kt",
         "ApiException.kt",
         "PropertyConstraintViolation.kt",
         "PropertyConstraintsValidator.kt",
