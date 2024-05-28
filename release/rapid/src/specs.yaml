@@ -6518,6 +6518,8 @@ paths:
 
             Note: Optional parameter for use with hard change requests.<br>
 
+            This parameter cannot be set to `property_collect` if the existing booking is `expedia_collect` and vice versa.<br>
+
             * `refundable` - Filters results to only show fully refundable rates.
 
             * `expedia_collect` - Filters results to only show rates where payment is collected by Expedia at the time of booking. These properties can be eligible for payments via Expedia Affiliate Collect(EAC).
@@ -6625,22 +6627,12 @@ paths:
             * `cache` - Rates will be used to populate a local cache
           schema:
             type: string
-        - name: sales_environment
+        - name: currency
           in: query
           description: >
-            Provide the sales environment if you wish to override the
-            sales_environment provided in the previous call. EPS dynamically
-            provides the best content for optimal conversion. If you have a
-            sales environment that is not currently supported in this list,
-            please contact our support team.<br>
+            Determines the returned currency type throughout the response <br>
 
-            Note: Must specify this value for hard change requests.<br>
-
-            * `hotel_package` - Standard website accessed from the customer's computer
-
-            * `hotel_only` - Your own agent tool used by your call center or retail store agent
-
-            * `loyalty` - An application installed on a phone or tablet device
+            Note: This parameter is only valid for hard change requests and is ignored in all other cases
           schema:
             type: string
       responses:
@@ -7036,7 +7028,13 @@ paths:
                     fields:
                       - name: occupancy
                         type: querystring
-                        value: "9"
+                        value: 9
+                  - type: filter.mismatch
+                    message: Existing booking is expedia_collect, this cannot be changed.
+                    fields:
+                      - name: filter
+                        type: querystring
+                        value: property_collect
         "401":
           description: Unauthorized
           headers:
