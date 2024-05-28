@@ -6,15 +6,34 @@
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final [PaymentSessions](../../com.expediagroup.sdk.rapid.models/-payment-sessions/index.md)[postPaymentSessions](post-payment-sessions.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerIp, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)token, [PaymentSessionsRequest](../../com.expediagroup.sdk.rapid.models/-payment-sessions-request/index.md)paymentSessionsRequest, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)test)
+@[Deprecated](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-deprecated/index.html)(message = &quot;Use execute method instead&quot;, replaceWith = @[ReplaceWith](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-replace-with/index.html)(imports = {}, expression = &quot;execute(operation: PostPaymentSessionsOperation)&quot;))
+
+public final [PaymentSessions](../../com.expediagroup.sdk.rapid.models/-payment-sessions/index.md)[~~postPaymentSessions~~](post-payment-sessions.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerIp, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)token, [PaymentSessionsRequest](../../com.expediagroup.sdk.rapid.models/-payment-sessions-request/index.md)paymentSessionsRequest, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)test)
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final [PaymentSessions](../../com.expediagroup.sdk.rapid.models/-payment-sessions/index.md)[postPaymentSessions](post-payment-sessions.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerIp, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)token, [PaymentSessionsRequest](../../com.expediagroup.sdk.rapid.models/-payment-sessions-request/index.md)paymentSessionsRequest, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId)
+@[Deprecated](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-deprecated/index.html)(message = &quot;Use execute method instead&quot;, replaceWith = @[ReplaceWith](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-replace-with/index.html)(imports = {}, expression = &quot;execute(operation: PostPaymentSessionsOperation)&quot;))
+
+public final [PaymentSessions](../../com.expediagroup.sdk.rapid.models/-payment-sessions/index.md)[~~postPaymentSessions~~](post-payment-sessions.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerIp, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)token, [PaymentSessionsRequest](../../com.expediagroup.sdk.rapid.models/-payment-sessions-request/index.md)paymentSessionsRequest, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId)
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final [PaymentSessions](../../com.expediagroup.sdk.rapid.models/-payment-sessions/index.md)[postPaymentSessions](post-payment-sessions.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerIp, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)token, [PaymentSessionsRequest](../../com.expediagroup.sdk.rapid.models/-payment-sessions-request/index.md)paymentSessionsRequest)
+@[Deprecated](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-deprecated/index.html)(message = &quot;Use execute method instead&quot;, replaceWith = @[ReplaceWith](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-replace-with/index.html)(imports = {}, expression = &quot;execute(operation: PostPaymentSessionsOperation)&quot;))
+
+public final [PaymentSessions](../../com.expediagroup.sdk.rapid.models/-payment-sessions/index.md)[~~postPaymentSessions~~](post-payment-sessions.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerIp, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)token, [PaymentSessionsRequest](../../com.expediagroup.sdk.rapid.models/-payment-sessions-request/index.md)paymentSessionsRequest)
+
+---
+
+### Deprecated
+
+Use execute method instead
+
+#### Replace with
+
+```kotlin
+execute(operation: PostPaymentSessionsOperation)
+```
+---
 
 Register Payments <b>This link only applies to transactions where EPS takes the customer's payment information. This includes both Expedia Collect and Property Collect transactions.</b><br> This link will be available in the Price Check response if payment registration is required. It returns a payment session ID and a link to create a booking. This will be the first step in the booking flow only if you've opted into Two-Factor Authentication to comply with the September 2019 EU Regulations for PSD2. Learn more with our [PSD2 Overview](https://developers.expediagroup.com/docs/rapid/lodging/booking/psd2-regulation)
 

@@ -6,31 +6,58 @@
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final [Region](../../com.expediagroup.sdk.rapid.models/-region/index.md)[getRegion](get-region.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)regionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)language, [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)&gt;include, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)billingTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)partnerPointOfSale, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)paymentTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)platformName, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)supplySource)
+@[Deprecated](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-deprecated/index.html)(message = &quot;Use execute method instead&quot;, replaceWith = @[ReplaceWith](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-replace-with/index.html)(imports = {}, expression = &quot;execute(operation: GetRegionOperation)&quot;))
+
+public final [Region](../../com.expediagroup.sdk.rapid.models/-region/index.md)[~~getRegion~~](get-region.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)regionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)language, [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)&gt;include, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)billingTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)partnerPointOfSale, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)paymentTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)platformName, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)supplySource)
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final [Region](../../com.expediagroup.sdk.rapid.models/-region/index.md)[getRegion](get-region.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)regionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)language, [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)&gt;include, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)billingTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)partnerPointOfSale, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)paymentTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)platformName)
+@[Deprecated](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-deprecated/index.html)(message = &quot;Use execute method instead&quot;, replaceWith = @[ReplaceWith](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-replace-with/index.html)(imports = {}, expression = &quot;execute(operation: GetRegionOperation)&quot;))
+
+public final [Region](../../com.expediagroup.sdk.rapid.models/-region/index.md)[~~getRegion~~](get-region.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)regionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)language, [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)&gt;include, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)billingTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)partnerPointOfSale, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)paymentTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)platformName)
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final [Region](../../com.expediagroup.sdk.rapid.models/-region/index.md)[getRegion](get-region.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)regionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)language, [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)&gt;include, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)billingTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)partnerPointOfSale, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)paymentTerms)
+@[Deprecated](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-deprecated/index.html)(message = &quot;Use execute method instead&quot;, replaceWith = @[ReplaceWith](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-replace-with/index.html)(imports = {}, expression = &quot;execute(operation: GetRegionOperation)&quot;))
+
+public final [Region](../../com.expediagroup.sdk.rapid.models/-region/index.md)[~~getRegion~~](get-region.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)regionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)language, [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)&gt;include, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)billingTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)partnerPointOfSale, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)paymentTerms)
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final [Region](../../com.expediagroup.sdk.rapid.models/-region/index.md)[getRegion](get-region.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)regionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)language, [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)&gt;include, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)billingTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)partnerPointOfSale)
+@[Deprecated](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-deprecated/index.html)(message = &quot;Use execute method instead&quot;, replaceWith = @[ReplaceWith](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-replace-with/index.html)(imports = {}, expression = &quot;execute(operation: GetRegionOperation)&quot;))
+
+public final [Region](../../com.expediagroup.sdk.rapid.models/-region/index.md)[~~getRegion~~](get-region.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)regionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)language, [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)&gt;include, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)billingTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)partnerPointOfSale)
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final [Region](../../com.expediagroup.sdk.rapid.models/-region/index.md)[getRegion](get-region.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)regionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)language, [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)&gt;include, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)billingTerms)
+@[Deprecated](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-deprecated/index.html)(message = &quot;Use execute method instead&quot;, replaceWith = @[ReplaceWith](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-replace-with/index.html)(imports = {}, expression = &quot;execute(operation: GetRegionOperation)&quot;))
+
+public final [Region](../../com.expediagroup.sdk.rapid.models/-region/index.md)[~~getRegion~~](get-region.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)regionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)language, [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)&gt;include, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)billingTerms)
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final [Region](../../com.expediagroup.sdk.rapid.models/-region/index.md)[getRegion](get-region.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)regionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)language, [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)&gt;include, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId)
+@[Deprecated](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-deprecated/index.html)(message = &quot;Use execute method instead&quot;, replaceWith = @[ReplaceWith](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-replace-with/index.html)(imports = {}, expression = &quot;execute(operation: GetRegionOperation)&quot;))
+
+public final [Region](../../com.expediagroup.sdk.rapid.models/-region/index.md)[~~getRegion~~](get-region.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)regionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)language, [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)&gt;include, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId)
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final [Region](../../com.expediagroup.sdk.rapid.models/-region/index.md)[getRegion](get-region.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)regionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)language, [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)&gt;include)
+@[Deprecated](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-deprecated/index.html)(message = &quot;Use execute method instead&quot;, replaceWith = @[ReplaceWith](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-replace-with/index.html)(imports = {}, expression = &quot;execute(operation: GetRegionOperation)&quot;))
+
+public final [Region](../../com.expediagroup.sdk.rapid.models/-region/index.md)[~~getRegion~~](get-region.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)regionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)language, [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)&gt;include)
+
+---
+
+### Deprecated
+
+Use execute method instead
+
+#### Replace with
+
+```kotlin
+execute(operation: GetRegionOperation)
+```
+---
 
 Region Returns the geographic definition and property mappings for the requested Region ID. The response is a single JSON formatted region object.
 

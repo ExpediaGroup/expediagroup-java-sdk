@@ -6,11 +6,28 @@
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[PropertyCalendarAvailability](../../com.expediagroup.sdk.rapid.models/-property-calendar-availability/index.md)&gt;[getCalendarAvailability](get-calendar-availability.md)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)&gt;propertyId, [LocalDate](https://docs.oracle.com/javase/8/docs/api/java/time/LocalDate.html)startDate, [LocalDate](https://docs.oracle.com/javase/8/docs/api/java/time/LocalDate.html)endDate, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)test)
+@[Deprecated](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-deprecated/index.html)(message = &quot;Use execute method instead&quot;, replaceWith = @[ReplaceWith](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-replace-with/index.html)(imports = {}, expression = &quot;execute(operation: GetCalendarAvailabilityOperation)&quot;))
+
+public final [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[PropertyCalendarAvailability](../../com.expediagroup.sdk.rapid.models/-property-calendar-availability/index.md)&gt;[~~getCalendarAvailability~~](get-calendar-availability.md)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)&gt;propertyId, [LocalDate](https://docs.oracle.com/javase/8/docs/api/java/time/LocalDate.html)startDate, [LocalDate](https://docs.oracle.com/javase/8/docs/api/java/time/LocalDate.html)endDate, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)test)
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[PropertyCalendarAvailability](../../com.expediagroup.sdk.rapid.models/-property-calendar-availability/index.md)&gt;[getCalendarAvailability](get-calendar-availability.md)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)&gt;propertyId, [LocalDate](https://docs.oracle.com/javase/8/docs/api/java/time/LocalDate.html)startDate, [LocalDate](https://docs.oracle.com/javase/8/docs/api/java/time/LocalDate.html)endDate)
+@[Deprecated](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-deprecated/index.html)(message = &quot;Use execute method instead&quot;, replaceWith = @[ReplaceWith](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-replace-with/index.html)(imports = {}, expression = &quot;execute(operation: GetCalendarAvailabilityOperation)&quot;))
+
+public final [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[PropertyCalendarAvailability](../../com.expediagroup.sdk.rapid.models/-property-calendar-availability/index.md)&gt;[~~getCalendarAvailability~~](get-calendar-availability.md)([List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)&gt;propertyId, [LocalDate](https://docs.oracle.com/javase/8/docs/api/java/time/LocalDate.html)startDate, [LocalDate](https://docs.oracle.com/javase/8/docs/api/java/time/LocalDate.html)endDate)
+
+---
+
+### Deprecated
+
+Use execute method instead
+
+#### Replace with
+
+```kotlin
+execute(operation: GetCalendarAvailabilityOperation)
+```
+---
 
 Get a calendar of availability dates for properties. This is currently a Vrbo property only feature. Returns availability information for the specified properties (maximum of 25 properties per request).  The response includes per day information about the property's availability, information about if check-in or check-out is available for the day,   and information regarding the stay constraints.
 

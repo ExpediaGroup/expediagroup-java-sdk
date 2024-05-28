@@ -6,27 +6,52 @@
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final Response&lt;[GuestReviews](../../com.expediagroup.sdk.rapid.models/-guest-reviews/index.md)&gt;[getPropertyGuestReviewsWithResponse](get-property-guest-reviews-with-response.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)propertyId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)language, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)billingTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)paymentTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)partnerPointOfSale, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)platformName)
+@[Deprecated](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-deprecated/index.html)(message = &quot;Use execute method instead&quot;, replaceWith = @[ReplaceWith](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-replace-with/index.html)(imports = {}, expression = &quot;execute(operation: GetPropertyGuestReviewsOperation)&quot;))
+
+public final Response&lt;[GuestReviews](../../com.expediagroup.sdk.rapid.models/-guest-reviews/index.md)&gt;[~~getPropertyGuestReviewsWithResponse~~](get-property-guest-reviews-with-response.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)propertyId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)language, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)billingTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)paymentTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)partnerPointOfSale, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)platformName)
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final Response&lt;[GuestReviews](../../com.expediagroup.sdk.rapid.models/-guest-reviews/index.md)&gt;[getPropertyGuestReviewsWithResponse](get-property-guest-reviews-with-response.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)propertyId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)language, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)billingTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)paymentTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)partnerPointOfSale)
+@[Deprecated](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-deprecated/index.html)(message = &quot;Use execute method instead&quot;, replaceWith = @[ReplaceWith](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-replace-with/index.html)(imports = {}, expression = &quot;execute(operation: GetPropertyGuestReviewsOperation)&quot;))
+
+public final Response&lt;[GuestReviews](../../com.expediagroup.sdk.rapid.models/-guest-reviews/index.md)&gt;[~~getPropertyGuestReviewsWithResponse~~](get-property-guest-reviews-with-response.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)propertyId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)language, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)billingTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)paymentTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)partnerPointOfSale)
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final Response&lt;[GuestReviews](../../com.expediagroup.sdk.rapid.models/-guest-reviews/index.md)&gt;[getPropertyGuestReviewsWithResponse](get-property-guest-reviews-with-response.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)propertyId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)language, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)billingTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)paymentTerms)
+@[Deprecated](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-deprecated/index.html)(message = &quot;Use execute method instead&quot;, replaceWith = @[ReplaceWith](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-replace-with/index.html)(imports = {}, expression = &quot;execute(operation: GetPropertyGuestReviewsOperation)&quot;))
+
+public final Response&lt;[GuestReviews](../../com.expediagroup.sdk.rapid.models/-guest-reviews/index.md)&gt;[~~getPropertyGuestReviewsWithResponse~~](get-property-guest-reviews-with-response.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)propertyId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)language, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)billingTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)paymentTerms)
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final Response&lt;[GuestReviews](../../com.expediagroup.sdk.rapid.models/-guest-reviews/index.md)&gt;[getPropertyGuestReviewsWithResponse](get-property-guest-reviews-with-response.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)propertyId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)language, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)billingTerms)
+@[Deprecated](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-deprecated/index.html)(message = &quot;Use execute method instead&quot;, replaceWith = @[ReplaceWith](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-replace-with/index.html)(imports = {}, expression = &quot;execute(operation: GetPropertyGuestReviewsOperation)&quot;))
+
+public final Response&lt;[GuestReviews](../../com.expediagroup.sdk.rapid.models/-guest-reviews/index.md)&gt;[~~getPropertyGuestReviewsWithResponse~~](get-property-guest-reviews-with-response.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)propertyId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)language, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)billingTerms)
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final Response&lt;[GuestReviews](../../com.expediagroup.sdk.rapid.models/-guest-reviews/index.md)&gt;[getPropertyGuestReviewsWithResponse](get-property-guest-reviews-with-response.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)propertyId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)language, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId)
+@[Deprecated](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-deprecated/index.html)(message = &quot;Use execute method instead&quot;, replaceWith = @[ReplaceWith](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-replace-with/index.html)(imports = {}, expression = &quot;execute(operation: GetPropertyGuestReviewsOperation)&quot;))
+
+public final Response&lt;[GuestReviews](../../com.expediagroup.sdk.rapid.models/-guest-reviews/index.md)&gt;[~~getPropertyGuestReviewsWithResponse~~](get-property-guest-reviews-with-response.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)propertyId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)language, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId)
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final Response&lt;[GuestReviews](../../com.expediagroup.sdk.rapid.models/-guest-reviews/index.md)&gt;[getPropertyGuestReviewsWithResponse](get-property-guest-reviews-with-response.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)propertyId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)language)
+@[Deprecated](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-deprecated/index.html)(message = &quot;Use execute method instead&quot;, replaceWith = @[ReplaceWith](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-replace-with/index.html)(imports = {}, expression = &quot;execute(operation: GetPropertyGuestReviewsOperation)&quot;))
+
+public final Response&lt;[GuestReviews](../../com.expediagroup.sdk.rapid.models/-guest-reviews/index.md)&gt;[~~getPropertyGuestReviewsWithResponse~~](get-property-guest-reviews-with-response.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)propertyId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)language)
+
+---
+
+### Deprecated
+
+Use execute method instead
+
+#### Replace with
+
+```kotlin
+execute(operation: GetPropertyGuestReviewsOperation)
+```
+---
 
 Property Guest Reviews <i>Note: Property Guest Reviews are only available if your account is configured for access and all launch requirements have been followed. Please find the launch requirements here [https://support.expediapartnersolutions.com/hc/en-us/articles/360008646799](https://support.expediapartnersolutions.com/hc/en-us/articles/360008646799) and contact your Account Manager for more details.</i>  The response is an individual Guest Reviews object containing multiple guest reviews for the requested active property.  To ensure you always show the latest guest reviews, this call should be made whenever a customer looks at the details for a specific property.
 

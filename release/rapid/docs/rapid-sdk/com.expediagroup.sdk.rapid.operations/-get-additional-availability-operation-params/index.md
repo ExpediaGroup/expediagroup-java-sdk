@@ -1,0 +1,59 @@
+//[rapid-sdk](../../../index.md)/[com.expediagroup.sdk.rapid.operations](../index.md)/[GetAdditionalAvailabilityOperationParams](index.md)
+
+# GetAdditionalAvailabilityOperationParams
+
+[JVM]\
+public final class [GetAdditionalAvailabilityOperationParams](index.md) implements OperationParams
+
+## Constructors
+
+| | |
+|---|---|
+| [GetAdditionalAvailabilityOperationParams](-get-additional-availability-operation-params.md) | [JVM]<br>public [GetAdditionalAvailabilityOperationParams](index.md)[GetAdditionalAvailabilityOperationParams](-get-additional-availability-operation-params.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)propertyId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerIp, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)test, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)token, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)checkin, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)checkout, [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)&gt;exclusion, [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)&gt;filter, [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)&gt;include, [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)&gt;occupancy, [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)&gt;rateOption, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)salesChannel, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)currency) |
+
+## Types
+
+| Name | Summary |
+|---|---|
+| [Builder](-builder/index.md) | [JVM]<br>public final class [Builder](-builder/index.md) |
+
+## Properties
+
+| Name | Summary |
+|---|---|
+| [checkin](index.md#876161987%2FProperties%2F700308213) | [JVM]<br>private final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[checkin](index.md#876161987%2FProperties%2F700308213) |
+| [checkout](index.md#-398563324%2FProperties%2F700308213) | [JVM]<br>private final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[checkout](index.md#-398563324%2FProperties%2F700308213) |
+| [currency](index.md#92073881%2FProperties%2F700308213) | [JVM]<br>private final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[currency](index.md#92073881%2FProperties%2F700308213) |
+| [customerIp](index.md#-199785147%2FProperties%2F700308213) | [JVM]<br>private final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[customerIp](index.md#-199785147%2FProperties%2F700308213) |
+| [customerSessionId](index.md#-79063331%2FProperties%2F700308213) | [JVM]<br>private final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[customerSessionId](index.md#-79063331%2FProperties%2F700308213) |
+| [exclusion](index.md#-1160672126%2FProperties%2F700308213) | [JVM]<br>private final [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)&gt;[exclusion](index.md#-1160672126%2FProperties%2F700308213) |
+| [filter](index.md#926299474%2FProperties%2F700308213) | [JVM]<br>private final [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)&gt;[filter](index.md#926299474%2FProperties%2F700308213) |
+| [include](index.md#-1909057624%2FProperties%2F700308213) | [JVM]<br>private final [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)&gt;[include](index.md#-1909057624%2FProperties%2F700308213) |
+| [occupancy](index.md#-1255319837%2FProperties%2F700308213) | [JVM]<br>private final [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)&gt;[occupancy](index.md#-1255319837%2FProperties%2F700308213) |
+| [propertyId](index.md#2065121146%2FProperties%2F700308213) | [JVM]<br>private final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[propertyId](index.md#2065121146%2FProperties%2F700308213) |
+| [rateOption](index.md#-1897177227%2FProperties%2F700308213) | [JVM]<br>private final [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)&gt;[rateOption](index.md#-1897177227%2FProperties%2F700308213) |
+| [salesChannel](index.md#1924425107%2FProperties%2F700308213) | [JVM]<br>private final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[salesChannel](index.md#1924425107%2FProperties%2F700308213) |
+| [test](index.md#200895672%2FProperties%2F700308213) | [JVM]<br>private final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[test](index.md#200895672%2FProperties%2F700308213) |
+| [token](index.md#-2111346633%2FProperties%2F700308213) | [JVM]<br>private final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[token](index.md#-2111346633%2FProperties%2F700308213) |
+
+## Functions
+
+| Name | Summary |
+|---|---|
+| [builder](builder.md) | [JVM]<br>public final static [GetAdditionalAvailabilityOperationParams.Builder](-builder/index.md)[builder](builder.md)() |
+| [getCheckin](get-checkin.md) | [JVM]<br>public final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[getCheckin](get-checkin.md)() |
+| [getCheckout](get-checkout.md) | [JVM]<br>public final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[getCheckout](get-checkout.md)() |
+| [getCurrency](get-currency.md) | [JVM]<br>public final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[getCurrency](get-currency.md)() |
+| [getCustomerIp](get-customer-ip.md) | [JVM]<br>public final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[getCustomerIp](get-customer-ip.md)() |
+| [getCustomerSessionId](get-customer-session-id.md) | [JVM]<br>public final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[getCustomerSessionId](get-customer-session-id.md)() |
+| [getExclusion](get-exclusion.md) | [JVM]<br>public final [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)&gt;[getExclusion](get-exclusion.md)() |
+| [getFilter](get-filter.md) | [JVM]<br>public final [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)&gt;[getFilter](get-filter.md)() |
+| [getHeaders](get-headers.md) | [JVM]<br>public [Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html), [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)&gt;[getHeaders](get-headers.md)() |
+| [getInclude](get-include.md) | [JVM]<br>public final [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)&gt;[getInclude](get-include.md)() |
+| [getOccupancy](get-occupancy.md) | [JVM]<br>public final [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)&gt;[getOccupancy](get-occupancy.md)() |
+| [getPropertyId](get-property-id.md) | [JVM]<br>public final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[getPropertyId](get-property-id.md)() |
+| [getQueryParams](get-query-params.md) | [JVM]<br>public [Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html), [Iterable](https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)&gt;&gt;[getQueryParams](get-query-params.md)() |
+| [getRateOption](get-rate-option.md) | [JVM]<br>public final [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)&gt;[getRateOption](get-rate-option.md)() |
+| [getSalesChannel](get-sales-channel.md) | [JVM]<br>public final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[getSalesChannel](get-sales-channel.md)() |
+| [getTest](get-test.md) | [JVM]<br>public final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[getTest](get-test.md)() |
+| [getToken](get-token.md) | [JVM]<br>public final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[getToken](get-token.md)() |

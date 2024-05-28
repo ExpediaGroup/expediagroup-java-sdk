@@ -24,16 +24,16 @@ import kotlin.collections.Map.Entry
  * A Generic Response to represent the response from a service call.
  *
  * @property statusCode The HTTP status code of the response
- * @property body The body of the response
+ * @property data The body of the response
  * @property headers The headers of the response
  */
 @Suppress("MemberVisibilityCanBePrivate")
 open class Response<T>(
     val statusCode: Int,
-    val body: T,
+    val data: T,
     val headers: Map<String, List<String>>
 ) {
-    constructor(statusCode: Int, body: T, headers: Set<Entry<String, List<String>>>) : this(statusCode, body, toHeadersMap(headers))
+    constructor(statusCode: Int, data: T, headers: Set<Entry<String, List<String>>>) : this(statusCode, data, toHeadersMap(headers))
 
     companion object {
         @JvmStatic
@@ -46,7 +46,7 @@ open class Response<T>(
             )
     }
 
-    override fun toString(): String = "Response(statusCode=$statusCode, body=$body, headers=$headers)"
+    override fun toString(): String = "Response(statusCode=$statusCode, data=$data, headers=$headers)"
 }
 
 class EmptyResponse(
