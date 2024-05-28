@@ -39,7 +39,7 @@ class ResponseTest {
 
         val result = response.toString()
 
-        assert(result == "Response(statusCode=200, body=body, headers={key=[value]})")
+        assert(result == "Response(statusCode=200, data=body, headers={key=[value]})")
     }
 
     @Test

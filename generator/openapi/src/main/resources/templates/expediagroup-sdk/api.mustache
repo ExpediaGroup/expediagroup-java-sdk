@@ -1,8 +1,54 @@
 {{>licenseInfo}}
-package {{apiPackage}}
 
-import kotlinx.coroutines.runBlocking
-import java.util.stream.Collectors
-import kotlin.collections.Map.Entry
+package com.expediagroup.sdk.{{namespace}}.operations
 
-{{>client/client}}
+import com.expediagroup.sdk.core.model.Operation
+
+{{#operations}}{{#operation}}{{^hasBodyParam}}
+    import com.expediagroup.sdk.core.model.Nothing
+{{/hasBodyParam}}{{/operation}}{{/operations}}
+
+{{#operations}}{{#operation}}{{#bodyParam}}
+    import com.expediagroup.sdk.{{namespace}}.models.{{dataType}}
+{{/bodyParam}}{{/operation}}{{/operations}}
+
+{{#operations}}
+    {{#operation}}
+        class {{classname}}(
+            {{#hasBodyParam}}
+                requestBody: {{#bodyParam}}{{dataType}}{{/bodyParam}}{{^required}}?{{/required}},
+            {{/hasBodyParam}}
+            {{#hasPathParams}}
+                params: {{classname}}Params
+            {{/hasPathParams}}
+            {{^hasPathParams}}{{#hasHeaderParams}}
+                params: {{classname}}Params
+            {{/hasHeaderParams}}{{/hasPathParams}}
+            {{^hasPathParams}}{{^hasHeaderParams}}{{#hasQueryParams}}
+                params: {{classname}}Params
+            {{/hasQueryParams}}{{/hasHeaderParams}}{{/hasPathParams}}
+        ) : Operation<
+            {{#hasBodyParam}}{{#bodyParam}}{{dataType}}{{/bodyParam}}{{/hasBodyParam}}
+            {{^hasBodyParam}}Nothing{{/hasBodyParam}}
+        >(
+            {{#hasPathParams}}
+            "{{{path}}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", {{#isContainer}}params.{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}"${params.{{paramName}}}"{{/isContainer}}){{/pathParams}}
+            {{/hasPathParams}}
+            {{^hasPathParams}}
+                "{{{path}}}"
+            {{/hasPathParams}},
+            "{{httpMethod}}",
+            "{{operationId}}",
+            {{#hasBodyParam}}requestBody{{/hasBodyParam}}{{^hasBodyParam}}null{{/hasBodyParam}},
+            {{#hasPathParams}}
+                params
+            {{/hasPathParams}}
+            {{^hasPathParams}}{{#hasHeaderParams}}
+                params
+            {{/hasHeaderParams}}{{/hasPathParams}}
+            {{^hasPathParams}}{{^hasHeaderParams}}{{#hasQueryParams}}
+                params
+            {{/hasQueryParams}}{{/hasHeaderParams}}{{/hasPathParams}}
+        )
+    {{/operation}}
+{{/operations}}

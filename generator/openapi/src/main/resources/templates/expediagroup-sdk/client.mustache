@@ -1,0 +1,156 @@
+{{>licenseInfo}}
+package com.expediagroup.sdk.{{namespace}}.client
+
+import kotlinx.coroutines.runBlocking
+import java.util.stream.Collectors
+import kotlin.collections.Map.Entry
+
+{{#imports}}
+    import {{import}}
+{{/imports}}
+
+{{>imports/domain}}
+
+{{>imports/core}}
+
+{{>imports/helpers}}
+
+{{>imports/defaults}}
+
+/**
+* {{#openAPI}}{{#info}}{{{description}}}{{/info}}{{/openAPI}}
+*/
+
+class {{#lambda.titlecase}}{{namespace}}{{/lambda.titlecase}}Client private constructor(clientConfiguration: {{>partials/clientConfiguration}}) : {{>partials/clientBase}}("{{namespace}}", clientConfiguration){
+    {{>partials/helpers}}
+
+    class Builder : {{>partials/clientBase}}.Builder<Builder>() {
+        override fun build() = {{#lambda.titlecase}}{{namespace}}{{/lambda.titlecase}}Client(
+            {{>partials/clientConfiguration}}(key, secret, endpoint, requestTimeout, connectionTimeout, socketTimeout, maskedLoggingHeaders, maskedLoggingBodyFields {{>partials/authEndpoint}})
+        )
+    }
+
+    companion object {
+        @JvmStatic fun builder() = Builder()
+    }
+
+    override suspend fun throwServiceException(response: HttpResponse, operationId: String) {
+        throw ErrorObjectMapper.process(response, operationId)
+    }
+
+    private inline fun <reified RequestType, reified ResponseType> execute(operation: Operation<RequestType>) : Response<ResponseType> {
+        try {
+            return GlobalScope.future(Dispatchers.IO) {
+                val response = httpClient.request {
+                    method = HttpMethod.parse(operation.method)
+                    url(operation.url)
+
+                    operation.params.getHeaders()?.forEach { (key, value) ->
+                        headers.append(key, value)
+                    }
+
+                    operation.params.getQueryParams()?.forEach { (key, value) ->
+                        url.parameters.appendAll(key, value)
+                    }
+
+                    appendHeaders(operation.transactionId)
+                    validateConstraints(operation.requestBody)
+                    contentType(ContentType.Application.Json)
+                    setBody(operation.requestBody)
+                }
+
+                throwIfError(response, operation.operationId)
+                Response(response.status.value, response.body<ResponseType>(), response.headers.entries())
+            }.get()
+        } catch (exception: Exception) {
+            exception.handle()
+        }
+    }
+
+    {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
+        fun execute(operation: {{operationIdCamelCase}}Operation) : {{#returnType}}Response<{{{returnType}}}>{{/returnType}}{{^returnType}}Response<Nothing>{{/returnType}} {
+            return execute<
+                {{#bodyParam}}{{dataType}}{{/bodyParam}}{{^hasBodyParam}}Nothing{{/hasBodyParam}},
+                {{{returnType}}}{{^returnType}}Nothing{{/returnType}}
+            >(operation)
+        }
+
+        private suspend {{^isKotlin}}inline {{/isKotlin}}fun {{^isKotlin}}k{{/isKotlin}}{{operationId}}WithResponse({{>client/apiParamsDecleration}}): {{#returnType}}Response<{{{returnType}}}>{{/returnType}}{{^returnType}}Response<Nothing>{{/returnType}} {
+
+            val params =  {{operationIdCamelCase}}OperationParams(
+                {{#pathParams}}
+                    {{{paramName}}} = {{{paramName}}}{{^-last}}, {{/-last}}
+                {{/pathParams}}
+                {{#hasPathParams}}{{#hasHeaderParams}}, {{/hasHeaderParams}}{{/hasPathParams}}
+                {{#headerParams}}
+                    {{{paramName}}} = {{{paramName}}}{{^-last}}, {{/-last}}
+                {{/headerParams}}
+                {{#hasHeaderParams}}{{#hasQueryParams}}, {{/hasQueryParams}}{{/hasHeaderParams}}
+                {{#queryParams}}
+                    {{{paramName}}} = {{{paramName}}}{{^-last}}, {{/-last}}
+                {{/queryParams}}
+            )
+
+            val operation = {{operationIdCamelCase}}Operation(
+                {{#hasBodyParam}}
+                    requestBody = {{#bodyParam}}{{{paramName}}}{{/bodyParam}},
+                {{/hasBodyParam}}
+                {{#hasPathParams}}
+                    params = params
+                {{/hasPathParams}}
+                {{^hasPathParams}}{{#hasHeaderParams}}
+                    params = params
+                {{/hasHeaderParams}}{{/hasPathParams}}
+                {{^hasPathParams}}{{^hasHeaderParams}}{{#hasQueryParams}}
+                    params = params
+                {{/hasQueryParams}}{{/hasHeaderParams}}{{/hasPathParams}}
+            )
+
+            return execute(operation)
+        }
+
+        {{#paginator}}{{/paginator}}
+
+        {{^isKotlin}}
+            /**
+            * {{{summary}}}
+            * {{{notes}}}
+            {{#allParams}}
+                * @param {{{paramName}}} {{{description}}}{{^required}} (optional{{#defaultValue}}, defaults to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (defaults to {{{.}}}){{/defaultValue}}{{/required}}
+            {{/allParams}}
+            {{#throwsExceptions}}{{/throwsExceptions}}
+            * @return {{{returnType}}}{{^returnType}}Nothing{{/returnType}}
+            */
+            @Throws({{#throwsExceptionsClasses}}{{/throwsExceptionsClasses}})
+            @JvmOverloads
+            @Deprecated("Use execute method instead", ReplaceWith("execute(operation: {{operationIdCamelCase}}Operation)"))
+            fun {{operationId}}({{>client/apiParamsDecleration}}) : {{{returnType}}}{{^returnType}}Nothing{{/returnType}} {
+                return {{operationId}}WithResponse({{>client/apiParamsPassed}}).data
+            }
+
+            /**
+            * {{{summary}}}
+            * {{{notes}}}
+            {{#allParams}}
+                * @param {{{paramName}}} {{{description}}}{{^required}} (optional{{#defaultValue}}, defaults to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (defaults to {{{.}}}){{/defaultValue}}{{/required}}
+            {{/allParams}}
+            {{#throwsExceptions}}{{/throwsExceptions}}
+            * @return a [Response] object with a body of type {{{returnType}}}{{^returnType}}Nothing{{/returnType}}
+            */
+            @Throws({{#throwsExceptionsClasses}}{{/throwsExceptionsClasses}})
+            @JvmOverloads
+            @Deprecated("Use execute method instead", ReplaceWith("execute(operation: {{operationIdCamelCase}}Operation)"))
+            fun {{operationId}}WithResponse({{>client/apiParamsDecleration}}) : {{#returnType}}Response<{{{returnType}}}>{{/returnType}}{{^returnType}}Response<Nothing>{{/returnType}} {
+                try {
+                    return GlobalScope.future(Dispatchers.IO) {
+                        k{{operationId}}WithResponse({{>client/apiParamsPassed}})
+                    }.get()
+                } catch (exception: Exception) {
+                    exception.handle()
+                }
+            }
+        {{/isKotlin}}
+        {{/operation}}
+        {{>client/paginatorMethods}}
+    {{/operations}}{{/apis}}{{/apiInfo}}
+}

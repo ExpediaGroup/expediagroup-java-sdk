@@ -17,10 +17,43 @@ package com.expediagroup.sdk.generators.openapi
 
 import com.samskivert.mustache.Mustache
 import org.openapitools.codegen.CodegenModel
+import org.openapitools.codegen.CodegenOperation
 import org.openapitools.codegen.CodegenProperty
-import org.openapitools.codegen.model.OperationsMap
+import org.openapitools.codegen.model.ApiInfoMap
+
+val fallbackBody = fun(dataType: String): String {
+    return if (dataType.startsWith("kotlin.collections.List")) {
+        "emptyList()"
+    } else if (dataType.startsWith("kotlin.collections.Map")) {
+        "emptyMap()"
+    } else if (dataType.startsWith("kotlin.collections.Set")) {
+        "emptySet()"
+    } else {
+        ""
+    }
+}
 
 val mustacheHelpers = mapOf(
+    "paginator" to {
+        Mustache.Lambda { fragment, writer ->
+            val operation = fragment.context() as CodegenOperation
+            val paginationHeaders = listOf("Pagination-Total-Results", "Link")
+            val availableHeaders = operation.responses.find { it.code == "200" }?.headers?.filter { it.baseName in paginationHeaders }
+            if (availableHeaders?.size == paginationHeaders.size) {
+                writer.write("@JvmOverloads")
+                writer.write(System.lineSeparator())
+                writer.write("fun getPaginator(operation: ${operation.operationIdCamelCase}Operation): ResponsePaginator<${operation.returnType}> {")
+                writer.write(System.lineSeparator())
+                writer.write("val response = execute(operation)")
+                writer.write(System.lineSeparator())
+                writer.write("return ResponsePaginator(this, response, ")
+                writer.write(fallbackBody("${operation.returnType}"))
+                writer.write(") { it.body<${operation.returnType}>() }")
+                writer.write(System.lineSeparator())
+                writer.write("}")
+            }
+        }
+    },
     "removeLeadingSlash" to {
         Mustache.Lambda { fragment, writer -> writer.write(fragment.execute().replace("^/+".toRegex(), "")) }
     },
@@ -47,17 +80,22 @@ val mustacheHelpers = mapOf(
     "defineApiExceptions" to {
         Mustache.Lambda { fragment, writer ->
             val dataTypes: MutableSet<String> = mutableSetOf()
-            val operationsMap: OperationsMap = fragment.context() as OperationsMap
-            operationsMap.operations.operation.forEach { operation ->
-                operation.responses.forEach { response ->
-                    response.takeIf { !it.is2xx && !dataTypes.contains(it.dataType) }?.dataType?.also {
-                        writer.write(
-                            "class ExpediaGroupApi${it}Exception(code: Int, override val errorObject: $it, transactionId: String?) : " +
-                                "ExpediaGroupApiException(code, errorObject, transactionId)\n"
-                        )
-                        dataTypes.add(it)
+            val apisMap: ApiInfoMap = fragment.context() as ApiInfoMap
+            apisMap.apis.forEach { operationsMap ->
+                operationsMap.operations.operation.forEach { operation ->
+                    operation.responses.forEach { response ->
+                        response.takeIf { !it.is2xx && !dataTypes.contains(it.dataType) }?.dataType?.also {
+                            dataTypes.add(it)
+                        }
                     }
                 }
+            }
+
+            dataTypes.forEach { dataType ->
+                writer.write(
+                    "class ExpediaGroupApi${dataType}Exception(code: Int, override val errorObject: $dataType, transactionId: String?) : " +
+                        "ExpediaGroupApiException(code, errorObject, transactionId)\n"
+                )
             }
         }
     },

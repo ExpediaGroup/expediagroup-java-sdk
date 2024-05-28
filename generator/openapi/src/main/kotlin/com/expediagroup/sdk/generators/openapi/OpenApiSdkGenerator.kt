@@ -25,6 +25,8 @@ import com.github.rvesse.airline.annotations.Option
 import org.openapitools.codegen.CodegenConstants
 import org.openapitools.codegen.DefaultGenerator
 import org.openapitools.codegen.SupportingFile
+import org.openapitools.codegen.api.TemplateDefinition
+import org.openapitools.codegen.api.TemplateFileType
 import org.openapitools.codegen.config.CodegenConfigurator
 
 /**
@@ -33,7 +35,7 @@ import org.openapitools.codegen.config.CodegenConfigurator
  */
 @Command(name = "generate", description = "Let's build an EG Travel SDK!")
 class OpenApiSdkGenerator {
-    private val supportingFiles = listOf(
+    private val supportingFiles = mutableListOf(
         "pom.xml",
         "README.md",
         "ApiException.kt",
@@ -87,9 +89,12 @@ class OpenApiSdkGenerator {
                 addGlobalProperty(CodegenConstants.API_DOCS, "false")
                 addGlobalProperty(CodegenConstants.MODELS, "")
                 addGlobalProperty(CodegenConstants.MODEL_DOCS, "false")
-                addGlobalProperty(CodegenConstants.SUPPORTING_FILES, supportingFiles.joinToString(","))
 
-                addAdditionalProperty(CodegenConstants.API_SUFFIX, "Client")
+                supportingFiles.add("${namespace}Client.kt")
+                addGlobalProperty(CodegenConstants.SUPPORTING_FILES, supportingFiles.joinToString(","))
+                // addGlobalProperty("debugSupportingFiles", "")
+
+                addAdditionalProperty(CodegenConstants.API_SUFFIX, "Operation")
                 addAdditionalProperty(CodegenConstants.API_PACKAGE, product.apiPackage)
                 addAdditionalProperty(CodegenConstants.ENUM_PROPERTY_NAMING, "UPPERCASE")
                 addAdditionalProperty(CodegenConstants.LIBRARY, "jvm-ktor")
@@ -110,8 +115,22 @@ class OpenApiSdkGenerator {
 
             val generatorInput = config.toClientOptInput().apply {
                 val packagePath = product.packagePath
+
+                val template: TemplateDefinition = TemplateDefinition(
+                    "operation_params.mustache",
+                    "Params.kt"
+                )
+
+                template.setTemplateType(TemplateFileType.API)
+
                 userDefinedTemplates(
                     listOf(
+                        template,
+                        SupportingFile(
+                            "client.mustache",
+                            "$packagePath/client/",
+                            "${namespace}Client.kt"
+                        ),
                         SupportingFile("pom.mustache", "pom.xml"),
                         SupportingFile("README.mustache", "README.md"),
                         SupportingFile(
