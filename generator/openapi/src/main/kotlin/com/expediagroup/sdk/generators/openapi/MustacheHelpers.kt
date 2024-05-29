@@ -40,8 +40,8 @@ val mustacheHelpers = mapOf(
             val paginationHeaders = listOf("Pagination-Total-Results", "Link")
             val availableHeaders = operation.responses.find { it.code == "200" }?.headers?.filter { it.baseName in paginationHeaders }
             if (availableHeaders?.size == paginationHeaders.size) {
-                val map = mapOf("fallbackBody" to fallbackBody(operation.returnType))
-                fragment.execute(map, writer)
+                val context = mapOf("fallbackBody" to fallbackBody(operation.returnType))
+                fragment.execute(context, writer)
             }
         }
     },
