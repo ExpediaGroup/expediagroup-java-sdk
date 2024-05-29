@@ -109,8 +109,6 @@ class {{#lambda.titlecase}}{{namespace}}{{/lambda.titlecase}}Client private cons
             return execute(operation)
         }
 
-        {{#paginator}}{{/paginator}}
-
         {{^isKotlin}}
             /**
             * {{{summary}}}
@@ -150,7 +148,9 @@ class {{#lambda.titlecase}}{{namespace}}{{/lambda.titlecase}}Client private cons
                 }
             }
         {{/isKotlin}}
-        {{/operation}}
-        {{>client/paginatorMethods}}
-    {{/operations}}{{/apis}}{{/apiInfo}}
+
+        {{#isPaginatable}}
+            {{>client/paginatorMethods}}
+        {{/isPaginatable}}
+    {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 }
