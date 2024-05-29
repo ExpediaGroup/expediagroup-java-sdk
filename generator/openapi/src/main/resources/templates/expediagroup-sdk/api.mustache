@@ -14,6 +14,21 @@ import com.expediagroup.sdk.core.model.Operation
 
 {{#operations}}
     {{#operation}}
+        /**
+        * {{{summary}}}
+        {{#hasBodyParam}}
+            * @property requestBody [{{#bodyParam}}{{dataType}}{{/bodyParam}}]
+        {{/hasBodyParam}}
+        {{#hasPathParams}}
+            * @property params [{{classname}}Params]
+        {{/hasPathParams}}
+        {{^hasPathParams}}{{#hasHeaderParams}}
+            * @property params [{{classname}}Params]
+        {{/hasHeaderParams}}{{/hasPathParams}}
+        {{^hasPathParams}}{{^hasHeaderParams}}{{#hasQueryParams}}
+            * @property params [{{classname}}Params]
+        {{/hasQueryParams}}{{/hasHeaderParams}}{{/hasPathParams}}
+        */
         class {{classname}}(
             {{#hasBodyParam}}
                 requestBody: {{#bodyParam}}{{dataType}}{{/bodyParam}}{{^required}}?{{/required}},

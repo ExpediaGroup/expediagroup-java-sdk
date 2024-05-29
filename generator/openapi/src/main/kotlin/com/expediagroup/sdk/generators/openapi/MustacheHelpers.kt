@@ -34,23 +34,14 @@ val fallbackBody = fun(dataType: String): String {
 }
 
 val mustacheHelpers = mapOf(
-    "paginator" to {
+    "isPaginatable" to {
         Mustache.Lambda { fragment, writer ->
             val operation = fragment.context() as CodegenOperation
             val paginationHeaders = listOf("Pagination-Total-Results", "Link")
             val availableHeaders = operation.responses.find { it.code == "200" }?.headers?.filter { it.baseName in paginationHeaders }
             if (availableHeaders?.size == paginationHeaders.size) {
-                writer.write("@JvmOverloads")
-                writer.write(System.lineSeparator())
-                writer.write("fun getPaginator(operation: ${operation.operationIdCamelCase}Operation): ResponsePaginator<${operation.returnType}> {")
-                writer.write(System.lineSeparator())
-                writer.write("val response = execute(operation)")
-                writer.write(System.lineSeparator())
-                writer.write("return ResponsePaginator(this, response, ")
-                writer.write(fallbackBody("${operation.returnType}"))
-                writer.write(") { it.body<${operation.returnType}>() }")
-                writer.write(System.lineSeparator())
-                writer.write("}")
+                val context = mapOf("fallbackBody" to fallbackBody(operation.returnType))
+                fragment.execute(context, writer)
             }
         }
     },
@@ -121,18 +112,6 @@ val mustacheHelpers = mapOf(
                 if (index < dataTypes.size - 1) stringBuilder.append(",\n")
             }
             writer.write(stringBuilder.toString())
-        }
-    },
-    "fallbackBody" to {
-        Mustache.Lambda { fragment, writer ->
-            val dataType: String = fragment.context() as String
-            if (dataType.startsWith("kotlin.collections.List")) {
-                writer.write("emptyList()")
-            } else if (dataType.startsWith("kotlin.collections.Map")) {
-                writer.write("emptyMap()")
-            } else if (dataType.startsWith("kotlin.collections.Set")) {
-                writer.write("emptySet()")
-            }
         }
     }
 )
