@@ -5,6 +5,8 @@
 [JVM]\
 public final class [RequestUndeliveredNotificationsOperation](index.md) extends Operation&lt;Nothing&gt;
 
+Request Undelivered Notifications
+
 ## Constructors
 
 | | |

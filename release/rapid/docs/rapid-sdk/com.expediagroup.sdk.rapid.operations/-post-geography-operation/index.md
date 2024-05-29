@@ -5,6 +5,8 @@
 [JVM]\
 public final class [PostGeographyOperation](index.md) extends Operation&lt;[PropertiesGeoJsonRequest](../../com.expediagroup.sdk.rapid.models/-properties-geo-json-request/index.md)&gt;
 
+Properties within Polygon
+
 ## Constructors
 
 | | |

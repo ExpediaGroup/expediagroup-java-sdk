@@ -5,6 +5,8 @@
 [JVM]\
 public final class [CommitChangeOperation](index.md) extends Operation&lt;[CommitChangeRoomRequestBody](../../com.expediagroup.sdk.rapid.models/-commit-change-room-request-body/index.md)&gt;
 
+Commit a change of itinerary that may require additional payment or refund.
+
 ## Constructors
 
 | | |

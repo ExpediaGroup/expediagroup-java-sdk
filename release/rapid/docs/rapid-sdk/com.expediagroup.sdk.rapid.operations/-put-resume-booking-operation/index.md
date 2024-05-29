@@ -5,6 +5,8 @@
 [JVM]\
 public final class [PutResumeBookingOperation](index.md) extends Operation&lt;Nothing&gt;
 
+Resume Booking
+
 ## Constructors
 
 | | |

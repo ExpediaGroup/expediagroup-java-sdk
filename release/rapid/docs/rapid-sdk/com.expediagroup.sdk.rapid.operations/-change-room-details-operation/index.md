@@ -5,6 +5,8 @@
 [JVM]\
 public final class [ChangeRoomDetailsOperation](index.md) extends Operation&lt;[ChangeRoomDetailsRequest](../../com.expediagroup.sdk.rapid.models/-change-room-details-request/index.md)&gt;
 
+Change details of a room.
+
 ## Constructors
 
 | | |

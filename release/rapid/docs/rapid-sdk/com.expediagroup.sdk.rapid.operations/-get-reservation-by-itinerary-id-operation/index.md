@@ -5,6 +5,8 @@
 [JVM]\
 public final class [GetReservationByItineraryIdOperation](index.md) extends Operation&lt;Nothing&gt;
 
+Retrieve Booking
+
 ## Constructors
 
 | | |

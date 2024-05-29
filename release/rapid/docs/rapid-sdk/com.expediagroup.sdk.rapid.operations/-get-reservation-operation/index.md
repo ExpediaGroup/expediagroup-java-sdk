@@ -5,6 +5,8 @@
 [JVM]\
 public final class [GetReservationOperation](index.md) extends Operation&lt;Nothing&gt;
 
+Search for and retrieve Bookings with Affiliate Reference Id
+
 ## Constructors
 
 | | |

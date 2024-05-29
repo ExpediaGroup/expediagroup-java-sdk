@@ -5,6 +5,8 @@
 [JVM]\
 public final class [GetAdditionalAvailabilityOperation](index.md) extends Operation&lt;Nothing&gt;
 
+Get additional property room rates and availability
+
 ## Constructors
 
 | | |

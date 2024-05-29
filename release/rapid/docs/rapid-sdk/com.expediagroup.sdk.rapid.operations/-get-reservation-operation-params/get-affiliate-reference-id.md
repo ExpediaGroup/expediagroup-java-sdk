@@ -5,3 +5,5 @@
 [JVM]\
 
 public final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[getAffiliateReferenceId](get-affiliate-reference-id.md)()
+
+The affilliate reference id value. This field supports a maximum of 28 characters.

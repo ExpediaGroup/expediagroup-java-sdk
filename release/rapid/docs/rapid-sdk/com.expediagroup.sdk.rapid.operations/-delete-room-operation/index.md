@@ -5,6 +5,8 @@
 [JVM]\
 public final class [DeleteRoomOperation](index.md) extends Operation&lt;Nothing&gt;
 
+Cancel a room.
+
 ## Constructors
 
 | | |

@@ -5,6 +5,8 @@
 [JVM]\
 public final class [GetPropertyCatalogFileOperation](index.md) extends Operation&lt;Nothing&gt;
 
+Property Catalog File
+
 ## Constructors
 
 | | |

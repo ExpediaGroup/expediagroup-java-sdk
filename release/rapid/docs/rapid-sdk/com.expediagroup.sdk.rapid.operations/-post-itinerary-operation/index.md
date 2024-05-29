@@ -5,6 +5,8 @@
 [JVM]\
 public final class [PostItineraryOperation](index.md) extends Operation&lt;[CreateItineraryRequest](../../com.expediagroup.sdk.rapid.models/-create-itinerary-request/index.md)&gt;
 
+Create Booking
+
 ## Constructors
 
 | | |

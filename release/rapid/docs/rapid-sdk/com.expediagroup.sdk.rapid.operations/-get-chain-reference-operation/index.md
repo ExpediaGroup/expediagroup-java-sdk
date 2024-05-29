@@ -5,6 +5,8 @@
 [JVM]\
 public final class [GetChainReferenceOperation](index.md) extends Operation&lt;Nothing&gt;
 
+Chain Reference
+
 ## Constructors
 
 | | |

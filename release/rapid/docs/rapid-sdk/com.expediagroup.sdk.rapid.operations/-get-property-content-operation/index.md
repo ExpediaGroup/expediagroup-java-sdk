@@ -5,6 +5,8 @@
 [JVM]\
 public final class [GetPropertyContentOperation](index.md) extends Operation&lt;Nothing&gt;
 
+Property Content
+
 ## Constructors
 
 | | |

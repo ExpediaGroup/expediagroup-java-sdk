@@ -5,6 +5,8 @@
 [JVM]\
 public final class [RequestTestNotificationOperation](index.md) extends Operation&lt;[TestNotificationRequest](../../com.expediagroup.sdk.rapid.models/-test-notification-request/index.md)&gt;
 
+Request Test Notification
+
 ## Constructors
 
 | | |

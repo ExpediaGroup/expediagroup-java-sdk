@@ -5,3 +5,5 @@
 [JVM]\
 
 public final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[getItineraryId](get-itinerary-id.md)()
+
+This parameter is used only to prefix the token value - no ID value is used.<br>

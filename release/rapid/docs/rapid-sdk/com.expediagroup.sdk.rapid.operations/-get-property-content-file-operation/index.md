@@ -5,6 +5,8 @@
 [JVM]\
 public final class [GetPropertyContentFileOperation](index.md) extends Operation&lt;Nothing&gt;
 
+Property Content File
+
 ## Constructors
 
 | | |
