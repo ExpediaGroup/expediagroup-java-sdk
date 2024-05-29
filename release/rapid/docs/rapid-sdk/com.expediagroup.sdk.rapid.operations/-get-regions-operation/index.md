@@ -5,6 +5,8 @@
 [JVM]\
 public final class [GetRegionsOperation](index.md) extends Operation&lt;Nothing&gt;
 
+Regions
+
 ## Constructors
 
 | | |

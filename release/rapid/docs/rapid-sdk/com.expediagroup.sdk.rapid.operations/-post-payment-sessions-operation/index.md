@@ -5,6 +5,8 @@
 [JVM]\
 public final class [PostPaymentSessionsOperation](index.md) extends Operation&lt;[PaymentSessionsRequest](../../com.expediagroup.sdk.rapid.models/-payment-sessions-request/index.md)&gt;
 
+Register Payments
+
 ## Constructors
 
 | | |

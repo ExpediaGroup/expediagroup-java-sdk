@@ -5,6 +5,8 @@
 [JVM]\
 public final class [GetPropertyGuestReviewsOperation](index.md) extends Operation&lt;Nothing&gt;
 
+Property Guest Reviews
+
 ## Constructors
 
 | | |

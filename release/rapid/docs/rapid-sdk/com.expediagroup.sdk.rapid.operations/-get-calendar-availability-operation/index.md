@@ -5,6 +5,8 @@
 [JVM]\
 public final class [GetCalendarAvailabilityOperation](index.md) extends Operation&lt;Nothing&gt;
 
+Get a calendar of availability dates for properties. This is currently a Vrbo property only feature.
+
 ## Constructors
 
 | | |

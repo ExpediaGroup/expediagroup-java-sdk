@@ -5,6 +5,8 @@
 [JVM]\
 public final class [DeleteHeldBookingOperation](index.md) extends Operation&lt;Nothing&gt;
 
+Cancel Held Booking
+
 ## Constructors
 
 | | |

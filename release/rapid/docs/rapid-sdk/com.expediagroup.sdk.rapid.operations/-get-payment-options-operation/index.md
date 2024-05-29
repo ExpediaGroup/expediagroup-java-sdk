@@ -5,6 +5,8 @@
 [JVM]\
 public final class [GetPaymentOptionsOperation](index.md) extends Operation&lt;Nothing&gt;
 
+Get Accepted Payment Types - EPS MOR Only
+
 ## Constructors
 
 | | |

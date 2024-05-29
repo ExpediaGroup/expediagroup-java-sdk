@@ -5,6 +5,8 @@
 [JVM]\
 public final class [GetInactivePropertiesOperation](index.md) extends Operation&lt;Nothing&gt;
 
+Inactive Properties
+
 ## Constructors
 
 | | |

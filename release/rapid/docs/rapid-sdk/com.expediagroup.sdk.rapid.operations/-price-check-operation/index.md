@@ -5,6 +5,8 @@
 [JVM]\
 public final class [PriceCheckOperation](index.md) extends Operation&lt;Nothing&gt;
 
+Price-Check
+
 ## Constructors
 
 | | |

@@ -5,6 +5,8 @@
 [JVM]\
 public final class [PutCompletePaymentSessionOperation](index.md) extends Operation&lt;Nothing&gt;
 
+Complete Payment Session
+
 ## Constructors
 
 | | |
