@@ -68,6 +68,13 @@ class {{#lambda.titlecase}}{{namespace}}{{/lambda.titlecase}}Client private cons
     }
 
     {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
+        /**
+        * {{{summary}}}
+        * {{{notes}}}
+        * @param operation [{{operationIdCamelCase}}Operation]
+        {{#throwsExceptions}}{{/throwsExceptions}}
+        * @return a [Response] object with a body of type {{{returnType}}}{{^returnType}}Nothing{{/returnType}}
+        */
         fun execute(operation: {{operationIdCamelCase}}Operation) : {{#returnType}}Response<{{{returnType}}}>{{/returnType}}{{^returnType}}Response<Nothing>{{/returnType}} {
             return execute<
                 {{#bodyParam}}{{dataType}}{{/bodyParam}}{{^hasBodyParam}}Nothing{{/hasBodyParam}},
