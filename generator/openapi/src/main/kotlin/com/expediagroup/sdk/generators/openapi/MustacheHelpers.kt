@@ -21,26 +21,23 @@ import org.openapitools.codegen.CodegenOperation
 import org.openapitools.codegen.CodegenProperty
 import org.openapitools.codegen.model.ApiInfoMap
 
-val fallbackBody = fun(dataType: String): String {
-    return if (dataType.startsWith("kotlin.collections.List")) {
-        "emptyList()"
-    } else if (dataType.startsWith("kotlin.collections.Map")) {
-        "emptyMap()"
-    } else if (dataType.startsWith("kotlin.collections.Set")) {
-        "emptySet()"
-    } else {
-        ""
-    }
-}
-
 val mustacheHelpers = mapOf(
     "isPaginatable" to {
         Mustache.Lambda { fragment, writer ->
             val operation = fragment.context() as CodegenOperation
+            if (operation.returnType == null) return@Lambda
             val paginationHeaders = listOf("Pagination-Total-Results", "Link")
             val availableHeaders = operation.responses.find { it.code == "200" }?.headers?.filter { it.baseName in paginationHeaders }
             if (availableHeaders?.size == paginationHeaders.size) {
-                val context = mapOf("fallbackBody" to fallbackBody(operation.returnType))
+                val fallbackBody =
+                    when {
+                        operation.returnType.startsWith("kotlin.collections.List") -> "emptyList()"
+                        operation.returnType.startsWith("kotlin.collections.Map") -> "emptyMap()"
+                        operation.returnType.startsWith("kotlin.collections.Set") -> "emptySet()"
+                        else -> ""
+                    }
+
+                val context = mapOf("fallbackBody" to fallbackBody)
                 fragment.execute(context, writer)
             }
         }
