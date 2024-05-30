@@ -38,27 +38,42 @@ class {{#lambda.titlecase}}{{namespace}}{{/lambda.titlecase}}Client private cons
         throw ErrorObjectMapper.process(response, operationId)
     }
 
+    private suspend inline fun <reified RequestType> executeHttpRequest(operation: Operation<RequestType>): HttpResponse {
+        return httpClient.request {
+            method = HttpMethod.parse(operation.method)
+            url(operation.url)
+
+            operation.params.getHeaders()?.forEach { (key, value) ->
+                headers.append(key, value)
+            }
+
+            operation.params.getQueryParams()?.forEach { (key, value) ->
+                url.parameters.appendAll(key, value)
+            }
+
+            appendHeaders(operation.transactionId)
+            validateConstraints(operation.requestBody)
+            contentType(ContentType.Application.Json)
+            setBody(operation.requestBody)
+        }
+    }
+
+    private inline fun <reified RequestType> executeWithEmptyResponse(operation: Operation<RequestType>) : EmptyResponse {
+        try {
+            return GlobalScope.future(Dispatchers.IO) {
+                val response = executeHttpRequest(operation)
+                throwIfError(response, operation.operationId)
+                EmptyResponse(response.status.value, response.headers.entries())
+            }.get()
+        } catch (exception: Exception) {
+            exception.handle()
+        }
+    }
+
     private inline fun <reified RequestType, reified ResponseType> execute(operation: Operation<RequestType>) : Response<ResponseType> {
         try {
             return GlobalScope.future(Dispatchers.IO) {
-                val response = httpClient.request {
-                    method = HttpMethod.parse(operation.method)
-                    url(operation.url)
-
-                    operation.params.getHeaders()?.forEach { (key, value) ->
-                        headers.append(key, value)
-                    }
-
-                    operation.params.getQueryParams()?.forEach { (key, value) ->
-                        url.parameters.appendAll(key, value)
-                    }
-
-                    appendHeaders(operation.transactionId)
-                    validateConstraints(operation.requestBody)
-                    contentType(ContentType.Application.Json)
-                    setBody(operation.requestBody)
-                }
-
+                val response = executeHttpRequest(operation)
                 throwIfError(response, operation.operationId)
                 Response(response.status.value, response.body<ResponseType>(), response.headers.entries())
             }.get()
@@ -75,11 +90,13 @@ class {{#lambda.titlecase}}{{namespace}}{{/lambda.titlecase}}Client private cons
         {{#throwsExceptions}}{{/throwsExceptions}}
         * @return a [Response] object with a body of type {{{returnType}}}{{^returnType}}Nothing{{/returnType}}
         */
-        fun execute(operation: {{operationIdCamelCase}}Operation) : {{#returnType}}Response<{{{returnType}}}>{{/returnType}}{{^returnType}}Response<Nothing>{{/returnType}} {
-            return execute<
-                {{#bodyParam}}{{dataType}}{{/bodyParam}}{{^hasBodyParam}}Nothing{{/hasBodyParam}},
-                {{{returnType}}}{{^returnType}}Nothing{{/returnType}}
-            >(operation)
+        fun execute(operation: {{operationIdCamelCase}}Operation) : {{#returnType}}Response<{{{returnType}}}>{{/returnType}}{{^returnType}}EmptyResponse{{/returnType}} {
+            {{#returnType}}
+                return execute<{{#bodyParam}}{{dataType}}{{/bodyParam}}{{^hasBodyParam}}Nothing{{/hasBodyParam}}, {{{returnType}}}>(operation)
+            {{/returnType}}
+            {{^returnType}}
+                return executeWithEmptyResponse<{{#bodyParam}}{{dataType}}{{/bodyParam}}{{^hasBodyParam}}Nothing{{/hasBodyParam}}>(operation)
+            {{/returnType}}
         }
 
         private suspend {{^isKotlin}}inline {{/isKotlin}}fun {{^isKotlin}}k{{/isKotlin}}{{operationId}}WithResponse({{>client/apiParamsDecleration}}): {{#returnType}}Response<{{{returnType}}}>{{/returnType}}{{^returnType}}Response<Nothing>{{/returnType}} {
