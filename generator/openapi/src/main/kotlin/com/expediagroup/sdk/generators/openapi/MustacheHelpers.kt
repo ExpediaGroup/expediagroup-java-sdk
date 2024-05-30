@@ -80,10 +80,8 @@ val mustacheHelpers = mapOf(
             }
 
             dataTypes.forEach { dataType ->
-                writer.write(
-                    "class ExpediaGroupApi${dataType}Exception(code: Int, override val errorObject: $dataType, transactionId: String?) : " +
-                        "ExpediaGroupApiException(code, errorObject, transactionId)\n"
-                )
+                val context = mapOf("dataType" to dataType)
+                fragment.execute(context, writer)
             }
         }
     },
