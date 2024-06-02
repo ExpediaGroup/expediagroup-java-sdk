@@ -13,7 +13,7 @@
     <packaging>jar</packaging>
 
         <name>EG Rapid SDK for Java</name>
-        <description>EG Rapid SDK v4.1.1</description>
+        <description>EG Rapid SDK v4.1.2</description>
 
     <artifactId>rapid-sdk</artifactId>
     <version>${revision}</version>
@@ -58,7 +58,7 @@
     <properties>
         <sdk-version>${project.version}</sdk-version>
         <sdk-title>${project.artifactId}</sdk-title>
-        <revision>4.1.1</revision>
+        <revision>4.1.2</revision>
         <shadePrefix>com.expediagroup.sdk</shadePrefix>
     </properties>
 
