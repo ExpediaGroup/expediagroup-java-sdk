@@ -4,7 +4,7 @@
 
 [JVM]\
 
-public final Response&lt;Nothing&gt;[execute](execute.md)([ChangeRoomDetailsOperation](../../com.expediagroup.sdk.rapid.operations/-change-room-details-operation/index.md)operation)
+public final EmptyResponse[execute](execute.md)([ChangeRoomDetailsOperation](../../com.expediagroup.sdk.rapid.operations/-change-room-details-operation/index.md)operation)
 
 Change details of a room. This link will be available in the retrieve response. Changes in smoking preference and special request will be passed along to the property and are not guaranteed.
 
@@ -28,7 +28,7 @@ JVM
 
 [JVM]\
 
-public final Response&lt;Nothing&gt;[execute](execute.md)([CommitChangeOperation](../../com.expediagroup.sdk.rapid.operations/-commit-change-operation/index.md)operation)
+public final EmptyResponse[execute](execute.md)([CommitChangeOperation](../../com.expediagroup.sdk.rapid.operations/-commit-change-operation/index.md)operation)
 
 Commit a change of itinerary that may require additional payment or refund. This link will be available in the change response to confirm and complete the change transaction.  If additional charges are due, a payment must be submitted with this request. Note that Two-Factor  Authentication is not supported at this time.
 
@@ -52,7 +52,7 @@ JVM
 
 [JVM]\
 
-public final Response&lt;Nothing&gt;[execute](execute.md)([DeleteHeldBookingOperation](../../com.expediagroup.sdk.rapid.operations/-delete-held-booking-operation/index.md)operation)
+public final EmptyResponse[execute](execute.md)([DeleteHeldBookingOperation](../../com.expediagroup.sdk.rapid.operations/-delete-held-booking-operation/index.md)operation)
 
 Cancel Held Booking This link will be available in a held booking response.
 
@@ -76,7 +76,7 @@ JVM
 
 [JVM]\
 
-public final Response&lt;Nothing&gt;[execute](execute.md)([DeleteRoomOperation](../../com.expediagroup.sdk.rapid.operations/-delete-room-operation/index.md)operation)
+public final EmptyResponse[execute](execute.md)([DeleteRoomOperation](../../com.expediagroup.sdk.rapid.operations/-delete-room-operation/index.md)operation)
 
 Cancel a room. This link will be available in the retrieve response.
 
@@ -520,7 +520,7 @@ JVM
 
 [JVM]\
 
-public final Response&lt;Nothing&gt;[execute](execute.md)([PutResumeBookingOperation](../../com.expediagroup.sdk.rapid.operations/-put-resume-booking-operation/index.md)operation)
+public final EmptyResponse[execute](execute.md)([PutResumeBookingOperation](../../com.expediagroup.sdk.rapid.operations/-put-resume-booking-operation/index.md)operation)
 
 Resume Booking This link will be available in the booking response after creating a held booking.
 
@@ -544,7 +544,7 @@ JVM
 
 [JVM]\
 
-public final Response&lt;Nothing&gt;[execute](execute.md)([RequestTestNotificationOperation](../../com.expediagroup.sdk.rapid.operations/-request-test-notification-operation/index.md)operation)
+public final EmptyResponse[execute](execute.md)([RequestTestNotificationOperation](../../com.expediagroup.sdk.rapid.operations/-request-test-notification-operation/index.md)operation)
 
 Request Test Notification This request triggers a test notification according to the specified event_type. All event types supported by the Notifications API are available to test.
 
