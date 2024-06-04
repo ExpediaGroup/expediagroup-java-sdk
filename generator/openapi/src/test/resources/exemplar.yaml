@@ -18,7 +18,7 @@ paths:
         get:
             description: Get a "Hello $partnerName" response for an authenticated request
             tags:
-                - Exemplar
+              - greetings
             operationId: greetings
             responses:
                 '200':

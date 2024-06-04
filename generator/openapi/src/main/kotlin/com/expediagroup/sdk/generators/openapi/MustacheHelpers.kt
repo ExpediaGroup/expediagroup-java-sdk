@@ -108,5 +108,13 @@ val mustacheHelpers = mapOf(
             }
             writer.write(stringBuilder.toString())
         }
+    },
+    "hasNonBodyParams" to {
+        Mustache.Lambda { fragment, writer ->
+            val operation = fragment.context() as CodegenOperation
+            if (operation.hasPathParams || operation.hasHeaderParams || operation.hasQueryParams) {
+                fragment.execute(writer)
+            }
+        }
     }
 )
