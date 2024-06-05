@@ -8,22 +8,18 @@
             import com.expediagroup.sdk.core.model.OperationParams
 
             /**
-            {{#pathParams}}
-                * @property {{{paramName}}} {{{description}}}
-            {{/pathParams}}
-            {{#headerParams}}
-                * @property {{{paramName}}} {{{description}}}
-            {{/headerParams}}
-            {{#queryParams}}
-                * @property {{{paramName}}} {{{description}}}
-            {{/queryParams}}
+            {{#nonBodyParams}}
+                {{#params}}
+                    * @property {{{paramName}}} {{{description}}}
+                {{/params}}
+            {{/nonBodyParams}}
             */
             data class {{classname}}Params(
-                {{#pathParams}}{{>modelMutable}} {{>client/apiParam}}{{^-last}}, {{/-last}}{{/pathParams}}
-                {{#hasPathParams}}{{#hasHeaderParams}}, {{/hasHeaderParams}}{{/hasPathParams}}
-                {{#headerParams}}{{>modelMutable}} {{>client/apiParam}}{{^-last}}, {{/-last}}{{/headerParams}}
-                {{#hasHeaderParams}}{{#hasQueryParams}}, {{/hasQueryParams}}{{/hasHeaderParams}}
-                {{#queryParams}}{{>modelMutable}} {{>client/apiParam}}{{^-last}}, {{/-last}}{{/queryParams}}
+                {{#nonBodyParams}}
+                    {{#params}}
+                        {{>modelMutable}} {{>client/apiParam}}{{^-last}}, {{/-last}}
+                    {{/params}}
+                {{/nonBodyParams}}
             ) : OperationParams {
                 companion object {
                     @JvmStatic
@@ -31,36 +27,20 @@
                 }
 
                 class Builder(
-                    {{#pathParams}}
-                        private var {{{paramName}}}: {{{dataType}}}? = null{{^-last}},{{/-last}}
-                    {{/pathParams}}
-                    {{#hasPathParams}}{{#hasHeaderParams}}, {{/hasHeaderParams}}{{/hasPathParams}}
-                    {{#headerParams}}
-                        private var {{{paramName}}}: {{{dataType}}}? = null{{^-last}},{{/-last}}
-                    {{/headerParams}}
-                    {{#hasHeaderParams}}{{#hasQueryParams}}, {{/hasQueryParams}}{{/hasHeaderParams}}
-                    {{#queryParams}}
-                        private var {{{paramName}}}: {{{dataType}}}? = null{{^-last}},{{/-last}}
-                    {{/queryParams}}
+                    {{#nonBodyParams}}
+                        {{#params}}
+                            private var {{{paramName}}}: {{{dataType}}}? = null{{^-last}},{{/-last}}
+                        {{/params}}
+                    {{/nonBodyParams}}
                 ) {
-                    {{#pathParams}}
-                        /**
-                        * @param {{{paramName}}} {{{description}}}
-                        */
-                        fun {{{paramName}}}({{{paramName}}}: {{{dataType}}}) = apply { this.{{{paramName}}} = {{{paramName}}} }
-                    {{/pathParams}}
-                    {{#headerParams}}
-                        /**
-                        * @param {{{paramName}}} {{{description}}}
-                        */
-                        fun {{{paramName}}}({{{paramName}}}: {{{dataType}}}) = apply { this.{{{paramName}}} = {{{paramName}}} }
-                    {{/headerParams}}
-                    {{#queryParams}}
-                        /**
-                        * @param {{{paramName}}} {{{description}}}
-                        */
-                        fun {{{paramName}}}({{{paramName}}}: {{{dataType}}}) = apply { this.{{{paramName}}} = {{{paramName}}} }
-                    {{/queryParams}}
+                    {{#nonBodyParams}}
+                        {{#params}}
+                            /**
+                            * @param {{{paramName}}} {{{description}}}
+                            */
+                            fun {{{paramName}}}({{{paramName}}}: {{{dataType}}}) = apply { this.{{{paramName}}} = {{{paramName}}} }
+                        {{/params}}
+                    {{/nonBodyParams}}
 
                     fun build(): {{classname}}Params {
                         {{#hasRequiredParams}}
@@ -68,43 +48,25 @@
                         {{/hasRequiredParams}}
 
                         return {{classname}}Params(
-                            {{#pathParams}}
-                                {{{paramName}}} = {{{paramName}}}{{#required}}!!{{/required}}{{^-last}},{{/-last}}
-                            {{/pathParams}}
-                            {{#hasPathParams}}{{#hasHeaderParams}}, {{/hasHeaderParams}}{{/hasPathParams}}
-                            {{#headerParams}}
-                                {{{paramName}}} = {{{paramName}}}{{#required}}!!{{/required}}{{^-last}},{{/-last}}
-                            {{/headerParams}}
-                            {{#hasHeaderParams}}{{#hasQueryParams}}, {{/hasQueryParams}}{{/hasHeaderParams}}
-                            {{#queryParams}}
-                                {{{paramName}}} = {{{paramName}}}{{#required}}!!{{/required}}{{^-last}},{{/-last}}
-                            {{/queryParams}}
+                            {{#nonBodyParams}}
+                                {{#params}}
+                                    {{{paramName}}} = {{{paramName}}}{{#required}}!!{{/required}}{{^-last}},{{/-last}}
+                                {{/params}}
+                            {{/nonBodyParams}}
                         )
                     }
 
                     {{#hasRequiredParams}}
                         private fun validateNullity() {
-                            {{#pathParams}}
-                                {{#required}}
-                                    if ({{{paramName}}} == null) {
-                                        throw NullPointerException("Required parameter {{{paramName}}} is missing")
-                                    }
-                                {{/required}}
-                            {{/pathParams}}
-                            {{#headerParams}}
-                                {{#required}}
-                                    if ({{{paramName}}} == null) {
-                                        throw NullPointerException("Required parameter {{{paramName}}} is missing")
-                                    }
-                                {{/required}}
-                            {{/headerParams}}
-                            {{#queryParams}}
-                                {{#required}}
-                                    if ({{{paramName}}} == null) {
-                                        throw NullPointerException("Required parameter {{{paramName}}} is missing")
-                                    }
-                                {{/required}}
-                            {{/queryParams}}
+                            {{#nonBodyParams}}
+                                {{#params}}
+                                    {{#required}}
+                                        if ({{{paramName}}} == null) {
+                                            throw NullPointerException("Required parameter {{{paramName}}} is missing")
+                                        }
+                                    {{/required}}
+                                {{/params}}
+                            {{/nonBodyParams}}
                         }
                     {{/hasRequiredParams}}
                 }

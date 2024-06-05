@@ -102,20 +102,11 @@ class {{#lambda.titlecase}}{{namespace}}{{/lambda.titlecase}}Client private cons
         private suspend {{^isKotlin}}inline {{/isKotlin}}fun {{^isKotlin}}k{{/isKotlin}}{{operationId}}WithResponse({{>client/apiParamsDecleration}}): {{#returnType}}Response<{{{returnType}}}>{{/returnType}}{{^returnType}}Response<Nothing>{{/returnType}} {
             {{#hasNonBodyParams}}
                 val params =  {{operationIdCamelCase}}OperationParams(
-            {{/hasNonBodyParams}}
-            {{#pathParams}}
-                {{{paramName}}} = {{{paramName}}}{{^-last}}, {{/-last}}
-            {{/pathParams}}
-            {{#hasPathParams}}{{#hasHeaderParams}}, {{/hasHeaderParams}}{{/hasPathParams}}
-            {{#headerParams}}
-                {{{paramName}}} = {{{paramName}}}{{^-last}}, {{/-last}}
-            {{/headerParams}}
-            {{#hasHeaderParams}}{{#hasQueryParams}}, {{/hasQueryParams}}{{/hasHeaderParams}}
-            {{#queryParams}}
-                {{{paramName}}} = {{{paramName}}}{{^-last}}, {{/-last}}
-            {{/queryParams}}
-
-            {{#hasNonBodyParams}}
+                {{#nonBodyParams}}
+                    {{#params}}
+                        {{{paramName}}} = {{{paramName}}}{{^-last}}, {{/-last}}
+                    {{/params}}
+                {{/nonBodyParams}}
                 )
             {{/hasNonBodyParams}}
 

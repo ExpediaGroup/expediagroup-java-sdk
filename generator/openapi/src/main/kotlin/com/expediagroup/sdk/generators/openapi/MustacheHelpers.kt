@@ -116,5 +116,13 @@ val mustacheHelpers = mapOf(
                 fragment.execute(writer)
             }
         }
+    },
+    "nonBodyParams" to {
+        Mustache.Lambda { fragment, writer ->
+            val operation = fragment.context() as CodegenOperation
+            val params = operation.pathParams + operation.headerParams + operation.queryParams
+            val context = mapOf("params" to params)
+            fragment.execute(context, writer)
+        }
     }
 )
