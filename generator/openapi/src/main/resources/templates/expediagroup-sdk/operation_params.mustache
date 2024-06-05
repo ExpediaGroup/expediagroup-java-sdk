@@ -1,132 +1,102 @@
-{{>licenseInfo}}
-
-package com.expediagroup.sdk.{{namespace}}.operations
-
-import com.expediagroup.sdk.core.model.OperationParams
-
 {{#operations}}
     {{#operation}}
-        /**
-        {{#allParams}}
-            * @property {{{paramName}}} {{{description}}}
-        {{/allParams}}
-        */
-        data class {{classname}}Params(
-            {{#pathParams}}{{>modelMutable}} {{>client/apiParam}}{{^-last}}, {{/-last}}{{/pathParams}}
-            {{#hasPathParams}}{{#hasHeaderParams}}, {{/hasHeaderParams}}{{/hasPathParams}}
-            {{#headerParams}}{{>modelMutable}} {{>client/apiParam}}{{^-last}}, {{/-last}}{{/headerParams}}
-            {{#hasHeaderParams}}{{#hasQueryParams}}, {{/hasQueryParams}}{{/hasHeaderParams}}
-            {{#queryParams}}{{>modelMutable}} {{>client/apiParam}}{{^-last}}, {{/-last}}{{/queryParams}}
-        ) : OperationParams {
-            companion object {
-                @JvmStatic
-                fun builder() = Builder()
-            }
+        {{#hasNonBodyParams}}
+            {{>licenseInfo}}
 
-            class Builder(
-                {{#pathParams}}
-                    private var {{{paramName}}}: {{{dataType}}}? = null{{^-last}},{{/-last}}
-                {{/pathParams}}
-                {{#hasPathParams}}{{#hasHeaderParams}}, {{/hasHeaderParams}}{{/hasPathParams}}
-                {{#headerParams}}
-                    private var {{{paramName}}}: {{{dataType}}}? = null{{^-last}},{{/-last}}
-                {{/headerParams}}
-                {{#hasHeaderParams}}{{#hasQueryParams}}, {{/hasQueryParams}}{{/hasHeaderParams}}
-                {{#queryParams}}
-                    private var {{{paramName}}}: {{{dataType}}}? = null{{^-last}},{{/-last}}
-                {{/queryParams}}
-            ) {
-                {{#pathParams}}
-                    /**
-                    * @param {{{paramName}}} {{{description}}}
-                    */
-                    fun {{{paramName}}}({{{paramName}}}: {{{dataType}}}) = apply { this.{{{paramName}}} = {{{paramName}}} }
-                {{/pathParams}}
-                {{#headerParams}}
-                    /**
-                    * @param {{{paramName}}} {{{description}}}
-                    */
-                    fun {{{paramName}}}({{{paramName}}}: {{{dataType}}}) = apply { this.{{{paramName}}} = {{{paramName}}} }
-                {{/headerParams}}
-                {{#queryParams}}
-                    /**
-                    * @param {{{paramName}}} {{{description}}}
-                    */
-                    fun {{{paramName}}}({{{paramName}}}: {{{dataType}}}) = apply { this.{{{paramName}}} = {{{paramName}}} }
-                {{/queryParams}}
+            package com.expediagroup.sdk.{{namespace}}.operations
 
-                fun build(): {{classname}}Params {
-                    {{#hasRequiredParams}}
-                        validateNullity()
-                    {{/hasRequiredParams}}
+            import com.expediagroup.sdk.core.model.OperationParams
 
-                    return {{classname}}Params(
-                        {{#pathParams}}
-                            {{{paramName}}} = {{{paramName}}}{{#required}}!!{{/required}}{{^-last}},{{/-last}}
-                        {{/pathParams}}
-                        {{#hasPathParams}}{{#hasHeaderParams}}, {{/hasHeaderParams}}{{/hasPathParams}}
-                        {{#headerParams}}
-                            {{{paramName}}} = {{{paramName}}}{{#required}}!!{{/required}}{{^-last}},{{/-last}}
-                        {{/headerParams}}
-                        {{#hasHeaderParams}}{{#hasQueryParams}}, {{/hasQueryParams}}{{/hasHeaderParams}}
-                        {{#queryParams}}
-                            {{{paramName}}} = {{{paramName}}}{{#required}}!!{{/required}}{{^-last}},{{/-last}}
-                        {{/queryParams}}
-                    )
+            /**
+            {{#nonBodyParams}}
+                {{#params}}
+                    * @property {{{paramName}}} {{{description}}}
+                {{/params}}
+            {{/nonBodyParams}}
+            */
+            data class {{classname}}Params(
+                {{#nonBodyParams}}
+                    {{#params}}
+                        {{>modelMutable}} {{>client/apiParam}}{{^-last}}, {{/-last}}
+                    {{/params}}
+                {{/nonBodyParams}}
+            ) : OperationParams {
+                companion object {
+                    @JvmStatic
+                    fun builder() = Builder()
                 }
 
-                {{#hasRequiredParams}}
-                    private fun validateNullity() {
-                        {{#pathParams}}
-                            {{#required}}
-                                if ({{{paramName}}} == null) {
-                                    throw NullPointerException("Required parameter {{{paramName}}} is missing")
-                                }
-                            {{/required}}
-                        {{/pathParams}}
-                        {{#headerParams}}
-                            {{#required}}
-                                if ({{{paramName}}} == null) {
-                                    throw NullPointerException("Required parameter {{{paramName}}} is missing")
-                                }
-                            {{/required}}
-                        {{/headerParams}}
-                        {{#queryParams}}
-                            {{#required}}
-                                if ({{{paramName}}} == null) {
-                                    throw NullPointerException("Required parameter {{{paramName}}} is missing")
-                                }
-                            {{/required}}
-                        {{/queryParams}}
-                    }
-                {{/hasRequiredParams}}
-            }
+                class Builder(
+                    {{#nonBodyParams}}
+                        {{#params}}
+                            private var {{{paramName}}}: {{{dataType}}}? = null{{^-last}},{{/-last}}
+                        {{/params}}
+                    {{/nonBodyParams}}
+                ) {
+                    {{#nonBodyParams}}
+                        {{#params}}
+                            /**
+                            * @param {{{paramName}}} {{{description}}}
+                            */
+                            fun {{{paramName}}}({{{paramName}}}: {{{dataType}}}) = apply { this.{{{paramName}}} = {{{paramName}}} }
+                        {{/params}}
+                    {{/nonBodyParams}}
 
-            override fun getHeaders(): Map<String, String> {
-                {{#hasHeaderParams}}
-                    return buildMap {
-                        {{#headerParams}}
-                            {{paramName}}?.also { put("{{baseName}}", {{paramName}}) }
-                        {{/headerParams}}
-                    }
-                {{/hasHeaderParams}}
-                {{^hasHeaderParams}}
-                    return emptyMap<String, String>()
-                {{/hasHeaderParams}}
-            }
+                    fun build(): {{classname}}Params {
+                        {{#hasRequiredParams}}
+                            validateNullity()
+                        {{/hasRequiredParams}}
 
-            override fun getQueryParams(): Map<String, Iterable<String>> {
-                {{#hasQueryParams}}
-                    return buildMap {
-                        {{#queryParams}}
-                            {{paramName}}?.also { put ("{{baseName}}", {{#isContainer}}{{paramName}}{{/isContainer}}{{^isContainer}}listOf({{paramName}}.toString()){{/isContainer}})}
-                        {{/queryParams}}
+                        return {{classname}}Params(
+                            {{#nonBodyParams}}
+                                {{#params}}
+                                    {{{paramName}}} = {{{paramName}}}{{#required}}!!{{/required}}{{^-last}},{{/-last}}
+                                {{/params}}
+                            {{/nonBodyParams}}
+                        )
                     }
-                {{/hasQueryParams}}
-                {{^hasQueryParams}}
-                    return emptyMap<String, Iterable<String>>()
-                {{/hasQueryParams}}
+
+                    {{#hasRequiredParams}}
+                        private fun validateNullity() {
+                            {{#nonBodyParams}}
+                                {{#params}}
+                                    {{#required}}
+                                        if ({{{paramName}}} == null) {
+                                            throw NullPointerException("Required parameter {{{paramName}}} is missing")
+                                        }
+                                    {{/required}}
+                                {{/params}}
+                            {{/nonBodyParams}}
+                        }
+                    {{/hasRequiredParams}}
+                }
+
+                override fun getHeaders(): Map<String, String> {
+                    {{#hasHeaderParams}}
+                        return buildMap {
+                            {{#headerParams}}
+                                {{paramName}}?.also { put("{{baseName}}", {{paramName}}) }
+                            {{/headerParams}}
+                        }
+                    {{/hasHeaderParams}}
+                    {{^hasHeaderParams}}
+                        return emptyMap<String, String>()
+                    {{/hasHeaderParams}}
+                }
+
+                override fun getQueryParams(): Map<String, Iterable<String>> {
+                    {{#hasQueryParams}}
+                        return buildMap {
+                            {{#queryParams}}
+                                {{paramName}}?.also { put ("{{baseName}}", {{#isContainer}}{{paramName}}{{/isContainer}}{{^isContainer}}listOf({{paramName}}.toString()){{/isContainer}})}
+                            {{/queryParams}}
+                        }
+                    {{/hasQueryParams}}
+                    {{^hasQueryParams}}
+                        return emptyMap<String, Iterable<String>>()
+                    {{/hasQueryParams}}
+                }
             }
-        }
+        {{/hasNonBodyParams}}
     {{/operation}}
 {{/operations}}

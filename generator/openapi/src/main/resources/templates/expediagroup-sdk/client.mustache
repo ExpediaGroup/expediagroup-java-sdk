@@ -43,11 +43,11 @@ class {{#lambda.titlecase}}{{namespace}}{{/lambda.titlecase}}Client private cons
             method = HttpMethod.parse(operation.method)
             url(operation.url)
 
-            operation.params.getHeaders()?.forEach { (key, value) ->
+            operation.params?.getHeaders()?.forEach { (key, value) ->
                 headers.append(key, value)
             }
 
-            operation.params.getQueryParams()?.forEach { (key, value) ->
+            operation.params?.getQueryParams()?.forEach { (key, value) ->
                 url.parameters.appendAll(key, value)
             }
 
@@ -100,34 +100,23 @@ class {{#lambda.titlecase}}{{namespace}}{{/lambda.titlecase}}Client private cons
         }
 
         private suspend {{^isKotlin}}inline {{/isKotlin}}fun {{^isKotlin}}k{{/isKotlin}}{{operationId}}WithResponse({{>client/apiParamsDecleration}}): {{#returnType}}Response<{{{returnType}}}>{{/returnType}}{{^returnType}}Response<Nothing>{{/returnType}} {
-
-            val params =  {{operationIdCamelCase}}OperationParams(
-                {{#pathParams}}
-                    {{{paramName}}} = {{{paramName}}}{{^-last}}, {{/-last}}
-                {{/pathParams}}
-                {{#hasPathParams}}{{#hasHeaderParams}}, {{/hasHeaderParams}}{{/hasPathParams}}
-                {{#headerParams}}
-                    {{{paramName}}} = {{{paramName}}}{{^-last}}, {{/-last}}
-                {{/headerParams}}
-                {{#hasHeaderParams}}{{#hasQueryParams}}, {{/hasQueryParams}}{{/hasHeaderParams}}
-                {{#queryParams}}
-                    {{{paramName}}} = {{{paramName}}}{{^-last}}, {{/-last}}
-                {{/queryParams}}
-            )
+            {{#hasNonBodyParams}}
+                val params =  {{operationIdCamelCase}}OperationParams(
+                {{#nonBodyParams}}
+                    {{#params}}
+                        {{{paramName}}} = {{{paramName}}}{{^-last}}, {{/-last}}
+                    {{/params}}
+                {{/nonBodyParams}}
+                )
+            {{/hasNonBodyParams}}
 
             val operation = {{operationIdCamelCase}}Operation(
                 {{#hasBodyParam}}
                     requestBody = {{#bodyParam}}{{{paramName}}}{{/bodyParam}},
                 {{/hasBodyParam}}
-                {{#hasPathParams}}
+                {{#hasNonBodyParams}}
                     params = params
-                {{/hasPathParams}}
-                {{^hasPathParams}}{{#hasHeaderParams}}
-                    params = params
-                {{/hasHeaderParams}}{{/hasPathParams}}
-                {{^hasPathParams}}{{^hasHeaderParams}}{{#hasQueryParams}}
-                    params = params
-                {{/hasQueryParams}}{{/hasHeaderParams}}{{/hasPathParams}}
+                {{/hasNonBodyParams}}
             )
 
             return execute(operation)
