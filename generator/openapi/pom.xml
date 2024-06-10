@@ -67,7 +67,7 @@
         <language>java</language>
 
         <!-- Versions -->
-        <kotlin.version>1.8.0</kotlin.version>
+        <kotlin.version>1.9.24</kotlin.version>
         <openapi-generator.version>6.5.0</openapi-generator.version>
 
         <!-- Plugin Versions -->
