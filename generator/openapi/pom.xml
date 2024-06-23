@@ -68,7 +68,7 @@
 
         <!-- Versions -->
         <kotlin.version>1.9.24</kotlin.version>
-        <openapi-generator.version>6.5.0</openapi-generator.version>
+        <openapi-generator.version>6.6.0</openapi-generator.version>
 
         <!-- Plugin Versions -->
         <exec-maven-plugin.version>3.3.0</exec-maven-plugin.version>
