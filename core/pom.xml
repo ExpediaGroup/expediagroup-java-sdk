@@ -54,7 +54,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <kotlin.version>1.9.24</kotlin.version>
-        <ktor.version>2.3.11</ktor.version>
+        <ktor.version>2.3.12</ktor.version>
 
         <ktlint-plugin.version>3.2.0</ktlint-plugin.version>
         <build-helper-maven-plugin.version>3.6.0</build-helper-maven-plugin.version>
