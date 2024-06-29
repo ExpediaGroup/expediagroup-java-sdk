@@ -23,19 +23,24 @@ import com.expediagroup.sdk.core.model.Operation
             * @property params [{{classname}}Params]
         {{/hasNonBodyParams}}
         */
-        class {{classname}}(
+        class {{classname}} {{#isRapid}}{{#isLinkable}}private constructor{{/isLinkable}}{{/isRapid}}(
             {{#hasBodyParam}}
                 requestBody: {{#bodyParam}}{{dataType}}{{/bodyParam}}{{^required}}?{{/required}},
             {{/hasBodyParam}}
             {{#hasNonBodyParams}}
-                params: {{classname}}Params
+                params: {{classname}}{{#isRapid}}{{#isLinkable}}?{{/isLinkable}}{{/isRapid}}
             {{/hasNonBodyParams}}
+            {{#isRapid}}
+                {{#isLinkable}}
+                    link: Link?
+                {{/isLinkable}}
+            {{/isRapid}}
         ) : Operation<
             {{#hasBodyParam}}{{#bodyParam}}{{dataType}}{{/bodyParam}}{{/hasBodyParam}}
             {{^hasBodyParam}}Nothing{{/hasBodyParam}}
         >(
             {{#hasPathParams}}
-            "{{{path}}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", {{#isContainer}}params.{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}"${params.{{paramName}}}"{{/isContainer}}){{/pathParams}}
+                "{{{path}}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", {{#isContainer}}params.{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}"${params.{{paramName}}}"{{/isContainer}}){{/pathParams}}
             {{/hasPathParams}}
             {{^hasPathParams}}
                 "{{{path}}}"
@@ -50,5 +55,46 @@ import com.expediagroup.sdk.core.model.Operation
                 null
             {{/hasQueryParams}}{{/hasHeaderParams}}{{/hasPathParams}}
         )
+        {{#isRapid}}{{#isLinkable}}
+            {
+                companion object {
+                    @JvmStatic
+                    fun from(link: Link): {{classname}} {
+                        val uri = URI(link.href)
+                        val builder = {{classname}}Params.builder()
+
+                        {{#hasPathParams}}
+                            val pathComponents = uri.path.split("/").filter { it.isNotBlank() }
+                        {{/hasPathParams}}
+
+                        {{#pathParamsWithIndex}}
+                            builder.{{{first.paramName}}}(pathComponents[{{second}}])
+                        {{/pathParamsWithIndex}}
+
+                        val queryParams = uri.query.split("&").map { it.split("=") }.associate { (name, value) -> name to value }
+
+                        {{#queryParams}}
+                            queryParams["{{{paramName}}}"]?.let { builder.{{{paramName}}}(
+                                {{#isString}}
+                                    it
+                                {{/isString}}
+                                {{#isBoolean}}
+                                    it.toBoolean()
+                                {{/isBoolean}}
+                                {{#isArray}}
+                                    listOf(it)
+                                {{/isArray}}
+                            ) }
+                        {{/queryParams}}
+
+                        val params = builder.build()
+                        return {{classname}}(
+                            {{#hasBodyParam}}null,{{/hasBodyParam}}
+                            params
+                        )
+                    }
+                }
+            }
+        {{/isLinkable}}{{/isRapid}}
     {{/operation}}
 {{/operations}}

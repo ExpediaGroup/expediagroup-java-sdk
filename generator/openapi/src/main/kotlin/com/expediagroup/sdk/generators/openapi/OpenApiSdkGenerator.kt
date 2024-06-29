@@ -111,6 +111,9 @@ class OpenApiSdkGenerator {
 
                 // Mustache Helpers
                 mustacheHelpers.forEach { (name, function) -> addAdditionalProperty(name, function()) }
+                if (ProductFamily.isRapid(product.namespace)) {
+                    rapidHelpers.forEach { (name, function) -> addAdditionalProperty(name, function()) }
+                }
             }
 
             val generatorInput = config.toClientOptInput().apply {
