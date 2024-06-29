@@ -16,7 +16,9 @@
 package com.expediagroup.sdk.generators.openapi
 
 import com.samskivert.mustache.Mustache
+import com.samskivert.mustache.Template
 import org.openapitools.codegen.CodegenOperation
+import java.io.Writer
 
 val linkableOperations =
     setOf(
@@ -31,25 +33,20 @@ val linkableOperations =
         "getPropertyContent"
     )
 
-val rapidHelpers = mapOf(
-    "isLinkable" to {
-        Mustache.Lambda { fragment, writer ->
-            val operation = fragment.context() as CodegenOperation
-            if (linkableOperations.contains(operation.operationId)) {
-                fragment.execute(writer)
-            }
-        }
-    },
-    "fromLink" to {
-        Mustache.Lambda { fragment, writer ->
-            val operation = fragment.context() as CodegenOperation
-            if (!linkableOperations.contains(operation.operationId)) return@Lambda
-            val pathComponents = operation.path.split("/").filter { it.isNotBlank() }
-            val pathParamsWithIndex = operation.pathParams.map { it to pathComponents.indexOf("{${it.baseName}}") }
-
-            // val context = operation.pathParams.associate { "${it.paramName}Index" to pathComponents.indexOf(it.paramName) }
-            val context = mapOf("pathParamsWithIndex" to pathParamsWithIndex)
-            fragment.execute(context, writer)
+val isLinkable = object : Mustache.InvertibleLambda {
+    override fun execute(fragment: Template.Fragment, writer: Writer) {
+        val operation = fragment.context() as CodegenOperation
+        if (linkableOperations.contains(operation.operationId)) {
+            fragment.execute(writer)
         }
     }
-)
+
+    override fun executeInverse(fragment: Template.Fragment, writer: Writer) {
+        val operation = fragment.context() as CodegenOperation
+        if (!linkableOperations.contains(operation.operationId)) {
+            fragment.execute(writer)
+        }
+    }
+}
+
+val rapidHelpers = mapOf("isLinkable" to { isLinkable })

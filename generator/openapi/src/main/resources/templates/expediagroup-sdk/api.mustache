@@ -4,13 +4,20 @@ package com.expediagroup.sdk.{{namespace}}.operations
 
 import com.expediagroup.sdk.core.model.Operation
 
-{{#operations}}{{#operation}}{{^hasBodyParam}}
-    import com.expediagroup.sdk.core.model.Nothing
-{{/hasBodyParam}}{{/operation}}{{/operations}}
+{{#operations}}{{#operation}}
+    {{^hasBodyParam}}
+        import com.expediagroup.sdk.core.model.Nothing
+    {{/hasBodyParam}}
 
-{{#operations}}{{#operation}}{{#bodyParam}}
-    import com.expediagroup.sdk.{{namespace}}.models.{{dataType}}
-{{/bodyParam}}{{/operation}}{{/operations}}
+    {{#bodyParam}}
+        import com.expediagroup.sdk.{{namespace}}.models.{{dataType}}
+    {{/bodyParam}}
+
+    {{#isRapid}}{{#isLinkable}}
+        import com.expediagroup.sdk.{{namespace}}.models.Link
+    {{/isLinkable}}{{/isRapid}}
+{{/operation}}{{/operations}}
+
 
 {{#operations}}
     {{#operation}}
@@ -28,23 +35,31 @@ import com.expediagroup.sdk.core.model.Operation
                 requestBody: {{#bodyParam}}{{dataType}}{{/bodyParam}}{{^required}}?{{/required}},
             {{/hasBodyParam}}
             {{#hasNonBodyParams}}
-                params: {{classname}}{{#isRapid}}{{#isLinkable}}?{{/isLinkable}}{{/isRapid}}
+                params: {{classname}}Params{{#isRapid}}{{#isLinkable}}?{{/isLinkable}}{{/isRapid}},
             {{/hasNonBodyParams}}
-            {{#isRapid}}
-                {{#isLinkable}}
-                    link: Link?
-                {{/isLinkable}}
-            {{/isRapid}}
+            {{#isRapid}}{{#isLinkable}}link: Link?{{/isLinkable}}{{/isRapid}}
         ) : Operation<
             {{#hasBodyParam}}{{#bodyParam}}{{dataType}}{{/bodyParam}}{{/hasBodyParam}}
             {{^hasBodyParam}}Nothing{{/hasBodyParam}}
         >(
             {{#hasPathParams}}
-                "{{{path}}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", {{#isContainer}}params.{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}"${params.{{paramName}}}"{{/isContainer}}){{/pathParams}}
+                {{#isRapid}}
+                    {{#isLinkable}}url(params, link),{{/isLinkable}}
+                    {{^isLinkable}}url(params),{{/isLinkable}}
+                {{/isRapid}}
+                {{^isRapid}}
+                    url(params),
+                {{/isRapid}}
             {{/hasPathParams}}
             {{^hasPathParams}}
-                "{{{path}}}"
-            {{/hasPathParams}},
+                {{#isRapid}}
+                    {{#isLinkable}}url(link),{{/isLinkable}}
+                    {{^isLinkable}}"{{{path}}}",{{/isLinkable}}
+                {{/isRapid}}
+                {{^isRapid}}
+                    "{{{path}}}",
+                {{/isRapid}}
+            {{/hasPathParams}}
             "{{httpMethod}}",
             "{{operationId}}",
             {{#hasBodyParam}}requestBody{{/hasBodyParam}}{{^hasBodyParam}}null{{/hasBodyParam}},
@@ -55,46 +70,58 @@ import com.expediagroup.sdk.core.model.Operation
                 null
             {{/hasQueryParams}}{{/hasHeaderParams}}{{/hasPathParams}}
         )
-        {{#isRapid}}{{#isLinkable}}
-            {
-                companion object {
-                    @JvmStatic
-                    fun from(link: Link): {{classname}} {
-                        val uri = URI(link.href)
-                        val builder = {{classname}}Params.builder()
+        {{#isRapid}}
+            {{#isLinkable}}
+                {
+                    constructor(
+                        {{#hasBodyParam}}
+                            requestBody: {{#bodyParam}}{{dataType}}{{/bodyParam}}{{^required}}?{{/required}},
+                        {{/hasBodyParam}}
+                        {{#hasNonBodyParams}}
+                            params: {{classname}}Params
+                        {{/hasNonBodyParams}}
+                    ): this(
+                        {{#hasBodyParam}}requestBody,{{/hasBodyParam}}
+                        {{#hasNonBodyParams}}params,{{/hasNonBodyParams}}
+                        null
+                    )
 
-                        {{#hasPathParams}}
-                            val pathComponents = uri.path.split("/").filter { it.isNotBlank() }
-                        {{/hasPathParams}}
+                    constructor(link: Link): this(
+                        {{#hasBodyParam}}null,{{/hasBodyParam}}
+                        {{#hasNonBodyParams}}null,{{/hasNonBodyParams}}
+                        link
+                    )
 
-                        {{#pathParamsWithIndex}}
-                            builder.{{{first.paramName}}}(pathComponents[{{second}}])
-                        {{/pathParamsWithIndex}}
-
-                        val queryParams = uri.query.split("&").map { it.split("=") }.associate { (name, value) -> name to value }
-
-                        {{#queryParams}}
-                            queryParams["{{{paramName}}}"]?.let { builder.{{{paramName}}}(
-                                {{#isString}}
-                                    it
-                                {{/isString}}
-                                {{#isBoolean}}
-                                    it.toBoolean()
-                                {{/isBoolean}}
-                                {{#isArray}}
-                                    listOf(it)
-                                {{/isArray}}
-                            ) }
-                        {{/queryParams}}
-
-                        val params = builder.build()
-                        return {{classname}}(
-                            {{#hasBodyParam}}null,{{/hasBodyParam}}
-                            params
-                        )
+                    companion object {
+                        fun url(
+                            {{#hasPathParams}}params: {{classname}}Params?,{{/hasPathParams}}
+                            link: Link?
+                        ): String {
+                            return link?.href ?: "{{{path}}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", "${params?.{{paramName}}}"){{/pathParams}}
+                        }
                     }
                 }
-            }
-        {{/isLinkable}}{{/isRapid}}
+            {{/isLinkable}}
+            {{^isLinkable}}
+                {{#hasPathParams}}
+                    {
+                        companion object {
+                            fun url(params: {{classname}}Params) : String {
+                                return "{{{path}}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", params.{{paramName}}){{/pathParams}}
+                            }
+                        }
+                    }
+                {{/hasPathParams}}
+            {{/isLinkable}}
+        {{/isRapid}}
+        {{^isRapid}}
+            {{#hasPathParams}}
+                companion object {
+                    fun url(params: {{classname}}Params) : String {
+                        return "{{{path}}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", "${params?.{{paramName}}}"){{/pathParams}}
+                    }
+                }
+            {{/hasPathParams}}
+        {{/isRapid}}
     {{/operation}}
 {{/operations}}
