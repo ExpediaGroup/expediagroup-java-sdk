@@ -79,7 +79,7 @@
         <maven.licence.plugin.version>4.5</maven.licence.plugin.version>
 
         <!-- Library Versions -->
-        <junit5.version>5.10.2</junit5.version>
+        <junit5.version>5.10.3</junit5.version>
     </properties>
 
     <dependencyManagement>
