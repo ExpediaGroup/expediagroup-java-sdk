@@ -96,6 +96,19 @@
                         return emptyMap<String, Iterable<String>>()
                     {{/hasQueryParams}}
                 }
+
+                override fun getPathParams() : Map<String, String> {
+                    {{#hasPathParams}}
+                        return buildMap {
+                            {{#pathParams}}
+                                {{paramName}}?.also { put("{{baseName}}", {{paramName}}) }
+                            {{/pathParams}}
+                        }
+                    {{/hasPathParams}}
+                    {{^hasPathParams}}
+                        return emptyMap<String, String>()
+                    {{/hasPathParams}}
+                }
             }
         {{/hasNonBodyParams}}
     {{/operation}}

@@ -16,6 +16,10 @@ import com.expediagroup.sdk.core.model.Operation
     {{#isRapid}}{{#isLinkable}}
         import com.expediagroup.sdk.{{namespace}}.models.Link
     {{/isLinkable}}{{/isRapid}}
+
+    {{#hasPathParams}}
+        import org.apache.commons.text.StringSubstitutor
+    {{/hasPathParams}}
 {{/operation}}{{/operations}}
 
 
@@ -97,7 +101,14 @@ import com.expediagroup.sdk.core.model.Operation
                             {{#hasPathParams}}params: {{classname}}Params?,{{/hasPathParams}}
                             link: Link?
                         ): String {
-                            return link?.href ?: "{{{path}}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", "${params?.{{paramName}}}"){{/pathParams}}
+                            {{#hasPathParams}}
+                                val url = "{{{path}}}"
+                                val substitutor = StringSubstitutor(params?.getPathParams(), "{", "}")
+                                return link?.href ?: substitutor.replace(url)
+                            {{/hasPathParams}}
+                            {{^hasPathParams}}
+                                return link?.href ?: "{{{path}}}"
+                            {{/hasPathParams}}
                         }
                     }
                 }
@@ -107,7 +118,9 @@ import com.expediagroup.sdk.core.model.Operation
                     {
                         companion object {
                             fun url(params: {{classname}}Params) : String {
-                                return "{{{path}}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", params.{{paramName}}){{/pathParams}}
+                                val url = "{{{path}}}"
+                                val substitutor = StringSubstitutor(params.getPathParams(), "{", "}")
+                                return substitutor.replace(url)
                             }
                         }
                     }
@@ -118,7 +131,9 @@ import com.expediagroup.sdk.core.model.Operation
             {{#hasPathParams}}
                 companion object {
                     fun url(params: {{classname}}Params) : String {
-                        return "{{{path}}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", "${params?.{{paramName}}}"){{/pathParams}}
+                        val url = "{{{path}}}"
+                        val substitutor = StringSubstitutor(params.getPathParams(), "{", "}")
+                        return substitutor.replace(url)
                     }
                 }
             {{/hasPathParams}}
