@@ -22,15 +22,15 @@ import java.io.Writer
 
 val linkableOperations =
     setOf(
-        "getReservation",
-        "getReservationByItineraryId",
-        "putCompletePaymentSession",
         "changeRoomDetails",
         "commitChange",
         "getAdditionalAvailability",
         "getPaymentOptions",
+        "getPropertyContent",
+        "getReservationByItineraryId",
+        "postItinerary",
         "priceCheck",
-        "getPropertyContent"
+        "putCompletePaymentSession"
     )
 
 val isLinkable = object : Mustache.InvertibleLambda {
