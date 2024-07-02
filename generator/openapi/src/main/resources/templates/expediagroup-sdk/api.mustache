@@ -14,8 +14,6 @@ import com.expediagroup.sdk.core.model.Operation
     {{/bodyParam}}
 
     {{#isRapid}}{{#isLinkable}}
-        import java.net.URI
-        import com.expediagroup.sdk.core.model.exception.client.ExpediaGroupClientException
         import com.expediagroup.sdk.{{namespace}}.models.Link
     {{/isLinkable}}{{/isRapid}}
 
@@ -37,12 +35,12 @@ import com.expediagroup.sdk.core.model.Operation
         {{/hasNonBodyParams}}
         */
         class {{classname}} {{#isRapid}}{{#isLinkable}}private constructor{{/isLinkable}}{{/isRapid}}(
-            {{#hasBodyParam}}
-                requestBody: {{#bodyParam}}{{dataType}}{{/bodyParam}}{{^required}}?{{/required}},
-            {{/hasBodyParam}}
             {{#hasNonBodyParams}}
                 params: {{classname}}Params{{#isRapid}}{{#isLinkable}}?{{/isLinkable}}{{/isRapid}},
             {{/hasNonBodyParams}}
+            {{#hasBodyParam}}
+                requestBody: {{#bodyParam}}{{dataType}}{{/bodyParam}}{{^required}}?{{/required}},
+            {{/hasBodyParam}}
             {{#isRapid}}{{#isLinkable}}link: Link?{{/isLinkable}}{{/isRapid}}
         ) : Operation<
             {{#hasBodyParam}}{{#bodyParam}}{{dataType}}{{/bodyParam}}{{/hasBodyParam}}
@@ -50,7 +48,7 @@ import com.expediagroup.sdk.core.model.Operation
         >(
             {{#hasPathParams}}
                 {{#isRapid}}
-                    {{#isLinkable}}url(params, link),{{/isLinkable}}
+                    {{#isLinkable}}url(params, link, "{{{path}}}"),{{/isLinkable}}
                     {{^isLinkable}}url(params),{{/isLinkable}}
                 {{/isRapid}}
                 {{^isRapid}}
@@ -59,7 +57,7 @@ import com.expediagroup.sdk.core.model.Operation
             {{/hasPathParams}}
             {{^hasPathParams}}
                 {{#isRapid}}
-                    {{#isLinkable}}url(link),{{/isLinkable}}
+                    {{#isLinkable}}url(null, link, "{{{path}}}"),{{/isLinkable}}
                     {{^isLinkable}}"{{{path}}}",{{/isLinkable}}
                 {{/isRapid}}
                 {{^isRapid}}
@@ -76,70 +74,60 @@ import com.expediagroup.sdk.core.model.Operation
                 null
             {{/hasQueryParams}}{{/hasHeaderParams}}{{/hasPathParams}}
         )
+
         {{#isRapid}}
-            {{#isLinkable}}
-                {
+            {
+                {{#hasBodyParam}}{{#hasNonBodyParams}}
+                    @Deprecated("Switch order of parameters", ReplaceWith("Operation(params: {{classname}}Params, requestBody: {{#bodyParam}}{{dataType}}{{/bodyParam}}{{^required}}?{{/required}})"))
                     constructor(
-                        {{#hasBodyParam}}
-                            requestBody: {{#bodyParam}}{{dataType}}{{/bodyParam}}{{^required}}?{{/required}},
-                        {{/hasBodyParam}}
+                        requestBody: {{#bodyParam}}{{dataType}}{{/bodyParam}}{{^required}}?{{/required}},
+                        params: {{classname}}Params
+                    ): this(params, requestBody)
+                {{/hasNonBodyParams}}{{/hasBodyParam}}
+                {{#isLinkable}}
+                    constructor(
                         {{#hasNonBodyParams}}
-                            params: {{classname}}Params
+                            params: {{classname}}Params,
                         {{/hasNonBodyParams}}
+                        {{#hasBodyParam}}
+                            requestBody: {{#bodyParam}}{{dataType}}{{/bodyParam}}{{^required}}?{{/required}}
+                        {{/hasBodyParam}}
                     ): this(
-                        {{#hasBodyParam}}requestBody,{{/hasBodyParam}}
                         {{#hasNonBodyParams}}params,{{/hasNonBodyParams}}
+                        {{#hasBodyParam}}requestBody,{{/hasBodyParam}}
                         null
                     )
 
-                    constructor(link: Link): this(
-                        {{#hasBodyParam}}null,{{/hasBodyParam}}
+                    constructor(
+                        link: Link
+                        {{#hasBodyParam}}
+                            , requestBody: {{#bodyParam}}{{dataType}}{{/bodyParam}}{{^required}}?{{/required}}
+                        {{/hasBodyParam}}
+                    ): this(
                         {{#hasNonBodyParams}}null,{{/hasNonBodyParams}}
+                        {{#hasBodyParam}}requestBody,{{/hasBodyParam}}
                         link
                     )
 
-                    companion object {
-                        fun url(
-                            {{#hasPathParams}}params: {{classname}}Params?,{{/hasPathParams}}
-                            link: Link?
-                        ): String {
-                            val url = "{{{path}}}"
-
-                            if (link?.href != null) {
-                                val linkPath = URI(link.href).path
-
-                                {{#hasPathParams}}
-                                    val pathParams = params?.getPathParams()
-
-                                    val pattern = if (pathParams.isNullOrEmpty()) {
-                                        url
-                                    } else {
-                                        val substitutor = StringSubstitutor(pathParams.mapValues { "[a-z0-9]" }, "{", "}")
-                                        substitutor.replace(url)
-                                    }
-
-                                    if (Regex(pattern).matches(linkPath)) return linkPath
-                                {{/hasPathParams}}
-                                {{^hasPathParams}}
-                                    if (Regex(url).matches(linkPath)) return linkPath
-                                {{/hasPathParams}}
-                                throw ExpediaGroupClientException()
-                            }
+                    companion object : LinkableOperation {
+                        override fun pathPattern(): String {
                             {{#hasPathParams}}
-                                if (params == null) throw ExpediaGroupClientException()
-                                val substitutor = StringSubstitutor(params.getPathParams(), "{", "}")
-                                return substitutor.replace(url)
+                                val paramsMap = buildMap {
+                                    {{#pathParams}}
+                                        put("{{baseName}}", "[a-z0-9]+")
+                                    {{/pathParams}}
+                                }
+                                val substitutor = StringSubstitutor(paramsMap, "{", "}")
+                                return substitutor.replace("{{{path}}}")
                             {{/hasPathParams}}
                             {{^hasPathParams}}
-                                return url
+                                return "{{{path}}}"
                             {{/hasPathParams}}
                         }
                     }
-                }
-            {{/isLinkable}}
-            {{^isLinkable}}
-                {{#hasPathParams}}
-                    {
+                {{/isLinkable}}
+                {{^isLinkable}}
+                    {{#hasPathParams}}
                         companion object {
                             fun url(params: {{classname}}Params) : String {
                                 val url = "{{{path}}}"
@@ -147,9 +135,9 @@ import com.expediagroup.sdk.core.model.Operation
                                 return substitutor.replace(url)
                             }
                         }
-                    }
-                {{/hasPathParams}}
-            {{/isLinkable}}
+                    {{/hasPathParams}}
+                {{/isLinkable}}
+            }
         {{/isRapid}}
         {{^isRapid}}
             {{#hasPathParams}}

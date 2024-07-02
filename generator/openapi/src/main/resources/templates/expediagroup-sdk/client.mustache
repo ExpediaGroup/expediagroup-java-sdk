@@ -111,12 +111,12 @@ class {{#lambda.titlecase}}{{namespace}}{{/lambda.titlecase}}Client private cons
             {{/hasNonBodyParams}}
 
             val operation = {{operationIdCamelCase}}Operation(
-                {{#hasBodyParam}}
-                    requestBody = {{#bodyParam}}{{{paramName}}}{{/bodyParam}},
-                {{/hasBodyParam}}
                 {{#hasNonBodyParams}}
-                    params = params
+                    params,
                 {{/hasNonBodyParams}}
+                {{#hasBodyParam}}
+                    {{#bodyParam}}{{{paramName}}}{{/bodyParam}}
+                {{/hasBodyParam}}
             )
 
             return execute(operation)
