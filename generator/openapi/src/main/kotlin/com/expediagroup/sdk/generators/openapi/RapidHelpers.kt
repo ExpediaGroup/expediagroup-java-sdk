@@ -31,6 +31,7 @@ val linkableOperations =
         "getPropertyContent",
         "getReservationByItineraryId",
         "postItinerary",
+        "postPaymentSessions",
         "priceCheck",
         "putCompletePaymentSession",
         "putResumeBooking"
