@@ -24,7 +24,6 @@ tags:
 paths:
   /v3/properties/content:
     get:
-      x-sdk-paginated: true
       tags:
         - getPropertyContent
       summary: Property Content
@@ -2192,7 +2191,6 @@ paths:
         - rapidAuth: []
   /v3/properties/inactive:
     get:
-      x-sdk-paginated: true
       tags:
         - getInactiveProperties
       summary: Inactive Properties
@@ -2608,7 +2606,7 @@ paths:
           required: true
           schema:
             type: string
-          example: "19248"
+          example: "12345"
         - name: language
           in: query
           description: >
@@ -2623,7 +2621,55 @@ paths:
           required: true
           schema:
             type: string
-          example: language=en-US
+          example: en-US
+        - name: filter
+          in: query
+          description: >
+            Single filter value. Send multiple instances of this parameter to
+            request multiple filters.
+
+            * `language` - Filters reviews to only those that match the specified `language` parameter value. Without
+              this filter, the matching language will be preferred, but other language results can be returned.
+              Specifying this filter could produce an error when there are no matching results.
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - language
+          examples:
+            Optional:
+              ? value
+            Single:
+              value: language
+        - name: trip_reason
+          in: query
+          description: >
+            Desired reason provided for the reviewer's trip that you wish to
+            display. This parameter can be supplied
+
+            multiple times with different values, which will include reviews that match any of the requested trip
+
+            reasons.
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - business
+                - leisure
+                - friends_and_family
+                - business_and_leisure
+          examples:
+            Optional:
+              ? value
+            Single:
+              value: business
+            Multiple:
+              value:
+                - business
+                - business_and_leisure
         - name: billing_terms
           in: query
           description: >
@@ -2710,6 +2756,7 @@ paths:
                       date_submitted: 2019-02-11T18:19:40Z
                       rating: "5"
                       reviewer_name: Bill
+                      stay_date: 2019-02
                       trip_reason: leisure
                       travel_companion: self
                       text: Staff very helpful and friendly. Pool was 18 meters deep, very strange.
@@ -2718,9 +2765,17 @@ paths:
                       date_submitted: 2019-02-10T11:15:01Z
                       rating: "2"
                       reviewer_name: Gregory
+                      stay_date: 2019-01
                       trip_reason: friends_and_family
                       travel_companion: family_with_children
                       text: Bottom of the 18 meter pool was too scary. Staff were nice though.
+                      management_responses:
+                        - text: >
+                            Dear Guest, Thank you for your feedback. I hope we
+                            have the opportunity to welcome you back
+
+                            in the near future. Best regards, Kara (General Manager)
+                          date: 2019-02-11T14:36:54Z
         "400":
           description: Invalid Input
           headers:
@@ -3037,7 +3092,7 @@ paths:
           required: true
           schema:
             type: string
-          example: language=en-US
+          example: en-US
         - name: supply_source
           in: query
           description: >
@@ -3434,7 +3489,7 @@ paths:
           required: true
           schema:
             type: string
-          example: language=en-US
+          example: en-US
         - name: supply_source
           in: query
           description: >
@@ -3787,7 +3842,6 @@ paths:
         - rapidAuth: []
   /v3/regions:
     get:
-      x-sdk-paginated: true
       tags:
         - getRegions
       summary: Regions
@@ -5307,7 +5361,7 @@ paths:
           required: true
           schema:
             type: string
-          example: 2024-08-01
+          example: 2024-09-01
         - name: checkout
           in: query
           description: >
@@ -5317,7 +5371,7 @@ paths:
           required: true
           schema:
             type: string
-          example: 2024-08-03
+          example: 2024-09-03
         - name: currency
           in: query
           description: >
@@ -6499,7 +6553,7 @@ paths:
             If specified must also specify `checkout`.
           schema:
             type: string
-          example: 2024-08-01
+          example: 2024-09-01
         - name: checkout
           in: query
           description: >
@@ -6512,7 +6566,7 @@ paths:
             If specified must also specify `checkin`.<br>
           schema:
             type: string
-          example: 2024-08-03
+          example: 2024-09-03
         - name: exclusion
           in: query
           description: >
@@ -14701,6 +14755,10 @@ components:
         reviewer_name:
           type: string
           description: The name of the person who wrote this review.
+        stay_date:
+          type: string
+          description: The year and month of the traveler's stay at the property, in ISO
+            8601 format (YYYY-MM).
         trip_reason:
           $ref: "#/components/schemas/TripReason"
         travel_companion:
@@ -14708,6 +14766,11 @@ components:
         text:
           type: string
           description: The text of the review itself.
+        management_responses:
+          type: array
+          description: A collection of the management responses to this review.
+          items:
+            $ref: "#/components/schemas/ManagementResponse"
       description: A review object for a property.
     TripReason:
       type: string
@@ -14727,6 +14790,16 @@ components:
         - self
         - friends
         - pet
+    ManagementResponse:
+      type: object
+      properties:
+        text:
+          type: string
+          description: The text of the management response itself.
+        date:
+          type: string
+          description: When this management response was made, in ISO 8601 format.
+      description: A reply from the property management to the review left by the traveler.
     Link:
       type: object
       properties:
