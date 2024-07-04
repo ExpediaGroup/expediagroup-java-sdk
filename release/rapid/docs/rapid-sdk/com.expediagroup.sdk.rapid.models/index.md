@@ -82,6 +82,7 @@
 | [Localized](-localized/index.md) | [JVM]<br>public final class [Localized](-localized/index.md)<br>Container for localized address information. |
 | [Location](-location/index.md) | [JVM]<br>public final class [Location](-location/index.md)<br>The property's location information. |
 | [Loyalty](-loyalty/index.md) | [JVM]<br>public final class [Loyalty](-loyalty/index.md)<br>A loyalty object for a loyalty program. |
+| [ManagementResponse](-management-response/index.md) | [JVM]<br>public final class [ManagementResponse](-management-response/index.md)<br>A reply from the property management to the review left by the traveler. |
 | [MarketingFeeIncentive](-marketing-fee-incentive/index.md) | [JVM]<br>public final class [MarketingFeeIncentive](-marketing-fee-incentive/index.md)<br>An object representing one incentive source and the stay dates relevant to that particular incentive. |
 | [MaxAllowed](-max-allowed/index.md) | [JVM]<br>public final class [MaxAllowed](-max-allowed/index.md)<br>Maximum occupancy counts. |
 | [MerchantOfRecord](-merchant-of-record/index.md) | [JVM]<br>public enum [MerchantOfRecord](-merchant-of-record/index.md) extends [Enum](https://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html)&lt;[MerchantOfRecord](-merchant-of-record/index.md)&gt; |
