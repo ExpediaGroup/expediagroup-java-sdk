@@ -1,18 +1,33 @@
-//[fraudpreventionv2-sdk](../../../index.md)/[com.expediagroup.sdk.fraudpreventionv2.client](../index.md)/[FraudPreventionV2Client](index.md)/[notifyWithAccountUpdate](notify-with-account-update.md)
+//[fraudpreventionv2-sdk](../../../index.md)/[com.expediagroup.sdk.fraudpreventionv2.client](../index.md)/[FraudPreventionV2Client](index.md)/[updateAccountWithResponse](update-account-with-response.md)
 
-# notifyWithAccountUpdate
+# updateAccountWithResponse
 
 [JVM]\
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final [AccountUpdateResponse](../../com.expediagroup.sdk.fraudpreventionv2.models/-account-update-response/index.md)[notifyWithAccountUpdate](notify-with-account-update.md)([AccountUpdateRequest](../../com.expediagroup.sdk.fraudpreventionv2.models/-account-update-request/index.md)accountUpdateRequest)
+@[Deprecated](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-deprecated/index.html)(message = &quot;Use execute method instead&quot;, replaceWith = @[ReplaceWith](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-replace-with/index.html)(imports = {}, expression = &quot;execute(operation: UpdateAccountOperation)&quot;))
+
+public final Response&lt;[AccountUpdateResponse](../../com.expediagroup.sdk.fraudpreventionv2.models/-account-update-response/index.md)&gt;[~~updateAccountWithResponse~~](update-account-with-response.md)([AccountUpdateRequest](../../com.expediagroup.sdk.fraudpreventionv2.models/-account-update-request/index.md)accountUpdateRequest)
+
+---
+
+### Deprecated
+
+Use execute method instead
+
+#### Replace with
+
+```kotlin
+execute(operation: UpdateAccountOperation)
+```
+---
 
 Send an update as a result of an account screen transaction The Account Update API is called when there is an account lifecycle transition such as a challenge outcome, account restoration, or remediation action completion. For example, if a user's account is disabled, deleted, or restored, the Account Update API is called to notify Expedia Group about the change. The Account Update API is also called when a user responds to a login Multi-Factor Authentication based on a Fraud recommendation.
 
 #### Return
 
-AccountUpdateResponse
+a Response object with a body of type AccountUpdateResponse
 
 #### Parameters
 

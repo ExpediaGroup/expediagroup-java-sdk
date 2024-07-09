@@ -6,4 +6,4 @@
 
 | Name | Summary |
 |---|---|
-| [FraudPreventionV2Client](-fraud-prevention-v2-client/index.md) | [JVM]<br>public final class [FraudPreventionV2Client](-fraud-prevention-v2-client/index.md) extends ExpediaGroupClient |
+| [FraudPreventionV2Client](-fraud-prevention-v2-client/index.md) | [JVM]<br>public final class [FraudPreventionV2Client](-fraud-prevention-v2-client/index.md) extends ExpediaGroupClient<br>Fraud & Risk APIs to detect fraud |

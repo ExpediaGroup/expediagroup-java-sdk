@@ -13,14 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.model
 
-import com.expediagroup.sdk.core.constant.HeaderKey
-import io.ktor.http.Headers
-import io.ktor.http.HeadersBuilder
+package com.expediagroup.sdk.fraudpreventionv2.operations
 
-/** Get transaction id from headers. */
-fun Headers.getTransactionId(): String? = get(HeaderKey.TRANSACTION_ID)
+import com.expediagroup.sdk.core.model.Operation
+import com.expediagroup.sdk.fraudpreventionv2.models.AccountUpdateRequest
 
-/** Get transaction id from headers builder. */
-fun HeadersBuilder.getTransactionId(): String? = get(HeaderKey.TRANSACTION_ID)
+/**
+ * Send an update as a result of an account screen transaction
+ * @property requestBody [AccountUpdateRequest]
+ */
+class UpdateAccountOperation(
+    requestBody: AccountUpdateRequest?
+) : Operation<
+        AccountUpdateRequest
+    >(
+        "/fraud-prevention/v2/account/update",
+        "POST",
+        "updateAccount",
+        requestBody,
+        null
+    )

@@ -1,18 +1,33 @@
-//[fraudpreventionv2-sdk](../../../index.md)/[com.expediagroup.sdk.fraudpreventionv2.client](../index.md)/[FraudPreventionV2Client](index.md)/[notifyWithOrderUpdateWithResponse](notify-with-order-update-with-response.md)
+//[fraudpreventionv2-sdk](../../../index.md)/[com.expediagroup.sdk.fraudpreventionv2.client](../index.md)/[FraudPreventionV2Client](index.md)/[updateOrderPurchase](update-order-purchase.md)
 
-# notifyWithOrderUpdateWithResponse
+# updateOrderPurchase
 
 [JVM]\
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final Response&lt;[OrderPurchaseUpdateResponse](../../com.expediagroup.sdk.fraudpreventionv2.models/-order-purchase-update-response/index.md)&gt;[notifyWithOrderUpdateWithResponse](notify-with-order-update-with-response.md)([OrderPurchaseUpdateRequest](../../com.expediagroup.sdk.fraudpreventionv2.models/-order-purchase-update-request/index.md)orderPurchaseUpdateRequest)
+@[Deprecated](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-deprecated/index.html)(message = &quot;Use execute method instead&quot;, replaceWith = @[ReplaceWith](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-replace-with/index.html)(imports = {}, expression = &quot;execute(operation: UpdateOrderPurchaseOperation)&quot;))
+
+public final [OrderPurchaseUpdateResponse](../../com.expediagroup.sdk.fraudpreventionv2.models/-order-purchase-update-response/index.md)[~~updateOrderPurchase~~](update-order-purchase.md)([OrderPurchaseUpdateRequest](../../com.expediagroup.sdk.fraudpreventionv2.models/-order-purchase-update-request/index.md)orderPurchaseUpdateRequest)
+
+---
+
+### Deprecated
+
+Use execute method instead
+
+#### Replace with
+
+```kotlin
+execute(operation: UpdateOrderPurchaseOperation)
+```
+---
 
 Send an update for a transaction The Order Purchase Update API is called when the status of the order has changed.  For example, if the customer cancels the reservation, changes reservation in any way, or adds additional products or travelers to the reservation, the Order Purchase Update API is called to notify Expedia Group about the change.  The Order Purchase Update API is also called when the merchant cancels or changes an order based on a Fraud recommendation.
 
 #### Return
 
-a Response object with a body of type OrderPurchaseUpdateResponse
+OrderPurchaseUpdateResponse
 
 #### Parameters
 

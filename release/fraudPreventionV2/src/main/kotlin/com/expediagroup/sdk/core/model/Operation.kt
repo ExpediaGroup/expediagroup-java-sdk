@@ -15,12 +15,13 @@
  */
 package com.expediagroup.sdk.core.model
 
-import com.expediagroup.sdk.core.constant.HeaderKey
-import io.ktor.http.Headers
-import io.ktor.http.HeadersBuilder
-
-/** Get transaction id from headers. */
-fun Headers.getTransactionId(): String? = get(HeaderKey.TRANSACTION_ID)
-
-/** Get transaction id from headers builder. */
-fun HeadersBuilder.getTransactionId(): String? = get(HeaderKey.TRANSACTION_ID)
+abstract class Operation<T>(
+    val url: String,
+    val method: String,
+    val operationId: String,
+    val requestBody: T?,
+    val params: OperationParams?
+) {
+    var transactionId: TransactionId = TransactionId()
+        private set
+}
