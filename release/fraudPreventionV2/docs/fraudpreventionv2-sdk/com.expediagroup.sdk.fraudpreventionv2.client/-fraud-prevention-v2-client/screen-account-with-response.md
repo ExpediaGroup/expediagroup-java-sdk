@@ -6,7 +6,22 @@
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final Response&lt;[AccountScreenResponse](../../com.expediagroup.sdk.fraudpreventionv2.models/-account-screen-response/index.md)&gt;[screenAccountWithResponse](screen-account-with-response.md)([AccountScreenRequest](../../com.expediagroup.sdk.fraudpreventionv2.models/-account-screen-request/index.md)accountScreenRequest)
+@[Deprecated](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-deprecated/index.html)(message = &quot;Use execute method instead&quot;, replaceWith = @[ReplaceWith](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-replace-with/index.html)(imports = {}, expression = &quot;execute(operation: ScreenAccountOperation)&quot;))
+
+public final Response&lt;[AccountScreenResponse](../../com.expediagroup.sdk.fraudpreventionv2.models/-account-screen-response/index.md)&gt;[~~screenAccountWithResponse~~](screen-account-with-response.md)([AccountScreenRequest](../../com.expediagroup.sdk.fraudpreventionv2.models/-account-screen-request/index.md)accountScreenRequest)
+
+---
+
+### Deprecated
+
+Use execute method instead
+
+#### Replace with
+
+```kotlin
+execute(operation: ScreenAccountOperation)
+```
+---
 
 Run fraud screening for one transaction The Account Screen API gives a Fraud recommendation for an account transaction. A recommendation can be ACCEPT, CHALLENGE, or REJECT. A transaction is marked as CHALLENGE whenever there are insufficient signals to recommend ACCEPT or REJECT. These CHALLENGE incidents are manually reviewed, and a corrected recommendation is made asynchronously.
 

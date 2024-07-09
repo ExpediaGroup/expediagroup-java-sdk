@@ -15,12 +15,16 @@
  */
 package com.expediagroup.sdk.core.model
 
-import com.expediagroup.sdk.core.constant.HeaderKey
-import io.ktor.http.Headers
-import io.ktor.http.HeadersBuilder
+import java.util.UUID
 
-/** Get transaction id from headers. */
-fun Headers.getTransactionId(): String? = get(HeaderKey.TRANSACTION_ID)
+class TransactionId {
+    private var transactionId: UUID = UUID.randomUUID()
 
-/** Get transaction id from headers builder. */
-fun HeadersBuilder.getTransactionId(): String? = get(HeaderKey.TRANSACTION_ID)
+    fun peek(): UUID {
+        return transactionId
+    }
+
+    fun dequeue(): UUID {
+        return transactionId.also { transactionId = UUID.randomUUID() }
+    }
+}

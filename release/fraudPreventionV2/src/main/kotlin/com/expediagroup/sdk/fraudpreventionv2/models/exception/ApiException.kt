@@ -49,7 +49,77 @@ internal object ErrorObjectMapper {
     private val httpStatusCodeRanges: Map<String, List<HttpStatusCodeRange>> =
         mapOf(
             Pair(
-                "notifyWithAccountUpdate",
+                "screenAccount",
+                listOf(
+                    HttpStatusCodeRange(
+                        "400"
+                    ) {
+                        ExpediaGroupApiAccountTakeoverBadRequestErrorException(
+                            it.status.value,
+                            fetchErrorObject(it) as AccountTakeoverBadRequestError,
+                            it.headers.getTransactionId()
+                        )
+                    },
+                    HttpStatusCodeRange(
+                        "401"
+                    ) {
+                        ExpediaGroupApiAccountTakeoverUnauthorizedErrorException(
+                            it.status.value,
+                            fetchErrorObject(it) as AccountTakeoverUnauthorizedError,
+                            it.headers.getTransactionId()
+                        )
+                    },
+                    HttpStatusCodeRange("403") { ExpediaGroupApiForbiddenErrorException(it.status.value, fetchErrorObject(it) as ForbiddenError, it.headers.getTransactionId()) },
+                    HttpStatusCodeRange("404") { ExpediaGroupApiNotFoundErrorException(it.status.value, fetchErrorObject(it) as NotFoundError, it.headers.getTransactionId()) },
+                    HttpStatusCodeRange(
+                        "429"
+                    ) { ExpediaGroupApiTooManyRequestsErrorException(it.status.value, fetchErrorObject(it) as TooManyRequestsError, it.headers.getTransactionId()) },
+                    HttpStatusCodeRange(
+                        "500"
+                    ) { ExpediaGroupApiInternalServerErrorException(it.status.value, fetchErrorObject(it) as InternalServerError, it.headers.getTransactionId()) },
+                    HttpStatusCodeRange("502") { ExpediaGroupApiBadGatewayErrorException(it.status.value, fetchErrorObject(it) as BadGatewayError, it.headers.getTransactionId()) },
+                    HttpStatusCodeRange(
+                        "503"
+                    ) { ExpediaGroupApiServiceUnavailableErrorException(it.status.value, fetchErrorObject(it) as ServiceUnavailableError, it.headers.getTransactionId()) },
+                    HttpStatusCodeRange(
+                        "504"
+                    ) { ExpediaGroupApiGatewayTimeoutErrorException(it.status.value, fetchErrorObject(it) as GatewayTimeoutError, it.headers.getTransactionId()) },
+                    DefaultHttpStatusCodeRange
+                )
+            ),
+            Pair(
+                "screenOrderPurchase",
+                listOf(
+                    HttpStatusCodeRange("400") { ExpediaGroupApiBadRequestErrorException(it.status.value, fetchErrorObject(it) as BadRequestError, it.headers.getTransactionId()) },
+                    HttpStatusCodeRange(
+                        "401"
+                    ) { ExpediaGroupApiUnauthorizedErrorException(it.status.value, fetchErrorObject(it) as UnauthorizedError, it.headers.getTransactionId()) },
+                    HttpStatusCodeRange("403") { ExpediaGroupApiForbiddenErrorException(it.status.value, fetchErrorObject(it) as ForbiddenError, it.headers.getTransactionId()) },
+                    HttpStatusCodeRange("404") { ExpediaGroupApiNotFoundErrorException(it.status.value, fetchErrorObject(it) as NotFoundError, it.headers.getTransactionId()) },
+                    HttpStatusCodeRange(
+                        "429"
+                    ) { ExpediaGroupApiTooManyRequestsErrorException(it.status.value, fetchErrorObject(it) as TooManyRequestsError, it.headers.getTransactionId()) },
+                    HttpStatusCodeRange(
+                        "500"
+                    ) { ExpediaGroupApiInternalServerErrorException(it.status.value, fetchErrorObject(it) as InternalServerError, it.headers.getTransactionId()) },
+                    HttpStatusCodeRange("502") { ExpediaGroupApiBadGatewayErrorException(it.status.value, fetchErrorObject(it) as BadGatewayError, it.headers.getTransactionId()) },
+                    HttpStatusCodeRange(
+                        "503"
+                    ) {
+                        ExpediaGroupApiRetryableOrderPurchaseScreenFailureException(
+                            it.status.value,
+                            fetchErrorObject(it) as RetryableOrderPurchaseScreenFailure,
+                            it.headers.getTransactionId()
+                        )
+                    },
+                    HttpStatusCodeRange(
+                        "504"
+                    ) { ExpediaGroupApiGatewayTimeoutErrorException(it.status.value, fetchErrorObject(it) as GatewayTimeoutError, it.headers.getTransactionId()) },
+                    DefaultHttpStatusCodeRange
+                )
+            ),
+            Pair(
+                "updateAccount",
                 listOf(
                     HttpStatusCodeRange(
                         "400"
@@ -90,7 +160,7 @@ internal object ErrorObjectMapper {
                 )
             ),
             Pair(
-                "notifyWithOrderUpdate",
+                "updateOrderPurchase",
                 listOf(
                     HttpStatusCodeRange("400") { ExpediaGroupApiBadRequestErrorException(it.status.value, fetchErrorObject(it) as BadRequestError, it.headers.getTransactionId()) },
                     HttpStatusCodeRange(
@@ -119,76 +189,6 @@ internal object ErrorObjectMapper {
                         ExpediaGroupApiRetryableOrderPurchaseUpdateFailureException(
                             it.status.value,
                             fetchErrorObject(it) as RetryableOrderPurchaseUpdateFailure,
-                            it.headers.getTransactionId()
-                        )
-                    },
-                    HttpStatusCodeRange(
-                        "504"
-                    ) { ExpediaGroupApiGatewayTimeoutErrorException(it.status.value, fetchErrorObject(it) as GatewayTimeoutError, it.headers.getTransactionId()) },
-                    DefaultHttpStatusCodeRange
-                )
-            ),
-            Pair(
-                "screenAccount",
-                listOf(
-                    HttpStatusCodeRange(
-                        "400"
-                    ) {
-                        ExpediaGroupApiAccountTakeoverBadRequestErrorException(
-                            it.status.value,
-                            fetchErrorObject(it) as AccountTakeoverBadRequestError,
-                            it.headers.getTransactionId()
-                        )
-                    },
-                    HttpStatusCodeRange(
-                        "401"
-                    ) {
-                        ExpediaGroupApiAccountTakeoverUnauthorizedErrorException(
-                            it.status.value,
-                            fetchErrorObject(it) as AccountTakeoverUnauthorizedError,
-                            it.headers.getTransactionId()
-                        )
-                    },
-                    HttpStatusCodeRange("403") { ExpediaGroupApiForbiddenErrorException(it.status.value, fetchErrorObject(it) as ForbiddenError, it.headers.getTransactionId()) },
-                    HttpStatusCodeRange("404") { ExpediaGroupApiNotFoundErrorException(it.status.value, fetchErrorObject(it) as NotFoundError, it.headers.getTransactionId()) },
-                    HttpStatusCodeRange(
-                        "429"
-                    ) { ExpediaGroupApiTooManyRequestsErrorException(it.status.value, fetchErrorObject(it) as TooManyRequestsError, it.headers.getTransactionId()) },
-                    HttpStatusCodeRange(
-                        "500"
-                    ) { ExpediaGroupApiInternalServerErrorException(it.status.value, fetchErrorObject(it) as InternalServerError, it.headers.getTransactionId()) },
-                    HttpStatusCodeRange("502") { ExpediaGroupApiBadGatewayErrorException(it.status.value, fetchErrorObject(it) as BadGatewayError, it.headers.getTransactionId()) },
-                    HttpStatusCodeRange(
-                        "503"
-                    ) { ExpediaGroupApiServiceUnavailableErrorException(it.status.value, fetchErrorObject(it) as ServiceUnavailableError, it.headers.getTransactionId()) },
-                    HttpStatusCodeRange(
-                        "504"
-                    ) { ExpediaGroupApiGatewayTimeoutErrorException(it.status.value, fetchErrorObject(it) as GatewayTimeoutError, it.headers.getTransactionId()) },
-                    DefaultHttpStatusCodeRange
-                )
-            ),
-            Pair(
-                "screenOrder",
-                listOf(
-                    HttpStatusCodeRange("400") { ExpediaGroupApiBadRequestErrorException(it.status.value, fetchErrorObject(it) as BadRequestError, it.headers.getTransactionId()) },
-                    HttpStatusCodeRange(
-                        "401"
-                    ) { ExpediaGroupApiUnauthorizedErrorException(it.status.value, fetchErrorObject(it) as UnauthorizedError, it.headers.getTransactionId()) },
-                    HttpStatusCodeRange("403") { ExpediaGroupApiForbiddenErrorException(it.status.value, fetchErrorObject(it) as ForbiddenError, it.headers.getTransactionId()) },
-                    HttpStatusCodeRange("404") { ExpediaGroupApiNotFoundErrorException(it.status.value, fetchErrorObject(it) as NotFoundError, it.headers.getTransactionId()) },
-                    HttpStatusCodeRange(
-                        "429"
-                    ) { ExpediaGroupApiTooManyRequestsErrorException(it.status.value, fetchErrorObject(it) as TooManyRequestsError, it.headers.getTransactionId()) },
-                    HttpStatusCodeRange(
-                        "500"
-                    ) { ExpediaGroupApiInternalServerErrorException(it.status.value, fetchErrorObject(it) as InternalServerError, it.headers.getTransactionId()) },
-                    HttpStatusCodeRange("502") { ExpediaGroupApiBadGatewayErrorException(it.status.value, fetchErrorObject(it) as BadGatewayError, it.headers.getTransactionId()) },
-                    HttpStatusCodeRange(
-                        "503"
-                    ) {
-                        ExpediaGroupApiRetryableOrderPurchaseScreenFailureException(
-                            it.status.value,
-                            fetchErrorObject(it) as RetryableOrderPurchaseScreenFailure,
                             it.headers.getTransactionId()
                         )
                     },
@@ -228,25 +228,41 @@ class ExpediaGroupApiAccountTakeoverUnauthorizedErrorException(code: Int, overri
 
 class ExpediaGroupApiForbiddenErrorException(code: Int, override val errorObject: ForbiddenError, transactionId: String?) : ExpediaGroupApiException(code, errorObject, transactionId)
 
-class ExpediaGroupApiAccountUpdateNotFoundErrorException(code: Int, override val errorObject: AccountUpdateNotFoundError, transactionId: String?) : ExpediaGroupApiException(
+class ExpediaGroupApiNotFoundErrorException(code: Int, override val errorObject: NotFoundError, transactionId: String?) : ExpediaGroupApiException(code, errorObject, transactionId)
+
+class ExpediaGroupApiTooManyRequestsErrorException(code: Int, override val errorObject: TooManyRequestsError, transactionId: String?) : ExpediaGroupApiException(
     code,
     errorObject,
     transactionId
 )
 
-class ExpediaGroupApiTooManyRequestsErrorException(code: Int, override val errorObject: TooManyRequestsError, transactionId: String?) : ExpediaGroupApiException(code, errorObject, transactionId)
-
 class ExpediaGroupApiInternalServerErrorException(code: Int, override val errorObject: InternalServerError, transactionId: String?) : ExpediaGroupApiException(code, errorObject, transactionId)
 
 class ExpediaGroupApiBadGatewayErrorException(code: Int, override val errorObject: BadGatewayError, transactionId: String?) : ExpediaGroupApiException(code, errorObject, transactionId)
 
-class ExpediaGroupApiServiceUnavailableErrorException(code: Int, override val errorObject: ServiceUnavailableError, transactionId: String?) : ExpediaGroupApiException(code, errorObject, transactionId)
+class ExpediaGroupApiServiceUnavailableErrorException(code: Int, override val errorObject: ServiceUnavailableError, transactionId: String?) : ExpediaGroupApiException(
+    code,
+    errorObject,
+    transactionId
+)
 
 class ExpediaGroupApiGatewayTimeoutErrorException(code: Int, override val errorObject: GatewayTimeoutError, transactionId: String?) : ExpediaGroupApiException(code, errorObject, transactionId)
 
 class ExpediaGroupApiBadRequestErrorException(code: Int, override val errorObject: BadRequestError, transactionId: String?) : ExpediaGroupApiException(code, errorObject, transactionId)
 
 class ExpediaGroupApiUnauthorizedErrorException(code: Int, override val errorObject: UnauthorizedError, transactionId: String?) : ExpediaGroupApiException(code, errorObject, transactionId)
+
+class ExpediaGroupApiRetryableOrderPurchaseScreenFailureException(code: Int, override val errorObject: RetryableOrderPurchaseScreenFailure, transactionId: String?) : ExpediaGroupApiException(
+    code,
+    errorObject,
+    transactionId
+)
+
+class ExpediaGroupApiAccountUpdateNotFoundErrorException(code: Int, override val errorObject: AccountUpdateNotFoundError, transactionId: String?) : ExpediaGroupApiException(
+    code,
+    errorObject,
+    transactionId
+)
 
 class ExpediaGroupApiOrderPurchaseUpdateNotFoundErrorException(code: Int, override val errorObject: OrderPurchaseUpdateNotFoundError, transactionId: String?) : ExpediaGroupApiException(
     code,
@@ -255,14 +271,6 @@ class ExpediaGroupApiOrderPurchaseUpdateNotFoundErrorException(code: Int, overri
 )
 
 class ExpediaGroupApiRetryableOrderPurchaseUpdateFailureException(code: Int, override val errorObject: RetryableOrderPurchaseUpdateFailure, transactionId: String?) : ExpediaGroupApiException(
-    code,
-    errorObject,
-    transactionId
-)
-
-class ExpediaGroupApiNotFoundErrorException(code: Int, override val errorObject: NotFoundError, transactionId: String?) : ExpediaGroupApiException(code, errorObject, transactionId)
-
-class ExpediaGroupApiRetryableOrderPurchaseScreenFailureException(code: Int, override val errorObject: RetryableOrderPurchaseScreenFailure, transactionId: String?) : ExpediaGroupApiException(
     code,
     errorObject,
     transactionId

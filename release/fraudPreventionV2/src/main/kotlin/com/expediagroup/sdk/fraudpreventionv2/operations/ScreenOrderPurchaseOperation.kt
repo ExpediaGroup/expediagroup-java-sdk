@@ -13,14 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.model
 
-import com.expediagroup.sdk.core.constant.HeaderKey
-import io.ktor.http.Headers
-import io.ktor.http.HeadersBuilder
+package com.expediagroup.sdk.fraudpreventionv2.operations
 
-/** Get transaction id from headers. */
-fun Headers.getTransactionId(): String? = get(HeaderKey.TRANSACTION_ID)
+import com.expediagroup.sdk.core.model.Operation
+import com.expediagroup.sdk.fraudpreventionv2.models.OrderPurchaseScreenRequest
 
-/** Get transaction id from headers builder. */
-fun HeadersBuilder.getTransactionId(): String? = get(HeaderKey.TRANSACTION_ID)
+/**
+ * Run fraud screening for one transaction
+ * @property requestBody [OrderPurchaseScreenRequest]
+ */
+class ScreenOrderPurchaseOperation(
+    requestBody: OrderPurchaseScreenRequest?
+) : Operation<
+        OrderPurchaseScreenRequest
+    >(
+        "/fraud-prevention/v2/order/purchase/screen",
+        "POST",
+        "screenOrderPurchase",
+        requestBody,
+        null
+    )

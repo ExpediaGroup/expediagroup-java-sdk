@@ -15,12 +15,8 @@
  */
 package com.expediagroup.sdk.core.model
 
-import com.expediagroup.sdk.core.constant.HeaderKey
-import io.ktor.http.Headers
-import io.ktor.http.HeadersBuilder
+interface OperationParams {
+    fun getHeaders(): Map<String, String>?
 
-/** Get transaction id from headers. */
-fun Headers.getTransactionId(): String? = get(HeaderKey.TRANSACTION_ID)
-
-/** Get transaction id from headers builder. */
-fun HeadersBuilder.getTransactionId(): String? = get(HeaderKey.TRANSACTION_ID)
+    fun getQueryParams(): Map<String, Iterable<String>>?
+}

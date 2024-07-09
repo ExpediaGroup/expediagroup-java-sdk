@@ -8,22 +8,27 @@ info:
     email: RiskTechVerge@expedia.com
   x-eg-lifecycle: PLANNED
 servers:
+  - url: https://api.expediagroup.com/fraud-prevention/v2
   - url: https://api.sandbox.expediagroup.com/fraud-prevention/v2
+  - url: https://test-api.expediagroup.com/fraud-prevention/v2
+  - url: https://test-api.sandbox.expediagroup.com/fraud-prevention/v2
 tags:
-  - name: fraudPreventionV2
+  - name: OrderPurchaseScreen
+  - name: OrderPurchaseUpdate
+  - name: AccountScreen
+  - name: AccountUpdate
 paths:
   /fraud-prevention/v2/order/purchase/screen:
     post:
       tags:
-        &a1
-        - fraudPreventionV2
+        - screenOrderPurchase
       description: "The Order Purchase API gives a Fraud recommendation for a
         transaction. A recommendation can be Accept, Reject, or Review. A
         transaction is marked as Review whenever there are insufficient signals
         to recommend Accept or Reject. These incidents are manually reviewed,
         and a corrected recommendation is made asynchronously. "
       summary: Run fraud screening for one transaction
-      operationId: screenOrder
+      operationId: screenOrderPurchase
       security:
         - orderPurchaseScreenAuth:
             - fraudandrisk.fraud.order-purchase-screen
@@ -97,7 +102,8 @@ paths:
                 $ref: "#/components/schemas/GatewayTimeoutError"
   /fraud-prevention/v2/order/purchase/update:
     post:
-      tags: *a1
+      tags:
+        - updateOrderPurchase
       description: >
         The Order Purchase Update API is called when the status of the order has
         changed.
@@ -108,7 +114,7 @@ paths:
 
         The Order Purchase Update API is also called when the merchant cancels or changes an order based on a Fraud recommendation.
       summary: Send an update for a transaction
-      operationId: notifyWithOrderUpdate
+      operationId: updateOrderPurchase
       security:
         - orderPurchaseUpdateAuth:
             - fraudandrisk.fraud.order-purchase-update
@@ -231,7 +237,8 @@ paths:
                 $ref: "#/components/schemas/GatewayTimeoutError"
   /fraud-prevention/v2/account/screen:
     post:
-      tags: *a1
+      tags:
+        - screenAccount
       description: The Account Screen API gives a Fraud recommendation for an account
         transaction. A recommendation can be ACCEPT, CHALLENGE, or REJECT. A
         transaction is marked as CHALLENGE whenever there are insufficient
@@ -313,7 +320,8 @@ paths:
                 $ref: "#/components/schemas/GatewayTimeoutError"
   /fraud-prevention/v2/account/update:
     post:
-      tags: *a1
+      tags:
+        - updateAccount
       description: The Account Update API is called when there is an account lifecycle
         transition such as a challenge outcome, account restoration, or
         remediation action completion. For example, if a user's account is
@@ -322,7 +330,7 @@ paths:
         called when a user responds to a login Multi-Factor Authentication based
         on a Fraud recommendation.
       summary: Send an update as a result of an account screen transaction
-      operationId: notifyWithAccountUpdate
+      operationId: updateAccount
       security:
         - accountUpdateAuth:
             - fraudandrisk.fraud.account-update

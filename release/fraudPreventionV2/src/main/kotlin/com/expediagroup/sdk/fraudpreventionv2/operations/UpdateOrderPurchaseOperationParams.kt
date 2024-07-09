@@ -13,14 +13,3 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.model
-
-import com.expediagroup.sdk.core.constant.HeaderKey
-import io.ktor.http.Headers
-import io.ktor.http.HeadersBuilder
-
-/** Get transaction id from headers. */
-fun Headers.getTransactionId(): String? = get(HeaderKey.TRANSACTION_ID)
-
-/** Get transaction id from headers builder. */
-fun HeadersBuilder.getTransactionId(): String? = get(HeaderKey.TRANSACTION_ID)

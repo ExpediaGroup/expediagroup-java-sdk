@@ -13,14 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.core.model
 
-import com.expediagroup.sdk.core.constant.HeaderKey
-import io.ktor.http.Headers
-import io.ktor.http.HeadersBuilder
+package com.expediagroup.sdk.fraudpreventionv2.operations
 
-/** Get transaction id from headers. */
-fun Headers.getTransactionId(): String? = get(HeaderKey.TRANSACTION_ID)
+import com.expediagroup.sdk.core.model.Operation
+import com.expediagroup.sdk.fraudpreventionv2.models.OrderPurchaseUpdateRequest
 
-/** Get transaction id from headers builder. */
-fun HeadersBuilder.getTransactionId(): String? = get(HeaderKey.TRANSACTION_ID)
+/**
+ * Send an update for a transaction
+ * @property requestBody [OrderPurchaseUpdateRequest]
+ */
+class UpdateOrderPurchaseOperation(
+    requestBody: OrderPurchaseUpdateRequest?
+) : Operation<
+        OrderPurchaseUpdateRequest
+    >(
+        "/fraud-prevention/v2/order/purchase/update",
+        "POST",
+        "updateOrderPurchase",
+        requestBody,
+        null
+    )
