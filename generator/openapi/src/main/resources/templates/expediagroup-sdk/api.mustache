@@ -1,5 +1,3 @@
-{{>licenseInfo}}
-
 package com.expediagroup.sdk.{{namespace}}.operations
 
 import com.expediagroup.sdk.core.model.Operation
@@ -99,12 +97,13 @@ import com.expediagroup.sdk.core.model.Operation
                     )
 
                     constructor(
-                        link: Link
+                        link: Link,
+                        context: {{classname}}Context? = null,
                         {{#hasBodyParam}}
-                            , requestBody: {{#bodyParam}}{{dataType}}{{/bodyParam}}{{^required}}?{{/required}}
+                            requestBody: {{#bodyParam}}{{dataType}}{{/bodyParam}}{{^required}}?{{/required}}
                         {{/hasBodyParam}}
                     ): this(
-                        {{#hasNonBodyParams}}null,{{/hasNonBodyParams}}
+                        {{#hasNonBodyParams}}{{classname}}Params(context),{{/hasNonBodyParams}}
                         {{#hasBodyParam}}requestBody,{{/hasBodyParam}}
                         link
                     )

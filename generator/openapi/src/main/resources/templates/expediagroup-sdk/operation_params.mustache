@@ -1,8 +1,6 @@
 {{#operations}}
     {{#operation}}
         {{#hasNonBodyParams}}
-            {{>licenseInfo}}
-
             package com.expediagroup.sdk.{{namespace}}.operations
 
             import com.expediagroup.sdk.core.model.OperationParams
@@ -14,17 +12,58 @@
                 {{/params}}
             {{/nonBodyParams}}
             */
-            data class {{classname}}Params(
+            data class {{classname}}Params internal constructor(
                 {{#nonBodyParams}}
                     {{#params}}
-                        {{>modelMutable}} {{>client/apiParam}}{{^-last}}, {{/-last}}
+                        {{>modelMutable}} {{{paramName}}}: {{{dataType}}}?
+                        {{#defaultValue}} =
+                            {{^isNumber}}{{{defaultValue}}}{{/isNumber}}
+                            {{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}
+                        {{/defaultValue}}
+                        {{^defaultValue}} = null{{/defaultValue}}
+                        ,
                     {{/params}}
                 {{/nonBodyParams}}
+                private val dummy: Unit
             ) : OperationParams {
                 companion object {
                     @JvmStatic
                     fun builder() = Builder()
                 }
+
+                constructor(
+                    {{#nonBodyParams}}
+                        {{#params}}
+                            {{>client/apiParam}}{{^-last}}, {{/-last}}
+                        {{/params}}
+                    {{/nonBodyParams}}
+                ) : this(
+                    {{#nonBodyParams}}
+                        {{#params}}
+                            {{paramName}} = {{paramName}},
+                        {{/params}}
+                    {{/nonBodyParams}}
+                    dummy = Unit
+                )
+
+                {{#isRapid}}
+                    {{#isLinkable}}
+                        constructor(context: {{classname}}Context?) : this(
+                            {{#headerParams}}
+                                {{paramName}} = context?.{{paramName}} ?:
+                                {{#defaultValue}}
+                                    {{^isNumber}}{{{defaultValue}}}{{/isNumber}}
+                                    {{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}
+                                {{/defaultValue}}
+                                {{^defaultValue}}
+                                    null
+                                {{/defaultValue}}
+                                ,
+                            {{/headerParams}}
+                            dummy = Unit
+                        )
+                    {{/isLinkable}}
+                {{/isRapid}}
 
                 class Builder(
                     {{#nonBodyParams}}
