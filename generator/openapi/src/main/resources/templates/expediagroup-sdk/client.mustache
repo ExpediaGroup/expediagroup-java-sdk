@@ -20,11 +20,11 @@ import kotlin.collections.Map.Entry
 * {{#openAPI}}{{#info}}{{{description}}}{{/info}}{{/openAPI}}
 */
 
-class {{#lambda.titlecase}}{{namespace}}{{/lambda.titlecase}}Client private constructor(clientConfiguration: {{>partials/clientConfiguration}}) : {{>partials/clientBase}}("{{namespace}}", clientConfiguration){
+class {{clientClassname}}Client private constructor(clientConfiguration: {{>partials/clientConfiguration}}) : {{>partials/clientBase}}("{{namespace}}", clientConfiguration){
     {{>partials/helpers}}
 
     class Builder : {{>partials/clientBase}}.Builder<Builder>() {
-        override fun build() = {{#lambda.titlecase}}{{namespace}}{{/lambda.titlecase}}Client(
+        override fun build() = {{clientClassname}}Client(
             {{>partials/clientConfiguration}}(key, secret, endpoint, requestTimeout, connectionTimeout, socketTimeout, maskedLoggingHeaders, maskedLoggingBodyFields {{>partials/authEndpoint}})
         )
     }

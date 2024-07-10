@@ -65,7 +65,7 @@ class Paginator<T>(
      *
      * @throws NoSuchElementException if the iteration has no next element.
      */
-    override fun next(): T = nextResponse().body
+    override fun next(): T = nextResponse().data
 }
 
 /**
