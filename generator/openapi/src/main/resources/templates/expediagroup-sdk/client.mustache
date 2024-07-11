@@ -1,9 +1,10 @@
 {{>licenseInfo}}
 package com.expediagroup.sdk.{{namespace}}.client
 
-import kotlinx.coroutines.runBlocking
+import java.util.concurrent.CompletableFuture
 import java.util.stream.Collectors
 import kotlin.collections.Map.Entry
+import kotlinx.coroutines.runBlocking
 
 {{#imports}}
     import {{import}}
@@ -59,26 +60,35 @@ class {{clientClassname}}Client private constructor(clientConfiguration: {{>part
     }
 
     private inline fun <reified RequestType> executeWithEmptyResponse(operation: Operation<RequestType>) : EmptyResponse {
-        try {
-            return GlobalScope.future(Dispatchers.IO) {
+        return executeAsyncWithEmptyResponse(operation).get()
+    }
+
+    private inline fun <reified RequestType> executeAsyncWithEmptyResponse(operation: Operation<RequestType>) : CompletableFuture<EmptyResponse> {
+        return GlobalScope.future(Dispatchers.IO) {
+            try {
                 val response = executeHttpRequest(operation)
                 throwIfError(response, operation.operationId)
                 EmptyResponse(response.status.value, response.headers.entries())
-            }.get()
-        } catch (exception: Exception) {
-            exception.handle()
+
+            } catch (exception: Exception) {
+                exception.handle()
+            }
         }
     }
 
     private inline fun <reified RequestType, reified ResponseType> execute(operation: Operation<RequestType>) : Response<ResponseType> {
-        try {
-            return GlobalScope.future(Dispatchers.IO) {
+        return executeAsync<RequestType, ResponseType>(operation).get()
+    }
+
+    private inline fun <reified RequestType, reified ResponseType> executeAsync(operation: Operation<RequestType>) : CompletableFuture<Response<ResponseType>> {
+        return GlobalScope.future(Dispatchers.IO) {
+            try {
                 val response = executeHttpRequest(operation)
                 throwIfError(response, operation.operationId)
                 Response(response.status.value, response.body<ResponseType>(), response.headers.entries())
-            }.get()
-        } catch (exception: Exception) {
-            exception.handle()
+            } catch (exception: Exception) {
+                exception.handle()
+            }
         }
     }
 
@@ -97,6 +107,22 @@ class {{clientClassname}}Client private constructor(clientConfiguration: {{>part
             {{^returnType}}
                 return executeWithEmptyResponse<{{#bodyParam}}{{dataType}}{{/bodyParam}}{{^hasBodyParam}}Nothing{{/hasBodyParam}}>(operation)
             {{/returnType}}
+        }
+
+        /**
+        * {{{summary}}}
+        * {{{notes}}}
+        * @param operation [{{operationIdCamelCase}}Operation]
+        {{#throwsExceptions}}{{/throwsExceptions}}
+        * @return a [CompletableFuture<Response>] object with a body of type {{{returnType}}}{{^returnType}}Nothing{{/returnType}}
+        */
+        fun executeAsync(operation: {{operationIdCamelCase}}Operation) : CompletableFuture<{{#returnType}}Response<{{{returnType}}}>{{/returnType}}{{^returnType}}EmptyResponse{{/returnType}}> {
+        {{#returnType}}
+            return executeAsync<{{#bodyParam}}{{dataType}}{{/bodyParam}}{{^hasBodyParam}}Nothing{{/hasBodyParam}}, {{{returnType}}}>(operation)
+        {{/returnType}}
+        {{^returnType}}
+            return executeAsyncWithEmptyResponse<{{#bodyParam}}{{dataType}}{{/bodyParam}}{{^hasBodyParam}}Nothing{{/hasBodyParam}}>(operation)
+        {{/returnType}}
         }
 
         private suspend {{^isKotlin}}inline {{/isKotlin}}fun {{^isKotlin}}k{{/isKotlin}}{{operationId}}WithResponse({{>client/apiParamsDecleration}}): {{#returnType}}Response<{{{returnType}}}>{{/returnType}}{{^returnType}}Response<Nothing>{{/returnType}} {
