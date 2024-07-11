@@ -72,16 +72,16 @@
                 }
 
                 override fun getHeaders(): Map<String, String> {
-                    {{#hasHeaderParams}}
-                        return buildMap {
-                            {{#headerParams}}
-                                {{paramName}}?.also { put("{{baseName}}", {{paramName}}) }
-                            {{/headerParams}}
-                        }
-                    {{/hasHeaderParams}}
-                    {{^hasHeaderParams}}
-                        return emptyMap<String, String>()
-                    {{/hasHeaderParams}}
+                    return buildMap<String, String> {
+                        {{#headerParams}}
+                            {{paramName}}?.also { put("{{baseName}}", {{paramName}}) }
+                        {{/headerParams}}
+                        {{#responses}}
+                            {{#httpAcceptHeader}}
+                                put("Accept", "{{mediaTypes}}")
+                            {{/httpAcceptHeader}}
+                        {{/responses}}
+                    }
                 }
 
                 override fun getQueryParams(): Map<String, Iterable<String>> {

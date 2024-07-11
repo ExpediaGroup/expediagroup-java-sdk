@@ -130,7 +130,8 @@ val mustacheHelpers = mapOf(
             val response: CodegenResponse = fragment.context() as CodegenResponse
             if (response.code == "200") {
                 val mediaTypes: MutableSet<String> = response.content.keys
-                writer.write("headers.append(\"Accept\", \"${mediaTypes.joinToString(",")}\")\n")
+                val context = mapOf("mediaTypes" to mediaTypes.joinToString(","))
+                fragment.execute(context, writer)
             }
         }
     },
