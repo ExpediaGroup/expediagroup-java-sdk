@@ -52,16 +52,11 @@
                 }
 
                 fun getHeaders(): Map<String, String> {
-                    {{#hasHeaderParams}}
-                        return buildMap {
-                            {{#headerParams}}
-                                {{paramName}}?.also { put("{{baseName}}", {{paramName}}) }
-                            {{/headerParams}}
-                        }
-                    {{/hasHeaderParams}}
-                    {{^hasHeaderParams}}
-                        return emptyMap<String, String>()
-                    {{/hasHeaderParams}}
+                    return buildMap {
+                        {{#headerParams}}
+                            {{paramName}}{{^required}}?{{/required}}.also { put("{{baseName}}", {{paramName}}) }
+                        {{/headerParams}}
+                    }
                 }
             }
         {{/hasHeaderParams}}

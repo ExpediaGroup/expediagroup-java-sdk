@@ -12,51 +12,72 @@
                 {{/params}}
             {{/nonBodyParams}}
             */
-            data class {{classname}}Params internal constructor(
-                {{#nonBodyParams}}
-                    {{#params}}
-                        {{>modelMutable}} {{{paramName}}}: {{{dataType}}}?
-                        {{#defaultValue}} =
-                            {{^isNumber}}{{{defaultValue}}}{{/isNumber}}
-                            {{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}
-                        {{/defaultValue}}
-                        {{^defaultValue}} = null{{/defaultValue}}
-                        ,
-                    {{/params}}
-                {{/nonBodyParams}}
-                private val dummy: Unit
-            ) : OperationParams {
+            data class {{classname}}Params
+            {{^isRapid}}
+                (
+                    {{#nonBodyParams}}
+                        {{#params}}
+                            {{>modelMutable}} {{>client/apiParam}}{{^-last}}, {{/-last}}
+                        {{/params}}
+                    {{/nonBodyParams}}
+                )
+            {{/isRapid}}
+            {{#isRapid}}
+                {{^isLinkable}}
+                    (
+                        {{#nonBodyParams}}
+                            {{#params}}
+                                {{>modelMutable}} {{>client/apiParam}}{{^-last}}, {{/-last}}
+                            {{/params}}
+                        {{/nonBodyParams}}
+                    )
+                {{/isLinkable}}
+                {{#isLinkable}}
+                    internal constructor(
+                        {{#nonBodyParams}}
+                            {{#params}}
+                                {{>modelMutable}} {{{paramName}}}: {{{dataType}}}?
+                                {{#defaultValue}} =
+                                    {{^isNumber}}{{{defaultValue}}}{{/isNumber}}
+                                    {{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}
+                                {{/defaultValue}}
+                                {{^defaultValue}} = null{{/defaultValue}}
+                                ,
+                            {{/params}}
+                        {{/nonBodyParams}}
+                        private val dummy: Unit
+                    )
+                {{/isLinkable}}
+            {{/isRapid}}
+            : OperationParams {
                 companion object {
                     @JvmStatic
                     fun builder() = Builder()
                 }
 
-                constructor(
-                    {{#nonBodyParams}}
-                        {{#params}}
-                            {{>client/apiParam}}{{^-last}}, {{/-last}}
-                        {{/params}}
-                    {{/nonBodyParams}}
-                ) : this(
-                    {{#nonBodyParams}}
-                        {{#params}}
-                            {{paramName}} = {{paramName}},
-                        {{/params}}
-                    {{/nonBodyParams}}
-                    dummy = Unit
-                )
-
                 {{#isRapid}}
                     {{#isLinkable}}
+                        constructor(
+                            {{#nonBodyParams}}
+                                {{#params}}
+                                    {{>client/apiParam}}{{^-last}}, {{/-last}}
+                                {{/params}}
+                            {{/nonBodyParams}}
+                        ) : this(
+                            {{#nonBodyParams}}
+                                {{#params}}
+                                    {{paramName}} = {{paramName}},
+                                {{/params}}
+                            {{/nonBodyParams}}
+                            dummy = Unit
+                        )
+
                         constructor(context: {{classname}}Context?) : this(
                             {{#headerParams}}
-                                {{paramName}} = context?.{{paramName}} ?:
+                                {{paramName}} = context?.{{paramName}}
                                 {{#defaultValue}}
-                                    {{^isNumber}}{{{defaultValue}}}{{/isNumber}}
-                                    {{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}
-                                {{/defaultValue}}
-                                {{^defaultValue}}
-                                    null
+                                    {{^isNumber}} ?: {{{defaultValue}}}{{/isNumber}}
+                                    {{#isNumber}} ?: {{{defaultValue}}}.toDouble(){{/isNumber}}
                                 {{/defaultValue}}
                                 ,
                             {{/headerParams}}
@@ -111,42 +132,27 @@
                 }
 
                 override fun getHeaders(): Map<String, String> {
-                    {{#hasHeaderParams}}
-                        return buildMap {
-                            {{#headerParams}}
-                                {{paramName}}?.also { put("{{baseName}}", {{paramName}}) }
-                            {{/headerParams}}
-                        }
-                    {{/hasHeaderParams}}
-                    {{^hasHeaderParams}}
-                        return emptyMap<String, String>()
-                    {{/hasHeaderParams}}
+                    return buildMap {
+                        {{#headerParams}}
+                            {{paramName}}?.also { put("{{baseName}}", {{paramName}}) }
+                        {{/headerParams}}
+                    }
                 }
 
                 override fun getQueryParams(): Map<String, Iterable<String>> {
-                    {{#hasQueryParams}}
-                        return buildMap {
-                            {{#queryParams}}
-                                {{paramName}}?.also { put ("{{baseName}}", {{#isContainer}}{{paramName}}{{/isContainer}}{{^isContainer}}listOf({{paramName}}.toString()){{/isContainer}})}
-                            {{/queryParams}}
-                        }
-                    {{/hasQueryParams}}
-                    {{^hasQueryParams}}
-                        return emptyMap<String, Iterable<String>>()
-                    {{/hasQueryParams}}
+                    return buildMap {
+                        {{#queryParams}}
+                            {{paramName}}?.also { put ("{{baseName}}", {{#isContainer}}{{paramName}}{{/isContainer}}{{^isContainer}}listOf({{paramName}}.toString()){{/isContainer}})}
+                        {{/queryParams}}
+                    }
                 }
 
                 override fun getPathParams() : Map<String, String> {
-                    {{#hasPathParams}}
-                        return buildMap {
-                            {{#pathParams}}
-                                {{paramName}}?.also { put("{{baseName}}", {{paramName}}) }
-                            {{/pathParams}}
-                        }
-                    {{/hasPathParams}}
-                    {{^hasPathParams}}
-                        return emptyMap<String, String>()
-                    {{/hasPathParams}}
+                    return buildMap {
+                        {{#pathParams}}
+                            {{paramName}}?.also { put("{{baseName}}", {{paramName}}) }
+                        {{/pathParams}}
+                    }
                 }
             }
         {{/hasNonBodyParams}}
