@@ -98,7 +98,7 @@ import com.expediagroup.sdk.core.model.Operation
 
                     constructor(
                         link: Link,
-                        context: {{classname}}Context?,
+                        context: {{classname}}Context{{^hasRequiredContext}}?{{/hasRequiredContext}},
                         {{#hasBodyParam}}
                             requestBody: {{#bodyParam}}{{dataType}}{{/bodyParam}}{{^required}}?{{/required}}
                         {{/hasBodyParam}}
