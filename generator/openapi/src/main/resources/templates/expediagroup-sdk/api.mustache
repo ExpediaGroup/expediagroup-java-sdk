@@ -35,10 +35,10 @@ import com.expediagroup.sdk.core.model.Operation
             {{^hasBodyParam}}Nothing{{/hasBodyParam}}
         >(
             {{#hasPathParams}}
-            "{{{path}}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", {{#isContainer}}params.{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}"${params.{{paramName}}}"{{/isContainer}}){{/pathParams}}
+                "{{#removeLeadingSlashes}}{{{path}}}{{/removeLeadingSlashes}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", {{#isContainer}}params.{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}"${params.{{paramName}}}"{{/isContainer}}){{/pathParams}}
             {{/hasPathParams}}
             {{^hasPathParams}}
-                "{{{path}}}"
+                "{{#removeLeadingSlashes}}{{{path}}}{{/removeLeadingSlashes}}"
             {{/hasPathParams}},
             "{{httpMethod}}",
             "{{operationId}}",

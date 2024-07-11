@@ -43,8 +43,8 @@ val mustacheHelpers = mapOf(
             }
         }
     },
-    "removeLeadingSlash" to {
-        Mustache.Lambda { fragment, writer -> writer.write(fragment.execute().replace("^/+".toRegex(), "")) }
+    "removeLeadingSlashes" to {
+        Mustache.Lambda { fragment, writer -> writer.write(fragment.execute().replace("^/+".toRegex(), "/")) }
     },
     "assignDiscriminators" to {
         Mustache.Lambda { fragment, writer ->
