@@ -99,69 +99,6 @@ class {{clientClassname}}Client private constructor(clientConfiguration: {{>part
             {{/returnType}}
         }
 
-        private suspend {{^isKotlin}}inline {{/isKotlin}}fun {{^isKotlin}}k{{/isKotlin}}{{operationId}}WithResponse({{>client/apiParamsDecleration}}): {{#returnType}}Response<{{{returnType}}}>{{/returnType}}{{^returnType}}Response<Nothing>{{/returnType}} {
-            {{#hasNonBodyParams}}
-                val params =  {{operationIdCamelCase}}OperationParams(
-                {{#nonBodyParams}}
-                    {{#params}}
-                        {{{paramName}}} = {{{paramName}}}{{^-last}}, {{/-last}}
-                    {{/params}}
-                {{/nonBodyParams}}
-                )
-            {{/hasNonBodyParams}}
-
-            val operation = {{operationIdCamelCase}}Operation(
-                {{#hasBodyParam}}
-                    requestBody = {{#bodyParam}}{{{paramName}}}{{/bodyParam}},
-                {{/hasBodyParam}}
-                {{#hasNonBodyParams}}
-                    params = params
-                {{/hasNonBodyParams}}
-            )
-
-            return execute(operation)
-        }
-
-        {{^isKotlin}}
-            /**
-            * {{{summary}}}
-            * {{{notes}}}
-            {{#allParams}}
-                * @param {{{paramName}}} {{{description}}}{{^required}} (optional{{#defaultValue}}, defaults to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (defaults to {{{.}}}){{/defaultValue}}{{/required}}
-            {{/allParams}}
-            {{#throwsExceptions}}{{/throwsExceptions}}
-            * @return {{{returnType}}}{{^returnType}}Nothing{{/returnType}}
-            */
-            @Throws({{#throwsExceptionsClasses}}{{/throwsExceptionsClasses}})
-            @JvmOverloads
-            @Deprecated("Use execute method instead", ReplaceWith("execute(operation: {{operationIdCamelCase}}Operation)"))
-            fun {{operationId}}({{>client/apiParamsDecleration}}) : {{{returnType}}}{{^returnType}}Nothing{{/returnType}} {
-                return {{operationId}}WithResponse({{>client/apiParamsPassed}}).data
-            }
-
-            /**
-            * {{{summary}}}
-            * {{{notes}}}
-            {{#allParams}}
-                * @param {{{paramName}}} {{{description}}}{{^required}} (optional{{#defaultValue}}, defaults to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (defaults to {{{.}}}){{/defaultValue}}{{/required}}
-            {{/allParams}}
-            {{#throwsExceptions}}{{/throwsExceptions}}
-            * @return a [Response] object with a body of type {{{returnType}}}{{^returnType}}Nothing{{/returnType}}
-            */
-            @Throws({{#throwsExceptionsClasses}}{{/throwsExceptionsClasses}})
-            @JvmOverloads
-            @Deprecated("Use execute method instead", ReplaceWith("execute(operation: {{operationIdCamelCase}}Operation)"))
-            fun {{operationId}}WithResponse({{>client/apiParamsDecleration}}) : {{#returnType}}Response<{{{returnType}}}>{{/returnType}}{{^returnType}}Response<Nothing>{{/returnType}} {
-                try {
-                    return GlobalScope.future(Dispatchers.IO) {
-                        k{{operationId}}WithResponse({{>client/apiParamsPassed}})
-                    }.get()
-                } catch (exception: Exception) {
-                    exception.handle()
-                }
-            }
-        {{/isKotlin}}
-
         {{#isPaginatable}}
             {{>client/paginatorMethods}}
         {{/isPaginatable}}
