@@ -67,19 +67,19 @@
         <language>java</language>
 
         <!-- Versions -->
-        <kotlin.version>1.8.0</kotlin.version>
-        <openapi-generator.version>6.5.0</openapi-generator.version>
+        <kotlin.version>1.9.24</kotlin.version>
+        <openapi-generator.version>6.6.0</openapi-generator.version>
 
         <!-- Plugin Versions -->
-        <exec-maven-plugin.version>3.1.0</exec-maven-plugin.version>
-        <ktlint-plugin.version>1.15.2</ktlint-plugin.version>
-        <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
-        <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
-        <maven-resources-plugin.version>3.3.0</maven-resources-plugin.version>
-        <maven.licence.plugin.version>4.1</maven.licence.plugin.version>
+        <exec-maven-plugin.version>3.3.0</exec-maven-plugin.version>
+        <ktlint-plugin.version>1.16.0</ktlint-plugin.version>
+        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
+        <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
+        <maven.licence.plugin.version>4.5</maven.licence.plugin.version>
 
         <!-- Library Versions -->
-        <junit5.version>5.9.1</junit5.version>
+        <junit5.version>5.10.3</junit5.version>
     </properties>
 
     <dependencyManagement>
@@ -93,14 +93,14 @@
             <dependency>
                 <groupId>com.github.rvesse</groupId>
                 <artifactId>airline</artifactId>
-                <version>2.9.0</version>
+                <version>3.0.0</version>
             </dependency>
 
             <!-- Test Dependencies -->
             <dependency>
                 <groupId>org.assertj</groupId>
                 <artifactId>assertj-core</artifactId>
-                <version>3.23.1</version>
+                <version>3.26.0</version>
             </dependency>
             <dependency>
                 <groupId>org.junit</groupId>

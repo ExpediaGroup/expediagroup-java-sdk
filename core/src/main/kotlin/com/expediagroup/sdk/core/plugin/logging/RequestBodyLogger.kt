@@ -25,7 +25,8 @@ import io.ktor.client.request.HttpSendPipeline
 import io.ktor.http.content.OutputStreamContent
 import io.ktor.util.AttributeKey
 import io.ktor.util.pipeline.PipelineContext
-import io.ktor.utils.io.ByteChannel
+import io.ktor.utils.io.writer
+import kotlinx.coroutines.coroutineScope
 
 internal class RequestBodyLogger {
     private val log = ExpediaGroupLoggerFactory.getLogger(javaClass)
@@ -47,9 +48,10 @@ internal class RequestBodyLogger {
         private suspend fun PipelineContext<Any, HttpRequestBuilder>.getBody(): String {
             val body = context.body
             if (body is OutputStreamContent) {
-                with(ByteChannel()) {
-                    body.writeTo(this)
-                    return readRemaining().readText()
+                return coroutineScope {
+                    writer {
+                        body.writeTo(channel)
+                    }.channel.readRemaining().readText()
                 }
             }
             return body.toString()

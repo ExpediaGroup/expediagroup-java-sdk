@@ -1,20 +1,21 @@
-{{#operation}}
-    {{#vendorExtensions}}
-        {{#x-sdk-paginated}}
-            {{#returnType}}
-                @JvmOverloads
-                fun {{operationId}}Paginator({{>client/apiParamsDecleration}}): Paginator<{{{returnType}}}> {
-                    val response = {{operationId}}WithResponse({{>client/apiParamsPassed}})
-                    return Paginator(this, response, {{#fallbackBody}}{{/fallbackBody}}) { it.body<{{{returnType}}}>() }
-                }
+{{#returnType}}
+    @JvmOverloads
+    fun getPaginator(operation: {{operationIdCamelCase}}Operation): ResponsePaginator<{{{returnType}}}> {
+        val response = execute(operation)
+        return ResponsePaginator(this, response, {{fallbackBody}}) { it.body<{{{returnType}}}>() }
+    }
 
-                @JvmOverloads
-                fun {{operationId}}PaginatorWithResponse({{>client/apiParamsDecleration}}): ResponsePaginator<{{{returnType}}}> {
-                    val response = {{operationId}}WithResponse({{>client/apiParamsPassed}})
-                    return ResponsePaginator(this, response, {{#fallbackBody}}{{/fallbackBody}}) { it.body<{{{returnType}}}>() }
-                }
+    @JvmOverloads
+    @Deprecated("Use getPaginator method instead", ReplaceWith("getPaginator(operation: {{operationIdCamelCase}}Operation)"))
+    fun {{operationId}}Paginator({{>client/apiParamsDecleration}}): Paginator<{{{returnType}}}> {
+        val response = {{operationId}}WithResponse({{>client/apiParamsPassed}})
+        return Paginator(this, response, {{fallbackBody}}) { it.body<{{{returnType}}}>() }
+    }
 
-            {{/returnType}}
-        {{/x-sdk-paginated}}
-    {{/vendorExtensions}}
-{{/operation}}
+    @JvmOverloads
+    @Deprecated("Use getPaginator method instead", ReplaceWith("getPaginator(operation: {{operationIdCamelCase}}Operation)"))
+    fun {{operationId}}PaginatorWithResponse({{>client/apiParamsDecleration}}): ResponsePaginator<{{{returnType}}}> {
+        val response = {{operationId}}WithResponse({{>client/apiParamsPassed}})
+        return ResponsePaginator(this, response, {{fallbackBody}}) { it.body<{{{returnType}}}>() }
+    }
+{{/returnType}}

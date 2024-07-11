@@ -4,7 +4,7 @@
 
 [JVM]\
 
-public [RoomItinerary](index.md)[RoomItinerary](-room-itinerary.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)id, [ConfirmationId](../-confirmation-id/index.md)confirmationId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)bedGroupId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)checkin, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)checkout, [BigDecimal](https://docs.oracle.com/javase/8/docs/api/java/math/BigDecimal.html)numberOfAdults, [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[BigDecimal](https://docs.oracle.com/javase/8/docs/api/java/math/BigDecimal.html)&gt;childAges, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)givenName, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)familyName, [StatusItinerary](../-status-itinerary/index.md)status, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)specialRequest, [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html)smoking, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)loyaltyId, [RateItinerary](../-rate-itinerary/index.md)rate, [RoomItineraryLinks](../-room-itinerary-links/index.md)links)
+public [RoomItinerary](index.md)[RoomItinerary](-room-itinerary.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)id, [ConfirmationId](../-confirmation-id/index.md)confirmationId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)bedGroupId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)checkin, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)checkout, [BigDecimal](https://docs.oracle.com/javase/8/docs/api/java/math/BigDecimal.html)numberOfAdults, [List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[BigDecimal](https://docs.oracle.com/javase/8/docs/api/java/math/BigDecimal.html)&gt;childAges, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)givenName, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)familyName, [StatusItinerary](../-status-itinerary/index.md)status, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)specialRequest, [Boolean](https://docs.oracle.com/javase/8/docs/api/java/lang/Boolean.html)smoking, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)loyaltyId, [Loyalty](../-loyalty/index.md)loyalty, [RateItinerary](../-rate-itinerary/index.md)rate, [RoomItineraryLinks](../-room-itinerary-links/index.md)links)
 
 #### Parameters
 
@@ -24,6 +24,7 @@ JVM
 | status |
 | specialRequest | Any special request info associated with the room. |
 | smoking | Indicates if the room is smoking or non-smoking. |
-| loyaltyId | A loyalty identifier for a hotel loyalty program associated with this room guest. |
+| loyaltyId | Deprecated. Please use the loyalty id inside the loyalty object. |
+| loyalty |
 | rate |
 | links |

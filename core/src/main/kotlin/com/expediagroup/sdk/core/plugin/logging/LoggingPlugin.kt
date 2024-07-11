@@ -41,7 +41,7 @@ internal object LoggingPlugin : Plugin<LoggingConfiguration> {
                 client.getLoggingMaskedFieldsProvider().getMaskedHeaderFields().contains(header)
             }
         }
-        // configurations.httpClientConfiguration.install(RequestBodyLogger)
+        configurations.httpClientConfiguration.install(RequestBodyLogger)
         configurations.httpClientConfiguration.install(ResponseBodyLogger)
     }
 }

@@ -17,13 +17,34 @@ package com.expediagroup.sdk.generators.openapi
 
 import com.samskivert.mustache.Mustache
 import org.openapitools.codegen.CodegenModel
+import org.openapitools.codegen.CodegenOperation
 import org.openapitools.codegen.CodegenProperty
 import org.openapitools.codegen.CodegenResponse
-import org.openapitools.codegen.model.OperationsMap
+import org.openapitools.codegen.model.ApiInfoMap
 
 val mustacheHelpers = mapOf(
+    "isPaginatable" to {
+        Mustache.Lambda { fragment, writer ->
+            val operation = fragment.context() as CodegenOperation
+            if (operation.returnType == null) return@Lambda
+            val paginationHeaders = listOf("Pagination-Total-Results", "Link")
+            val availableHeaders = operation.responses.find { it.code == "200" }?.headers?.filter { it.baseName in paginationHeaders }
+            if (availableHeaders?.size == paginationHeaders.size) {
+                val fallbackBody =
+                    when {
+                        operation.returnType.startsWith("kotlin.collections.List") -> "emptyList()"
+                        operation.returnType.startsWith("kotlin.collections.Map") -> "emptyMap()"
+                        operation.returnType.startsWith("kotlin.collections.Set") -> "emptySet()"
+                        else -> ""
+                    }
+
+                val context = mapOf("fallbackBody" to fallbackBody)
+                fragment.execute(context, writer)
+            }
+        }
+    },
     "removeLeadingSlash" to {
-        Mustache.Lambda { fragment, writer -> writer.write(fragment.execute().removePrefix("/")) }
+        Mustache.Lambda { fragment, writer -> writer.write(fragment.execute().replace("^/+".toRegex(), "")) }
     },
     "assignDiscriminators" to {
         Mustache.Lambda { fragment, writer ->
@@ -48,17 +69,20 @@ val mustacheHelpers = mapOf(
     "defineApiExceptions" to {
         Mustache.Lambda { fragment, writer ->
             val dataTypes: MutableSet<String> = mutableSetOf()
-            val operationsMap: OperationsMap = fragment.context() as OperationsMap
-            operationsMap.operations.operation.forEach { operation ->
-                operation.responses.forEach { response ->
-                    response.takeIf { !it.is2xx && !dataTypes.contains(it.dataType) }?.dataType?.also {
-                        writer.write(
-                            "class ExpediaGroupApi${it}Exception(code: Int, override val errorObject: $it, transactionId: String?) : " +
-                                "ExpediaGroupApiException(code, errorObject, transactionId)\n"
-                        )
-                        dataTypes.add(it)
+            val apisMap: ApiInfoMap = fragment.context() as ApiInfoMap
+            apisMap.apis.forEach { operationsMap ->
+                operationsMap.operations.operation.forEach { operation ->
+                    operation.responses.forEach { response ->
+                        response.takeIf { !it.is2xx && !dataTypes.contains(it.dataType) }?.dataType?.also {
+                            dataTypes.add(it)
+                        }
                     }
                 }
+            }
+
+            dataTypes.forEach { dataType ->
+                val context = mapOf("dataType" to dataType)
+                fragment.execute(context, writer)
             }
         }
     },
@@ -87,15 +111,11 @@ val mustacheHelpers = mapOf(
             writer.write(stringBuilder.toString())
         }
     },
-    "fallbackBody" to {
+    "hasNonBodyParams" to {
         Mustache.Lambda { fragment, writer ->
-            val dataType: String = fragment.context() as String
-            if (dataType.startsWith("kotlin.collections.List")) {
-                writer.write("emptyList()")
-            } else if (dataType.startsWith("kotlin.collections.Map")) {
-                writer.write("emptyMap()")
-            } else if (dataType.startsWith("kotlin.collections.Set")) {
-                writer.write("emptySet()")
+            val operation = fragment.context() as CodegenOperation
+            if (operation.hasPathParams || operation.hasHeaderParams || operation.hasQueryParams) {
+                fragment.execute(writer)
             }
         }
     },
@@ -112,6 +132,14 @@ val mustacheHelpers = mapOf(
                 val mediaTypes: MutableSet<String> = response.content.keys
                 writer.write("headers.append(\"Accept\", \"${mediaTypes.joinToString(",")}\")\n")
             }
+        }
+    },
+    "nonBodyParams" to {
+        Mustache.Lambda { fragment, writer ->
+            val operation = fragment.context() as CodegenOperation
+            val params = operation.pathParams + operation.headerParams + operation.queryParams
+            val context = mapOf("params" to params)
+            fragment.execute(context, writer)
         }
     }
 )

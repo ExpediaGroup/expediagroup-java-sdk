@@ -48,6 +48,7 @@ internal object ErrorObjectMapper {
                         ){{^-last}},{{/-last}}
                     {{/operation}}
                 {{/operations}}
+                {{^-last}},{{/-last}}
             {{/apis}}
         {{/apiInfo}}
     )
@@ -61,7 +62,7 @@ internal object ErrorObjectMapper {
 }
 
 {{#apiInfo}}
-    {{#apis}}
-        {{#defineApiExceptions}}{{/defineApiExceptions}}
-    {{/apis}}
+    {{#defineApiExceptions}}
+        class ExpediaGroupApi{{dataType}}Exception(code: Int, override val errorObject: {{dataType}}, transactionId: String?) : ExpediaGroupApiException(code, errorObject, transactionId)
+    {{/defineApiExceptions}}
 {{/apiInfo}}

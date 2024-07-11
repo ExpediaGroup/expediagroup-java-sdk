@@ -95,7 +95,7 @@ class PaginatorTest {
 
             val paginator = ResponsePaginator(client, firstResponse, EMPTY_STRING, getBody)
             assertTrue(paginator.hasNext())
-            assertEquals("first", paginator.next().body)
+            assertEquals("first", paginator.next().data)
             assertFalse(paginator.hasNext())
         }
 
@@ -105,9 +105,9 @@ class PaginatorTest {
 
             val paginator = ResponsePaginator(client, firstResponse, EMPTY_STRING, getBody)
             assertTrue(paginator.hasNext())
-            assertEquals("first", paginator.next().body)
+            assertEquals("first", paginator.next().data)
             assertTrue(paginator.hasNext())
-            assertEquals(SUCCESSFUL_DUMMY_REQUEST, paginator.next().body)
+            assertEquals(SUCCESSFUL_DUMMY_REQUEST, paginator.next().data)
             assertFalse(paginator.hasNext())
         }
 
@@ -117,9 +117,9 @@ class PaginatorTest {
 
             val paginator = ResponsePaginator(client, firstResponse, EMPTY_STRING, getBody)
             assertTrue(paginator.hasNext())
-            assertEquals("first", paginator.next().body)
+            assertEquals("first", paginator.next().data)
             assertTrue(paginator.hasNext())
-            assertEquals(SUCCESSFUL_DUMMY_REQUEST, paginator.next().body)
+            assertEquals(SUCCESSFUL_DUMMY_REQUEST, paginator.next().data)
             assertFalse(paginator.hasNext())
             assertEquals(2, paginator.paginationTotalResults)
         }
@@ -132,9 +132,9 @@ class PaginatorTest {
 
             val paginator = ResponsePaginator(client, firstResponse, fallbackBody, getBody)
             assertTrue(paginator.hasNext())
-            assertEquals("first", paginator.next().body)
+            assertEquals("first", paginator.next().data)
             assertTrue(paginator.hasNext())
-            assertEquals(fallbackBody, paginator.next().body)
+            assertEquals(fallbackBody, paginator.next().data)
             assertFalse(paginator.hasNext())
         }
 
@@ -146,9 +146,9 @@ class PaginatorTest {
 
             val paginator = ResponsePaginator(client, firstResponse, fallbackBody, getBody)
             assertTrue(paginator.hasNext())
-            assertEquals("first", paginator.next().body)
+            assertEquals("first", paginator.next().data)
             assertTrue(paginator.hasNext())
-            assertEquals(fallbackBody, paginator.next().body)
+            assertEquals(fallbackBody, paginator.next().data)
             assertFalse(paginator.hasNext())
         }
     }

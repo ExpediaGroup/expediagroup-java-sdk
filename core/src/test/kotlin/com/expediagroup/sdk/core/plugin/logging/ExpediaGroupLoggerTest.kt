@@ -117,6 +117,8 @@ class ExpediaGroupLoggerTest {
         val mockedLogger: Logger = mockkClass(Logger::class)
         every { mockedLogger.info(any()) }.answers { }
         every { mockedLogger.warn(any()) }.answers { }
+        every { mockedLogger.isInfoEnabled }.answers { true }
+        every { mockedLogger.isWarnEnabled }.answers { true }
         return mockedLogger
     }
 }

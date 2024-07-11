@@ -6,35 +6,64 @@
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final Response&lt;[List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[PropertyInactive](../../com.expediagroup.sdk.rapid.models/-property-inactive/index.md)&gt;&gt;[getInactivePropertiesWithResponse](get-inactive-properties-with-response.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)since, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)token, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)billingTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)paymentTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)partnerPointOfSale, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)platformName)
+@[Deprecated](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-deprecated/index.html)(message = &quot;Use execute method instead&quot;, replaceWith = @[ReplaceWith](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-replace-with/index.html)(imports = {}, expression = &quot;execute(operation: GetInactivePropertiesOperation)&quot;))
+
+public final Response&lt;[List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[PropertyInactive](../../com.expediagroup.sdk.rapid.models/-property-inactive/index.md)&gt;&gt;[~~getInactivePropertiesWithResponse~~](get-inactive-properties-with-response.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)since, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)token, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)billingTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)paymentTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)partnerPointOfSale, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)platformName)
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final Response&lt;[List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[PropertyInactive](../../com.expediagroup.sdk.rapid.models/-property-inactive/index.md)&gt;&gt;[getInactivePropertiesWithResponse](get-inactive-properties-with-response.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)since, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)token, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)billingTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)paymentTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)partnerPointOfSale)
+@[Deprecated](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-deprecated/index.html)(message = &quot;Use execute method instead&quot;, replaceWith = @[ReplaceWith](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-replace-with/index.html)(imports = {}, expression = &quot;execute(operation: GetInactivePropertiesOperation)&quot;))
+
+public final Response&lt;[List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[PropertyInactive](../../com.expediagroup.sdk.rapid.models/-property-inactive/index.md)&gt;&gt;[~~getInactivePropertiesWithResponse~~](get-inactive-properties-with-response.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)since, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)token, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)billingTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)paymentTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)partnerPointOfSale)
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final Response&lt;[List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[PropertyInactive](../../com.expediagroup.sdk.rapid.models/-property-inactive/index.md)&gt;&gt;[getInactivePropertiesWithResponse](get-inactive-properties-with-response.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)since, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)token, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)billingTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)paymentTerms)
+@[Deprecated](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-deprecated/index.html)(message = &quot;Use execute method instead&quot;, replaceWith = @[ReplaceWith](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-replace-with/index.html)(imports = {}, expression = &quot;execute(operation: GetInactivePropertiesOperation)&quot;))
+
+public final Response&lt;[List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[PropertyInactive](../../com.expediagroup.sdk.rapid.models/-property-inactive/index.md)&gt;&gt;[~~getInactivePropertiesWithResponse~~](get-inactive-properties-with-response.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)since, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)token, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)billingTerms, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)paymentTerms)
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final Response&lt;[List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[PropertyInactive](../../com.expediagroup.sdk.rapid.models/-property-inactive/index.md)&gt;&gt;[getInactivePropertiesWithResponse](get-inactive-properties-with-response.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)since, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)token, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)billingTerms)
+@[Deprecated](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-deprecated/index.html)(message = &quot;Use execute method instead&quot;, replaceWith = @[ReplaceWith](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-replace-with/index.html)(imports = {}, expression = &quot;execute(operation: GetInactivePropertiesOperation)&quot;))
+
+public final Response&lt;[List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[PropertyInactive](../../com.expediagroup.sdk.rapid.models/-property-inactive/index.md)&gt;&gt;[~~getInactivePropertiesWithResponse~~](get-inactive-properties-with-response.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)since, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)token, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)billingTerms)
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final Response&lt;[List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[PropertyInactive](../../com.expediagroup.sdk.rapid.models/-property-inactive/index.md)&gt;&gt;[getInactivePropertiesWithResponse](get-inactive-properties-with-response.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)since, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)token)
+@[Deprecated](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-deprecated/index.html)(message = &quot;Use execute method instead&quot;, replaceWith = @[ReplaceWith](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-replace-with/index.html)(imports = {}, expression = &quot;execute(operation: GetInactivePropertiesOperation)&quot;))
+
+public final Response&lt;[List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[PropertyInactive](../../com.expediagroup.sdk.rapid.models/-property-inactive/index.md)&gt;&gt;[~~getInactivePropertiesWithResponse~~](get-inactive-properties-with-response.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)since, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)token)
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final Response&lt;[List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[PropertyInactive](../../com.expediagroup.sdk.rapid.models/-property-inactive/index.md)&gt;&gt;[getInactivePropertiesWithResponse](get-inactive-properties-with-response.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)since)
+@[Deprecated](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-deprecated/index.html)(message = &quot;Use execute method instead&quot;, replaceWith = @[ReplaceWith](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-replace-with/index.html)(imports = {}, expression = &quot;execute(operation: GetInactivePropertiesOperation)&quot;))
+
+public final Response&lt;[List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[PropertyInactive](../../com.expediagroup.sdk.rapid.models/-property-inactive/index.md)&gt;&gt;[~~getInactivePropertiesWithResponse~~](get-inactive-properties-with-response.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)since)
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final Response&lt;[List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[PropertyInactive](../../com.expediagroup.sdk.rapid.models/-property-inactive/index.md)&gt;&gt;[getInactivePropertiesWithResponse](get-inactive-properties-with-response.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId)
+@[Deprecated](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-deprecated/index.html)(message = &quot;Use execute method instead&quot;, replaceWith = @[ReplaceWith](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-replace-with/index.html)(imports = {}, expression = &quot;execute(operation: GetInactivePropertiesOperation)&quot;))
+
+public final Response&lt;[List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[PropertyInactive](../../com.expediagroup.sdk.rapid.models/-property-inactive/index.md)&gt;&gt;[~~getInactivePropertiesWithResponse~~](get-inactive-properties-with-response.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)customerSessionId)
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final Response&lt;[List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[PropertyInactive](../../com.expediagroup.sdk.rapid.models/-property-inactive/index.md)&gt;&gt;[getInactivePropertiesWithResponse](get-inactive-properties-with-response.md)()
+@[Deprecated](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-deprecated/index.html)(message = &quot;Use execute method instead&quot;, replaceWith = @[ReplaceWith](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-replace-with/index.html)(imports = {}, expression = &quot;execute(operation: GetInactivePropertiesOperation)&quot;))
+
+public final Response&lt;[List](https://docs.oracle.com/javase/8/docs/api/java/util/List.html)&lt;[PropertyInactive](../../com.expediagroup.sdk.rapid.models/-property-inactive/index.md)&gt;&gt;[~~getInactivePropertiesWithResponse~~](get-inactive-properties-with-response.md)()
+
+---
+
+### Deprecated
+
+Use execute method instead
+
+#### Replace with
+
+```kotlin
+execute(operation: GetInactivePropertiesOperation)
+```
+---
 
 Inactive Properties Request a list of properties that are inactive because they have been removed from sale since a specified date.<br><br> When there are a large number of properties in the response, it will be paginated. See the `Link` header in the 200 response section.
 
