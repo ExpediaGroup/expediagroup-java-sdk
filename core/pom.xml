@@ -158,7 +158,6 @@
             <artifactId>atomicfu-jvm</artifactId>
             <version>${kotlin-atomic.version}</version>
         </dependency>
-
         <dependency>
             <groupId>com.ebay.ejmask</groupId>
             <artifactId>ejmask-api</artifactId>
@@ -169,7 +168,6 @@
             <artifactId>ejmask-extensions</artifactId>
             <version>1.0.3</version>
         </dependency>
-
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>

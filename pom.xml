@@ -654,6 +654,16 @@
             <artifactId>ktor-serialization-jvm</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.ebay.ejmask</groupId>
+            <artifactId>ejmask-api</artifactId>
+            <version>1.0.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ebay.ejmask</groupId>
+            <artifactId>ejmask-extensions</artifactId>
+            <version>1.0.3</version>
+        </dependency>
+        <dependency>
             <groupId>io.ktor</groupId>
             <artifactId>ktor-client-encoding-jvm</artifactId>
         </dependency>
