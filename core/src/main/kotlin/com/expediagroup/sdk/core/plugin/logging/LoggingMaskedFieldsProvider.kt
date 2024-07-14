@@ -17,7 +17,6 @@ package com.expediagroup.sdk.core.plugin.logging
 
 import com.expediagroup.sdk.core.constant.LogMaskingFields.DEFAULT_MASKED_BODY_FIELDS
 import com.expediagroup.sdk.core.constant.LogMaskingFields.DEFAULT_MASKED_HEADER_FIELDS
-import com.expediagroup.sdk.core.constant.LogMaskingRegex.FIELD_REGEX
 import com.expediagroup.sdk.core.model.exception.client.ExpediaGroupInvalidFieldNameException
 
 class LoggingMaskedFieldsProvider(maskedLoggingHeaders: Set<String>, maskedLoggingBodyFields: Set<String>) {
@@ -25,8 +24,8 @@ class LoggingMaskedFieldsProvider(maskedLoggingHeaders: Set<String>, maskedLoggi
     private val maskedBodyFields: Set<String>
 
     init {
-        maskedLoggingHeaders.filter(::isInvalid).takeIf { it.isNotEmpty() }?.let { throw ExpediaGroupInvalidFieldNameException(it) }
-        maskedLoggingBodyFields.filter(::isInvalid).takeIf { it.isNotEmpty() }?.let { throw ExpediaGroupInvalidFieldNameException(it) }
+        maskedLoggingHeaders.takeIf { it.isNotEmpty() }?.let { throw ExpediaGroupInvalidFieldNameException(it) }
+        maskedLoggingBodyFields.takeIf { it.isNotEmpty() }?.let { throw ExpediaGroupInvalidFieldNameException(it) }
         maskedHeaderFields = DEFAULT_MASKED_HEADER_FIELDS.union(maskedLoggingHeaders)
         maskedBodyFields = DEFAULT_MASKED_BODY_FIELDS.union(maskedLoggingBodyFields)
     }
@@ -40,6 +39,4 @@ class LoggingMaskedFieldsProvider(maskedLoggingHeaders: Set<String>, maskedLoggi
      * @return a copy of the list of body fields to be masked
      */
     fun getMaskedBodyFields(): Set<String> = maskedBodyFields.toSet()
-
-    private fun isInvalid(fieldName: String): Boolean = !fieldName.matches(FIELD_REGEX)
 }
