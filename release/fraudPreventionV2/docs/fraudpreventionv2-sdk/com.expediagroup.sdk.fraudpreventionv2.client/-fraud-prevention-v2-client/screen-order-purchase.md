@@ -1,12 +1,27 @@
-//[fraudpreventionv2-sdk](../../../index.md)/[com.expediagroup.sdk.fraudpreventionv2.client](../index.md)/[FraudPreventionV2Client](index.md)/[screenOrder](screen-order.md)
+//[fraudpreventionv2-sdk](../../../index.md)/[com.expediagroup.sdk.fraudpreventionv2.client](../index.md)/[FraudPreventionV2Client](index.md)/[screenOrderPurchase](screen-order-purchase.md)
 
-# screenOrder
+# screenOrderPurchase
 
 [JVM]\
 
 @[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()
 
-public final [OrderPurchaseScreenResponse](../../com.expediagroup.sdk.fraudpreventionv2.models/-order-purchase-screen-response/index.md)[screenOrder](screen-order.md)([OrderPurchaseScreenRequest](../../com.expediagroup.sdk.fraudpreventionv2.models/-order-purchase-screen-request/index.md)orderPurchaseScreenRequest)
+@[Deprecated](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-deprecated/index.html)(message = &quot;Use execute method instead&quot;, replaceWith = @[ReplaceWith](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-replace-with/index.html)(imports = {}, expression = &quot;execute(operation: ScreenOrderPurchaseOperation)&quot;))
+
+public final [OrderPurchaseScreenResponse](../../com.expediagroup.sdk.fraudpreventionv2.models/-order-purchase-screen-response/index.md)[~~screenOrderPurchase~~](screen-order-purchase.md)([OrderPurchaseScreenRequest](../../com.expediagroup.sdk.fraudpreventionv2.models/-order-purchase-screen-request/index.md)orderPurchaseScreenRequest)
+
+---
+
+### Deprecated
+
+Use execute method instead
+
+#### Replace with
+
+```kotlin
+execute(operation: ScreenOrderPurchaseOperation)
+```
+---
 
 Run fraud screening for one transaction The Order Purchase API gives a Fraud recommendation for a transaction. A recommendation can be Accept, Reject, or Review. A transaction is marked as Review whenever there are insufficient signals to recommend Accept or Reject. These incidents are manually reviewed, and a corrected recommendation is made asynchronously.
 

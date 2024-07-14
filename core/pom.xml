@@ -54,14 +54,14 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <kotlin.version>1.9.24</kotlin.version>
-        <ktor.version>2.3.11</ktor.version>
+        <ktor.version>2.3.12</ktor.version>
 
         <ktlint-plugin.version>3.2.0</ktlint-plugin.version>
         <build-helper-maven-plugin.version>3.6.0</build-helper-maven-plugin.version>
-        <kotlin-atomic.version>0.24.0</kotlin-atomic.version>
+        <kotlin-atomic.version>0.25.0</kotlin-atomic.version>
 
-        <junit5.version>5.10.2</junit5.version>
-        <assertj.version>3.25.3</assertj.version>
+        <junit5.version>5.10.3</junit5.version>
+        <assertj.version>3.26.0</assertj.version>
         <mockk.version>1.13.11</mockk.version>
     </properties>
 
@@ -84,7 +84,7 @@
             <dependency>
                 <groupId>com.fasterxml.jackson</groupId>
                 <artifactId>jackson-bom</artifactId>
-                <version>2.17.1</version>
+                <version>2.17.2</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -115,7 +115,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-            <version>2.17.1</version>
+            <version>2.17.2</version>
         </dependency>
         <dependency>
             <groupId>io.ktor</groupId>
