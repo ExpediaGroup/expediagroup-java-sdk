@@ -22,7 +22,7 @@ import org.slf4j.Logger
 
 internal class ExpediaGroupLogger(private val logger: Logger, private val client: Client? = null) : Logger by logger {
 
-    private val masker = LogMasker(getMaskedBodyFieldFilters())
+    private val mask = LogMasker(getMaskedBodyFieldFilters())
 
     override fun info(msg: String) {
         if (logger.isInfoEnabled) {
@@ -43,7 +43,7 @@ internal class ExpediaGroupLogger(private val logger: Logger, private val client
         }
     }
 
-    private fun decorate(msg: String): String = "$LOGGING_PREFIX ${masker(msg)}"
+    private fun decorate(msg: String): String = "$LOGGING_PREFIX ${mask(msg)}"
 
     private fun getMaskedBodyFields(): Set<String> = client?.getLoggingMaskedFieldsProvider()?.getMaskedBodyFields() ?: LogMaskingFields.DEFAULT_MASKED_BODY_FIELDS
 
