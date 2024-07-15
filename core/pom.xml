@@ -61,7 +61,7 @@
         <kotlin-atomic.version>0.25.0</kotlin-atomic.version>
 
         <junit5.version>5.10.3</junit5.version>
-        <assertj.version>3.26.0</assertj.version>
+        <assertj.version>3.26.3</assertj.version>
         <mockk.version>1.13.11</mockk.version>
     </properties>
 
