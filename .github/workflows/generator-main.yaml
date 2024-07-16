@@ -38,7 +38,6 @@ jobs:
       name: ${{ github.event.inputs.name }}
       version: ${{ github.event.inputs.version }}
   publish_sources:
-    if: ${{ github.event.inputs.production_release == 'true' }}
     needs: [ generate ]
     uses: ./.github/workflows/generator-publish-sources.yaml
     with:
