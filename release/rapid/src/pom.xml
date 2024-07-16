@@ -13,7 +13,7 @@
     <packaging>jar</packaging>
 
         <name>EG Rapid SDK for Java</name>
-        <description>EG Rapid SDK v4.2.0</description>
+        <description>EG Rapid SDK v4.3.0</description>
 
     <artifactId>rapid-sdk</artifactId>
     <version>${revision}</version>
@@ -58,7 +58,7 @@
     <properties>
         <sdk-version>${project.version}</sdk-version>
         <sdk-title>${project.artifactId}</sdk-title>
-        <revision>4.2.0</revision>
+        <revision>4.3.0</revision>
         <shadePrefix>com.expediagroup.sdk</shadePrefix>
     </properties>
 
@@ -513,6 +513,10 @@
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-reflect</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-text</artifactId>
         </dependency>
     </dependencies>
 </project>

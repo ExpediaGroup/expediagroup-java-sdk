@@ -11,4 +11,16 @@ Cancel Held Booking
 
 | | |
 |---|---|
-| [DeleteHeldBookingOperation](-delete-held-booking-operation.md) | [JVM]<br>public [DeleteHeldBookingOperation](index.md)[DeleteHeldBookingOperation](-delete-held-booking-operation.md)([DeleteHeldBookingOperationParams](../-delete-held-booking-operation-params/index.md)params) |
+| [DeleteHeldBookingOperation](-delete-held-booking-operation.md) | [JVM]<br>public [DeleteHeldBookingOperation](index.md)[DeleteHeldBookingOperation](-delete-held-booking-operation.md)([DeleteHeldBookingOperationParams](../-delete-held-booking-operation-params/index.md)params)<br>public [DeleteHeldBookingOperation](index.md)[DeleteHeldBookingOperation](-delete-held-booking-operation.md)([Link](../../com.expediagroup.sdk.rapid.models/-link/index.md)link, [DeleteHeldBookingOperationContext](../-delete-held-booking-operation-context/index.md)context) |
+
+## Types
+
+| Name | Summary |
+|---|---|
+| [Companion](-companion/index.md) | [JVM]<br>public class [Companion](-companion/index.md) implements [LinkableOperation](../-linkable-operation/index.md) |
+
+## Properties
+
+| Name | Summary |
+|---|---|
+| [Companion](index.md#-424905427%2FProperties%2F700308213) | [JVM]<br>public final static [DeleteHeldBookingOperation.Companion](-companion/index.md)[Companion](index.md#-424905427%2FProperties%2F700308213) |
