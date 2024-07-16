@@ -1,4 +1,3 @@
-{{>licenseInfo}}
 package com.expediagroup.sdk.{{namespace}}.client
 
 import java.util.concurrent.CompletableFuture
@@ -137,12 +136,12 @@ class {{clientClassname}}Client private constructor(clientConfiguration: {{>part
             {{/hasNonBodyParams}}
 
             val operation = {{operationIdCamelCase}}Operation(
-                {{#hasBodyParam}}
-                    requestBody = {{#bodyParam}}{{{paramName}}}{{/bodyParam}},
-                {{/hasBodyParam}}
                 {{#hasNonBodyParams}}
-                    params = params
+                    params,
                 {{/hasNonBodyParams}}
+                {{#hasBodyParam}}
+                    {{#bodyParam}}{{{paramName}}}{{/bodyParam}}
+                {{/hasBodyParam}}
             )
 
             return execute(operation)
