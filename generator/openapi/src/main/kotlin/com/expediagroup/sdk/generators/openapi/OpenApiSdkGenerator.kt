@@ -39,6 +39,7 @@ class OpenApiSdkGenerator {
         "pom.xml",
         "README.md",
         "ApiException.kt",
+        "LinkableOperation.kt",
         "PropertyConstraintViolation.kt",
         "PropertyConstraintsValidator.kt",
         "PropertyConstraintViolationException.kt"
@@ -112,49 +113,78 @@ class OpenApiSdkGenerator {
 
                 // Mustache Helpers
                 mustacheHelpers.forEach { (name, function) -> addAdditionalProperty(name, function()) }
+                if (ProductFamily.isRapid(product.namespace)) {
+                    rapidHelpers.forEach { (name, function) -> addAdditionalProperty(name, function()) }
+                }
             }
 
             val generatorInput = config.toClientOptInput().apply {
                 val packagePath = product.packagePath
 
-                val template: TemplateDefinition = TemplateDefinition(
-                    "operation_params.mustache",
-                    "Params.kt"
-                )
-
-                template.setTemplateType(TemplateFileType.API)
-
                 userDefinedTemplates(
-                    listOf(
-                        template,
-                        SupportingFile(
-                            "client.mustache",
-                            "$packagePath/client/",
-                            "${namespace}Client.kt"
-                        ),
-                        SupportingFile("pom.mustache", "pom.xml"),
-                        SupportingFile("README.mustache", "README.md"),
-                        SupportingFile(
-                            "models/apiException.mustache",
-                            "$packagePath/models/exception/",
-                            "ApiException.kt"
-                        ),
-                        SupportingFile(
-                            "validation/propertyConstraintViolationException.mustache",
-                            "$packagePath/models/exception/",
-                            "PropertyConstraintViolationException.kt"
-                        ),
-                        SupportingFile(
-                            "validation/propertyConstraintViolation.mustache",
-                            "$packagePath/models/exception/",
-                            "PropertyConstraintViolation.kt"
-                        ),
-                        SupportingFile(
-                            "validation/propertyConstraintsValidator.mustache",
-                            "$packagePath/validation/",
-                            "PropertyConstraintsValidator.kt"
+                    buildList {
+                        add(
+                            SupportingFile(
+                                "client.mustache",
+                                "$packagePath/client/",
+                                "${namespace}Client.kt"
+                            )
                         )
-                    )
+                        add(SupportingFile("pom.mustache", "pom.xml"))
+                        add(SupportingFile("README.mustache", "README.md"))
+                        add(
+                            SupportingFile(
+                                "models/apiException.mustache",
+                                "$packagePath/models/exception/",
+                                "ApiException.kt"
+                            )
+                        )
+                        add(
+                            SupportingFile(
+                                "validation/propertyConstraintViolationException.mustache",
+                                "$packagePath/models/exception/",
+                                "PropertyConstraintViolationException.kt"
+                            )
+                        )
+                        add(
+                            SupportingFile(
+                                "validation/propertyConstraintViolation.mustache",
+                                "$packagePath/models/exception/",
+                                "PropertyConstraintViolation.kt"
+                            )
+                        )
+                        add(
+                            SupportingFile(
+                                "validation/propertyConstraintsValidator.mustache",
+                                "$packagePath/validation/",
+                                "PropertyConstraintsValidator.kt"
+                            )
+                        )
+
+                        add(
+                            TemplateDefinition(
+                                "operation_params.mustache",
+                                "Params.kt"
+                            ).also { it.templateType = TemplateFileType.API }
+                        )
+
+                        if (ProductFamily.isRapid(product.namespace)) {
+                            add(
+                                TemplateDefinition(
+                                    "operation_context.mustache",
+                                    "Context.kt"
+                                ).also { it.templateType = TemplateFileType.API }
+                            )
+
+                            add(
+                                SupportingFile(
+                                    "linkable_operation.mustache",
+                                    "$packagePath/operations/",
+                                    "LinkableOperation.kt"
+                                )
+                            )
+                        }
+                    }
                 )
             }
 

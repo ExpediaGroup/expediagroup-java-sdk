@@ -1,0 +1,64 @@
+{{#operations}}
+    {{#operation}}
+        {{#hasHeaderParams}}
+            package com.expediagroup.sdk.{{namespace}}.operations
+
+            /**
+            {{#headerParams}}
+                * @property {{{paramName}}} {{{description}}}
+            {{/headerParams}}
+            */
+            data class {{classname}}Context(
+                {{#headerParams}}
+                    {{>modelMutable}} {{>client/apiParam}}{{^-last}}, {{/-last}}
+                {{/headerParams}}
+            ) {
+                companion object {
+                    @JvmStatic
+                    fun builder() = Builder()
+                }
+
+                class Builder(
+                    {{#headerParams}}
+                        private var {{{paramName}}}: {{{dataType}}}? = null{{^-last}},{{/-last}}
+                    {{/headerParams}}
+                ) {
+                    {{#headerParams}}
+                        /**
+                        * @param {{{paramName}}} {{{description}}}
+                        */
+                        fun {{{paramName}}}({{{paramName}}}: {{{dataType}}}) = apply { this.{{{paramName}}} = {{{paramName}}} }
+                    {{/headerParams}}
+
+                    fun build(): {{classname}}Context {
+                        validateNullity()
+
+                        return {{classname}}Context(
+                            {{#headerParams}}
+                                {{{paramName}}} = {{{paramName}}}{{#required}}!!{{/required}}{{^-last}},{{/-last}}
+                            {{/headerParams}}
+                        )
+                    }
+
+                    private fun validateNullity() {
+                        {{#headerParams}}
+                            {{#required}}
+                                if ({{{paramName}}} == null) {
+                                    throw NullPointerException("Required parameter {{{paramName}}} is missing")
+                                }
+                            {{/required}}
+                        {{/headerParams}}
+                    }
+                }
+
+                fun getHeaders(): Map<String, String> {
+                    return buildMap {
+                        {{#headerParams}}
+                            {{paramName}}{{^required}}?{{/required}}.also { put("{{baseName}}", {{paramName}}) }
+                        {{/headerParams}}
+                    }
+                }
+            }
+        {{/hasHeaderParams}}
+    {{/operation}}
+{{/operations}}
