@@ -1,8 +1,6 @@
 {{#operations}}
     {{#operation}}
         {{#hasNonBodyParams}}
-            {{>licenseInfo}}
-
             package com.expediagroup.sdk.{{namespace}}.operations
 
             import com.expediagroup.sdk.core.model.OperationParams
@@ -14,17 +12,79 @@
                 {{/params}}
             {{/nonBodyParams}}
             */
-            data class {{classname}}Params(
-                {{#nonBodyParams}}
-                    {{#params}}
-                        {{>modelMutable}} {{>client/apiParam}}{{^-last}}, {{/-last}}
-                    {{/params}}
-                {{/nonBodyParams}}
-            ) : OperationParams {
+            data class {{classname}}Params
+            {{^isRapid}}
+                (
+                    {{#nonBodyParams}}
+                        {{#params}}
+                            {{>modelMutable}} {{>client/apiParam}}{{^-last}}, {{/-last}}
+                        {{/params}}
+                    {{/nonBodyParams}}
+                )
+            {{/isRapid}}
+            {{#isRapid}}
+                {{^isLinkable}}
+                    (
+                        {{#nonBodyParams}}
+                            {{#params}}
+                                {{>modelMutable}} {{>client/apiParam}}{{^-last}}, {{/-last}}
+                            {{/params}}
+                        {{/nonBodyParams}}
+                    )
+                {{/isLinkable}}
+                {{#isLinkable}}
+                    internal constructor(
+                        {{#nonBodyParams}}
+                            {{#params}}
+                                {{>modelMutable}} {{{paramName}}}: {{{dataType}}}?
+                                {{#defaultValue}} =
+                                    {{^isNumber}}{{{defaultValue}}}{{/isNumber}}
+                                    {{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}
+                                {{/defaultValue}}
+                                {{^defaultValue}} = null{{/defaultValue}}
+                                ,
+                            {{/params}}
+                        {{/nonBodyParams}}
+                        private val dummy: Unit
+                    )
+                {{/isLinkable}}
+            {{/isRapid}}
+            : OperationParams {
                 companion object {
                     @JvmStatic
                     fun builder() = Builder()
                 }
+
+                {{#isRapid}}
+                    {{#isLinkable}}
+                        constructor(
+                            {{#nonBodyParams}}
+                                {{#params}}
+                                    {{>client/apiParam}}{{^-last}}, {{/-last}}
+                                {{/params}}
+                            {{/nonBodyParams}}
+                        ) : this(
+                            {{#nonBodyParams}}
+                                {{#params}}
+                                    {{paramName}} = {{paramName}},
+                                {{/params}}
+                            {{/nonBodyParams}}
+                            dummy = Unit
+                        )
+
+                        constructor(context: {{classname}}Context?) : this(
+                            {{#headerParams}}
+                                {{paramName}} = context?.{{paramName}}
+                                {{#defaultValue}}
+                                    {{^isNumber}} ?: {{{defaultValue}}}{{/isNumber}}
+                                    {{#isNumber}} ?: {{{defaultValue}}}.toDouble(){{/isNumber}}
+                                {{/defaultValue}}
+                                ,
+                            {{/headerParams}}
+                            dummy = Unit
+                        )
+                    {{/isLinkable}}
+                {{/isRapid}}
 
                 class Builder(
                     {{#nonBodyParams}}
@@ -72,7 +132,7 @@
                 }
 
                 override fun getHeaders(): Map<String, String> {
-                    return buildMap<String, String> {
+                    return buildMap {
                         {{#headerParams}}
                             {{paramName}}?.also { put("{{baseName}}", {{paramName}}) }
                         {{/headerParams}}
@@ -85,16 +145,19 @@
                 }
 
                 override fun getQueryParams(): Map<String, Iterable<String>> {
-                    {{#hasQueryParams}}
-                        return buildMap {
-                            {{#queryParams}}
-                                {{paramName}}?.also { put ("{{baseName}}", {{#isContainer}}{{paramName}}{{/isContainer}}{{^isContainer}}listOf({{paramName}}.toString()){{/isContainer}})}
-                            {{/queryParams}}
-                        }
-                    {{/hasQueryParams}}
-                    {{^hasQueryParams}}
-                        return emptyMap<String, Iterable<String>>()
-                    {{/hasQueryParams}}
+                    return buildMap {
+                        {{#queryParams}}
+                            {{paramName}}?.also { put ("{{baseName}}", {{#isContainer}}{{paramName}}{{/isContainer}}{{^isContainer}}listOf({{paramName}}.toString()){{/isContainer}})}
+                        {{/queryParams}}
+                    }
+                }
+
+                override fun getPathParams() : Map<String, String> {
+                    return buildMap {
+                        {{#pathParams}}
+                            {{paramName}}?.also { put("{{baseName}}", {{paramName}}) }
+                        {{/pathParams}}
+                    }
                 }
             }
         {{/hasNonBodyParams}}

@@ -1,16 +1,25 @@
-{{>licenseInfo}}
-
 package com.expediagroup.sdk.{{namespace}}.operations
 
 import com.expediagroup.sdk.core.model.Operation
 
-{{#operations}}{{#operation}}{{^hasBodyParam}}
-    import com.expediagroup.sdk.core.model.Nothing
-{{/hasBodyParam}}{{/operation}}{{/operations}}
+{{#operations}}{{#operation}}
+    {{^hasBodyParam}}
+        import com.expediagroup.sdk.core.model.Nothing
+    {{/hasBodyParam}}
 
-{{#operations}}{{#operation}}{{#bodyParam}}
-    import com.expediagroup.sdk.{{namespace}}.models.{{dataType}}
-{{/bodyParam}}{{/operation}}{{/operations}}
+    {{#bodyParam}}
+        import com.expediagroup.sdk.{{namespace}}.models.{{dataType}}
+    {{/bodyParam}}
+
+    {{#isRapid}}{{#isLinkable}}
+        import com.expediagroup.sdk.{{namespace}}.models.Link
+    {{/isLinkable}}{{/isRapid}}
+
+    {{#hasPathParams}}
+        import org.apache.commons.text.StringSubstitutor
+    {{/hasPathParams}}
+{{/operation}}{{/operations}}
+
 
 {{#operations}}
     {{#operation}}
@@ -23,23 +32,36 @@ import com.expediagroup.sdk.core.model.Operation
             * @property params [{{classname}}Params]
         {{/hasNonBodyParams}}
         */
-        class {{classname}}(
+        class {{classname}} {{#isRapid}}{{#isLinkable}}private constructor{{/isLinkable}}{{/isRapid}}(
+            {{#hasNonBodyParams}}
+                params: {{classname}}Params{{#isRapid}}{{#isLinkable}}?{{/isLinkable}}{{/isRapid}},
+            {{/hasNonBodyParams}}
             {{#hasBodyParam}}
                 requestBody: {{#bodyParam}}{{dataType}}{{/bodyParam}}{{^required}}?{{/required}},
             {{/hasBodyParam}}
-            {{#hasNonBodyParams}}
-                params: {{classname}}Params
-            {{/hasNonBodyParams}}
+            {{#isRapid}}{{#isLinkable}}link: Link?{{/isLinkable}}{{/isRapid}}
         ) : Operation<
             {{#hasBodyParam}}{{#bodyParam}}{{dataType}}{{/bodyParam}}{{/hasBodyParam}}
             {{^hasBodyParam}}Nothing{{/hasBodyParam}}
         >(
             {{#hasPathParams}}
-                "{{#removeLeadingSlashes}}{{{path}}}{{/removeLeadingSlashes}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", {{#isContainer}}params.{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}"${params.{{paramName}}}"{{/isContainer}}){{/pathParams}}
+                {{#isRapid}}
+                    {{#isLinkable}}url(params, link, "{{{path}}}"),{{/isLinkable}}
+                    {{^isLinkable}}url(params),{{/isLinkable}}
+                {{/isRapid}}
+                {{^isRapid}}
+                    url(params),
+                {{/isRapid}}
             {{/hasPathParams}}
             {{^hasPathParams}}
-                "{{#removeLeadingSlashes}}{{{path}}}{{/removeLeadingSlashes}}"
-            {{/hasPathParams}},
+                {{#isRapid}}
+                    {{#isLinkable}}url(null, link, "{{{path}}}"),{{/isLinkable}}
+                    {{^isLinkable}}"{{#removeLeadingSlashes}}{{{path}}}{{/removeLeadingSlashes}}",{{/isLinkable}}
+                {{/isRapid}}
+                {{^isRapid}}
+                    "{{#removeLeadingSlashes}}{{{path}}}{{/removeLeadingSlashes}}",
+                {{/isRapid}}
+            {{/hasPathParams}}
             "{{httpMethod}}",
             "{{operationId}}",
             {{#hasBodyParam}}requestBody{{/hasBodyParam}}{{^hasBodyParam}}null{{/hasBodyParam}},
@@ -50,5 +72,82 @@ import com.expediagroup.sdk.core.model.Operation
                 null
             {{/hasQueryParams}}{{/hasHeaderParams}}{{/hasPathParams}}
         )
+
+        {{#isRapid}}
+            {
+                {{#hasBodyParam}}{{#hasNonBodyParams}}
+                    @Deprecated("Switch order of arguments", ReplaceWith("Operation(params: {{classname}}Params, requestBody: {{#bodyParam}}{{dataType}}{{/bodyParam}}{{^required}}?{{/required}})"))
+                    constructor(
+                        requestBody: {{#bodyParam}}{{dataType}}{{/bodyParam}}{{^required}}?{{/required}},
+                        params: {{classname}}Params
+                    ): this(params, requestBody)
+                {{/hasNonBodyParams}}{{/hasBodyParam}}
+                {{#isLinkable}}
+                    constructor(
+                        {{#hasNonBodyParams}}
+                            params: {{classname}}Params,
+                        {{/hasNonBodyParams}}
+                        {{#hasBodyParam}}
+                            requestBody: {{#bodyParam}}{{dataType}}{{/bodyParam}}{{^required}}?{{/required}}
+                        {{/hasBodyParam}}
+                    ): this(
+                        {{#hasNonBodyParams}}params,{{/hasNonBodyParams}}
+                        {{#hasBodyParam}}requestBody,{{/hasBodyParam}}
+                        null
+                    )
+
+                    constructor(
+                        link: Link,
+                        context: {{classname}}Context{{^hasRequiredContext}}?{{/hasRequiredContext}},
+                        {{#hasBodyParam}}
+                            requestBody: {{#bodyParam}}{{dataType}}{{/bodyParam}}{{^required}}?{{/required}}
+                        {{/hasBodyParam}}
+                    ): this(
+                        {{#hasNonBodyParams}}{{classname}}Params(context),{{/hasNonBodyParams}}
+                        {{#hasBodyParam}}requestBody,{{/hasBodyParam}}
+                        link
+                    )
+
+                    companion object : LinkableOperation {
+                        override fun pathPattern(): String {
+                            {{#hasPathParams}}
+                                val paramsMap = buildMap {
+                                    {{#pathParams}}
+                                        put("{{baseName}}", "[a-z0-9]+")
+                                    {{/pathParams}}
+                                }
+                                val substitutor = StringSubstitutor(paramsMap, "{", "}")
+                                return substitutor.replace("{{#removeLeadingSlashes}}{{{path}}}{{/removeLeadingSlashes}}")
+                            {{/hasPathParams}}
+                            {{^hasPathParams}}
+                                return "{{#removeLeadingSlashes}}{{{path}}}{{/removeLeadingSlashes}}"
+                            {{/hasPathParams}}
+                        }
+                    }
+                {{/isLinkable}}
+                {{^isLinkable}}
+                    {{#hasPathParams}}
+                        companion object {
+                            fun url(params: {{classname}}Params) : String {
+                                val url = "{{#removeLeadingSlashes}}{{{path}}}{{/removeLeadingSlashes}}"
+                                val substitutor = StringSubstitutor(params.getPathParams(), "{", "}")
+                                return substitutor.replace(url)
+                            }
+                        }
+                    {{/hasPathParams}}
+                {{/isLinkable}}
+            }
+        {{/isRapid}}
+        {{^isRapid}}
+            {{#hasPathParams}}
+                companion object {
+                    fun url(params: {{classname}}Params) : String {
+                        val url = "{{#removeLeadingSlashes}}{{{path}}}{{/removeLeadingSlashes}}"
+                        val substitutor = StringSubstitutor(params.getPathParams(), "{", "}")
+                        return substitutor.replace(url)
+                    }
+                }
+            {{/hasPathParams}}
+        {{/isRapid}}
     {{/operation}}
 {{/operations}}
