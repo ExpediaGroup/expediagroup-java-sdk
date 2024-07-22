@@ -37,41 +37,56 @@ val linkableOperations =
         "putResumeBooking"
     )
 
-val isLinkable = object : Mustache.InvertibleLambda {
-    override fun execute(fragment: Template.Fragment, writer: Writer) {
-        val operation = fragment.context() as CodegenOperation
-        if (linkableOperations.contains(operation.operationId)) {
-            fragment.execute(writer)
+val isLinkable =
+    object : Mustache.InvertibleLambda {
+        override fun execute(
+            fragment: Template.Fragment,
+            writer: Writer
+        ) {
+            val operation = fragment.context() as CodegenOperation
+            if (linkableOperations.contains(operation.operationId)) {
+                fragment.execute(writer)
+            }
+        }
+
+        override fun executeInverse(
+            fragment: Template.Fragment,
+            writer: Writer
+        ) {
+            val operation = fragment.context() as CodegenOperation
+            if (!linkableOperations.contains(operation.operationId)) {
+                fragment.execute(writer)
+            }
         }
     }
 
-    override fun executeInverse(fragment: Template.Fragment, writer: Writer) {
-        val operation = fragment.context() as CodegenOperation
-        if (!linkableOperations.contains(operation.operationId)) {
-            fragment.execute(writer)
+val hasRequiredContext =
+    object : Mustache.InvertibleLambda {
+        override fun execute(
+            fragment: Template.Fragment,
+            writer: Writer
+        ) {
+            val operation = fragment.context() as CodegenOperation
+            val headers = operation.headerParams
+            if (headers.any { it.required }) {
+                fragment.execute(writer)
+            }
+        }
+
+        override fun executeInverse(
+            fragment: Template.Fragment,
+            writer: Writer
+        ) {
+            val operation = fragment.context() as CodegenOperation
+            val headers = operation.headerParams
+            if (headers.none { it.required }) {
+                fragment.execute(writer)
+            }
         }
     }
-}
 
-val hasRequiredContext = object : Mustache.InvertibleLambda {
-    override fun execute(fragment: Template.Fragment, writer: Writer) {
-        val operation = fragment.context() as CodegenOperation
-        val headers = operation.headerParams
-        if (headers.any { it.required }) {
-            fragment.execute(writer)
-        }
-    }
-
-    override fun executeInverse(fragment: Template.Fragment, writer: Writer) {
-        val operation = fragment.context() as CodegenOperation
-        val headers = operation.headerParams
-        if (headers.none { it.required }) {
-            fragment.execute(writer)
-        }
-    }
-}
-
-val rapidHelpers = mapOf(
-    "isLinkable" to { isLinkable },
-    "hasRequiredContext" to { hasRequiredContext }
-)
+val rapidHelpers =
+    mapOf(
+        "isLinkable" to { isLinkable },
+        "hasRequiredContext" to { hasRequiredContext }
+    )
