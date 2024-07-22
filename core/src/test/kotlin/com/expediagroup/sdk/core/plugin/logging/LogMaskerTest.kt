@@ -19,13 +19,14 @@ import com.expediagroup.sdk.core.constant.LogMaskingFields.DEFAULT_MASKED_BODY_F
 import com.expediagroup.sdk.core.constant.LoggingMessage.OMITTED
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 
 internal class LogMaskerTest {
     @Nested
     inner class PaymentMaskTest {
+        private val mask = LogMasker(listOf(ExpediaGroupJsonFieldFilter(DEFAULT_MASKED_BODY_FIELDS.toTypedArray())))
+
         @ParameterizedTest
         @ValueSource(
             strings = [
@@ -42,39 +43,42 @@ internal class LogMaskerTest {
                 "cvv"
             ]
         )
+
         fun `given a text with payment info then omit it`(key: String) {
-            assertThat(mask("$key:\"123456\" something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("$key:\"$OMITTED\" something else")
-            assertThat(mask("\"$key\":\"123456\" something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("\"$key\":\"$OMITTED\" something else")
-            assertThat(mask("$key: \"123456\" something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("$key: \"$OMITTED\" something else")
-            assertThat(mask("$key:'123456' something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("$key:'$OMITTED' something else")
-            assertThat(mask("$key: '123456' something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("$key: '$OMITTED' something else")
-        }
-    }
+            var actual = ""
+            var expected = ""
 
-    @Nested
-    inner class PaymentNumberTest {
-        @ParameterizedTest
-        @ValueSource(
-            strings = [
-                "012345678901234",
-                "0123456789012345",
-                "4111111111111111"
-            ]
-        )
-        fun `given a text with number of 15 or 16 digits then omit it`(number: String) {
-            assertThat(mask("number:\"$number\" something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("number:\"$OMITTED\" something else")
-            assertThat(mask("number: \"$number\" something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("number: \"$OMITTED\" something else")
-            assertThat(mask("number:'$number' something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("number:'$OMITTED' something else")
-            assertThat(mask("number: '$number' something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("number: '$OMITTED' something else")
-        }
+            actual = mask("{\"$key\":\"123456\"}")
+            expected = "{\"$key\":\"$OMITTED\"}"
+            assertThat(actual).isEqualTo(expected)
 
-        @Test
-        fun `given a text with number of 14 digits then do not omit it`() {
-            val number = "01234567890123"
-            assertThat(mask("number:\"$number\" something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("number:\"$number\" something else")
-            assertThat(mask("number: \"$number\" something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("number: \"$number\" something else")
-            assertThat(mask("number:'$number' something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("number:'$number' something else")
-            assertThat(mask("number: '$number' something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("number: '$number' something else")
+            actual = mask("{\"$key\":\"something\"}")
+            expected = "{\"$key\":\"$OMITTED\"}"
+            assertThat(actual).isEqualTo(expected)
+
+           actual = mask("{" +
+               " \"$key\":\"something\" " +
+               "}")
+            expected = "{" +
+                " \"$key\":\"$OMITTED\" " +
+                "}"
+            assertThat(actual).isEqualTo(expected)
+
+            actual = mask("{" +
+               " \"$key\":\"417956af-3aee-4c19-8286-e72da5154984\" " +
+               "}")
+            expected = "{" +
+                " \"$key\":\"$OMITTED\" " +
+                "}"
+            assertThat(actual).isEqualTo(expected)
+
+            actual = mask("{" +
+               " \"uuid\":\"417956af-3aee-4c19-8286-e72da5154984\" " +
+               "}")
+            expected = "{" +
+               " \"uuid\":\"417956af-3aee-4c19-8286-e72da5154984\" " +
+               "}"
+            assertThat(actual).isEqualTo(expected)
         }
     }
 }
