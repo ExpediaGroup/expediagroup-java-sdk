@@ -27,6 +27,9 @@ class ContractTestsGenerator : SpecmaticContractTest {
     @Option(name = ["-o", "--output-dir"])
     var outputDir: File = File("output").absoluteFile
 
+    @Option(name = ["-c", "--max-test-combinations"])
+    var maxTestCombinations: Int = MAX_TEST_REQUEST_PER_SCENARIO
+
     private lateinit var feature: Feature
 
     private fun validateArgs() {
@@ -49,7 +52,7 @@ class ContractTestsGenerator : SpecmaticContractTest {
         configure()
         feature.scenarios.forEach { scenario: Scenario ->
             scenario.generateTestScenarios(feature.flagsBased).iterator().apply {
-                IntRange(0, MAX_TEST_REQUEST_PER_SCENARIO).forEach { counter: Int ->
+                IntRange(0, maxTestCombinations).forEach { counter: Int ->
                     if (!hasNext()) {
                         return@forEach
                     }
