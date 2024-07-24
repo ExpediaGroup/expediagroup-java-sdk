@@ -87,29 +87,12 @@ val mustacheHelpers =
                 }
             }
         },
-        "throwsExceptions" to {
+        "exceptionDataTypes" to {
             Mustache.Lambda { fragment, writer ->
-                val dataTypes: Set<String> = collectDataTypes(fragment)
-                val stringBuilder = StringBuilder()
-                dataTypes.forEachIndexed { index, dataType ->
-                    if (index > 0) stringBuilder.append(" ".repeat(5))
-                    stringBuilder.append("* @throws ExpediaGroupApi${dataType}Exception")
-                    if (index < dataTypes.size - 1) stringBuilder.append("\n")
-                }
-                writer.write(stringBuilder.toString())
-            }
-        },
-        "throwsExceptionsClasses" to {
-            Mustache.Lambda { fragment, writer ->
-                val dataTypes: Set<String> = collectDataTypes(fragment)
-                val stringBuilder = StringBuilder()
-                val notNullDataTypes = dataTypes.filterNotNull()
-                notNullDataTypes.forEachIndexed { index, dataType ->
-                    if (index > 0) stringBuilder.append(" ".repeat(8))
-                    stringBuilder.append("ExpediaGroupApi${dataType}Exception::class")
-                    if (index < notNullDataTypes.size - 1) stringBuilder.append(",\n")
-                }
-                writer.write(stringBuilder.toString())
+                val operation: CodegenOperation = fragment.context() as CodegenOperation
+                val dataTypes: Set<String> = operation.responses.filter { !it.is2xx }.map { it.dataType }.toSet()
+                val context = mapOf("dataTypes" to dataTypes)
+                fragment.execute(context, writer)
             }
         },
         "hasNonBodyParams" to {
