@@ -20,7 +20,6 @@ enum class ProgrammingLanguage(val id: String) {
     KOTLIN("kotlin");
 
     companion object {
-
         /**
          * Returns the ProgrammingLanguage enum value for the given name.
          *

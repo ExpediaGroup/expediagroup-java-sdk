@@ -35,15 +35,16 @@ import org.openapitools.codegen.config.CodegenConfigurator
  */
 @Command(name = "generate", description = "Let's build an EG Travel SDK!")
 class OpenApiSdkGenerator {
-    private val supportingFiles = mutableListOf(
-        "pom.xml",
-        "README.md",
-        "ApiException.kt",
-        "LinkableOperation.kt",
-        "PropertyConstraintViolation.kt",
-        "PropertyConstraintsValidator.kt",
-        "PropertyConstraintViolationException.kt"
-    )
+    private val supportingFiles =
+        mutableListOf(
+            "pom.xml",
+            "README.md",
+            "ApiException.kt",
+            "LinkableOperation.kt",
+            "PropertyConstraintViolation.kt",
+            "PropertyConstraintsValidator.kt",
+            "PropertyConstraintViolationException.kt"
+        )
 
     companion object {
         /**
@@ -76,118 +77,120 @@ class OpenApiSdkGenerator {
     fun run() {
         try {
             val product = Product(namespace, programmingLanguage)
-            val config = CodegenConfigurator().apply {
-                setGeneratorName("kotlin")
-                setTemplateDir("templates/expediagroup-sdk")
-                setInputSpec(inputFile)
-                setOutputDir(outputDirectory)
-                setArtifactId(product.artifactId)
-                setArtifactVersion(version)
-                setGroupId(product.groupId)
-                setPackageName(product.packageName)
+            val config =
+                CodegenConfigurator().apply {
+                    setGeneratorName("kotlin")
+                    setTemplateDir("templates/expediagroup-sdk")
+                    setInputSpec(inputFile)
+                    setOutputDir(outputDirectory)
+                    setArtifactId(product.artifactId)
+                    setArtifactVersion(version)
+                    setGroupId(product.groupId)
+                    setPackageName(product.packageName)
 
-                addGlobalProperty(CodegenConstants.APIS, "")
-                addGlobalProperty(CodegenConstants.API_DOCS, "false")
-                addGlobalProperty(CodegenConstants.MODELS, "")
-                addGlobalProperty(CodegenConstants.MODEL_DOCS, "false")
+                    addGlobalProperty(CodegenConstants.APIS, "")
+                    addGlobalProperty(CodegenConstants.API_DOCS, "false")
+                    addGlobalProperty(CodegenConstants.MODELS, "")
+                    addGlobalProperty(CodegenConstants.MODEL_DOCS, "false")
 
-                supportingFiles.add("${namespace}Client.kt")
-                addGlobalProperty(CodegenConstants.SUPPORTING_FILES, supportingFiles.joinToString(","))
-                // addGlobalProperty("debugSupportingFiles", "")
+                    supportingFiles.add("${namespace}Client.kt")
+                    addGlobalProperty(CodegenConstants.SUPPORTING_FILES, supportingFiles.joinToString(","))
+                    // addGlobalProperty("debugSupportingFiles", "")
 
-                addAdditionalProperty(CodegenConstants.API_SUFFIX, "Operation")
-                addAdditionalProperty(CodegenConstants.API_PACKAGE, product.apiPackage)
-                addAdditionalProperty(CodegenConstants.ENUM_PROPERTY_NAMING, "UPPERCASE")
-                addAdditionalProperty(CodegenConstants.LIBRARY, "jvm-ktor")
-                addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "jackson")
-                addAdditionalProperty(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, true)
+                    addAdditionalProperty(CodegenConstants.API_SUFFIX, "Operation")
+                    addAdditionalProperty(CodegenConstants.API_PACKAGE, product.apiPackage)
+                    addAdditionalProperty(CodegenConstants.ENUM_PROPERTY_NAMING, "UPPERCASE")
+                    addAdditionalProperty(CodegenConstants.LIBRARY, "jvm-ktor")
+                    addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "jackson")
+                    addAdditionalProperty(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, true)
 
-                // Template specific properties
-                addAdditionalProperty("shadePrefix", product.shadePrefix)
-                addAdditionalProperty("namespace", product.namespace)
-                addAdditionalProperty("clientClassname", namespace.replaceFirstChar { it.uppercaseChar() })
-                addAdditionalProperty("language", product.programmingLanguage.id)
-                addAdditionalProperty("isKotlin", ProgrammingLanguage.isKotlin(product.programmingLanguage))
-                addAdditionalProperty("isRapid", ProductFamily.isRapid(product.namespace))
-                addAdditionalProperty("isExpediaGroup", ProductFamily.isExpediaGroup(product.namespace))
-                addAdditionalProperty("isXap", ProductFamily.isXap(product.namespace))
+                    // Template specific properties
+                    addAdditionalProperty("shadePrefix", product.shadePrefix)
+                    addAdditionalProperty("namespace", product.namespace)
+                    addAdditionalProperty("clientClassname", namespace.replaceFirstChar { it.uppercaseChar() })
+                    addAdditionalProperty("language", product.programmingLanguage.id)
+                    addAdditionalProperty("isKotlin", ProgrammingLanguage.isKotlin(product.programmingLanguage))
+                    addAdditionalProperty("isRapid", ProductFamily.isRapid(product.namespace))
+                    addAdditionalProperty("isExpediaGroup", ProductFamily.isExpediaGroup(product.namespace))
+                    addAdditionalProperty("isXap", ProductFamily.isXap(product.namespace))
 
-                // Mustache Helpers
-                mustacheHelpers.forEach { (name, function) -> addAdditionalProperty(name, function()) }
-                if (ProductFamily.isRapid(product.namespace)) {
-                    rapidHelpers.forEach { (name, function) -> addAdditionalProperty(name, function()) }
+                    // Mustache Helpers
+                    mustacheHelpers.forEach { (name, function) -> addAdditionalProperty(name, function()) }
+                    if (ProductFamily.isRapid(product.namespace)) {
+                        rapidHelpers.forEach { (name, function) -> addAdditionalProperty(name, function()) }
+                    }
                 }
-            }
 
-            val generatorInput = config.toClientOptInput().apply {
-                val packagePath = product.packagePath
+            val generatorInput =
+                config.toClientOptInput().apply {
+                    val packagePath = product.packagePath
 
-                userDefinedTemplates(
-                    buildList {
-                        add(
-                            SupportingFile(
-                                "client.mustache",
-                                "$packagePath/client/",
-                                "${namespace}Client.kt"
+                    userDefinedTemplates(
+                        buildList {
+                            add(
+                                SupportingFile(
+                                    "client.mustache",
+                                    "$packagePath/client/",
+                                    "${namespace}Client.kt"
+                                )
                             )
-                        )
-                        add(SupportingFile("pom.mustache", "pom.xml"))
-                        add(SupportingFile("README.mustache", "README.md"))
-                        add(
-                            SupportingFile(
-                                "models/apiException.mustache",
-                                "$packagePath/models/exception/",
-                                "ApiException.kt"
+                            add(SupportingFile("pom.mustache", "pom.xml"))
+                            add(SupportingFile("README.mustache", "README.md"))
+                            add(
+                                SupportingFile(
+                                    "models/apiException.mustache",
+                                    "$packagePath/models/exception/",
+                                    "ApiException.kt"
+                                )
                             )
-                        )
-                        add(
-                            SupportingFile(
-                                "validation/propertyConstraintViolationException.mustache",
-                                "$packagePath/models/exception/",
-                                "PropertyConstraintViolationException.kt"
+                            add(
+                                SupportingFile(
+                                    "validation/propertyConstraintViolationException.mustache",
+                                    "$packagePath/models/exception/",
+                                    "PropertyConstraintViolationException.kt"
+                                )
                             )
-                        )
-                        add(
-                            SupportingFile(
-                                "validation/propertyConstraintViolation.mustache",
-                                "$packagePath/models/exception/",
-                                "PropertyConstraintViolation.kt"
+                            add(
+                                SupportingFile(
+                                    "validation/propertyConstraintViolation.mustache",
+                                    "$packagePath/models/exception/",
+                                    "PropertyConstraintViolation.kt"
+                                )
                             )
-                        )
-                        add(
-                            SupportingFile(
-                                "validation/propertyConstraintsValidator.mustache",
-                                "$packagePath/validation/",
-                                "PropertyConstraintsValidator.kt"
+                            add(
+                                SupportingFile(
+                                    "validation/propertyConstraintsValidator.mustache",
+                                    "$packagePath/validation/",
+                                    "PropertyConstraintsValidator.kt"
+                                )
                             )
-                        )
 
-                        add(
-                            TemplateDefinition(
-                                "operation_params.mustache",
-                                "Params.kt"
-                            ).also { it.templateType = TemplateFileType.API }
-                        )
-
-                        if (ProductFamily.isRapid(product.namespace)) {
                             add(
                                 TemplateDefinition(
-                                    "operation_context.mustache",
-                                    "Context.kt"
+                                    "operation_params.mustache",
+                                    "Params.kt"
                                 ).also { it.templateType = TemplateFileType.API }
                             )
 
-                            add(
-                                SupportingFile(
-                                    "linkable_operation.mustache",
-                                    "$packagePath/operations/",
-                                    "LinkableOperation.kt"
+                            if (ProductFamily.isRapid(product.namespace)) {
+                                add(
+                                    TemplateDefinition(
+                                        "operation_context.mustache",
+                                        "Context.kt"
+                                    ).also { it.templateType = TemplateFileType.API }
                                 )
-                            )
+
+                                add(
+                                    SupportingFile(
+                                        "linkable_operation.mustache",
+                                        "$packagePath/operations/",
+                                        "LinkableOperation.kt"
+                                    )
+                                )
+                            }
                         }
-                    }
-                )
-            }
+                    )
+                }
 
             val generator = DefaultGenerator(false).apply { opts(generatorInput) }
             generator.generate()
