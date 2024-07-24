@@ -43,7 +43,6 @@ val mustacheHelpers =
                     fragment.execute(context, writer)
                 }
             }
-          }
         },
         "removeLeadingSlashes" to {
             Mustache.Lambda { fragment, writer -> writer.write(fragment.execute().replace("^/+".toRegex(), "/")) }
@@ -56,6 +55,7 @@ val mustacheHelpers =
                     val value: String = if (it.isString && !it.isEnum) "\"${it.value}\"" else "$type.${it.value}"
                     writer.write("@JsonProperty(\"${it.originalName}\")\n")
                     writer.write("override val ${it.name} : $type = $value\n")
+                }
             }
         },
         "eliminateDiscriminators" to {
