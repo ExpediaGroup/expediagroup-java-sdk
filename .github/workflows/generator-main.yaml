@@ -50,11 +50,11 @@ jobs:
     steps:
       - name: Print Inputs
         run: |
-          echo "SDK Name: ${{ github.event.inputs.name }}"
-          echo "SDK Version: ${{ github.event.inputs.version }}"
-          echo "Endpoint Prefix: ${{ github.event.inputs.endpoint_prefix }}"
-          echo "Specs URL: ${{ github.event.inputs.specs_url }}"
-          echo "Production Release: ${{ github.event.inputs.production_release }}"
+          echo "SDK Name: ${{ github.inputs.name }}"
+          echo "SDK Version: ${{ github.inputs.version }}"
+          echo "Endpoint Prefix: ${{ github.inputs.endpoint_prefix }}"
+          echo "Specs URL: ${{ github.inputs.specs_url }}"
+          echo "Production Release: ${{ github.inputs.production_release }}"
   download_specs:
     uses: ./.github/workflows/generator-download-specs.yaml
     with:
