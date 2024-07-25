@@ -45,6 +45,16 @@ on:
         type: boolean
         default: false
 jobs:
+  print_inputs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print Inputs
+        run: |
+          echo "SDK Name: ${{ github.event.inputs.name }}"
+          echo "SDK Version: ${{ github.event.inputs.version }}"
+          echo "Endpoint Prefix: ${{ github.event.inputs.endpoint_prefix }}"
+          echo "Specs URL: ${{ github.event.inputs.specs_url }}"
+          echo "Production Release: ${{ github.event.inputs.production_release }}"
   download_specs:
     uses: ./.github/workflows/generator-download-specs.yaml
     with:
