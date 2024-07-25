@@ -5,9 +5,11 @@ on:
       name:
         description: 'SDK Name'
         required: true
+        type: string
       version:
         description: 'SDK Version'
         required: true
+        type: string
       endpoint_prefix:
         description: 'Endpoint to prepend specs paths with'
         required: true
