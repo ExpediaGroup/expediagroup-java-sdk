@@ -1,6 +1,26 @@
 name: Generate SDK - Main
 on:
   workflow_call:
+    inputs:
+      name:
+        description: 'SDK Name'
+        required: true
+      version:
+        description: 'SDK Version'
+        required: true
+      endpoint_prefix:
+        description: 'Endpoint to prepend specs paths with'
+        required: true
+        type: string
+      specs_url:
+        description: 'URL to download API specs from'
+        required: true
+        type: string
+      production_release:
+        description: 'Release to production'
+        required: true
+        type: boolean
+        default: false
   workflow_dispatch:
     inputs:
       name:
