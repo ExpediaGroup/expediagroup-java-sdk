@@ -56,8 +56,6 @@ jobs:
           echo "Endpoint Prefix: ${{ inputs.endpoint_prefix }}"
           echo "Specs URL: ${{ inputs.specs_url }}"
           echo "Production Release: ${{ inputs.production_release }}"
-      - name: Stop Execution
-        run: exit 1
   download_specs:
     uses: ./.github/workflows/generator-download-specs.yaml
     with:
