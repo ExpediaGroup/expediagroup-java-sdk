@@ -28,6 +28,15 @@ on:
         options:
           - rapid
         default: 'rapid'
+      jdk:
+        description: 'JDK version to use'
+        required: true
+        type: string
+        options:
+          - '11'
+          - '17'
+          - '21'
+        default: '17'
   workflow_call:
     inputs:
       source:
@@ -50,6 +59,11 @@ on:
         required: true
         type: string
         default: 'rapid'
+      jdk:
+        description: 'JDK version to use'
+        required: true
+        type: string
+        default: '17'
 
 jobs:
   inputs-validation:
@@ -88,6 +102,7 @@ jobs:
     uses: "ExpediaGroup/rapid-java-sdk/.github/workflows/run-examples.yaml@OmarAlJarrah/add-cli-execution-plugin"
     with:
       sdk_version: ${{ github.event.inputs.sdk_version }}
+      jdk: ${{ github.event.inputs.jdk }}
     secrets:
       KEY: ${{ secrets.RAPID_KEY }}
       SECRET: ${{ secrets.RAPID_SECRET }}
