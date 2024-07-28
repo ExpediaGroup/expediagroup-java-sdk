@@ -70,13 +70,13 @@ jobs:
       url: ${{ github.event.inputs.specs_url }}
   transform-specs:
     if: ${{ github.event.inputs.source == 'specs' }}
-    needs: [ download_specs ]
+    needs: [ download-specs ]
     uses: ./.github/workflows/generator-transform-specs.yaml
     with:
       configurations: -th -te ${{ github.event.inputs.endpoint_prefix }} --operationIdsToTags
   generate-sdk:
     if: ${{ github.event.inputs.source == 'specs' }}
-    needs: [ transform_specs ]
+    needs: [ transform-specs ]
     uses: ./.github/workflows/generator-generate.yaml
     with:
       name: ${{ github.event.inputs.rapid }}
