@@ -52,7 +52,7 @@ on:
         default: 'rapid'
 
 jobs:
-  inputs_validation:
+  inputs-validation:
     runs-on: ubuntu-latest
     steps:
       - shell: python -u {0}
@@ -65,24 +65,26 @@ jobs:
             exit(1)
   download-specs:
     if: ${{ github.event.inputs.source == 'specs' }}
+    needs: [ inputs-validation ]
     uses: ./.github/workflows/generator-download-specs.yaml
     with:
       url: ${{ github.event.inputs.specs_url }}
   transform-specs:
     if: ${{ github.event.inputs.source == 'specs' }}
-    needs: [ download-specs ]
+    needs: [ download-specs, inputs-validation ]
     uses: ./.github/workflows/generator-transform-specs.yaml
     with:
       configurations: -th -te ${{ github.event.inputs.endpoint_prefix }} --operationIdsToTags
   generate-sdk:
     if: ${{ github.event.inputs.source == 'specs' }}
-    needs: [ transform-specs ]
+    needs: [ transform-specs, inputs-validation ]
     uses: ./.github/workflows/generator-generate.yaml
     with:
       name: ${{ github.event.inputs.rapid }}
       version: 1.0.0
   run-rapid-examples:
-    if: ${{ github.event.inputs.sdk_namespace == 'rapid' }}
+    if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
+    needs: [ generate-sdk, inputs-validation ]
     uses: "ExpediaGroup/rapid-java-sdk/.github/workflows/run-examples.yaml@OmarAlJarrah/add-cli-execution-plugin"
     with:
       sdk_version: ${{ github.event.inputs.sdk_version }}
