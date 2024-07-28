@@ -1,0 +1,91 @@
+name: Run Tests
+on:
+  push:
+  workflow_dispatch:
+    inputs:
+      source:
+        description: 'Source of tests'
+        required: true
+        type: string
+        options:
+          - 'specs'
+          - 'sdk'
+        default: 'sdk'
+      specs_url:
+        description: 'Run tests based on specs'
+        required: false
+        type: string
+        default: ''
+      sdk_version:
+        description: 'Run tests based on SDK'
+        required: false
+        type: string
+        default: 'LATEST'
+      sdk_namespace:
+        description: 'SDK to test'
+        required: true
+        type: string
+        options:
+          - rapid
+        default: 'rapid'
+  workflow_call:
+    inputs:
+      source:
+        description: 'Source of tests'
+        required: true
+        type: string
+        default: 'sdk'
+      specs_url:
+        description: 'Run tests based on specs'
+        required: false
+        type: string
+        default: ''
+      sdk_version:
+        description: 'Run tests based on SDK'
+        required: false
+        type: string
+        default: 'LATEST'
+      sdk_namespace:
+        description: 'SDK to test'
+        required: true
+        type: string
+        default: 'rapid'
+
+jobs:
+  inputs_validation:
+    runs-on: ubuntu-latest
+    steps:
+      - shell: python -u {0}
+        run: |
+          if any([
+            'specs' in '${{ github.event.inputs.source }}' and not('${{ github.event.inputs.specs_url }}'),
+            'sdk' in '${{ github.event.inputs.source }}' and not('${{ github.event.inputs.sdk_version }}')
+          ]):
+            print('::error::Invalid inputs')
+            exit(1)
+  download-specs:
+    if: ${{ github.event.inputs.source == 'specs' }}
+    uses: ./.github/workflows/generator-download-specs.yaml
+    with:
+      url: ${{ github.event.inputs.specs_url }}
+  transform-specs:
+    if: ${{ github.event.inputs.source == 'specs' }}
+    needs: [ download_specs ]
+    uses: ./.github/workflows/generator-transform-specs.yaml
+    with:
+      configurations: -th -te ${{ github.event.inputs.endpoint_prefix }} --operationIdsToTags
+  generate-sdk:
+    if: ${{ github.event.inputs.source == 'specs' }}
+    needs: [ transform_specs ]
+    uses: ./.github/workflows/generator-generate.yaml
+    with:
+      name: ${{ github.event.inputs.rapid }}
+      version: 1.0.0
+  run-rapid-examples:
+    if: ${{ github.event.inputs.sdk_namespace == 'rapid' }}
+    uses: "ExpediaGroup/rapid-java-sdk/.github/workflows/run-examples.yaml@OmarAlJarrah/add-cli-execution-plugin"
+    with:
+      sdk_version: ${{ github.event.inputs.sdk_version }}
+    secrets:
+      KEY: ${{ secrets.RAPID_KEY }}
+      SECRET: ${{ secrets.RAPID_SECRET }}
