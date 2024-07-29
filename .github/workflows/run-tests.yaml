@@ -92,9 +92,10 @@ jobs:
       version: ${{ github.event.inputs.sdk_version }}
       namespace: ${{ github.event.inputs.sdk_namespace }}
       endpoint_prefix: ${{ github.event.inputs.endpoint_prefix }}
+    secrets: inherit
   run-rapid-examples:
     if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
-    needs: [ generate-and-publish-snapshot, inputs-validation ]
+    needs: [ generate-and-publish-snapshot ]
     uses: "ExpediaGroup/rapid-java-sdk/.github/workflows/run-examples.yaml@OmarAlJarrah/add-cli-execution-plugin"
     with:
       sdk_version: ${{ needs.generate-and-publish-snapshot.outputs.version }}

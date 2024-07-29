@@ -39,7 +39,7 @@ jobs:
       name: ${{ inputs.namespace }}
       version: ${{ inputs.version }}
   publish_artifact:
-    needs: [ generate ]
+    needs: [ generate-sdk ]
     uses: ./.github/workflows/generator-publish-artifact.yaml
     secrets: inherit
     with:
