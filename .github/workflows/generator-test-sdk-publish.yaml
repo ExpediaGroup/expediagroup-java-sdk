@@ -15,9 +15,12 @@ on:
         required: true
         type: string
     outputs:
-      artifactId: ${{ jobs.parse-snapshot-metadata.outputs.artifactId }}
-      groupId: ${{ jobs.parse-snapshot-metadata.outputs.groupId }}
-      version: ${{ jobs.parse-snapshot-metadata.outputs.version }}
+      artifactId:
+        value: ${{ jobs.parse-snapshot-metadata.outputs.artifactId }}
+      groupId:
+        value: ${{ jobs.parse-snapshot-metadata.outputs.groupId }}
+      version:
+        value: ${{ jobs.parse-snapshot-metadata.outputs.version }}
 
 jobs:
   download-specs:
