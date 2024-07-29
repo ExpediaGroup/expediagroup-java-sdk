@@ -101,8 +101,8 @@ jobs:
     needs: [ transform-specs, inputs-validation ]
     uses: ./.github/workflows/generator-generate.yaml
     with:
-      name: ${{ github.event.inputs.rapid }}
-      version: 1.0.0
+      name: ${{ github.event.inputs.sdk_namespace }}
+      version: ${{ github.event.inputs.sdk_version }}
   do-echo:
     runs-on: ubuntu-latest
     needs: [ generate-sdk, inputs-validation ]
