@@ -1,0 +1,88 @@
+name: Generate & Publish Test SDK Snapshot
+on:
+  workflow_call:
+    inputs:
+      version:
+        description: 'SDK version to generate test jar for'
+        required: true
+        type: string
+      namespace:
+        description: 'SDK to generate test jar for'
+        required: true
+        type: string
+      endpoint_prefix:
+        description: 'Endpoint to prepend specs paths with'
+        required: true
+        type: string
+    outputs:
+      artifactId: ${{ jobs.parse-jar.outputs.artifactId }}
+      groupId: ${{ jobs.parse-jar.outputs.groupId }}
+      version: ${{ jobs.parse-jar.outputs.version }}
+
+jobs:
+  download-specs:
+    uses: ./.github/workflows/generator-download-specs.yaml
+    with:
+      url: ${{ inputs.specs_url }}
+  transform-specs:
+    needs: [ download-specs ]
+    uses: ./.github/workflows/generator-transform-specs.yaml
+    with:
+      configurations: -th -te ${{ inputs.endpoint_prefix }} --operationIdsToTags
+  generate-sdk:
+    needs: [ transform-specs ]
+    uses: ./.github/workflows/generator-generate.yaml
+    with:
+      name: ${{ inputs.namespace }}
+      version: ${{ inputs.version }}
+  publish_artifact:
+    needs: [ generate ]
+    uses: ./.github/workflows/generator-publish-artifact.yaml
+    secrets: inherit
+    with:
+      production_release: false
+  parse-snapshot-metadata:
+    needs: [ publish_artifact ]
+    outputs:
+      artifactId: ${{ steps.parse-metadata.outputs.artifactId }}
+      groupId: ${{ steps.parse-metadata.outputs.groupId }}
+      version: ${{ steps.parse-metadata.outputs.version }}-SNAPSHOT
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: sdk
+          path: sdk
+      - working-directory: sdk
+        run: mvn clean install package
+      - id: parse-metadata
+        working-directory: sdk/target/maven-archiver
+        shell: python -u {0}
+        run: |
+          import os
+
+
+          metadata: dict = dict()
+          with open("pom.properties") as properties:
+            metadata = dict(metadata = dict(line.strip().split('=') for line in filter(bool, file.readlines())))
+
+          with open(os.getenv("GITHUB_OUTPUT"), "a") as GITHUB_OUTPUT:
+            for key, value in metadata.items():
+              print(f"{key}={value}", file=GITHUB_OUTPUT)
+
+  verify-snapshot:
+    needs: [ parse-snapshot-metadata, publish_artifact ]
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          while true; do
+             mvn -U dependency:get\
+              -DgroupId="${{ needs.parse-snapshot-metadata.outputs.groupId }}"\
+              -DartifactId="${{ needs.parse-snapshot-metadata.outputs.artifactId }}"\
+              -Dversion="${{ needs.parse-snapshot-metadata.outputs.version }}"\
+              -DrepoUrl="https://oss.sonatype.org/content/repositories/snapshots/"
+            if [ $? -eq 0 ]; then
+              break
+            fi
+            sleep 10
+          done
