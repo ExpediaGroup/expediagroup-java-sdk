@@ -109,13 +109,14 @@ jobs:
     steps:
       - run: |
           echo "${{ github.run_id }}"
-#  run-rapid-examples:
-#    if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
-#    needs: [ generate-sdk, inputs-validation ]
-#    uses: "ExpediaGroup/rapid-java-sdk/.github/workflows/run-examples.yaml@OmarAlJarrah/add-cli-execution-plugin"
-#    with:
-#      sdk_version: ${{ github.event.inputs.sdk_version }}
-#      jdk: ${{ github.event.inputs.jdk }}
-#    secrets:
-#      KEY: ${{ secrets.RAPID_KEY }}
-#      SECRET: ${{ secrets.RAPID_SECRET }}
+  run-rapid-examples:
+    if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
+    needs: [ generate-sdk, inputs-validation ]
+    uses: "ExpediaGroup/rapid-java-sdk/.github/workflows/run-examples.yaml@OmarAlJarrah/add-cli-execution-plugin"
+    with:
+      sdk_version: ${{ github.event.inputs.sdk_version }}
+      jdk: ${{ github.event.inputs.jdk }}
+      sdk_generation_workflow_run_id: ${{ github.run_id }}
+    secrets:
+      KEY: ${{ secrets.RAPID_KEY }}
+      SECRET: ${{ secrets.RAPID_SECRET }}
