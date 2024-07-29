@@ -15,9 +15,9 @@ on:
         required: true
         type: string
     outputs:
-      artifactId: ${{ jobs.parse-jar.outputs.artifactId }}
-      groupId: ${{ jobs.parse-jar.outputs.groupId }}
-      version: ${{ jobs.parse-jar.outputs.version }}
+      artifactId: ${{ jobs.parse-snapshot-metadata.outputs.artifactId }}
+      groupId: ${{ jobs.parse-snapshot-metadata.outputs.groupId }}
+      version: ${{ jobs.parse-snapshot-metadata.outputs.version }}
 
 jobs:
   download-specs:
