@@ -28,12 +28,15 @@ on:
         options:
           - rapid
         default: 'rapid'
+      endpoint_prefix:
+        description: 'Endpoint to prepend specs paths with'
+        required: true
+        type: string
       jdk:
         description: 'JDK version to use'
         required: true
         type: string
         options:
-          - '11'
           - '17'
           - '21'
         default: '17'
@@ -64,6 +67,10 @@ on:
         required: true
         type: string
         default: '17'
+      endpoint_prefix:
+        description: 'Endpoint to prepend specs paths with'
+        required: true
+        type: string
 
 jobs:
   inputs-validation:
@@ -96,13 +103,20 @@ jobs:
     with:
       name: ${{ github.event.inputs.rapid }}
       version: 1.0.0
-  run-rapid-examples:
-    if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
+  do-echo:
+    runs-on: ubuntu-latest
     needs: [ generate-sdk, inputs-validation ]
-    uses: "ExpediaGroup/rapid-java-sdk/.github/workflows/run-examples.yaml@OmarAlJarrah/add-cli-execution-plugin"
-    with:
-      sdk_version: ${{ github.event.inputs.sdk_version }}
-      jdk: ${{ github.event.inputs.jdk }}
-    secrets:
-      KEY: ${{ secrets.RAPID_KEY }}
-      SECRET: ${{ secrets.RAPID_SECRET }}
+    steps:
+      - run: |
+          echo "${{ needs.generate-sdk.run_id }}"
+          echo "${{ needs.generate-sdk.github.run_id }}"
+#  run-rapid-examples:
+#    if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
+#    needs: [ generate-sdk, inputs-validation ]
+#    uses: "ExpediaGroup/rapid-java-sdk/.github/workflows/run-examples.yaml@OmarAlJarrah/add-cli-execution-plugin"
+#    with:
+#      sdk_version: ${{ github.event.inputs.sdk_version }}
+#      jdk: ${{ github.event.inputs.jdk }}
+#    secrets:
+#      KEY: ${{ secrets.RAPID_KEY }}
+#      SECRET: ${{ secrets.RAPID_SECRET }}
