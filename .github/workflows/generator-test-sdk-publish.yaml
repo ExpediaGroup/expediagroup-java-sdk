@@ -74,7 +74,7 @@ jobs:
               print(f"{key}={value}", file=GITHUB_OUTPUT)
 
   verify-snapshot:
-    needs: [ parse-snapshot-metadata, publish_artifact ]
+    needs: [ parse-snapshot-metadata ]
     runs-on: ubuntu-latest
     steps:
       - run: |
