@@ -27,7 +27,13 @@
 
     <artifactId>{{artifactId}}</artifactId>
     <version>${revision}</version>
-    <url>https://github.com/ExpediaGroup/expediagroup-java-sdk-generators/tree/main/generated</url>
+    {{#isRapid}}
+        <url>https://github.com/ExpediaGroup/rapid-java-sdk</url>
+    {{/isRapid}}
+    {{#isExpediaGroup}}
+        <url>https://github.com/ExpediaGroup/fraud-prevention-java-sdk</url>
+    {{/isExpediaGroup}}
+
     <inceptionYear>2022</inceptionYear>
 
     <licenses>
@@ -46,11 +52,20 @@
         </developer>
     </developers>
 
-    <scm>
-        <connection>scm:git:git@github.com:ExpediaGroup/expediagroup-java-sdk-generators.git</connection>
-        <developerConnection>scm:git:git@github.com:ExpediaGroup/expediagroup-java-sdk-generators.git</developerConnection>
-        <url>https://github.com/ExpediaGroup/expediagroup-java-sdk-generators/</url>
-    </scm>
+    {{#isRapid}}
+        <scm>
+            <connection>scm:git:git@github.com:ExpediaGroup/rapid-java-sdk.git</connection>
+            <developerConnection>scm:git:git@github.com:ExpediaGroup/rapid-java-sdk.git</developerConnection>
+            <url>https://github.com/ExpediaGroup/rapid-java-sdk</url>
+        </scm>
+    {{/isRapid}}
+    {{#isExpediaGroup}}
+        <scm>
+            <connection>scm:git:git@github.com:ExpediaGroup/fraud-prevention-java-sdk.git</connection>
+            <developerConnection>scm:git:git@github.com:ExpediaGroup/fraud-prevention-java-sdk.git</developerConnection>
+            <url>https://github.com/ExpediaGroup/fraud-prevention-java-sdk</url>
+        </scm>
+    {{/isExpediaGroup}}
 
     <distributionManagement>
         <repository>
