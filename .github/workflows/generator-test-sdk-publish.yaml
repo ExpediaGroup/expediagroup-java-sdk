@@ -55,7 +55,8 @@ jobs:
         with:
           name: sdk
           path: sdk
-      - run: mv .flattened-pom.xml pom.xml && mvn clean install package
+      - run: mv .flattened-pom.xml pom.xml
+      - run: mvn clean install package
         working-directory: sdk
       - run: ls sdk -R -a -l
       - id: parse-metadata
