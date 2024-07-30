@@ -16,11 +16,11 @@ on:
         type: string
     outputs:
       artifactId:
-        value: ${{ jobs.parse-snapshot-metadata.outputs.artifactId }}
+        value: ${{ jobs.sdk-metadata.outputs.artifactId }}
       groupId:
-        value: ${{ jobs.parse-snapshot-metadata.outputs.groupId }}
+        value: ${{ jobs.sdk-metadata.outputs.groupId }}
       version:
-        value: ${{ jobs.parse-snapshot-metadata.outputs.version }}
+        value: ${{ jobs.sdk-metadata.outputs.version }}
 
 jobs:
   download-specs:
@@ -44,13 +44,13 @@ jobs:
     secrets: inherit
     with:
       production_release: false
-  parse-snapshot-metadata:
+  sdk-metadata:
+    runs-on: ubuntu-latest
     needs: [ publish_artifact ]
     outputs:
       artifactId: ${{ steps.parse-metadata.outputs.artifactId }}
       groupId: ${{ steps.parse-metadata.outputs.groupId }}
-      version: ${{ steps.parse-metadata.outputs.version }}-SNAPSHOT
-    runs-on: ubuntu-latest
+      version: ${{ steps.parse-metadata.outputs.version }}
     steps:
       - uses: actions/download-artifact@v4
         with:
@@ -70,20 +70,7 @@ jobs:
           with open(os.getenv("GITHUB_OUTPUT"), "a") as GITHUB_OUTPUT:
             for key, value in metadata.items():
               print(f"{key}={value}", file=GITHUB_OUTPUT)
-
-  verify-snapshot:
-    needs: [ parse-snapshot-metadata ]
-    runs-on: ubuntu-latest
-    steps:
-      - run: |
-          while true; do
-             mvn -U dependency:get\
-              -DgroupId="${{ needs.parse-snapshot-metadata.outputs.groupId }}"\
-              -DartifactId="${{ needs.parse-snapshot-metadata.outputs.artifactId }}"\
-              -Dversion="${{ needs.parse-snapshot-metadata.outputs.version }}"\
-              -DrepoUrl="https://oss.sonatype.org/content/repositories/snapshots/"
-            if [ $? -eq 0 ]; then
-              break
-            fi
-            sleep 10
-          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jar
+          path: sdk/target/${{ steps.sdk-metadata.outputs.artifactId }}-${{ steps.sdk-metadata.outputs.version }}.jar
