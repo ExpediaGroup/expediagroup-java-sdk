@@ -56,6 +56,7 @@ jobs:
           name: sdk
           path: sdk
       - run: mv .flattened-pom.xml pom.xml
+        working-directory: sdk
       - run: mvn clean install package
         working-directory: sdk
       - run: ls sdk -R -a -l
