@@ -56,8 +56,6 @@ jobs:
         with:
           name: sdk
           path: sdk
-      - working-directory: sdk
-        run: mvn clean install package
       - id: parse-metadata
         working-directory: sdk/target/maven-archiver
         shell: python -u {0}
