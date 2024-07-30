@@ -52,6 +52,7 @@ jobs:
           path: sdk
       - run: mv .flattened-pom.xml pom.xml && mvn clean install
         working-directory: sdk
+      - run: ls sdk -R -a -l
       - id: parse-metadata
         working-directory: sdk/target/maven-archiver
         shell: python -u {0}
