@@ -46,11 +46,12 @@ jobs:
       groupId: ${{ steps.parse-metadata.outputs.groupId }}
       version: ${{ steps.parse-metadata.outputs.version }}
     steps:
+      - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
           name: sdk
           path: sdk
-      - run: mv .flattened-pom.xml pom.xml && mvn clean install
+      - run: mv .flattened-pom.xml pom.xml && mvn clean install package
         working-directory: sdk
       - run: ls sdk -R -a -l
       - id: parse-metadata
