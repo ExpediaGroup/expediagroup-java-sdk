@@ -46,14 +46,12 @@ jobs:
       groupId: ${{ steps.parse-metadata.outputs.groupId }}
       version: ${{ steps.parse-metadata.outputs.version }}
     steps:
-      - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
           name: jar
           path: jar
-      - run: ls -R .
       - id: parse-metadata
-        working-directory: jar
+        working-directory: jar/maven-archiver
         shell: python -u {0}
         run: |
           import os
