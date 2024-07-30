@@ -46,6 +46,10 @@ jobs:
       groupId: ${{ steps.parse-metadata.outputs.groupId }}
       version: ${{ steps.parse-metadata.outputs.version }}
     steps:
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
