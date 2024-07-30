@@ -50,6 +50,7 @@ jobs:
         with:
           name: sdk
           path: sdk
+      - run: ls -R sdk
       - id: parse-metadata
         working-directory: sdk/target/maven-archiver
         shell: python -u {0}
