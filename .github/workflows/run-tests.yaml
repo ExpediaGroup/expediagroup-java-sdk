@@ -100,6 +100,7 @@ jobs:
     with:
       sdk_version: ${{ needs.generate-and-publish-snapshot.outputs.version }}
       jdk: ${{ github.event.inputs.jdk }}
+      sdk_generation_workflow_run_id: ${{ github.run_id }}
     secrets:
       KEY: ${{ secrets.RAPID_KEY }}
       SECRET: ${{ secrets.RAPID_SECRET }}
