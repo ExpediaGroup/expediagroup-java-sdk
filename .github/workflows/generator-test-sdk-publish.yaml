@@ -58,7 +58,7 @@ jobs:
 
           metadata: dict = dict()
           with open("pom.properties") as properties:
-            metadata = dict(metadata = dict(line.strip().split('=') for line in filter(bool, file.readlines())))
+            metadata = dict(metadata = dict(line.strip().split('=') for line in filter(bool, properties.readlines())))
 
           with open(os.getenv("GITHUB_OUTPUT"), "a") as GITHUB_OUTPUT:
             for key, value in metadata.items():
