@@ -84,7 +84,7 @@ jobs:
           ]):
             print('::error::Invalid inputs')
             exit(1)
-  generate-and-publish-snapshot:
+  generate-test-sdk:
     if: ${{ github.event.inputs.source == 'specs' }}
     needs: [ inputs-validation ]
     uses: ./.github/workflows/generator-test-sdk.yaml
@@ -95,10 +95,10 @@ jobs:
     secrets: inherit
   run-rapid-examples:
     if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
-    needs: [ generate-and-publish-snapshot ]
+    needs: [ generate-test-sdk ]
     uses: "ExpediaGroup/rapid-java-sdk/.github/workflows/run-examples.yaml@main"
     with:
-      sdk_version: ${{ needs.generate-and-publish-snapshot.outputs.version }}
+      sdk_version: ${{ needs.generate-test-sdk.outputs.version }}
       jdk: ${{ github.event.inputs.jdk }}
       sdk_generation_workflow_run_id: ${{ github.run_id }}
     secrets:
