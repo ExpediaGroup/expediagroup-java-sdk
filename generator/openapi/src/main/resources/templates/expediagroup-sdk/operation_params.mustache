@@ -86,10 +86,33 @@
                     {{/isLinkable}}
                 {{/isRapid}}
 
+                {{#nonBodyParams}}
+                    {{#params}}
+                        {{#isEnum}}
+                            enum class {{enumName}}(val value: {{dataType}}) {
+                                {{#allowableValues}}
+                                    {{#enumVars}}
+                                        {{name}}({{{value}}})
+                                        {{^-last}},{{/-last}}
+                                    {{/enumVars}}
+                                {{/allowableValues}}
+                            }
+                        {{/isEnum}}
+                    {{/params}}
+                {{/nonBodyParams}}
+
                 class Builder(
                     {{#nonBodyParams}}
                         {{#params}}
-                            private var {{{paramName}}}: {{{dataType}}}? = null{{^-last}},{{/-last}}
+                            private var {{{paramName}}}:
+                            {{#isEnum}}
+                                {{{enumName}}}
+                            {{/isEnum}}
+                            {{^isEnum}}
+                                {{{dataType}}}
+                            {{/isEnum}}
+                            ? = null
+                            {{^-last}},{{/-last}}
                         {{/params}}
                     {{/nonBodyParams}}
                 ) {
@@ -98,7 +121,15 @@
                             /**
                             * @param {{{paramName}}} {{{description}}}
                             */
-                            fun {{{paramName}}}({{{paramName}}}: {{{dataType}}}) = apply { this.{{{paramName}}} = {{{paramName}}} }
+                            fun {{{paramName}}}(
+                                {{{paramName}}}:
+                                {{#isEnum}}
+                                    {{{enumName}}}
+                                {{/isEnum}}
+                                {{^isEnum}}
+                                    {{{dataType}}}
+                                {{/isEnum}}
+                            ) = apply { this.{{{paramName}}} = {{{paramName}}} }
                         {{/params}}
                     {{/nonBodyParams}}
 
@@ -134,7 +165,9 @@
                 override fun getHeaders(): Map<String, String> {
                     return buildMap {
                         {{#headerParams}}
-                            {{paramName}}?.also { put("{{baseName}}", {{paramName}}) }
+                            {{paramName}}?.also {
+                                put("{{baseName}}", {{paramName}}{{#isEnum}}.value{{/isEnum}})
+                            }
                         {{/headerParams}}
                         {{#responses}}
                             {{#httpAcceptHeader}}
@@ -147,7 +180,15 @@
                 override fun getQueryParams(): Map<String, Iterable<String>> {
                     return buildMap {
                         {{#queryParams}}
-                            {{paramName}}?.also { put ("{{baseName}}", {{#isContainer}}{{paramName}}{{/isContainer}}{{^isContainer}}listOf({{paramName}}.toString()){{/isContainer}})}
+                            {{paramName}}?.also {
+                                put(
+                                    "{{baseName}}",
+                                    {{#isContainer}}{{paramName}}{{/isContainer}}
+                                    {{^isContainer}}
+                                            listOf({{paramName}}{{#isEnum}}.value{{/isEnum}}{{^isString}}.toString(){{/isString}})
+                                    {{/isContainer}}
+                                )
+                            }
                         {{/queryParams}}
                     }
                 }
@@ -155,7 +196,9 @@
                 override fun getPathParams() : Map<String, String> {
                     return buildMap {
                         {{#pathParams}}
-                            {{paramName}}?.also { put("{{baseName}}", {{paramName}}) }
+                            {{paramName}}?.also {
+                                put("{{baseName}}", {{paramName}}{{#isEnum}}.value{{/isEnum}})
+                            }
                         {{/pathParams}}
                     }
                 }

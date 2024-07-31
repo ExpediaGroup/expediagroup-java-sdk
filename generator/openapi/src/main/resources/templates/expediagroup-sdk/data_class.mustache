@@ -30,7 +30,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 {{#nonPublicApi}}internal {{/nonPublicApi}}{{#discriminator}}interface {{/discriminator}}{{^discriminator}}data class {{/discriminator}}{{classname}}{{^discriminator}}(
 {{#allVars}}
     {{#eliminateDiscriminators}}
-    {{#required}}{{>data_class_req_var}}{{/required}}{{^required}}{{>data_class_opt_var}}{{/required}}{{^-last}},{{/-last}}
+        {{#required}}{{>data_class_req_var}}{{/required}}{{^required}}{{>data_class_opt_var}}{{/required}}{{^-last}},{{/-last}}
     {{/eliminateDiscriminators}}
 {{^-last}}
 
@@ -60,7 +60,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
     ) {
     {{#allVars}}
         {{#eliminateDiscriminators}}
-        fun {{{name}}}({{{name}}}: {{#isEnum}}{{#isArray}}kotlin.collections.List<{{classname}}.{{{nameInCamelCase}}}>{{/isArray}}{{^isArray}}{{#isInherited}}{{{parent}}}.{{{nameInCamelCase}}}{{/isInherited}}{{^isInherited}}{{classname}}.{{{nameInCamelCase}}}{{/isInherited}}{{/isArray}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}?{{/required}}) = apply { this.{{{name}}} = {{{name}}} }
+            fun {{{name}}}({{{name}}}: {{#isEnum}}{{#isArray}}kotlin.collections.List<{{classname}}.{{{nameInCamelCase}}}>{{/isArray}}{{^isArray}}{{#isInherited}}{{{parent}}}.{{{nameInCamelCase}}}{{/isInherited}}{{^isInherited}}{{classname}}.{{{nameInCamelCase}}}{{/isInherited}}{{/isArray}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}?{{/required}}) = apply { this.{{{name}}} = {{{name}}} }
         {{/eliminateDiscriminators}}
     {{/allVars}}
 

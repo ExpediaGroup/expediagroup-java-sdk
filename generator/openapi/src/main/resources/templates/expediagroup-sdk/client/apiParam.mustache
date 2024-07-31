@@ -1,1 +1,43 @@
-{{{paramName}}}: {{{dataType}}}{{#required}}{{#defaultValue}} = {{#isString}}{{#removeDoubleQuotes}}{{{defaultValue}}}{{/removeDoubleQuotes}}{{/isString}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{^isString}}{{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{/isString}}{{/defaultValue}}{{/required}}{{^required}}?{{#defaultValue}} = {{#isString}}{{#removeDoubleQuotes}}{{{defaultValue}}}{{/removeDoubleQuotes}}{{/isString}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{^isString}}{{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{/isString}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}
+{{{paramName}}}:
+{{#isEnum}}
+    {{{enumName}}}
+{{/isEnum}}
+{{^isEnum}}
+    {{{dataType}}}
+{{/isEnum}}
+{{#required}}
+    {{#defaultValue}} =
+        {{#isEnum}}
+            {{classname}}Params.{{{enumName}}}.{{{enumDefaultValue}}}
+        {{/isEnum}}
+        {{^isEnum}}
+            {{#isString}}
+                {{#removeDoubleQuotes}}{{{defaultValue}}}{{/removeDoubleQuotes}}
+            {{/isString}}
+        {{/isEnum}}
+        {{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}
+        {{^isString}}
+            {{^isNumber}}{{{defaultValue}}}{{/isNumber}}
+        {{/isString}}
+    {{/defaultValue}}
+{{/required}}
+{{^required}}?
+    {{#defaultValue}} =
+        {{#isEnum}}
+            {{{enumName}}}.{{{enumDefaultValue}}}
+        {{/isEnum}}
+        {{^isEnum}}
+            {{#isString}}
+                {{#removeDoubleQuotes}}{{{defaultValue}}}{{/removeDoubleQuotes}}
+            {{/isString}}
+        {{/isEnum}}
+        {{#isNumber}}
+            {{{defaultValue}}}.toDouble()
+        {{/isNumber}}
+        {{^isString}}
+            {{^isNumber}}{{{defaultValue}}}{{/isNumber}}
+        {{/isString}}
+    {{/defaultValue}}
+    {{^defaultValue}} = null
+    {{/defaultValue}}
+{{/required}}
