@@ -1,4 +1,4 @@
-name: Generate & Publish Test SDK Snapshot
+name: Generate Test SDK
 on:
   workflow_call:
     inputs:
