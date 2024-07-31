@@ -16,7 +16,7 @@
 package com.expediagroup.sdk.rapid.operations
 
 /**
- * @property test Shop calls have a test header that can be used to return set responses with the following keywords:<br> * `standard` * `service_unavailable` * `unknown_internal_error`
+ * @property test Shop calls have a test header that can be used to return set responses with the following keywords: * `standard` * `service_unavailable` * `unknown_internal_error`
  */
 data class GetCalendarAvailabilityOperationContext(
     val test: kotlin.String? = null
@@ -30,7 +30,7 @@ data class GetCalendarAvailabilityOperationContext(
         private var test: kotlin.String? = null
     ) {
         /**
-         * @param test Shop calls have a test header that can be used to return set responses with the following keywords:<br> * `standard` * `service_unavailable` * `unknown_internal_error`
+         * @param test Shop calls have a test header that can be used to return set responses with the following keywords: * `standard` * `service_unavailable` * `unknown_internal_error`
          */
         fun test(test: kotlin.String) = apply { this.test = test }
 

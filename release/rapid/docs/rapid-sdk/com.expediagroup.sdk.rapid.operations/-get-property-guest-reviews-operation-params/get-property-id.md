@@ -6,4 +6,4 @@
 
 public final [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)[getPropertyId](get-property-id.md)()
 
-Expedia Property ID.<br>
+Expedia Property ID.
