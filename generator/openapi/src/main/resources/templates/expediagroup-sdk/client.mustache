@@ -51,7 +51,14 @@ class {{clientClassname}}Client private constructor(clientConfiguration: {{>part
                 url.parameters.appendAll(key, value)
             }
 
-            appendHeaders(operation.transactionId)
+            val extraHeaders = buildMap {
+                put(HeaderKey.TRANSACTION_ID, operation.transactionId.dequeue().toString())
+                {{#isXap}}
+                    put("key", configurationProvider.key ?: "")
+                {{/isXap}}
+            }
+
+            appendHeaders(extraHeaders)
             validateConstraints(operation.requestBody)
             contentType(ContentType.Application.Json)
             setBody(operation.requestBody)
