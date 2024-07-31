@@ -13,11 +13,12 @@
     <packaging>jar</packaging>
 
         <name>EG Rapid SDK for Java</name>
-        <description>EG Rapid SDK v4.3.0</description>
+        <description>EG Rapid SDK v4.3.1</description>
 
     <artifactId>rapid-sdk</artifactId>
     <version>${revision}</version>
-    <url>https://github.com/ExpediaGroup/expediagroup-java-sdk-generators/tree/main/generated</url>
+        <url>https://github.com/ExpediaGroup/rapid-java-sdk</url>
+
     <inceptionYear>2022</inceptionYear>
 
     <licenses>
@@ -36,11 +37,11 @@
         </developer>
     </developers>
 
-    <scm>
-        <connection>scm:git:git@github.com:ExpediaGroup/expediagroup-java-sdk-generators.git</connection>
-        <developerConnection>scm:git:git@github.com:ExpediaGroup/expediagroup-java-sdk-generators.git</developerConnection>
-        <url>https://github.com/ExpediaGroup/expediagroup-java-sdk-generators/</url>
-    </scm>
+        <scm>
+            <connection>scm:git:git@github.com:ExpediaGroup/rapid-java-sdk.git</connection>
+            <developerConnection>scm:git:git@github.com:ExpediaGroup/rapid-java-sdk.git</developerConnection>
+            <url>https://github.com/ExpediaGroup/rapid-java-sdk</url>
+        </scm>
 
     <distributionManagement>
         <repository>
@@ -58,7 +59,7 @@
     <properties>
         <sdk-version>${project.version}</sdk-version>
         <sdk-title>${project.artifactId}</sdk-title>
-        <revision>4.3.0</revision>
+        <revision>4.3.1</revision>
         <shadePrefix>com.expediagroup.sdk</shadePrefix>
     </properties>
 
@@ -510,6 +511,14 @@
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib</artifactId>
         </dependency>
+        <dependency>
+                <groupId>com.ebay.ejmask</groupId>
+                <artifactId>ejmask-api</artifactId>
+            </dependency>
+            <dependency>
+                <groupId>com.ebay.ejmask</groupId>
+                <artifactId>ejmask-extensions</artifactId>
+            </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-reflect</artifactId>

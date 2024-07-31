@@ -12,4 +12,4 @@ JVM
 
 | | |
 |---|---|
-| propertyId | Expedia Property ID.<br> |
+| propertyId | Expedia Property ID. |

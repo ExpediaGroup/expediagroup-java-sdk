@@ -12,4 +12,4 @@ JVM
 
 | | |
 |---|---|
-| test | Shop calls have a test header that can be used to return set responses with the following keywords:<br> * `standard` * `service_unavailable` * `unknown_internal_error` |
+| test | Shop calls have a test header that can be used to return set responses with the following keywords: * `standard` * `service_unavailable` * `unknown_internal_error` |
