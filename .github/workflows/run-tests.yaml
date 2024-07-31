@@ -87,7 +87,7 @@ jobs:
   generate-and-publish-snapshot:
     if: ${{ github.event.inputs.source == 'specs' }}
     needs: [ inputs-validation ]
-    uses: ./.github/workflows/generator-test-sdk-publish.yaml
+    uses: ./.github/workflows/generator-test-sdk.yaml
     with:
       version: ${{ github.event.inputs.sdk_version }}
       namespace: ${{ github.event.inputs.sdk_namespace }}
