@@ -1,6 +1,6 @@
 package com.expediagroup.sdk.generators.openapi
 
-fun String.toPascalCase(): String {
+fun String.pascalCase(): String {
     var capitalizeNext = true
     val builder = StringBuilder()
     forEach { char ->

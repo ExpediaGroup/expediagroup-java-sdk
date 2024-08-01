@@ -107,7 +107,7 @@ class OpenApiSdkGenerator {
                     // Template specific properties
                     addAdditionalProperty("shadePrefix", product.shadePrefix)
                     addAdditionalProperty("namespace", product.namespace)
-                    addAdditionalProperty("clientClassname", namespace.toPascalCase())
+                    addAdditionalProperty("clientClassname", namespace.pascalCase())
                     addAdditionalProperty("language", product.programmingLanguage.id)
                     addAdditionalProperty("isKotlin", ProgrammingLanguage.isKotlin(product.programmingLanguage))
                     addAdditionalProperty("isRapid", ProductFamily.isRapid(product.namespace))
