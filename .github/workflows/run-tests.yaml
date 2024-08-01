@@ -24,7 +24,7 @@ on:
       sdk_namespace:
         description: 'SDK to test'
         required: true
-        type: string
+        type: choice
         options:
           - rapid
         default: 'rapid'
