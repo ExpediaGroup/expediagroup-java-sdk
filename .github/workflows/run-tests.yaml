@@ -24,9 +24,7 @@ on:
       sdk_namespace:
         description: 'SDK to test'
         required: true
-        type: choice
-        options:
-          - rapid
+        type: string
         default: 'rapid'
       endpoint_prefix:
         description: 'Endpoint to prepend specs paths with'
