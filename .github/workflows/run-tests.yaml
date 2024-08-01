@@ -37,8 +37,10 @@ on:
         required: true
         type: choice
         options:
-          - '17'
           - '21'
+          - '17'
+          - '11'
+          - '8'
         default: '21'
   workflow_call:
     inputs:
