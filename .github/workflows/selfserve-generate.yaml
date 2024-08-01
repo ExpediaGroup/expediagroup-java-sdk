@@ -15,6 +15,10 @@ on:
         description: 'Key to the specs artifact and name (without extension, e.g. specs, the file is expected to have the extension .yaml)'
         required: true
         type: string
+      templates:
+        description: 'Path to the templates directory'
+        required: true
+        type: string
 
 jobs:
   generate:
@@ -39,7 +43,7 @@ jobs:
       - name: generate
         working-directory: sdk-repo/generator/openapi
         run: |
-          mvn clean install exec:java "-Dnamespace=${{ inputs.name }}" -DsdkVersion=${{ inputs.version }} "-Dspec=./${{ inputs.specs_key }}.yaml"
+          mvn clean install exec:java "-Dnamespace=${{ inputs.name }}" -DsdkVersion=${{ inputs.version }} "-Dspec=./${{ inputs.specs_key }}.yaml" -DtemplatesDir="${{ inputs.templates }}"
 
       - name: install SDK
         working-directory: sdk-repo/generator/openapi/target/sdk
