@@ -3,17 +3,12 @@ package com.expediagroup.sdk.generators.openapi
 fun String.toPascalCase(): String {
     var capitalizeNext = true
     val builder = StringBuilder()
-
-    forEach {
+    forEach { char ->
         when {
-            it.isDigit() || it == ' ' || it == '-' || it == '_' -> capitalizeNext = true
-            capitalizeNext -> {
-                builder.append(it.uppercaseChar())
-                capitalizeNext = false
-            }
-            else -> builder.append(it)
+            char.isLetterOrDigit().and(capitalizeNext) -> builder.append(char.uppercaseChar())
+            char.isLetterOrDigit() -> builder.append(char)
         }
+        capitalizeNext = char.isLetter().not().or(builder.isEmpty())
     }
-
     return builder.toString()
 }
