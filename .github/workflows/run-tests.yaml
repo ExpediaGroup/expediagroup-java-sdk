@@ -35,11 +35,11 @@ on:
       jdk:
         description: 'JDK version to use'
         required: true
-        type: string
+        type: choice
         options:
           - '17'
           - '21'
-        default: '17'
+        default: '21'
   workflow_call:
     inputs:
       source:
