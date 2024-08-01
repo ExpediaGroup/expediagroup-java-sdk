@@ -12,7 +12,7 @@ on:
         required: true
         type: string
       specs_key:
-        description: 'Key to the specs artifact and name (without extension, e.g. specs, the file is expected to have the extension .yaml)'
+        description: 'Key to the transformed specs artifact and name (without extension, e.g. specs, the file is expected to have the extension .yaml)'
         required: true
         type: string
       templates:
@@ -21,7 +21,7 @@ on:
         type: string
 
 jobs:
-  download_specs:
+  prepares:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -34,14 +34,9 @@ jobs:
           name: ${{ inputs.specs_key }}
           path: sdk-repo/generator/openapi
 
-  transform_specs:
-    needs: [ download_specs ]
-    uses: ./.github/workflows/generator-transform-specs.yaml
-    with:
-      configurations: -th -te ${{ inputs.endpoint_prefix }} --operationIdsToTags
 
   generate:
-    needs: [ transform_specs ]
+    needs: [prepares]
     runs-on: ubuntu-latest
     steps:
       - name: Set up JDK 21
@@ -50,7 +45,7 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
-      - name: generate SDK
+      - name: generate
         working-directory: sdk-repo/generator/openapi
         run: |
           mvn clean install exec:java "-Dnamespace=${{ inputs.name }}" -DsdkVersion=${{ inputs.version }} "-Dspec=./${{ inputs.specs_key }}.yaml" -DtemplatesDir="${{ inputs.templates }}"
