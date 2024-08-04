@@ -79,14 +79,6 @@ class OpenApiSdkGenerator {
 
     fun run() {
         try {
-            println("Debug start")
-            println("inputFile: $inputFile")
-            println("outputDirectory: $outputDirectory")
-            println("namespace: $namespace")
-            println("version: $version")
-            println("programmingLanguage: $programmingLanguage")
-            println("templateDir: $templateDir")
-            println("Debug end")
             val product = Product(namespace, programmingLanguage)
             val config =
                 CodegenConfigurator().apply {
