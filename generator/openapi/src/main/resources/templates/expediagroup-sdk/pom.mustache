@@ -20,6 +20,10 @@
         <name>EG SDK :: {{artifactId}}</name>
         <description>EG SDK :: {{artifactId}} v{{artifactVersion}}</description>
     {{/isExpediaGroup}}
+    {{#isXap}}
+        <name>EG XAP SDK for Java</name>
+        <description>EG XAP SDK v{{artifactVersion}}</description>
+    {{/isXap}}
 
     <artifactId>{{artifactId}}</artifactId>
     <version>${revision}</version>

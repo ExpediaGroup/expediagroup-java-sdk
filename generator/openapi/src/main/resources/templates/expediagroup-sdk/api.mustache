@@ -56,10 +56,10 @@ import com.expediagroup.sdk.core.model.Operation
             {{^hasPathParams}}
                 {{#isRapid}}
                     {{#isLinkable}}url(null, link, "{{{path}}}"),{{/isLinkable}}
-                    {{^isLinkable}}"{{{path}}}",{{/isLinkable}}
+                    {{^isLinkable}}"{{#removeLeadingSlashes}}{{{path}}}{{/removeLeadingSlashes}}",{{/isLinkable}}
                 {{/isRapid}}
                 {{^isRapid}}
-                    "{{{path}}}",
+                    "{{#removeLeadingSlashes}}{{{path}}}{{/removeLeadingSlashes}}",
                 {{/isRapid}}
             {{/hasPathParams}}
             "{{httpMethod}}",
@@ -117,10 +117,10 @@ import com.expediagroup.sdk.core.model.Operation
                                     {{/pathParams}}
                                 }
                                 val substitutor = StringSubstitutor(paramsMap, "{", "}")
-                                return substitutor.replace("{{{path}}}")
+                                return substitutor.replace("{{#removeLeadingSlashes}}{{{path}}}{{/removeLeadingSlashes}}")
                             {{/hasPathParams}}
                             {{^hasPathParams}}
-                                return "{{{path}}}"
+                                return "{{#removeLeadingSlashes}}{{{path}}}{{/removeLeadingSlashes}}"
                             {{/hasPathParams}}
                         }
                     }
@@ -129,7 +129,7 @@ import com.expediagroup.sdk.core.model.Operation
                     {{#hasPathParams}}
                         companion object {
                             fun url(params: {{classname}}Params) : String {
-                                val url = "{{{path}}}"
+                                val url = "{{#removeLeadingSlashes}}{{{path}}}{{/removeLeadingSlashes}}"
                                 val substitutor = StringSubstitutor(params.getPathParams(), "{", "}")
                                 return substitutor.replace(url)
                             }
@@ -140,11 +140,13 @@ import com.expediagroup.sdk.core.model.Operation
         {{/isRapid}}
         {{^isRapid}}
             {{#hasPathParams}}
-                companion object {
-                    fun url(params: {{classname}}Params) : String {
-                        val url = "{{{path}}}"
-                        val substitutor = StringSubstitutor(params.getPathParams(), "{", "}")
-                        return substitutor.replace(url)
+                {
+                    companion object {
+                        fun url(params: {{classname}}Params) : String {
+                            val url = "{{#removeLeadingSlashes}}{{{path}}}{{/removeLeadingSlashes}}"
+                            val substitutor = StringSubstitutor(params.getPathParams(), "{", "}")
+                            return substitutor.replace(url)
+                        }
                     }
                 }
             {{/hasPathParams}}

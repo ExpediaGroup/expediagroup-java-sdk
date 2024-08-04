@@ -93,7 +93,12 @@ class OpenApiSdkGenerator {
                     addGlobalProperty(CodegenConstants.MODELS, "")
                     addGlobalProperty(CodegenConstants.MODEL_DOCS, "false")
 
-                    supportingFiles.add("${namespace}Client.kt")
+                    supportingFiles.add("${namespace.replaceFirstChar(Char::titlecase)}Client.kt")
+                    if (ProductFamily.isXap(product.namespace)) {
+                        supportingFiles.add("GetLodgingListingsOperationParams.kt")
+                        supportingFiles.add("Room.kt")
+                    }
+
                     addGlobalProperty(CodegenConstants.SUPPORTING_FILES, supportingFiles.joinToString(","))
                     // addGlobalProperty("debugSupportingFiles", "")
 
@@ -112,6 +117,7 @@ class OpenApiSdkGenerator {
                     addAdditionalProperty("isKotlin", ProgrammingLanguage.isKotlin(product.programmingLanguage))
                     addAdditionalProperty("isRapid", ProductFamily.isRapid(product.namespace))
                     addAdditionalProperty("isExpediaGroup", ProductFamily.isExpediaGroup(product.namespace))
+                    addAdditionalProperty("isXap", ProductFamily.isXap(product.namespace))
 
                     // Mustache Helpers
                     mustacheHelpers.forEach { (name, function) -> addAdditionalProperty(name, function()) }
@@ -130,7 +136,7 @@ class OpenApiSdkGenerator {
                                 SupportingFile(
                                     "client.mustache",
                                     "$packagePath/client/",
-                                    "${namespace}Client.kt"
+                                    "${namespace.replaceFirstChar(Char::titlecase)}Client.kt"
                                 )
                             )
                             add(SupportingFile("pom.mustache", "pom.xml"))
@@ -184,6 +190,24 @@ class OpenApiSdkGenerator {
                                         "linkable_operation.mustache",
                                         "$packagePath/operations/",
                                         "LinkableOperation.kt"
+                                    )
+                                )
+                            }
+
+                            if (ProductFamily.isXap(product.namespace)) {
+                                add(
+                                    SupportingFile(
+                                        "xap/get_lodging_listings_operation_params.mustache",
+                                        "$packagePath/operations/",
+                                        "GetLodgingListingsOperationParams.kt"
+                                    )
+                                )
+
+                                add(
+                                    SupportingFile(
+                                        "xap/room.mustache",
+                                        "$packagePath/models/",
+                                        "Room.kt"
                                     )
                                 )
                             }
