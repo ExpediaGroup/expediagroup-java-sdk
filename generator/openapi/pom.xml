@@ -73,7 +73,7 @@
 
         <!-- Plugin Versions -->
         <exec-maven-plugin.version>3.3.0</exec-maven-plugin.version>
-<!--        <ktlint-plugin.version>3.2.0</ktlint-plugin.version>-->
+        <ktlint-plugin.version>3.2.0</ktlint-plugin.version>
         <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
         <maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
         <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
@@ -249,19 +249,19 @@
                 </plugin>
 
                 <!-- Configure Kotlin Linting -->
-<!--                <plugin>-->
-<!--                    <groupId>com.github.gantsign.maven</groupId>-->
-<!--                    <artifactId>ktlint-maven-plugin</artifactId>-->
-<!--                    <version>${ktlint-plugin.version}</version>-->
-<!--                    <executions>-->
-<!--                        <execution>-->
-<!--                            <id>check</id>-->
-<!--                            <goals>-->
-<!--                                <goal>check</goal>-->
-<!--                            </goals>-->
-<!--                        </execution>-->
-<!--                    </executions>-->
-<!--                </plugin>-->
+                <plugin>
+                    <groupId>com.github.gantsign.maven</groupId>
+                    <artifactId>ktlint-maven-plugin</artifactId>
+                    <version>${ktlint-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>check</id>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
 
                 <!-- Add Licence Header-->
                 <plugin>
@@ -419,10 +419,10 @@
             </plugin>
 
             <!-- Lint the sources -->
-<!--            <plugin>-->
-<!--                <groupId>com.github.gantsign.maven</groupId>-->
-<!--                <artifactId>ktlint-maven-plugin</artifactId>-->
-<!--            </plugin>-->
+            <plugin>
+                <groupId>com.github.gantsign.maven</groupId>
+                <artifactId>ktlint-maven-plugin</artifactId>
+            </plugin>
         </plugins>
     </build>
 
