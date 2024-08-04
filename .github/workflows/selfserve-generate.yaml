@@ -21,13 +21,16 @@ on:
         type: string
 
 jobs:
-  prepares:
+  prepare:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           repository: 'ExpediaGroup/expediagroup-java-sdk'
           path: sdk-repo
+
+      - name: List directory contents
+        run: ls -R sdk-repo
 
       - uses: actions/download-artifact@v4
         with:
@@ -36,7 +39,7 @@ jobs:
 
 
   generate:
-    needs: [prepares]
+    needs: [prepare]
     runs-on: ubuntu-latest
     steps:
       - name: Set up JDK 21
@@ -44,6 +47,9 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
+
+      - name: List directory contents
+        run: ls -R sdk-repo
 
       - name: generate
         working-directory: sdk-repo/generator/openapi
