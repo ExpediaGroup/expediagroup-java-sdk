@@ -17,12 +17,10 @@ on:
         type: string
       specs_key:
         description: 'Key to the transformed and ready to use specs artifact and name (without extension, e.g. specs, the file is expected to have the extension .yaml)'
-        required: true
         default: 'specs'
         type: string
       sdk_key:
         description: 'Key to the generated SDK artifact'
-        required: true
         default: 'sdk'
         type: string
 
