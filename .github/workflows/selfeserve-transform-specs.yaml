@@ -10,7 +10,7 @@ on:
       transformations:
         description: 'Spec Transformer CLI Configurations'
         type: string
-        default: --headers --operationIdsToTags
+        default: '--headers --operationIdsToTags'
       transformed_specs_key:
         description: 'Key to the transformed specs artifact and name (without extension, e.g. tspecs, the file will have the extension .yaml)'
         type: string
