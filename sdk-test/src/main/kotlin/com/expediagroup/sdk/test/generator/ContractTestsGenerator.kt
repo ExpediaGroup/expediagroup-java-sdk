@@ -15,6 +15,8 @@
  */
 package com.expediagroup.sdk.test.generator
 
+import com.expediagroup.sdk.test.generator.extension.toSpecmaticFeature
+import com.expediagroup.sdk.test.generator.model.TestCaseApiCall
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.rvesse.airline.SingleCommand
 import com.github.rvesse.airline.annotations.Command
@@ -68,15 +70,18 @@ class ContractTestsGenerator : SpecmaticContractTest {
         feature.scenarios.forEach { scenario: Scenario ->
             scenario.generateTestScenarios(feature.flagsBased).iterator().apply {
                 IntRange(0, maxTestCombinations).forEach { counter: Int ->
-                    if (!hasNext()) {
+                    if (hasNext().not()) {
                         return@forEach
                     }
+
                     next().ifValue { scenario ->
-                        scenario.writeTo(
-                            outputDir = outputDir,
-                            mapper = mapper,
-                            filenameSuffix = "-$counter"
-                        )
+                        TestCaseApiCall.from(scenario).apply {
+                            writeTo(
+                                outputDir = outputDir,
+                                mapper = mapper,
+                                filenameSuffix = "-$counter"
+                            )
+                        }
                     }
                 }
             }
