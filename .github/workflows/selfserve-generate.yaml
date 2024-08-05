@@ -11,25 +11,33 @@ on:
         description: 'SDK Version'
         required: true
         type: string
-      specs_key:
-        description: 'Key to the transformed specs artifact and name (without extension, e.g. specs, the file is expected to have the extension .yaml)'
-        required: true
-        type: string
       templates:
         description: 'Path to the templates directory'
         required: true
+        type: string
+      specs_key:
+        description: 'Key to the transformed and ready to use specs artifact and name (without extension, e.g. specs, the file is expected to have the extension .yaml)'
+        required: true
+        default: 'specs'
+        type: string
+      sdk_key:
+        description: 'Key to the generated SDK artifact'
+        required: true
+        default: 'sdk'
         type: string
 
 jobs:
   generate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout EG SDK repository
+        uses: actions/checkout@v4
         with:
           repository: 'ExpediaGroup/expediagroup-java-sdk'
           path: sdk-repo
 
-      - uses: actions/download-artifact@v4
+      - name: Download specs
+        uses: actions/download-artifact@v4
         with:
           name: ${{ inputs.specs_key }}
           path: sdk-repo/generator/openapi
@@ -40,24 +48,20 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
-      - name: generate
+      - name: Generate Product SDK
         working-directory: sdk-repo/generator/openapi
         run: |
           mvn clean install exec:java "-Dnamespace=${{ inputs.name }}" -DsdkVersion=${{ inputs.version }} "-Dspec=./${{ inputs.specs_key }}.yaml" -DtemplatesDir="${{ inputs.templates }}"
 
-      - name: install SDK
+      - name: Install SDK
         working-directory: sdk-repo/generator/openapi/target/sdk
         run: |
           mvn clean install
 
-      - uses: actions/upload-artifact@v4
+      - name: Persist SDK artifact
+        uses: actions/upload-artifact@v4
         with:
-          name: sdk
+          name: ${{ inputs.sdk_key }}
           path: |
             sdk-repo/generator/openapi/target/sdk
             !sdk-repo/generator/openapi/target/sdk/target
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: docs
-          path: sdk-repo/generator/openapi/target/sdk/target/dokka
