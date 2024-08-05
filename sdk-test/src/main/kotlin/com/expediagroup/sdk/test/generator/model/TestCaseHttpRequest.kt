@@ -11,7 +11,10 @@ data class TestCaseHttpRequest(
     @JsonProperty val path: String? = "",
     @JsonProperty val headers: Map<String, String>? = emptyMap(),
     @JsonProperty val body: String? = "",
-    @JsonProperty val pathParams: Map<String, Any>? = emptyMap()
+    @JsonProperty val pathParams: Map<String, Any>? = emptyMap(),
+    @JsonProperty val queryParams: Map<String, Any>? = emptyMap(),
+    @JsonProperty val formFields: Map<String, String>? = emptyMap(),
+    @JsonProperty val multiPartFormData: Map<String, String>? = emptyMap()
 ) {
     companion object {
         private val ignoreHeaders =
@@ -32,12 +35,12 @@ data class TestCaseHttpRequest(
             }
 
             val pathParams = ExtractPathParamsFunc.invoke(scenario, request)
-            println(request.headers.filterKeys { ignoreHeaders.contains(it).not() })
             return TestCaseHttpRequest(
                 method = request.method,
                 path = ParamsBasedPathSanitizationFunc.invoke(request.path!!, pathParams),
                 headers = request.headers.filterKeys { ignoreHeaders.contains(it).not() },
-                body = request.bodyString
+                body = request.bodyString,
+                queryParams = request.queryParams.asMap()
             )
         }
     }
