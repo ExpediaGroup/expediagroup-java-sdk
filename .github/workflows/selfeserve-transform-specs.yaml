@@ -4,8 +4,8 @@ on:
     inputs:
       specs_key:
         description: 'Key to the transformed and ready to use specs artifact and name (without extension, e.g. specs, the file is expected to have the extension .yaml)'
-        default: 'specs'
         type: string
+        default: 'specs'
       transformations:
         description: 'Spec Transformer CLI Configurations'
         type: string
