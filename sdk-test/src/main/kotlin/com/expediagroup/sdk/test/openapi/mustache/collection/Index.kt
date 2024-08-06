@@ -8,12 +8,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.test.openapi.mustache
+package com.expediagroup.sdk.test.openapi.mustache.collection
 
-import com.expediagroup.sdk.test.openapi.mustache.collection.collectionHelpers
-import com.expediagroup.sdk.test.openapi.mustache.string.stringsHelpers
-import com.samskivert.mustache.Mustache
-
-val helpers: Map<String, Mustache.Lambda> =
-    stringsHelpers
-        .plus(collectionHelpers)
+val collectionHelpers =
+    mapOf(
+        "isCollectionEmpty" to isCollectionEmpty
+    )
