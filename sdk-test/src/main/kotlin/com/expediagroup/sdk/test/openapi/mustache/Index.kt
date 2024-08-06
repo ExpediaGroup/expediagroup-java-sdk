@@ -15,5 +15,4 @@ import com.expediagroup.sdk.test.openapi.mustache.string.stringsHelpers
 import com.samskivert.mustache.Mustache
 
 val helpers: Map<String, Mustache.Lambda> =
-    stringsHelpers
-        .plus(collectionHelpers)
+    stringsHelpers.plus(collectionHelpers)
