@@ -1,4 +1,4 @@
-package com.expediagroup.sdk.test.generator.function
+package com.expediagroup.sdk.test.contract.function
 
 import io.specmatic.core.HttpRequest
 import io.specmatic.core.Scenario
@@ -20,7 +20,8 @@ class ExtractPathParamsFunc : (Scenario, HttpRequest) -> Map<String, Any> {
             if (originalPath.size.equals(resolvedPath.size).not()) {
                 return@apply
             }
-
+//            omar/google/(company:string)
+//            omar/google/aws
             originalPath.forEachIndexed { index, _ ->
                 val originalPathSegment = originalPath[index]
                 val resolvedPathSegment = resolvedPath[index]

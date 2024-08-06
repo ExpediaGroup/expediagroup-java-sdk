@@ -1,4 +1,4 @@
-package com.expediagroup.sdk.test.generator.function
+package com.expediagroup.sdk.test.contract.function
 
 class ParamsBasedPathSanitizationFunc : (String, Map<String, Any>) -> String {
     companion object {

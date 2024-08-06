@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.test.generator
+package com.expediagroup.sdk.test.contract
 
 val SPECMATIC_CONFIG =
     mapOf(

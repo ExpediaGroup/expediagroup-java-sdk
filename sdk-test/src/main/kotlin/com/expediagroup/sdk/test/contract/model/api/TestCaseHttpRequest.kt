@@ -1,12 +1,22 @@
-package com.expediagroup.sdk.test.generator.model
+/* You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.expediagroup.sdk.test.contract.model.api
 
-import com.expediagroup.sdk.test.generator.function.ExtractPathParamsFunc
-import com.expediagroup.sdk.test.generator.function.ParamsBasedPathSanitizationFunc
+import com.expediagroup.sdk.test.contract.function.ExtractPathParamsFunc
+import com.expediagroup.sdk.test.contract.function.ParamsBasedPathSanitizationFunc
 import com.fasterxml.jackson.annotation.JsonProperty
 import io.specmatic.core.HttpRequest
 import io.specmatic.core.Scenario
 
-data class TestCaseHttpRequest(
+class TestCaseHttpRequest(
     @JsonProperty val method: String? = "",
     @JsonProperty val path: String? = "",
     @JsonProperty val headers: Map<String, String>? = emptyMap(),
