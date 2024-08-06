@@ -74,13 +74,16 @@ class OpenApiSdkGenerator {
     @Option(name = ["-l", "--language"])
     lateinit var programmingLanguage: String
 
+    @Option(name = ["-t", "--templates-dir"])
+    lateinit var templateDir: String
+
     fun run() {
         try {
             val product = Product(namespace, programmingLanguage)
             val config =
                 CodegenConfigurator().apply {
                     setGeneratorName("kotlin")
-                    setTemplateDir("templates/expediagroup-sdk")
+                    setTemplateDir(templateDir)
                     setInputSpec(inputFile)
                     setOutputDir(outputDirectory)
                     setArtifactId(product.artifactId)
