@@ -87,7 +87,7 @@ class OpenApiSdkGenerator {
                 CodegenConfigurator().apply {
                     setGeneratorName("kotlin")
                     setTemplateDir(templateDir)
-                    setInputSpec("/Users/mabukhlaif/IdeaProjects/expediagroup-java-sdk/specs.yaml")
+                    setInputSpec(inputFile)
                     setOutputDir(outputDirectory)
                     setArtifactId(product.artifactId)
                     setArtifactVersion(version)
