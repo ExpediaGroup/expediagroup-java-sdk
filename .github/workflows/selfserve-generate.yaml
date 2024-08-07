@@ -45,10 +45,6 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
-      - name: Confirm templates exist
-        run: |
-          ls ${{ inputs.templates }}
-
       - name: Generate Product SDK
         run: |
           mvn -f sdk-repo/generator/openapi clean install exec:java "-Dnamespace=${{ inputs.name }}" -DsdkVersion=${{ inputs.version }} "-Dspec=./${{ inputs.specs_key }}.yaml" -DtemplatesDir=./${{ inputs.templates }}
