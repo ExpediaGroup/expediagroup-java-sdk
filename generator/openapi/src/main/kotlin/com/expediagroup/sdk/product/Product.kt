@@ -19,10 +19,12 @@ val NON_ALPHANUMERIC_REGEX = Regex("[^a-zA-Z0-9]")
 
 class Product(
     inputNamespace: String,
+    val repoName: String,
     val programmingLanguage: ProgrammingLanguage = ProgrammingLanguage.JAVA
 ) {
-    constructor(inputNamespace: String, programmingLanguage: String = "java") : this(
+    constructor(inputNamespace: String, repoName: String, programmingLanguage: String = "java") : this(
         inputNamespace,
+        repoName,
         ProgrammingLanguage.from(programmingLanguage)
     )
 
