@@ -53,7 +53,7 @@ jobs:
       - name: Generate Product SDK
         working-directory: sdk-repo/generator/openapi
         run: |
-          mvn clean install exec:java "-Dnamespace=${{ inputs.name }}" -DsdkVersion=${{ inputs.version }} "-Dspec=./${{ inputs.specs_key }}.yaml" -DtemplatesDir="${{ inputs.templates }}"
+          mvn clean install exec:java "-Dnamespace=${{ inputs.name }}" -DsdkVersion=${{ inputs.version }} "-Dspec=./${{ inputs.specs_key }}.yaml" -DtemplatesDir=./${{ inputs.templates }}
 
       - name: Install SDK
         working-directory: sdk-repo/generator/openapi/target/sdk
