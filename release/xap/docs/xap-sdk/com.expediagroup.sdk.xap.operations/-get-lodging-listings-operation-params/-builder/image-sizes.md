@@ -1,0 +1,15 @@
+//[xap-sdk](../../../../index.md)/[com.expediagroup.sdk.xap.operations](../../index.md)/[GetLodgingListingsOperationParams](../index.md)/[Builder](index.md)/[imageSizes](image-sizes.md)
+
+# imageSizes
+
+[JVM]\
+
+public final [GetLodgingListingsOperationParams.Builder](index.md)[imageSizes](image-sizes.md)([GetLodgingListingsOperationParams.ImageSizes](../-image-sizes/index.md)imageSizes)
+
+#### Parameters
+
+JVM
+
+| | |
+|---|---|
+| imageSizes | Indicates what size images will be displayed for `hotelPhotos` and `roomPhotos` are returned when `contentDetails=high`.  The available image sizes are: - t : Thumbnail - s : Small - b : Big - y : 500x500v - z : 1000x1000v  Resolution from smallest to largest is t < s < b < y < z.  If no `imageSizes` is specified, the t size images will be returned.  If an image is missing in one size, we will try to fall back to the same image with lower resolution.  (If image \&quot;_z\&quot; is not available, we will try to return image \&quot;_y\&quot;, and if it is also unavailable, we will return image \&quot;_b\&quot;, and so on.)  Only one image size is allowed. |

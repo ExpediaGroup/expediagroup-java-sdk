@@ -1,0 +1,17 @@
+//[xap-sdk](../../../index.md)/[com.expediagroup.sdk.xap.models](../index.md)/[HotelLinksWebSearchResult](index.md)/[HotelLinksWebSearchResult](-hotel-links-web-search-result.md)
+
+# HotelLinksWebSearchResult
+
+[JVM]\
+
+public [HotelLinksWebSearchResult](index.md)[HotelLinksWebSearchResult](-hotel-links-web-search-result.md)([String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)method, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)href, [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)accept)
+
+#### Parameters
+
+JVM
+
+| | |
+|---|---|
+| method | Method of request. |
+| href | The URL of the destination web page or API query. |
+| accept | The Accept request header (for API queries only - not included for page URLs). |
