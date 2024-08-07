@@ -46,6 +46,10 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
+      - name: Confirm templates exist
+        run: |
+          ls ${{ inputs.templates }}
+
       - name: Generate Product SDK
         working-directory: sdk-repo/generator/openapi
         run: |
