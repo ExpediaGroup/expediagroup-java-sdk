@@ -92,6 +92,7 @@ jobs:
       version: ${{ inputs.sdk_version }}
       namespace: ${{ inputs.sdk_namespace }}
       endpoint_prefix: ${{ inputs.endpoint_prefix }}
+
     secrets: inherit
   run-rapid-examples:
     if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
@@ -101,6 +102,7 @@ jobs:
       sdk_version: ${{ needs.generate-test-sdk.outputs.version }}
       jdk: ${{ inputs.jdk }}
       sdk_generation_workflow_run_id: ${{ github.run_id }}
+      specs_url: ${{ inputs.specs_url }}
     secrets:
       KEY: ${{ secrets.RAPID_KEY }}
       SECRET: ${{ secrets.RAPID_SECRET }}
