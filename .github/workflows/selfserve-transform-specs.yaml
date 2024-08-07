@@ -4,15 +4,14 @@ on:
     inputs:
       specs_key:
         description: 'Key to the specs artifact and name (without extension, e.g. specs, the file is expected to have the extension .yaml)'
-        required: true
         type: string
+        default: 'specs'
       transformations:
         description: 'Spec Transformer CLI Configurations'
         type: string
         required: true
       transformed_specs_key:
         description: 'Key to the transformed specs artifact and name (without extension, e.g. tspecs, the file is expected to have the extension .yaml)'
-        required: true
         type: string
         default: 'tspecs'
 
