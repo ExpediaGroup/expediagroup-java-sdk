@@ -24,7 +24,7 @@ jobs:
           name: ${{ inputs.specs_key }}
 
       - run: |
-          npx --yes -p @expediagroup/spec-transformer cli ${{ inputs.configurations }} -i ${{ inputs.specs_key }}.yaml -o ${{ inputs.transformed_specs_key }}.yaml
+          npx --yes -p @expediagroup/spec-transformer cli ${{ inputs.transformations }} -i ${{ inputs.specs_key }}.yaml -o ${{ inputs.transformed_specs_key }}.yaml
 
       - uses: actions/upload-artifact@v4
         with:
