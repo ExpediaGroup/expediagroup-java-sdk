@@ -1,8 +1,5 @@
 name: Run Tests
-on:
-  pull_request:
-    branches:
-      - *
+on: push
 
 jobs: 
   run-rapid-tests:
