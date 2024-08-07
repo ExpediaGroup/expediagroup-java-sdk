@@ -38,7 +38,6 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: ${{ inputs.specs_key }}
-          path: sdk-repo/generator/openapi
 
       - name: Set up JDK 21
         uses: actions/setup-java@v4
@@ -51,9 +50,8 @@ jobs:
           ls ${{ inputs.templates }}
 
       - name: Generate Product SDK
-        working-directory: sdk-repo/generator/openapi
         run: |
-          mvn clean install exec:java "-Dnamespace=${{ inputs.name }}" -DsdkVersion=${{ inputs.version }} "-Dspec=./${{ inputs.specs_key }}.yaml" -DtemplatesDir=./${{ inputs.templates }}
+          mvn -f sdk-repo/generator/openapi clean install exec:java "-Dnamespace=${{ inputs.name }}" -DsdkVersion=${{ inputs.version }} "-Dspec=./${{ inputs.specs_key }}.yaml" -DtemplatesDir=./${{ inputs.templates }}
 
       - name: Install SDK
         working-directory: sdk-repo/generator/openapi/target/sdk
