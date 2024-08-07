@@ -14,7 +14,7 @@ on:
         description: 'Endpoint to prepend specs paths with'
         required: true
         type: string
-    specs_url:
+      specs_url:
         description: 'Run tests based on specs'
         required: true
         type: string
