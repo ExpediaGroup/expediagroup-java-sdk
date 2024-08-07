@@ -65,7 +65,7 @@ on:
         description: 'JDK version to use'
         required: true
         type: string
-        default: '17'
+        default: '21'
       endpoint_prefix:
         description: 'Endpoint to prepend specs paths with'
         required: true
