@@ -1,4 +1,4 @@
-name: Run Tests
+name: PR Check Tests Run
 on: push
 
 jobs:
