@@ -20,3 +20,4 @@ jobs:
         with:
           name: specs
           path: specs.yaml
+          overwrite: true
