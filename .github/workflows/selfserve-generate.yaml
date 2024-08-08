@@ -61,3 +61,4 @@ jobs:
           path: |
             sdk-repo/generator/openapi/target/sdk
             !sdk-repo/generator/openapi/target/sdk/target
+          overwrite: true
