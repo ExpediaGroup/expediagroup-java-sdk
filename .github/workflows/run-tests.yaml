@@ -95,7 +95,7 @@ jobs:
       specs_url: ${{ inputs.specs_url }}
     secrets: inherit
   run-rapid-examples:
-    if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
+    if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled') && inputs.sdk_namespace == 'rapid'
     needs: [ generate-test-sdk ]
     uses: "ExpediaGroup/rapid-java-sdk/.github/workflows/run-examples.yaml@main"
     with:
