@@ -1,15 +1,19 @@
 name: Run Tests
 on: push
 
-jobs: 
-  run-rapid-tests-21:
+jobs:
+  run-rapid-tests:
+    strategy:
+      matrix:
+        jdk: [8, 11, 17, 21]
+      fail-fast: true
+      max-parallel: 1
     uses: ./.github/workflows/run-tests.yaml
     with:
       source: 'specs'
       specs_url: 'https://ewe-assets.s3.amazonaws.com/developer-tools/api/rapid/v3/specs.yaml'
       sdk_version: 1.0.${{ github.run_id }}
       sdk_namespace: 'rapid'
-      jdk: 21
+      jdk: ${{ matrix.jdk }}
       endpoint_prefix: '/v3'
     secrets: inherit
-    
