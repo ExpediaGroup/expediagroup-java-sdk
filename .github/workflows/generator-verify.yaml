@@ -27,6 +27,7 @@ jobs:
         with:
           name: sdk
           path: generator/openapi/target/sdk
+          overwrite: true
   verify-generated-sdk:
     runs-on: ubuntu-latest
     needs: generate-sdk
