@@ -11,3 +11,5 @@ jobs:
       sdk_namespace: 'rapid'
       jdk: 21
       endpoint_prefix: '/v3'
+    secrets: inherit
+    
