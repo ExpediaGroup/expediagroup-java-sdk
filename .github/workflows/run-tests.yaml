@@ -97,7 +97,7 @@ jobs:
   run-rapid-examples:
     if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
     needs: [ generate-test-sdk ]
-    uses: "ExpediaGroup/rapid-java-sdk/.github/workflows/run-examples.yaml@OmarAlJarrah/fix-failing-run-examples-workflow"
+    uses: "ExpediaGroup/rapid-java-sdk/.github/workflows/run-examples.yaml@main"
     with:
       sdk_version: ${{ needs.generate-test-sdk.outputs.version }}
       jdk: ${{ inputs.jdk }}
