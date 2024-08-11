@@ -74,13 +74,19 @@ class OpenApiSdkGenerator {
     @Option(name = ["-l", "--language"])
     lateinit var programmingLanguage: String
 
+    @Option(name = ["-t", "--templates-dir"])
+    lateinit var templateDir: String
+
+    @Option(name = ["-r", "--repo-name"])
+    lateinit var repoName: String
+
     fun run() {
         try {
-            val product = Product(namespace, programmingLanguage)
+            val product = Product(namespace, repoName, programmingLanguage)
             val config =
                 CodegenConfigurator().apply {
                     setGeneratorName("kotlin")
-                    setTemplateDir("templates/expediagroup-sdk")
+                    setTemplateDir(templateDir)
                     setInputSpec(inputFile)
                     setOutputDir(outputDirectory)
                     setArtifactId(product.artifactId)
@@ -109,6 +115,7 @@ class OpenApiSdkGenerator {
                     addAdditionalProperty("namespace", product.namespace)
                     addAdditionalProperty("clientClassname", namespace.pascalCase())
                     addAdditionalProperty("language", product.programmingLanguage.id)
+                    addAdditionalProperty("repoName", product.repoName)
                     addAdditionalProperty("isKotlin", ProgrammingLanguage.isKotlin(product.programmingLanguage))
                     addAdditionalProperty("isRapid", ProductFamily.isRapid(product.namespace))
                     addAdditionalProperty("isExpediaGroup", ProductFamily.isExpediaGroup(product.namespace))
