@@ -41,7 +41,7 @@ jobs:
           cp -r ./sdk-repo/generator/sdk/src ${{ inputs.path }}/src
           cp ./sdk-repo/generator/sdk/pom.xml ${{ inputs.path }}/src
           cp ./sdk-repo/generator/sdk/README.md ${{ inputs.path }}/src
-          cp ./${{ inputs.specs_key }}.yaml ${{ inputs.path }}/specs.yaml
+          cp ./${{ inputs.specs_key }}.yaml ${{ inputs.path }}/${{ inputs.specs_key }}.yaml
 
       - name: Create PR
         uses: peter-evans/create-pull-request@v6
