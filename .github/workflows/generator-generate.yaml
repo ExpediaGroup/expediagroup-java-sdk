@@ -41,13 +41,16 @@ jobs:
           path: |
             generator/openapi/target/sdk
             !generator/openapi/target/sdk/target
+          overwrite: true
       - uses: actions/upload-artifact@v4
         with:
           name: jar
           path: |
             generator/openapi/target/sdk/target/*.jar
             generator/openapi/target/sdk/target/maven-archiver/pom.properties
+          overwrite: true
       - uses: actions/upload-artifact@v4
         with:
           name: docs
           path: generator/openapi/target/sdk/target/dokka
+          overwrite: true
