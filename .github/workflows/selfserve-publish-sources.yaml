@@ -38,12 +38,13 @@ jobs:
           rm -rf ${{ inputs.path }}
           mkdir -p ${{ inputs.path }}
 
-          ls -la -R
+          echo "${{ inputs.specs_key }}"
+          ls -la -R sdk-repo/generator/
 
-          cp -r ./src ${{ inputs.path }}/src
-          cp ./pom.xml ${{ inputs.path }}/src
-          cp ./README.md ${{ inputs.path }}/src
-          cp ./${{ inputs.specs_key }}.yaml ${{ inputs.path }}/${{ inputs.specs_key }}.yaml
+          cp -r ./sdk-repo/generator/sdk/src ${{ inputs.path }}/src
+          cp ./sdk-repo/generator/sdk/pom.xml ${{ inputs.path }}/src
+          cp ./sdk-repo/generator/sdk/README.md ${{ inputs.path }}/src
+          cp ./sdk-repo/generator/sdk/${{ inputs.specs_key }}.yaml ${{ inputs.path }}/${{ inputs.specs_key }}.yaml
 
       - name: Create PR
         uses: peter-evans/create-pull-request@v6
