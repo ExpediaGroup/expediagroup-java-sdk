@@ -38,6 +38,8 @@ jobs:
           rm -rf ${{ inputs.path }}
           mkdir -p ${{ inputs.path }}
 
+          ls -la -R
+
           cp -r ./src ${{ inputs.path }}/src
           cp ./pom.xml ${{ inputs.path }}/src
           cp ./README.md ${{ inputs.path }}/src
