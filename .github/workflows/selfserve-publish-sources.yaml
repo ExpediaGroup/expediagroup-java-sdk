@@ -42,9 +42,6 @@ jobs:
           rm -rf ${{ inputs.path }}
           mkdir -p ${{ inputs.path }}
 
-          echo "${{ inputs.specs_key }}"
-          ls -la -R
-
           cp -r ./sdk-repo/generator/sdk/src ${{ inputs.path }}/src
           cp ./sdk-repo/generator/sdk/pom.xml ${{ inputs.path }}/src
           cp ./sdk-repo/generator/sdk/README.md ${{ inputs.path }}/src
