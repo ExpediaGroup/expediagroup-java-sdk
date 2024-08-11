@@ -89,8 +89,8 @@ jobs:
     needs: [ inputs-validation ]
     uses: ./.github/workflows/generator-test-sdk.yaml
     with:
-      version: ${{ inputs.sdk_version }}
       namespace: ${{ inputs.sdk_namespace }}
+      version: ${{ inputs.sdk_version }}
       endpoint_prefix: ${{ inputs.endpoint_prefix }}
       specs_url: ${{ inputs.specs_url }}
     secrets: inherit
