@@ -32,14 +32,14 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: ${{ inputs.specs_key }}
-          path: ${{ inputs.specs_key }}
+          path: .
       - name: Add generated source code to the path
         run: |
           rm -rf ${{ inputs.path }}
           mkdir -p ${{ inputs.path }}
 
           echo "${{ inputs.specs_key }}"
-          ls -la -R sdk-repo/generator/
+          ls -la -R
 
           cp -r ./sdk-repo/generator/sdk/src ${{ inputs.path }}/src
           cp ./sdk-repo/generator/sdk/pom.xml ${{ inputs.path }}/src
