@@ -8,7 +8,7 @@ on:
         required: true
         type: string
       path:
-        description: 'Path to publish the source code to'
+        description: 'Path to publish the source code to. This should be a path of a directory where the source code will be published to'
         required: true
         type: string
       sdk_key:
@@ -19,6 +19,10 @@ on:
         description: 'Key to the transformed and ready to publish specs artifact and name (without extension, e.g. specs, the file is expected to have the extension .yaml)'
         default: 'tspecs'
         type: string
+      specs_path:
+        description: 'Path to publish the provided specs to. This should be a full path to the specs file, including the file name and extension (e.g., /path/to/specs.yaml)'
+        type: string
+        default: 'specs.yaml'
 
 jobs:
   publish:
@@ -44,7 +48,7 @@ jobs:
           cp -r ./sdk-repo/generator/sdk/src ${{ inputs.path }}/src
           cp ./sdk-repo/generator/sdk/pom.xml ${{ inputs.path }}/src
           cp ./sdk-repo/generator/sdk/README.md ${{ inputs.path }}/src
-          cp ./${{ inputs.specs_key }}.yaml ${{ inputs.path }}/${{ inputs.specs_key }}.yaml
+          cp ./${{ inputs.specs_key }}.yaml ./${{ inputs.specs_path }}
 
       - name: Create PR
         uses: peter-evans/create-pull-request@v6
@@ -54,3 +58,4 @@ jobs:
           title: "chore: Publish v${{ inputs.version }}"
           add-paths: |
             ${{ inputs.path }}/*
+            ${{ inputs.specs_path }}*
