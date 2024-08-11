@@ -1,6 +1,8 @@
 name: Generate and Publish Sources
+
 on:
   workflow_call:
+    inputs:
       version:
         description: 'SDK Version - A semantic SDK version, e.g., 1.0.0 or 1.0.0-SNAPSHOT'
         required: true
