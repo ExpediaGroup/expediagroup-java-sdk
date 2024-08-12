@@ -49,7 +49,7 @@ jobs:
     with:
       name: ${{ inputs.namespace }}
       version: ${{ inputs.version }}
-      templates: 'generator/openapi/src/main/resources/templates/expediagroup-sdk'
+      templates: 'sdk-repo/generator/openapi/src/main/resources/templates/expediagroup-sdk'
       specs_key: "tspecs-${{ inputs.namespace }}-${{ inputs.version }}-${{ inputs.jdk }}"
       sdk_key: "sdk-${{ inputs.namespace }}-${{ inputs.version }}-${{ inputs.jdk }}"
   sdk-metadata:
