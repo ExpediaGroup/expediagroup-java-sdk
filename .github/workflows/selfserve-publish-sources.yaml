@@ -17,7 +17,7 @@ on:
         type: string
       specs_key:
         description: 'Key to the transformed and ready to publish specs artifact and name (without extension, e.g. specs, the file is expected to have the extension .yaml)'
-        default: 'tspecs'
+        default: 'transformedSpecs'
         type: string
 
 jobs:
