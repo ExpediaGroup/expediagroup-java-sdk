@@ -14,37 +14,37 @@ on:
       repository: ${{ steps.read-config.outputs.repository }}
 
 jobs:
-    read-config:
-      runs-on: ubuntu-latest
-      outputs:
-        namespace: ${{ steps.read-config.outputs.namespace }}
-        endpoint_prefix: ${{ steps.read-config.outputs.endpoint_prefix }}
-        specs_url: ${{ steps.read-config.outputs.specs_url }}
-        repository: ${{ steps.read-config.outputs.repository }}
-      steps:
-      - uses: actions/checkout@v4
-      - id: read-config
-        working-directory: .github/resources
-        shell: python -u {0}
-        run: |
-          import json, os
+  read-config:
+    runs-on: ubuntu-latest
+    outputs:
+      namespace: ${{ steps.read-config.outputs.namespace }}
+      endpoint_prefix: ${{ steps.read-config.outputs.endpoint_prefix }}
+      specs_url: ${{ steps.read-config.outputs.specs_url }}
+      repository: ${{ steps.read-config.outputs.repository }}
+    steps:
+    - uses: actions/checkout@v4
+    - id: read-config
+      working-directory: .github/resources
+      shell: python -u {0}
+      run: |
+        import json, os
 
-          product = "${{ inputs.product }}"
-          namespace = ""
-          specs_url = ""
-          repository = ""
-          endpoint_prefix = ""
+        product = "${{ inputs.product }}"
+        namespace = ""
+        specs_url = ""
+        repository = ""
+        endpoint_prefix = ""
 
-          with open('products.json') as products:
-            config = json.load(products)[product]
+        with open('products.json') as products:
+          config = json.load(products)[product]
 
-            namespace = config.get("namespace", "")
-            specs_url = config.get("specs_url", "")
-            repository = config.get("repository", "")
-            endpoint_prefix = config.get("endpoint_prefix", "")
+          namespace = config.get("namespace", "")
+          specs_url = config.get("specs_url", "")
+          repository = config.get("repository", "")
+          endpoint_prefix = config.get("endpoint_prefix", "")
 
-          with open(os.getenv("GITHUB_OUTPUT"), "a+") as OUTPUT:
-            print(f"namespace={namespace}", file=OUTPUT)
-            print(f"specs_url={specs_url}", file=OUTPUT)
-            print(f"repository={repository}", file=OUTPUT)
-            print(f"endpoint_prefix={endpoint_prefix}", file=OUTPUT)
+        with open(os.getenv("GITHUB_OUTPUT"), "a+") as OUTPUT:
+          print(f"namespace={namespace}", file=OUTPUT)
+          print(f"specs_url={specs_url}", file=OUTPUT)
+          print(f"repository={repository}", file=OUTPUT)
+          print(f"endpoint_prefix={endpoint_prefix}", file=OUTPUT)
