@@ -35,6 +35,7 @@ jobs:
     needs: [ download-specs ]
     uses: ./.github/workflows/selfserve-transform-specs.yaml
     with:
+      specs_key: 'raw-specs'
       transformations: -th -te ${{ inputs.endpoint_prefix }} --operationIdsToTags
       transformed_specs_key: "tspecs-${{ inputs.namespace }}-${{ inputs.version }}-${{ inputs.jdk }}"
   generate-sdk:
