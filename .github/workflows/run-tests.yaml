@@ -63,17 +63,10 @@ on:
 
 jobs:
   read-config:
-    runs-on: ubuntu-latest
-    outputs:
-      namespace: ${{ steps.read-config.outputs.namespace }}
-      endpoint-prefix: ${{ steps.read-config.outputs.endpoint_prefix }}
-      specs_url: ${{ steps.read-config.outputs.specs_url }}
-      repository: ${{ steps.read-config.outputs.repository }}
-    steps:
-      - uses: ./.github/workflows/run-contract-tests.yaml
-        id: read-config
-        with:
-          product: ${{ inputs.product }}
+    uses: ./.github/workflows/read-config.yaml
+    with:
+      product: ${{ inputs.sdk_namespace }}
+
   generate-test-sdk:
     if: inputs.source == 'specs'
     needs: [ read-config ]
