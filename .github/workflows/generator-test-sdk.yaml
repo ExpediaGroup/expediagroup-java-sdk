@@ -18,11 +18,6 @@ on:
         description: 'Run tests based on specs'
         required: true
         type: string
-      jdk:
-        description: 'JDK version to use'
-        required: false
-        type: string
-        default: '21'
     outputs:
       artifactId:
         value: ${{ jobs.sdk-metadata.outputs.artifactId }}
@@ -42,7 +37,6 @@ jobs:
     with:
       specs_key: 'raw-specs'
       transformations: -th -te ${{ inputs.endpoint_prefix }} --operationIdsToTags
-      transformed_specs_key: "tspecs-${{ inputs.namespace }}-${{ inputs.version }}-${{ inputs.jdk }}"
   generate-sdk:
     needs: [ transform-specs ]
     uses: ./.github/workflows/selfserve-generate.yaml
@@ -50,8 +44,6 @@ jobs:
       name: ${{ inputs.namespace }}
       version: ${{ inputs.version }}
       templates: 'sdk-repo/generator/openapi/src/main/resources/templates/expediagroup-sdk'
-      specs_key: "tspecs-${{ inputs.namespace }}-${{ inputs.version }}-${{ inputs.jdk }}"
-      sdk_key: "sdk-${{ inputs.namespace }}-${{ inputs.version }}-${{ inputs.jdk }}"
   sdk-metadata:
     runs-on: ubuntu-latest
     needs: [ generate-sdk ]

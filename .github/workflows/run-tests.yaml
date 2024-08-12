@@ -61,11 +61,6 @@ on:
         required: true
         type: string
         default: 'rapid'
-      jdk:
-        description: 'JDK version to use'
-        required: true
-        type: string
-        default: '21'
       endpoint_prefix:
         description: 'Endpoint to prepend specs paths with'
         required: true
@@ -84,6 +79,7 @@ jobs:
           if 'sdk' in '${{ inputs.source }}' and not('${{ inputs.sdk_version }}'):
             print('::error::Invalid SDK version: ${{ inputs.sdk_version }}')
             exit(1)
+
   generate-test-sdk:
     if: inputs.source == 'specs'
     needs: [ inputs-validation ]
@@ -93,16 +89,17 @@ jobs:
       namespace: ${{ inputs.sdk_namespace }}
       endpoint_prefix: ${{ inputs.endpoint_prefix }}
       specs_url: ${{ inputs.specs_url }}
-      jdk: ${{ inputs.jdk }}
     secrets: inherit
   run-rapid-examples:
+    strategy:
+      matrix:
+        jdk: [8, 11, 17, 21]
     if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled') && inputs.sdk_namespace == 'rapid'
     needs: [ generate-test-sdk ]
-    uses: "ExpediaGroup/rapid-java-sdk/.github/workflows/run-examples.yaml@OmarAlJarrah/migrate-run-examples-workflow-to-new-selfserve-"
+    uses: "ExpediaGroup/rapid-java-sdk/.github/workflows/run-examples.yaml@main"
     with:
       sdk_version: ${{ needs.generate-test-sdk.outputs.version }}
       jdk: ${{ inputs.jdk }}
-      sdk_key: "sdk-${{ inputs.sdk_namespace }}-${{ inputs.sdk_version }}-${{ inputs.jdk }}"
     secrets:
       KEY: ${{ secrets.RAPID_KEY }}
       SECRET: ${{ secrets.RAPID_SECRET }}
