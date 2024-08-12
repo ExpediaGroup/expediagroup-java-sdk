@@ -23,4 +23,3 @@ jobs:
         with:
           name: raw-specs
           path: raw-specs.yaml
-          overwrite: true

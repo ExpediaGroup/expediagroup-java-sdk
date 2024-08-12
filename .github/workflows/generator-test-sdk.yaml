@@ -18,6 +18,11 @@ on:
         description: 'Run tests based on specs'
         required: true
         type: string
+      jdk:
+        description: 'JDK version to use'
+        required: false
+        type: string
+        default: '21'
     outputs:
       artifactId:
         value: ${{ jobs.sdk-metadata.outputs.artifactId }}

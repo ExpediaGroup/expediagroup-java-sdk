@@ -93,6 +93,7 @@ jobs:
       namespace: ${{ inputs.sdk_namespace }}
       endpoint_prefix: ${{ inputs.endpoint_prefix }}
       specs_url: ${{ inputs.specs_url }}
+      jdk: ${{ inputs.jdk }}
     secrets: inherit
   run-rapid-examples:
     if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled') && inputs.sdk_namespace == 'rapid'
