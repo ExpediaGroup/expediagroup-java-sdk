@@ -79,7 +79,7 @@ jobs:
 
           product: dict
           with open('.github/resources/products.json') as products:
-            product = json.load(f).get("${{ inputs.product }}")
+            product = json.load(products).get("${{ inputs.product }}")
 
           if not product:
             print("::error::Invalid product: ${{ inputs.product }}")
