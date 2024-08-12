@@ -19,7 +19,7 @@ jobs:
         with:
           name: raw-specs
       - uses: actions/upload-artifact@v4
-        if: steps.check_artifact_exists.outputs.exists == 'true'
+        if: steps.check_artifact_exists.outputs.exists == 'false'
         with:
           name: raw-specs
           path: raw-specs.yaml
