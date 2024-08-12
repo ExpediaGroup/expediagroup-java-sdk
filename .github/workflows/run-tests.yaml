@@ -65,7 +65,7 @@ jobs:
   read-config:
     uses: ./.github/workflows/read-config.yaml
     with:
-      product: ${{ inputs.sdk_namespace }}
+      product: ${{ inputs.product }}
   generate-test-sdk:
     if: inputs.source == 'specs'
     needs: [ read-config ]
