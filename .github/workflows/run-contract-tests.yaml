@@ -7,6 +7,16 @@ on:
         required: true
         type: string
         default: '21'
+      source:
+        description: 'Specs or SDK'
+        required: true
+        type: string
+        default: 'sdk'
+      version:
+        description: 'SDK version to test'
+        required: true
+        type: string
+        default: 'LATEST'
     secrets:
       KEY:
         required: true
@@ -27,6 +37,7 @@ jobs:
         with:
           name: 'specs'
           path: 'specs'
+#      - name
       - name: "Run Mock Server"
         run: npx specmatic stub specs/specs.yaml
       - name: "Run Contract Tests"
