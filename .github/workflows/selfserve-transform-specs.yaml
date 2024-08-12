@@ -11,9 +11,9 @@ on:
         type: string
         required: true
       transformed_specs_key:
-        description: 'Key to the transformed specs artifact and name (without extension, e.g. tspecs, the file is expected to have the extension .yaml)'
+        description: 'Key to the transformed specs artifact and name (without extension, e.g. transformedSpecs, the file is expected to have the extension .yaml)'
         type: string
-        default: 'tspecs'
+        default: 'transformedSpecs'
 
 jobs:
   transform-specs:
