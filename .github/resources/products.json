@@ -1,0 +1,8 @@
+{
+  "rapid": {
+    "namespace": "rapid",
+    "endpoint_prefix": "/v3",
+    "specs_url": "https://ewe-assets.s3.amazonaws.com/developer-tools/api/rapid/v3/specs.yaml",
+    "repository": "ExpediaGroup/rapid-java-sdk"
+  }
+}

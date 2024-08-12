@@ -1,0 +1,33 @@
+name: Run Contract Tests
+on:
+  workflow_call:
+    inputs:
+      jdk:
+        description: 'JDK version to use'
+        required: true
+        type: string
+        default: '21'
+    secrets:
+      KEY:
+        required: true
+        description: 'Authentication Key'
+      SECRET:
+        required: true
+        description: 'Authentication Secret'
+jobs:
+  run-contract-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "JDK set-up"
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ inputs.jdk }}
+          distribution: 'corretto'
+      - uses: actions/download-artifact@v4
+        with:
+          name: 'specs'
+          path: 'specs'
+      - name: "Run Mock Server"
+        run: npx specmatic stub specs/specs.yaml
+      - name: "Run Contract Tests"
+        run: echo 'Not Implemented Yet!'
