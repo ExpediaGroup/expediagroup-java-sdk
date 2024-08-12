@@ -69,12 +69,7 @@ jobs:
       endpoint-prefix: ${{ steps.read-config.outputs.endpoint_prefix }}
       specs_url: ${{ steps.read-config.outputs.specs_url }}
       repository: ${{ steps.read-config.outputs.repository }}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/workflows/read-config.yaml
-        id: read-config
-        with:
-          product: ${{ inputs.product }}
+    uses: ./.github/workflows/read-config.yaml
   generate-test-sdk:
     if: inputs.source == 'specs'
     needs: [ read-config ]
