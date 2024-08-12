@@ -8,10 +8,14 @@ on:
         type: string
         default: 'rapid'
     outputs:
-      namespace: ${{ jobs.read-config.outputs.namespace }}
-      endpoint_prefix: ${{ jobs.read-config.outputs.endpoint_prefix }}
-      specs_url: ${{ jobs.read-config.outputs.specs_url }}
-      repository: ${{ jobs.read-config.outputs.repository }}
+      namespace:
+        value: ${{ jobs.read-config.outputs.namespace }}
+      endpoint_prefix:
+        value: ${{ jobs.read-config.outputs.endpoint_prefix }}
+      specs_url:
+        value: ${{ jobs.read-config.outputs.specs_url }}
+      repository:
+        value: ${{ jobs.read-config.outputs.repository }}
 
 jobs:
   read-config:
