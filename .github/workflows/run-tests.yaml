@@ -42,12 +42,12 @@ on:
   workflow_call:
     inputs:
       source:
-        description: 'Source of tests'
+        description: 'Source of SDK to Test'
         required: true
         type: string
         default: 'sdk'
       product:
-        description: 'Product to test'
+        description: 'Product Key'
         required: true
         type: string
       sdk_version:
