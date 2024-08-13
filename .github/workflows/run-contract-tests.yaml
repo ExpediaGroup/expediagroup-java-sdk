@@ -17,6 +17,11 @@ on:
         required: true
         type: string
         default: 'LATEST'
+      specs_key:
+        description: 'Generated specs artifact key'
+        required: false
+        type: string
+        default: 'transformedSpecs'
     secrets:
       KEY:
         required: true
@@ -35,10 +40,9 @@ jobs:
           distribution: 'corretto'
       - uses: actions/download-artifact@v4
         with:
-          name: 'specs'
-          path: 'specs'
-#      - name
+          name: "${{ inputs.specs_key }}"
+          path: "${{ inputs.specs_key }}"
       - name: "Run Mock Server"
-        run: npx specmatic stub specs/specs.yaml
+        run: npx specmatic stub "${{ inputs.specs_key }}/${{ inputs.specs_key }}.yaml"
       - name: "Run Contract Tests"
         run: echo 'Not Implemented Yet!'
