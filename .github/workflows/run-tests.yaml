@@ -87,9 +87,12 @@ jobs:
   run-rapid-contract-tests:
     if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled') && inputs.product == 'rapid'
     needs: [ read-config, generate-test-sdk ]
+    strategy:
+      matrix:
+        jdk: [ 8, 11, 17, 21 ]
     uses: ./.github/workflows/run-contract-tests.yaml
     with:
-      jdk: ${{ inputs.jdk }}
+      jdk: ${{ matrix.jdk }}
       source: ${{ inputs.source }}
       version: ${{ needs.generate-test-sdk.outputs.version }}
     secrets:
