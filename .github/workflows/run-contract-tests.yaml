@@ -22,6 +22,11 @@ on:
         required: false
         type: string
         default: 'transformedSpecs'
+      sdk_key:
+        description: 'Generated SDK artifact key'
+        required: false
+        type: string
+        default: 'sdk'
     secrets:
       KEY:
         required: true

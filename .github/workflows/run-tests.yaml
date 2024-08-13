@@ -77,10 +77,11 @@ jobs:
     strategy:
       matrix:
         jdk: [8, 11, 17, 21]
-    uses: "ExpediaGroup/rapid-java-sdk/.github/workflows/run-examples.yaml@main"
+    uses: "ExpediaGroup/rapid-java-sdk/.github/workflows/run-examples.yaml@OmarAlJarrah/fix-bug-in-source-of-run-exampels"
     with:
-      sdk_version: ${{ needs.generate-test-sdk.outputs.version }}
+      sdk_version: ${{ inputs.sdk_version }}
       jdk: ${{ matrix.jdk }}
+      source: ${{ inputs.source }}
     secrets:
       KEY: ${{ secrets.RAPID_KEY }}
       SECRET: ${{ secrets.RAPID_SECRET }}
@@ -94,7 +95,7 @@ jobs:
     with:
       jdk: ${{ matrix.jdk }}
       source: ${{ inputs.source }}
-      version: ${{ needs.generate-test-sdk.outputs.version }}
+      version: ${{ inputs.sdk_version }}
     secrets:
       KEY: ${{ secrets.RAPID_KEY }}
       SECRET: ${{ secrets.RAPID_SECRET }}
