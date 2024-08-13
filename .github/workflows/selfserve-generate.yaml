@@ -17,11 +17,15 @@ on:
         type: string
       specs_key:
         description: 'Key to the transformed and ready to use specs artifact and name (without extension, e.g. specs, the file is expected to have the extension .yaml)'
-        default: 'specs'
+        default: 'transformedSpecs'
         type: string
       sdk_key:
         description: 'Key to the generated SDK artifact'
         default: 'sdk'
+        type: string
+      jar_key:
+        description: 'Key to the generated JAR artifact'
+        default: 'jar'
         type: string
 
 jobs:
@@ -61,4 +65,11 @@ jobs:
           path: |
             sdk-repo/generator/openapi/target/sdk
             !sdk-repo/generator/openapi/target/sdk/target
+      - name: Persist JAR Artifact # TODO: Remove when product config is proposed
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.jar_key }}
+          path: |
+            sdk-repo/generator/openapi/target/sdk/target/*.jar
+            sdk-repo/generator/openapi/target/sdk/target/maven-archiver/pom.properties
           overwrite: true
