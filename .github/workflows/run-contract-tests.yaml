@@ -48,6 +48,6 @@ jobs:
           name: "${{ inputs.specs_key }}"
           path: "${{ inputs.specs_key }}"
       - name: "Run Mock Server"
-        run: npx specmatic stub "${{ inputs.specs_key }}/${{ inputs.specs_key }}.yaml"
+        run: echo 'Not Implemented Yet!'
       - name: "Run Contract Tests"
         run: echo 'Not Implemented Yet!'
