@@ -41,6 +41,6 @@ jobs:
     needs: [ transform-specs ]
     uses: ./.github/workflows/selfserve-generate.yaml
     with:
+      templates: 'sdk-repo/generator/openapi/src/main/resources/templates/expediagroup-sdk'
       name: ${{ inputs.namespace }}
       version: ${{ inputs.version }}
-      templates: 'sdk-repo/generator/openapi/src/main/resources/templates/expediagroup-sdk'
