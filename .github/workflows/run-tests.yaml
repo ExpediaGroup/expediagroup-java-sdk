@@ -46,14 +46,15 @@ on:
         required: true
         type: string
         default: 'sdk'
+      product:
+        description: 'Product to test'
+        required: true
+        type: string
       sdk_version:
         description: 'Run tests based on SDK'
         required: false
         type: string
         default: 'LATEST'
-        description: 'Endpoint to prepend specs paths with'
-        required: true
-        type: string
 
 jobs:
   read-config:
