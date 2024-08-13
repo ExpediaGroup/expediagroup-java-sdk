@@ -51,12 +51,6 @@ on:
         required: false
         type: string
         default: 'LATEST'
-      jdk:
-        description: 'JDK version to use'
-        required: true
-        type: string
-        default: '21'
-      product:
         description: 'Endpoint to prepend specs paths with'
         required: true
         type: string
@@ -79,11 +73,13 @@ jobs:
   run-rapid-examples:
     if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled') && inputs.product == 'rapid'
     needs: [ read-config, generate-test-sdk ]
+    strategy:
+      matrix:
+        jdk: [8, 11, 17, 21]
     uses: "ExpediaGroup/rapid-java-sdk/.github/workflows/run-examples.yaml@main"
     with:
       sdk_version: ${{ needs.generate-test-sdk.outputs.version }}
-      jdk: ${{ inputs.jdk }}
-      sdk_generation_workflow_run_id: ${{ github.run_id }}
+      jdk: ${{ matrix.jdk }}
     secrets:
       KEY: ${{ secrets.RAPID_KEY }}
       SECRET: ${{ secrets.RAPID_SECRET }}

@@ -3,15 +3,9 @@ on: push
 
 jobs:
   run-rapid-tests:
-    strategy:
-      matrix:
-        jdk: [8, 11, 17, 21]
-      fail-fast: true
-      max-parallel: 1
     uses: ./.github/workflows/run-tests.yaml
     with:
       source: 'specs'
       sdk_version: 1.0.${{ github.run_id }}
       product: 'rapid'
-      jdk: ${{ matrix.jdk }}
     secrets: inherit
