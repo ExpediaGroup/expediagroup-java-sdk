@@ -77,7 +77,7 @@ jobs:
     strategy:
       matrix:
         jdk: [8, 11, 17, 21]
-    uses: "${{ needs.read-config.outputs.examples_action }}"
+    uses: "ExpediaGroup/rapid-java-sdk/.github/workflows/run-examples.yaml@main"
     with:
       sdk_version: ${{ needs.generate-test-sdk.outputs.version }}
       jdk: ${{ matrix.jdk }}
