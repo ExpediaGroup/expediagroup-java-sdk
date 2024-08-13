@@ -32,7 +32,7 @@ import com.expediagroup.sdk.core.constant.Constant
  * @property socketTimeout The socket timeout to use for requests.
  */
 internal object XapConfigurationProvider : ConfigurationProvider {
-    override val name: String = "Rapid Configuration Provider"
+    override val name: String = "XAP Configuration Provider"
     override val endpoint: String = "https://apim.expedia.com"
     override val requestTimeout: Long = Constant.INFINITE_TIMEOUT
     override val connectionTimeout: Long = Constant.TEN_SECONDS_IN_MILLIS
