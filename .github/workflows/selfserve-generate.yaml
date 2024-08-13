@@ -65,7 +65,6 @@ jobs:
           path: |
             sdk-repo/generator/openapi/target/sdk
             !sdk-repo/generator/openapi/target/sdk/target
-          overwrite: true
       - name: Persist JAR Artifact # TODO: Remove when product config is proposed
         uses: actions/upload-artifact@v4
         with:
