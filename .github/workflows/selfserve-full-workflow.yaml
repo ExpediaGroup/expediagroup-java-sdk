@@ -66,6 +66,23 @@ on:
 
 
 jobs:
+  show-inputs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show inputs
+        run: |
+          echo "SDK Name: ${{ inputs.name }}"
+          echo "SDK Version: ${{ inputs.version }}"
+          echo "Templates: ${{ inputs.templates }}"
+          echo "Repository: ${{ inputs.repo }}"
+          echo "Ref: ${{ inputs.ref }}"
+          echo "Specs Key: ${{ inputs.specs_key }}"
+          echo "Specs Path: ${{ inputs.specs_path }}"
+          echo "Transformed Specs Key: ${{ inputs.transformed_specs_key }}"
+          echo "Transformations: ${{ inputs.transformations }}"
+          echo "Sources Path: ${{ inputs.sources_path }}"
+          echo "SDK Key: ${{ inputs.sdk_key }}"
+
   upload-specs:
     uses: ./.github/workflows/selfserve-upload-specs.yaml
     with:
@@ -73,6 +90,7 @@ jobs:
       specs_path: ${{ inputs.specs_path }}
       repository: ${{ inputs.repo }}
       ref: ${{ inputs.ref }}
+
   transform-specs:
     uses: ./.github/workflows/selfserve-transform-specs.yaml
     needs: [ upload-specs ]
@@ -80,6 +98,7 @@ jobs:
       specs_key: ${{ inputs.specs_key }}
       transformations: ${{ inputs.transformations }}
       transformed_specs_key: ${{ inputs.transformed_specs_key }}
+
   generate-sdk:
     uses: ./.github/workflows/selfserve-generate.yaml
     needs: [ transform-specs ]
@@ -89,6 +108,7 @@ jobs:
       templates: ${{ inputs.templates }}
       specs_key: ${{ inputs.transformed_specs_key }}
       sdk_key: ${{ inputs.sdk_key }}
+
   publish-sources:
     uses: ./.github/workflows/selfserve-publish-sources.yaml
     needs: [ generate-sdk ]
@@ -97,6 +117,7 @@ jobs:
       path: ${{ inputs.sources_path }}
       sdk_key: ${{ inputs.sdk_key }}
       specs_key: ${{ inputs.transformed_specs_key }}
+
   release:
     uses: ./.github/workflows/selfserve-release.yaml
     needs: [ generate-sdk, publish-sources ]
