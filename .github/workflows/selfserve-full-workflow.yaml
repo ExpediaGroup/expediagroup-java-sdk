@@ -20,7 +20,7 @@ on:
           Use `sdk-repo` to refer to the `expediagroup-sdk` repo root path if needed.
         type: string
         default: 'sdk-repo/generator/openapi/src/main/resources/templates/expediagroup-sdk'
-      repo:
+      repository:
         description: |
           Repository to generate the SDK in.
           Leave empty to use the current repository.
@@ -77,7 +77,7 @@ jobs:
           echo "SDK Name: ${{ inputs.name }}"
           echo "SDK Version: ${{ inputs.version }}"
           echo "Templates: ${{ inputs.templates }}"
-          echo "Repository: ${{ inputs.repo }}"
+          echo "Repository: ${{ inputs.repository }}"
           echo "Ref: ${{ inputs.ref }}"
           echo "Specs Key: ${{ inputs.specs_key }}"
           echo "Specs Path: ${{ inputs.specs_path }}"
@@ -91,7 +91,7 @@ jobs:
     with:
       specs_key: ${{ inputs.specs_key }}
       specs_path: ${{ inputs.specs_path }}
-      repository: ${{ inputs.repo }}
+      repository: ${{ inputs.repository }}
       ref: ${{ inputs.ref }}
 
   transform-specs:
