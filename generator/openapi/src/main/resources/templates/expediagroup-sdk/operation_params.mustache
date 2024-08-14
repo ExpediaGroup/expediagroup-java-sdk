@@ -89,7 +89,11 @@
                 {{#nonBodyParams}}
                     {{#params}}
                         {{#isEnum}}
-                            enum class {{enumName}}(val value: {{dataType}}) {
+                            enum class {{enumName}}(
+                                val value:
+                                {{#isContainer}}{{{items.dataType}}}{{/isContainer}}
+                                {{^isContainer}}{{dataType}}{{/isContainer}}
+                            ) {
                                 {{#allowableValues}}
                                     {{#enumVars}}
                                         {{name}}({{{value}}})
@@ -105,12 +109,23 @@
                     {{#nonBodyParams}}
                         {{#params}}
                             private var {{{paramName}}}:
-                            {{#isEnum}}
-                                {{{enumName}}}
-                            {{/isEnum}}
-                            {{^isEnum}}
-                                {{{dataType}}}
-                            {{/isEnum}}
+
+                            {{#isContainer}}
+                                {{#uniqueItems}}
+                                    kotlin.collections.{{#modelMutable}}Mutable{{/modelMutable}}Set
+                                {{/uniqueItems}}
+                                {{^uniqueItems}}
+                                    kotlin.collections.{{#modelMutable}}Mutable{{/modelMutable}}List
+                                {{/uniqueItems}}
+                                <
+                                {{#items.isEnum}}{{{enumName}}}{{/items.isEnum}}
+                                {{^items.isEnum}}{{{items.dataType}}}{{/items.isEnum}}
+                                >
+                            {{/isContainer}}
+                            {{^isContainer}}
+                                {{#isEnum}}{{{enumName}}}{{/isEnum}}
+                                {{^isEnum}}{{{dataType}}}{{/isEnum}}
+                            {{/isContainer}}
                             ? = null
                             {{^-last}},{{/-last}}
                         {{/params}}
@@ -123,12 +138,22 @@
                             */
                             fun {{{paramName}}}(
                                 {{{paramName}}}:
-                                {{#isEnum}}
-                                    {{{enumName}}}
-                                {{/isEnum}}
-                                {{^isEnum}}
-                                    {{{dataType}}}
-                                {{/isEnum}}
+                                {{#isContainer}}
+                                    {{#uniqueItems}}
+                                        kotlin.collections.{{#modelMutable}}Mutable{{/modelMutable}}Set
+                                    {{/uniqueItems}}
+                                    {{^uniqueItems}}
+                                        kotlin.collections.{{#modelMutable}}Mutable{{/modelMutable}}List
+                                    {{/uniqueItems}}
+                                    <
+                                        {{#items.isEnum}}{{{enumName}}}{{/items.isEnum}}
+                                        {{^items.isEnum}}{{{items.dataType}}}{{/items.isEnum}}
+                                    >
+                                {{/isContainer}}
+                                {{^isContainer}}
+                                    {{#isEnum}}{{{enumName}}}{{/isEnum}}
+                                    {{^isEnum}}{{{dataType}}}{{/isEnum}}
+                                {{/isContainer}}
                             ) = apply { this.{{{paramName}}} = {{{paramName}}} }
                         {{/params}}
                     {{/nonBodyParams}}
@@ -183,7 +208,9 @@
                             {{paramName}}?.also {
                                 put(
                                     "{{baseName}}",
-                                    {{#isContainer}}{{paramName}}{{/isContainer}}
+                                    {{#isContainer}}
+                                        {{paramName}}{{#isEnum}}.map { it.value }{{/isEnum}}
+                                    {{/isContainer}}
                                     {{^isContainer}}
                                             listOf({{paramName}}{{#isEnum}}.value{{/isEnum}}{{^isString}}.toString(){{/isString}})
                                     {{/isContainer}}

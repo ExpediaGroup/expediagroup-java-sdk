@@ -54,6 +54,22 @@ import com.expediagroup.sdk.xap.models.Room
  * @property ratePlanType **Note**: This parameter is visible to partners only by configuration. Please contact your Expedia Account Manager if you need this parameter.  To specify the desired rate plan types. The options are: - standalone : Ask for standalone rates - package : Ask for package rates, but standalone rate also may be returned if available.  Otherwise only standalone rate plans will be returned.  `WebSearchResult` and `WebDetails` links won't be returned for package rate.
  * @property sortType Specifies the field that the search results will be ordered by.  To be used in conjunction with sortOrder parameter below.  **CMA Compliance Note (UK)**: partners doing business in the UK should be sorting their search results using the `totalpricewithfees` parameter in their query string so that the sorting complies with CMA regulations.
  * @property sortOrder Specifies the sort order of search results.  If no sort order is specified, the default is `asc`. But for deals sorting, it only supports `desc`.  To be used in conjunction with the `sortType` parameter above.
+ * @property room1Adults Specifies the number of adults staying in a specific room.  Default value is one room with 2 adults.  Example: `room1.adults` is used to specify the number of adults in the first room.
+ * @property room1ChildAges Comma-separated list that specifies the age(s) for each of the children in each of the rooms.  Example: `room2.childAges=1,3` means two children (1-year old and 3-year old) are staying in room #2.  Children must be accompanied by an adult.
+ * @property room2Adults Specifies the number of adults staying in second room.
+ * @property room2ChildAges Comma-separated list that specifies the age(s) for each of the children in second room.
+ * @property room3Adults Specifies the number of adults staying in third room.
+ * @property room3ChildAges Comma-separated list that specifies the age(s) for each of the children in third room.
+ * @property room4Adults Specifies the number of adults staying in fourth room.
+ * @property room4ChildAges Comma-separated list that specifies the age(s) for each of the children in fourth room.
+ * @property room5Adults Specifies the number of adults staying in fifth room.
+ * @property room5ChildAges Comma-separated list that specifies the age(s) for each of the children in fifth room.
+ * @property room6Adults Specifies the number of adults staying in sixth room.
+ * @property room6ChildAges Comma-separated list that specifies the age(s) for each of the children in sixth room.
+ * @property room7Adults Specifies the number of adults staying in seventh room.
+ * @property room7ChildAges Comma-separated list that specifies the age(s) for each of the children in seventh room.
+ * @property room8Adults Specifies the number of adults staying in eighth room.
+ * @property room8ChildAges Comma-separated list that specifies the age(s) for each of the children in eighth room.
  */
 data class GetLodgingListingsOperationParams(
     val partnerTransactionId: kotlin.String,
@@ -87,8 +103,10 @@ data class GetLodgingListingsOperationParams(
         ContentDetails.LOW,
     val allRoomTypes: kotlin.Boolean? =
         false,
-    val links: Links? =
-        Links.WD,
+    val links: kotlin.collections.List<
+            Links
+            >? =
+        null,
     val minStarRating: MinStarRating? =
         null,
     val maxStarRating: MaxStarRating? =
@@ -125,37 +143,37 @@ data class GetLodgingListingsOperationParams(
         null,
     val sortOrder: SortOrder? =
         SortOrder.ASC,
-    private val room1Adults: kotlin.Long? =
+    val room1Adults: kotlin.Long? =
         null,
-    private val room1ChildAges: kotlin.String? =
+    val room1ChildAges: kotlin.String? =
         null,
-    private val room2Adults: kotlin.Long? =
+    val room2Adults: kotlin.Long? =
         null,
-    private val room2ChildAges: kotlin.String? =
+    val room2ChildAges: kotlin.String? =
         null,
-    private val room3Adults: kotlin.Long? =
+    val room3Adults: kotlin.Long? =
         null,
-    private val room3ChildAges: kotlin.String? =
+    val room3ChildAges: kotlin.String? =
         null,
-    private val room4Adults: kotlin.Long? =
+    val room4Adults: kotlin.Long? =
         null,
-    private val room4ChildAges: kotlin.String? =
+    val room4ChildAges: kotlin.String? =
         null,
-    private val room5Adults: kotlin.Long? =
+    val room5Adults: kotlin.Long? =
         null,
-    private val room5ChildAges: kotlin.String? =
+    val room5ChildAges: kotlin.String? =
         null,
-    private val room6Adults: kotlin.Long? =
+    val room6Adults: kotlin.Long? =
         null,
-    private val room6ChildAges: kotlin.String? =
+    val room6ChildAges: kotlin.String? =
         null,
-    private val room7Adults: kotlin.Long? =
+    val room7Adults: kotlin.Long? =
         null,
-    private val room7ChildAges: kotlin.String? =
+    val room7ChildAges: kotlin.String? =
         null,
-    private val room8Adults: kotlin.Long? =
+    val room8Adults: kotlin.Long? =
         null,
-    private val room8ChildAges: kotlin.String? =
+    val room8ChildAges: kotlin.String? =
         null
 ) :
     OperationParams {
@@ -164,24 +182,32 @@ data class GetLodgingListingsOperationParams(
         fun builder() = Builder()
     }
 
-    enum class Unit(val value: kotlin.String) {
+    enum class Unit(
+        val value: kotlin.String
+    ) {
         KM("km"),
         MI("mi")
     }
 
-    enum class Source(val value: kotlin.String) {
+    enum class Source(
+        val value: kotlin.String
+    ) {
         BROWSER("browser"),
         MOBILEAPP("mobileapp")
     }
 
-    enum class ContentDetails(val value: kotlin.String) {
+    enum class ContentDetails(
+        val value: kotlin.String
+    ) {
         LOWEST("lowest"),
         LOW("low"),
         MEDIUM("medium"),
         HIGH("high")
     }
 
-    enum class Links(val value: kotlin.String) {
+    enum class Links(
+        val value: kotlin.String
+    ) {
         WD("WD"),
         WS("WS"),
         AD("AD"),
@@ -190,7 +216,9 @@ data class GetLodgingListingsOperationParams(
         API("API")
     }
 
-    enum class MinStarRating(val value: kotlin.String) {
+    enum class MinStarRating(
+        val value: kotlin.String
+    ) {
         _1_PERIOD0("1.0"),
         _1_PERIOD5("1.5"),
         _2_PERIOD0("2.0"),
@@ -202,7 +230,9 @@ data class GetLodgingListingsOperationParams(
         _5_PERIOD0("5.0")
     }
 
-    enum class MaxStarRating(val value: kotlin.String) {
+    enum class MaxStarRating(
+        val value: kotlin.String
+    ) {
         _1_PERIOD0("1.0"),
         _1_PERIOD5("1.5"),
         _2_PERIOD0("2.0"),
@@ -214,19 +244,25 @@ data class GetLodgingListingsOperationParams(
         _5_PERIOD0("5.0")
     }
 
-    enum class SmokingPreference(val value: kotlin.String) {
+    enum class SmokingPreference(
+        val value: kotlin.String
+    ) {
         SMOKING("smoking"),
         NONSMOKING("nonsmoking"),
         BOTH("both")
     }
 
-    enum class RateType(val value: kotlin.String) {
+    enum class RateType(
+        val value: kotlin.String
+    ) {
         PAYONLINE("payonline"),
         PAYHOTEL("payhotel"),
         ALL("all")
     }
 
-    enum class ImageSizes(val value: kotlin.String) {
+    enum class ImageSizes(
+        val value: kotlin.String
+    ) {
         T("t"),
         S("s"),
         B("b"),
@@ -234,7 +270,9 @@ data class GetLodgingListingsOperationParams(
         Z("z")
     }
 
-    enum class ThumbnailImageSize(val value: kotlin.String) {
+    enum class ThumbnailImageSize(
+        val value: kotlin.String
+    ) {
         T("t"),
         S("s"),
         B("b"),
@@ -242,12 +280,16 @@ data class GetLodgingListingsOperationParams(
         Z("z")
     }
 
-    enum class RatePlanType(val value: kotlin.String) {
+    enum class RatePlanType(
+        val value: kotlin.String
+    ) {
         STANDALONE("standalone"),
         PACKAGE("package")
     }
 
-    enum class SortType(val value: kotlin.String) {
+    enum class SortType(
+        val value: kotlin.String
+    ) {
         PRICE("price"),
         STARRATING("starrating"),
         AVGRATE("avgrate"),
@@ -258,7 +300,9 @@ data class GetLodgingListingsOperationParams(
         TOTALPRICEWITHFEES("totalpricewithfees")
     }
 
-    enum class SortOrder(val value: kotlin.String) {
+    enum class SortOrder(
+        val value: kotlin.String
+    ) {
         ASC("asc"),
         DESC("desc")
     }
@@ -280,7 +324,9 @@ data class GetLodgingListingsOperationParams(
         private var travelWithPets: kotlin.Boolean? = null,
         private var contentDetails: ContentDetails? = null,
         private var allRoomTypes: kotlin.Boolean? = null,
-        private var links: Links? = null,
+        private var links: kotlin.collections.List<
+                Links
+                >? = null,
         private var minStarRating: MinStarRating? = null,
         private var maxStarRating: MaxStarRating? = null,
         private var limit: kotlin.Long? = null,
@@ -399,7 +445,11 @@ data class GetLodgingListingsOperationParams(
         /**
          * @param links  Comma-separated list to specify the types of deep links. - WD (link to Web Details site) - WS (link to Web Search Result page) - AD (link for Details API) - RC (link for RateCalendar API) - WEB (include all website links) - API (links for Details and RateCalendar API)  There are two level of links returned in the API response: Property-level deeplinks and room-level deeplinks.  When requesting API deeplinks you will receive both a RateCalendar API link at the property level, and Details API links at the room level, since the Lodging Details API only displays information on rate plan offers.  When requesting AD deeplinks, you will <u>only</u> receive Details API links at the room level. `Links` node in property-level will be omitted.  If you are looking for more complete details on a single property via the API, you should do another search in the Lodging API for the single Hotel ID, with `contentDetails=high` to get all details back in return (note that you can only get back a maximum of 5 hotels when `contentDetails` is set to `high`).  **NOTE**: dateless searches will not return Details API links, since the Lodging Details API will only return details on a specific room offer for specific dates.
          */
-        fun links(links: Links) = apply { this.links = links }
+        fun links(
+            links: kotlin.collections.List<
+                    Links
+                    >
+        ) = apply { this.links = links }
 
         /**
          * @param minStarRating The minimum star rating for hotels returned in the response.
@@ -491,48 +541,48 @@ data class GetLodgingListingsOperationParams(
          */
         fun sortOrder(sortOrder: SortOrder) = apply { this.sortOrder = sortOrder }
 
-        fun rooms(rooms: List<Room>) = apply {
-            rooms.elementAtOrNull(0)?.let {
-                this.room1Adults = it.adults
-                this.room1ChildAges = it.children?.joinToString(",")
-            }
+        fun rooms(rooms: List<Room>) =
+            apply {
+                rooms.elementAtOrNull(0)?.let {
+                    this.room1Adults = it.adults
+                    this.room1ChildAges = it.childAges?.joinToString(",")
+                }
 
-            rooms.elementAtOrNull(1)?.let {
-                this.room2Adults = it.adults
-                this.room2ChildAges = it.children?.joinToString(",")
-            }
+                rooms.elementAtOrNull(1)?.let {
+                    this.room2Adults = it.adults
+                    this.room2ChildAges = it.childAges?.joinToString(",")
+                }
 
-            rooms.elementAtOrNull(2)?.let {
-                this.room3Adults = it.adults
-                this.room3ChildAges = it.children?.joinToString(",")
-            }
+                rooms.elementAtOrNull(2)?.let {
+                    this.room3Adults = it.adults
+                    this.room3ChildAges = it.childAges?.joinToString(",")
+                }
 
-            rooms.elementAtOrNull(3)?.let {
-                this.room4Adults = it.adults
-                this.room4ChildAges = it.children?.joinToString(",")
-            }
+                rooms.elementAtOrNull(3)?.let {
+                    this.room4Adults = it.adults
+                    this.room4ChildAges = it.childAges?.joinToString(",")
+                }
 
-            rooms.elementAtOrNull(4)?.let {
-                this.room5Adults = it.adults
-                this.room5ChildAges = it.children?.joinToString(",")
-            }
+                rooms.elementAtOrNull(4)?.let {
+                    this.room5Adults = it.adults
+                    this.room5ChildAges = it.childAges?.joinToString(",")
+                }
 
-            rooms.elementAtOrNull(5)?.let {
-                this.room6Adults = it.adults
-                this.room6ChildAges = it.children?.joinToString(",")
-            }
+                rooms.elementAtOrNull(5)?.let {
+                    this.room6Adults = it.adults
+                    this.room6ChildAges = it.childAges?.joinToString(",")
+                }
 
-            rooms.elementAtOrNull(6)?.let {
-                this.room7Adults = it.adults
-                this.room7ChildAges = it.children?.joinToString(",")
-            }
+                rooms.elementAtOrNull(6)?.let {
+                    this.room7Adults = it.adults
+                    this.room7ChildAges = it.childAges?.joinToString(",")
+                }
 
-            rooms.elementAtOrNull(7)?.let {
-                this.room8Adults = it.adults
-                this.room8ChildAges = it.children?.joinToString(",")
+                rooms.elementAtOrNull(7)?.let {
+                    this.room8Adults = it.adults
+                    this.room8ChildAges = it.childAges?.joinToString(",")
+                }
             }
-        }
-
         fun build(): GetLodgingListingsOperationParams {
             validateNullity()
 
@@ -702,7 +752,7 @@ data class GetLodgingListingsOperationParams(
             links?.also {
                 put(
                     "links",
-                    listOf(links.value)
+                    links.map { it.value }
                 )
             }
             minStarRating?.also {

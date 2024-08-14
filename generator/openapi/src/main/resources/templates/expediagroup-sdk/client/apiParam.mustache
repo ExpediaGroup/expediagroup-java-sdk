@@ -1,10 +1,20 @@
 {{{paramName}}}:
-{{#isEnum}}
-    {{{enumName}}}
-{{/isEnum}}
-{{^isEnum}}
-    {{{dataType}}}
-{{/isEnum}}
+{{#isContainer}}
+    {{#uniqueItems}}
+        kotlin.collections.{{#modelMutable}}Mutable{{/modelMutable}}Set
+    {{/uniqueItems}}
+    {{^uniqueItems}}
+        kotlin.collections.{{#modelMutable}}Mutable{{/modelMutable}}List
+    {{/uniqueItems}}
+    <
+        {{#items.isEnum}}{{{enumName}}}{{/items.isEnum}}
+        {{^items.isEnum}}{{{items.dataType}}}{{/items.isEnum}}
+    >
+{{/isContainer}}
+{{^isContainer}}
+    {{#isEnum}}{{{enumName}}}{{/isEnum}}
+    {{^isEnum}}{{{dataType}}}{{/isEnum}}
+{{/isContainer}}
 {{#required}}
     {{#defaultValue}} =
         {{#isEnum}}
@@ -23,21 +33,27 @@
 {{/required}}
 {{^required}}?
     {{#defaultValue}} =
-        {{#isEnum}}
-            {{{enumName}}}.{{{enumDefaultValue}}}
-        {{/isEnum}}
-        {{^isEnum}}
-            {{#isString}}
-                {{#removeDoubleQuotes}}{{{defaultValue}}}{{/removeDoubleQuotes}}
+        {{#isContainer}}
+            null
+        {{/isContainer}}
+        {{^isContainer}}
+            {{#isEnum}}
+                {{{enumName}}}.{{{enumDefaultValue}}}
+            {{/isEnum}}
+            {{^isEnum}}
+                {{#isString}}
+                    {{#removeDoubleQuotes}}{{{defaultValue}}}{{/removeDoubleQuotes}}
+                {{/isString}}
+            {{/isEnum}}
+            {{#isNumber}}
+                {{{defaultValue}}}.toDouble()
+            {{/isNumber}}
+            {{^isString}}
+                {{^isNumber}}{{{defaultValue}}}{{/isNumber}}
             {{/isString}}
-        {{/isEnum}}
-        {{#isNumber}}
-            {{{defaultValue}}}.toDouble()
-        {{/isNumber}}
-        {{^isString}}
-            {{^isNumber}}{{{defaultValue}}}{{/isNumber}}
-        {{/isString}}
+        {{/isContainer}}
     {{/defaultValue}}
-    {{^defaultValue}} = null
+    {{^defaultValue}}
+        = null
     {{/defaultValue}}
 {{/required}}
