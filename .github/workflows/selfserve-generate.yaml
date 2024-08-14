@@ -40,7 +40,6 @@ jobs:
         with:
           repository: 'ExpediaGroup/expediagroup-java-sdk'
           path: sdk-repo
-          ref: mohnoor94/SDK-1407
 
       - name: Download Specs
         uses: actions/download-artifact@v4
