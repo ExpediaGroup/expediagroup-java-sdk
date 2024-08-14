@@ -16,7 +16,10 @@ on:
         required: true
         type: string
       specs_key:
-        description: 'Key to the transformed and ready to use specs artifact and name (without extension, e.g. specs, the file is expected to have the extension .yaml)'
+        description: |
+          Key to the transformed and ready to use specs artifact and name
+          (without extension, e.g. specs, the file is expected to have the extension .yaml).
+          The artifact is expected to be in the root of the repository.
         default: 'transformedSpecs'
         type: string
       sdk_key:
