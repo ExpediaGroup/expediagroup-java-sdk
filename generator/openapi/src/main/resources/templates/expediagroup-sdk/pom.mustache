@@ -2,39 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
-    <parent>
-        <groupId>com.expediagroup</groupId>
-        <artifactId>sdk-parent-pom</artifactId>
-        <version>1.0.0</version>
-        <relativePath>../../../../pom.xml</relativePath>
-    </parent>
-
-    <packaging>jar</packaging>
-
-    {{#isRapid}}
-        <name>EG Rapid SDK for Java</name>
-        <description>EG Rapid SDK v{{artifactVersion}}</description>
-    {{/isRapid}}
-    {{#isExpediaGroup}}
-        <name>EG SDK :: {{artifactId}}</name>
-        <description>EG SDK :: {{artifactId}} v{{artifactVersion}}</description>
-    {{/isExpediaGroup}}
-    {{#isXap}}
-        <name>EG XAP SDK for Java</name>
-        <description>EG XAP SDK v{{artifactVersion}}</description>
-    {{/isXap}}
-
+    <groupId>com.expediagroup</groupId>
     <artifactId>{{artifactId}}</artifactId>
-    <version>${revision}</version>
-    {{#isRapid}}
-        <url>https://github.com/ExpediaGroup/rapid-java-sdk</url>
-    {{/isRapid}}
-    {{#isExpediaGroup}}
-        <url>https://github.com/ExpediaGroup/fraud-prevention-java-sdk</url>
-    {{/isExpediaGroup}}
-
+    <version>{{artifactVersion}}</version>
+    <name>EG {{artifactId}} for Java</name>
+    <description>EG {{artifactId}} v{{artifactVersion}}</description>
+    <url>https://github.com/ExpediaGroup/{{repoName}}</url>
     <inceptionYear>2022</inceptionYear>
+    <packaging>jar</packaging>
 
     <licenses>
         <license>
@@ -52,20 +27,11 @@
         </developer>
     </developers>
 
-    {{#isRapid}}
-        <scm>
-            <connection>scm:git:git@github.com:ExpediaGroup/rapid-java-sdk.git</connection>
-            <developerConnection>scm:git:git@github.com:ExpediaGroup/rapid-java-sdk.git</developerConnection>
-            <url>https://github.com/ExpediaGroup/rapid-java-sdk</url>
-        </scm>
-    {{/isRapid}}
-    {{#isExpediaGroup}}
-        <scm>
-            <connection>scm:git:git@github.com:ExpediaGroup/fraud-prevention-java-sdk.git</connection>
-            <developerConnection>scm:git:git@github.com:ExpediaGroup/fraud-prevention-java-sdk.git</developerConnection>
-            <url>https://github.com/ExpediaGroup/fraud-prevention-java-sdk</url>
-        </scm>
-    {{/isExpediaGroup}}
+    <scm>
+        <connection>scm:git:git@github.com:ExpediaGroup/{{repoName}}.git</connection>
+        <developerConnection>scm:git:git@github.com:ExpediaGroup/{{repoName}}.git</developerConnection>
+        <url>https://github.com/ExpediaGroup/{{repoName}}/</url>
+    </scm>
 
     <distributionManagement>
         <repository>
@@ -81,14 +47,300 @@
     </distributionManagement>
 
     <properties>
+        <java.release>1.8</java.release>
+        <maven.compiler.release>8</maven.compiler.release>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <minimum.maven.version>3.8.0</minimum.maven.version>
+        <minimum.jdk.version>1.8.0</minimum.jdk.version>
+
+        <minimum.code.coverage>0.90</minimum.code.coverage>
+        <shadePrefix>com.expediagroup.sdk</shadePrefix>
+
         <sdk-version>${project.version}</sdk-version>
         <sdk-title>${project.artifactId}</sdk-title>
-        <revision>{{artifactVersion}}</revision>
-        <shadePrefix>{{shadePrefix}}</shadePrefix>
+
+        <!-- Plugin Versions -->
+        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <maven-dependency-plugin.version>3.7.1</maven-dependency-plugin.version>
+        <maven-enforcer-plugin.version>3.5.0</maven-enforcer-plugin.version>
+        <maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
+        <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
+        <maven-shade-plugin.version>3.6.0</maven-shade-plugin.version>
+        <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
+        <maven-surefire-plugin.version>3.3.0</maven-surefire-plugin.version>
+        <build-helper-maven-plugin.version>3.6.0</build-helper-maven-plugin.version>
+        <ktlint-plugin.version>3.2.0</ktlint-plugin.version>
+        <jacoco-plugin.version>0.8.12</jacoco-plugin.version>
+        <dokka-plugin.version>1.9.20</dokka-plugin.version>
+        <dokka-old-versions.location/> <!-- passed as a property when running dokka:dokka-->
+        <properties.maven.plugin.version>1.2.1</properties.maven.plugin.version>
+        <maven.licence.plugin.version>4.5</maven.licence.plugin.version>
+        <flatten.maven.plugin.version>1.6.0</flatten.maven.plugin.version>
+        <kotlin.version>2.0.0</kotlin.version>
+        <kotlinx.coroutines.version>1.8.1</kotlinx.coroutines.version>
+        <ktor.version>2.3.12</ktor.version>
+        <kotlin-atomic.version>0.25.0</kotlin-atomic.version>
+        <slf4j.version>2.0.13</slf4j.version>
     </properties>
 
+    <dependencyManagement>
+        <dependencies>
+            <!-- Kotlin -->
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-bom</artifactId>
+                <version>${kotlin.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.kotlinx</groupId>
+                <artifactId>kotlinx-coroutines-bom</artifactId>
+                <version>${kotlinx.coroutines.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.ktor</groupId>
+                <artifactId>ktor-bom</artifactId>
+                <version>${ktor.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.kotlinx</groupId>
+                <artifactId>atomicfu-jvm</artifactId>
+                <version>${kotlin-atomic.version}</version>
+            </dependency>
+
+            <!-- Libraries & Frameworks -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+
+            <!--!!!! DEPENDENCY UPPER BOUND CONVERGENCE !!!!-->
+            <!-- We don't actually care about the versions of these transitive dependencies because they aren't used directly; However, we
+             want to pin them so that all references to them converge to a single, upper bound within this project's dependency tree -->
+            <dependency>
+                <groupId>com.fasterxml.jackson</groupId>
+                <artifactId>jackson-bom</artifactId>
+                <version>2.17.2</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.squareup.okio</groupId>
+                <artifactId>okio-jvm</artifactId>
+                <version>3.9.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains</groupId>
+                <artifactId>annotations</artifactId>
+                <version>24.1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate.validator</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>6.2.5.Final</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>2.17.2</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <build>
+
+        <pluginManagement>
+            <plugins>
+                <!-- Enforce Sane Build Environment -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <version>${maven-enforcer-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>enforce-pom-standards</id>
+                            <phase>validate</phase>
+                            <goals>
+                                <goal>enforce</goal>
+                            </goals>
+                            <configuration>
+                                <rules>
+                                    <banDuplicatePomDependencyVersions/>
+                                    <dependencyConvergence/>
+                                    <reactorModuleConvergence/>
+                                    <requireUpperBoundDeps/>
+                                    <requireJavaVersion>
+                                        <version>${minimum.jdk.version}</version>
+                                    </requireJavaVersion>
+                                    <requireMavenVersion>
+                                        <version>${minimum.maven.version}</version>
+                                    </requireMavenVersion>
+                                    <requireReleaseDeps>
+                                        <onlyWhenRelease>true</onlyWhenRelease>
+                                        <message>Snapshot dependencies must be resolved before releasing</message>
+                                    </requireReleaseDeps>
+                                </rules>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- To run Kotlin Tests-->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven-surefire-plugin.version}</version>
+                    <configuration>
+                        <systemPropertyVariables>
+                            <jacoco-agent.destfile>**/jacoco.exec</jacoco-agent.destfile>
+                        </systemPropertyVariables>
+                    </configuration>
+                </plugin>
+
+                <!-- Configure Code Coverage -->
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>${jacoco-plugin.version}</version>
+                    <configuration>
+                        <dataFile>${project.build.directory}/jacoco.exec</dataFile>
+                        <outputDirectory>${project.build.directory}/jacoco</outputDirectory>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>instrument-coverage</id>
+                            <phase>initialize</phase>
+                            <goals>
+                                <goal>prepare-agent</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>coverage-report</id>
+                            <phase>prepare-package</phase>
+                            <goals>
+                                <goal>report</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>coverage-check</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                            <configuration>
+                                <rules>
+                                    <rule>
+                                        <element>CLASS</element>
+                                        <excludes>
+                                            <exclude>*Test</exclude>
+                                        </excludes>
+                                        <limits>
+                                            <limit>
+                                                <counter>INSTRUCTION</counter>
+                                                <value>COVEREDRATIO</value>
+                                                <minimum>${minimum.code.coverage}</minimum>
+                                            </limit>
+                                            <limit>
+                                                <counter>BRANCH</counter>
+                                                <value>COVEREDRATIO</value>
+                                                <minimum>${minimum.code.coverage}</minimum>
+                                            </limit>
+                                        </limits>
+                                    </rule>
+                                </rules>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>com.mycila</groupId>
+                    <artifactId>license-maven-plugin</artifactId>
+                    <version>${maven.licence.plugin.version}</version>
+                    <configuration>
+                        <properties>
+                            <year>${current.year}</year>
+                            <owner>Expedia, Inc.</owner>
+                        </properties>
+                        <licenseSets>
+                            <licenseSet>
+                                <header>./LICENSE-HEADER.txt</header>
+                                <includes>
+                                    <include>**/*.kt</include>
+                                </includes>
+                            </licenseSet>
+                        </licenseSets>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>add-license-header</id>
+                            <phase>validate</phase>
+                            <goals>
+                                <goal>format</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>${maven-resources-plugin.version}</version>
+                <configuration>
+                    <useDefaultDelimiters>false</useDefaultDelimiters>
+                    <delimiters>
+                        <delimiter>@@</delimiter>
+                    </delimiters>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>include-domain-helpers</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/src/main/kotlin/com/expediagroup/sdk/domain/{{namespace}}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>{{helpersPath}}</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>${maven-dependency-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>analyze</id>
+                        <goals>
+                            <goal>analyze</goal>
+                        </goals>
+                        <configuration>
+                            <failOnWarning>true</failOnWarning>
+                            <ignoreNonCompile>true</ignoreNonCompile>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>flatten-maven-plugin</artifactId>
@@ -138,12 +390,6 @@
                         </manifest>
                     </archive>
                 </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>${exec-maven-plugin.version}</version>
             </plugin>
 
             <plugin>
@@ -286,6 +532,16 @@
                             </sources>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>get-the-year</id>
+                        <goals>
+                            <goal>timestamp-property</goal>
+                        </goals>
+                        <configuration>
+                            <name>current.year</name>
+                            <pattern>yyyy</pattern>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
 
@@ -355,10 +611,16 @@
                         </plugin>
                         <plugin>
                             <groupId>org.jetbrains.dokka</groupId>
-                            <artifactId>gfm-plugin</artifactId>
+                            <artifactId>versioning-plugin</artifactId>
                             <version>${dokka-plugin.version}</version>
                         </plugin>
                     </dokkaPlugins>
+                    <pluginsConfiguration>
+                        <org.jetbrains.dokka.versioning.VersioningPlugin>
+                            <version>${project.version}</version>
+                            <olderVersionsDir>${dokka-old-versions.location}</olderVersionsDir>
+                        </org.jetbrains.dokka.versioning.VersioningPlugin>
+                    </pluginsConfiguration>
                     <suppressInheritedMembers>true</suppressInheritedMembers>
                 </configuration>
                 <executions>
@@ -386,30 +648,126 @@
                     <execution>
                         <phase>compile</phase>
                         <id>check</id>
-                        <configuration>
-                            <skip>true</skip>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
+                <artifactId>maven-enforcer-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
             </plugin>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-stdlib</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.ktor</groupId>
+            <artifactId>ktor-serialization-jackson-jvm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.ktor</groupId>
+            <artifactId>ktor-client-core-jvm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.ktor</groupId>
+            <artifactId>ktor-client-okhttp-jvm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.ktor</groupId>
+            <artifactId>ktor-client-auth-jvm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.ktor</groupId>
+            <artifactId>ktor-client-content-negotiation-jvm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.ktor</groupId>
+            <artifactId>ktor-http-jvm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.ktor</groupId>
+            <artifactId>ktor-utils-jvm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.ktor</groupId>
+            <artifactId>ktor-client-logging-jvm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlinx</groupId>
+            <artifactId>kotlinx-coroutines-core-jvm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.ktor</groupId>
+            <artifactId>ktor-serialization-jvm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.ktor</groupId>
+            <artifactId>ktor-client-encoding-jvm</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jetbrains.kotlinx</groupId>
+            <artifactId>atomicfu-jvm</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.14.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-text</artifactId>
+            <version>1.12.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ebay.ejmask</groupId>
+            <artifactId>ejmask-api</artifactId>
+            <version>1.0.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ebay.ejmask</groupId>
+            <artifactId>ejmask-extensions</artifactId>
+            <version>1.0.3</version>
+        </dependency>
+    </dependencies>
 
     <profiles>
         <profile>
@@ -472,7 +830,7 @@
                             <execution>
                                 <configuration>
                                     <classifier>javadoc</classifier>
-                                    <classesDirectory>${project.parent.basedir}/target/site/apidocs</classesDirectory>
+                                    <classesDirectory>${project.basedir}/target/site/apidocs</classesDirectory>
                                     <includes>**/*</includes>
                                     <finalName>${project.build.finalName}</finalName>
                                 </configuration>
@@ -498,7 +856,18 @@
                                     <artifactId>kotlin-as-java-plugin</artifactId>
                                     <version>${dokka-plugin.version}</version>
                                 </plugin>
+                                <plugin>
+                                    <groupId>org.jetbrains.dokka</groupId>
+                                    <artifactId>versioning-plugin</artifactId>
+                                    <version>${dokka-plugin.version}</version>
+                                </plugin>
                             </dokkaPlugins>
+                            <pluginsConfiguration>
+                                <org.jetbrains.dokka.versioning.VersioningPlugin>
+                                    <version>${project.version}</version>
+                                    <olderVersionsDir>${dokka-old-versions.location}</olderVersionsDir>
+                                </org.jetbrains.dokka.versioning.VersioningPlugin>
+                            </pluginsConfiguration>
                         </configuration>
                         <executions>
                             <execution>
@@ -513,43 +882,4 @@
             </build>
         </profile>
     </profiles>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.hibernate.validator</groupId>
-            <artifactId>hibernate-validator</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-annotations</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jetbrains</groupId>
-            <artifactId>annotations</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-stdlib</artifactId>
-        </dependency>
-        <dependency>
-                <groupId>com.ebay.ejmask</groupId>
-                <artifactId>ejmask-api</artifactId>
-            </dependency>
-            <dependency>
-                <groupId>com.ebay.ejmask</groupId>
-                <artifactId>ejmask-extensions</artifactId>
-            </dependency>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-reflect</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-text</artifactId>
-        </dependency>
-    </dependencies>
 </project>

@@ -93,6 +93,7 @@ jobs:
         with:
           name: branch-name
           path: branch_name.txt
+          overwrite: true
 
       - name: Publish Updated Version PR
         uses: peter-evans/create-pull-request@v6

@@ -65,9 +65,11 @@
         <namespace>example</namespace>
         <sdkVersion>0.0.1-SNAPSHOT</sdkVersion>
         <language>java</language>
+        <templatesDir>templates/expediagroup-sdk</templatesDir>
+        <repoName>test-sdk</repoName>
 
         <!-- Versions -->
-        <kotlin.version>2.0.0</kotlin.version>
+        <kotlin.version>2.0.10</kotlin.version>
         <openapi-generator.version>6.6.0</openapi-generator.version>
 
         <!-- Plugin Versions -->
@@ -397,6 +399,10 @@
                                 <argument>${sdkVersion}</argument>
                                 <argument>--language</argument>
                                 <argument>${language}</argument>
+                                <argument>-t</argument>
+                                <argument>${templatesDir}</argument>
+                                <argument>-r</argument>
+                                <argumnet>${repoName}</argumnet>
                             </arguments>
                         </configuration>
                     </execution>
