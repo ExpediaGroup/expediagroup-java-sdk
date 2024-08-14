@@ -13,6 +13,7 @@ package com.expediagroup.sdk.test.contract.model.api
 import com.expediagroup.sdk.test.contract.JSON
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.specmatic.core.Scenario
 import java.io.File
 
@@ -30,6 +31,16 @@ class TestCaseApiCall(
                     ),
                 response = TestCaseHttpResponse.from(response = scenario.generateHttpResponse(emptyMap()))
             )
+    }
+
+    override fun toString(): String {
+        return jacksonObjectMapper().writeValueAsString(mapOf(
+            "request" to mapOf(
+                "body" to request.getRequestBody(),
+                "params" to request.getParams(),
+            ),
+            "response" to response
+        ))
     }
 
     fun writeTo(

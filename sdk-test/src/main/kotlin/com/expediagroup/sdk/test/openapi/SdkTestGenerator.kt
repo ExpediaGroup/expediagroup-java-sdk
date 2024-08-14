@@ -10,13 +10,16 @@
  */
 package com.expediagroup.sdk.test.openapi
 
+import com.expediagroup.sdk.generators.openapi.pascalCase
 import com.expediagroup.sdk.product.Product
 import com.expediagroup.sdk.product.ProductFamily
 import com.expediagroup.sdk.product.ProgrammingLanguage
 import com.expediagroup.sdk.test.contract.model.api.TestCaseApiCall
 import com.expediagroup.sdk.test.openapi.mustache.helpers
+import io.swagger.v3.oas.models.Operation
 import org.openapitools.codegen.CodegenConstants
 import org.openapitools.codegen.DefaultGenerator
+import org.openapitools.codegen.SupportingFile
 import org.openapitools.codegen.config.CodegenConfigurator
 import java.io.File
 
@@ -24,15 +27,16 @@ class SdkTestGenerator(
     private val namespace: String,
     private val spec: File,
     private val version: String = "1.0.0",
-    private val testCases: List<TestCaseApiCall> = emptyList()
+    private val testCases: List<TestCaseApiCall> = emptyList(),
+    outputDir: File = File("target/sdk")
 ) {
-    val product = Product(namespace, "kotlin")
+    val product = Product(namespace, "rapid-java", "kotlin")
     val config =
         CodegenConfigurator().apply {
             setGeneratorName("kotlin")
             setTemplateDir("templates/expediagroup-sdk")
             setInputSpec(spec.absolutePath)
-            setOutputDir("sdk-test/target/sdk")
+            setOutputDir(outputDir.absolutePath)
             setArtifactId(product.artifactId)
             setArtifactVersion(version)
             setGroupId(product.groupId)
@@ -43,8 +47,6 @@ class SdkTestGenerator(
             addGlobalProperty(CodegenConstants.MODELS, "false")
             addGlobalProperty(CodegenConstants.MODEL_DOCS, "false")
             addGlobalProperty(CodegenConstants.GENERATE_MODELS, "false")
-            addGlobalProperty("company", "expediagroup")
-
             addGlobalProperty("debugSupportingFiles", "")
 
             addAdditionalProperty(CodegenConstants.API_SUFFIX, "Operation")
@@ -56,6 +58,11 @@ class SdkTestGenerator(
                 }
                 addAdditionalProperty("tests", entries)
             }
+
+            val supportingFiles = mutableListOf(
+                "${namespace.pascalCase()}ClientTest.kt"
+            )
+            addGlobalProperty(CodegenConstants.SUPPORTING_FILES, supportingFiles.joinToString(","))
 
             addAdditionalProperty(CodegenConstants.API_PACKAGE, product.apiPackage)
             addAdditionalProperty(CodegenConstants.ENUM_PROPERTY_NAMING, "UPPERCASE")
@@ -75,9 +82,20 @@ class SdkTestGenerator(
             helpers.forEach { (name, func) ->
                 addAdditionalProperty(name, func)
             }
+
         }
 
-    private val generator = DefaultGenerator(false).opts(config.toClientOptInput())
+    val clientOptInput = config.toClientOptInput().apply {
+        userDefinedTemplates(buildList {
+            add(SupportingFile(
+                "client.mustache",
+                "client",
+                "${namespace.pascalCase()}ClientTest.kt"
+            ))
+        })
+    }
+
+    private val generator = DefaultGenerator(false).opts(clientOptInput)
 
     fun generate() {
         generator.generate()

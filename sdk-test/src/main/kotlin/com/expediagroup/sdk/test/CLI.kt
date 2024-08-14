@@ -10,11 +10,15 @@
  */
 package com.expediagroup.sdk.test
 
+import com.expediagroup.sdk.generators.openapi.OpenApiSdkGenerator
 import com.expediagroup.sdk.test.contract.ContractTestsGenerator
 import com.expediagroup.sdk.test.contract.MAX_TEST_REQUEST_PER_SCENARIO
 import com.expediagroup.sdk.test.openapi.SdkTestGenerator
+import com.github.rvesse.airline.SingleCommand
 import com.github.rvesse.airline.annotations.Command
 import com.github.rvesse.airline.annotations.Option
+import io.specmatic.core.log.logger
+import org.slf4j.Logger
 import java.io.File
 
 @Command(name = "cli", description = "Command Line Interface for SDK Test")
@@ -29,7 +33,7 @@ class CLI {
     private lateinit var spec: File
 
     @Option(name = ["-o", "--output-dir"])
-    private lateinit var outputDir: String
+    private var outputDir: String = "target/sdk"
 
     @Option(name = ["-m", "--max-test-combinations"])
     private var maxTestCombinations: Int = MAX_TEST_REQUEST_PER_SCENARIO
@@ -44,6 +48,21 @@ class CLI {
 
     private lateinit var contractTestsGenerator: ContractTestsGenerator
 
+    companion object {
+        /**
+         * Main Entry Point
+         *
+         * Parses command line arguments and then generates an EG Travel SDK
+         */
+        @JvmStatic
+        fun main(args: Array<String>) {
+            java.util.logging.Logger.getGlobal().level = java.util.logging.Level.OFF
+
+            val generator = SingleCommand.singleCommand(CLI::class.java).parse(*args)
+            generator.run()
+        }
+    }
+
     fun run() {
         if (listOf(generateSdkTests, generateContractTestsOnly).all { it == false }) {
             throw IllegalArgumentException("At least one of --contract-tests-only or --sdk-tests must be set to true")
@@ -56,7 +75,8 @@ class CLI {
                 maxTestCombinations = maxTestCombinations
             )
 
-        contractTestsGenerator.generate(writeMode = generateSdkTests).also { testCases ->
+
+        contractTestsGenerator.generate(writeMode = generateSdkTests.not().or(generateContractTestsOnly)).also { testCases ->
             if (generateSdkTests) {
                 sdkTestGenerator =
                     SdkTestGenerator(
