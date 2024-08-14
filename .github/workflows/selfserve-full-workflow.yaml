@@ -8,7 +8,9 @@ on:
         required: true
         type: string
       version:
-        description: 'SDK Version'
+        description: |
+          SDK Version.
+          E.g., 1.0.0, 1.0.1, 1.0.0-SNAPSHOT, etc.
         required: true
         type: string
       templates:
