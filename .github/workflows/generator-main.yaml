@@ -21,7 +21,11 @@ on:
         required: true
         type: string
       production_release:
-        description: 'Release to production'
+        description: |
+          Release to production
+
+          ⚠️ Please ensure that the version number includes the `-SNAPSHOT` suffix if this option is not selected,
+          otherwise the SDK will be published to Maven Central (production).
         required: true
         type: boolean
         default: false
