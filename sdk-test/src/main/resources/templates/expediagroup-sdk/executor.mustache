@@ -1,0 +1,45 @@
+package com.expediagroup.sdk.{{{namespace}}}.test;
+
+
+import com.expediagroup.sdk.rapid.client.*;
+import com.expediagroup.sdk.rapid.operations.*;
+import com.expediagroup.sdk.core.model.Operation;
+import com.fasterxml.jackson.databind.node.*
+import com.fasterxml.jackson.module.kotlin.*
+
+class {{{clientClassname}}}Executor {
+    companion object {
+        val mapper = jacksonObjectMapper()
+    }
+
+    private val client = {{{clientClassname}}}.builder()
+        .key(System.getProperty("com.expediagroup.sdk.apikey", "API_KEY"))
+        .secret(System.getProperty("com.expediagroup.sdk.apisecret", "API_SECRET"))
+        .endpoint("com.expediagroup.sdk.rapid.examples.Constants.SANDBOX_URL") // remove to connect to the production environment
+        .requestTimeout(10000)
+        .build()
+
+    fun execute(json: ObjectNode) {
+        val key = "${json["method"].asText().trim()}: ${json["path"].asText().trim()}"
+        val type: Class<*> = metadata[key]!!.type
+
+        val operation = mapper.readValue(json.asText(), type) as Operation<*>
+        execute(operation)
+    }
+
+    fun execute(operation: Operation<*>) {
+        when (operation) {
+        {{#apiInfo}}
+            {{#apis}}
+                {{#operations}}
+                    {{#operation}}
+            is {{{operationIdCamelCase}}}Operation -> {
+            client.execute(operation as {{{operationIdCamelCase}}}Operation)
+            }
+                    {{/operation}}
+                {{/operations}}
+            {{/apis}}
+        {{/apiInfo}}
+        }
+    }
+}

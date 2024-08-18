@@ -10,10 +10,12 @@
  */
 package com.expediagroup.sdk.test.openapi.mustache
 
+import com.expediagroup.sdk.generators.openapi.mustacheHelpers
 import com.expediagroup.sdk.test.openapi.mustache.collection.collectionHelpers
 import com.expediagroup.sdk.test.openapi.mustache.string.stringsHelpers
 import com.samskivert.mustache.Mustache
 
-val helpers: Map<String, Mustache.Lambda> =
+val helpers: Map<String, Any> =
     stringsHelpers
         .plus(collectionHelpers)
+        .plus(mustacheHelpers)

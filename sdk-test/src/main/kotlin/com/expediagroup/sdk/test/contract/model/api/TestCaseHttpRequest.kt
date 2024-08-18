@@ -15,10 +15,8 @@ import com.expediagroup.sdk.test.contract.extension.paramsMapWithExtractedJsonAr
 import com.expediagroup.sdk.test.contract.function.ExtractPathParamsFunc
 import com.expediagroup.sdk.test.contract.function.ParamsBasedPathSanitizationFunc
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.specmatic.core.HttpRequest
 import io.specmatic.core.Scenario
-import java.io.File
 
 class TestCaseHttpRequest(
     @JsonProperty val method: String? = "",
@@ -37,7 +35,7 @@ class TestCaseHttpRequest(
                 "Content-Length",
                 "Content-Type",
                 "Accept",
-                "Accept-Encoding"
+                "Accept-Encoding",
             )
 
         fun from(

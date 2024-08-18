@@ -1,5 +1,7 @@
 package com.expediagroup.sdk.test.contract.extension
 
+import org.apache.commons.text.CaseUtils
+
 
 fun Map<String, Any>.paramsMapWithExtractedJsonArrays(): MutableMap<String, Any> {
     val processedMap = mutableMapOf<String, Any>()
@@ -18,6 +20,16 @@ fun Map<String, Any>.paramsMapWithExtractedJsonArrays(): MutableMap<String, Any>
         }
 
         processedMap[key] = processedValue
+    }
+
+    return processedMap
+}
+
+fun Map<String, Any>.withSnakeCaseHttpHeaders(): MutableMap<String, Any> {
+    val processedMap = mutableMapOf<String, Any>()
+
+    forEach { (key, value) ->
+        processedMap[key.httpHeaderCamelCase()] = value
     }
 
     return processedMap

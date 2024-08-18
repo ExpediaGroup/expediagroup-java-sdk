@@ -16,11 +16,14 @@ import com.expediagroup.sdk.product.ProductFamily
 import com.expediagroup.sdk.product.ProgrammingLanguage
 import com.expediagroup.sdk.test.contract.model.api.TestCaseApiCall
 import com.expediagroup.sdk.test.openapi.mustache.helpers
-import io.swagger.v3.oas.models.Operation
+import com.samskivert.mustache.Mustache
 import org.openapitools.codegen.CodegenConstants
 import org.openapitools.codegen.DefaultGenerator
 import org.openapitools.codegen.SupportingFile
 import org.openapitools.codegen.config.CodegenConfigurator
+import org.openapitools.codegen.languages.KotlinClientCodegen
+import org.openapitools.codegen.templating.MustacheEngineAdapter
+import org.slf4j.LoggerFactory
 import java.io.File
 
 class SdkTestGenerator(
@@ -31,6 +34,15 @@ class SdkTestGenerator(
     outputDir: File = File("target/sdk")
 ) {
     val product = Product(namespace, "rapid-java", "kotlin")
+
+    val supportingFiles = mutableListOf(
+        "${namespace.pascalCase()}ClientExecutor.kt",
+        "${namespace.pascalCase()}OperationsMetadata.kt",
+        "${namespace.pascalCase()}TestCases.kt",
+        "Main.kt",
+        "pom.xml",
+    )
+
     val config =
         CodegenConfigurator().apply {
             setGeneratorName("kotlin")
@@ -47,9 +59,6 @@ class SdkTestGenerator(
             addGlobalProperty(CodegenConstants.MODELS, "false")
             addGlobalProperty(CodegenConstants.MODEL_DOCS, "false")
             addGlobalProperty(CodegenConstants.GENERATE_MODELS, "false")
-            addGlobalProperty("debugSupportingFiles", "")
-
-            addAdditionalProperty(CodegenConstants.API_SUFFIX, "Operation")
 
             mutableMapOf<String, MutableList<TestCaseApiCall>>().withDefault { mutableListOf() }.apply {
                 testCases.forEach {
@@ -59,12 +68,11 @@ class SdkTestGenerator(
                 addAdditionalProperty("tests", entries)
             }
 
-            val supportingFiles = mutableListOf(
-                "${namespace.pascalCase()}ClientTest.kt"
-            )
+
             addGlobalProperty(CodegenConstants.SUPPORTING_FILES, supportingFiles.joinToString(","))
 
             addAdditionalProperty(CodegenConstants.API_PACKAGE, product.apiPackage)
+            addAdditionalProperty("clientClassname", "${namespace.pascalCase()}Client")
             addAdditionalProperty(CodegenConstants.ENUM_PROPERTY_NAMING, "UPPERCASE")
             addAdditionalProperty(CodegenConstants.LIBRARY, "jvm-ktor")
             addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "jackson")
@@ -83,14 +91,37 @@ class SdkTestGenerator(
                 addAdditionalProperty(name, func)
             }
 
+
         }
 
+    private val packagePath = "${product.packagePath}/test"
     val clientOptInput = config.toClientOptInput().apply {
+
+
         userDefinedTemplates(buildList {
             add(SupportingFile(
-                "client.mustache",
-                "client",
-                "${namespace.pascalCase()}ClientTest.kt"
+                "main.mustache",
+                packagePath,
+                "Main.kt"
+            ))
+            add(SupportingFile(
+                "executor.mustache",
+                packagePath,
+                "${namespace.pascalCase()}ClientExecutor.kt"
+            ))
+            add(SupportingFile(
+                "metadata.mustache",
+                packagePath,
+                "${namespace.pascalCase()}OperationsMetadata.kt"
+            ))
+            add(SupportingFile(
+                "testcases.mustache",
+                packagePath,
+                "${namespace.pascalCase()}TestCases.kt"
+            ))
+            add(SupportingFile(
+                "pom.mustache",
+                "pom.xml"
             ))
         })
     }

@@ -43,13 +43,16 @@ class TestCaseApiCall(
         ))
     }
 
+    fun filename(filenameSuffix: String? = "", filenamePrefix: String? = "") =
+        "${filenamePrefix ?: ""}${request.method}-${request.path?.removePrefix("/")?.replace("/", "-")}${filenameSuffix ?: ""}.$JSON"
+
     fun writeTo(
         outputDir: File,
         mapper: ObjectMapper,
         filenameSuffix: String? = "",
         filenamePrefix: String? = ""
     ) {
-        val filename = "${filenamePrefix ?: ""}${request.method}-${request.path?.removePrefix("/")?.replace("/", "-")}${filenameSuffix ?: ""}.$JSON"
+        val filename = filename(filenameSuffix, filenamePrefix)
         mapper.writeValue(
             File(outputDir, filename),
             mapOf(
