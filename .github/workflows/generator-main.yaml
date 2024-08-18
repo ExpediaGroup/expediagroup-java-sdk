@@ -6,7 +6,10 @@ on:
         description: 'SDK Name'
         required: true
       version:
-        description: 'SDK Version'
+        description: |
+          SDK Version.
+          ⚠️ For a snapshot version, append `-SNAPSHOT` to the version number, in the format `1.0.0-SNAPSHOT`,
+          in addition to not selecting the `Production Release` option below.
         required: true
       endpoint_prefix:
         description: 'Endpoint to prepend specs paths with'
