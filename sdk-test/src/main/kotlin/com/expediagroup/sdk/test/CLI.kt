@@ -22,9 +22,6 @@ import java.io.File
 import java.util.logging.Logger
 import java.util.logging.LoggingPermission
 
-val i = mapOf("a" to 1, "b" to 2).apply {
-     println("file")
-}
 @Command(name = "cli", description = "Command Line Interface for SDK Test")
 class CLI {
     @Option(name = ["-n", "--namespace"])

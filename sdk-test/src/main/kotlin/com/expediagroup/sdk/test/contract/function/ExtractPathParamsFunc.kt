@@ -22,7 +22,7 @@ import io.specmatic.core.Scenario
  */
 class ExtractPathParamsFunc : (Scenario, HttpRequest) -> Map<String, Any> {
     companion object {
-        val invoke = ExtractPathParamsFunc()
+        val execute = ExtractPathParamsFunc()
         /**
          * Regex pattern used to identify path parameters in the scenario path.
          * The pattern matches a segment of the format (paramName:type) and captures
@@ -41,43 +41,20 @@ class ExtractPathParamsFunc : (Scenario, HttpRequest) -> Map<String, Any> {
      * @param request The HttpRequest object for which the parameters need to be extracted.
      * @return A map containing the extracted path parameters.
      *
-     * Example:
-     * ```
+     * @sample
      * val scenario = Scenario("GET", "/users/(userId:id)/orders/(orderId:id)")
      * val request = HttpRequest("GET", "/users/123/orders/456")
      * val result = ExtractPathParamsFunc.invoke(scenario, request)
      * println(result) // Output: {userId=123, orderId=456}
-     * ```
-     *
-     * Example:
-     * ```
-     * val scenario = Scenario("GET", "/books/(bookId:id)/(chapter:chapterId)")
-     * val request = HttpRequest("GET", "/books/789/1")
-     * val result = ExtractPathParamsFunc.invoke(scenario, request)
-     * println(result) // Output: {bookId=789, chapter=1}
-     * ```
      */
-    override fun invoke(
-        scenario: Scenario,
-        request: HttpRequest
-    ): Map<String, Any> =
-        mutableMapOf<String, Any>().apply {
-            val originalPath = scenario.path.split("/")
-            val resolvedPath = request.path?.split("/") ?: emptyList()
+    override fun invoke(scenario: Scenario, request: HttpRequest): Map<String, Any> {
+        val originalPath = scenario.path.split("/")
+        val resolvedPath = request.path?.split("/") ?: return emptyMap()
 
-            if (originalPath.size.equals(resolvedPath.size).not()) {
-                return@apply
-            }
+        if (originalPath.size != resolvedPath.size) return emptyMap()
 
-            originalPath.forEachIndexed { index, _ ->
-                val originalPathSegment = originalPath[index]
-                val resolvedPathSegment = resolvedPath[index]
-
-                takeIf { originalPathSegment.matches(regex) }?.let {
-                    regex.find(originalPathSegment)?.destructured?.component1()?.let {
-                        put(it, resolvedPathSegment)
-                    }
-                }
-            }
-        }
+        return originalPath.mapIndexedNotNull { index, segment ->
+            regex.find(segment)?.destructured?.component1()?.let { it to resolvedPath[index] }
+        }.toMap()
+    }
 }

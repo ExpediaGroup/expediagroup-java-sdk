@@ -17,6 +17,12 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.specmatic.core.Scenario
 import java.io.File
 
+/**
+ * Represents a test case API call with associated request and response information.
+ *
+ * @property request The HTTP request details for the test case.
+ * @property response The HTTP response details for the test case.
+ */
 class TestCaseApiCall(
     @JsonProperty val request: TestCaseHttpRequest,
     @JsonProperty val response: TestCaseHttpResponse
@@ -33,6 +39,11 @@ class TestCaseApiCall(
             )
     }
 
+    /**
+     * Converts the TestCaseApiCall object to its JSON string representation using the jacksonObjectMapper.
+     *
+     * @return A string representation of the TestCaseApiCall object in JSON format.
+     */
     override fun toString(): String {
         return jacksonObjectMapper().writeValueAsString(mapOf(
             "request" to mapOf(
@@ -43,9 +54,24 @@ class TestCaseApiCall(
         ))
     }
 
+    /**
+     * Generates the filename based on the request method and path, with optional prefix and suffix.
+     *
+     * @param filenameSuffix (Optional) Suffix to append to the filename. Default is an empty string.
+     * @param filenamePrefix (Optional) Prefix to prepend to the filename. Default is an empty string.
+     * @return The generated filename.
+     */
     fun filename(filenameSuffix: String? = "", filenamePrefix: String? = "") =
         "${filenamePrefix ?: ""}${request.method}-${request.path?.removePrefix("/")?.replace("/", "-")}${filenameSuffix ?: ""}.$JSON"
 
+    /**
+     * Writes the TestCaseApiCall object as a JSON file to the specified output directory.
+     *
+     * @param outputDir The directory where the JSON file will be written.
+     * @param mapper The ObjectMapper instance for JSON serialization.
+     * @param filenameSuffix (Optional) Suffix to append to the filename. Default is an empty string.
+     * @param filenamePrefix (Optional) Prefix to prepend to the filename. Default is an empty string.
+     */
     fun writeTo(
         outputDir: File,
         mapper: ObjectMapper,

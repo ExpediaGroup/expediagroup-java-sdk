@@ -17,19 +17,44 @@ package com.expediagroup.sdk.test.contract.extension
 
 import com.google.common.base.CaseFormat
 
-fun String.httpHeaderCamelCase(): String =
-    when {
-        contains("-") -> CaseFormat.LOWER_HYPHEN
-        contains("_") -> CaseFormat.LOWER_UNDERSCORE
-        else -> CaseFormat.UPPER_CAMEL
-    }.to(CaseFormat.LOWER_CAMEL, this)
-
+/**
+ * Checks if the string represents an empty JSON object.
+ *
+ * This function trims any leading or trailing whitespace from the string
+ * and removes all spaces within the string, then compares it to "{}".
+ *
+ * @receiver The string to be checked.
+ * @return `true` if the string is an empty JSON object, `false` otherwise.
+ */
 fun String.isEmptyJsonObject(): Boolean = this.trim().replace(" ", "") == "{}"
 
-fun String.isJsonArray(): Boolean = this.trim().startsWith("[").and(this.trim().endsWith("]"))
-
+/**
+ * Extension function that checks if a given string is formatted as a JSON array.
+ *
+ * This function trims any leading or trailing whitespace from the string and
+ * then checks if it starts with '[' and ends with ']'.
+ *
+ * @return `true` if the string is a JSON array,
+ *         `false` otherwise.
+ */
+fun String.isJsonArray(): Boolean = this.trim().let {
+    it.startsWith("[") && it.endsWith("]")
+}
+/**
+ * Converts a JSON array string into a List of Any type.
+ *
+ * @return a list where each element represents an item in the JSON array.
+ * @throws IllegalArgumentException if the input string is not a JSON array.
+ *
+ * The function first checks if the string is a valid JSON array.
+ * If it is not, an IllegalArgumentException is thrown.
+ * It then trims the string, removes the opening and closing square brackets,
+ * and splits the string by commas into individual elements.
+ * Each element is checked if it's a JSON array itself, in which case the function calls itself recursively,
+ * otherwise, the element is added to the list as is.
+ */
 fun String.jsonArrayToList(): List<Any> {
-    if (isJsonArray().not()) {
+    takeUnless(String::isJsonArray)?.let {
         throw IllegalArgumentException("String is not a JSON array")
     }
 
