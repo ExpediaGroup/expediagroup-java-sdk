@@ -10,20 +10,14 @@
  */
 package com.expediagroup.sdk.test.openapi
 
+import com.expediagroup.sdk.generators.openapi.mustacheHelpers
 import com.expediagroup.sdk.generators.openapi.pascalCase
 import com.expediagroup.sdk.product.Product
-import com.expediagroup.sdk.product.ProductFamily
-import com.expediagroup.sdk.product.ProgrammingLanguage
 import com.expediagroup.sdk.test.contract.model.api.TestCaseApiCall
-import com.expediagroup.sdk.test.openapi.mustache.helpers
-import com.samskivert.mustache.Mustache
 import org.openapitools.codegen.CodegenConstants
 import org.openapitools.codegen.DefaultGenerator
 import org.openapitools.codegen.SupportingFile
 import org.openapitools.codegen.config.CodegenConfigurator
-import org.openapitools.codegen.languages.KotlinClientCodegen
-import org.openapitools.codegen.templating.MustacheEngineAdapter
-import org.slf4j.LoggerFactory
 import java.io.File
 
 class SdkTestGenerator(
@@ -31,7 +25,8 @@ class SdkTestGenerator(
     private val spec: File,
     private val version: String = "1.0.0",
     private val testCases: List<TestCaseApiCall> = emptyList(),
-    outputDir: File = File("target/sdk")
+    private val templatesDir: File = File("templates/expediagroup-sdk"),
+    private val outputDir: File = File("target/sdk")
 ) {
     val product = Product(namespace, "rapid-java", "kotlin")
 
@@ -46,7 +41,7 @@ class SdkTestGenerator(
     val config =
         CodegenConfigurator().apply {
             setGeneratorName("kotlin")
-            setTemplateDir("templates/expediagroup-sdk")
+            setTemplateDir(templatesDir.absolutePath)
             setInputSpec(spec.absolutePath)
             setOutputDir(outputDir.absolutePath)
             setArtifactId(product.artifactId)
@@ -68,7 +63,6 @@ class SdkTestGenerator(
                 addAdditionalProperty("tests", entries)
             }
 
-
             addGlobalProperty(CodegenConstants.SUPPORTING_FILES, supportingFiles.joinToString(","))
 
             addAdditionalProperty(CodegenConstants.API_PACKAGE, product.apiPackage)
@@ -78,51 +72,49 @@ class SdkTestGenerator(
             addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "jackson")
             addAdditionalProperty(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, true)
 
-            // Template specific properties
-            addAdditionalProperty("shadePrefix", product.shadePrefix)
-            addAdditionalProperty("namespace", product.namespace)
-            addAdditionalProperty("language", product.programmingLanguage.id)
-            addAdditionalProperty("isKotlin", ProgrammingLanguage.isKotlin(product.programmingLanguage))
-            addAdditionalProperty("isRapid", ProductFamily.isRapid(product.namespace))
-            addAdditionalProperty("isExpediaGroup", ProductFamily.isExpediaGroup(product.namespace))
-
             // Mustache Helpers
-            helpers.forEach { (name, func) ->
+            mustacheHelpers.forEach { (name, func) ->
                 addAdditionalProperty(name, func)
             }
-
-
         }
 
     private val packagePath = "${product.packagePath}/test"
     val clientOptInput = config.toClientOptInput().apply {
-
-
         userDefinedTemplates(buildList {
-            add(SupportingFile(
-                "main.mustache",
-                packagePath,
-                "Main.kt"
-            ))
-            add(SupportingFile(
-                "executor.mustache",
-                packagePath,
-                "${namespace.pascalCase()}ClientExecutor.kt"
-            ))
-            add(SupportingFile(
-                "metadata.mustache",
-                packagePath,
-                "${namespace.pascalCase()}OperationsMetadata.kt"
-            ))
-            add(SupportingFile(
-                "testcases.mustache",
-                packagePath,
-                "${namespace.pascalCase()}TestCases.kt"
-            ))
-            add(SupportingFile(
-                "pom.mustache",
-                "pom.xml"
-            ))
+            add(
+                SupportingFile(
+                    "main.mustache",
+                    packagePath,
+                    "Main.kt"
+                )
+            )
+            add(
+                SupportingFile(
+                    "executor.mustache",
+                    packagePath,
+                    "${namespace.pascalCase()}ClientExecutor.kt"
+                )
+            )
+            add(
+                SupportingFile(
+                    "metadata.mustache",
+                    packagePath,
+                    "${namespace.pascalCase()}OperationsMetadata.kt"
+                )
+            )
+            add(
+                SupportingFile(
+                    "testcases.mustache",
+                    packagePath,
+                    "${namespace.pascalCase()}TestCases.kt"
+                )
+            )
+            add(
+                SupportingFile(
+                    "pom.mustache",
+                    "pom.xml"
+                )
+            )
         })
     }
 
