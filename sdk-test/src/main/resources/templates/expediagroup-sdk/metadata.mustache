@@ -1,10 +1,10 @@
 package com.expediagroup.sdk.{{{namespace}}}.test;
 
 import com.expediagroup.sdk.{{{namespace}}}.operations.*;
-import com.expediagroup.sdk.{{{namespace}}}.client.*;
+
 
 data class OperationMetadata(
-    val type: Class<*>,
+    val requestType: Class<*>,
     val hasBody: Boolean,
     val hasParams: Boolean,
 )
@@ -15,7 +15,7 @@ val metadata = mapOf<String, OperationMetadata>(
         {{#operations}}
             {{#operation}}
                 "{{{httpMethod}}}: {{{path}}}" to OperationMetadata(
-                type={{{operationIdCamelCase}}}Operation::class.java,
+                requestType={{{operationIdCamelCase}}}Operation::class.java,
                 hasBody={{hasBodyParam}},
                 hasParams={{#hasNonBodyParams}}true{{/hasNonBodyParams}}{{^hasNonBodyParams}}true{{/hasNonBodyParams}},
                 ),

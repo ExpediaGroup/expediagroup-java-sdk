@@ -23,7 +23,7 @@ class Main {
                 val request = test["request"] as ObjectNode
                 val response = test["response"] as ObjectNode
 
-                executor.execute(request)
+                executor.execute(request, response)
             }
         }
     }

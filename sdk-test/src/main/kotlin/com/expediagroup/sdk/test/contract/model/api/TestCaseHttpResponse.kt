@@ -25,16 +25,23 @@
  */
 package com.expediagroup.sdk.test.contract.model.api
 
+import com.expediagroup.sdk.test.contract.extension.isEmptyJsonObject
+import com.expediagroup.sdk.test.util.toBoolean
 import com.fasterxml.jackson.annotation.JsonProperty
 import io.specmatic.core.HttpResponse
 
 data class TestCaseHttpResponse(
-    @JsonProperty val status: Int
+    @JsonProperty val status: Int,
+    @JsonProperty val headers: Map<String, Any>? = emptyMap(),
+    @JsonProperty val body: String? = ""
 ) {
     companion object {
+
         fun from(response: HttpResponse): TestCaseHttpResponse =
             TestCaseHttpResponse(
-                status = response.status
+                status = response.status,
+                headers = response.headers,
+                body = response.body.toString().takeIf { !it.isEmptyJsonObject().and(toBoolean(it)) }
             )
     }
 }

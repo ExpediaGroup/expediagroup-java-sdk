@@ -85,6 +85,9 @@ class SdkTestGenerator(
             addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "jackson")
             addAdditionalProperty(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, true)
 
+            addAdditionalProperty("namespace", product.namespace)
+            addAdditionalProperty("clientClassname", namespace.pascalCase())
+
             // Mustache Helpers
             mustacheHelpers.forEach { (name, func) ->
                 addAdditionalProperty(name, func)
@@ -113,13 +116,6 @@ class SdkTestGenerator(
                     "metadata.mustache",
                     packagePath,
                     "${namespace.pascalCase()}OperationsMetadata.kt"
-                )
-            )
-            add(
-                SupportingFile(
-                    "testcases.mustache",
-                    packagePath,
-                    "${namespace.pascalCase()}TestCases.kt"
                 )
             )
             add(

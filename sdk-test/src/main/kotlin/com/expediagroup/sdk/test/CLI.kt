@@ -27,16 +27,13 @@ package com.expediagroup.sdk.test
 
 import com.expediagroup.sdk.test.contract.ContractTestsGenerator
 import com.expediagroup.sdk.test.contract.MAX_TEST_REQUEST_PER_SCENARIO
+import com.expediagroup.sdk.test.contract.model.api.TestCaseApiCall
 import com.expediagroup.sdk.test.openapi.SdkTestGenerator
 import com.expediagroup.sdk.test.util.toBoolean
 import com.github.rvesse.airline.SingleCommand
 import com.github.rvesse.airline.annotations.Command
 import com.github.rvesse.airline.annotations.Option
-import org.openapitools.codegen.config.GeneratorSettings
-import org.slf4j.LoggerFactory
 import java.io.File
-import java.util.logging.Logger
-import java.util.logging.LoggingPermission
 
 @Command(name = "cli", description = "Command Line Interface for SDK Test")
 class CLI {
@@ -55,10 +52,10 @@ class CLI {
     @Option(name = ["-m", "--max-test-combinations"])
     private var maxTestCombinations: Int = MAX_TEST_REQUEST_PER_SCENARIO
 
-    @Option(name = ["-c", "--contract-tests-only"])
-    private var generateContractTestsOnly = false
+    @Option(name = ["-c", "--generate-contract-tests"])
+    private var generateContractTests = false
 
-    @Option(name = ["-s", "--sdk-tests"])
+    @Option(name = ["-s", "--generate-sdk-tests"])
     private var generateSdkTests = false
 
     private lateinit var sdkTestGenerator: SdkTestGenerator
@@ -81,28 +78,27 @@ class CLI {
     }
 
     fun run() {
-        if (!listOf(generateSdkTests, generateContractTestsOnly).any(::toBoolean)){
-            throw IllegalArgumentException("At least one of --contract-tests-only or --sdk-tests must be set to true")
+        if (!listOf(generateSdkTests, generateContractTests).any(::toBoolean)) {
+            throw IllegalArgumentException("At least one of --generate-contract-tests or --generate-sdk-tests must be set to true")
         }
 
-        contractTestsGenerator =
-            ContractTestsGenerator(
-                spec = spec,
-                outputDir = File(outputDir),
-                maxTestCombinations = maxTestCombinations
-            )
+        contractTestsGenerator = ContractTestsGenerator(
+            spec = spec,
+            outputDir = File(outputDir),
+            maxTestCombinations = maxTestCombinations
+        )
 
-        contractTestsGenerator.generate(writeMode = generateSdkTests.not().or(generateContractTestsOnly)).also { testCases ->
-            if (generateSdkTests) {
-                sdkTestGenerator =
-                    SdkTestGenerator(
-                        namespace = namespace,
-                        spec = spec,
-                        version = version,
-                        testCases = testCases
-                    )
-                sdkTestGenerator.generate()
+        contractTestsGenerator.generate(writeMode = generateContractTests).let { testCases ->
+            if (!generateSdkTests) {
+                return
             }
+
+            sdkTestGenerator = SdkTestGenerator(
+                namespace = namespace,
+                spec = spec,
+                version = version,
+                testCases = testCases
+            ).also { it.generate() }
         }
     }
 }
