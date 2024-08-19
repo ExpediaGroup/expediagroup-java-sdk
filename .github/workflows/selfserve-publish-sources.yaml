@@ -9,7 +9,7 @@ on:
         type: string
       path:
         description: 'Path to publish the source code to. This should be a path of a directory where the source code will be published to'
-        required: true
+        default: 'code'
         type: string
       sdk_key:
         description: 'Key to the generated SDK artifact'
