@@ -13,10 +13,18 @@ package com.expediagroup.sdk.test
 import com.expediagroup.sdk.test.contract.ContractTestsGenerator
 import com.expediagroup.sdk.test.contract.MAX_TEST_REQUEST_PER_SCENARIO
 import com.expediagroup.sdk.test.openapi.SdkTestGenerator
+import com.github.rvesse.airline.SingleCommand
 import com.github.rvesse.airline.annotations.Command
 import com.github.rvesse.airline.annotations.Option
+import org.openapitools.codegen.config.GeneratorSettings
+import org.slf4j.LoggerFactory
 import java.io.File
+import java.util.logging.Logger
+import java.util.logging.LoggingPermission
 
+val i = mapOf("a" to 1, "b" to 2).apply {
+     println("file")
+}
 @Command(name = "cli", description = "Command Line Interface for SDK Test")
 class CLI {
     @Option(name = ["-n", "--namespace"])
@@ -29,7 +37,7 @@ class CLI {
     private lateinit var spec: File
 
     @Option(name = ["-o", "--output-dir"])
-    private lateinit var outputDir: String
+    private var outputDir: String = "target/sdk/src/main/resources"
 
     @Option(name = ["-m", "--max-test-combinations"])
     private var maxTestCombinations: Int = MAX_TEST_REQUEST_PER_SCENARIO
@@ -44,6 +52,21 @@ class CLI {
 
     private lateinit var contractTestsGenerator: ContractTestsGenerator
 
+    companion object {
+        /**
+         * Main Entry Point
+         *
+         * Parses command line arguments and then generates an EG Travel SDK
+         */
+        @JvmStatic
+        fun main(args: Array<String>) {
+
+
+            val generator = SingleCommand.singleCommand(CLI::class.java).parse(*args)
+            generator.run()
+        }
+    }
+
     fun run() {
         if (listOf(generateSdkTests, generateContractTestsOnly).all { it == false }) {
             throw IllegalArgumentException("At least one of --contract-tests-only or --sdk-tests must be set to true")
@@ -56,7 +79,7 @@ class CLI {
                 maxTestCombinations = maxTestCombinations
             )
 
-        contractTestsGenerator.generate(writeMode = generateSdkTests).also { testCases ->
+        contractTestsGenerator.generate(writeMode = generateSdkTests.not().or(generateContractTestsOnly)).also { testCases ->
             if (generateSdkTests) {
                 sdkTestGenerator =
                     SdkTestGenerator(

@@ -23,3 +23,25 @@ fun String.httpHeaderCamelCase(): String =
         contains("_") -> CaseFormat.LOWER_UNDERSCORE
         else -> CaseFormat.UPPER_CAMEL
     }.to(CaseFormat.LOWER_CAMEL, this)
+
+fun String.isEmptyJsonObject(): Boolean = this.trim().replace(" ", "") == "{}"
+
+fun String.isJsonArray(): Boolean = this.trim().startsWith("[").and(this.trim().endsWith("]"))
+
+fun String.jsonArrayToList(): List<Any> {
+    if (isJsonArray().not()) {
+        throw IllegalArgumentException("String is not a JSON array")
+    }
+
+    return trim()
+        .removePrefix("[")
+        .removeSuffix("]")
+        .replace(" ", "")
+        .split(",").map {
+            if (it.isJsonArray()) {
+                it.jsonArrayToList()
+            } else {
+                it
+            }
+        }
+}

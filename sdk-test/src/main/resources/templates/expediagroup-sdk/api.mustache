@@ -1,0 +1,16 @@
+{{#path}}
+    {{#firstStringCompare}}{{/firstStringCompare}}
+    {{#tests}}
+        {{#value}}
+            {{#request.path}}
+                {{#secondStringCompare}}{{/secondStringCompare}}
+            {{/request.path}}
+            {{#stringsEqual}}
+                {{#request}}
+                    {{#body}}{{^isStringBlank}}"""{{{.}}}"""{{/isStringBlank}}{{/body}}
+                    {{#headers}}{{^isStringBlank}}"""{{{.}}}"""{{/isStringBlank}}{{/headers}}
+                {{/request}}
+            {{/stringsEqual}}
+        {{/value}}
+    {{/tests}}
+{{/path}}

@@ -10,6 +10,8 @@
  */
 package com.expediagroup.sdk.test.contract.model.api
 
+import com.expediagroup.sdk.test.contract.extension.isEmptyJsonObject
+import com.expediagroup.sdk.test.contract.extension.paramsMapWithExtractedJsonArrays
 import com.expediagroup.sdk.test.contract.function.ExtractPathParamsFunc
 import com.expediagroup.sdk.test.contract.function.ParamsBasedPathSanitizationFunc
 import com.fasterxml.jackson.annotation.JsonProperty
@@ -19,12 +21,12 @@ import io.specmatic.core.Scenario
 class TestCaseHttpRequest(
     @JsonProperty val method: String? = "",
     @JsonProperty val path: String? = "",
-    @JsonProperty val headers: Map<String, String>? = emptyMap(),
+    @JsonProperty val headers: Map<String, Any>? = emptyMap(),
     @JsonProperty val body: String? = "",
     @JsonProperty val pathParams: Map<String, Any>? = emptyMap(),
     @JsonProperty val queryParams: Map<String, Any>? = emptyMap(),
-    @JsonProperty val formFields: Map<String, String>? = emptyMap(),
-    @JsonProperty val multiPartFormData: Map<String, String>? = emptyMap()
+    @JsonProperty val formFields: Map<String, Any>? = emptyMap(),
+    @JsonProperty val multiPartFormData: Map<String, Any>? = emptyMap()
 ) {
     companion object {
         private val ignoreHeaders =
@@ -33,7 +35,7 @@ class TestCaseHttpRequest(
                 "Content-Length",
                 "Content-Type",
                 "Accept",
-                "Accept-Encoding"
+                "Accept-Encoding",
             )
 
         fun from(
@@ -45,13 +47,44 @@ class TestCaseHttpRequest(
             }
 
             val pathParams = ExtractPathParamsFunc.invoke(scenario, request)
+
             return TestCaseHttpRequest(
                 method = request.method,
                 path = ParamsBasedPathSanitizationFunc.invoke(request.path!!, pathParams),
-                headers = request.headers.filterKeys { ignoreHeaders.contains(it).not() },
+                headers = request.headers.filterKeys { ignoreHeaders.contains(it).not() }.paramsMapWithExtractedJsonArrays(),
                 body = request.bodyString,
-                queryParams = request.queryParams.asMap()
+                queryParams = request.queryParams.asMap().paramsMapWithExtractedJsonArrays(),
+                pathParams = pathParams,
             )
         }
     }
+
+    fun hasBody(): Boolean =
+        body?.isNotBlank()?.and(body.isEmptyJsonObject().not()) ?: false
+
+    fun hasHeaders(): Boolean = headers?.isNotEmpty() ?: false
+
+    fun hasPathParams(): Boolean = pathParams?.isNotEmpty() ?: false
+
+    fun hasQueryParams(): Boolean = queryParams?.isNotEmpty() ?: false
+
+    fun getParams(): Map<String, Any> {
+        val params = mutableMapOf<String, Any>()
+
+        if (hasHeaders()) {
+            params += headers!!
+        }
+
+        if (hasPathParams()) {
+            params += pathParams!!
+        }
+
+        if (hasQueryParams()) {
+            params += queryParams!!
+        }
+
+        return params
+    }
+
+    fun getRequestBody(): String? = if (hasBody()) body!! else null
 }

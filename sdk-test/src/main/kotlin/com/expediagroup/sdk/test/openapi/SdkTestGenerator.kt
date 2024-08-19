@@ -10,29 +10,45 @@
  */
 package com.expediagroup.sdk.test.openapi
 
+import com.expediagroup.sdk.generators.openapi.pascalCase
 import com.expediagroup.sdk.product.Product
 import com.expediagroup.sdk.product.ProductFamily
 import com.expediagroup.sdk.product.ProgrammingLanguage
 import com.expediagroup.sdk.test.contract.model.api.TestCaseApiCall
 import com.expediagroup.sdk.test.openapi.mustache.helpers
+import com.samskivert.mustache.Mustache
 import org.openapitools.codegen.CodegenConstants
 import org.openapitools.codegen.DefaultGenerator
+import org.openapitools.codegen.SupportingFile
 import org.openapitools.codegen.config.CodegenConfigurator
+import org.openapitools.codegen.languages.KotlinClientCodegen
+import org.openapitools.codegen.templating.MustacheEngineAdapter
+import org.slf4j.LoggerFactory
 import java.io.File
 
 class SdkTestGenerator(
     private val namespace: String,
     private val spec: File,
     private val version: String = "1.0.0",
-    private val testCases: List<TestCaseApiCall> = emptyList()
+    private val testCases: List<TestCaseApiCall> = emptyList(),
+    outputDir: File = File("target/sdk")
 ) {
-    val product = Product(namespace, "kotlin")
+    val product = Product(namespace, "rapid-java", "kotlin")
+
+    val supportingFiles = mutableListOf(
+        "${namespace.pascalCase()}ClientExecutor.kt",
+        "${namespace.pascalCase()}OperationsMetadata.kt",
+        "${namespace.pascalCase()}TestCases.kt",
+        "Main.kt",
+        "pom.xml",
+    )
+
     val config =
         CodegenConfigurator().apply {
             setGeneratorName("kotlin")
             setTemplateDir("templates/expediagroup-sdk")
             setInputSpec(spec.absolutePath)
-            setOutputDir("sdk-test/target/sdk")
+            setOutputDir(outputDir.absolutePath)
             setArtifactId(product.artifactId)
             setArtifactVersion(version)
             setGroupId(product.groupId)
@@ -43,11 +59,6 @@ class SdkTestGenerator(
             addGlobalProperty(CodegenConstants.MODELS, "false")
             addGlobalProperty(CodegenConstants.MODEL_DOCS, "false")
             addGlobalProperty(CodegenConstants.GENERATE_MODELS, "false")
-            addGlobalProperty("company", "expediagroup")
-
-            addGlobalProperty("debugSupportingFiles", "")
-
-            addAdditionalProperty(CodegenConstants.API_SUFFIX, "Operation")
 
             mutableMapOf<String, MutableList<TestCaseApiCall>>().withDefault { mutableListOf() }.apply {
                 testCases.forEach {
@@ -57,7 +68,11 @@ class SdkTestGenerator(
                 addAdditionalProperty("tests", entries)
             }
 
+
+            addGlobalProperty(CodegenConstants.SUPPORTING_FILES, supportingFiles.joinToString(","))
+
             addAdditionalProperty(CodegenConstants.API_PACKAGE, product.apiPackage)
+            addAdditionalProperty("clientClassname", "${namespace.pascalCase()}Client")
             addAdditionalProperty(CodegenConstants.ENUM_PROPERTY_NAMING, "UPPERCASE")
             addAdditionalProperty(CodegenConstants.LIBRARY, "jvm-ktor")
             addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "jackson")
@@ -75,9 +90,43 @@ class SdkTestGenerator(
             helpers.forEach { (name, func) ->
                 addAdditionalProperty(name, func)
             }
+
+
         }
 
-    private val generator = DefaultGenerator(false).opts(config.toClientOptInput())
+    private val packagePath = "${product.packagePath}/test"
+    val clientOptInput = config.toClientOptInput().apply {
+
+
+        userDefinedTemplates(buildList {
+            add(SupportingFile(
+                "main.mustache",
+                packagePath,
+                "Main.kt"
+            ))
+            add(SupportingFile(
+                "executor.mustache",
+                packagePath,
+                "${namespace.pascalCase()}ClientExecutor.kt"
+            ))
+            add(SupportingFile(
+                "metadata.mustache",
+                packagePath,
+                "${namespace.pascalCase()}OperationsMetadata.kt"
+            ))
+            add(SupportingFile(
+                "testcases.mustache",
+                packagePath,
+                "${namespace.pascalCase()}TestCases.kt"
+            ))
+            add(SupportingFile(
+                "pom.mustache",
+                "pom.xml"
+            ))
+        })
+    }
+
+    private val generator = DefaultGenerator(false).opts(clientOptInput)
 
     fun generate() {
         generator.generate()

@@ -13,6 +13,7 @@ package com.expediagroup.sdk.test.contract.model.api
 import com.expediagroup.sdk.test.contract.JSON
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.specmatic.core.Scenario
 import java.io.File
 
@@ -32,13 +33,26 @@ class TestCaseApiCall(
             )
     }
 
+    override fun toString(): String {
+        return jacksonObjectMapper().writeValueAsString(mapOf(
+            "request" to mapOf(
+                "body" to request.getRequestBody(),
+                "params" to request.getParams(),
+            ),
+            "response" to response
+        ))
+    }
+
+    fun filename(filenameSuffix: String? = "", filenamePrefix: String? = "") =
+        "${filenamePrefix ?: ""}${request.method}-${request.path?.removePrefix("/")?.replace("/", "-")}${filenameSuffix ?: ""}.$JSON"
+
     fun writeTo(
         outputDir: File,
         mapper: ObjectMapper,
         filenameSuffix: String? = "",
         filenamePrefix: String? = ""
     ) {
-        val filename = "${filenamePrefix ?: ""}${request.method}-${request.path?.removePrefix("/")?.replace("/", "-")}${filenameSuffix ?: ""}.$JSON"
+        val filename = filename(filenameSuffix, filenamePrefix)
         mapper.writeValue(
             File(outputDir, filename),
             mapOf(

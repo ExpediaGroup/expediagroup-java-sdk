@@ -20,8 +20,7 @@ class ExtractPathParamsFunc : (Scenario, HttpRequest) -> Map<String, Any> {
             if (originalPath.size.equals(resolvedPath.size).not()) {
                 return@apply
             }
-//            omar/google/(company:string)
-//            omar/google/aws
+
             originalPath.forEachIndexed { index, _ ->
                 val originalPathSegment = originalPath[index]
                 val resolvedPathSegment = resolvedPath[index]
