@@ -44,28 +44,3 @@ jobs:
       name: ${{ inputs.namespace }}
       version: ${{ inputs.version }}
       templates: 'sdk-repo/generator/openapi/src/main/resources/templates/expediagroup-sdk'
-  sdk-metadata:
-    runs-on: ubuntu-latest
-    needs: [ generate-sdk ]
-    outputs:
-      artifactId: ${{ steps.parse-metadata.outputs.artifactId }}
-      groupId: ${{ steps.parse-metadata.outputs.groupId }}
-      version: ${{ steps.parse-metadata.outputs.version }}
-    steps:
-      - uses: actions/download-artifact@v4
-        with:
-          name: jar
-          path: jar
-      - id: parse-metadata
-        working-directory: jar/maven-archiver
-        shell: python -u {0}
-        run: |
-          import os
-
-          metadata: dict = dict()
-          with open("pom.properties") as properties:
-            metadata = dict(line.strip().split('=') for line in filter(bool, properties.readlines()))
-
-          with open(os.getenv("GITHUB_OUTPUT"), "a") as GITHUB_OUTPUT:
-            for key, value in metadata.items():
-              print(f"{key}={value}", file=GITHUB_OUTPUT)

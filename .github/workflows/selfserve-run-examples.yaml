@@ -1,0 +1,69 @@
+name: Run Examples
+on:
+  workflow_call:
+    inputs:
+      sdk_key:
+        description: 'Generated SDK artifact key'
+        required: false
+        type: string
+        default: ''
+      sdk_version:
+        description: 'SDK version to run examples for'
+        required: false
+        type: string
+        default: 'LATEST'
+      jdk:
+        description: 'JDK version to use'
+        required: true
+        type: string
+        default: '21'
+      distribution:
+        description: 'JDK distribution to use'
+        required: false
+        type: string
+        default: 'corretto'
+      examples_dir:
+        description: 'Path to the examples directory'
+        required: true
+        type: string
+      repository:
+        description: 'Repository to checkout'
+        required: true
+        type: string
+      execution_command:
+        description: 'Command to run the examples'
+        required: true
+        type: string
+    secrets:
+      KEY:
+        description: 'API Key'
+        required: true
+      SECRET:
+        description: 'API Key'
+        required: true
+
+jobs:
+  run-examples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        if: ${{ inputs.sdk_key != '' }}
+        with:
+          repository: "${{ inputs.repository }}"
+      - uses: actions/download-artifact@v4
+        if: ${{ inputs.sdk_key != '' }}
+        with:
+          name: ${{ inputs.sdk_key }}
+          path: examples/sdk
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ inputs.jdk }}
+          distribution: ${{ inputs.distribution }}
+      - name: Install SDK into local repository
+        if: ${{ inputs.sdk_key != '' }}
+        working-directory: examples/sdk
+        run: mvn install
+      - name: Run Examples
+        working-directory: examples
+        run: ${{ inputs.execution_command }}
