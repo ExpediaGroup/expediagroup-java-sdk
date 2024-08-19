@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2022 Expedia, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 /* You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
@@ -95,7 +110,7 @@ class TestCaseHttpRequest(
      * @return `true` if the body is not empty and not just a JSON object, `false` otherwise.
      */
     fun hasBody(): Boolean =
-        toBoolean(body).and(toBoolean(body?.isEmptyJsonObject()))
+        toBoolean(body, dynamic = true).and(!(body!!.isEmptyJsonObject()))
 
     /**
      * Checks if the HTTP request has any headers.
@@ -122,7 +137,7 @@ class TestCaseHttpRequest(
      */
     fun getParams(): Map<String, Any> = mutableMapOf<String, Any>().apply {
         listOf(headers, pathParams, queryParams).forEach { param ->
-            takeIf { toBoolean(param) }?.let { putAll(it) }
+            takeIf { toBoolean(param, dynamic = true) }?.let { putAll(it) }
         }
     }
 

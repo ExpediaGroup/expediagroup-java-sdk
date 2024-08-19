@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2022 Expedia, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 /* You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
@@ -25,7 +40,7 @@ class SdkTestGenerator(
     private val spec: File,
     private val version: String = "1.0.0",
     private val testCases: List<TestCaseApiCall> = emptyList(),
-    private val templatesDir: File = File("templates/expediagroup-sdk"),
+    private val templatesDir: File = File("src/main/templates/expediagroup-sdk"),
     private val outputDir: File = File("target/sdk")
 ) {
     val product = Product(namespace, "rapid-java", "kotlin")
@@ -55,13 +70,19 @@ class SdkTestGenerator(
             addGlobalProperty(CodegenConstants.MODEL_DOCS, "false")
             addGlobalProperty(CodegenConstants.GENERATE_MODELS, "false")
 
-            mutableMapOf<String, MutableList<TestCaseApiCall>>().withDefault { mutableListOf() }.apply {
+            val x = testCases.groupBy { "${it.request.method}: ${it.request.path}" }.mapValues { it.value }.apply {
+//                addAdditionalProperty("tests", entries)
+            }
+
+            val y = mutableMapOf<String, MutableList<TestCaseApiCall>>().withDefault { mutableListOf() }.apply {
                 testCases.forEach {
                     putIfAbsent("${it.request.method} ${it.request.path}", mutableListOf())
                     this["${it.request.method} ${it.request.path}"]!!.add(it)
                 }
                 addAdditionalProperty("tests", entries)
             }
+
+            println(x == y)
 
             addGlobalProperty(CodegenConstants.SUPPORTING_FILES, supportingFiles.joinToString(","))
 
