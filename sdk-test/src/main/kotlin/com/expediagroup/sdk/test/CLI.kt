@@ -34,7 +34,7 @@ import com.github.rvesse.airline.annotations.Command
 import com.github.rvesse.airline.annotations.Option
 import java.io.File
 
-@Command(name = "cli", description = "Command Line Interface for SDK Test")
+@Command(name = "cli", description = "Command Line Interface for SDK Tests Module")
 class CLI {
     @Option(name = ["-n", "--namespace"])
     private lateinit var namespace: String
