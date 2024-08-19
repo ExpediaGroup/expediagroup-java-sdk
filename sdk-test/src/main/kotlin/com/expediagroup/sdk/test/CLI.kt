@@ -27,7 +27,6 @@ package com.expediagroup.sdk.test
 
 import com.expediagroup.sdk.test.contract.ContractTestsGenerator
 import com.expediagroup.sdk.test.contract.MAX_TEST_REQUEST_PER_SCENARIO
-import com.expediagroup.sdk.test.contract.model.api.TestCaseApiCall
 import com.expediagroup.sdk.test.openapi.SdkTestGenerator
 import com.expediagroup.sdk.test.util.toBoolean
 import com.github.rvesse.airline.SingleCommand
@@ -57,6 +56,9 @@ class CLI {
 
     @Option(name = ["-s", "--generate-sdk-tests"])
     private var generateSdkTests = false
+
+    @Option(name = ["-t", "--templates-dir"])
+    private var templatesDir: File = File("src/main/resources/templates/expediagroup-sdk")
 
     private lateinit var sdkTestGenerator: SdkTestGenerator
 
@@ -97,7 +99,8 @@ class CLI {
                 namespace = namespace,
                 spec = spec,
                 version = version,
-                testCases = testCases
+                testCases = testCases,
+                templatesDir = templatesDir,
             ).also { it.generate() }
         }
     }
