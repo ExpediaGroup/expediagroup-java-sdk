@@ -28,6 +28,7 @@ package com.expediagroup.sdk.test
 import com.expediagroup.sdk.test.contract.ContractTestsGenerator
 import com.expediagroup.sdk.test.contract.MAX_TEST_REQUEST_PER_SCENARIO
 import com.expediagroup.sdk.test.openapi.SdkTestGenerator
+import com.expediagroup.sdk.test.util.toBoolean
 import com.github.rvesse.airline.SingleCommand
 import com.github.rvesse.airline.annotations.Command
 import com.github.rvesse.airline.annotations.Option
@@ -80,7 +81,7 @@ class CLI {
     }
 
     fun run() {
-        if (listOf(generateSdkTests, generateContractTestsOnly).all { it == false }) {
+        if (!listOf(generateSdkTests, generateContractTestsOnly).any(::toBoolean)){
             throw IllegalArgumentException("At least one of --contract-tests-only or --sdk-tests must be set to true")
         }
 

@@ -40,7 +40,7 @@ class SdkTestGenerator(
     private val spec: File,
     private val version: String = "1.0.0",
     private val testCases: List<TestCaseApiCall> = emptyList(),
-    private val templatesDir: File = File("src/main/templates/expediagroup-sdk"),
+    private val templatesDir: File = File("src/main/resources/templates/expediagroup-sdk"),
     private val outputDir: File = File("target/sdk")
 ) {
     val product = Product(namespace, "rapid-java", "kotlin")
@@ -70,19 +70,11 @@ class SdkTestGenerator(
             addGlobalProperty(CodegenConstants.MODEL_DOCS, "false")
             addGlobalProperty(CodegenConstants.GENERATE_MODELS, "false")
 
-            val x = testCases.groupBy { "${it.request.method}: ${it.request.path}" }.mapValues { it.value }.apply {
-//                addAdditionalProperty("tests", entries)
+            testCases.groupBy { testCase ->
+                "${testCase.request.method}: ${testCase.request.path}"
+            }.also { map ->
+                addAdditionalProperty("tests", map.entries)
             }
-
-            val y = mutableMapOf<String, MutableList<TestCaseApiCall>>().withDefault { mutableListOf() }.apply {
-                testCases.forEach {
-                    putIfAbsent("${it.request.method} ${it.request.path}", mutableListOf())
-                    this["${it.request.method} ${it.request.path}"]!!.add(it)
-                }
-                addAdditionalProperty("tests", entries)
-            }
-
-            println(x == y)
 
             addGlobalProperty(CodegenConstants.SUPPORTING_FILES, supportingFiles.joinToString(","))
 
