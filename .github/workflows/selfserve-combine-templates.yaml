@@ -44,4 +44,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ inputs.combined_templates_key }}
-          path: tmp/templates
+          path: ${{ inputs.combined_templates_key }}
