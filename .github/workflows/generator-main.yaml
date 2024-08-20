@@ -6,7 +6,11 @@ on:
         description: 'SDK Name'
         required: true
       version:
-        description: 'SDK Version'
+        description: |
+          SDK Version
+
+          ⚠️ For a snapshot version, append `-SNAPSHOT` to the version number, in the format `1.0.0-SNAPSHOT`,
+          in addition to not selecting the `Release to production` option below.
         required: true
       endpoint_prefix:
         description: 'Endpoint to prepend specs paths with'
@@ -17,7 +21,11 @@ on:
         required: true
         type: string
       production_release:
-        description: 'Release to production'
+        description: |
+          Release to production
+
+          ⚠️ Please ensure that the version number includes the `-SNAPSHOT` suffix if this option is not selected,
+          otherwise the SDK will be published to Maven Central (production).
         required: true
         type: boolean
         default: false

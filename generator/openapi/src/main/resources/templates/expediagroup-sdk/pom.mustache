@@ -85,6 +85,8 @@
         <ktor.version>2.3.12</ktor.version>
         <kotlin-atomic.version>0.25.0</kotlin-atomic.version>
         <slf4j.version>2.0.13</slf4j.version>
+        <maven.nexus-staging.plugin.version>1.7.0</maven.nexus-staging.plugin.version>
+        <maven.gpg.plugin.version>3.2.5</maven.gpg.plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -671,6 +673,11 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.jetbrains</groupId>
