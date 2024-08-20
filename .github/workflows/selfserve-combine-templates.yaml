@@ -35,10 +35,10 @@ jobs:
       - name: Combine templates
         run: python .github/scripts/combine_templates.py
         env:
-          INPUT_BASE_TEMPLATES: ${{ github.event.inputs.base_templates }}
-          INPUT_CUSTOM_TEMPLATES: ${{ github.event.inputs.custom_templates }}
-          INPUT_VERSION: ${{ github.event.inputs.version }}
-          INPUT_OUTPUT_DIR: 'tmp/templates'
+          INPUT_BASE_TEMPLATES: ${{ inputs.base_templates }}
+          INPUT_CUSTOM_TEMPLATES: ${{ inputs.custom_templates }}
+          INPUT_VERSION: ${{ inputs.version }}
+          INPUT_OUTPUT_DIR: 'tmp/${{ inputs.combined_templates_key }}'
 
       - name: Upload combined templates
         uses: actions/upload-artifact@v4
