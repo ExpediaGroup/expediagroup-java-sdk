@@ -11,8 +11,8 @@ on:
         description: 'SDK Version'
         required: true
         type: string
-      templates:
-        description: 'Path to the templates directory'
+      templates_key:
+        description: 'Key to the combined templates artifact'
         required: true
         type: string
       specs_key:
@@ -45,6 +45,11 @@ jobs:
         with:
           name: ${{ inputs.specs_key }}
 
+      - name: Download Templates
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.templates_key }}
+
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
@@ -53,12 +58,11 @@ jobs:
 
       - name: Generate Product SDK
         run: |
-          mvn -f sdk-repo/generator/openapi clean install exec:java "-Dnamespace=${{ inputs.name }}" -DsdkVersion=${{ inputs.version }} "-Dspec=./${{ inputs.specs_key }}.yaml" -DtemplatesDir=./${{ inputs.templates }}
+          mvn -f sdk-repo/generator/openapi clean install exec:java "-Dnamespace=${{ inputs.name }}" -DsdkVersion=${{ inputs.version }} "-Dspec=./${{ inputs.specs_key }}.yaml" -DtemplatesDir=./${{ inputs.templates_key }}
 
       - name: Install SDK
-        working-directory: sdk-repo/generator/openapi/target/sdk
         run: |
-          mvn clean install
+          mvn clean install -f sdk-repo/generator/openapi/target/sdk
 
       - name: Persist SDK Artifact
         uses: actions/upload-artifact@v4
@@ -67,6 +71,7 @@ jobs:
           path: |
             sdk-repo/generator/openapi/target/sdk
             !sdk-repo/generator/openapi/target/sdk/target
+
       - name: Persist JAR Artifact # TODO: Remove when product config is proposed
         uses: actions/upload-artifact@v4
         with:
