@@ -65,7 +65,7 @@
         <namespace>example</namespace>
         <sdkVersion>0.0.1-SNAPSHOT</sdkVersion>
         <language>java</language>
-        <templatesDir>templates/expediagroup-sdk/v1</templatesDir>
+        <templatesDir>templates/expediagroup-sdk</templatesDir>
         <repoName>test-sdk</repoName>
 
         <!-- Versions -->
