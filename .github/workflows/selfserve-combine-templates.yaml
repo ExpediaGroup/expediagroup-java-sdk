@@ -7,10 +7,6 @@ on:
         description: 'Base SDK templates path (without the versioned directories)'
         type: string
         default: 'sdk-repo/generator/openapi/src/main/resources/templates/expediagroup-sdk'
-      version:
-        description: 'Base templates version'
-        type: number
-        default: 1
       custom_templates:
         description: 'Custom templates path to merge with base templates'
         type: string
@@ -24,24 +20,17 @@ jobs:
   combine-templates:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.x'
-
       - name: Combine templates
-        run: python .github/scripts/combine_templates.py
-        env:
-          INPUT_BASE_TEMPLATES: ${{ inputs.base_templates }}
-          INPUT_CUSTOM_TEMPLATES: ${{ inputs.custom_templates }}
-          INPUT_VERSION: ${{ inputs.version }}
-          INPUT_OUTPUT_DIR: 'tmp/${{ inputs.combined_templates_key }}'
+        run: |
+          mkdir -p tmp/${{ inputs.combined_templates_key }}
+          cp -r ${{ inputs.base_templates }}/* tmp/${{ inputs.combined_templates_key }}
+
+          if [ -d ${{ inputs.custom_templates }} ]; then
+              cp -r ${{ inputs.custom_templates }}/* tmp/${{ inputs.combined_templates_key }}
+          fi
 
       - name: Upload combined templates
         uses: actions/upload-artifact@v4
         with:
           name: ${{ inputs.combined_templates_key }}
-          path: ${{ inputs.combined_templates_key }}
+          path: tmp/${{ inputs.combined_templates_key }}

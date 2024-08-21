@@ -21,15 +21,11 @@ on:
         default: '-NA-'
       base_templates:
         description: |
-          Path to the base templates directory (without the version number).
+          Path to the base templates directory.
           Use the default path if you are using the default templates.
           Use `sdk-repo` to refer to the `expediagroup-sdk` repo root path if needed.
         type: string
         default: 'sdk-repo/generator/openapi/src/main/resources/templates/expediagroup-sdk'
-      templates_version:
-        description: 'Base templates version'
-        type: number
-        default: 1
       combined_templates_key:
         description: 'Key to the combined templates artifact'
         type: string
@@ -42,7 +38,7 @@ on:
         default: ''
       ref:
         description: |
-          Branch or tag to checkout.
+          Branch or tag to checkout on the `expediagroup-sdk` repository.
           Leave empty to use the default branch.
         type: string
         default: ''
@@ -88,19 +84,19 @@ jobs:
     steps:
       - name: Show inputs
         run: |
-          echo "SDK Name: ${{ inputs.name }}"
-          echo "SDK Version: ${{ inputs.version }}"
-          echo "Base Templates: ${{ inputs.base_templates }}"
-          echo "Base Templates Version: v${{ inputs.templates_version }}"
-          echo "Custom Templates: ${{ inputs.custom_templates }}"
-          echo "Repository: ${{ inputs.repository }}"
-          echo "Ref: ${{ inputs.ref }}"
-          echo "Specs Key: ${{ inputs.specs_key }}"
-          echo "Specs Path: ${{ inputs.specs_path }}"
-          echo "Transformed Specs Key: ${{ inputs.transformed_specs_key }}"
-          echo "Transformations: ${{ inputs.transformations }}"
-          echo "Sources Path: ${{ inputs.sources_path }}"
-          echo "SDK Key: ${{ inputs.sdk_key }}"
+          echo "name: ${{ inputs.name }}"
+          echo "version: ${{ inputs.version }}"
+          echo "custom_templates: ${{ inputs.custom_templates }}"
+          echo "base_templates: ${{ inputs.base_templates }}"
+          echo "combined_templates_key: ${{ inputs.combined_templates_key }}"
+          echo "repository: ${{ inputs.repository }}"
+          echo "ref: ${{ inputs.ref }}"
+          echo "specs_key: ${{ inputs.specs_key }}"
+          echo "specs_path: ${{ inputs.specs_path }}"
+          echo "transformed_specs_key: ${{ inputs.transformed_specs_key }}"
+          echo "transformations: ${{ inputs.transformations }}"
+          echo "sources_path: ${{ inputs.sources_path }}"
+          echo "sdk_key: ${{ inputs.sdk_key }}"
 
   upload-specs:
     uses: ./.github/workflows/selfserve-upload-specs.yaml
@@ -122,13 +118,12 @@ jobs:
     uses: ./.github/workflows/selfserve-combine-templates.yaml
     with:
       base_templates: ${{ inputs.base_templates }}
-      version: ${{ inputs.templates_version }}
       custom_templates: ${{ inputs.custom_templates }}
       combined_templates_key: ${{ inputs.combined_templates_key }}
 
   generate-sdk:
     uses: ./.github/workflows/selfserve-generate.yaml
-    needs: [ transform-specs ]
+    needs: [ transform-specs, combine-templates ]
     with:
       name: ${{ inputs.name }}
       version: ${{ inputs.version }}
