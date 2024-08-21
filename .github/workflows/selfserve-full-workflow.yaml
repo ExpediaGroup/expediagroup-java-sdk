@@ -31,7 +31,7 @@ on:
           Path to the custom templates directory.
           Make sure to checkout the custom templates directory before setting this input.
         type: string
-        default: '-NA-'
+        default: ''
       combined_templates_key:
         description: 'Key to the combined templates artifact'
         type: string
