@@ -39,7 +39,6 @@ jobs:
         with:
           repository: 'ExpediaGroup/expediagroup-java-sdk'
           path: sdk-repo
-          ref: 'nanssari/rapid_links'
 
       - name: Download Specs
         uses: actions/download-artifact@v4
