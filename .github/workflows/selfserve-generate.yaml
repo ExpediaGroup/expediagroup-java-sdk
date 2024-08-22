@@ -48,7 +48,7 @@ jobs:
       - name: Build generator post-processor
         run: |
           pwd
-          ls -l
+          ls -lR
 
       - name: Set up JDK 21
         uses: actions/setup-java@v4
