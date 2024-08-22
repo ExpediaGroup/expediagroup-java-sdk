@@ -23,12 +23,17 @@ jobs:
       - id: build
         working-directory: generator
         run: mvn clean install
+      - id: build-processor
+        working-directory: generator/openapi/src/main/resources/post-processor
+        run: npm ci && npm run clean && npm run build
       - uses: actions/download-artifact@v4
         with:
           name: specs
           path: generator/openapi
       - name: generate
         working-directory: generator/openapi
+        env:
+          KOTLIN_POST_PROCESS_FILE: "npm run --prefix src/main/resources/post-processor process"
         run: |
           mvn clean install exec:java "-Dnamespace=${{ inputs.name }}" -DsdkVersion=${{ inputs.version }} "-Dspec=./specs.yaml"
       - name: install sdk

@@ -93,6 +93,7 @@ class OpenApiSdkGenerator {
                     setArtifactVersion(version)
                     setGroupId(product.groupId)
                     setPackageName(product.packageName)
+                    setEnablePostProcessFile(true)
 
                     addGlobalProperty(CodegenConstants.APIS, "")
                     addGlobalProperty(CodegenConstants.API_DOCS, "false")
@@ -202,14 +203,6 @@ class OpenApiSdkGenerator {
                             }
 
                             if (ProductFamily.isXap(product.namespace)) {
-                                add(
-                                    SupportingFile(
-                                        "xap/get_lodging_listings_operation_params.mustache",
-                                        "$packagePath/operations/",
-                                        "GetLodgingListingsOperationParams.kt"
-                                    )
-                                )
-
                                 add(
                                     SupportingFile(
                                         "xap/room.mustache",

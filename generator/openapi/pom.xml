@@ -168,6 +168,11 @@
             <resource>
                 <directory>${project.basedir}/src/main/resources</directory>
                 <filtering>true</filtering>
+                <excludes>
+                    <exclude>
+                        **/post-processor/**
+                    </exclude>
+                </excludes>
             </resource>
         </resources>
 
@@ -280,6 +285,9 @@
                                 <includes>
                                     <include>**/*.kt</include>
                                 </includes>
+                                <excludes>
+                                    <exclude>src/main/resources/post-processor/**/*.kt</exclude>
+                                </excludes>
                             </licenseSet>
                         </licenseSets>
                     </configuration>
