@@ -46,8 +46,9 @@ jobs:
           name: ${{ inputs.specs_key }}
 
       - name: Build generator post-processor
-        working-directory: sdk-repo/generator/openapi/src/main/resources/post-processor
-        run: ls -l
+        run: |
+          pwd
+          ls -l
 
       - name: Set up JDK 21
         uses: actions/setup-java@v4
