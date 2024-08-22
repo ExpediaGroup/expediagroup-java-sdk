@@ -46,7 +46,7 @@ jobs:
           name: ${{ inputs.specs_key }}
 
       - name: Build generator post-processor
-        working-directory: generator/openapi/src/main/resources/post-processor
+        working-directory: sdk-repo/generator/openapi/src/main/resources/post-processor
         run: npm ci && npm run clean && npm run build
 
       - name: Set up JDK 21
