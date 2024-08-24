@@ -2,5 +2,14 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "local>ExpediaGroup/renovate-config"
+  ],
+  "packageRules": [
+    {
+      "managers": ["maven"],
+      "fileMatch": [
+        "^.*\\/pom\\.xml$", 
+        "^.*\\/pom\\.mustache$"
+      ]
+    }
   ]
 }
