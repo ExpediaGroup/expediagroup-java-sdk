@@ -105,6 +105,15 @@ jobs:
           echo "Sources Path: ${{ inputs.sources_path }}"
           echo "SDK Key: ${{ inputs.sdk_key }}"
 
+  checkout-sdk-repo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout SDK Repository
+        uses: actions/checkout@v4
+        with:
+          repository: 'expediagroup/expediagroup-sdk-core'
+          ref: ${{ inputs.sdk-repo-ref }}
+
   upload-specs:
     uses: ./.github/workflows/selfserve-upload-specs.yaml
     with:
@@ -123,6 +132,7 @@ jobs:
 
   combine-templates:
     uses: ./.github/workflows/selfserve-combine-templates.yaml
+    needs: [ checkout-sdk-repo ]
     with:
       base_templates: ${{ inputs.base_templates }}
       custom_templates: ${{ inputs.custom_templates }}

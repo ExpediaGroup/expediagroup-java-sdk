@@ -3,10 +3,6 @@ name: Generate SDK
 on:
   workflow_call:
     inputs:
-      ref:
-        description: 'EG SDK Repository branch or tag to checkout'
-        type: string
-        default: ''
       name:
         description: 'SDK Name'
         required: true
@@ -38,13 +34,6 @@ jobs:
   generate:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout EG SDK Repository
-        uses: actions/checkout@v4
-        with:
-          repository: 'ExpediaGroup/expediagroup-java-sdk'
-          ref: ${{ inputs.ref }}
-          path: sdk-repo
-
       - name: Download Specs
         uses: actions/download-artifact@v4
         with:
