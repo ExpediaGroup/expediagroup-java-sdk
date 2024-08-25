@@ -26,6 +26,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          repository: ${{ inputs.repository }}
+          ref: ${{ inputs.ref }}
+          path: ${{ inputs.artifact_path }}
 
       - name: Upload repository as artifact
         uses: actions/upload-artifact@v4
