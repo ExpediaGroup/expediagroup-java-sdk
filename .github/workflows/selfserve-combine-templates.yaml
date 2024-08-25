@@ -1,7 +1,7 @@
 name: Combine Templates
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       base_templates:
         description: 'Base SDK templates path (without the versioned directories)'
