@@ -108,11 +108,12 @@ jobs:
   checkout-sdk-repo:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout SDK Repository
+      - name: Checkout EG SDK Repository
         uses: actions/checkout@v4
         with:
-          repository: 'expediagroup/expediagroup-sdk-core'
-          ref: ${{ inputs.sdk-repo-ref }}
+          repository: 'ExpediaGroup/expediagroup-java-sdk'
+          ref: ${{ inputs.ref }}
+          path: sdk-repo
 
   upload-specs:
     uses: ./.github/workflows/selfserve-upload-specs.yaml
