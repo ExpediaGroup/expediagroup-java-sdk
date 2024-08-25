@@ -32,7 +32,6 @@ jobs:
 
       - name: Combine templates
         run: |
-          ls -la
           mkdir -p tmp/${{ inputs.combined_templates_key }}
           cp -r ${{ inputs.base_templates }}/* tmp/${{ inputs.combined_templates_key }}
 
