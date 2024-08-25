@@ -83,7 +83,7 @@ jobs:
   generate-test-sdk:
     if: inputs.source == 'specs'
     needs: [ inputs-validation ]
-    uses: "./.github/workflows/generator-test-sdk.yaml@nanssari/test"
+    uses: ./.github/workflows/generator-test-sdk.yaml
     with:
       version: ${{ inputs.sdk_version }}
       namespace: ${{ inputs.sdk_namespace }}
