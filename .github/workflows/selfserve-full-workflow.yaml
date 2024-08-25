@@ -110,7 +110,7 @@ jobs:
           echo "SDK Repository Key: ${{ inputs.sdk_repo_key }}"
 
   checkout-sdk-repo:
-    uses: ./.github/workflows/selfserve-checkout-upload.yaml
+    uses: ./.github/workflows/selfserve-checkout-and-upload.yaml
     with:
       repository: 'ExpediaGroup/expediagroup-java-sdk'
       ref: ${{ inputs.sdk_repo_ref }}
