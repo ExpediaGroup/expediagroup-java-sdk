@@ -15,11 +15,21 @@ on:
         description: 'Key to the combined templates artifact'
         type: string
         default: 'templates'
+      sdk_repo_key:
+        description: 'Key to the SDK repository artifact'
+        type: string
+        default: 'sdk-repo'
 
 jobs:
   combine-templates:
     runs-on: ubuntu-latest
     steps:
+      - name: Download SDK Repository
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.sdk_repo_key }}
+          path: sdk-repo
+
       - name: Combine templates
         run: |
           ls -la

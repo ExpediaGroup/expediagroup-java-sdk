@@ -25,6 +25,10 @@ on:
         description: 'Key to the generated SDK artifact'
         default: 'sdk'
         type: string
+      sdk_repo_key:
+        description: 'Key to the SDK repository artifact'
+        default: 'sdk-repo'
+        type: string
       jar_key:
         description: 'Key to the generated JAR artifact'
         default: 'jar'
@@ -34,6 +38,12 @@ jobs:
   generate:
     runs-on: ubuntu-latest
     steps:
+      - name: Download SDK Repository
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.sdk_repo_key }}
+          path: sdk-repo
+
       - name: Download Specs
         uses: actions/download-artifact@v4
         with:
