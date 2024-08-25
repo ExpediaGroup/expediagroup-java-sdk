@@ -32,18 +32,8 @@ jobs:
 
       - name: Combine templates
         run: |
-          ls -la sdk-repo
-
-          echo "Base Templates: ${{ inputs.base_templates }}"
-          ls -la ${{ inputs.base_templates }}
-
-          echo "Custom Templates: ${{ inputs.custom_templates }}"
-          ls -la ${{ inputs.custom_templates }}
-
-          echo "---------"
-
           mkdir -p tmp/${{ inputs.combined_templates_key }}
-          cp -r ${{ inputs.base_templates }}/* tmp/${{ inputs.combined_templates_key }}
+          cp -r ${{ inputs.base_templates }}/ tmp/${{ inputs.combined_templates_key }}
 
           if [ -d ${{ inputs.custom_templates }} ]; then
               cp -r ${{ inputs.custom_templates }}/* tmp/${{ inputs.combined_templates_key }}
