@@ -93,6 +93,7 @@ class OpenApiSdkGenerator {
                     setArtifactVersion(version)
                     setGroupId(product.groupId)
                     setPackageName(product.packageName)
+                    setEnablePostProcessFile(true)
 
                     addGlobalProperty(CodegenConstants.APIS, "")
                     addGlobalProperty(CodegenConstants.API_DOCS, "false")
