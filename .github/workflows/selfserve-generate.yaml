@@ -68,6 +68,7 @@ jobs:
         env:
           KOTLIN_POST_PROCESS_FILE: "npm run --prefix sdk-repo/generator/openapi/src/main/resources/post-processor process"
         run: |
+          find .
           mvn -f sdk-repo/generator/openapi clean install exec:java "-Dnamespace=${{ inputs.name }}" -DsdkVersion=${{ inputs.version }} "-Dspec=./${{ inputs.specs_key }}.yaml" -DtemplatesDir=./${{ inputs.templates_key }}
 
       - name: Install SDK
