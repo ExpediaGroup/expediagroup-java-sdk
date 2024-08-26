@@ -48,13 +48,13 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: ${{ inputs.specs_key }}
-          path: .
+          path: specs
 
       - name: Download Templates
         uses: actions/download-artifact@v4
         with:
           name: ${{ inputs.templates_key }}
-          path: .
+          path: templates
 
       - name: Build Generator Post-processor
         working-directory: sdk-repo/generator/openapi/src/main/resources/post-processor
