@@ -68,9 +68,9 @@ jobs:
         env:
           KOTLIN_POST_PROCESS_FILE: "npm run --prefix sdk-repo/generator/openapi/src/main/resources/post-processor process"
         run: |
-          TEMPLATE_DIR= ./sdk-repo/generator/openapi/src/main/resources/templates/expediagroup-sdk/
+          TEMPLATE_DIR= "./sdk-repo/generator/openapi/src/main/resources/templates/expediagroup-sdk/"
           ls -la
-          mvn -f sdk-repo/generator/openapi clean install exec:java "-Dnamespace=${{ inputs.name }}" -DsdkVersion=${{ inputs.version }} "-Dspec=./${{ inputs.specs_key }}.yaml" -DtemplatesDir="$TEMPLATE_DIR"
+          mvn -f sdk-repo/generator/openapi clean install exec:java "-Dnamespace=${{ inputs.name }}" -DsdkVersion=${{ inputs.version }} "-Dspec=./${{ inputs.specs_key }}.yaml" -DtemplatesDir=$TEMPLATE_DIR
 
       - name: Install SDK
         run: |
