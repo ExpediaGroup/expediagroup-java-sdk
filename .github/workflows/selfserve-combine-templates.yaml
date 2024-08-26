@@ -33,10 +33,10 @@ jobs:
       - name: Combine templates
         run: |
           mkdir -p tmp/${{ inputs.combined_templates_key }}
-          cp -r ${{ inputs.base_templates }}/ tmp/${{ inputs.combined_templates_key }}
+          cp -r ${{ inputs.base_templates }}/* tmp/${{ inputs.combined_templates_key }}
 
-          if [ -d ${{ inputs.custom_templates }} ]; then
-              cp -r ${{ inputs.custom_templates }}/* tmp/${{ inputs.combined_templates_key }}
+          if [ -n "${{ inputs.custom_templates }}" ] && [ -d ${{ inputs.custom_templates }} ]; then
+            cp -r ${{ inputs.custom_templates }}/* tmp/${{ inputs.combined_templates_key }}
           fi
 
       - name: Upload combined templates
