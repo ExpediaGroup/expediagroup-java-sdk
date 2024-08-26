@@ -47,10 +47,7 @@ jobs:
 
       - name: Build generator post-processor
         working-directory: sdk-repo/generator/openapi/src/main/resources/post-processor
-        run: |
-          pwd
-          ls -lR
-          npm ci && npm run clean && npm run build
+        run: npm ci && npm run clean && npm run build
 
       - name: Set up JDK 21
         uses: actions/setup-java@v4
