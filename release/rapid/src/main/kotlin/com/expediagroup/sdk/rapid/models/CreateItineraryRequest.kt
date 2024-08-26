@@ -63,7 +63,10 @@ data class CreateItineraryRequest(
     val phone: PhoneRequest,
     @JsonProperty("rooms")
     @field:Valid
-    val rooms: kotlin.collections.List<CreateItineraryRequestRoom>,
+    val rooms: kotlin.collections
+        .List<
+            CreateItineraryRequestRoom
+        >,
     // Your unique reference value. This field supports from 3 to a maximum of 28 characters and is required to be unique (if provided). Entering special characters (\"<\", \">\", \"(\", \")\", and \"&\") in this field will result in the request being rejected.
     @JsonProperty("affiliate_reference_id")
     @field:Valid
