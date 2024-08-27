@@ -121,7 +121,6 @@ jobs:
       repository: 'ExpediaGroup/expediagroup-java-sdk'
       ref: ${{ inputs.sdk_repo_ref }}
       artifact_key: ${{ inputs.sdk_repo_key }}
-      artifact_path: .
 
   upload-specs:
     uses: ./.github/workflows/selfserve-checkout-and-upload.yaml
