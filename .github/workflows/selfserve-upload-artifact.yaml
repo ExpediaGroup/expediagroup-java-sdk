@@ -25,7 +25,7 @@ on:
         default: .
 
 jobs:
-  upload-specs:
+  upload-artifact:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
