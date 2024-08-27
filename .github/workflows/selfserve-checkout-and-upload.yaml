@@ -1,4 +1,4 @@
-name: Checkout and Upload a Repository
+name: Checkout a Repository and Upload an Artifact
 
 on:
   workflow_call:
@@ -16,7 +16,7 @@ on:
         type: string
         required: true
       artifact_path:
-        description: 'Path to the artifact'
+        description: 'Path of the artifact'
         type: string
         required: true
 
