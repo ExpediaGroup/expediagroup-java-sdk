@@ -47,7 +47,7 @@ jobs:
 
           ls -la ${{ inputs.custom_templates_path }}
 
-          if [ -n "${{ inputs.custom_templates_path }}" ] && [ -d ${{ inputs.custom_templates_path }} }} ]; then
+          if [ -n "${{ inputs.custom_templates_path }}" ] && [ -d ${{ inputs.custom_templates_path }} ]; then
             cp -r ${{ inputs.custom_templates_path }}/* tmp/${{ inputs.combined_templates_key }}
           fi
 
