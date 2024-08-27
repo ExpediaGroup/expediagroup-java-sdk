@@ -50,8 +50,7 @@ jobs:
 
       - name: List Files
         run: |
-          ls -laR
-          exit 1
+          find .
 
       - name: Upload repository as artifact
         uses: actions/upload-artifact@v4
