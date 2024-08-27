@@ -51,6 +51,8 @@ jobs:
             echo "Path is a file. Proceeding with job."
           else
             echo "Invalid path. Exiting job."
+            echo "Exiting the job could be fine if the "continue_on_error" input is set to true"
+            echo "Continue on error: ${{ inputs.continue_on_error }}"
             exit 1
           fi
 
