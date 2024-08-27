@@ -177,7 +177,7 @@ jobs:
 
   release:
     uses: ./.github/workflows/selfserve-release.yaml
-    needs: [ generate-sdk, publish-sources ]
+    needs: [ publish-sources ]
     secrets: inherit
     with:
       sdk_key: ${{ inputs.sdk_key }}

@@ -45,8 +45,6 @@ jobs:
           mkdir -p tmp/${{ inputs.combined_templates_key }}
           cp -r ${{ inputs.base_templates }}/* tmp/${{ inputs.combined_templates_key }}
 
-          ls -la ${{ inputs.custom_templates_path }}
-
           if [ -n "${{ inputs.custom_templates_path }}" ] && [ -d ${{ inputs.custom_templates_path }} ]; then
             cp -r ${{ inputs.custom_templates_path }}/* tmp/${{ inputs.combined_templates_key }}
           fi
