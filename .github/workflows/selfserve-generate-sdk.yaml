@@ -35,7 +35,7 @@ on:
         type: string
 
 jobs:
-  generate:
+  generate-sdk:
     runs-on: ubuntu-latest
     steps:
       - name: Download SDK Repository
