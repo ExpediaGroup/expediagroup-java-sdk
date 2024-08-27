@@ -29,22 +29,23 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
-      - name: Confirm Path to Upload
-        run: |
-          echo "Artifact Path to Upload: ${{ inputs.artifact_path_to_upload }}"
-          if [ -z "${{ inputs.artifact_path_to_upload }}" ] || [ -d "${{ inputs.artifact_path_to_upload }}" ] || [ -f "${{ inputs.artifact_path_to_upload }}" ]; then
-            echo "Path is either empty, a directory, or a file. Proceeding with job."
-          else
-            echo "Invalid path. Exiting job."
-            exit 1
-          fi
-
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           repository: ${{ inputs.repository }}
           ref: ${{ inputs.ref }}
           path: ${{ inputs.artifact_key }}/${{ inputs.artifact_path }}
+
+      - name: Confirm Path to Upload
+        run: |
+          echo "Artifact Path to Upload: ${{ inputs.artifact_path_to_upload }}"
+          ls -la
+          if [ -z "${{ inputs.artifact_path_to_upload }}" ] || [ -d "${{ inputs.artifact_path_to_upload }}" ] || [ -f "${{ inputs.artifact_path_to_upload }}" ]; then
+            echo "Path is either empty, a directory, or a file. Proceeding with job."
+          else
+            echo "Invalid path. Exiting job."
+            exit 1
+          fi
 
       - name: Upload repository as artifact
         uses: actions/upload-artifact@v4
