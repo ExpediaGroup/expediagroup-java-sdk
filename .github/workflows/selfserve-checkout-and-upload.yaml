@@ -27,7 +27,18 @@ on:
 jobs:
   checkout-and-upload:
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
+      - name: Confirm Path to Upload
+        run: |
+          echo "Artifact Path to Upload: ${{ inputs.artifact_path_to_upload }}"
+          if [ -z "${{ inputs.artifact_path_to_upload }}" ] || [ -d "${{ inputs.artifact_path_to_upload }}" ]; then
+            echo "Path is either empty or a valid directory."
+          else
+            echo "Invalid path. Exiting job."
+            exit 1
+          fi
+
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
