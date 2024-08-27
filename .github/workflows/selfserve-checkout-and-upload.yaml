@@ -19,10 +19,6 @@ on:
         description: 'Path of the artifact to persist to'
         type: string
         required: true
-      artifact_path_to_upload:
-        description: 'Path of the artifact to upload'
-        type: string
-        default: ''
 
 jobs:
   checkout-and-upload:
@@ -38,7 +34,7 @@ jobs:
 
       - name: Confirm Path to Upload
         run: |
-          PATH=${{ inputs.artifact_key }}/${{ inputs.artifact_path }}/${{ inputs.artifact_path_to_upload }}
+          PATH=${{ inputs.artifact_key }}/${{ inputs.artifact_path }}
           echo "Artifact Path to Upload: $PATH"
           if [ -z "$PATH" ]; then
             echo "Path is empty. Proceeding with job."
@@ -55,4 +51,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ inputs.artifact_key }}
-          path: ${{ inputs.artifact_key }}/${{ inputs.artifact_path }}/${{ inputs.artifact_path_to_upload }}
+          path: ${{ inputs.artifact_key }}/${{ inputs.artifact_path }}

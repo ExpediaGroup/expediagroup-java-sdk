@@ -130,7 +130,6 @@ jobs:
       artifact_path: ${{ inputs.specs_path }}
       repository: ${{ inputs.repository }}
       ref: ${{ inputs.ref }}
-      artifact_path_to_upload: ${{ inputs.specs_path }}
 
   transform-specs:
     uses: ./.github/workflows/selfserve-transform-specs.yaml
@@ -147,7 +146,6 @@ jobs:
       artifact_path: ${{ inputs.custom_templates_path }}
       repository: ${{ inputs.repository }}
       ref: ${{ inputs.ref }}
-      artifact_path_to_upload: ${{ inputs.custom_templates_path }}
 
   combine-templates:
     uses: ./.github/workflows/selfserve-combine-templates.yaml
