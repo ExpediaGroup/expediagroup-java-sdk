@@ -30,7 +30,7 @@ jobs:
         with:
           repository: ${{ inputs.repository }}
           ref: ${{ inputs.ref }}
-#          path: ${{ inputs.artifact_key }}/${{ inputs.artifact_path }}
+          path: ${{ inputs.artifact_key }}
 
       - name: Confirm Path to Upload
         run: |
