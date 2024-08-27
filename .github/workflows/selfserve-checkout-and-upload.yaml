@@ -33,8 +33,9 @@ jobs:
           path: ${{ inputs.artifact_key }}
 
       - name: Confirm Path to Upload
-        continue-on-error: true
         run: |
+          find .
+          echo "----"
           PATH=${{ inputs.artifact_key }}/${{ inputs.artifact_path }}
           echo "Artifact Path to Upload: $PATH"
           if [ -z "$PATH" ]; then
@@ -47,10 +48,6 @@ jobs:
             echo "Invalid path. Exiting job."
             exit 1
           fi
-
-      - name: List Files
-        run: |
-          find .
 
       - name: Upload repository as artifact
         uses: actions/upload-artifact@v4
