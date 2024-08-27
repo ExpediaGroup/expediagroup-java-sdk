@@ -37,6 +37,7 @@ jobs:
           find .
           echo "----"
           PATH=${{ inputs.artifact_key }}/${{ inputs.artifact_path }}
+          PATH=$(echo "$PATH" | sed 's:/*$::')
           echo "Artifact Path to Upload: $PATH"
           if [ -z "$PATH" ]; then
             echo "Path is empty. Proceeding with job."
