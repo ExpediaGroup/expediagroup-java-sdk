@@ -44,10 +44,12 @@ jobs:
             echo "Path is a file. Proceeding with job."
           else
             echo "Invalid path. Exiting job."
-            ls -laR "$PATH"
             exit 1
           fi
-          ls -laR "$PATH"
+
+      - name: List Files
+        run: |
+          ls -laR
 
       - name: Upload repository as artifact
         uses: actions/upload-artifact@v4
