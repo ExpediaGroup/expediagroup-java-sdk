@@ -42,7 +42,7 @@ jobs:
           name: ${{ inputs.custom_templates_key }}
           path: ${{ inputs.custom_templates_path }}
 
-      - name: Combine templates
+      - name: Combine Templates
         run: |
           mkdir -p tmp/${{ inputs.combined_templates_key }}
           cp -r ${{ inputs.base_templates }}/* tmp/${{ inputs.combined_templates_key }}
@@ -51,7 +51,7 @@ jobs:
             cp -r ${{ inputs.custom_templates_path }}/* tmp/${{ inputs.combined_templates_key }}
           fi
 
-      - name: Upload combined templates
+      - name: Upload Combined Templates
         uses: actions/upload-artifact@v4
         with:
           name: ${{ inputs.combined_templates_key }}

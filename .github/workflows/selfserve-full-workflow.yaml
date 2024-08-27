@@ -139,7 +139,7 @@ jobs:
       transformations: ${{ inputs.transformations }}
       transformed_specs_key: ${{ inputs.transformed_specs_key }}
 
-  upload-templates:
+  upload-custom-templates:
     uses: ./.github/workflows/selfserve-checkout-and-upload.yaml
     with:
       artifact_key: ${{ inputs.custom_templates_key }}
@@ -149,7 +149,7 @@ jobs:
 
   combine-templates:
     uses: ./.github/workflows/selfserve-combine-templates.yaml
-    needs: [ checkout-sdk-repo, upload-templates ]
+    needs: [ checkout-sdk-repo, upload-custom-templates ]
     with:
       base_templates: ${{ inputs.base_templates }}
       custom_templates_key: ${{ inputs.custom_templates_key }}
@@ -157,7 +157,7 @@ jobs:
       combined_templates_key: ${{ inputs.combined_templates_key }}
 
   generate-sdk:
-    uses: ./.github/workflows/selfserve-generate.yaml
+    uses: ./.github/workflows/selfserve-generate-sdk.yaml
     needs: [ transform-specs, combine-templates ]
     with:
       name: ${{ inputs.name }}
