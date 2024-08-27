@@ -28,7 +28,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: ${{ inputs.sdk_repo_key }}
-          path: sdk-repo
+          path: ${{ inputs.sdk_repo_key }}
 
       - name: Combine templates
         run: |
