@@ -30,12 +30,17 @@ on:
           Use `sdk-repo` or the value you set for the `sdk_repo_key` to refer to the `expediagroup-sdk` repo root path if needed.
         type: string
         default: 'sdk-repo/generator/openapi/src/main/resources/templates/expediagroup-sdk'
-      custom_templates:
+      custom_templates_key:
         description: |
-          Path to the custom templates directory.
-          Make sure to checkout the custom templates directory before setting this input.
+          Key to the custom templates artifact.
+          The artifact is expected to be in the root of the repository, unless you specify a different path
+          using the custom_templates_path input.
         type: string
-        default: ''
+        default: 'custom-templates'
+      custom_templates_path:
+        description: 'Path to the custom templates directory'
+        type: string
+        default: 'custom-templates'
       combined_templates_key:
         description: 'Key to the combined templates artifact'
         type: string
@@ -118,10 +123,10 @@ jobs:
       artifact_path: ${{ inputs.sdk_repo_key }}
 
   upload-specs:
-    uses: ./.github/workflows/selfserve-upload-specs.yaml
+    uses: ./.github/workflows/selfserve-upload-artifact.yaml
     with:
-      specs_key: ${{ inputs.specs_key }}
-      specs_path: ${{ inputs.specs_path }}
+      artifact_key: ${{ inputs.specs_key }}
+      artifact_path: ${{ inputs.specs_path }}
       repository: ${{ inputs.repository }}
       ref: ${{ inputs.sdk_repo_ref }}
 
@@ -133,9 +138,17 @@ jobs:
       transformations: ${{ inputs.transformations }}
       transformed_specs_key: ${{ inputs.transformed_specs_key }}
 
+  upload-templates:
+    uses: ./.github/workflows/selfserve-upload-artifact.yaml
+    with:
+      artifact_key: ${{ inputs.custom_templates_key }}
+      artifact_path: ${{ inputs.custom_templates_path }}
+      repository: ${{ inputs.repository }}
+      ref: ${{ inputs.sdk_repo_ref }}
+
   combine-templates:
     uses: ./.github/workflows/selfserve-combine-templates.yaml
-    needs: [ checkout-sdk-repo ]
+    needs: [ checkout-sdk-repo, upload-templates ]
     with:
       base_templates: ${{ inputs.base_templates }}
       custom_templates: ${{ inputs.custom_templates }}

@@ -5,7 +5,7 @@ on:
     inputs:
       repository:
         description: |
-          Repository to download the specs from.
+          Repository to download the artifact from.
           Leave empty to use the current repository.
         type: string
         default: ''
@@ -15,14 +15,14 @@ on:
           Leave empty to use the default branch.
         type: string
         default: ''
-      specs_key:
-        description: 'Key to the specs artifact'
+      artifact_key:
+        description: 'Key to the artifact'
         type: string
-        default: 'specs'
-      specs_path:
-        description: 'Path to the specs file'
+        required: true
+      artifact_path:
+        description: 'Path to the artifact'
         type: string
-        default: 'specs.yaml'
+        default: .
 
 jobs:
   upload-specs:
@@ -37,5 +37,5 @@ jobs:
       - name: Upload specs
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ inputs.specs_key }}
-          path: ${{ inputs.specs_path }}
+          name: ${{ inputs.artifact_key }}
+          path: ${{ inputs.artifact_path }}

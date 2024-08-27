@@ -7,10 +7,14 @@ on:
         description: 'Base SDK templates path (without the versioned directories)'
         type: string
         default: 'sdk-repo/generator/openapi/src/main/resources/templates/expediagroup-sdk'
-      custom_templates:
-        description: 'Custom templates path to merge with base templates'
+      custom_templates_key:
+        description: 'Key to the custom templates artifact'
         type: string
-        default: ''
+        default: 'custom-templates'
+      custom_templates_path:
+        description: 'Path to the custom templates directory'
+        type: string
+        default: 'custom-templates'
       combined_templates_key:
         description: 'Key to the combined templates artifact'
         type: string
@@ -30,14 +34,19 @@ jobs:
           name: ${{ inputs.sdk_repo_key }}
           path: ${{ inputs.sdk_repo_key }}
 
+      - name: Download Custom Templates
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.custom_templates_key }}
+          path: ${{ inputs.custom_templates_path }}
+
       - name: Combine templates
         run: |
           mkdir -p tmp/${{ inputs.combined_templates_key }}
           cp -r ${{ inputs.base_templates }}/* tmp/${{ inputs.combined_templates_key }}
 
-          ls -la  ${{ inputs.custom_templates }}
-          if [ -n "${{ inputs.custom_templates }}" ] && [ -d ${{ inputs.custom_templates }} ]; then
-            cp -r ${{ inputs.custom_templates }}/* tmp/${{ inputs.combined_templates_key }}
+          if [ -n "${{ inputs.custom_templates_path }}" ] && [ -d $${{ inputs.custom_templates_path }} }} ]; then
+            cp -r ${{ inputs.custom_templates_path }}/* tmp/${{ inputs.combined_templates_key }}
           fi
 
       - name: Upload combined templates
