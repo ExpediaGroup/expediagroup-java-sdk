@@ -4,7 +4,9 @@ on:
   workflow_call:
     inputs:
       base_templates:
-        description: 'Base SDK templates path (without the versioned directories)'
+        description: |
+          Base SDK templates path (from the SDK repository).
+          Use `sdk-repo` as the base directory, unless you are using a different `sdk_repo_key`.
         type: string
         default: 'sdk-repo/generator/openapi/src/main/resources/templates/expediagroup-sdk'
       custom_templates_key:
