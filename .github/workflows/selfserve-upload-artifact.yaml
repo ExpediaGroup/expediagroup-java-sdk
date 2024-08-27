@@ -1,4 +1,4 @@
-name: Upload Specs (from Repo)
+name: Upload Artifact (from Repo)
 
 on:
   workflow_call:
