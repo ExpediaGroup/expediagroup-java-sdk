@@ -19,11 +19,15 @@ on:
         description: 'Path of the artifact to persist to'
         type: string
         default: ''
+      continue_on_error:
+        description: 'Continue on error'
+        type: boolean
+        default: false
 
 jobs:
   checkout-and-upload:
     runs-on: ubuntu-latest
-    continue-on-error: true
+    continue-on-error: ${{ inputs.continue_on_error }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -32,10 +36,11 @@ jobs:
           ref: ${{ inputs.ref }}
           path: ${{ inputs.artifact_key }}
 
+      - name: List all files
+        run: find .
+
       - name: Confirm Path to Upload
         run: |
-          find .
-          echo "----"
           PATH=${{ inputs.artifact_key }}/${{ inputs.artifact_path }}
           echo "Artifact Path to Upload: $PATH"
           if [ -z "$PATH" ]; then
