@@ -47,8 +47,10 @@ jobs:
           mkdir -p ${{ inputs.combined_templates_key }}
           cp -r ${{ inputs.base_templates }}/* ${{ inputs.combined_templates_key }}
 
+          ls -la ${{ inputs.custom_templates_path }}
+
           if [ -n "${{ inputs.custom_templates_path }}" ] && [ -d ${{ inputs.custom_templates_path }} ]; then
-            cp -r ${{ inputs.custom_templates_path }}/* ${{ inputs.combined_templates_key }}
+            cp -r ${{ inputs.custom_templates_path }}/${{ inputs.custom_templates_path }}/* ${{ inputs.combined_templates_key }}
           fi
 
       - name: Upload Combined Templates
