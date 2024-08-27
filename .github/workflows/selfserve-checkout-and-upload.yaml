@@ -40,9 +40,7 @@ jobs:
         run: |
           PATH=${{ inputs.artifact_key }}/${{ inputs.artifact_path }}
           echo "Artifact Path to Upload: $PATH"
-          ls -la
-          echo "====================="
-          ls -la $PATH
+          find $PATH
           if [ -z "$PATH" ] || [ -d "$PATH" ] || [ -f "$PATH" ]; then
             echo "Path is either empty, a directory, or a file. Proceeding with job."
           else
