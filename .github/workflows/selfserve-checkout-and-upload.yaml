@@ -16,9 +16,13 @@ on:
         type: string
         required: true
       artifact_path:
-        description: 'Path of the artifact'
+        description: 'Path of the artifact to persist to'
         type: string
         required: true
+      artifact_path_to_upload:
+        description: 'Path of the artifact to upload'
+        type: string
+        default: ''
 
 jobs:
   checkout-and-upload:
@@ -29,10 +33,10 @@ jobs:
         with:
           repository: ${{ inputs.repository }}
           ref: ${{ inputs.ref }}
-          path: ${{ inputs.artifact_path }}
+          path: ${{ inputs.artifact_key }}/${{ inputs.artifact_path }}
 
       - name: Upload repository as artifact
         uses: actions/upload-artifact@v4
         with:
           name: ${{ inputs.artifact_key }}
-          path: ${{ inputs.artifact_path }}
+          path: ${{ inputs.artifact_key }}/${{ inputs.artifact_path }}/${{ inputs.artifact_path_to_upload }}
