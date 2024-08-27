@@ -96,7 +96,7 @@ jobs:
         jdk: [8, 11, 17, 21]
     if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled') && inputs.sdk_namespace == 'rapid'
     needs: [ generate-test-sdk ]
-    uses: "ExpediaGroup/rapid-java-sdk/.github/workflows/run-examples.yaml@nanssari/fix_examples"
+    uses: "ExpediaGroup/rapid-java-sdk/.github/workflows/run-examples.yaml@main"
     with:
       sdk_version: ${{ needs.generate-test-sdk.outputs.version }}
       jdk: ${{ matrix.jdk }}
