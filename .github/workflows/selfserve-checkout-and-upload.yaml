@@ -38,9 +38,12 @@ jobs:
 
       - name: Confirm Path to Upload
         run: |
-          echo "Artifact Path to Upload: ${{ inputs.artifact_path_to_upload }}"
+          PATH=${{ inputs.artifact_key }}/${{ inputs.artifact_path }}
+          echo "Artifact Path to Upload: $PATH"
           ls -la
-          if [ -z "${{ inputs.artifact_path_to_upload }}" ] || [ -d "${{ inputs.artifact_path_to_upload }}" ] || [ -f "${{ inputs.artifact_path_to_upload }}" ]; then
+          echo "====================="
+          ls -la $PATH
+          if [ -z "$PATH" ] || [ -d "$PATH" ] || [ -f "$PATH" ]; then
             echo "Path is either empty, a directory, or a file. Proceeding with job."
           else
             echo "Invalid path. Exiting job."
