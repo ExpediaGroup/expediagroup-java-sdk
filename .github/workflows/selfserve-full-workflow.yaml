@@ -124,7 +124,7 @@ jobs:
       artifact_path: ${{ inputs.sdk_repo_key }}
 
   upload-specs:
-    uses: ./.github/workflows/selfserve-upload-artifact.yaml
+    uses: ./.github/workflows/selfserve-checkout-and-upload.yaml
     with:
       artifact_key: ${{ inputs.specs_key }}
       artifact_path: ${{ inputs.specs_path }}
@@ -140,7 +140,7 @@ jobs:
       transformed_specs_key: ${{ inputs.transformed_specs_key }}
 
   upload-templates:
-    uses: ./.github/workflows/selfserve-upload-artifact.yaml
+    uses: ./.github/workflows/selfserve-checkout-and-upload.yaml
     with:
       artifact_key: ${{ inputs.custom_templates_key }}
       artifact_path: ${{ inputs.custom_templates_path }}
