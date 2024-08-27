@@ -69,11 +69,11 @@
         <repoName>test-sdk</repoName>
 
         <!-- Versions -->
-        <kotlin.version>2.0.0</kotlin.version>
+        <kotlin.version>2.0.20</kotlin.version>
         <openapi-generator.version>6.6.0</openapi-generator.version>
 
         <!-- Plugin Versions -->
-        <exec-maven-plugin.version>3.3.0</exec-maven-plugin.version>
+        <exec-maven-plugin.version>3.4.1</exec-maven-plugin.version>
         <ktlint-plugin.version>3.2.0</ktlint-plugin.version>
         <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
         <maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
@@ -168,6 +168,11 @@
             <resource>
                 <directory>${project.basedir}/src/main/resources</directory>
                 <filtering>true</filtering>
+                <excludes>
+                    <exclude>
+                        **/post-processor/**
+                    </exclude>
+                </excludes>
             </resource>
         </resources>
 
