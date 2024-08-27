@@ -102,7 +102,8 @@ jobs:
           echo "SDK Version: ${{ inputs.version }}"
           echo "SDK Repository Ref: ${{ inputs.sdk_repo_ref }}"
           echo "Base Templates: ${{ inputs.base_templates }}"
-          echo "Custom Templates: ${{ inputs.custom_templates }}"
+          echo "Custom Templates Key: ${{ inputs.custom_templates_key }}"
+          echo "Custom Templates Path: ${{ inputs.custom_templates_path }}"
           echo "Combined Templates Key: ${{ inputs.combined_templates_key }}"
           echo "Repository: ${{ inputs.repository }}"
           echo "Ref: ${{ inputs.ref }}"
@@ -151,7 +152,8 @@ jobs:
     needs: [ checkout-sdk-repo, upload-templates ]
     with:
       base_templates: ${{ inputs.base_templates }}
-      custom_templates: ${{ inputs.custom_templates }}
+      custom_templates_key: ${{ inputs.custom_templates_key }}
+      custom_templates_path: ${{ inputs.custom_templates_path }}
       combined_templates_key: ${{ inputs.combined_templates_key }}
 
   generate-sdk:
