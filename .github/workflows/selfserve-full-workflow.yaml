@@ -145,6 +145,7 @@ jobs:
       artifact_path: ${{ inputs.custom_templates_path }}
       repository: ${{ inputs.repository }}
       ref: ${{ inputs.ref }}
+      continue_on_error: true
 
   combine-templates:
     uses: ./.github/workflows/selfserve-combine-templates.yaml
