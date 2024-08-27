@@ -32,8 +32,8 @@ jobs:
       - name: Confirm Path to Upload
         run: |
           echo "Artifact Path to Upload: ${{ inputs.artifact_path_to_upload }}"
-          if [ -z "${{ inputs.artifact_path_to_upload }}" ] || [ -d "${{ inputs.artifact_path_to_upload }}" ]; then
-            echo "Path is either empty or a valid directory."
+          if [ -z "${{ inputs.artifact_path_to_upload }}" ] || [ -d "${{ inputs.artifact_path_to_upload }}" ] || [ -f "${{ inputs.artifact_path_to_upload }}" ]; then
+            echo "Path is either empty, a directory, or a file. Proceeding with job."
           else
             echo "Invalid path. Exiting job."
             exit 1
