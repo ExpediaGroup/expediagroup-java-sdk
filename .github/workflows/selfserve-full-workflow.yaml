@@ -175,8 +175,8 @@ jobs:
       sdk_key: ${{ inputs.sdk_key }}
       specs_key: ${{ inputs.transformed_specs_key }}
 
-  release:
-    uses: ./.github/workflows/selfserve-release.yaml
+  release-sdk:
+    uses: ./.github/workflows/selfserve-release-sdk.yaml
     needs: [ generate-sdk ]
     secrets: inherit
     with:

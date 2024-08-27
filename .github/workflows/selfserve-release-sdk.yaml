@@ -9,7 +9,7 @@ on:
         type: string
 
 jobs:
-  release:
+  release-sdk:
     runs-on: ubuntu-latest
     steps:
       - name: Set up JDK 21
