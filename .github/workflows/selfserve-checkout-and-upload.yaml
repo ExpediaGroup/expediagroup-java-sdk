@@ -36,6 +36,7 @@ jobs:
         run: |
           PATH=${{ inputs.artifact_key }}/${{ inputs.artifact_path }}
           echo "Artifact Path to Upload: $PATH"
+          ls -laR
           if [ -z "$PATH" ]; then
             echo "Path is empty. Proceeding with job."
           elif [[ "$PATH" == *"//" ]] && [ -d "$PATH" ]; then
@@ -46,7 +47,6 @@ jobs:
             echo "Invalid path. Exiting job."
             exit 1
           fi
-          ls -laR
 
       - name: Upload repository as artifact
         uses: actions/upload-artifact@v4
