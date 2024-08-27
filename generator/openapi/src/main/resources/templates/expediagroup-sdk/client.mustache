@@ -51,7 +51,14 @@ class {{clientClassname}}Client private constructor(clientConfiguration: {{>part
                 url.parameters.appendAll(key, value)
             }
 
-            appendHeaders(operation.transactionId)
+            val extraHeaders = buildMap {
+                put(HeaderKey.TRANSACTION_ID, operation.transactionId.dequeue().toString())
+                {{#isXap}}
+                    put("key", configurationProvider.key ?: "")
+                {{/isXap}}
+            }
+
+            appendHeaders(extraHeaders)
             validateConstraints(operation.requestBody)
             contentType(ContentType.Application.Json)
             setBody(operation.requestBody)
@@ -96,7 +103,11 @@ class {{clientClassname}}Client private constructor(clientConfiguration: {{>part
         * {{{summary}}}
         * {{{notes}}}
         * @param operation [{{operationIdCamelCase}}Operation]
-        {{#throwsExceptions}}{{/throwsExceptions}}
+        {{#exceptionDataTypes}}
+            {{#dataTypes}}
+                * @throws ExpediaGroupApi{{.}}Exception
+            {{/dataTypes}}
+        {{/exceptionDataTypes}}
         * @return a [Response] object with a body of type {{{returnType}}}{{^returnType}}Nothing{{/returnType}}
         */
         fun execute(operation: {{operationIdCamelCase}}Operation) : {{#returnType}}Response<{{{returnType}}}>{{/returnType}}{{^returnType}}EmptyResponse{{/returnType}} {
@@ -112,7 +123,11 @@ class {{clientClassname}}Client private constructor(clientConfiguration: {{>part
         * {{{summary}}}
         * {{{notes}}}
         * @param operation [{{operationIdCamelCase}}Operation]
-        {{#throwsExceptions}}{{/throwsExceptions}}
+        {{#exceptionDataTypes}}
+            {{#dataTypes}}
+                * @throws ExpediaGroupApi{{.}}Exception
+            {{/dataTypes}}
+        {{/exceptionDataTypes}}
         * @return a [CompletableFuture<Response>] object with a body of type {{{returnType}}}{{^returnType}}Nothing{{/returnType}}
         */
         fun executeAsync(operation: {{operationIdCamelCase}}Operation) : CompletableFuture<{{#returnType}}Response<{{{returnType}}}>{{/returnType}}{{^returnType}}EmptyResponse{{/returnType}}> {
@@ -124,68 +139,92 @@ class {{clientClassname}}Client private constructor(clientConfiguration: {{>part
         {{/returnType}}
         }
 
-        private suspend {{^isKotlin}}inline {{/isKotlin}}fun {{^isKotlin}}k{{/isKotlin}}{{operationId}}WithResponse({{>client/apiParamsDecleration}}): {{#returnType}}Response<{{{returnType}}}>{{/returnType}}{{^returnType}}Response<Nothing>{{/returnType}} {
-            {{#hasNonBodyParams}}
-                val params =  {{operationIdCamelCase}}OperationParams(
-                {{#nonBodyParams}}
-                    {{#params}}
-                        {{{paramName}}} = {{{paramName}}}{{^-last}}, {{/-last}}
-                    {{/params}}
-                {{/nonBodyParams}}
-                )
-            {{/hasNonBodyParams}}
-
-            val operation = {{operationIdCamelCase}}Operation(
+        {{^isXap}}
+            private suspend {{^isKotlin}}inline {{/isKotlin}}fun {{^isKotlin}}k{{/isKotlin}}{{operationId}}WithResponse({{>client/apiParamsDecleration}}): {{#returnType}}Response<{{{returnType}}}>{{/returnType}}{{^returnType}}Response<Nothing>{{/returnType}} {
                 {{#hasNonBodyParams}}
-                    params,
+                    val params =  {{operationIdCamelCase}}OperationParams(
+                    {{#nonBodyParams}}
+                        {{#params}}
+                            {{{paramName}}} = {{{paramName}}}{{^-last}}, {{/-last}}
+                        {{/params}}
+                    {{/nonBodyParams}}
+                    )
                 {{/hasNonBodyParams}}
-                {{#hasBodyParam}}
-                    {{#bodyParam}}{{{paramName}}}{{/bodyParam}}
-                {{/hasBodyParam}}
-            )
 
-            return execute(operation)
-        }
+                val operation = {{operationIdCamelCase}}Operation(
+                    {{#hasNonBodyParams}}
+                        params,
+                    {{/hasNonBodyParams}}
+                    {{#hasBodyParam}}
+                        {{#bodyParam}}{{{paramName}}}{{/bodyParam}}
+                    {{/hasBodyParam}}
+                )
 
-        {{^isKotlin}}
-            /**
-            * {{{summary}}}
-            * {{{notes}}}
-            {{#allParams}}
-                * @param {{{paramName}}} {{{description}}}{{^required}} (optional{{#defaultValue}}, defaults to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (defaults to {{{.}}}){{/defaultValue}}{{/required}}
-            {{/allParams}}
-            {{#throwsExceptions}}{{/throwsExceptions}}
-            * @return {{{returnType}}}{{^returnType}}Nothing{{/returnType}}
-            */
-            @Throws({{#throwsExceptionsClasses}}{{/throwsExceptionsClasses}})
-            @JvmOverloads
-            @Deprecated("Use execute method instead", ReplaceWith("execute(operation: {{operationIdCamelCase}}Operation)"))
-            fun {{operationId}}({{>client/apiParamsDecleration}}) : {{{returnType}}}{{^returnType}}Nothing{{/returnType}} {
-                return {{operationId}}WithResponse({{>client/apiParamsPassed}}).data
+                return execute(operation)
             }
 
-            /**
-            * {{{summary}}}
-            * {{{notes}}}
-            {{#allParams}}
-                * @param {{{paramName}}} {{{description}}}{{^required}} (optional{{#defaultValue}}, defaults to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (defaults to {{{.}}}){{/defaultValue}}{{/required}}
-            {{/allParams}}
-            {{#throwsExceptions}}{{/throwsExceptions}}
-            * @return a [Response] object with a body of type {{{returnType}}}{{^returnType}}Nothing{{/returnType}}
-            */
-            @Throws({{#throwsExceptionsClasses}}{{/throwsExceptionsClasses}})
-            @JvmOverloads
-            @Deprecated("Use execute method instead", ReplaceWith("execute(operation: {{operationIdCamelCase}}Operation)"))
-            fun {{operationId}}WithResponse({{>client/apiParamsDecleration}}) : {{#returnType}}Response<{{{returnType}}}>{{/returnType}}{{^returnType}}Response<Nothing>{{/returnType}} {
-                try {
-                    return GlobalScope.future(Dispatchers.IO) {
-                        k{{operationId}}WithResponse({{>client/apiParamsPassed}})
-                    }.get()
-                } catch (exception: Exception) {
-                    exception.handle()
+            {{^isKotlin}}
+                /**
+                * {{{summary}}}
+                * {{{notes}}}
+                {{#allParams}}
+                    * @param {{{paramName}}} {{{description}}}{{^required}} (optional{{#defaultValue}}, defaults to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (defaults to {{{.}}}){{/defaultValue}}{{/required}}
+                {{/allParams}}
+                {{#exceptionDataTypes}}
+                    {{#dataTypes}}
+                        * @throws ExpediaGroupApi{{.}}Exception
+                    {{/dataTypes}}
+                {{/exceptionDataTypes}}
+                * @return {{{returnType}}}{{^returnType}}Nothing{{/returnType}}
+                */
+                @Throws(
+                    {{#exceptionDataTypes}}
+                        {{#dataTypes}}
+                            ExpediaGroupApi{{.}}Exception::class
+                            {{^-last}},{{/-last}}
+                        {{/dataTypes}}
+                    {{/exceptionDataTypes}}
+                )
+                @JvmOverloads
+                @Deprecated("Use execute method instead", ReplaceWith("execute(operation: {{operationIdCamelCase}}Operation)"))
+                fun {{operationId}}({{>client/apiParamsDecleration}}) : {{{returnType}}}{{^returnType}}Nothing{{/returnType}} {
+                    return {{operationId}}WithResponse({{>client/apiParamsPassed}}).data
                 }
-            }
-        {{/isKotlin}}
+
+                /**
+                * {{{summary}}}
+                * {{{notes}}}
+                {{#allParams}}
+                    * @param {{{paramName}}} {{{description}}}{{^required}} (optional{{#defaultValue}}, defaults to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (defaults to {{{.}}}){{/defaultValue}}{{/required}}
+                {{/allParams}}
+                {{#exceptionDataTypes}}
+                    {{#dataTypes}}
+                        * @throws ExpediaGroupApi{{.}}Exception
+                    {{/dataTypes}}
+                {{/exceptionDataTypes}}
+                * @return a [Response] object with a body of type {{{returnType}}}{{^returnType}}Nothing{{/returnType}}
+                */
+                @Throws(
+                    {{#exceptionDataTypes}}
+                        {{#dataTypes}}
+                            ExpediaGroupApi{{.}}Exception::class
+                            {{^-last}}, {{/-last}}
+                        {{/dataTypes}}
+                    {{/exceptionDataTypes}}
+                )
+                @JvmOverloads
+                @Deprecated("Use execute method instead", ReplaceWith("execute(operation: {{operationIdCamelCase}}Operation)"))
+                fun {{operationId}}WithResponse({{>client/apiParamsDecleration}}) : {{#returnType}}Response<{{{returnType}}}>{{/returnType}}{{^returnType}}Response<Nothing>{{/returnType}} {
+                    try {
+                        return GlobalScope.future(Dispatchers.IO) {
+                            k{{operationId}}WithResponse({{>client/apiParamsPassed}})
+                        }.get()
+                    } catch (exception: Exception) {
+                        exception.handle()
+                    }
+                }
+            {{/isKotlin}}
+        {{/isXap}}
 
         {{#isPaginatable}}
             {{>client/paginatorMethods}}

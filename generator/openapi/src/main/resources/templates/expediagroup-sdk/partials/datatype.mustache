@@ -1,0 +1,16 @@
+{{#isContainer}}
+    {{#uniqueItems}}
+        kotlin.collections.{{#modelMutable}}Mutable{{/modelMutable}}Set
+    {{/uniqueItems}}
+    {{^uniqueItems}}
+        kotlin.collections.{{#modelMutable}}Mutable{{/modelMutable}}List
+    {{/uniqueItems}}
+    <
+        {{#items.isEnum}}{{classname}}Params.{{{enumName}}}{{/items.isEnum}}
+        {{^items.isEnum}}{{{items.dataType}}}{{/items.isEnum}}
+    >
+{{/isContainer}}
+{{^isContainer}}
+    {{#isEnum}}{{classname}}Params.{{{enumName}}}{{/isEnum}}
+    {{^isEnum}}{{{dataType}}}{{/isEnum}}
+{{/isContainer}}
