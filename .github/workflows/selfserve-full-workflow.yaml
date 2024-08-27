@@ -147,7 +147,7 @@ jobs:
       artifact_path: ${{ inputs.custom_templates_path }}
       repository: ${{ inputs.repository }}
       ref: ${{ inputs.ref }}
-      artifact_path_to_upload: ${{ inputs.custom_templates_key }}
+      artifact_path_to_upload: ${{ inputs.custom_templates_path }}
 
   combine-templates:
     uses: ./.github/workflows/selfserve-combine-templates.yaml
