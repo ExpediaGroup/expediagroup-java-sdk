@@ -112,23 +112,7 @@ class TestCaseHttpRequest(
     fun hasBody(): Boolean =
         toBoolean(body, dynamic = true).and(!(body!!.isEmptyJsonObject()))
 
-    /**
-     * Checks if the HTTP request has any headers.
-     *
-     * @return `true` if there are headers present in the request, `false` otherwise.
-     */
 
-    /**
-     *  Checks if the HTTP request has any path parameters.
-     *
-     * @return `true` if there are path parameters present in the request, `false` otherwise.
-     */
-
-    /**
-     * Checks if the HTTP request has any query parameters.
-     *
-     * @return `true` if there are query parameters present in the request, `false` otherwise.
-     */
 
     /**
      * Aggregates the headers, path parameters, and query parameters into a single map.
@@ -147,5 +131,5 @@ class TestCaseHttpRequest(
      * @return The body of the request if it is not empty and not a default empty JSON object,
      *         otherwise `null`.
      */
-    fun getRequestBody(): String? = if (hasBody()) body!! else null
+    fun getRequestBody(): String? = if (hasBody()) body else null
 }
