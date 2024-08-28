@@ -13,13 +13,38 @@ on:
           E.g., 1.0.0, 1.0.1, 1.0.0-SNAPSHOT, etc.
         required: true
         type: string
-      templates:
+      sdk_repo_ref:
         description: |
-          Path to the templates directory.
+          Branch or tag to checkout on the `expediagroup-sdk-core` repository.
+          Leave empty to use the default branch.
+        type: string
+        default: ''
+      sdk_repo_key:
+        description: 'Key to the SDK repository artifact'
+        type: string
+        default: 'sdk-repo'
+      base_templates:
+        description: |
+          Path to the base templates directory.
           Use the default path if you are using the default templates.
-          Use `sdk-repo` to refer to the `expediagroup-sdk` repo root path if needed.
+          Use `sdk-repo` or the value you set for the `sdk_repo_key` to refer to the `expediagroup-sdk` repo root path if needed.
         type: string
         default: 'sdk-repo/generator/openapi/src/main/resources/templates/expediagroup-sdk'
+      custom_templates_key:
+        description: |
+          Key to the custom templates artifact.
+          The artifact is expected to be in the root of the repository, unless you specify a different path
+          using the custom_templates_path input.
+        type: string
+        default: 'custom-templates'
+      custom_templates_path:
+        description: 'Path to the custom templates directory'
+        type: string
+        default: 'custom-templates'
+      combined_templates_key:
+        description: 'Key to the combined templates artifact'
+        type: string
+        default: 'templates'
       repository:
         description: |
           Repository to generate the SDK in.
@@ -28,7 +53,7 @@ on:
         default: ''
       ref:
         description: |
-          Branch or tag to checkout.
+          Branch or tag to checkout on the provided repository.
           Leave empty to use the default branch.
         type: string
         default: ''
@@ -67,7 +92,6 @@ on:
         type: string
         default: 'sdk'
 
-
 jobs:
   show-inputs:
     runs-on: ubuntu-latest
@@ -76,7 +100,11 @@ jobs:
         run: |
           echo "SDK Name: ${{ inputs.name }}"
           echo "SDK Version: ${{ inputs.version }}"
-          echo "Templates: ${{ inputs.templates }}"
+          echo "SDK Repository Ref: ${{ inputs.sdk_repo_ref }}"
+          echo "Base Templates: ${{ inputs.base_templates }}"
+          echo "Custom Templates Key: ${{ inputs.custom_templates_key }}"
+          echo "Custom Templates Path: ${{ inputs.custom_templates_path }}"
+          echo "Combined Templates Key: ${{ inputs.combined_templates_key }}"
           echo "Repository: ${{ inputs.repository }}"
           echo "Ref: ${{ inputs.ref }}"
           echo "Specs Key: ${{ inputs.specs_key }}"
@@ -85,12 +113,20 @@ jobs:
           echo "Transformations: ${{ inputs.transformations }}"
           echo "Sources Path: ${{ inputs.sources_path }}"
           echo "SDK Key: ${{ inputs.sdk_key }}"
+          echo "SDK Repository Key: ${{ inputs.sdk_repo_key }}"
+
+  checkout-sdk-repo:
+    uses: ./.github/workflows/selfserve-checkout-and-upload.yaml
+    with:
+      repository: 'ExpediaGroup/expediagroup-java-sdk'
+      ref: ${{ inputs.sdk_repo_ref }}
+      artifact_key: ${{ inputs.sdk_repo_key }}
 
   upload-specs:
-    uses: ./.github/workflows/selfserve-upload-specs.yaml
+    uses: ./.github/workflows/selfserve-checkout-and-upload.yaml
     with:
-      specs_key: ${{ inputs.specs_key }}
-      specs_path: ${{ inputs.specs_path }}
+      artifact_key: ${{ inputs.specs_key }}
+      artifact_path: ${{ inputs.specs_path }}
       repository: ${{ inputs.repository }}
       ref: ${{ inputs.ref }}
 
@@ -102,14 +138,32 @@ jobs:
       transformations: ${{ inputs.transformations }}
       transformed_specs_key: ${{ inputs.transformed_specs_key }}
 
+  upload-custom-templates:
+    uses: ./.github/workflows/selfserve-checkout-and-upload.yaml
+    with:
+      artifact_key: ${{ inputs.custom_templates_key }}
+      artifact_path: ${{ inputs.custom_templates_path }}
+      repository: ${{ inputs.repository }}
+      ref: ${{ inputs.ref }}
+      continue_on_error: true
+
+  combine-templates:
+    uses: ./.github/workflows/selfserve-combine-templates.yaml
+    needs: [ checkout-sdk-repo, upload-custom-templates ]
+    with:
+      base_templates: ${{ inputs.base_templates }}
+      custom_templates_key: ${{ inputs.custom_templates_key }}
+      custom_templates_path: ${{ inputs.custom_templates_path }}
+      combined_templates_key: ${{ inputs.combined_templates_key }}
+
   generate-sdk:
-    uses: ./.github/workflows/selfserve-generate.yaml
-    needs: [ transform-specs ]
+    uses: ./.github/workflows/selfserve-generate-sdk.yaml
+    needs: [ transform-specs, combine-templates ]
     with:
       name: ${{ inputs.name }}
       version: ${{ inputs.version }}
-      templates: ${{ inputs.templates }}
       specs_key: ${{ inputs.transformed_specs_key }}
+      templates_key: ${{ inputs.combined_templates_key }}
       sdk_key: ${{ inputs.sdk_key }}
 
   publish-sources:
@@ -121,9 +175,9 @@ jobs:
       sdk_key: ${{ inputs.sdk_key }}
       specs_key: ${{ inputs.transformed_specs_key }}
 
-  release:
-    uses: ./.github/workflows/selfserve-release.yaml
-    needs: [ generate-sdk, publish-sources ]
+  release-sdk:
+    uses: ./.github/workflows/selfserve-release-sdk.yaml
+    needs: [ generate-sdk ]
     secrets: inherit
     with:
       sdk_key: ${{ inputs.sdk_key }}
