@@ -1,0 +1,63 @@
+name: Checkout a Repository and Upload an Artifact
+
+on:
+  workflow_call:
+    inputs:
+      repository:
+        description: 'Repository to checkout'
+        type: string
+        required: true
+      ref:
+        description: 'Branch or tag to checkout'
+        type: string
+        required: true
+      artifact_key:
+        description: 'Name of the artifact'
+        type: string
+        required: true
+      artifact_path:
+        description: 'Path of the artifact to persist to'
+        type: string
+        default: ''
+      continue_on_error:
+        description: 'Continue on error'
+        type: boolean
+        default: false
+
+jobs:
+  checkout-and-upload:
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ inputs.continue_on_error }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ inputs.repository }}
+          ref: ${{ inputs.ref }}
+          path: ${{ inputs.artifact_key }}
+
+      - name: List all files
+        run: find .
+
+      - name: Confirm Path to Upload
+        run: |
+          PATH=${{ inputs.artifact_key }}/${{ inputs.artifact_path }}
+          echo "Artifact Path to Upload: $PATH"
+          if [ -z "$PATH" ]; then
+            echo "Path is empty. Uploading the entire repository as an artifact."
+          elif [ -d "$PATH" ]; then
+            echo "Path is a directory. Uploading the directory as an artifact."
+          elif [ -f "$PATH" ]; then
+            echo "Path is a file. Uploading the file as an artifact."
+          else
+            echo "Invalid path. Exiting job."
+            echo "Exiting the job could be fine if the "continue_on_error" input is set to true"
+            echo "Continue on error: ${{ inputs.continue_on_error }}"
+            exit 1
+          fi
+
+      - name: Upload repository as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.artifact_key }}
+          path: ${{ inputs.artifact_key }}/${{ inputs.artifact_path }}
