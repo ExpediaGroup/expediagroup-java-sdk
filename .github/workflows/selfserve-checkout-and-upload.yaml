@@ -44,11 +44,11 @@ jobs:
           PATH=${{ inputs.artifact_key }}/${{ inputs.artifact_path }}
           echo "Artifact Path to Upload: $PATH"
           if [ -z "$PATH" ]; then
-            echo "Path is empty. Proceeding with job."
+            echo "Path is empty. Uploading the entire repository as an artifact."
           elif [ -d "$PATH" ]; then
-            echo "Path is a directory. Proceeding with job."
+            echo "Path is a directory. Uploading the directory as an artifact."
           elif [ -f "$PATH" ]; then
-            echo "Path is a file. Proceeding with job."
+            echo "Path is a file. Uploading the file as an artifact.
           else
             echo "Invalid path. Exiting job."
             echo "Exiting the job could be fine if the "continue_on_error" input is set to true"
