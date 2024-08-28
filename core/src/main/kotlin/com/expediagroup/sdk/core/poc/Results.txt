@@ -1,0 +1,5 @@
+One Thousands Requests:
+
+Google-Based-Async: 51.677730459 Seconds
+
+Original-Async: 1 Minute AND 1.867329750 Seconds

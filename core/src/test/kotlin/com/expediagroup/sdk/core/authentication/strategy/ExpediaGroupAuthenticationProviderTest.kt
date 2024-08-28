@@ -70,7 +70,7 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.Future
 
-internal class ExpediaGroupAuthenticationStrategyTest : AuthenticationPluginTest() {
+internal class ExpediaGroupAuthenticationProviderTest : AuthenticationPluginTest() {
     @Test
     fun `making any http call should invoke the authorized token`() {
         runBlocking {

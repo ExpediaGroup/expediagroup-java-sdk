@@ -32,7 +32,7 @@ import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-internal class RapidAuthenticationStrategyTest : AuthenticationPluginTest() {
+internal class RapidAuthenticationProviderTest : AuthenticationPluginTest() {
     @Test
     fun `making any http call should invoke the authorized signature`() {
         runBlocking {

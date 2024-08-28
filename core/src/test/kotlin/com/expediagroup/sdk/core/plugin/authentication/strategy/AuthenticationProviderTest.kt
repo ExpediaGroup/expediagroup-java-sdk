@@ -24,9 +24,9 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-internal class AuthenticationStrategyTest {
+internal class AuthenticationProviderTest {
     @Nested
-    inner class AuthenticationStrategyCompanionObjectTest {
+    inner class AuthenticationProviderCompanionObjectTest {
         @Test
         fun `test factory method`() {
             val configuration =

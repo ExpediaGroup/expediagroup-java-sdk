@@ -8313,25 +8313,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-            Example:
-              example:
-                type: invalid_input
-                message: An invalid request was sent in, please check the nested errors for
-                  details.
-                errors:
-                  - type: checkin.invalid_date_format
-                    message: Invalid checkin format. It must be formatted in ISO 8601 (YYYY-mm-dd)
-                      http://www.iso.org/iso/catalogue_detail?csnumber=40874.
-                    fields:
-                      - name: checkin
-                        type: querystring
-                        value: 2019-01-1
-                  - type: number_of_occupancies.invalid_above_maximum
-                    message: Number of occupancies must be less than 9.
-                    fields:
-                      - name: occupancy
-                        type: querystring
-                        value: "9"
         "401":
           description: Unauthorized
           headers:
@@ -8345,25 +8326,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-            Example:
-              example:
-                type: request_unauthenticated
-                message: Data required to authenticate your request is missing or inaccurate.
-                  Ensure that your request follows the guidelines in our
-                  documentation.
-                fields:
-                  - name: apikey
-                    type: header
-                    value: jaj3982k239dka328e
-                  - name: signature
-                    type: header
-                    value: 129d75332614a5bdbe0c7eb540e95a65f9d85a5b53dabb38d19b37fad6312a2bd25c12ee5a82831d55112087e1b
-                  - name: timestamp
-                    type: header
-                    value: 198284729
-                  - name: servertimestamp
-                    type: server
-                    value: 198284729
         "403":
           description: Forbidden
           headers:
@@ -8373,10 +8335,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-            Example:
-              example:
-                type: request_unauthorized
-                message: Your request could not be authorized.
         "426":
           description: Upgrade Required
           headers:
@@ -8386,10 +8344,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-            Example:
-              example:
-                type: upgrade_required
-                message: This service requires the use of TLS.
         "429":
           description: Too Many Requests
           headers:
@@ -8435,10 +8389,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-            Example:
-              example:
-                type: too_many_requests
-                message: You have reached your capacity for this type of request.
         "500":
           description: Unknown Internal Error
           headers:
@@ -8448,10 +8398,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-            Example:
-              example:
-                type: unknown_internal_error
-                message: An internal server error has occurred.
         "503":
           description: Service Unavailable
           headers:
@@ -8461,10 +8407,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-            Example:
-              example:
-                type: service_unavailable
-                message: This service is currently unavailable.
       security:
         - rapidAuth: []
   /v3/payment-sessions:
@@ -12846,7 +12788,7 @@ paths:
         complete the change transaction.
 
 
-        If additional charges are due, a payment must be submitted with this request. Note that Two-Factor 
+        If additional charges are due, a payment must be submitted with this request. Note that Two-Factor
 
         Authentication is not supported at this time.
       operationId: commitChange

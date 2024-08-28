@@ -19,56 +19,84 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 
-class BaseRapidClientConfigurationTest {
+class ExpediaGroupJsonClientBuilderConfigurationTest {
     @Test
     fun `verify default behaviour`() {
-        RapidClientConfiguration().let {
+        ExpediaGroupClientConfiguration().let {
             assertNull(it.key)
             assertNull(it.secret)
             assertNull(it.endpoint)
+            assertNull(it.authEndpoint)
             assertNull(it.requestTimeout)
+            assertNull(it.connectionTimeout)
+            assertNull(it.socketTimeout)
+            assertNull(it.maskedLoggingHeaders)
+            assertNull(it.maskedLoggingBodyFields)
         }
     }
 
     @Test
     fun `verify typical use`() {
-        RapidClientConfiguration(
+        ExpediaGroupClientConfiguration(
             key = "key",
             secret = "secret",
             endpoint = "endpoint",
-            requestTimeout = 10_000
+            authEndpoint = "authEndpoint",
+            requestTimeout = 10_000,
+            connectionTimeout = 5_000,
+            socketTimeout = 15_000,
+            maskedLoggingHeaders = setOf("header1", "header2"),
+            maskedLoggingBodyFields = setOf("field1", "field2")
         ).let {
             assertEquals("key", it.key)
             assertEquals("secret", it.secret)
             assertEquals("endpoint", it.endpoint)
+            assertEquals("authEndpoint", it.authEndpoint)
             assertEquals(10_000, it.requestTimeout)
+            assertEquals(5_000, it.connectionTimeout)
+            assertEquals(15_000, it.socketTimeout)
+            assertEquals(setOf("header1", "header2"), it.maskedLoggingHeaders)
+            assertEquals(setOf("field1", "field2"), it.maskedLoggingBodyFields)
         }
     }
 
     @Test
     fun `verify toProvider with default behaviour`() {
-        RapidClientConfiguration().toProvider().let {
+        ExpediaGroupClientConfiguration().toProvider().let {
             assertNull(it.key)
             assertNull(it.secret)
             assertNull(it.endpoint)
             assertNull(it.authEndpoint)
             assertNull(it.requestTimeout)
+            assertNull(it.connectionTimeout)
+            assertNull(it.socketTimeout)
+            assertNull(it.maskedLoggingHeaders)
+            assertNull(it.maskedLoggingBodyFields)
         }
     }
 
     @Test
     fun `verify toProvider with values`() {
-        RapidClientConfiguration(
+        ExpediaGroupClientConfiguration(
             key = "key",
             secret = "secret",
             endpoint = "endpoint",
-            requestTimeout = 10_000
+            authEndpoint = "authEndpoint",
+            requestTimeout = 10_000,
+            connectionTimeout = 5_000,
+            socketTimeout = 15_000,
+            maskedLoggingHeaders = setOf("header1", "header2"),
+            maskedLoggingBodyFields = setOf("field1", "field2")
         ).toProvider().let {
             assertEquals("key", it.key)
             assertEquals("secret", it.secret)
             assertEquals("endpoint", it.endpoint)
+            assertEquals("authEndpoint", it.authEndpoint)
             assertEquals(10_000, it.requestTimeout)
-            assertNull(it.authEndpoint)
+            assertEquals(5_000, it.connectionTimeout)
+            assertEquals(15_000, it.socketTimeout)
+            assertEquals(setOf("header1", "header2"), it.maskedLoggingHeaders)
+            assertEquals(setOf("field1", "field2"), it.maskedLoggingBodyFields)
         }
     }
 }
