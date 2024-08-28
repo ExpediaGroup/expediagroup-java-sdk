@@ -45,8 +45,8 @@ jobs:
           mkdir -p ${{ inputs.path }}
 
           cp -r ${{ inputs.sdk_repo_key }}/${{ inputs.sdk_key }}/src ${{ inputs.path }}/src
-          cp ${{ inputs.sdk_repo_key }}/${{ inputs.sdk_key }}/pom.xml ${{ inputs.path }}/src
-          cp ${{ inputs.sdk_repo_key }}/${{ inputs.sdk_key }}/README.md ${{ inputs.path }}/src
+          cp ${{ inputs.sdk_repo_key }}/${{ inputs.sdk_key }}/pom.xml ${{ inputs.path }}
+          cp ${{ inputs.sdk_repo_key }}/${{ inputs.sdk_key }}/README.md ${{ inputs.path }}
           cp ./${{ inputs.specs_key }}.yaml ${{ inputs.path }}/${{ inputs.specs_key }}.yaml
 
       - name: Create PR
