@@ -39,6 +39,9 @@ class Product(
     val packagePath: String
         get() = "src/main/kotlin/com/expediagroup/sdk/$namespace"
 
+    val testPackagePath: String =
+        "$packagePath/test"
+
     val packageName: String
         get() = "com.expediagroup.sdk.$namespace"
 
