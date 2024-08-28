@@ -19,6 +19,7 @@ import com.samskivert.mustache.Mustache
 import org.openapitools.codegen.CodegenModel
 import org.openapitools.codegen.CodegenOperation
 import org.openapitools.codegen.CodegenProperty
+import org.openapitools.codegen.CodegenResponse
 import org.openapitools.codegen.model.ApiInfoMap
 
 val mustacheHelpers =
@@ -43,8 +44,8 @@ val mustacheHelpers =
                 }
             }
         },
-        "removeLeadingSlash" to {
-            Mustache.Lambda { fragment, writer -> writer.write(fragment.execute().replace("^/+".toRegex(), "")) }
+        "removeLeadingSlashes" to {
+            Mustache.Lambda { fragment, writer -> writer.write(fragment.execute().replace("^/+".toRegex(), "/")) }
         },
         "assignDiscriminators" to {
             Mustache.Lambda { fragment, writer ->
@@ -86,28 +87,12 @@ val mustacheHelpers =
                 }
             }
         },
-        "throwsExceptions" to {
+        "exceptionDataTypes" to {
             Mustache.Lambda { fragment, writer ->
-                val dataTypes: Set<String> = collectDataTypes(fragment)
-                val stringBuilder = StringBuilder()
-                dataTypes.forEachIndexed { index, dataType ->
-                    if (index > 0) stringBuilder.append(" ".repeat(5))
-                    stringBuilder.append("* @throws ExpediaGroupApi${dataType}Exception")
-                    if (index < dataTypes.size - 1) stringBuilder.append("\n")
-                }
-                writer.write(stringBuilder.toString())
-            }
-        },
-        "throwsExceptionsClasses" to {
-            Mustache.Lambda { fragment, writer ->
-                val dataTypes: Set<String> = collectDataTypes(fragment)
-                val stringBuilder = StringBuilder()
-                dataTypes.forEachIndexed { index, dataType ->
-                    if (index > 0) stringBuilder.append(" ".repeat(8))
-                    stringBuilder.append("ExpediaGroupApi${dataType}Exception::class")
-                    if (index < dataTypes.size - 1) stringBuilder.append(",\n")
-                }
-                writer.write(stringBuilder.toString())
+                val operation: CodegenOperation = fragment.context() as CodegenOperation
+                val dataTypes: Set<String> = operation.responses.filter { !it.is2xx }.map { it.dataType }.toSet()
+                val context = mapOf("dataTypes" to dataTypes)
+                fragment.execute(context, writer)
             }
         },
         "hasNonBodyParams" to {
@@ -124,6 +109,22 @@ val mustacheHelpers =
                 val params = operation.pathParams + operation.headerParams + operation.queryParams
                 val context = mapOf("params" to params)
                 fragment.execute(context, writer)
+            }
+        },
+        "removeDoubleQuotes" to {
+            Mustache.Lambda { fragment, writer ->
+                val data: String = fragment.context() as String
+                writer.write("\"${data.replace(Regex("^\"+|\"$"), "")}\"")
+            }
+        },
+        "httpAcceptHeader" to {
+            Mustache.Lambda { fragment, writer ->
+                val response: CodegenResponse = fragment.context() as CodegenResponse
+                if (response.code == "200") {
+                    val mediaTypes: MutableSet<String> = response.content.keys
+                    val context = mapOf("mediaTypes" to mediaTypes.joinToString(","))
+                    fragment.execute(context, writer)
+                }
             }
         }
     )
