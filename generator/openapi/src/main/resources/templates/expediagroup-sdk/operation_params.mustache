@@ -36,13 +36,7 @@
                     internal constructor(
                         {{#nonBodyParams}}
                             {{#params}}
-                                {{>modelMutable}} {{{paramName}}}: {{{dataType}}}?
-                                {{#defaultValue}} =
-                                    {{^isNumber}}{{{defaultValue}}}{{/isNumber}}
-                                    {{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}
-                                {{/defaultValue}}
-                                {{^defaultValue}} = null{{/defaultValue}}
-                                ,
+                                {{>modelMutable}} {{{paramName}}}: {{>partials/datatype}}? = null,
                             {{/params}}
                         {{/nonBodyParams}}
                         private val dummy: Unit
@@ -86,10 +80,30 @@
                     {{/isLinkable}}
                 {{/isRapid}}
 
+                {{#nonBodyParams}}
+                    {{#params}}
+                        {{#isEnum}}
+                            enum class {{enumName}}(
+                                val value:
+                                {{#isContainer}}{{{items.dataType}}}{{/isContainer}}
+                                {{^isContainer}}{{dataType}}{{/isContainer}}
+                            ) {
+                                {{#allowableValues}}
+                                    {{#enumVars}}
+                                        {{name}}({{{value}}})
+                                        {{^-last}},{{/-last}}
+                                    {{/enumVars}}
+                                {{/allowableValues}}
+                            }
+                        {{/isEnum}}
+                    {{/params}}
+                {{/nonBodyParams}}
+
                 class Builder(
                     {{#nonBodyParams}}
                         {{#params}}
-                            private var {{{paramName}}}: {{{dataType}}}? = null{{^-last}},{{/-last}}
+                            private var {{{paramName}}}: {{>partials/datatype}}? = null
+                            {{^-last}},{{/-last}}
                         {{/params}}
                     {{/nonBodyParams}}
                 ) {
@@ -98,7 +112,7 @@
                             /**
                             * @param {{{paramName}}} {{{description}}}
                             */
-                            fun {{{paramName}}}({{{paramName}}}: {{{dataType}}}) = apply { this.{{{paramName}}} = {{{paramName}}} }
+                            fun {{{paramName}}}({{{paramName}}}: {{>partials/datatype}}) = apply { this.{{{paramName}}} = {{{paramName}}} }
                         {{/params}}
                     {{/nonBodyParams}}
 
@@ -134,15 +148,32 @@
                 override fun getHeaders(): Map<String, String> {
                     return buildMap {
                         {{#headerParams}}
-                            {{paramName}}?.also { put("{{baseName}}", {{paramName}}) }
+                            {{paramName}}?.also {
+                                put("{{baseName}}", {{paramName}}{{#isEnum}}.value{{/isEnum}})
+                            }
                         {{/headerParams}}
+                        {{#responses}}
+                            {{#httpAcceptHeader}}
+                                put("Accept", "{{mediaTypes}}")
+                            {{/httpAcceptHeader}}
+                        {{/responses}}
                     }
                 }
 
                 override fun getQueryParams(): Map<String, Iterable<String>> {
                     return buildMap {
                         {{#queryParams}}
-                            {{paramName}}?.also { put ("{{baseName}}", {{#isContainer}}{{paramName}}{{/isContainer}}{{^isContainer}}listOf({{paramName}}.toString()){{/isContainer}})}
+                            {{paramName}}?.also {
+                                put(
+                                    "{{baseName}}",
+                                    {{#isContainer}}
+                                        {{paramName}}{{#isEnum}}.map { it.value }{{/isEnum}}
+                                    {{/isContainer}}
+                                    {{^isContainer}}
+                                            listOf({{paramName}}{{#isEnum}}.value{{/isEnum}}{{^isString}}.toString(){{/isString}})
+                                    {{/isContainer}}
+                                )
+                            }
                         {{/queryParams}}
                     }
                 }
@@ -150,7 +181,9 @@
                 override fun getPathParams() : Map<String, String> {
                     return buildMap {
                         {{#pathParams}}
-                            {{paramName}}?.also { put("{{baseName}}", {{paramName}}) }
+                            {{paramName}}?.also {
+                                put("{{baseName}}", {{paramName}}{{#isEnum}}.value{{/isEnum}})
+                            }
                         {{/pathParams}}
                     }
                 }
