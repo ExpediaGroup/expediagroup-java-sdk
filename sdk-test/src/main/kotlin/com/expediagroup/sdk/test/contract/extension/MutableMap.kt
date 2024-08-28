@@ -15,8 +15,6 @@
  */
 package com.expediagroup.sdk.test.contract.extension
 
-import org.apache.commons.text.CaseUtils
-
 /**
  * Extension function for Map to process and convert JSON array values to lists.
  *

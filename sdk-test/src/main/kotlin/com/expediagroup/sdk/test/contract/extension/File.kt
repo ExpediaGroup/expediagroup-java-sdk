@@ -26,18 +26,18 @@ import io.specmatic.core.unsupportedFileExtensionContractException
 import java.io.File
 
 /**
-* Converts a file into a Specmatic Feature object.
-*
-* @param hook hooks to be used during file processing, default is PassThroughHook.
-* @param sourceProvider optional source provider info.
-* @param sourceRepository optional source repository URL.
-* @param sourceRepositoryBranch optional branch of source repository.
-* @param specificationPath optional path to the specification file.
-* @param securityConfiguration optional security configuration.
-* @param environmentAndPropertiesConfiguration configuration for environment and properties, default is EnvironmentAndPropertiesConfiguration.
-* @throws unsupportedFileExtensionContractException if the file extension is not supported.
-* @return converted Feature object.
-*/
+ * Converts a file into a Specmatic Feature object.
+ *
+ * @param hook hooks to be used during file processing, default is PassThroughHook.
+ * @param sourceProvider optional source provider info.
+ * @param sourceRepository optional source repository URL.
+ * @param sourceRepositoryBranch optional branch of source repository.
+ * @param specificationPath optional path to the specification file.
+ * @param securityConfiguration optional security configuration.
+ * @param environmentAndPropertiesConfiguration configuration for environment and properties, default is EnvironmentAndPropertiesConfiguration.
+ * @throws unsupportedFileExtensionContractException if the file extension is not supported.
+ * @return converted Feature object.
+ */
 fun File.toSpecmaticFeature(
     hook: Hook = PassThroughHook(),
     sourceProvider: String? = null,

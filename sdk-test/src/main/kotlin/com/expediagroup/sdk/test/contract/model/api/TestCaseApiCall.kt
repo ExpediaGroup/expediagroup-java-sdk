@@ -46,10 +46,10 @@ class TestCaseApiCall(
         fun from(scenario: Scenario): TestCaseApiCall =
             TestCaseApiCall(
                 request =
-                    TestCaseHttpRequest.from(
-                        request = scenario.generateHttpRequest(),
-                        scenario = scenario
-                    ),
+                TestCaseHttpRequest.from(
+                    request = scenario.generateHttpRequest(),
+                    scenario = scenario
+                ),
                 response = TestCaseHttpResponse.from(response = scenario.generateHttpResponse(emptyMap()))
             )
     }
@@ -60,13 +60,15 @@ class TestCaseApiCall(
      * @return A string representation of the TestCaseApiCall object in JSON format.
      */
     override fun toString(): String {
-        return jacksonObjectMapper().writeValueAsString(mapOf(
-            "request" to mapOf(
-                "body" to request.getRequestBody(),
-                "params" to request.getParams(),
-            ),
-            "response" to response
-        ))
+        return jacksonObjectMapper().writeValueAsString(
+            mapOf(
+                "request" to mapOf(
+                    "body" to request.getRequestBody(),
+                    "params" to request.getParams(),
+                ),
+                "response" to response
+            )
+        )
     }
 
     /**

@@ -38,6 +38,7 @@ import io.specmatic.core.Scenario
 class ExtractPathParamsFunc : (Scenario, HttpRequest) -> Map<String, Any> {
     companion object {
         val execute = ExtractPathParamsFunc()
+
         /**
          * Regex pattern used to identify path parameters in the scenario path.
          * The pattern matches a segment of the format (paramName:type) and captures

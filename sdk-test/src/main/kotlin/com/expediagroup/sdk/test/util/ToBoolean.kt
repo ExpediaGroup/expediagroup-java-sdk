@@ -19,18 +19,18 @@ import java.io.File
 
 
 /**
-* Converts the given `instance` to a Boolean based on specific criteria:
-* - If `instance` is a Boolean, returns its value.
-* - If `instance` is a String, returns true if it is not empty.
-* - If `instance` is a Collection, returns true if it is not empty.
-* - If `instance` is a Map, returns true if it is not empty.
-* - If `instance` is an Array, returns true if it is not empty.
-* - If `instance` is a ByteArray, returns true if it is not empty.
-* - For unknown types, returns `false`.
-*
-* @param instance The object to be evaluated and converted to Boolean.
-* @return `true` if the `instance` meets positive criteria based on the given rules, `false` otherwise.
-*/
+ * Converts the given `instance` to a Boolean based on specific criteria:
+ * - If `instance` is a Boolean, returns its value.
+ * - If `instance` is a String, returns true if it is not empty.
+ * - If `instance` is a Collection, returns true if it is not empty.
+ * - If `instance` is a Map, returns true if it is not empty.
+ * - If `instance` is an Array, returns true if it is not empty.
+ * - If `instance` is a ByteArray, returns true if it is not empty.
+ * - For unknown types, returns `false`.
+ *
+ * @param instance The object to be evaluated and converted to Boolean.
+ * @return `true` if the `instance` meets positive criteria based on the given rules, `false` otherwise.
+ */
 private fun staticToBoolean(instance: Any?): Boolean = when (instance) {
     is Boolean -> instance
     is Number -> instance != 0

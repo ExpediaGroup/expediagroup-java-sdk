@@ -113,7 +113,6 @@ class TestCaseHttpRequest(
         toBoolean(body, dynamic = true).and(!(body!!.isEmptyJsonObject()))
 
 
-
     /**
      * Aggregates the headers, path parameters, and query parameters into a single map.
      *

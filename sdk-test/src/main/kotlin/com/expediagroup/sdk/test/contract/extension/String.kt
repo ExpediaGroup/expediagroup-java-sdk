@@ -15,8 +15,6 @@
  */
 package com.expediagroup.sdk.test.contract.extension
 
-import com.google.common.base.CaseFormat
-
 /**
  * Checks if the string represents an empty JSON object.
  *
@@ -40,6 +38,7 @@ fun String.isEmptyJsonObject(): Boolean = this.trim().replace(" ", "") == "{}"
 fun String.isJsonArray(): Boolean = this.trim().let {
     it.startsWith("[") && it.endsWith("]")
 }
+
 /**
  * Converts a JSON array string into a List of Any type.
  *
