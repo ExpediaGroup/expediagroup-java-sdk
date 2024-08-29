@@ -43,7 +43,7 @@ jobs:
     uses: ./.github/workflows/selfserve-checkout-and-upload.yaml
     with:
       artifact_key: 'templates'
-      artifact_path: 'sdk-repo/generator/openapi/src/main/resources/templates/expediagroup-sdk'
+      artifact_path: 'generator/openapi/src/main/resources/templates/expediagroup-sdk'
       repository: 'ExpediaGroup/expediagroup-java-sdk'
       ref: "${{ github.head_ref || github.ref_name }}"
 
