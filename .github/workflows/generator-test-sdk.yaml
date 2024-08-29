@@ -31,19 +31,29 @@ jobs:
     uses: ./.github/workflows/generator-download-specs.yaml
     with:
       url: ${{ inputs.specs_url }}
+
   transform-specs:
     needs: [ download-specs ]
     uses: ./.github/workflows/selfserve-transform-specs.yaml
     with:
       specs_key: 'raw-specs'
       transformations: -th -te ${{ inputs.endpoint_prefix }} --operationIdsToTags
+
+  upload-templates:
+    uses: ./.github/workflows/selfserve-checkout-and-upload.yaml
+    with:
+      artifact_key: 'templates'
+      artifact_path: 'sdk-repo/generator/openapi/src/main/resources/templates/expediagroup-sdk'
+      repository: 'ExpediaGroup/expediagroup-java-sdk'
+
   generate-sdk:
     needs: [ transform-specs ]
-    uses: ./.github/workflows/selfserve-generate.yaml
+    uses: ./.github/workflows/selfserve-generate-sdk.yaml
     with:
       name: ${{ inputs.namespace }}
       version: ${{ inputs.version }}
-      templates: 'sdk-repo/generator/openapi/src/main/resources/templates/expediagroup-sdk'
+      templates_key: 'templates'
+
   sdk-metadata:
     runs-on: ubuntu-latest
     needs: [ generate-sdk ]
