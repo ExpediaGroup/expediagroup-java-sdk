@@ -45,6 +45,7 @@ jobs:
       artifact_key: 'templates'
       artifact_path: 'sdk-repo/generator/openapi/src/main/resources/templates/expediagroup-sdk'
       repository: 'ExpediaGroup/expediagroup-java-sdk'
+      ref: "${{ github.head_ref || github.ref_name }}"
 
   generate-sdk:
     needs: [ transform-specs ]
