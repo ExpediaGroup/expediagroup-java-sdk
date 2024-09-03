@@ -24,6 +24,7 @@ jobs:
       artifact_key: 'specs'
       artifact_path: ${{ inputs.specs_path }}
   mock:
+    needs: [ upload-specs ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
