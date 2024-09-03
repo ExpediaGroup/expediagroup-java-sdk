@@ -1,9 +1,0 @@
-on: push
-jobs:
-  main:
-    uses: ./.github/workflows/selfserve-service-mock.yaml
-    with:
-        repository: ${{ github.repository }}
-        ref: "${{ github.head_ref || github.ref_name }}"
-        specs_path: 'release/rapid/src/specs.yaml'
-
