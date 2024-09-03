@@ -67,7 +67,7 @@ jobs:
       - name: Verify Server is Running
         run: |
           status=$(curl --write-out '%{http_code}' --silent --output /dev/null http://localhost:8080/$(uuidgen))
-          if [ $status -e 000 ]; then
+          if [ $status -ne 400 ]; then
               echo "Server not running!"
               exit 1
           fi
