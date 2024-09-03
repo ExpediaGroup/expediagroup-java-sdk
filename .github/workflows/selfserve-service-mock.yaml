@@ -61,7 +61,7 @@ jobs:
         run: npx --yes -p @expediagroup/spec-transformer cli -i ${{ env.spec }} -o ${{ env.spec }} -to
       - name: Run Mock Server
         working-directory: specs
-        run: java -jar specmatic.jar stub ${{ env.spec }} --port 8090 & disown
+        run: java -jar specmatic.jar stub ${{ env.spec }} --port 8080 & disown
       - name: Wait for Mock Server to Start
         run: sleep 10
       - name: Verify Server is Running
