@@ -7,8 +7,6 @@ const args = process.argv.slice(2)
 const filePath = args[0]
 const fileName = path.parse(filePath).name
 
-console.log('test')
-
 switch (fileName) {
     case 'GetLodgingListingsOperationParams':
         processGetLodgingListingsOperationParams(filePath)
