@@ -8,7 +8,7 @@
   },
   "devDependencies": {
     "@ast-grep/napi": "0.26.1",
-    "@eslint/js": "9.9.0",
+    "@eslint/js": "9.9.1",
     "@types/eslint__js": "8.42.3",
     "eslint": "8.57.0",
     "ts-node": "10.9.2",

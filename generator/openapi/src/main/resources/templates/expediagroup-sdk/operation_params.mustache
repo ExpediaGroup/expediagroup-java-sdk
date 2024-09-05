@@ -4,6 +4,8 @@
             package com.expediagroup.sdk.{{namespace}}.operations
 
             import com.expediagroup.sdk.core.model.OperationParams
+            import com.fasterxml.jackson.annotation.JsonProperty
+            import com.fasterxml.jackson.databind.annotation.JsonDeserialize
             import io.ktor.http.Headers
             import io.ktor.http.Parameters
 
@@ -14,6 +16,7 @@
                 {{/params}}
             {{/nonBodyParams}}
             */
+            @JsonDeserialize(builder = {{classname}}Params.Builder::class)
             data class {{classname}}Params
             {{^isRapid}}
                 (
@@ -104,7 +107,7 @@
                 class Builder(
                     {{#nonBodyParams}}
                         {{#params}}
-                            private var {{{paramName}}}: {{>partials/datatype}}? = null
+                            @JsonProperty("{{{baseName}}}") private var {{{paramName}}}: {{>partials/datatype}}? = null
                             {{^-last}},{{/-last}}
                         {{/params}}
                     {{/nonBodyParams}}
