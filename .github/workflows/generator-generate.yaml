@@ -32,8 +32,6 @@ jobs:
           path: generator/openapi
       - name: generate
         working-directory: generator/openapi
-        env:
-          KOTLIN_POST_PROCESS_FILE: "npm run --prefix src/main/resources/post-processor process"
         run: |
           mvn clean install exec:java "-Dnamespace=${{ inputs.name }}" -DsdkVersion=${{ inputs.version }} "-Dspec=./specs.yaml"
       - name: test
