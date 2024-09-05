@@ -36,6 +36,10 @@ jobs:
           KOTLIN_POST_PROCESS_FILE: "npm run --prefix src/main/resources/post-processor process"
         run: |
           mvn clean install exec:java "-Dnamespace=${{ inputs.name }}" -DsdkVersion=${{ inputs.version }} "-Dspec=./specs.yaml"
+      - name: test
+        working-directory: generator/openapi
+        run: |
+          npm run --prefix src/main/resources/post-processor process target/sdk/src/main/kotlin/com/expediagroup/sdk/xap/models/HotelPolicies.kt
       - name: install sdk
         working-directory: generator/openapi/target/sdk
         run: |
