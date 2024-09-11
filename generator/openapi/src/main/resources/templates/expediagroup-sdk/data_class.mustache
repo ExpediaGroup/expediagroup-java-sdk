@@ -92,6 +92,14 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
         }
     {{/hasRequired}}
     }
+
+    fun toBuilder() = Builder(
+        {{#allVars}}
+            {{#eliminateDiscriminators}}
+                {{{name}}} = {{{name}}}{{#required}}!!{{/required}}{{^-last}},{{/-last}}
+            {{/eliminateDiscriminators}}
+        {{/allVars}}
+    )
     {{/discriminator}}
 {{/isKotlin}}
 {{#hasEnums}}

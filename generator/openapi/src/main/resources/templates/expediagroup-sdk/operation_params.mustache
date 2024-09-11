@@ -150,6 +150,14 @@
                     {{/hasRequiredParams}}
                 }
 
+                fun toBuilder() = Builder(
+                    {{#nonBodyParams}}
+                        {{#params}}
+                            {{{paramName}}} = {{{paramName}}}{{^-last}},{{/-last}}
+                        {{/params}}
+                    {{/nonBodyParams}}
+                )
+
                 override fun getHeaders(): Headers {
                     return Headers.build {
                         {{#headerParams}}
