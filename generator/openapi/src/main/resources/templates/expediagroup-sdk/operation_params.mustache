@@ -166,14 +166,14 @@
                 override fun getQueryParams(): Map<String, Iterable<String>> {
                     return buildMap {
                         {{#queryParams}}
-                            {{paramName}}?.also {
+                            {{{paramName}}}?.also {
                                 put(
                                     "{{baseName}}",
                                     {{#isContainer}}
-                                        {{paramName}}{{#isEnum}}.map { it.value }{{/isEnum}}
+                                        {{{paramName}}}{{#isEnum}}.map { it.value }{{/isEnum}}
                                     {{/isContainer}}
                                     {{^isContainer}}
-                                            listOf({{paramName}}{{#isEnum}}.value{{/isEnum}}{{^isString}}.toString(){{/isString}})
+                                            listOf({{{paramName}}}{{#isEnum}}.value{{/isEnum}}{{^isString}}.toString(){{/isString}})
                                     {{/isContainer}}
                                 )
                             }
