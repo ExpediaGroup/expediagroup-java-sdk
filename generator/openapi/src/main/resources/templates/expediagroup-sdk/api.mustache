@@ -113,7 +113,7 @@ import com.expediagroup.sdk.core.model.Operation
                             {{#hasPathParams}}
                                 val paramsMap = buildMap {
                                     {{#pathParams}}
-                                        put("{{baseName}}", "[a-z0-9]+")
+                                        put("{{baseName}}", "[a-z0-9\-]+")
                                     {{/pathParams}}
                                 }
                                 val substitutor = StringSubstitutor(paramsMap, "{", "}")
