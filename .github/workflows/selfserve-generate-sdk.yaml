@@ -33,6 +33,10 @@ on:
         description: 'Key to the generated JAR artifact'
         default: 'jar'
         type: string
+      generation_options:
+        description: 'Extra params to pass to the generation step'
+        default: ''
+        type: string
 
 jobs:
   generate-sdk:
@@ -69,7 +73,7 @@ jobs:
         env:
           KOTLIN_POST_PROCESS_FILE: "npm run --prefix sdk-repo/generator/openapi/src/main/resources/post-processor process"
         run: |
-          mvn -f sdk-repo/generator/openapi clean install exec:java "-Dnamespace=${{ inputs.name }}" -DsdkVersion=${{ inputs.version }} "-Dspec=./${{ inputs.specs_key }}.yaml" -DtemplatesDir=templates
+          mvn -f sdk-repo/generator/openapi clean install exec:java "-Dnamespace=${{ inputs.name }}" -DsdkVersion=${{ inputs.version }} "-Dspec=./${{ inputs.specs_key }}.yaml" -DtemplatesDir=templates ${{ inputs.generation_options }}
 
       - name: Install SDK
         run: |

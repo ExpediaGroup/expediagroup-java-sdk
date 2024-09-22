@@ -82,6 +82,9 @@
 
         <!-- Library Versions -->
         <junit5.version>5.10.3</junit5.version>
+
+        <!-- Ktlint Configurationds      -->
+        <ktlint.skip>false</ktlint.skip>
     </properties>
 
     <dependencyManagement>
@@ -265,6 +268,9 @@
                             <goals>
                                 <goal>check</goal>
                             </goals>
+                            <configuration>
+                                <skip>${ktlint.skip}</skip>
+                            </configuration>
                         </execution>
                     </executions>
                 </plugin>
