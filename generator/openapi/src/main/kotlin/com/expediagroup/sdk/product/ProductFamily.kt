@@ -17,7 +17,7 @@ package com.expediagroup.sdk.product
 
 enum class ProductFamily(val id: String) {
     EXPEDIA_GROUP("expediagroup"),
-    RAPID("rapid");
+    RAPID("rapid"),;
 
     companion object {
         /**

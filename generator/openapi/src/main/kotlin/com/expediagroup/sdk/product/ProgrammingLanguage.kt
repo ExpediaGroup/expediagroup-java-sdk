@@ -17,7 +17,7 @@ package com.expediagroup.sdk.product
 
 enum class ProgrammingLanguage(val id: String) {
     JAVA("java"),
-    KOTLIN("kotlin");
+    KOTLIN("kotlin"),;
 
     companion object {
         /**

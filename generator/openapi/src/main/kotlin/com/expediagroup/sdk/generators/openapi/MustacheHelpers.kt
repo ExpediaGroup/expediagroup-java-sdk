@@ -126,5 +126,5 @@ val mustacheHelpers =
                     fragment.execute(context, writer)
                 }
             }
-        }
+        },
     )
