@@ -33,10 +33,6 @@ on:
         description: 'Key to the generated JAR artifact'
         default: 'jar'
         type: string
-      generation_options:
-        description: 'Extra options to pass to the generator'
-        type: string
-        default: ''
 
 jobs:
   generate-sdk:
@@ -70,11 +66,10 @@ jobs:
           distribution: 'temurin'
 
       - name: Generate Product SDK
-        working-directory: sdk-repo/generator/openapi
         env:
           KOTLIN_POST_PROCESS_FILE: "npm run --prefix sdk-repo/generator/openapi/src/main/resources/post-processor process"
         run: |
-          mvn clean install exec:java "-Dnamespace=${{ inputs.name }}" -DsdkVersion=${{ inputs.version }} "-Dspec=-f ../../${{ inputs.specs_key }}.yaml" -DtemplatesDir=templates ${{ inputs.generation_options }}
+          mvn -f sdk-repo/generator/openapi clean install exec:java "-Dnamespace=${{ inputs.name }}" -DsdkVersion=${{ inputs.version }} "-Dspec=./${{ inputs.specs_key }}.yaml" -DtemplatesDir=templates
 
       - name: Install SDK
         run: |
