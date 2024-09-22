@@ -43,7 +43,7 @@ class OpenApiSdkGenerator {
             "LinkableOperation.kt",
             "PropertyConstraintViolation.kt",
             "PropertyConstraintsValidator.kt",
-            "PropertyConstraintViolationException.kt",
+            "PropertyConstraintViolationException.kt"
         )
 
     companion object {
@@ -138,8 +138,8 @@ class OpenApiSdkGenerator {
                                 SupportingFile(
                                     "client.mustache",
                                     "$packagePath/client/",
-                                    "${namespace}Client.kt",
-                                ),
+                                    "${namespace}Client.kt"
+                                )
                             )
                             add(SupportingFile("pom.mustache", "pom.xml"))
                             add(SupportingFile("README.mustache", "README.md"))
@@ -147,55 +147,55 @@ class OpenApiSdkGenerator {
                                 SupportingFile(
                                     "models/apiException.mustache",
                                     "$packagePath/models/exception/",
-                                    "ApiException.kt",
-                                ),
+                                    "ApiException.kt"
+                                )
                             )
                             add(
                                 SupportingFile(
                                     "validation/propertyConstraintViolationException.mustache",
                                     "$packagePath/models/exception/",
-                                    "PropertyConstraintViolationException.kt",
-                                ),
+                                    "PropertyConstraintViolationException.kt"
+                                )
                             )
                             add(
                                 SupportingFile(
                                     "validation/propertyConstraintViolation.mustache",
                                     "$packagePath/models/exception/",
-                                    "PropertyConstraintViolation.kt",
-                                ),
+                                    "PropertyConstraintViolation.kt"
+                                )
                             )
                             add(
                                 SupportingFile(
                                     "validation/propertyConstraintsValidator.mustache",
                                     "$packagePath/validation/",
-                                    "PropertyConstraintsValidator.kt",
-                                ),
+                                    "PropertyConstraintsValidator.kt"
+                                )
                             )
 
                             add(
                                 TemplateDefinition(
                                     "operation_params.mustache",
-                                    "Params.kt",
-                                ).also { it.templateType = TemplateFileType.API },
+                                    "Params.kt"
+                                ).also { it.templateType = TemplateFileType.API }
                             )
 
                             if (ProductFamily.isRapid(product.namespace)) {
                                 add(
                                     TemplateDefinition(
                                         "operation_context.mustache",
-                                        "Context.kt",
-                                    ).also { it.templateType = TemplateFileType.API },
+                                        "Context.kt"
+                                    ).also { it.templateType = TemplateFileType.API }
                                 )
 
                                 add(
                                     SupportingFile(
                                         "linkable_operation.mustache",
                                         "$packagePath/operations/",
-                                        "LinkableOperation.kt",
-                                    ),
+                                        "LinkableOperation.kt"
+                                    )
                                 )
                             }
-                        },
+                        }
                     )
                 }
 

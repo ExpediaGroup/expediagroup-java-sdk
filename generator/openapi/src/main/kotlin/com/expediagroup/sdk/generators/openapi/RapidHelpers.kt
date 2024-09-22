@@ -34,14 +34,14 @@ val linkableOperations =
         "postPaymentSessions",
         "priceCheck",
         "putCompletePaymentSession",
-        "putResumeBooking",
+        "putResumeBooking"
     )
 
 val isLinkable =
     object : Mustache.InvertibleLambda {
         override fun execute(
             fragment: Template.Fragment,
-            writer: Writer,
+            writer: Writer
         ) {
             val operation = fragment.context() as CodegenOperation
             if (linkableOperations.contains(operation.operationId)) {
@@ -51,7 +51,7 @@ val isLinkable =
 
         override fun executeInverse(
             fragment: Template.Fragment,
-            writer: Writer,
+            writer: Writer
         ) {
             val operation = fragment.context() as CodegenOperation
             if (!linkableOperations.contains(operation.operationId)) {
@@ -64,7 +64,7 @@ val hasRequiredContext =
     object : Mustache.InvertibleLambda {
         override fun execute(
             fragment: Template.Fragment,
-            writer: Writer,
+            writer: Writer
         ) {
             val operation = fragment.context() as CodegenOperation
             val headers = operation.headerParams
@@ -75,7 +75,7 @@ val hasRequiredContext =
 
         override fun executeInverse(
             fragment: Template.Fragment,
-            writer: Writer,
+            writer: Writer
         ) {
             val operation = fragment.context() as CodegenOperation
             val headers = operation.headerParams
@@ -88,5 +88,5 @@ val hasRequiredContext =
 val rapidHelpers =
     mapOf(
         "isLinkable" to { isLinkable },
-        "hasRequiredContext" to { hasRequiredContext },
+        "hasRequiredContext" to { hasRequiredContext }
     )
