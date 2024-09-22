@@ -56,7 +56,7 @@ jobs:
       ref: "${{ github.head_ref || github.ref_name }}"
 
   generate-sdk:
-    needs: [ transform-specs ]
+    needs: [ transform-specs, upload-repo ]
     uses: ./.github/workflows/selfserve-generate-sdk.yaml
     with:
       name: ${{ inputs.namespace }}
