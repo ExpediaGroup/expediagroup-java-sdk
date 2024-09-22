@@ -50,7 +50,7 @@ jobs:
           cp ./${{ inputs.specs_key }}.yaml ${{ inputs.path }}/${{ inputs.specs_key }}.yaml
 
       - name: Create PR
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v7
         with:
           branch: "publish-v${{ inputs.version }}"
           commit-message: "chore: Publish v${{ inputs.version }}"
