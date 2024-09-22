@@ -47,6 +47,14 @@ jobs:
       repository: 'ExpediaGroup/expediagroup-java-sdk'
       ref: "${{ github.head_ref || github.ref_name }}"
 
+  upload-repo:
+    uses: ./.github/workflows/selfserve-checkout-and-upload.yaml
+    with:
+      artifact_key: 'sdk-repo'
+      artifact_path: '.'
+      repository: 'ExpediaGroup/expediagroup-java-sdk'
+      ref: "${{ github.head_ref || github.ref_name }}"
+
   generate-sdk:
     needs: [ transform-specs ]
     uses: ./.github/workflows/selfserve-generate-sdk.yaml
