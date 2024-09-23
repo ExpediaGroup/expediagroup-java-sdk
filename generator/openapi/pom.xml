@@ -264,14 +264,13 @@
                     <version>${ktlint-plugin.version}</version>
                     <executions>
                         <execution>
-                            <id>check</id>
+                            <id>format</id>
                             <goals>
                                 <goal>check</goal>
                             </goals>
                             <configuration>
                                 <skip>${ktlint.skip}</skip>
                                 <verbose>true</verbose>
-                                <additionalEditorconfigPath>${project.basedir}/../.editorconfig</additionalEditorconfigPath>
                             </configuration>
                         </execution>
                     </executions>
