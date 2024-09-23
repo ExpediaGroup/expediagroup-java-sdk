@@ -62,7 +62,6 @@ jobs:
       name: ${{ inputs.namespace }}
       version: ${{ inputs.version }}
       templates_key: 'templates'
-      generation_options: '-Dktlint.skip=true'
 
   sdk-metadata:
     runs-on: ubuntu-latest
