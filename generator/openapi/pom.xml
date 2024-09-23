@@ -271,6 +271,7 @@
                             <configuration>
                                 <skip>${ktlint.skip}</skip>
                                 <verbose>true</verbose>
+                                <additionalEditorconfigPath>${project.basedir}/../.editorconfig</additionalEditorconfigPath>
                             </configuration>
                         </execution>
                     </executions>
