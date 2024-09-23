@@ -60,6 +60,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ inputs.artifact_key }}
-          path: |
-            ${{ inputs.artifact_key }}/${{ inputs.artifact_path }}
-            ${{ inputs.artifact_key }}/${{ inputs.artifact_path }}/.editorconfig
+          path: ${{ inputs.artifact_key }}/${{ inputs.artifact_path }}
+          include-hidden-files: true
