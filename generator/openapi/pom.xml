@@ -264,7 +264,7 @@
                     <version>${ktlint-plugin.version}</version>
                     <executions>
                         <execution>
-                            <id>format</id>
+                            <id>check</id>
                             <goals>
                                 <goal>check</goal>
                             </goals>
