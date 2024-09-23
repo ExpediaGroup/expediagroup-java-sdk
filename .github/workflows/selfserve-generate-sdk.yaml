@@ -65,6 +65,9 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
+      - working-directory: sdk-repo
+        run: la -a -l
+
       - name: Generate Product SDK
         working-directory: sdk-repo
         env:
