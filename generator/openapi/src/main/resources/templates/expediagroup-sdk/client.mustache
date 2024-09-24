@@ -63,7 +63,11 @@ class {{clientClassname}}Client private constructor(clientConfiguration: {{>part
     }
 
     private inline fun <reified RequestType> executeWithEmptyResponse(operation: Operation<RequestType>) : EmptyResponse {
-        return executeAsyncWithEmptyResponse(operation).get()
+        try {
+            return executeAsyncWithEmptyResponse(operation).get()
+        } catch (exception: Exception) {
+            exception.handle()
+        }
     }
 
     private inline fun <reified RequestType> executeAsyncWithEmptyResponse(operation: Operation<RequestType>) : CompletableFuture<EmptyResponse> {
@@ -80,7 +84,11 @@ class {{clientClassname}}Client private constructor(clientConfiguration: {{>part
     }
 
     private inline fun <reified RequestType, reified ResponseType> execute(operation: Operation<RequestType>) : Response<ResponseType> {
-        return executeAsync<RequestType, ResponseType>(operation).get()
+        try {
+            return executeAsync<RequestType, ResponseType>(operation).get()
+        } catch (exception: Exception) {
+            exception.handle()
+        }
     }
 
     private inline fun <reified RequestType, reified ResponseType> executeAsync(operation: Operation<RequestType>) : CompletableFuture<Response<ResponseType>> {
