@@ -23,6 +23,7 @@ import com.github.rvesse.airline.SingleCommand
 import io.specmatic.core.Feature
 import io.specmatic.core.Scenario
 import io.specmatic.test.SpecmaticContractTest
+import org.slf4j.LoggerFactory
 import java.io.File
 
 /**
@@ -50,6 +51,7 @@ class ContractTestsGenerator(
         }
 
         private val mapper: ObjectMapper = ObjectMapper()
+        private val logger = LoggerFactory.getLogger(ContractTestsGenerator::class.java)
     }
 
     private lateinit var feature: Feature
@@ -62,6 +64,8 @@ class ContractTestsGenerator(
         spec.takeUnless(::toBoolean)?.let {
             throw IllegalArgumentException("Invalid input spec file")
         }
+
+        logger.info(LogMessages.ARGS_VALIDATED_SUCCESSFULLY)
     }
 
     /**
@@ -74,10 +78,14 @@ class ContractTestsGenerator(
     private fun configure() {
         SPECMATIC_CONFIG.forEach { (key, value) -> System.setProperty(key, value) }
         System.setProperty("contractPaths", spec.absolutePath)
+        logger.info(LogMessagesTemplates.SET_SYSTEM_PROPERTY.format("contractPaths", spec.absolutePath))
 
+        // TODO: Log SpecmaticConfig attributes from feature.specmaticConfig
         feature = spec.toSpecmaticFeature()
+        logger.info(LogMessagesTemplates.SPEC_LOADED.format(spec.absolutePath))
 
         outputDir.mkdirs()
+        logger.info(LogMessagesTemplates.CREATED_DIRECTORY.format(outputDir.absolutePath))
     }
 
     /**
@@ -91,34 +99,30 @@ class ContractTestsGenerator(
         configure()
     }
 
-    fun generate(writeMode: Boolean = true): List<TestCaseApiCall> {
+    fun generate(writeMode: Boolean = true) {
         preGenerate()
-
-        val testCases: MutableList<TestCaseApiCall> = mutableListOf()
 
         feature.scenarios.forEach { scenario: Scenario ->
             scenario.generateTestScenarios(feature.flagsBased).iterator().apply {
-                IntRange(0, maxTestCombinations).forEach { counter: Int ->
+                 IntRange(1, maxTestCombinations).forEach CombinationsLimit@ { counter: Int ->
                     if (hasNext().not()) {
-                        return@forEach
+                        return@CombinationsLimit
                     }
 
                     next().ifValue { scenario ->
                         TestCaseApiCall.from(scenario).also { testCase ->
                             takeIf { writeMode }?.let {
+                                logger.info(LogMessagesTemplates.GENERATED_TEST_CASE_FOR_STATUS_AND_OPERATION.format(testCase.response.status, "${testCase.request.method} ${testCase.request.path}"))
                                 testCase.writeTo(
                                     outputDir = outputDir,
                                     mapper = mapper,
                                     filenameSuffix = "-$counter"
                                 )
-                            } ?: run {
-                                testCases.add(testCase)
                             }
                         }
                     }
                 }
             }
         }
-        return testCases
     }
 }
