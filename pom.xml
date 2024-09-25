@@ -84,7 +84,7 @@
         <maven.gpg.plugin.version>3.1.0</maven.gpg.plugin.version>
         <maven.release.plugin.version>3.4.1</maven.release.plugin.version>
         <maven.nexus-staging.plugin.version>1.6.13</maven.nexus-staging.plugin.version>
-        <maven.licence.plugin.version>4.5</maven.licence.plugin.version>
+        <maven.licence.plugin.version>4.6</maven.licence.plugin.version>
         <maven.antrun.plugin.version>3.1.0</maven.antrun.plugin.version>
         <flatten.maven.plugin.version>1.5.0</flatten.maven.plugin.version>
         <properties.maven.plugin.version>1.0.0</properties.maven.plugin.version>
