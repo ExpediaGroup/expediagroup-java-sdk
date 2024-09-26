@@ -15,14 +15,8 @@
  */
 package com.expediagroup.sdk.test.contract.extension
 
-import io.specmatic.conversions.EnvironmentAndPropertiesConfiguration
 import io.specmatic.conversions.OpenApiSpecification
-import io.specmatic.core.Feature
-import io.specmatic.core.Hook
-import io.specmatic.core.OPENAPI_FILE_EXTENSIONS
-import io.specmatic.core.PassThroughHook
-import io.specmatic.core.SecurityConfiguration
-import io.specmatic.core.unsupportedFileExtensionContractException
+import io.specmatic.core.*
 import java.io.File
 
 /**
@@ -34,7 +28,7 @@ import java.io.File
  * @param sourceRepositoryBranch optional branch of source repository.
  * @param specificationPath optional path to the specification file.
  * @param securityConfiguration optional security configuration.
- * @param environmentAndPropertiesConfiguration configuration for environment and properties, default is EnvironmentAndPropertiesConfiguration.
+ * @param specmaticConfig configuration for environment and properties, default is EnvironmentAndPropertiesConfiguration.
  * @throws unsupportedFileExtensionContractException if the file extension is not supported.
  * @return converted Feature object.
  */
@@ -45,7 +39,7 @@ fun File.toSpecmaticFeature(
     sourceRepositoryBranch: String? = null,
     specificationPath: String? = null,
     securityConfiguration: SecurityConfiguration? = null,
-    environmentAndPropertiesConfiguration: EnvironmentAndPropertiesConfiguration = EnvironmentAndPropertiesConfiguration()
+    specmaticConfig: SpecmaticConfig = SpecmaticConfig(),
 ): Feature =
     when (extension) {
         in OPENAPI_FILE_EXTENSIONS ->
@@ -57,7 +51,7 @@ fun File.toSpecmaticFeature(
                 sourceRepositoryBranch = sourceRepositoryBranch,
                 specificationPath = specificationPath,
                 securityConfiguration = securityConfiguration,
-                environmentAndPropertiesConfiguration = environmentAndPropertiesConfiguration
+                specmaticConfig =specmaticConfig,
             ).toFeature()
 
         else -> throw unsupportedFileExtensionContractException(path, extension)

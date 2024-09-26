@@ -18,7 +18,7 @@ class Main {
     }
 
     fun run() {
-        File("src/main/resources").listFiles().forEach { file ->
+        File("src/main/resources/contract-tests").listFiles().forEach { file ->
             mapper.readTree(file).let { test ->
                 val request = test["request"] as ObjectNode
                 val response = test["response"] as ObjectNode
