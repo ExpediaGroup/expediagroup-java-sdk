@@ -29,6 +29,13 @@ on:
         description: 'JDK version to use'
         type: string
         default: '21'
+    secrets:
+      KEY:
+        description: 'API Key'
+        required: true
+      SECRET:
+        description: 'API Key'
+        required: true
 
 jobs:
   main:
