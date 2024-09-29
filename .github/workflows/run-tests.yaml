@@ -80,9 +80,37 @@ jobs:
             print('::error::Invalid SDK version: ${{ inputs.sdk_version }}')
             exit(1)
 
+  download-specs:
+    uses: ./.github/workflows/generator-download-specs.yaml
+    with:
+      url: ${{ inputs.specs_url }}
+
+  transform-and-upload-specs:
+    needs: [ download-specs ]
+    uses: ./.github/workflows/selfserve-transform-specs.yaml
+    with:
+      specs_key: 'raw-specs'
+      transformations: -th -te ${{ inputs.endpoint_prefix }} --operationIdsToTags
+
+  upload-templates:
+    uses: ./.github/workflows/selfserve-checkout-and-upload.yaml
+    with:
+      artifact_key: 'templates'
+      artifact_path: 'generator/openapi/src/main/resources/templates/expediagroup-sdk'
+      repository: 'ExpediaGroup/expediagroup-java-sdk'
+      ref: "${{ github.head_ref || github.ref_name }}"
+
+  upload-repo:
+    uses: ./.github/workflows/selfserve-checkout-and-upload.yaml
+    with:
+      artifact_key: 'sdk-repo'
+      artifact_path: ''
+      repository: 'ExpediaGroup/expediagroup-java-sdk'
+      ref: "${{ github.head_ref || github.ref_name }}"
+
   generate-test-sdk:
     if: inputs.source == 'specs'
-    needs: [ inputs-validation ]
+    needs: [ inputs-validation, transform-and-upload-specs, upload-templates, upload-repo ]
     uses: ./.github/workflows/generator-test-sdk.yaml
     with:
       version: ${{ inputs.sdk_version }}
@@ -90,10 +118,19 @@ jobs:
       endpoint_prefix: ${{ inputs.endpoint_prefix }}
       specs_url: ${{ inputs.specs_url }}
     secrets: inherit
+
+  generate-contract-tests:
+    needs: [ inputs-validation, transform-and-upload-specs, upload-templates, upload-repo ]
+    uses: ./.github/workflows/selfserve-generate-contract-test-sources.yaml
+    with:
+      artifact_key: 'sdk-test'
+      repo_key: 'sdk-repo'
+      templates_key: 'templates'
+      specs_key: 'transformedSpecs'
+      namespace: ${{ inputs.sdk_namespace }}
+      generation_options: '--version 0.0.1'
+
   run-rapid-examples:
-    strategy:
-      matrix:
-        jdk: [8, 11, 17, 21]
     if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled') && inputs.sdk_namespace == 'rapid'
     needs: [ generate-test-sdk ]
     uses: "ExpediaGroup/rapid-java-sdk/.github/workflows/run-examples.yaml@main"
@@ -103,3 +140,24 @@ jobs:
     secrets:
       KEY: ${{ secrets.RAPID_KEY }}
       SECRET: ${{ secrets.RAPID_SECRET }}
+    strategy:
+      matrix:
+        jdk: [ 8, 11, 17, 21 ]
+
+  run-rapid-contract-tests:
+    if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled') && inputs.sdk_namespace == 'rapid'
+    needs: [ generate-contract-tests ]
+    uses: ./.github/workflows/selfserve-run-mocked-service-tests.yaml
+    with:
+      specs_key: 'transformedSpecs'
+      test_sources_key: 'sdk-test'
+      sdk_artifact_id: 'rapid'
+      sdk_version: ${{ inputs.sdk_version }}
+      sdk_key: 'sdk'
+      jdk: ${{ matrix.jdk }}
+    secrets:
+      KEY: ${{ secrets.RAPID_KEY }}
+      SECRET: ${{ secrets.RAPID_SECRET }}
+    strategy:
+      matrix:
+        jdk: [ 8, 11, 17, 21 ]

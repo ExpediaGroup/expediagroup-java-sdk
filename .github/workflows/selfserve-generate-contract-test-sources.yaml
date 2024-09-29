@@ -4,9 +4,9 @@ on:
   workflow_call:
     inputs:
       artifact_key:
-        description: 'Generated output artifact key'
+        description: 'Generated output artifact key. Defaults to `sdk-test`'
         type: string
-        required: true
+        default: 'sdk-test'
       repo_key:
         description: 'SDK repository artifact key'
         type: string

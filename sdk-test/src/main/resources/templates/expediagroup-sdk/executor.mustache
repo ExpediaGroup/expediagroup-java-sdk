@@ -3,8 +3,8 @@ package com.expediagroup.sdk.{{{namespace}}}.test;
 import com.expediagroup.sdk.core.model.Operation
 import com.expediagroup.sdk.core.model.Response
 import com.expediagroup.sdk.core.model.exception.service.ExpediaGroupServiceException
-import com.expediagroup.sdk.rapid.client.RapidClient
-import com.expediagroup.sdk.rapid.operations.*
+import com.expediagroup.sdk.{{{namespace}}}.client.*
+import com.expediagroup.sdk.{{{namespace}}}.operations.*
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.ObjectNode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
@@ -15,8 +15,8 @@ class {{{clientClassname}}}Executor {
     }
 
     private val client = {{{clientClassname}}}Client.builder()
-        .key(System.getProperty("com.expediagroup.sdk.apikey", "API_KEY"))
-        .secret(System.getProperty("com.expediagroup.sdk.apisecret", "API_SECRET"))
+        .key(System.getProperty("sdk.key", "API_KEY"))
+        .secret(System.getProperty("sdk.secret", "API_SECRET"))
         .endpoint("localhost:8080")
         .requestTimeout(10000)
         .build()

@@ -5,7 +5,7 @@ on:
       specs_key:
         description: 'Specs artifact key. Defaults to `specs`'
         type: string
-        default: 'specs'
+        default: 'transformedSpecs'
         required: true
       test_sources_key:
         description: 'Test sources artifact key. Defaults to `sdk-test`'
