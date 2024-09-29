@@ -38,7 +38,7 @@ on:
         required: true
 
 jobs:
-  main:
+  run-tests-with-mocked-service:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/setup-java@v4
