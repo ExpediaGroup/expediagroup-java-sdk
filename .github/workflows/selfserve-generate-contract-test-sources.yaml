@@ -49,6 +49,11 @@ jobs:
           name: ${{ inputs.specs_key }}
           path: specs.yaml
 
+      - name: Install SDK Generator Module
+        working-directory: sdk-repo/generator/openapi
+        run: mvn clean install
+        continue-on-error: true
+
       - name: Generate Test Sources
         run: mvn -f sdk-repo/sdk-test clean install exec:java -Dexec.args="--input-spec specs.yaml --templates-dir templates --namespace ${{ inputs.namespace }} ${{ inputs.generation_options }}"
 
