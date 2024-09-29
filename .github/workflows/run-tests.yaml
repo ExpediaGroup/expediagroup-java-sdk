@@ -105,6 +105,14 @@ jobs:
       repository: 'ExpediaGroup/expediagroup-java-sdk'
       ref: "${{ github.head_ref || github.ref_name }}"
 
+  upload-test-templates:
+    uses: ./.github/workflows/selfserve-checkout-and-upload.yaml
+    with:
+      artifact_key: 'test-templates'
+      artifact_path: 'sdk-test/src/main/resources/templates/expediagroup-sdk'
+      repository: 'ExpediaGroup/expediagroup-java-sdk'
+      ref: "${{ github.head_ref || github.ref_name }}"
+
   upload-repo:
     uses: ./.github/workflows/selfserve-checkout-and-upload.yaml
     with:
@@ -130,7 +138,7 @@ jobs:
     with:
       artifact_key: 'sdk-test'
       repo_key: 'sdk-repo'
-      templates_key: 'templates'
+      templates_key: 'test-templates'
       specs_key: 'transformedSpecs'
       namespace: ${{ inputs.sdk_namespace }}
       generation_options: '--version 0.0.1 --target-group com.expediagroup --target-artifact ${{ inputs.sdk_artifact_id }} --target-version ${{ inputs.sdk_version }} -m 5' # TODO: remove -m param
