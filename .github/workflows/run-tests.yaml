@@ -120,7 +120,7 @@ jobs:
     secrets: inherit
 
   generate-contract-tests:
-    needs: [ inputs-validation, transform-and-upload-specs, upload-templates, upload-repo ]
+    needs: [ inputs-validation, generate-test-sdk ]
     uses: ./.github/workflows/selfserve-generate-contract-test-sources.yaml
     with:
       artifact_key: 'sdk-test'
