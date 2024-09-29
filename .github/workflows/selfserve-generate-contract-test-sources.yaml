@@ -64,15 +64,10 @@ jobs:
         continue-on-error: true
 
       - name: Generate Test Sources
-        working-directory: sdk-repo/sdk-test
-        run: mvn clean install exec:java -Dexec.args="--input-spec ../../specs/${{ inputs.specs_key }}.yaml --templates-dir ../../templates --namespace ${{ inputs.namespace }} ${{ inputs.generation_options }}"
-
-      - name: list files # TODO: Remove after finishing debugging
-        working-directory: sdk-repo/sdk-test/target
-        run: ls -R -a -l
+        run: mvn -f sdk-repo/sdk-test clean install exec:java -Dexec.args="--input-spec specs/${{ inputs.specs_key }}.yaml --templates-dir templates --namespace ${{ inputs.namespace }} ${{ inputs.generation_options }}"
 
       - name: Upload Generated Sources
         uses: actions/upload-artifact@v4
         with:
-          path: sdk-repo/sdk-test/target/sdk/*-sdk-test/
+          path: target/sdk/*-sdk-test/
           name: 'sdk-test'
