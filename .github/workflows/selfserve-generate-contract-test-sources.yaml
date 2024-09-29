@@ -1,0 +1,59 @@
+name: Generate & Upload Tests Sources
+
+on:
+  workflow_call:
+    inputs:
+      artifact_key:
+        description: 'Generated output artifact key'
+        type: string
+        required: true
+      repo_key:
+        description: 'SDK repository artifact key'
+        type: string
+      templates_key:
+        description: 'Templates artifact key'
+        type: string
+        required: true
+      specs_key:
+        description: 'Specs artifact key'
+        type: string
+        required: true
+      namespace:
+        description: 'Namespace of the product'
+        type: string
+        required: true
+      generation_options:
+        description: 'Options to pass to the generator. Includes `--version` and `--max-test-combinations`'
+        type: string
+        required: true
+
+jobs:
+  generate-and-upload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Repository
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.repo_key }}
+          path: sdk-repo
+
+      - name: Download Templates
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.templates_key }}
+          path: templates
+
+      - name: Download Specs
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.specs_key }}
+          path: specs.yaml
+
+      - name: Generate Test Sources
+        run: mvn -f sdk-repo/sdk-test clean install exec:java -Dexec.args="--input-spec specs.yaml --templates-dir templates --namespace ${{ inputs.namespace }} ${{ inputs.generation_options }}"
+
+      - name: Upload Generated Sources
+        uses: actions/upload-artifact@v4
+        with:
+          path: sdk-repo/sdk-test/target/sdk/*-sdk-test/
+          name: ${{ inputs.artifact_key }}
