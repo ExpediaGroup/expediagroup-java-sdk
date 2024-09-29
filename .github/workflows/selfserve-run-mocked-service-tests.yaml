@@ -49,7 +49,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: ${{ inputs.specs_key }}
-          path: specs/specs.yaml
+          path: specs/${{ inputs.specs_key }}.yaml
       - name: Download Test Sources Artifact
         uses: actions/download-artifact@v4
         with:
@@ -65,17 +65,19 @@ jobs:
         if: inputs.sdk_artifact_key != ''
         working-directory: sdk
         run: mvn clean install
+
       - name: Download Latest Specmatic Executable
-        working-directory: specs/specs.yaml
+        working-directory: specs
         run: |
           curl -s https://api.github.com/repos/znsio/specmatic/releases/latest \
           | grep "browser_download_url.*specmatic.jar" \
           | cut -d : -f 2,3 \
           | tr -d \" \
           | xargs curl -L -o specmatic.jar
+
       - name: Run Mock Server
         working-directory: specs
-        run: java -jar specmatic.jar stub specs.yaml --port 8080 & disown
+        run: java -jar specmatic.jar stub ${{ inputs.specs_key }}.yaml --port 8080 & disown
       - name: Wait for Mock Server to Start
         run: sleep 10
       - name: Run Tests

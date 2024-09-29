@@ -28,7 +28,7 @@ on:
         required: true
 
 jobs:
-  generate-and-upload:
+  generate-and-upload-contract-tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/setup-java@v4
@@ -52,7 +52,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: ${{ inputs.specs_key }}
-          path: specs/specs.yaml
+          path: ${{ inputs.specs_key }}.yaml
 
       - name: Install SDK Generator Module
         working-directory: sdk-repo/generator/openapi
@@ -60,7 +60,7 @@ jobs:
         continue-on-error: true
 
       - name: Generate Test Sources
-        run: mvn -f sdk-repo/sdk-test clean install exec:java -Dexec.args="--input-spec specs/specs.yaml --templates-dir templates --namespace ${{ inputs.namespace }} ${{ inputs.generation_options }}"
+        run: mvn -f sdk-repo/sdk-test clean install exec:java -Dexec.args="--input-spec ${{ inputs.specs_key }}.yaml --templates-dir templates --namespace ${{ inputs.namespace }} ${{ inputs.generation_options }}"
 
       - name: Upload Generated Sources
         uses: actions/upload-artifact@v4
