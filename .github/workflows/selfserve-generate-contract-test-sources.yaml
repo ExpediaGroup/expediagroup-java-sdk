@@ -31,6 +31,11 @@ jobs:
   generate-and-upload:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: 'corretto'
+
       - name: Download Repository
         uses: actions/download-artifact@v4
         with:
