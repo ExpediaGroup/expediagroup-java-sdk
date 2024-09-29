@@ -42,7 +42,7 @@ on:
   workflow_call:
     inputs:
       source:
-        description: 'Source of tests'
+        description: 'Source of tests. Can be `sdk` or `specs`'
         required: true
         type: string
         default: 'sdk'

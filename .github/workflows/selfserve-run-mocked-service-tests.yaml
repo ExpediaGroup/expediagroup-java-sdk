@@ -1,0 +1,76 @@
+name: SelfServe Run Service Mocked Tests
+on:
+  workflow_call:
+    inputs:
+      specs_key:
+        description: 'Specs artifact key. Defaults to `specs`'
+        type: string
+        default: 'specs'
+        required: true
+      test_sources_key:
+        description: 'Test sources artifact key. Defaults to `sdk-test`'
+        type: string
+        default: 'sdk-test'
+        required: true
+      sdk_artifact_id:
+        description: 'SDK artifactId'
+        type: string
+        required: true
+      sdk_version:
+        description: 'SDK version'
+        type: string
+        required: true
+      sdk_key:
+        description: 'SDK artifact key to download'
+        type: string
+        required: false
+        default: ''
+      jdk:
+        description: 'JDK version to use'
+        type: string
+        default: '21'
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-java@v4
+        with:
+          java-version: ${{ inputs.jdk }}
+          distribution: 'corretto'
+      - name: Download Specs
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.specs_key }}
+          path: specs/specs.yaml
+      - name: Download Test Sources Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.test_sources_key }}
+          path: test
+      - name: Download SDK Artifact
+        if: inputs.sdk_artifact_key != ''
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.sdk_artifact_id }}
+          path: sdk
+      - name: Install SDK into Local Repository
+        if: inputs.sdk_artifact_key != ''
+        working-directory: sdk
+        run: mvn clean install
+      - name: Download Latest Specmatic Executable
+        working-directory: specs/specs.yaml
+        run: |
+          curl -s https://api.github.com/repos/znsio/specmatic/releases/latest \
+          | grep "browser_download_url.*specmatic.jar" \
+          | cut -d : -f 2,3 \
+          | tr -d \" \
+          | xargs curl -L -o specmatic.jar
+      - name: Run Mock Server
+        working-directory: specs
+        run: java -jar specmatic.jar stub specs.yaml --port 8080 & disown
+      - name: Wait for Mock Server to Start
+        run: sleep 10
+      - name: Run Tests
+        working-directory: test
+        run: mvn clean install -Dsdk.artifactId="${{ inputs.sdk_artifact_id }}" -Dsdk.version="${{ inputs.sdk_version }}" exec:java

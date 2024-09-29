@@ -11,7 +11,8 @@
         <java.version>1.8</java.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <rapid-java-sdk.sdk.version>4.3.0</rapid-java-sdk.sdk.version>
+        <sdk.artifactId>rapid-java</sdk.artifactId>
+        <sdk.version>LATEST</sdk.version>
         <jackson.version>2.17.2</jackson.version>
         <ktlint-plugin.version>3.2.0</ktlint-plugin.version>
     </properties>
@@ -48,8 +49,8 @@
 
         <dependency>
             <groupId>com.expediagroup</groupId>
-            <artifactId>rapid-sdk</artifactId>
-            <version>${rapid-java-sdk.sdk.version}</version>
+            <artifactId>${sdk.artifactId}</artifactId>
+            <version>${sdk.version}</version>
         </dependency>
 
         <dependency>
