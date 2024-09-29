@@ -60,9 +60,12 @@ on:
         default: 'LATEST'
       sdk_namespace:
         description: 'SDK to test'
-        required: true
         type: string
         default: 'rapid'
+      sdk_artifact_id:
+        description: 'SDK artifactId'
+        type: string
+        default: 'rapid-sdk'
       endpoint_prefix:
         description: 'Endpoint to prepend specs paths with'
         required: true
