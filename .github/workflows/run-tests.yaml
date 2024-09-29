@@ -17,14 +17,16 @@ on:
         default: ''
       sdk_version:
         description: 'Run tests based on SDK'
-        required: false
         type: string
         default: 'LATEST'
       sdk_namespace:
         description: 'SDK to test'
-        required: true
         type: string
         default: 'rapid'
+      sdk_artifact_id:
+        description: 'SDK artifactId'
+        type: string
+        default: 'rapid-sdk'
       endpoint_prefix:
         description: 'Endpoint to prepend specs paths with'
         required: true
@@ -128,7 +130,7 @@ jobs:
       templates_key: 'templates'
       specs_key: 'transformedSpecs'
       namespace: ${{ inputs.sdk_namespace }}
-      generation_options: '--version 0.0.1'
+      generation_options: '--version 0.0.1 --target-group com.expediagroup --target-artifact ${{ inputs.sdk_artifact_id }} --target-version ${{ inputs.sdk_version }} -m 5' # TODO: remove -m param
 
   run-rapid-examples:
     if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled') && inputs.sdk_namespace == 'rapid'
