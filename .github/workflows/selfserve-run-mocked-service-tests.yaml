@@ -78,9 +78,6 @@ jobs:
       - name: Wait for Mock Server to Start
         run: sleep 10
 
-      - working-directory: test
-        run: ls -R -a -l
-
       - name: Run Tests
         working-directory: test
         run: |

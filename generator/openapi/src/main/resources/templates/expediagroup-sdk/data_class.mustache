@@ -27,7 +27,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
     {{/discriminator.mappedModels}}
 )
 {{/discriminator}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}{{#discriminator}}interface {{/discriminator}}{{^discriminator}}data class {{/discriminator}}{{classname}}{{^discriminator}}(
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{#discriminator}}interface {{/discriminator}}{{^discriminator}}@JsonDeserialize(builder = {{{classname}}}.Builder::class) data class {{/discriminator}}{{classname}}{{^discriminator}}(
 {{#allVars}}
     {{#eliminateDiscriminators}}
         {{#required}}{{>data_class_req_var}}{{/required}}{{^required}}{{>data_class_opt_var}}{{/required}}{{^-last}},{{/-last}}
