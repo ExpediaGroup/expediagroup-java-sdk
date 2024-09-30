@@ -8,7 +8,7 @@ function process (filePath: PathOrFileDescriptor): void {
   const ast = parse(Lang.Kotlin, source)
   const root = ast.root()
 
-  const edits = [links].flatMap((func) => func(root))
+  const edits = [imports, links].flatMap((func) => func(root))
   const newSource = root.commitEdits(edits)
   fs.writeFileSync(filePath, newSource)
 }
@@ -16,6 +16,19 @@ function process (filePath: PathOrFileDescriptor): void {
 function readRule (ruleName: string): NapiConfig {
   const rule = fs.readFileSync(`./rules/localized/${ruleName}.yaml`, 'utf-8')
   return yaml.parse(rule)
+}
+
+function imports(root: SgNode): Edit[] {
+    const config = readRule('imports')
+
+    return root.findAll(config).map((node) => {
+        const list = node.getMatch('LIST')?.text()
+        const newList = `
+            import com.expediagroup.sdk.rapid.operations.GetPropertyContentOperationLink
+            ${list}
+        `
+        return node.replace(newList)
+    })
 }
 
 function links (root: SgNode): Edit[] {

@@ -22,11 +22,14 @@ function addImports (root: SgNode): Edit[] {
   const config = readRule('add-imports')
 
   return root.findAll(config).map((node) => {
-    const jsonSetter = 'import com.fasterxml.jackson.annotation.JsonSetter'
-    const nulls = 'import com.fasterxml.jackson.annotation.Nulls'
     const annotation = node.getMatch('HEADER')?.text()
+    const imports = `
+        ${annotation}
+        import com.fasterxml.jackson.annotation.JsonSetter
+        import com.fasterxml.jackson.annotation.Nulls
+    `
 
-    return node.replace(`${annotation}\n${jsonSetter}\n${nulls}`)
+    return node.replace(imports)
   })
 }
 
@@ -35,7 +38,12 @@ function addJsonSetter (root: SgNode): Edit[] {
 
   return root.findAll(config).map((node) => {
     const annotation = node.getMatch('ANNOTATION')?.text()
-    return node.replace(`${annotation}\n@JsonSetter(nulls = Nulls.AS_EMPTY)`)
+    const newAnnotations = `
+        ${annotation}
+        @JsonSetter(nulls = Nulls.AS_EMPTY)
+    `
+
+    return node.replace(newAnnotations)
   })
 }
 

@@ -31,7 +31,11 @@ function parameters(root: SgNode): Edit[] {
 
     return root.findAll(config).map((node) => {
         const modifiers = node.getMatch('MODIFIERS')?.text()
-        return node.replace(`${modifiers}\nopen`)
+        const newModifiers = `
+            ${modifiers}
+            open
+        `
+        return node.replace(newModifiers)
     })
 }
 

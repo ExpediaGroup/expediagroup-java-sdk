@@ -182,21 +182,21 @@ class OpenApiSdkGenerator {
                             if (ProductFamily.isRapid(product.namespace)) {
                                 add(
                                     TemplateDefinition(
-                                        "operation_context.mustache",
+                                        "domains/rapid/operation_context.mustache",
                                         "Context.kt"
                                     ).also { it.templateType = TemplateFileType.API }
                                 )
 
                                 add(
                                     TemplateDefinition(
-                                        "typed_link.mustache",
+                                        "domains/rapid/typed_link.mustache",
                                         "Link.kt"
                                     ).also { it.templateType = TemplateFileType.API }
                                 )
 
                                 add(
                                     SupportingFile(
-                                        "linkable_operation.mustache",
+                                        "domains/rapid/linkable_operation.mustache",
                                         "$packagePath/operations/",
                                         "LinkableOperation.kt"
                                     )

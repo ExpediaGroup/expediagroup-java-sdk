@@ -11,10 +11,6 @@ import com.expediagroup.sdk.core.model.Operation
         import com.expediagroup.sdk.{{namespace}}.models.{{dataType}}
     {{/bodyParam}}
 
-    {{#isRapid}}{{#isLinkable}}
-        import com.expediagroup.sdk.{{namespace}}.models.{{classname}}Link
-    {{/isLinkable}}{{/isRapid}}
-
     {{#hasPathParams}}
         import org.apache.commons.text.StringSubstitutor
     {{/hasPathParams}}

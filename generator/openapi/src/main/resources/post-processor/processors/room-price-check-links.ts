@@ -3,22 +3,38 @@ import { Edit, Lang, NapiConfig, parse, SgNode } from '@ast-grep/napi'
 import { PathOrFileDescriptor } from 'fs'
 import * as yaml from 'yaml'
 
-function process (filePath: PathOrFileDescriptor): void {
+function process(filePath: PathOrFileDescriptor): void {
   const source = fs.readFileSync(filePath, 'utf-8')
   const ast = parse(Lang.Kotlin, source)
   const root = ast.root()
 
-  const edits = [book, commit, paymentSession, additionalRates].flatMap((func) => func(root))
+  const edits = [imports, book, commit, paymentSession, additionalRates].flatMap((func) => func(root))
   const newSource = root.commitEdits(edits)
   fs.writeFileSync(filePath, newSource)
 }
 
-function readRule (ruleName: string): NapiConfig {
+function readRule(ruleName: string): NapiConfig {
   const rule = fs.readFileSync(`./rules/room-price-check-links/${ruleName}.yaml`, 'utf-8')
   return yaml.parse(rule)
 }
 
-function book (root: SgNode): Edit[] {
+function imports(root: SgNode): Edit[] {
+    const config = readRule('imports')
+
+    return root.findAll(config).map((node) => {
+        const list = node.getMatch('LIST')?.text()
+        const newList = `
+            import com.expediagroup.sdk.rapid.operations.PostItineraryOperationLink
+            import com.expediagroup.sdk.rapid.operations.CommitChangeOperationLink
+            import com.expediagroup.sdk.rapid.operations.PostPaymentSessionsOperationLink
+            import com.expediagroup.sdk.rapid.operations.GetAdditionalAvailabilityOperationLink
+            ${list}
+        `
+        return node.replace(newList)
+    })
+}
+
+function book(root: SgNode): Edit[] {
   const config = readRule('book')
 
   return root.findAll(config).map((node) => {
@@ -26,7 +42,7 @@ function book (root: SgNode): Edit[] {
   })
 }
 
-function commit (root: SgNode): Edit[] {
+function commit(root: SgNode): Edit[] {
     const config = readRule('commit')
 
     return root.findAll(config).map((node) => {
@@ -34,7 +50,7 @@ function commit (root: SgNode): Edit[] {
     })
 }
 
-function paymentSession (root: SgNode): Edit[] {
+function paymentSession(root: SgNode): Edit[] {
     const config = readRule('payment-session')
 
     return root.findAll(config).map((node) => {
@@ -42,7 +58,7 @@ function paymentSession (root: SgNode): Edit[] {
     })
 }
 
-function additionalRates (root: SgNode): Edit[] {
+function additionalRates(root: SgNode): Edit[] {
     const config = readRule('additional-rates')
 
     return root.findAll(config).map((node) => {
