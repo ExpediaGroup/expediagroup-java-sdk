@@ -12,14 +12,6 @@ on:
         type: string
         default: 'sdk-test'
         required: true
-      sdk_artifact_id:
-        description: 'SDK artifactId'
-        type: string
-        required: true
-      sdk_version:
-        description: 'SDK version'
-        type: string
-        required: true
       sdk_key:
         description: 'SDK artifact key to download'
         type: string
@@ -45,22 +37,26 @@ jobs:
         with:
           java-version: ${{ inputs.jdk }}
           distribution: 'corretto'
+
       - name: Download Specs
         uses: actions/download-artifact@v4
         with:
           name: ${{ inputs.specs_key }}
           path: specs/${{ inputs.specs_key }}.yaml
+
       - name: Download Test Sources Artifact
         uses: actions/download-artifact@v4
         with:
           name: ${{ inputs.test_sources_key }}
           path: test
+
       - name: Download SDK Artifact
         if: inputs.sdk_key != ''
         uses: actions/download-artifact@v4
         with:
           name: ${{ inputs.sdk_key }}
           path: sdk
+
       - name: Install SDK into Local Repository
         if: inputs.sdk_key != ''
         working-directory: sdk
@@ -78,13 +74,15 @@ jobs:
       - name: Run Mock Server
         working-directory: specs
         run: java -jar specmatic.jar stub ${{ inputs.specs_key }}.yaml --port 8080 & disown
+
       - name: Wait for Mock Server to Start
         run: sleep 10
+
       - working-directory: test
         run: ls -R -a -l
+
       - name: Run Tests
         working-directory: test
         run: |
           cd $(find . -type d -name "*-sdk-test" -print -quit)
-          mvn clean install -Dsdk.artifactId="${{ inputs.sdk_artifact_id }}" -Dsdk.version="${{ inputs.sdk_version }}"\
-          exec:java -Dsdk.key="${{ secrets.KEY }}" -Dsdk.secret="${{ secrets.SECRET }}"
+          mvn clean install exec:java -Dsdk.key="${{ secrets.KEY }}" -Dsdk.secret="${{ secrets.SECRET }}"

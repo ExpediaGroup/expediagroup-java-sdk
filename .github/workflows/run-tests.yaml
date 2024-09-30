@@ -165,8 +165,6 @@ jobs:
     with:
       specs_key: 'transformedSpecs'
       test_sources_key: 'sdk-test'
-      sdk_artifact_id: 'rapid'
-      sdk_version: ${{ inputs.sdk_version }}
       sdk_key: 'sdk'
       jdk: ${{ matrix.jdk }}
     secrets:
