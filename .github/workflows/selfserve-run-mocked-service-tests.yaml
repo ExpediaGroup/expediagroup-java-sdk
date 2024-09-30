@@ -80,6 +80,8 @@ jobs:
         run: java -jar specmatic.jar stub ${{ inputs.specs_key }}.yaml --port 8080 & disown
       - name: Wait for Mock Server to Start
         run: sleep 10
+      - working-directory: test
+        run: ls -R -a -l
       - name: Run Tests
         working-directory: test
         run: mvn clean install -Dsdk.artifactId="${{ inputs.sdk_artifact_id }}" -Dsdk.version="${{ inputs.sdk_version }}" exec:java
