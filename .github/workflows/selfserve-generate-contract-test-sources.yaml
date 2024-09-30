@@ -65,5 +65,5 @@ jobs:
       - name: Upload Generated Sources
         uses: actions/upload-artifact@v4
         with:
-          path: target/sdk/*-sdk-test/*
+          path: target/sdk/*-sdk-test/**/*
           name: ${{ inputs.artifact_key }}
