@@ -83,7 +83,8 @@ jobs:
       - working-directory: test
         run: ls -R -a -l
       - name: Run Tests
-        working-directory: test/$(find . -type d -name "*-sdk-test" -print -quit)
+        working-directory: test
         run: |
+          cd $(find . -type d -name "*-sdk-test" -print -quit)
           mvn clean install -Dsdk.artifactId="${{ inputs.sdk_artifact_id }}" -Dsdk.version="${{ inputs.sdk_version }}"\
           exec:java -Dsdk.key="${{ secrets.KEY }}" -Dsdk.secret="${{ secrets.SECRET }}"
