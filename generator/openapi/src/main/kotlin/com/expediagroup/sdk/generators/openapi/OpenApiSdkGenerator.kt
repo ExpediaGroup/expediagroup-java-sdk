@@ -188,6 +188,13 @@ class OpenApiSdkGenerator {
                                 )
 
                                 add(
+                                    TemplateDefinition(
+                                        "typed_link.mustache",
+                                        "Link.kt"
+                                    ).also { it.templateType = TemplateFileType.API }
+                                )
+
+                                add(
                                     SupportingFile(
                                         "linkable_operation.mustache",
                                         "$packagePath/operations/",
