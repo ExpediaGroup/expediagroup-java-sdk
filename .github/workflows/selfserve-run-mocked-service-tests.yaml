@@ -56,13 +56,13 @@ jobs:
           name: ${{ inputs.test_sources_key }}
           path: test
       - name: Download SDK Artifact
-        if: inputs.sdk_artifact_key != ''
+        if: inputs.sdk_key != ''
         uses: actions/download-artifact@v4
         with:
-          name: ${{ inputs.sdk_artifact_id }}
+          name: ${{ inputs.sdk_key }}
           path: sdk
       - name: Install SDK into Local Repository
-        if: inputs.sdk_artifact_key != ''
+        if: inputs.sdk_key != ''
         working-directory: sdk
         run: mvn clean install
 
