@@ -2,6 +2,7 @@ package com.expediagroup.sdk.{{{namespace}}}.test;
 
 import com.fasterxml.jackson.module.kotlin.*
 import com.fasterxml.jackson.databind.node.ObjectNode
+import com.google.common.io.Resources
 import java.io.File;
 import com.github.rvesse.airline.annotations.Command;
 
@@ -18,7 +19,7 @@ class Main {
     }
 
     fun run() {
-        File("src/main/resources/contract-tests").listFiles().forEach { file ->
+        File(Resources.getResource("contract-tests")!!.file).listFiles()!!.forEach { file ->
             mapper.readTree(file).let { test ->
                 val request = test["request"] as ObjectNode
                 val response = test["response"] as ObjectNode
