@@ -84,7 +84,7 @@
         <maven.gpg.plugin.version>3.1.0</maven.gpg.plugin.version>
         <maven.release.plugin.version>3.4.1</maven.release.plugin.version>
         <maven.nexus-staging.plugin.version>1.6.13</maven.nexus-staging.plugin.version>
-        <maven.licence.plugin.version>4.5</maven.licence.plugin.version>
+        <maven.licence.plugin.version>4.6</maven.licence.plugin.version>
         <maven.antrun.plugin.version>3.1.0</maven.antrun.plugin.version>
         <flatten.maven.plugin.version>1.5.0</flatten.maven.plugin.version>
         <properties.maven.plugin.version>1.0.0</properties.maven.plugin.version>
@@ -102,13 +102,13 @@
         <!-- Shared Library Versions -->
         <airline.version>3.0.0</airline.version>
         <assertj.version>3.26.3</assertj.version>
-        <junit5.version>5.11.0</junit5.version>
+        <junit5.version>5.11.1</junit5.version>
         <mockk.version>1.13.12</mockk.version>
         <mockito.version>5.13.0</mockito.version>
         <slf4j.version>2.0.16</slf4j.version>
-        <log4j.version>2.24.0</log4j.version>
+        <log4j.version>2.24.1</log4j.version>
 
-        <swagger.core.version>2.2.23</swagger.core.version>
+        <swagger.core.version>2.2.24</swagger.core.version>
     </properties>
 
     <dependencyManagement>
@@ -245,7 +245,7 @@
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
-                <version>33.3.0-jre</version>
+                <version>33.3.1-jre</version>
             </dependency>
             <dependency>
                 <groupId>io.swagger.core.v3</groupId>
@@ -265,7 +265,7 @@
             <dependency>
                 <groupId>com.fasterxml.jackson</groupId>
                 <artifactId>jackson-bom</artifactId>
-                <version>2.17.2</version>
+                <version>2.18.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -292,7 +292,7 @@
             <dependency>
                 <groupId>org.jetbrains</groupId>
                 <artifactId>annotations</artifactId>
-                <version>24.1.0</version>
+                <version>25.0.0</version>
             </dependency>
             <dependency>
                 <groupId>javax.validation</groupId>
@@ -302,7 +302,7 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-annotations</artifactId>
-                <version>2.17.2</version>
+                <version>2.18.0</version>
             </dependency>
             <dependency>
                 <groupId>org.hibernate.validator</groupId>

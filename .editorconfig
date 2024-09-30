@@ -21,3 +21,5 @@ trim_trailing_whitespace = false
 [*.{kt,kts}]
 ij_kotlin_allow_trailing_comma = false
 ij_kotlin_allow_trailing_comma_on_call_site = false
+ktlint_standard_chain-method-continuation = disabled
+ktlint_standard_class-signature = disabled
