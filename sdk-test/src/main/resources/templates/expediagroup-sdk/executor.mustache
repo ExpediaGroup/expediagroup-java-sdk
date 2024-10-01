@@ -29,7 +29,7 @@ class {{{clientClassname}}}Executor {
     private val client = {{{clientClassname}}}Client.builder()
         .key(System.getProperty("sdk.key", "API_KEY"))
         .secret(System.getProperty("sdk.secret", "API_SECRET"))
-        .endpoint("localhost:8080")
+        .endpoint("http://localhost:8080")
         .requestTimeout(10000)
         .build()
 
