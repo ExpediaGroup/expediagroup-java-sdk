@@ -13,7 +13,8 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 
 class {{{clientClassname}}}Executor {
     companion object {
-        val mapper = val mapper = jacksonObjectMapper {
+        @JvmStatic
+        val mapper = jacksonObjectMapper {
             disable(KotlinFeature.StrictNullChecks)
         }.apply {
             disable(DeserializationFeature.FAIL_ON_MISSING_CREATOR_PROPERTIES)

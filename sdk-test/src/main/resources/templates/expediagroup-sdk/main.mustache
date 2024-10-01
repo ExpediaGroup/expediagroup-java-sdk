@@ -9,7 +9,10 @@ import com.github.rvesse.airline.annotations.Command;
 @Command(name = "cli", description = "Command Line Interface for SDK Test")
 class Main {
     companion object {
+        @JvmStatic
         val mapper = jacksonObjectMapper()
+
+        @JvmStatic
         val executor = {{{clientClassname}}}Executor()
 
         @JvmStatic
