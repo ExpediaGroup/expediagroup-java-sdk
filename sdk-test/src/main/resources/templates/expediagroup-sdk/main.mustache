@@ -3,24 +3,13 @@ package com.expediagroup.sdk.{{{namespace}}}.test;
 import com.fasterxml.jackson.module.kotlin.*
 import com.fasterxml.jackson.databind.node.ObjectNode
 import com.google.common.io.Resources
-import com.fasterxml.jackson.databind.DeserializationFeature
-import com.fasterxml.jackson.module.kotlin.KotlinFeature
 import java.io.File;
 import com.github.rvesse.airline.annotations.Command;
 
 @Command(name = "cli", description = "Command Line Interface for SDK Test")
 class Main {
     companion object {
-        val mapper = jacksonObjectMapper {
-                disable(KotlinFeature.StrictNullChecks)
-            }.apply {
-                disable(DeserializationFeature.FAIL_ON_MISSING_CREATOR_PROPERTIES)
-                disable(DeserializationFeature.FAIL_ON_READING_DUP_TREE_KEY)
-                disable(DeserializationFeature.FAIL_ON_MISSING_EXTERNAL_TYPE_ID_PROPERTY)
-                disable(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES)
-                disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-                disable(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES)
-        }
+        val mapper = jacksonObjectMapper()
         val executor = {{{clientClassname}}}Executor()
 
         @JvmStatic
