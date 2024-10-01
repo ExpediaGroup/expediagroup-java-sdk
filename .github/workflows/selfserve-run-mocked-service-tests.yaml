@@ -35,7 +35,7 @@ jobs:
     steps:
       - uses: actions/setup-java@v4
         with:
-          java-version: ${{ inputs.jdk }}
+          java-version: 21
           distribution: 'corretto'
 
       - name: Download Specs
@@ -74,6 +74,11 @@ jobs:
       - name: Run Mock Server
         working-directory: specs
         run: java -jar specmatic.jar stub ${{ inputs.specs_key }}.yaml --port 8080 & disown
+
+      - uses: actions/setup-java@v4
+        with:
+          java-version: ${{ inputs.jdk }}
+          distribution: 'corretto'
 
       - name: Wait for Mock Server to Start
         run: sleep 10
