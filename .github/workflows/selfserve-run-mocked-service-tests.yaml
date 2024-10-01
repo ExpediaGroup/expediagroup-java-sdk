@@ -44,6 +44,10 @@ jobs:
           name: ${{ inputs.specs_key }}
           path: specs/${{ inputs.specs_key }}.yaml
 
+      - name: Transform Specs
+        working-directory: specs
+        run: npx --yes -p @expediagroup/spec-transformer cli -i ${{ inputs.specs_key }}.yaml -o ${{ inputs.specs_key }}.yaml -to
+
       - name: Download Test Sources Artifact
         uses: actions/download-artifact@v4
         with:
