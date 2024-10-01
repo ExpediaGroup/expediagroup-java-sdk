@@ -39,7 +39,17 @@ class {{{clientClassname}}}Executor {
         val requestType: Class<*> = metadata[key]!!.requestType
 
         val operation: Operation<*> = try {
-            mapper.readValue(request.toPrettyString(), requestType) as Operation<*>
+            mapper.createObjectNode().apply {
+                listOf("body", "pathParams", "queryParams", "headers", "params").forEach {
+                    request.get(it)?.let { node ->
+                        node.fields()?.forEachRemaining { (key, value) ->
+                            set<ObjectNode>(key, value)
+                        }
+                    }
+                }
+            }.let {
+                return@let mapper.readValue(it.toPrettyString(), requestType) as Operation<*>
+            }
         } catch (e: Exception) {
             if (expectedResponse["status"].asInt() !in 200..299) {
                 return
