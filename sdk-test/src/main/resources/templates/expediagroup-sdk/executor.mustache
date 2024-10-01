@@ -11,7 +11,16 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 
 class {{{clientClassname}}}Executor {
     companion object {
-        val mapper = jacksonObjectMapper()
+        val mapper = val mapper = jacksonObjectMapper {
+            disable(KotlinFeature.StrictNullChecks)
+        }.apply {
+            disable(DeserializationFeature.FAIL_ON_MISSING_CREATOR_PROPERTIES)
+            disable(DeserializationFeature.FAIL_ON_READING_DUP_TREE_KEY)
+            disable(DeserializationFeature.FAIL_ON_MISSING_EXTERNAL_TYPE_ID_PROPERTY)
+            disable(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES)
+            disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            disable(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES)
+        }
     }
 
     private val client = {{{clientClassname}}}Client.builder()
@@ -26,7 +35,14 @@ class {{{clientClassname}}}Executor {
 
         val requestType: Class<*> = metadata[key]!!.requestType
 
-        val operation = mapper.readValue(request.toPrettyString(), requestType) as Operation<*>
+        val operation: Operation<*> = try {
+            mapper.readValue(request.toPrettyString(), requestType) as Operation<*>
+        } catch (e: Exception) {
+            if (expectedResponse["status"].asInt() !in 200..299) {
+                return
+            }
+            throw e
+        }
 
         if (expectedResponse["status"].asInt() in 200..299) {
             val actual = mapper.convertValue(execute(operation), JsonNode::class.java)
