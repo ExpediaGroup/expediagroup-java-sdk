@@ -3,21 +3,35 @@ package com.expediagroup.sdk.{{{namespace}}}.test;
 import com.expediagroup.sdk.core.model.Operation
 import com.expediagroup.sdk.core.model.Response
 import com.expediagroup.sdk.core.model.exception.service.ExpediaGroupServiceException
-import com.expediagroup.sdk.rapid.client.RapidClient
-import com.expediagroup.sdk.rapid.operations.*
+import com.expediagroup.sdk.{{{namespace}}}.client.*
+import com.expediagroup.sdk.{{{namespace}}}.operations.*
+import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.module.kotlin.KotlinFeature
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.ObjectNode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 
 class {{{clientClassname}}}Executor {
     companion object {
-        val mapper = jacksonObjectMapper()
+        @JvmStatic
+        val mapper = jacksonObjectMapper {
+            disable(KotlinFeature.StrictNullChecks)
+        }.apply {
+            disable(DeserializationFeature.FAIL_ON_MISSING_CREATOR_PROPERTIES)
+            disable(DeserializationFeature.FAIL_ON_READING_DUP_TREE_KEY)
+            disable(DeserializationFeature.FAIL_ON_MISSING_EXTERNAL_TYPE_ID_PROPERTY)
+            disable(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES)
+            disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            disable(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES)
+            registerModule(JavaTimeModule())
+        }
     }
 
     private val client = {{{clientClassname}}}Client.builder()
-        .key(System.getProperty("com.expediagroup.sdk.apikey", "API_KEY"))
-        .secret(System.getProperty("com.expediagroup.sdk.apisecret", "API_SECRET"))
-        .endpoint("localhost:8080")
+        .key(System.getProperty("sdk.key", "API_KEY"))
+        .secret(System.getProperty("sdk.secret", "API_SECRET"))
+        .endpoint("http://localhost:8080")
         .requestTimeout(10000)
         .build()
 
@@ -26,7 +40,45 @@ class {{{clientClassname}}}Executor {
 
         val requestType: Class<*> = metadata[key]!!.requestType
 
-        val operation = mapper.readValue(request.asText(), requestType) as Operation<*>
+        val operation: Operation<*> = try {
+            val params =
+                mapper.createObjectNode().apply {
+                    listOf("pathParams", "queryParams", "headers", "params").forEach {
+                        request.get(it)?.let { node ->
+                            node.fields()?.forEachRemaining { (key, value) ->
+                                set<ObjectNode>(key, value)
+                            }
+                        }
+                    }
+                }
+
+            val body =
+                mapper.createObjectNode().apply {
+                    request.get("body")?.let { node ->
+                        node.fields()?.forEachRemaining { (key, value) ->
+                            set<ObjectNode>(key, value)
+                        }
+                    }
+                }
+
+            val operationNode =
+                mapper.createObjectNode().apply {
+                    takeIf { params.fields().hasNext() }?.let {
+                        set<ObjectNode>("params", params)
+                    }
+
+                    takeIf { body.fields().hasNext() }?.let {
+                        set<ObjectNode>("body", body)
+                    }
+                }
+
+            mapper.readValue(operationNode.toPrettyString(), requestType) as Operation<*>
+        } catch (e: Exception) {
+            if (expectedResponse["status"].asInt() !in 200..299) {
+                return
+            }
+            throw e
+        }
 
         if (expectedResponse["status"].asInt() in 200..299) {
             val actual = mapper.convertValue(execute(operation), JsonNode::class.java)

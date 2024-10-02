@@ -27,6 +27,7 @@ package com.expediagroup.sdk.test
 
 import com.expediagroup.sdk.test.contract.ContractTestsGenerator
 import com.expediagroup.sdk.test.contract.MAX_TEST_REQUEST_PER_SCENARIO
+import com.expediagroup.sdk.test.openapi.ArtifactMetadata
 import com.expediagroup.sdk.test.openapi.SdkTestGenerator
 import com.expediagroup.sdk.test.openapi.ProductTest
 import com.github.rvesse.airline.SingleCommand
@@ -53,6 +54,15 @@ class CLI {
 
     @Option(name = ["-t", "--templates-dir"])
     private var templatesDir: File = File("src/main/resources/templates/expediagroup-sdk")
+
+    @Option(name=["-tg", "--target-group"])
+    private lateinit var targetGroup: String
+
+    @Option(name = ["-ta", "--target-artifact"])
+    private lateinit var targetArtifact: String
+
+    @Option(name = ["-tv", "--target-version"])
+    private lateinit var targetVersion: String
 
     private lateinit var sdkTestGenerator: SdkTestGenerator
 
@@ -81,6 +91,11 @@ class CLI {
         val sdkTestsOutputDirectory = File(outputDir, productTest.artifactId)
 
         val contractTestsOutputDirectory = File("target/sdk/${productTest.artifactId}/src/main/", "resources/contract-tests/").also { it.mkdirs() }
+        val artifact = ArtifactMetadata(
+            artifactId = targetArtifact,
+            version = targetVersion,
+            groupId = targetGroup,
+        )
 
         contractTestsGenerator = ContractTestsGenerator(
             spec = spec,
@@ -96,6 +111,7 @@ class CLI {
             productTest = productTest,
             templatesDir = templatesDir,
             outputDir = sdkTestsOutputDirectory,
+            targetArtifact = artifact,
         ).also { it.generate() }
     }
 }
