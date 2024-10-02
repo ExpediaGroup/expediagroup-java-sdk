@@ -10,6 +10,7 @@ import com.fasterxml.jackson.module.kotlin.KotlinFeature
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.ObjectNode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 
 class {{{clientClassname}}}Executor {
     companion object {
@@ -23,6 +24,7 @@ class {{{clientClassname}}}Executor {
             disable(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES)
             disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
             disable(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES)
+            registerModule(JavaTimeModule())
         }
     }
 
@@ -39,17 +41,38 @@ class {{{clientClassname}}}Executor {
         val requestType: Class<*> = metadata[key]!!.requestType
 
         val operation: Operation<*> = try {
-            mapper.createObjectNode().apply {
-                listOf("body", "pathParams", "queryParams", "headers", "params").forEach {
-                    request.get(it)?.let { node ->
+            val params =
+                mapper.createObjectNode().apply {
+                    listOf("pathParams", "queryParams", "headers", "params").forEach {
+                        request.get(it)?.let { node ->
+                            node.fields()?.forEachRemaining { (key, value) ->
+                                set<ObjectNode>(key, value)
+                            }
+                        }
+                    }
+                }
+
+            val body =
+                mapper.createObjectNode().apply {
+                    request.get("body")?.let { node ->
                         node.fields()?.forEachRemaining { (key, value) ->
                             set<ObjectNode>(key, value)
                         }
                     }
                 }
-            }.let {
-                return@let mapper.readValue(it.toPrettyString(), requestType) as Operation<*>
-            }
+
+            val operationNode =
+                mapper.createObjectNode().apply {
+                    takeIf { params.fields().hasNext() }?.let {
+                        set<ObjectNode>("params", params)
+                    }
+
+                    takeIf { body.fields().hasNext() }?.let {
+                        set<ObjectNode>("body", body)
+                    }
+                }
+
+            mapper.readValue(operationNode.toPrettyString(), requestType) as Operation<*>
         } catch (e: Exception) {
             if (expectedResponse["status"].asInt() !in 200..299) {
                 return
