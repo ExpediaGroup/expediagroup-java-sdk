@@ -126,6 +126,8 @@ class OpenApiSdkGenerator {
                     if (ProductFamily.isRapid(product.namespace)) {
                         rapidHelpers.forEach { (name, function) -> addAdditionalProperty(name, function()) }
                     }
+
+                    addTypeMapping("java.io.File", "java.io.InputStream")
                 }
 
             val generatorInput =
