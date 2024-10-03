@@ -1,4 +1,0 @@
-rule:
-  pattern:
-    context: data class Link
-    selector: class_modifier
