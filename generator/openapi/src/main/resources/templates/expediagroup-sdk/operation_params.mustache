@@ -15,73 +15,17 @@
             {{/nonBodyParams}}
             */
             @JsonDeserialize(builder = {{classname}}Params.Builder::class)
-            data class {{classname}}Params
-            {{^isRapid}}
-                (
-                    {{#nonBodyParams}}
-                        {{#params}}
-                            {{>modelMutable}} {{>client/apiParam}}{{^-last}}, {{/-last}}
-                        {{/params}}
-                    {{/nonBodyParams}}
-                )
-            {{/isRapid}}
-            {{#isRapid}}
-                {{^isLinkable}}
-                    (
-                        {{#nonBodyParams}}
-                            {{#params}}
-                                {{>modelMutable}} {{>client/apiParam}}{{^-last}}, {{/-last}}
-                            {{/params}}
-                        {{/nonBodyParams}}
-                    )
-                {{/isLinkable}}
-                {{#isLinkable}}
-                    internal constructor(
-                        {{#nonBodyParams}}
-                            {{#params}}
-                                {{>modelMutable}} {{{paramName}}}: {{>partials/datatype}}? = null,
-                            {{/params}}
-                        {{/nonBodyParams}}
-                        private val dummy: Unit
-                    )
-                {{/isLinkable}}
-            {{/isRapid}}
-            : OperationParams {
+            data class {{classname}}Params(
+                {{#nonBodyParams}}
+                    {{#params}}
+                        {{>modelMutable}} {{>client/apiParam}}{{^-last}}, {{/-last}}
+                    {{/params}}
+                {{/nonBodyParams}}
+            ) : OperationParams {
                 companion object {
                     @JvmStatic
                     fun builder() = Builder()
                 }
-
-                {{#isRapid}}
-                    {{#isLinkable}}
-                        constructor(
-                            {{#nonBodyParams}}
-                                {{#params}}
-                                    {{>client/apiParam}}{{^-last}}, {{/-last}}
-                                {{/params}}
-                            {{/nonBodyParams}}
-                        ) : this(
-                            {{#nonBodyParams}}
-                                {{#params}}
-                                    {{paramName}} = {{paramName}},
-                                {{/params}}
-                            {{/nonBodyParams}}
-                            dummy = Unit
-                        )
-
-                        constructor(context: {{classname}}Context?) : this(
-                            {{#headerParams}}
-                                {{paramName}} = context?.{{paramName}}
-                                {{#defaultValue}}
-                                    {{^isNumber}} ?: {{{defaultValue}}}{{/isNumber}}
-                                    {{#isNumber}} ?: {{{defaultValue}}}.toDouble(){{/isNumber}}
-                                {{/defaultValue}}
-                                ,
-                            {{/headerParams}}
-                            dummy = Unit
-                        )
-                    {{/isLinkable}}
-                {{/isRapid}}
 
                 {{#nonBodyParams}}
                     {{#params}}

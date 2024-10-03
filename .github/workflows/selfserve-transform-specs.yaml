@@ -14,19 +14,33 @@ on:
         description: 'Key to the transformed specs artifact and name (without extension, e.g. transformedSpecs, the file is expected to have the extension .yaml)'
         type: string
         default: 'transformedSpecs'
+      repository:
+        description: 'Repository to checkout'
+        type: string
+        required: true
+      ref:
+        description: 'Branch or tag to checkout'
+        type: string
+        required: true
 
 jobs:
   transform-specs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v4
+      - name: Checkout product repository
+        uses: actions/checkout@v4
         with:
-          name: ${{ inputs.specs_key }}
+          repository: ${{ inputs.repository }}
+          ref: ${{ inputs.ref }}
+          path: product-repo
 
-      - run: |
+      - name: Transform specs
+        working-directory: product-repo
+        run: |
           npx --yes -p @expediagroup/spec-transformer cli ${{ inputs.transformations }} -i ${{ inputs.specs_key }}.yaml -o ${{ inputs.transformed_specs_key }}.yaml
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload transformed specs
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ inputs.transformed_specs_key }}
-          path: ${{ inputs.transformed_specs_key }}.yaml
+          path: product-repo/${{ inputs.transformed_specs_key }}.yaml
