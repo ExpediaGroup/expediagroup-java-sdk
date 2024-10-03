@@ -109,11 +109,11 @@ class {{clientClassname}}Client private constructor(clientConfiguration: Expedia
                 * @throws ExpediaGroupApi{{.}}Exception
             {{/dataTypes}}
         {{/exceptionDataTypes}}
-        * @return a [Response] object with a body of type {{{returnType}}}{{^returnType}}Nothing{{/returnType}}
+        * @return a [Response] object with a body of type {{#customReturnType}}{{{returnType}}}{{/customReturnType}}{{^returnType}}Nothing{{/returnType}}
         */
-        fun execute(operation: {{operationIdCamelCase}}Operation) : {{#returnType}}Response<{{{returnType}}}>{{/returnType}}{{^returnType}}EmptyResponse{{/returnType}} {
+        fun execute(operation: {{operationIdCamelCase}}Operation) : {{#returnType}}Response<{{#customReturnType}}{{{returnType}}}{{/customReturnType}}>{{/returnType}}{{^returnType}}EmptyResponse{{/returnType}} {
             {{#returnType}}
-                return execute<{{#bodyParam}}{{dataType}}{{/bodyParam}}{{^hasBodyParam}}Nothing{{/hasBodyParam}}, {{{returnType}}}>(operation)
+                return execute<{{#bodyParam}}{{dataType}}{{/bodyParam}}{{^hasBodyParam}}Nothing{{/hasBodyParam}}, {{#customReturnType}}{{{returnType}}}{{/customReturnType}}>(operation)
             {{/returnType}}
             {{^returnType}}
                 return executeWithEmptyResponse<{{#bodyParam}}{{dataType}}{{/bodyParam}}{{^hasBodyParam}}Nothing{{/hasBodyParam}}>(operation)
@@ -129,18 +129,18 @@ class {{clientClassname}}Client private constructor(clientConfiguration: Expedia
                 * @throws ExpediaGroupApi{{.}}Exception
             {{/dataTypes}}
         {{/exceptionDataTypes}}
-        * @return a [CompletableFuture<Response>] object with a body of type {{{returnType}}}{{^returnType}}Nothing{{/returnType}}
+        * @return a [CompletableFuture<Response>] object with a body of type {{#customReturnType}}{{{returnType}}}{{/customReturnType}}{{^returnType}}Nothing{{/returnType}}
         */
-        fun executeAsync(operation: {{operationIdCamelCase}}Operation) : CompletableFuture<{{#returnType}}Response<{{{returnType}}}>{{/returnType}}{{^returnType}}EmptyResponse{{/returnType}}> {
+        fun executeAsync(operation: {{operationIdCamelCase}}Operation) : CompletableFuture<{{#returnType}}Response<{{#customReturnType}}{{{returnType}}}{{/customReturnType}}>{{/returnType}}{{^returnType}}EmptyResponse{{/returnType}}> {
         {{#returnType}}
-            return executeAsync<{{#bodyParam}}{{dataType}}{{/bodyParam}}{{^hasBodyParam}}Nothing{{/hasBodyParam}}, {{{returnType}}}>(operation)
+            return executeAsync<{{#bodyParam}}{{dataType}}{{/bodyParam}}{{^hasBodyParam}}Nothing{{/hasBodyParam}}, {{#customReturnType}}{{{returnType}}}{{/customReturnType}}>(operation)
         {{/returnType}}
         {{^returnType}}
             return executeAsyncWithEmptyResponse<{{#bodyParam}}{{dataType}}{{/bodyParam}}{{^hasBodyParam}}Nothing{{/hasBodyParam}}>(operation)
         {{/returnType}}
         }
 
-        private suspend {{^isKotlin}}inline {{/isKotlin}}fun {{^isKotlin}}k{{/isKotlin}}{{operationId}}WithResponse({{>client/apiParamsDecleration}}): {{#returnType}}Response<{{{returnType}}}>{{/returnType}}{{^returnType}}Response<Nothing>{{/returnType}} {
+        private suspend {{^isKotlin}}inline {{/isKotlin}}fun {{^isKotlin}}k{{/isKotlin}}{{operationId}}WithResponse({{>client/apiParamsDecleration}}): {{#returnType}}Response<{{#customReturnType}}{{{returnType}}}{{/customReturnType}}>{{/returnType}}{{^returnType}}Response<Nothing>{{/returnType}} {
             {{#hasNonBodyParams}}
                 val params =  {{operationIdCamelCase}}OperationParams(
                 {{#nonBodyParams}}
@@ -175,7 +175,7 @@ class {{clientClassname}}Client private constructor(clientConfiguration: Expedia
                     * @throws ExpediaGroupApi{{.}}Exception
                 {{/dataTypes}}
             {{/exceptionDataTypes}}
-            * @return {{{returnType}}}{{^returnType}}Nothing{{/returnType}}
+            * @return {{#customReturnType}}{{{returnType}}}{{/customReturnType}}{{^returnType}}Nothing{{/returnType}}
             */
             @Throws(
                 {{#exceptionDataTypes}}
@@ -187,7 +187,7 @@ class {{clientClassname}}Client private constructor(clientConfiguration: Expedia
             )
             @JvmOverloads
             @Deprecated("Use execute method instead", ReplaceWith("execute(operation: {{operationIdCamelCase}}Operation)"))
-            fun {{operationId}}({{>client/apiParamsDecleration}}) : {{{returnType}}}{{^returnType}}Nothing{{/returnType}} {
+            fun {{operationId}}({{>client/apiParamsDecleration}}) : {{#customReturnType}}{{{returnType}}}{{/customReturnType}}{{^returnType}}Nothing{{/returnType}} {
                 return {{operationId}}WithResponse({{>client/apiParamsPassed}}).data
             }
 
@@ -202,7 +202,7 @@ class {{clientClassname}}Client private constructor(clientConfiguration: Expedia
                     * @throws ExpediaGroupApi{{.}}Exception
                 {{/dataTypes}}
             {{/exceptionDataTypes}}
-            * @return a [Response] object with a body of type {{{returnType}}}{{^returnType}}Nothing{{/returnType}}
+            * @return a [Response] object with a body of type {{#customReturnType}}{{{returnType}}}{{/customReturnType}}{{^returnType}}Nothing{{/returnType}}
             */
             @Throws(
                 {{#exceptionDataTypes}}
@@ -214,7 +214,7 @@ class {{clientClassname}}Client private constructor(clientConfiguration: Expedia
             )
             @JvmOverloads
             @Deprecated("Use execute method instead", ReplaceWith("execute(operation: {{operationIdCamelCase}}Operation)"))
-            fun {{operationId}}WithResponse({{>client/apiParamsDecleration}}) : {{#returnType}}Response<{{{returnType}}}>{{/returnType}}{{^returnType}}Response<Nothing>{{/returnType}} {
+            fun {{operationId}}WithResponse({{>client/apiParamsDecleration}}) : {{#returnType}}Response<{{#customReturnType}}{{{returnType}}}{{/customReturnType}}>{{/returnType}}{{^returnType}}Response<Nothing>{{/returnType}} {
                 try {
                     return GlobalScope.future(Dispatchers.IO) {
                         k{{operationId}}WithResponse({{>client/apiParamsPassed}})
