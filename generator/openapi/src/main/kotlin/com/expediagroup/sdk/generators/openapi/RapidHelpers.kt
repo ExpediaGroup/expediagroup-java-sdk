@@ -27,6 +27,7 @@ val linkableOperations =
         "deleteHeldBooking",
         "deleteRoom",
         "getAdditionalAvailability",
+        "getAvailability",
         "getPaymentOptions",
         "getPropertyContent",
         "getReservationByItineraryId",

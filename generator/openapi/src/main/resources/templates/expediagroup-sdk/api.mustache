@@ -12,7 +12,7 @@ import com.expediagroup.sdk.core.model.Operation
     {{/bodyParam}}
 
     {{#isRapid}}{{#isLinkable}}
-        import com.expediagroup.sdk.{{namespace}}.models.Link
+        import com.expediagroup.sdk.{{namespace}}.models.{{classname}}Link
     {{/isLinkable}}{{/isRapid}}
 
     {{#hasPathParams}}
@@ -39,7 +39,7 @@ import com.expediagroup.sdk.core.model.Operation
             {{#hasBodyParam}}
                 requestBody: {{#bodyParam}}{{dataType}}{{/bodyParam}}{{^required}}?{{/required}},
             {{/hasBodyParam}}
-            {{#isRapid}}{{#isLinkable}}link: Link?{{/isLinkable}}{{/isRapid}}
+            {{#isRapid}}{{#isLinkable}}link: {{classname}}Link?{{/isLinkable}}{{/isRapid}}
         ) : Operation<
             {{#hasBodyParam}}{{#bodyParam}}{{dataType}}{{/bodyParam}}{{/hasBodyParam}}
             {{^hasBodyParam}}Nothing{{/hasBodyParam}}
@@ -97,7 +97,7 @@ import com.expediagroup.sdk.core.model.Operation
                     )
 
                     constructor(
-                        link: Link,
+                        link: {{classname}}Link,
                         context: {{classname}}Context{{^hasRequiredContext}}?{{/hasRequiredContext}},
                         {{#hasBodyParam}}
                             requestBody: {{#bodyParam}}{{dataType}}{{/bodyParam}}{{^required}}?{{/required}}
