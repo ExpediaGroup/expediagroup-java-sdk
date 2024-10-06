@@ -3,7 +3,8 @@
   "scripts": {
     "clean": "rm -rf ./dist",
     "build": "tsc && tsc-alias",
-    "process": "node ./dist/processor.js"
+    "process": "node ./dist/processor.js",
+    "lint": "eslint ."
   },
   "devDependencies": {
     "@ast-grep/napi": "0.27.2",
