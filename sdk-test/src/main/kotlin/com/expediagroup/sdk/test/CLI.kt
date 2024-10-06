@@ -28,7 +28,7 @@ package com.expediagroup.sdk.test
 import com.expediagroup.sdk.test.contract.ContractTestsGenerator
 import com.expediagroup.sdk.test.contract.MAX_TEST_REQUEST_PER_SCENARIO
 import com.expediagroup.sdk.test.openapi.SdkTestGenerator
-import com.expediagroup.sdk.test.util.toBoolean
+import com.expediagroup.sdk.test.openapi.ProductTest
 import com.github.rvesse.airline.SingleCommand
 import com.github.rvesse.airline.annotations.Command
 import com.github.rvesse.airline.annotations.Option
@@ -46,16 +46,10 @@ class CLI {
     private lateinit var spec: File
 
     @Option(name = ["-o", "--output-dir"])
-    private var outputDir: String = "target/sdk/src/main/resources"
+    private var outputDir: String = "target/sdk/"
 
     @Option(name = ["-m", "--max-test-combinations"])
     private var maxTestCombinations: Int = MAX_TEST_REQUEST_PER_SCENARIO
-
-    @Option(name = ["-c", "--generate-contract-tests"])
-    private var generateContractTests = false
-
-    @Option(name = ["-s", "--generate-sdk-tests"])
-    private var generateSdkTests = false
 
     @Option(name = ["-t", "--templates-dir"])
     private var templatesDir: File = File("src/main/resources/templates/expediagroup-sdk")
@@ -72,36 +66,36 @@ class CLI {
          */
         @JvmStatic
         fun main(args: Array<String>) {
-
-
             val generator = SingleCommand.singleCommand(CLI::class.java).parse(*args)
             generator.run()
         }
     }
 
     fun run() {
-        if (!listOf(generateSdkTests, generateContractTests).any(::toBoolean)) {
-            throw IllegalArgumentException("At least one of --generate-contract-tests or --generate-sdk-tests must be set to true")
-        }
+        val productTest = ProductTest(
+            inputNamespace = namespace,
+            repoName = "expediagroup/expediagroup-sdk-java",
+            programmingLanguage = "java",
+        )
+
+        val sdkTestsOutputDirectory = File(outputDir, productTest.artifactId)
+
+        val contractTestsOutputDirectory = File("target/sdk/${productTest.artifactId}/src/main/", "resources/contract-tests/").also { it.mkdirs() }
 
         contractTestsGenerator = ContractTestsGenerator(
             spec = spec,
-            outputDir = File(outputDir),
+            outputDir = contractTestsOutputDirectory,
             maxTestCombinations = maxTestCombinations
         )
 
-        contractTestsGenerator.generate(writeMode = generateContractTests).let { testCases ->
-            if (!generateSdkTests) {
-                return
-            }
+        contractTestsGenerator.generate()
 
-            sdkTestGenerator = SdkTestGenerator(
-                namespace = namespace,
-                spec = spec,
-                version = version,
-                testCases = testCases,
-                templatesDir = templatesDir,
-            ).also { it.generate() }
-        }
+        sdkTestGenerator = SdkTestGenerator(
+            spec = spec,
+            version = version,
+            productTest = productTest,
+            templatesDir = templatesDir,
+            outputDir = sdkTestsOutputDirectory,
+        ).also { it.generate() }
     }
 }

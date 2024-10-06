@@ -123,15 +123,11 @@ class OpenApiSdkGenerator {
                     addAdditionalProperty("language", product.programmingLanguage.id)
                     addAdditionalProperty("repoName", product.repoName)
                     addAdditionalProperty("isKotlin", ProgrammingLanguage.isKotlin(product.programmingLanguage))
-                    addAdditionalProperty("isRapid", ProductFamily.isRapid(product.namespace))
                     addAdditionalProperty("isExpediaGroup", ProductFamily.isExpediaGroup(product.namespace))
                     addAdditionalProperty("isXap", ProductFamily.isXap(product.namespace))
 
                     // Mustache Helpers
                     mustacheHelpers.forEach { (name, function) -> addAdditionalProperty(name, function()) }
-                    if (ProductFamily.isRapid(product.namespace)) {
-                        rapidHelpers.forEach { (name, function) -> addAdditionalProperty(name, function()) }
-                    }
                 }
 
             val generatorInput =
@@ -184,23 +180,6 @@ class OpenApiSdkGenerator {
                                     "Params.kt"
                                 ).also { it.templateType = TemplateFileType.API }
                             )
-
-                            if (ProductFamily.isRapid(product.namespace)) {
-                                add(
-                                    TemplateDefinition(
-                                        "operation_context.mustache",
-                                        "Context.kt"
-                                    ).also { it.templateType = TemplateFileType.API }
-                                )
-
-                                add(
-                                    SupportingFile(
-                                        "linkable_operation.mustache",
-                                        "$packagePath/operations/",
-                                        "LinkableOperation.kt"
-                                    )
-                                )
-                            }
 
                             if (ProductFamily.isXap(product.namespace)) {
                                 add(

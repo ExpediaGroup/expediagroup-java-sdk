@@ -13,17 +13,13 @@ import kotlinx.coroutines.runBlocking
 
 {{>imports/core}}
 
-{{>imports/helpers}}
-
 {{>imports/defaults}}
 
 /**
 * {{#openAPI}}{{#info}}{{{description}}}{{/info}}{{/openAPI}}
 */
 
-class {{clientClassname}}Client private constructor(clientConfiguration: {{>partials/clientConfiguration}}) : {{>partials/clientBase}}("{{namespace}}", clientConfiguration){
-    {{>partials/helpers}}
-
+class {{clientClassname}}Client private constructor(clientConfiguration: {{>partials/clientConfiguration}}) : {{>partials/clientBase}}("{{namespace}}", clientConfiguration) {
     class Builder : {{>partials/clientBase}}.Builder<Builder>() {
         override fun build() = {{clientClassname}}Client(
             {{>partials/clientConfiguration}}(key, secret, endpoint, requestTimeout, connectionTimeout, socketTimeout, maskedLoggingHeaders, maskedLoggingBodyFields {{>partials/authEndpoint}})

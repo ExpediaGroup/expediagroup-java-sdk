@@ -13,21 +13,3 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.product
-
-enum class ProductFamily(val id: String) {
-    EXPEDIA_GROUP("expediagroup"),
-    XAP("xap");
-
-    companion object {
-        /**
-         * Returns true if the product family is ExpediaGroup.
-         *
-         * @param productFamily The product family to check.
-         * @return True if the product family is ExpediaGroup.
-         */
-        fun isExpediaGroup(productFamily: String): Boolean = !isXap(productFamily)
-
-        fun isXap(productFamily: String): Boolean = productFamily == XAP.id
-    }
-}
