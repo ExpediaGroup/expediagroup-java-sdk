@@ -101,8 +101,8 @@ class OpenApiSdkGenerator {
                     addGlobalProperty(CodegenConstants.MODEL_DOCS, "false")
 
                     supportingFiles.add("${namespace.replaceFirstChar(Char::titlecase)}Client.kt")
+
                     if (ProductFamily.isXap(product.namespace)) {
-                        supportingFiles.add("GetLodgingListingsOperationParams.kt")
                         supportingFiles.add("Room.kt")
                     }
 
