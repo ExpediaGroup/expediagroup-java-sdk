@@ -292,6 +292,9 @@
                                 <includes>
                                     <include>**/*.kt</include>
                                 </includes>
+                                <excludes>
+                                    <exclude>src/main/resources/post-processor/**/*.kt</exclude>
+                                </excludes>
                             </licenseSet>
                         </licenseSets>
                     </configuration>
