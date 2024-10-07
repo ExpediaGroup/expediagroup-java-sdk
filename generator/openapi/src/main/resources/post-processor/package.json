@@ -7,7 +7,7 @@
     "lint": "eslint ."
   },
   "devDependencies": {
-    "@ast-grep/napi": "0.27.2",
+    "@ast-grep/napi": "0.28.0",
     "@eslint/js": "9.10.0",
     "@types/eslint__js": "8.42.3",
     "eslint": "8.57.0",
