@@ -19,10 +19,6 @@ on:
         description: 'Key to the SDK repository artifact'
         default: 'sdk-repo'
         type: string
-      specs_key:
-        description: 'Key to the transformed and ready to publish specs artifact and name (without extension, e.g. specs, the file is expected to have the extension .yaml)'
-        default: 'transformedSpecs'
-        type: string
 
 jobs:
   publish-sources:
@@ -36,7 +32,7 @@ jobs:
 
       - uses: actions/download-artifact@v4
         with:
-          name: ${{ inputs.specs_key }}
+          name: transformedSpecs
           path: .
 
       - name: Add generated source code to the path
@@ -47,7 +43,7 @@ jobs:
           cp -r ${{ inputs.sdk_repo_key }}/${{ inputs.sdk_key }}/src ${{ inputs.path }}/src
           cp ${{ inputs.sdk_repo_key }}/${{ inputs.sdk_key }}/pom.xml ${{ inputs.path }}
           cp ${{ inputs.sdk_repo_key }}/${{ inputs.sdk_key }}/README.md ${{ inputs.path }}
-          cp ./${{ inputs.specs_key }}.yaml ${{ inputs.path }}/${{ inputs.specs_key }}.yaml
+          cp ./transformedSpecs.yaml ${{ inputs.path }}/transformedSpecs.yaml
 
       - name: Create PR
         uses: peter-evans/create-pull-request@v7
