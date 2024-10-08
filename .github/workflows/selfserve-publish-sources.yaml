@@ -7,6 +7,12 @@ on:
         description: 'SDK Version - A semantic SDK version, e.g., 1.0.0 or 1.0.0-SNAPSHOT'
         required: true
         type: string
+      branch:
+        description: |
+          Branch to publish the source code to and create the PR from.
+          Defaults to "publish-v${{ inputs.version }}"
+        required: false
+        type: string
       path:
         description: 'Path to publish the source code to. This should be a path of a directory where the source code will be published to'
         default: 'code'
@@ -28,7 +34,16 @@ jobs:
   publish-sources:
     runs-on: ubuntu-latest
     steps:
+      - name: Set branch
+        run: |
+          if [ -z "${{ inputs.branch }}" ]; then
+              echo "branch=publish-v${{ inputs.version }}" >> $GITHUB_ENV
+          else
+              echo "branch=${{ inputs.branch }}" >> $GITHUB_ENV
+          fi
+
       - uses: actions/checkout@v4
+
       - uses: actions/download-artifact@v4
         with:
           name: ${{ inputs.sdk_key }}
@@ -52,7 +67,7 @@ jobs:
       - name: Create PR
         uses: peter-evans/create-pull-request@v7
         with:
-          branch: "publish-v${{ inputs.version }}"
+          branch: ${{ env.branch }}
           commit-message: "chore: Publish v${{ inputs.version }}"
           title: "chore: Publish v${{ inputs.version }}"
           body: |
