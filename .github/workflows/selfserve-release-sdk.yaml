@@ -42,5 +42,6 @@ jobs:
         run: |
           echo "Starting SDK Release - version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)"
           echo "Current Branch: $(git branch --show-current)"
+          pwd
           mvn clean install
           echo "SDK Released"
