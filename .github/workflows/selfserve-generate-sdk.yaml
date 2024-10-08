@@ -11,12 +11,6 @@ on:
         description: 'SDK Version'
         required: true
         type: string
-      specs_key:
-        description: |
-          Key to the transformed and ready to use specs artifact and name
-          (without extension, e.g. specs, the file is expected to have the extension .yaml).
-        default: 'transformedSpecs'
-        type: string
       sdk_key:
         description: 'Key to the generated SDK artifact'
         default: 'sdk'
@@ -65,7 +59,7 @@ jobs:
       - name: Download Specs
         uses: actions/download-artifact@v4
         with:
-          name: ${{ inputs.specs_key }}
+          name: transformedSpecs
 
       - name: Apply product customizations
         run: |
@@ -85,7 +79,7 @@ jobs:
         env:
           KOTLIN_POST_PROCESS_FILE: "npm run --prefix sdk-repo/generator/openapi/src/main/resources/post-processor process"
         run: |
-          mvn -f sdk-repo/generator/openapi clean install exec:java "-Dnamespace=${{ inputs.name }}" -DsdkVersion=${{ inputs.version }} "-Dspec=./${{ inputs.specs_key }}.yaml"
+          mvn -f sdk-repo/generator/openapi clean install exec:java "-Dnamespace=${{ inputs.name }}" -DsdkVersion=${{ inputs.version }} "-Dspec=./transformedSpecs.yaml"
 
       - name: Install SDK
         run: |
