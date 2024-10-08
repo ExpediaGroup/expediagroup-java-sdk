@@ -122,7 +122,12 @@
                         {{#queryParams}}
                             {{paramName}}?.let {
                                 {{#isContainer}}
-                                    appendAll("{{baseName}}", it{{#isEnum}}.map { it.value }{{/isEnum}})
+                                    {{#isXap}}
+                                        append("{{baseName}}", it{{#isEnum}}.map { it.value }{{/isEnum}}.joinToString(","))
+                                    {{/isXap}}
+                                    {{^isXap}}
+                                        appendAll("{{baseName}}", it{{#isEnum}}.map { it.value }{{/isEnum}})
+                                    {{/isXap}}
                                 {{/isContainer}}
                                 {{^isContainer}}
                                     append("{{baseName}}", it{{#isEnum}}.value{{/isEnum}}{{^isString}}.toString(){{/isString}})

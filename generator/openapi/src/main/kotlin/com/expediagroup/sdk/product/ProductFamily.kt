@@ -16,7 +16,8 @@
 package com.expediagroup.sdk.product
 
 enum class ProductFamily(val id: String) {
-    EXPEDIA_GROUP("expediagroup");
+    EXPEDIA_GROUP("expediagroup"),
+    XAP("xap");
 
     companion object {
         /**
@@ -25,6 +26,8 @@ enum class ProductFamily(val id: String) {
          * @param productFamily The product family to check.
          * @return True if the product family is ExpediaGroup.
          */
-        fun isExpediaGroup(productFamily: String): Boolean = true
+        fun isExpediaGroup(productFamily: String): Boolean = !isXap(productFamily)
+
+        fun isXap(productFamily: String): Boolean = productFamily == XAP.id
     }
 }

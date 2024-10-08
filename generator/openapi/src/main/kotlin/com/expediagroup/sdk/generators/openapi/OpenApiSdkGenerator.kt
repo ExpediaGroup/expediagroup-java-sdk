@@ -101,6 +101,11 @@ class OpenApiSdkGenerator {
                     addGlobalProperty(CodegenConstants.MODEL_DOCS, "false")
 
                     supportingFiles.add("${namespace.replaceFirstChar(Char::titlecase)}Client.kt")
+
+                    if (ProductFamily.isXap(product.namespace)) {
+                        supportingFiles.add("Room.kt")
+                    }
+
                     addGlobalProperty(CodegenConstants.SUPPORTING_FILES, supportingFiles.joinToString(","))
                     // addGlobalProperty("debugSupportingFiles", "")
 
@@ -119,6 +124,7 @@ class OpenApiSdkGenerator {
                     addAdditionalProperty("repoName", product.repoName)
                     addAdditionalProperty("isKotlin", ProgrammingLanguage.isKotlin(product.programmingLanguage))
                     addAdditionalProperty("isExpediaGroup", ProductFamily.isExpediaGroup(product.namespace))
+                    addAdditionalProperty("isXap", ProductFamily.isXap(product.namespace))
 
                     // Mustache Helpers
                     mustacheHelpers.forEach { (name, function) -> addAdditionalProperty(name, function()) }
@@ -174,6 +180,16 @@ class OpenApiSdkGenerator {
                                     "Params.kt"
                                 ).also { it.templateType = TemplateFileType.API }
                             )
+
+                            if (ProductFamily.isXap(product.namespace)) {
+                                add(
+                                    SupportingFile(
+                                        "xap/room.mustache",
+                                        "$packagePath/models/",
+                                        "Room.kt"
+                                    )
+                                )
+                            }
                         }
                     )
                 }
