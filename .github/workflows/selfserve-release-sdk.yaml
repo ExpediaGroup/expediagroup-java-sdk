@@ -41,5 +41,6 @@ jobs:
           GPG_PASSPHRASE: ${{ secrets.GPG_PRIVATE_KEY_PASSPHRASE }}
         run: |
           echo "Starting SDK Release - version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)"
+          echo "Current Branch: $(git branch --show-current)"
           mvn clean install
           echo "SDK Released"
