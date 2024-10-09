@@ -25,10 +25,6 @@ on:
         description: 'Key to the SDK repository artifact'
         default: 'sdk-repo'
         type: string
-      specs_key:
-        description: 'Key to the transformed and ready to publish specs artifact and name (without extension, e.g. specs, the file is expected to have the extension .yaml)'
-        default: 'transformedSpecs'
-        type: string
 
 jobs:
   publish-sources:
@@ -51,7 +47,7 @@ jobs:
 
       - uses: actions/download-artifact@v4
         with:
-          name: ${{ inputs.specs_key }}
+          name: transformedSpecs
           path: .
 
       - name: Add generated source code to the path
