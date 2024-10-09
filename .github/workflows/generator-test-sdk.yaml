@@ -50,7 +50,6 @@ jobs:
     with:
       name: ${{ inputs.namespace }}
       version: ${{ inputs.version }}
-      templates_key: 'templates'
       sdk_repo_ref: 'main'
       repository: ${{ inputs.product_repo }}
       ref: 'main'
