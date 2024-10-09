@@ -87,4 +87,3 @@ jobs:
       version: ${{ inputs.version }}
       path: ${{ inputs.sources_path }}
       sdk_key: ${{ inputs.sdk_key }}
-      specs_key: ${{ inputs.transformed_specs_key }}
