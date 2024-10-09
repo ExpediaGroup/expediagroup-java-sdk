@@ -10,7 +10,7 @@ on:
       branch:
         description: |
           Branch to publish the source code to and create the PR from.
-          Defaults to "publish-v${{ inputs.version }}"
+          Defaults to "publish-<<version>>"
         default: ''
         type: string
       path:
