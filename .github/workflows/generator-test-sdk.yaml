@@ -42,6 +42,8 @@ jobs:
     with:
       specs_key: 'raw-specs'
       transformations: -th -te ${{ inputs.endpoint_prefix }} --operationIdsToTags
+      repository: ${{ inputs.product_repo }}
+      ref: 'main'
 
   generate-sdk:
     needs: [ transform-specs ]
