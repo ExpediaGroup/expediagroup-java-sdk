@@ -76,10 +76,6 @@ jobs:
     steps:
       - shell: python -u {0}
         run: |
-          if 'specs' in '${{ inputs.source }}' and not('${{ inputs.specs_url }}'):
-            print('::error::Invalid specs URL: ${{ inputs.specs_url }}')
-            exit(1)
-
           if 'sdk' in '${{ inputs.source }}' and not('${{ inputs.sdk_version }}'):
             print('::error::Invalid SDK version: ${{ inputs.sdk_version }}')
             exit(1)
