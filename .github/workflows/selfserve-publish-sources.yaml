@@ -59,7 +59,7 @@ jobs:
           cp ${{ inputs.sdk_repo_key }}/${{ inputs.sdk_key }}/pom.xml ${{ inputs.path }}
           cp ${{ inputs.sdk_repo_key }}/${{ inputs.sdk_key }}/README.md ${{ inputs.path }}
           cp ${{ inputs.sdk_repo_key }}/${{ inputs.sdk_key }}/LICENSE-HEADER.txt ${{ inputs.path }}
-          cp ./${{ inputs.specs_key }}.yaml ${{ inputs.path }}/${{ inputs.specs_key }}.yaml
+          cp ./transformedSpecs.yaml ${{ inputs.path }}/transformedSpecs.yaml
 
       - name: Create PR
         uses: peter-evans/create-pull-request@v7
