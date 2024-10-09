@@ -30,7 +30,7 @@ jobs:
   publish-sources:
     runs-on: ubuntu-latest
     steps:
-      - name: Set branch
+      - name: Set branch name to publish to
         run: |
           if [ -z "${{ inputs.branch }}" ]; then
               echo "branch=publish-v${{ inputs.version }}" >> $GITHUB_ENV
