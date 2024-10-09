@@ -10,4 +10,5 @@ jobs:
       sdk_version: 1.0.${{ github.run_id }}
       sdk_namespace: 'rapid'
       endpoint_prefix: '/v3'
+      product_repo: 'ExpediaGroup/rapid-java-sdk'
     secrets: inherit

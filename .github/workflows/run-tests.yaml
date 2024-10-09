@@ -65,6 +65,10 @@ on:
         description: 'Endpoint to prepend specs paths with'
         required: true
         type: string
+      product_repo:
+        description: 'Product repository'
+        required: true
+        type: string
 
 jobs:
   inputs-validation:
@@ -89,6 +93,8 @@ jobs:
       namespace: ${{ inputs.sdk_namespace }}
       endpoint_prefix: ${{ inputs.endpoint_prefix }}
       specs_url: ${{ inputs.specs_url }}
+      product_repo: ${{ inputs.product_repo }}
+
     secrets: inherit
   run-rapid-examples:
     strategy:

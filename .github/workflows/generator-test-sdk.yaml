@@ -18,6 +18,10 @@ on:
         description: 'Run tests based on specs'
         required: true
         type: string
+      product_repo:
+        description: 'Product repository'
+        required: true
+        type: string
     outputs:
       artifactId:
         value: ${{ jobs.sdk-metadata.outputs.artifactId }}
@@ -62,6 +66,9 @@ jobs:
       name: ${{ inputs.namespace }}
       version: ${{ inputs.version }}
       templates_key: 'templates'
+      sdk_repo_ref: 'main'
+      repository: ${{ inputs.repository }}
+      ref: ${{ inputs.ref }}
 
   sdk-metadata:
     runs-on: ubuntu-latest
