@@ -30,7 +30,7 @@ jobs:
   transform-specs:
     uses: ./.github/workflows/selfserve-transform-specs.yaml
     with:
-      transformations: '-th'
+      transformations: '-th -te ${{ inputs.endpoint_prefix }} --operationIdsToTags'
       repository: ${{ inputs.product_repo }}
       ref: 'main'
 
