@@ -11,7 +11,7 @@ on:
         description: |
           Branch to publish the source code to and create the PR from.
           Defaults to "publish-v${{ inputs.version }}"
-        required: false
+        default: ''
         type: string
       path:
         description: 'Path to publish the source code to. This should be a path of a directory where the source code will be published to'
