@@ -130,7 +130,6 @@ val mustacheHelpers =
         "customReturnType" to {
             Mustache.Lambda { fragment, writer ->
                 val response: CodegenOperation = fragment.context() as CodegenOperation
-//                if (response.returnType == null) return@Lambda
 
                 val context =
                     mapOf(
@@ -140,6 +139,11 @@ val mustacheHelpers =
                                 else -> response.returnType
                             }
                     )
+
+                if (context["returnType"] == null) {
+                    return@Lambda
+                }
+
                 fragment.execute(context, writer)
             }
         }
