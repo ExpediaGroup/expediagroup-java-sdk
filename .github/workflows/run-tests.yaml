@@ -92,7 +92,6 @@ jobs:
       version: ${{ inputs.sdk_version }}
       namespace: ${{ inputs.sdk_namespace }}
       endpoint_prefix: ${{ inputs.endpoint_prefix }}
-      specs_url: ${{ inputs.specs_url }}
       product_repo: ${{ inputs.product_repo }}
 
     secrets: inherit
