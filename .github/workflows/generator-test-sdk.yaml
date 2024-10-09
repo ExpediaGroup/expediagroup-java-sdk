@@ -30,7 +30,7 @@ jobs:
   transform-specs:
     uses: ./.github/workflows/selfserve-transform-specs.yaml
     with:
-      transformations: ''
+      transformations: '-th'
       repository: ${{ inputs.product_repo }}
       ref: 'main'
 
