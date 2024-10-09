@@ -51,8 +51,8 @@ jobs:
       version: ${{ inputs.version }}
       templates_key: 'templates'
       sdk_repo_ref: 'main'
-      repository: ${{ inputs.repository }}
-      ref: ${{ inputs.ref }}
+      repository: ${{ inputs.product_repo }}
+      ref: 'main'
 
   sdk-metadata:
     runs-on: ubuntu-latest
