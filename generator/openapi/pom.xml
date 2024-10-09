@@ -69,7 +69,7 @@
         <repoName>test-sdk</repoName>
 
         <!-- Versions -->
-        <kotlin.version>2.0.20</kotlin.version>
+        <kotlin.version>1.9.25</kotlin.version>
         <openapi-generator.version>6.6.0</openapi-generator.version>
 
         <!-- Plugin Versions -->
