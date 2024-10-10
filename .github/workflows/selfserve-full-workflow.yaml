@@ -1,4 +1,4 @@
-name: Generate and Publish SDK (Full Workflow)
+name: Generate and Publish SDK Sources (Without Release)
 
 on:
   workflow_call:
@@ -86,11 +86,4 @@ jobs:
     with:
       version: ${{ inputs.version }}
       path: ${{ inputs.sources_path }}
-      sdk_key: ${{ inputs.sdk_key }}
-
-  release-sdk:
-    uses: ./.github/workflows/selfserve-release-sdk.yaml
-    needs: [ generate-sdk ]
-    secrets: inherit
-    with:
       sdk_key: ${{ inputs.sdk_key }}
