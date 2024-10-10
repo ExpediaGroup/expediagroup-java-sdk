@@ -14,8 +14,8 @@ on:
         description: 'Endpoint to prepend specs paths with'
         required: true
         type: string
-      specs_url:
-        description: 'Run tests based on specs'
+      product_repo:
+        description: 'Product repository'
         required: true
         type: string
     outputs:
@@ -27,41 +27,22 @@ on:
         value: ${{ jobs.sdk-metadata.outputs.version }}
 
 jobs:
-  download-specs:
-    uses: ./.github/workflows/generator-download-specs.yaml
-    with:
-      url: ${{ inputs.specs_url }}
-
   transform-specs:
-    needs: [ download-specs ]
     uses: ./.github/workflows/selfserve-transform-specs.yaml
     with:
-      specs_key: 'raw-specs'
-      transformations: -th -te ${{ inputs.endpoint_prefix }} --operationIdsToTags
-
-  upload-templates:
-    uses: ./.github/workflows/selfserve-checkout-and-upload.yaml
-    with:
-      artifact_key: 'templates'
-      artifact_path: 'generator/openapi/src/main/resources/templates/expediagroup-sdk'
-      repository: 'ExpediaGroup/expediagroup-java-sdk'
-      ref: "${{ github.head_ref || github.ref_name }}"
-
-  upload-repo:
-    uses: ./.github/workflows/selfserve-checkout-and-upload.yaml
-    with:
-      artifact_key: 'sdk-repo'
-      artifact_path: ''
-      repository: 'ExpediaGroup/expediagroup-java-sdk'
-      ref: "${{ github.head_ref || github.ref_name }}"
+      transformations: '-th -te ${{ inputs.endpoint_prefix }} --operationIdsToTags'
+      repository: ${{ inputs.product_repo }}
+      ref: 'main'
 
   generate-sdk:
-    needs: [ transform-specs, upload-repo ]
+    needs: [ transform-specs ]
     uses: ./.github/workflows/selfserve-generate-sdk.yaml
     with:
       name: ${{ inputs.namespace }}
       version: ${{ inputs.version }}
-      templates_key: 'templates'
+      sdk_repo_ref: "${{ github.head_ref || github.ref_name }}"
+      repository: ${{ inputs.product_repo }}
+      ref: 'main'
 
   sdk-metadata:
     runs-on: ubuntu-latest
