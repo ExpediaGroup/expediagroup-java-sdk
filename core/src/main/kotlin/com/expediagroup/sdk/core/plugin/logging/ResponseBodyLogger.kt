@@ -26,7 +26,8 @@ import io.ktor.client.plugins.compression.ContentEncoder
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.HttpResponsePipeline
 import io.ktor.client.statement.request
-import io.ktor.http.*
+import io.ktor.http.HttpHeaders
+import io.ktor.http.contentType
 import io.ktor.util.AttributeKey
 import io.ktor.util.Encoder
 import io.ktor.util.GZip

@@ -22,8 +22,8 @@ import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpClientPlugin
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.HttpSendPipeline
-import io.ktor.http.*
 import io.ktor.http.content.OutputStreamContent
+import io.ktor.http.contentType
 import io.ktor.util.AttributeKey
 import io.ktor.util.pipeline.PipelineContext
 import io.ktor.utils.io.writer
