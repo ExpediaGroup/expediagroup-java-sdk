@@ -42,7 +42,7 @@ jobs:
       version: ${{ inputs.version }}
       sdk_repo_ref: "${{ github.head_ref || github.ref_name }}"
       repository: ${{ inputs.product_repo }}
-      ref: 'nanssari/post-processor'
+      ref: 'main'
 
   sdk-metadata:
     runs-on: ubuntu-latest
