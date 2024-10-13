@@ -6,8 +6,8 @@ jobs:
     uses: ./.github/workflows/run-tests.yaml
     with:
       source: 'specs'
-      specs_url: 'https://ewe-assets.s3.amazonaws.com/developer-tools/api/rapid/v3/specs.yaml'
       sdk_version: 1.0.${{ github.run_id }}
       sdk_namespace: 'rapid'
       endpoint_prefix: '/v3'
+      product_repo: 'ExpediaGroup/rapid-java-sdk'
     secrets: inherit
