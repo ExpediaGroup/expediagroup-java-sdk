@@ -10,11 +10,6 @@ on:
           - 'specs'
           - 'sdk'
         default: 'sdk'
-      specs_url:
-        description: 'Run tests based on specs'
-        required: false
-        type: string
-        default: ''
       sdk_version:
         description: 'Run tests based on SDK'
         required: false
@@ -46,11 +41,6 @@ on:
         required: true
         type: string
         default: 'sdk'
-      specs_url:
-        description: 'Run tests based on specs'
-        required: false
-        type: string
-        default: ''
       sdk_version:
         description: 'Run tests based on SDK'
         required: false
