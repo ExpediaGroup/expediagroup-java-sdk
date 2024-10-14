@@ -22,12 +22,12 @@
   },
   "devDependencies": {
     "@types/node": "20.12.7",
-    "gts": "^5.3.1",
-    "tsc-alias": "^1.8.10",
-    "typescript": "^5.4.3"
+    "gts": "5.3.1",
+    "tsc-alias": "1.8.10",
+    "typescript": "5.6.3"
   },
   "dependencies": {
-    "@ast-grep/napi": "^0.28.0",
-    "yaml": "^2.5.1"
+    "@ast-grep/napi": "0.28.0",
+    "yaml": "2.5.1"
   }
 }
