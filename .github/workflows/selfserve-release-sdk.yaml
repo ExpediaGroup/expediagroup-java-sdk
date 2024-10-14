@@ -32,9 +32,10 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ inputs.branch }}
+          path: product-repo
 
       - name: Release SDK
-        working-directory: ${{ inputs.sdk_path }}
+        working-directory: product-repo/${{ inputs.sdk_path }}
         env:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
