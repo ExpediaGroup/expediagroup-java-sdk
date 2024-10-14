@@ -126,5 +126,25 @@ val mustacheHelpers =
                     fragment.execute(context, writer)
                 }
             }
+        },
+        "customReturnType" to {
+            Mustache.Lambda { fragment, writer ->
+                val response: CodegenOperation = fragment.context() as CodegenOperation
+
+                val context =
+                    mapOf(
+                        "returnType" to
+                            when (response.returnType) {
+                                "java.io.File" -> "java.io.InputStream"
+                                else -> response.returnType
+                            }
+                    )
+
+                if (context["returnType"] == null) {
+                    return@Lambda
+                }
+
+                fragment.execute(context, writer)
+            }
         }
     )
