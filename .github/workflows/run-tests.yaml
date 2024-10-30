@@ -40,6 +40,7 @@ jobs:
       sdk_version: ${{ needs.generate-test-sdk.outputs.version }}
       jdk: ${{ matrix.jdk }}
       source: 'specs'
+
     secrets:
       KEY: ${{ secrets.RAPID_KEY }}
       SECRET: ${{ secrets.RAPID_SECRET }}
