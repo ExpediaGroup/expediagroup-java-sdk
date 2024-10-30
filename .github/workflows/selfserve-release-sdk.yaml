@@ -3,10 +3,14 @@ name: Release an SDK to Maven Central
 on:
   workflow_call:
     inputs:
-      sdk_key:
-        description: 'Key to the generated SDK artifact'
-        default: 'sdk'
+      branch:
+        description: "Branch to release the SDK from. Defaults to 'main'"
         type: string
+        default: 'main'
+      sdk_path:
+        description: "Path to the SDK sources. Defaults to 'code'"
+        type: string
+        default: 'code'
 
 jobs:
   release-sdk:
@@ -24,14 +28,14 @@ jobs:
           gpg-passphrase: GPG_PASSPHRASE
           settings-path: ${{ github.workspace }}
 
-      - name: Download SDK Artifact
-        uses: actions/download-artifact@v4
+      - name: Checkout SDK branch
+        uses: actions/checkout@v4
         with:
-          name: ${{ inputs.sdk_key }}
-          path: ${{ inputs.sdk_key }}
+          ref: ${{ inputs.branch }}
+          path: product-repo
 
       - name: Release SDK
-        working-directory: ${{ inputs.sdk_key }}
+        working-directory: product-repo/${{ inputs.sdk_path }}
         env:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}

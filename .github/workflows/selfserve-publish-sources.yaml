@@ -7,6 +7,12 @@ on:
         description: 'SDK Version - A semantic SDK version, e.g., 1.0.0 or 1.0.0-SNAPSHOT'
         required: true
         type: string
+      branch:
+        description: |
+          Branch to publish the source code to and create the PR from.
+          Defaults to "publish-v<<version>>"
+        default: ''
+        type: string
       path:
         description: 'Path to publish the source code to. This should be a path of a directory where the source code will be published to'
         default: 'code'
@@ -19,16 +25,21 @@ on:
         description: 'Key to the SDK repository artifact'
         default: 'sdk-repo'
         type: string
-      specs_key:
-        description: 'Key to the transformed and ready to publish specs artifact and name (without extension, e.g. specs, the file is expected to have the extension .yaml)'
-        default: 'transformedSpecs'
-        type: string
 
 jobs:
   publish-sources:
     runs-on: ubuntu-latest
     steps:
+      - name: Set branch name to publish to
+        run: |
+          if [ -z "${{ inputs.branch }}" ]; then
+              echo "branch=publish-v${{ inputs.version }}" >> $GITHUB_ENV
+          else
+              echo "branch=${{ inputs.branch }}" >> $GITHUB_ENV
+          fi
+
       - uses: actions/checkout@v4
+
       - uses: actions/download-artifact@v4
         with:
           name: ${{ inputs.sdk_key }}
@@ -36,7 +47,7 @@ jobs:
 
       - uses: actions/download-artifact@v4
         with:
-          name: ${{ inputs.specs_key }}
+          name: transformedSpecs
           path: .
 
       - name: Add generated source code to the path
@@ -47,12 +58,13 @@ jobs:
           cp -r ${{ inputs.sdk_repo_key }}/${{ inputs.sdk_key }}/src ${{ inputs.path }}/src
           cp ${{ inputs.sdk_repo_key }}/${{ inputs.sdk_key }}/pom.xml ${{ inputs.path }}
           cp ${{ inputs.sdk_repo_key }}/${{ inputs.sdk_key }}/README.md ${{ inputs.path }}
-          cp ./${{ inputs.specs_key }}.yaml ${{ inputs.path }}/${{ inputs.specs_key }}.yaml
+          cp ${{ inputs.sdk_repo_key }}/${{ inputs.sdk_key }}/LICENSE-HEADER.txt ${{ inputs.path }}
+          cp ./transformedSpecs.yaml ${{ inputs.path }}/transformedSpecs.yaml
 
       - name: Create PR
         uses: peter-evans/create-pull-request@v7
         with:
-          branch: "publish-v${{ inputs.version }}"
+          branch: ${{ env.branch }}
           commit-message: "chore: Publish v${{ inputs.version }}"
           title: "chore: Publish v${{ inputs.version }}"
           body: |

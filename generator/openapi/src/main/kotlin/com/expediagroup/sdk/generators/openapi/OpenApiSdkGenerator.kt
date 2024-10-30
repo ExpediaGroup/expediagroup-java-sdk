@@ -17,7 +17,6 @@ package com.expediagroup.sdk.generators.openapi
 
 import com.expediagroup.sdk.model.ClientGenerationException
 import com.expediagroup.sdk.product.Product
-import com.expediagroup.sdk.product.ProductFamily
 import com.expediagroup.sdk.product.ProgrammingLanguage
 import com.github.rvesse.airline.SingleCommand
 import com.github.rvesse.airline.annotations.Command
@@ -40,7 +39,6 @@ class OpenApiSdkGenerator {
             "pom.xml",
             "README.md",
             "ApiException.kt",
-            "LinkableOperation.kt",
             "PropertyConstraintViolation.kt",
             "PropertyConstraintsValidator.kt",
             "PropertyConstraintViolationException.kt"
@@ -100,7 +98,7 @@ class OpenApiSdkGenerator {
                     addGlobalProperty(CodegenConstants.MODELS, "")
                     addGlobalProperty(CodegenConstants.MODEL_DOCS, "false")
 
-                    supportingFiles.add("${namespace}Client.kt")
+                    supportingFiles.add("${namespace.replaceFirstChar(Char::titlecase)}Client.kt")
                     addGlobalProperty(CodegenConstants.SUPPORTING_FILES, supportingFiles.joinToString(","))
                     // addGlobalProperty("debugSupportingFiles", "")
 
@@ -118,16 +116,9 @@ class OpenApiSdkGenerator {
                     addAdditionalProperty("language", product.programmingLanguage.id)
                     addAdditionalProperty("repoName", product.repoName)
                     addAdditionalProperty("isKotlin", ProgrammingLanguage.isKotlin(product.programmingLanguage))
-                    addAdditionalProperty("isRapid", ProductFamily.isRapid(product.namespace))
-                    addAdditionalProperty("isExpediaGroup", ProductFamily.isExpediaGroup(product.namespace))
 
                     // Mustache Helpers
                     mustacheHelpers.forEach { (name, function) -> addAdditionalProperty(name, function()) }
-                    if (ProductFamily.isRapid(product.namespace)) {
-                        rapidHelpers.forEach { (name, function) -> addAdditionalProperty(name, function()) }
-                    }
-
-                    addTypeMapping("java.io.File", "java.io.InputStream")
                 }
 
             val generatorInput =
@@ -140,7 +131,7 @@ class OpenApiSdkGenerator {
                                 SupportingFile(
                                     "client.mustache",
                                     "$packagePath/client/",
-                                    "${namespace}Client.kt"
+                                    "${namespace.replaceFirstChar(Char::titlecase)}Client.kt"
                                 )
                             )
                             add(SupportingFile("pom.mustache", "pom.xml"))
@@ -180,23 +171,6 @@ class OpenApiSdkGenerator {
                                     "Params.kt"
                                 ).also { it.templateType = TemplateFileType.API }
                             )
-
-                            if (ProductFamily.isRapid(product.namespace)) {
-                                add(
-                                    TemplateDefinition(
-                                        "operation_context.mustache",
-                                        "Context.kt"
-                                    ).also { it.templateType = TemplateFileType.API }
-                                )
-
-                                add(
-                                    SupportingFile(
-                                        "linkable_operation.mustache",
-                                        "$packagePath/operations/",
-                                        "LinkableOperation.kt"
-                                    )
-                                )
-                            }
                         }
                     )
                 }

@@ -1,156 +1,46 @@
 name: Run Tests
 on:
-  workflow_dispatch:
-    inputs:
-      source:
-        description: 'Source of tests'
-        required: true
-        type: choice
-        options:
-          - 'specs'
-          - 'sdk'
-        default: 'sdk'
-      specs_url:
-        description: 'Run tests based on specs'
-        required: false
-        type: string
-        default: ''
-      sdk_version:
-        description: 'Run tests based on SDK'
-        type: string
-        default: 'LATEST'
-      sdk_namespace:
-        description: 'SDK to test'
-        type: string
-        default: 'rapid'
-      sdk_artifact_id:
-        description: 'SDK artifactId'
-        type: string
-        default: 'rapid-sdk'
-      endpoint_prefix:
-        description: 'Endpoint to prepend specs paths with'
-        required: true
-        type: string
-      jdk:
-        description: 'JDK version to use'
-        required: true
-        type: choice
-        options:
-          - '21'
-          - '17'
-          - '11'
-          - '8'
-        default: '21'
   workflow_call:
     inputs:
-      source:
-        description: 'Source of tests. Can be `sdk` or `specs`'
-        required: true
-        type: string
-        default: 'sdk'
-      specs_url:
-        description: 'Run tests based on specs'
-        required: false
-        type: string
-        default: ''
       sdk_version:
         description: 'Run tests based on SDK'
-        required: false
         type: string
         default: 'LATEST'
       sdk_namespace:
         description: 'SDK to test'
         type: string
         default: 'rapid'
-      sdk_artifact_id:
-        description: 'SDK artifactId'
+      transformations:
+        description: 'Specs transformations'
+        required: true
         type: string
-        default: 'rapid-sdk'
-      endpoint_prefix:
-        description: 'Endpoint to prepend specs paths with'
+      product_repo:
+        description: 'Product repository'
         required: true
         type: string
 
 jobs:
-  inputs-validation:
-    runs-on: ubuntu-latest
-    steps:
-      - shell: python -u {0}
-        run: |
-          if 'specs' in '${{ inputs.source }}' and not('${{ inputs.specs_url }}'):
-            print('::error::Invalid specs URL: ${{ inputs.specs_url }}')
-            exit(1)
-
-          if 'sdk' in '${{ inputs.source }}' and not('${{ inputs.sdk_version }}'):
-            print('::error::Invalid SDK version: ${{ inputs.sdk_version }}')
-            exit(1)
-
-  download-specs:
-    uses: ./.github/workflows/generator-download-specs.yaml
-    with:
-      url: ${{ inputs.specs_url }}
-
-  transform-and-upload-specs:
-    needs: [ download-specs ]
-    uses: ./.github/workflows/selfserve-transform-specs.yaml
-    with:
-      specs_key: 'raw-specs'
-      transformations: -th -te ${{ inputs.endpoint_prefix }} --operationIdsToTags
-
-  upload-templates:
-    uses: ./.github/workflows/selfserve-checkout-and-upload.yaml
-    with:
-      artifact_key: 'templates'
-      artifact_path: 'generator/openapi/src/main/resources/templates/expediagroup-sdk'
-      repository: 'ExpediaGroup/expediagroup-java-sdk'
-      ref: "${{ github.head_ref || github.ref_name }}"
-
-  upload-test-templates:
-    uses: ./.github/workflows/selfserve-checkout-and-upload.yaml
-    with:
-      artifact_key: 'test-templates'
-      artifact_path: 'sdk-test/src/main/resources/templates/expediagroup-sdk'
-      repository: 'ExpediaGroup/expediagroup-java-sdk'
-      ref: "${{ github.head_ref || github.ref_name }}"
-
-  upload-repo:
-    uses: ./.github/workflows/selfserve-checkout-and-upload.yaml
-    with:
-      artifact_key: 'sdk-repo'
-      artifact_path: ''
-      repository: 'ExpediaGroup/expediagroup-java-sdk'
-      ref: "${{ github.head_ref || github.ref_name }}"
-
   generate-test-sdk:
-    if: inputs.source == 'specs'
-    needs: [ inputs-validation, transform-and-upload-specs, upload-templates, upload-repo ]
     uses: ./.github/workflows/generator-test-sdk.yaml
+    secrets: inherit
     with:
       version: ${{ inputs.sdk_version }}
       namespace: ${{ inputs.sdk_namespace }}
-      endpoint_prefix: ${{ inputs.endpoint_prefix }}
-      specs_url: ${{ inputs.specs_url }}
-    secrets: inherit
-
-  generate-contract-tests:
-    needs: [ inputs-validation, generate-test-sdk ]
-    uses: ./.github/workflows/selfserve-generate-contract-test-sources.yaml
-    with:
-      artifact_key: 'sdk-test'
-      repo_key: 'sdk-repo'
-      templates_key: 'test-templates'
-      specs_key: 'transformedSpecs'
-      namespace: ${{ inputs.sdk_namespace }}
-      generation_options: '--version 0.0.1 --target-group com.expediagroup --target-artifact ${{ inputs.sdk_artifact_id }} --target-version ${{ inputs.sdk_version }} -m 5' # TODO: remove -m param
+      product_repo: ${{ inputs.product_repo }}
+      transformations: ${{ inputs.transformations }}
 
   run-rapid-examples:
-    if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled') && inputs.sdk_namespace == 'rapid'
+    strategy:
+      matrix:
+        jdk: [8, 11, 17, 21]
+    if: inputs.sdk_namespace == 'rapid'
     needs: [ generate-test-sdk ]
     uses: "ExpediaGroup/rapid-java-sdk/.github/workflows/run-examples.yaml@main"
     with:
       source: 'specs'
       sdk_version: ${{ needs.generate-test-sdk.outputs.version }}
       jdk: ${{ matrix.jdk }}
+      source: 'specs'
     secrets:
       KEY: ${{ secrets.RAPID_KEY }}
       SECRET: ${{ secrets.RAPID_SECRET }}

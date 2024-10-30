@@ -11,53 +11,63 @@ on:
         description: 'SDK Version'
         required: true
         type: string
-      templates_key:
-        description: 'Key to the combined templates artifact'
-        required: true
-        type: string
-      specs_key:
-        description: |
-          Key to the transformed and ready to use specs artifact and name
-          (without extension, e.g. specs, the file is expected to have the extension .yaml).
-        default: 'transformedSpecs'
-        type: string
       sdk_key:
         description: 'Key to the generated SDK artifact'
         default: 'sdk'
-        type: string
-      sdk_repo_key:
-        description: 'Key to the SDK repository artifact'
-        default: 'sdk-repo'
         type: string
       jar_key:
         description: 'Key to the generated JAR artifact'
         default: 'jar'
         type: string
+      sdk_repo_ref:
+        description: |
+          Branch or tag to checkout on the `expediagroup-sdk-core` repository.
+          Leave empty to use the default branch.
+        type: string
+        default: ''
+      repository:
+        description: |
+          Repository to generate the SDK in.
+          Leave empty to use the current repository.
+        type: string
+        default: ''
+      ref:
+        description: |
+          Branch or tag to checkout on the provided repository.
+          Leave empty to use the default branch.
+        type: string
+        default: ''
 
 jobs:
   generate-sdk:
     runs-on: ubuntu-latest
     steps:
-      - name: Download SDK Repository
-        uses: actions/download-artifact@v4
+      - name: Checkout generator repository
+        uses: actions/checkout@v4
         with:
-          name: ${{ inputs.sdk_repo_key }}
+          repository: 'ExpediaGroup/expediagroup-java-sdk'
+          ref: ${{ inputs.sdk_repo_ref }}
           path: sdk-repo
+
+      - name: Checkout product repository
+        uses: actions/checkout@v4
+        with:
+          repository:  ${{ inputs.repository }}
+          ref:  ${{ inputs.ref }}
+          path: product-repo
 
       - name: Download Specs
         uses: actions/download-artifact@v4
         with:
-          name: ${{ inputs.specs_key }}
+          name: transformedSpecs
 
-      - name: Download Templates
-        uses: actions/download-artifact@v4
-        with:
-          name: ${{ inputs.templates_key }}
-          path: templates
+      - name: Apply product customizations
+        run: |
+          cp -R product-repo/customizations/* sdk-repo
 
       - name: Build Generator Post-processor
         working-directory: sdk-repo/generator/openapi/src/main/resources/post-processor
-        run: npm ci && npm run clean && npm run build
+        run: npm ci && npm run clean && npm run compile
 
       - name: Set up JDK 21
         uses: actions/setup-java@v4
@@ -69,7 +79,7 @@ jobs:
         env:
           KOTLIN_POST_PROCESS_FILE: "npm run --prefix sdk-repo/generator/openapi/src/main/resources/post-processor process"
         run: |
-          mvn -f sdk-repo/generator/openapi clean install exec:java "-Dnamespace=${{ inputs.name }}" -DsdkVersion=${{ inputs.version }} "-Dspec=./${{ inputs.specs_key }}.yaml" -DtemplatesDir=templates
+          mvn -f sdk-repo/generator/openapi clean install exec:java "-Dnamespace=${{ inputs.name }}" -DsdkVersion=${{ inputs.version }} "-Dspec=./transformedSpecs.yaml"
 
       - name: Install SDK
         run: |
