@@ -1,15 +1,22 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "local>ExpediaGroup/renovate-config"
+    "local>ExpediaGroup/renovate-config",
+    "local>renovate-plugin-mustache"
   ],
   "packageRules": [
     {
       "managers": ["maven"],
       "fileMatch": [
-        "^.*\\/pom\\.xml$", 
+        "^.*\\/pom\\.xml$",
         "^.*\\/pom\\.mustache$"
       ]
     }
-  ]
+  ],
+  "mustache": {
+    "fileMatch": ["**/*\\.mustache"],
+    "depTypeMap": {
+      "maven": "\\{\\{dependencyManagement\\}\\}\\s*\\{\\{dependencies\\}\\}\\s*\\{\\{dependency\\}\\}\\s*\\{\\{groupId\\}\\}\\s*([^\\}]+)\\s*\\{\\{artifactId\\}\\}\\s*([^\\}]+)\\s*\\{\\{version\\}\\}\\s*([^\\}]+)"
+    }
+  }
 }
