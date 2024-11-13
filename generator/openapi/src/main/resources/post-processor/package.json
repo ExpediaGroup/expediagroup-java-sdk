@@ -28,6 +28,6 @@
   },
   "dependencies": {
     "@ast-grep/napi": "0.30.0",
-    "yaml": "2.5.1"
+    "yaml": "2.6.0"
   }
 }
