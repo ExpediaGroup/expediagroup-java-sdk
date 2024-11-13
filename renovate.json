@@ -3,13 +3,23 @@
   "extends": [
     "local>ExpediaGroup/renovate-config"
   ],
-  "packageRules": [
+  "maven": {
+    "fileMatch": [
+      "^.*\\/pom\\.xml$",
+      "^.*\\/pom\\.mustache$"
+    ]
+  },
+  "customManagers": [
     {
-      "managers": ["maven"],
+      "customType": "regex",
       "fileMatch": [
-        "^.*\\/pom\\.xml$", 
-        "^.*\\/pom\\.mustache$"
-      ]
+        ".*\\.mustache$"
+      ],
+      "matchStrings": [
+        "\\{\\{dependencyManagement\\}}\\s*\\{\\{dependencies\\}}\\s*\\{\\{dependency\\}}\\s*\\{\\{groupId\\}}\\s*(?<depName>[^\\}]+)\\s*\\{\\{artifactId\\}}\\s*(?<artifactId>[^\\}]+)\\s*\\{\\{version\\}}\\s*(?<currentValue>[^\\}]+)"
+      ],
+      "datasourceTemplate": "maven",
+      "depNameTemplate": "{{{depName}}}:{{{artifactId}}}"
     }
   ]
 }
