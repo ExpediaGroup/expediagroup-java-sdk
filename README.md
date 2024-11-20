@@ -5,22 +5,6 @@ This toolkit enables developers to create consistent, high-quality Java SDKs tha
 
 ---
 
-## Table of Contents
-
-- [Components](#components)
-- [Current SDKs](#current-sdks)
-- [Getting Started](#getting-started)
-    - [Prerequisites](#prerequisites)
-    - [Generating SDKs](#generating-sdks)
-    - [Using Generated SDKs](#using-generated-sdks)
-    - [Publishing SDKs](#publishing-sdks)
-- [Language Support](#language-support)
-- [Getting Help](#getting-help)
-- [Contributing](#contributing)
-- [License](#license)
-
----
-
 ## Components
 
 The toolkit includes the following components:
