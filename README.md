@@ -1,7 +1,7 @@
 # Expedia Group SDK Toolkit for Java
 
 The **Expedia Group SDK for Java Toolkit** provides the foundational components and tools for building and maintaining Expedia Group SDK libraries.
-This toolkit enables developers to create consistent, high-quality Java SDKs that interact with the Expedia Group<sup>TM</sup> platform.
+This toolkit enables developers to create consistent, high-quality Java SDKs interacting with the Expedia Group<sup>TM</sup> platform.
 
 ---
 
