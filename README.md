@@ -1,7 +1,7 @@
 # Expedia Group Java SDK Foundations
 
 The **Expedia Group Java SDK Foundations** provides the core components and tools for building and maintaining our SDK libraries.
-These foundations enable developers to create consistent, high-quality Java SDKs that interact with the Expedia Group<sup>TM</sup> platform.
+These foundations enable developers to create consistent, high-quality Java SDKs that interact with the Expedia Group platform.
 
 ---
 
