@@ -1,7 +1,18 @@
-# Expedia Group SDK Toolkit for Java
+# Expedia Group Java SDK Foundations
 
-The **Expedia Group SDK Toolkit for Java** provides the foundational components and tools for building and maintaining Expedia Group SDK libraries.
-This toolkit enables developers to create consistent, high-quality Java SDKs interacting with the Expedia Group<sup>TM</sup> platform.
+The **Expedia Group Java SDK Foundations** provides the core components and tools for building and maintaining our SDK libraries.
+These foundations enable developers to create consistent, high-quality Java SDKs that interact with the Expedia Group<sup>TM</sup> platform.
+
+---
+
+## Our SDKs
+
+The following SDKs are built using the Expedia Group Java SDK Foundations, and are available for public use:
+
+| SDK                                                                               | Maven                                                                                                                                                                                                                                                                                                            | Documentation                                                                                       |
+|-----------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
+| [Rapid SDK](https://github.com/ExpediaGroup/rapid-java-sdk)                       | [![Maven Central Version](https://img.shields.io/maven-central/v/com.expediagroup/rapid-sdk?style=for-the-badge&logo=expedia&logoColor=%23fddb32&label=Rapid%20SDK&labelColor=%23181e3b&color=%23fddb32)](https://central.sonatype.com/artifact/com.expediagroup/rapid-sdk)                                      | [Developer Hub](https://developers.expediagroup.com/docs/products/rapid/sdk/java)                   |
+| [Fraud Prevention SDK](https://github.com/ExpediaGroup/fraud-prevention-java-sdk) | [![Maven Central Version](https://img.shields.io/maven-central/v/com.expediagroup/fraudpreventionv2-sdk?style=for-the-badge&logo=expedia&logoColor=%23fddb32&label=Fraud%20Prevention%20SDK&labelColor=%23181e3b&color=%23fddb32)](https://central.sonatype.com/artifact/com.expediagroup/fraudpreventionv2-sdk) | [Developer Hub](https://developers.expediagroup.com/docs/products/fraud-prevention/sdk/quick-start) |
 
 ---
 
@@ -13,17 +24,6 @@ The toolkit includes the following components:
 - **SDK Generators**: Tools for generating SDK code based on OpenAPI specifications (OAS3).
 - **SDK Tests**: Shared testing frameworks and utilities for validating SDK functionality.
 - **GitHub Actions**: Reusable workflows for SDK repositories to automate common tasks like building, testing, releasing, and publishing SDKs.
-
----
-
-## Current SDKs
-
-The following SDKs are built using the Expedia Group SDK for Java Toolkit:
-
-| SDK                                                                               | Maven                                                                                                                                                                           | Documentation                                                                                       |
-|-----------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
-| [Rapid SDK](https://github.com/ExpediaGroup/rapid-java-sdk)                       | [![Maven Central](https://img.shields.io/maven-central/v/com.expediagroup/rapid-sdk)](https://central.sonatype.com/artifact/com.expediagroup/rapid-sdk)                         | [Developer Hub](https://developers.expediagroup.com/docs/products/rapid/sdk/java)                   |
-| [Fraud Prevention SDK](https://github.com/ExpediaGroup/fraud-prevention-java-sdk) | [![Maven Central](https://img.shields.io/maven-central/v/com.expediagroup/fraudpreventionv2-sdk)](https://central.sonatype.com/artifact/com.expediagroup/fraudpreventionv2-sdk) | [Developer Hub](https://developers.expediagroup.com/docs/products/fraud-prevention/sdk/quick-start) |
 
 ---
 
@@ -68,6 +68,7 @@ The generated SDKs will be placed in the specified output directory. You can int
 Add the following to your `pom.xml`:
 
 ```xml
+
 <dependency>
     <groupId>com.expediagroup</groupId>
     <artifactId>your-sdk-name</artifactId>
