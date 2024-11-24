@@ -18,7 +18,7 @@ The following SDKs are built using the Expedia Group Java SDK Foundations, and a
 
 ## Components
 
-The toolkit includes the following components:
+The foundations includes the following components:
 
 - **SDK Core**: Core libraries and utilities shared across all Java SDKs
 - **SDK Generators**: Tools for generating SDK code based on OpenAPI specifications (OAS3).
