@@ -81,9 +81,9 @@ jobs:
         run: |
           mvn -f sdk-repo/generator/openapi clean install exec:java "-Dnamespace=${{ inputs.name }}" -DsdkVersion=${{ inputs.version }} "-Dspec=./transformedSpecs.yaml"
 
-      - name: Install SDK
-        run: |
-          mvn clean install -f sdk-repo/generator/openapi/target/sdk
+#      - name: Install SDK
+#        run: |
+#          mvn clean install -f sdk-repo/generator/openapi/target/sdk
 
       - name: Persist SDK Artifact
         uses: actions/upload-artifact@v4
