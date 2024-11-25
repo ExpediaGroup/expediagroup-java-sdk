@@ -5,14 +5,15 @@ These foundations enable developers to create consistent, high-quality Java SDKs
 
 ---
 
-## Our SDKs
+## Product SDKs
 
 The following SDKs are built using the Expedia Group Java SDK Foundations, and are available for public use:
 
-| SDK                                                                               | Maven                                                                                                                                                                                                                                                                                                            | Documentation                                                                                                               |
-|-----------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------|
-| [Rapid SDK](https://github.com/ExpediaGroup/rapid-java-sdk)                       | [![Maven Central Version](https://img.shields.io/maven-central/v/com.expediagroup/rapid-sdk?style=for-the-badge&logo=expedia&logoColor=%23fddb32&label=Rapid%20SDK&labelColor=%23181e3b&color=%23fddb32)](https://central.sonatype.com/artifact/com.expediagroup/rapid-sdk)                                      | [Rapid SDK on Developer Hub](https://developers.expediagroup.com/docs/products/rapid/sdk/java)                              |
-| [Fraud Prevention SDK](https://github.com/ExpediaGroup/fraud-prevention-java-sdk) | [![Maven Central Version](https://img.shields.io/maven-central/v/com.expediagroup/fraudpreventionv2-sdk?style=for-the-badge&logo=expedia&logoColor=%23fddb32&label=Fraud%20Prevention%20SDK&labelColor=%23181e3b&color=%23fddb32)](https://central.sonatype.com/artifact/com.expediagroup/fraudpreventionv2-sdk) | [Fraud Prevention SDK on Developer Hub](https://developers.expediagroup.com/docs/products/fraud-prevention/sdk/quick-start) |
+| SDK                                                         | Maven                                                                                                                                                                                                                                                                       | Documentation                                                                                  |
+|-------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|
+| [Rapid SDK](https://github.com/ExpediaGroup/rapid-java-sdk) | [![Maven Central Version](https://img.shields.io/maven-central/v/com.expediagroup/rapid-sdk?style=for-the-badge&logo=expedia&logoColor=%23fddb32&label=Rapid%20SDK&labelColor=%23181e3b&color=%23fddb32)](https://central.sonatype.com/artifact/com.expediagroup/rapid-sdk) | [Rapid SDK on Developer Hub](https://developers.expediagroup.com/docs/products/rapid/sdk/java) |
+
+More SDKs will be added to this list as they are developed and released.
 
 ---
 
@@ -55,7 +56,19 @@ Follow these steps to generate an SDK:
    mvn clean install
    ```
 
-3. Refer to the [SDK Generator documentation](generator/README.md) for more details on how to generate an SDK.
+3. Run the SDK Generator:
+   ```bash
+   ../../mvnw exec:java
+   ```
+   This will generate a sample SDK in the `target/sdk` directory.
+
+4. Build the generated SDK:
+   ```bash
+   cd target/sdk
+   ../../../mvnw clean install
+   ```
+
+Refer to the [SDK Generator documentation](generator/README.md) for more details on how to generate an SDK, customize the generation process, and generate SDK documentation.
 
 ---
 
