@@ -55,7 +55,7 @@ Follow these steps to generate an SDK:
    mvn clean install
    ```
 
-3. Refer to the [SDK Generator documentation](generator/README.md) for advanced usage and customization.
+3. Refer to the [SDK Generator documentation](generator/README.md) for more details on how to generate an SDK.
 
 ---
 
