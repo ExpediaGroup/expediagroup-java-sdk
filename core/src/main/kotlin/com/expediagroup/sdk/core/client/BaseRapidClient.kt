@@ -42,14 +42,13 @@ abstract class BaseRapidClient(
             RapidConfigurationProvider
         )
 
-    private val _httpClientEngine: HttpClientEngine = clientConfiguration.okHttpClient?.let {
-
+    private val httpClientEngine: HttpClientEngine = clientConfiguration.okHttpClient?.let {
         OkHttp.create {
             preconfigured = it
         }
     } ?: httpClientEngine
 
-    private val _httpClient: HttpClient = buildHttpClient(_configurationProvider, AuthenticationStrategy.AuthenticationType.SIGNATURE, _httpClientEngine)
+    private val _httpClient: HttpClient = buildHttpClient(_configurationProvider, AuthenticationStrategy.AuthenticationType.SIGNATURE, httpClientEngine)
 
     init {
         finalize()
@@ -63,17 +62,15 @@ abstract class BaseRapidClient(
 
     /** A [BaseRapidClient] builder. */
     @Suppress("unused", "UnnecessaryAbstractClass") // This is used by the generated SDK clients.
-    abstract class Builder<SELF : Builder<SELF>> : BuilderExtension<SELF>()
+    abstract class Builder<SELF : Builder<SELF>> : HttpConfigurableBuilder<SELF>()
 
     /** A [BaseRapidClient] builder with ability to pass a custom okhttp client. */
     @Suppress("unused", "UnnecessaryAbstractClass") // This is used by the generated SDK clients.
     abstract class BuilderWithHttpClient<SELF : Client.Builder<SELF>> : Client.Builder<SELF>() {
-
         protected var okHttpClient: OkHttpClient? = null
 
-        override fun self(): SELF {
-            return this as SELF
-        }
+        @Suppress("UNCHECKED_CAST")
+        override fun self(): SELF = this as SELF
 
         /** Sets the [OkHttpClient] to use for the [BaseRapidClient]. */
         fun okHttpClient(okHttpClient: OkHttpClient): SELF {

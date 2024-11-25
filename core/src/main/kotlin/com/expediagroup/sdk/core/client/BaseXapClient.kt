@@ -53,5 +53,5 @@ abstract class BaseXapClient(
 
     /** A [BaseXapClient] builder. */
     @Suppress("unused", "UnnecessaryAbstractClass") // This is used by the generated SDK clients.
-    abstract class Builder<SELF : Builder<SELF>> : BuilderExtension<SELF>()
+    abstract class Builder<SELF : Builder<SELF>> : HttpConfigurableBuilder<SELF>()
 }

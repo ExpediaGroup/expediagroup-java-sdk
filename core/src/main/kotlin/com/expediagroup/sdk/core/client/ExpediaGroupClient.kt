@@ -53,7 +53,7 @@ abstract class ExpediaGroupClient(
 
     /** An [ExpediaGroupClient] builder. */
     @Suppress("unused") // This is used by the generated SDK clients.
-    abstract class Builder<SELF : Builder<SELF>> : BuilderExtension<SELF>() {
+    abstract class Builder<SELF : Builder<SELF>> : HttpConfigurableBuilder<SELF>() {
         /** Sets the API auth endpoint to use for requests. */
         protected var authEndpoint: String? = null
 

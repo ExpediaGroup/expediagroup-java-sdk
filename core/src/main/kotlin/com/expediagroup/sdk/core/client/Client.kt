@@ -229,9 +229,14 @@ abstract class Client(
 
 
     /**
-     * A [Client] extension builder.
+     * A builder class for configuring HTTP-related settings for a [Client].
+     *
+     * This builder class extends the base [Client.Builder] class and provides additional methods
+     * for configuring HTTP-specific settings such as request timeout, connection timeout, and socket timeout.
+     *
+     * @param <SELF> The type of the builder itself, used for method chaining.
      */
-    abstract class BuilderExtension<SELF : Builder<SELF>> : Builder<SELF>() {
+    abstract class HttpConfigurableBuilder<SELF : Builder<SELF>> : Builder<SELF>() {
 
         /**
          * Sets the request timeout in milliseconds.
