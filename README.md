@@ -88,8 +88,6 @@ Replace `your-sdk-name` and `x.y.z` with the appropriate SDK name and version.
 
 --- 
 
-This addition ensures developers using Gradle have clear instructions for integrating the SDK.
-
 ### Publishing SDKs
 
 Leverage the provided self-serve [GitHub Actions workflows](.github/workflows) to automate the process of generating, releasing, and publishing SDKs to:
