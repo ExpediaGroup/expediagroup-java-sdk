@@ -39,7 +39,7 @@ import java.util.concurrent.atomic.AtomicReference
  *
  * @property transactionId A reference to the unique transaction ID associated with the HTTP call.
  */
-class OkHttpEventListener private constructor(private val transactionId: AtomicReference<UUID>) : EventListener() {
+class OkHttpEventListener private constructor(private val transactionId: AtomicReference<String>) : EventListener() {
 
     private val log = ExpediaGroupLoggerFactory.getLogger(this::class.java)
 
@@ -47,7 +47,7 @@ class OkHttpEventListener private constructor(private val transactionId: AtomicR
         val FACTORY: Factory =
             Factory { call ->
                 val transactionIdHeader = call.request().header(HeaderKey.TRANSACTION_ID)
-                val transactionId = AtomicReference(UUID.fromString(transactionIdHeader))
+                val transactionId = AtomicReference(transactionIdHeader.toString())
                 OkHttpEventListener(transactionId)
             }
     }
