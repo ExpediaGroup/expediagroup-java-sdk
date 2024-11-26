@@ -39,5 +39,5 @@ data class XapClientConfiguration(
     override val socketTimeout: Long? = null,
     override val maskedLoggingHeaders: Set<String>? = null,
     override val maskedLoggingBodyFields: Set<String>? = null,
-    val okHttpClient: OkHttpClient? = null
+    override val okHttpClient: OkHttpClient? = null
 ) : ClientConfiguration

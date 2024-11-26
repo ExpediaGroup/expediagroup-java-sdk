@@ -51,6 +51,7 @@ import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.request
 import okhttp3.Dispatcher
+import okhttp3.OkHttpClient
 
 // Create a Dispatcher with limits
 val dispatcher = Dispatcher().apply {
@@ -309,12 +310,30 @@ abstract class Client(
 
         /** Create a [Client] object. */
         abstract override fun build(): Client
-
     }
 
+
+    /**
+     * A builder class for configuring HTTP-related settings for a [Client] with the ability to pass a custom [OkHttpClient].
+     *
+     * This builder class extends the base [Client.Builder] class and provides additional methods
+     * for setting a configured okhttp client.
+     *
+     * @param <SELF> The type of the builder itself, used for method chaining.
+     */
+    abstract class BuilderWithHttpClient<SELF : Builder<SELF>> : Builder<SELF>() {
+        protected var okHttpClient: OkHttpClient? = null
+
+        @Suppress("UNCHECKED_CAST")
+        override fun self(): SELF = this as SELF
+
+        /** Sets the [OkHttpClient] to use for the [Client]. */
+        fun okHttpClient(okHttpClient: OkHttpClient): SELF {
+            this.okHttpClient = okHttpClient
+            return self()
+        }
+    }
 }
 
 /** Executes the hooks for the client. */
 fun <T : Client> T.finalize() = Hooks.execute(this)
-
-

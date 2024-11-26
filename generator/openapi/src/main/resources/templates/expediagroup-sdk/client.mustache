@@ -22,7 +22,7 @@ import kotlinx.coroutines.runBlocking
 class {{clientClassname}}Client private constructor(clientConfiguration: ExpediaGroupClientConfiguration) : ExpediaGroupClient("{{namespace}}", clientConfiguration) {
     class Builder : ExpediaGroupClient.Builder<Builder>() {
         override fun build() = {{clientClassname}}Client(
-            ExpediaGroupClientConfiguration(key, secret, endpoint, requestTimeout, connectionTimeout, socketTimeout, maskedLoggingHeaders, maskedLoggingBodyFields, authEndpoint)
+            ExpediaGroupClientConfiguration(key, secret, endpoint, requestTimeout, connectionTimeout, socketTimeout, maskedLoggingHeaders, maskedLoggingBodyFields, null, authEndpoint)
         )
     }
 
