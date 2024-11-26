@@ -32,7 +32,7 @@ class GetMessageOperationBenchmark(
     repeat = 10,
     timeout = 1,
     timeoutUnit = TimeUnit.MINUTES,
-    description = "Sync Get Message Operation Executed 10 times"
+    description = "Sync Get Message Operation Executed 10 times using ${client.javaClass.simpleName} client"
 ) {
     override fun benchmark(): Response<Message> {
         return client.execute(GetMessageOperation())
@@ -46,7 +46,7 @@ class AsyncGetMessageOperationBenchmark(
     repeat = 1000,
     timeout = 1,
     timeoutUnit = TimeUnit.HOURS,
-    description = "Async Get Message Operation Executed 1000 times"
+    description = "Async Get Message Operation Executed 1000 times using ${client.javaClass.simpleName} client"
 ) {
     override fun benchmarkAsync(): CompletableFuture<Response<Message>> {
         return client.executeAsync(GetMessageOperation())

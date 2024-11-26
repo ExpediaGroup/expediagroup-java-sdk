@@ -22,7 +22,8 @@ import com.expediagroup.sdk.performancetest.benchmark.AsyncPostMessageOperationB
 import com.expediagroup.sdk.performancetest.benchmark.DownloadOperationBenchmark
 import com.expediagroup.sdk.performancetest.benchmark.GetMessageOperationBenchmark
 import com.expediagroup.sdk.performancetest.benchmark.PostMessageOperationBenchmark
-import com.expediagroup.sdk.performancetest.client.EanBasedClient
+import com.expediagroup.sdk.performancetest.client.BasicAuthBasedClient
+import com.expediagroup.sdk.performancetest.client.EanAuthBasedClient
 import com.expediagroup.sdk.performancetest.common.PerformanceTestClient
 import com.expediagroup.sdk.performancetest.common.benchmark.AsyncBenchmarked
 import com.expediagroup.sdk.performancetest.common.benchmark.Benchmark
@@ -45,13 +46,23 @@ class Main {
         }
     }
 
-    private val clients: List<PerformanceTestClient> = listOf(
-        EanBasedClient.builder()
-            .key("dummy-key")
-            .secret("dummy-secret")
-            .endpoint(System.getProperty("mockServerUrl", "http://localhost:8080"))
-            .build()
-    )
+    private val clients: List<PerformanceTestClient> = buildList {
+        add(
+            EanAuthBasedClient.builder()
+                .key("dummy-key")
+                .secret("dummy-secret")
+                .endpoint(System.getProperty("mockServerUrl", "http://localhost:8080"))
+                .build()
+        )
+
+        add(
+            BasicAuthBasedClient.builder()
+                .key("dummy-key")
+                .secret("dummy-secret")
+                .endpoint(System.getProperty("mockServerUrl", "http://localhost:8080"))
+                .build()
+        )
+    }
 
     private val syncBenchmarks: List<Benchmarked<*>> = buildList {
         clients.forEach { client ->

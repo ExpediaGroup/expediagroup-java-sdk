@@ -33,7 +33,7 @@ class PostMessageOperationBenchmark(
     repeat = 10,
     timeout = 1,
     timeoutUnit = TimeUnit.MINUTES,
-    description = "Sync Post Message Operation Executed 10 times"
+    description = "Sync Post Message Operation Executed 10 times using ${client.javaClass.simpleName} client"
 ) {
     override fun benchmark(): Response<Message> {
         return client.execute(PostMessageOperation(Message("Hello, World!".repeat(1e6.toInt()))))
@@ -47,7 +47,7 @@ class AsyncPostMessageOperationBenchmark(
     repeat = 1000,
     timeout = 1,
     timeoutUnit = TimeUnit.HOURS,
-    description = "Async Post Message Operation Executed 1000 times"
+    description = "Async Post Message Operation Executed 1000 times using ${client.javaClass.simpleName} client"
 ) {
     override fun benchmarkAsync(): CompletableFuture<Response<Message>> {
         return client.executeAsync(PostMessageOperation(Message("Hello, World!".repeat(1e6.toInt()))))

@@ -32,7 +32,7 @@ class DownloadOperationBenchmark(
     repeat = 10,
     timeout = 1,
     timeoutUnit = TimeUnit.MINUTES,
-    description = "Sync File Download Operation Executed 10 times",
+    description = "Sync File Download Operation Executed 10 times using ${client.javaClass.simpleName} client",
 ) {
     override fun benchmark(): Response<InputStream> {
         return client.execute(DownloadFileOperation())
@@ -46,7 +46,7 @@ class AsyncDownloadOperationBenchmark(
     repeat = 1000,
     timeout = 1,
     timeoutUnit = TimeUnit.HOURS,
-    description = "Async File Download Operation Executed 1000 times",
+    description = "Async File Download Operation Executed 1000 times using ${client.javaClass.simpleName} client",
 ) {
     override fun benchmarkAsync(): CompletableFuture<Response<InputStream>> {
         return client.executeAsync(DownloadFileOperation())
