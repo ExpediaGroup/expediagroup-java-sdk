@@ -22,6 +22,7 @@ import com.expediagroup.sdk.core.configuration.provider.XapConfigurationProvider
 import com.expediagroup.sdk.core.plugin.authentication.strategy.AuthenticationStrategy
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
+import io.ktor.client.engine.okhttp.*
 
 /**
  * The integration point between the SDK Core and the product SDKs.
@@ -39,7 +40,14 @@ abstract class BaseXapClient(
             clientConfiguration.toProvider(),
             XapConfigurationProvider
         )
-    private val _httpClient: HttpClient = buildHttpClient(_configurationProvider, AuthenticationStrategy.AuthenticationType.BASIC, httpClientEngine)
+
+    private val engine: HttpClientEngine = clientConfiguration.okHttpClient?.let {
+        OkHttp.create {
+            preconfigured = it
+        }
+    } ?: httpClientEngine
+
+    private val _httpClient: HttpClient = buildHttpClient(_configurationProvider, AuthenticationStrategy.AuthenticationType.BASIC, engine)
 
     init {
         finalize()

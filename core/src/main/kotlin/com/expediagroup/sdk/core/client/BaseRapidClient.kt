@@ -42,13 +42,13 @@ abstract class BaseRapidClient(
             RapidConfigurationProvider
         )
 
-    private val httpClientEngine: HttpClientEngine = clientConfiguration.okHttpClient?.let {
+    private val engine: HttpClientEngine = clientConfiguration.okHttpClient?.let {
         OkHttp.create {
             preconfigured = it
         }
     } ?: httpClientEngine
 
-    private val _httpClient: HttpClient = buildHttpClient(_configurationProvider, AuthenticationStrategy.AuthenticationType.SIGNATURE, httpClientEngine)
+    private val _httpClient: HttpClient = buildHttpClient(_configurationProvider, AuthenticationStrategy.AuthenticationType.SIGNATURE, engine)
 
     init {
         finalize()
