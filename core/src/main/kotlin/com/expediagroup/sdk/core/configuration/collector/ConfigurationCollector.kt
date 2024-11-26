@@ -28,6 +28,7 @@ import com.expediagroup.sdk.core.constant.ConfigurationName.SECRET
 import com.expediagroup.sdk.core.constant.ConfigurationName.SOCKET_TIMEOUT_MILLIS
 import com.expediagroup.sdk.core.constant.provider.LoggingMessageProvider
 import com.expediagroup.sdk.core.plugin.logging.ExpediaGroupLoggerFactory
+import okhttp3.OkHttpClient
 
 /**
  * Configuration collector that collects configuration from all available providers.
@@ -66,6 +67,7 @@ internal class ConfigurationCollector private constructor(providers: Configurati
     override val socketTimeout: Long? = providers.firstWith { it.socketTimeout }.also { it?.log(SOCKET_TIMEOUT_MILLIS) }?.retrieve()
     override val maskedLoggingHeaders: Set<String>? = providers.firstWith { it.maskedLoggingHeaders }.also { it?.log(MASKED_LOGGING_HEADERS) }?.retrieve()
     override val maskedLoggingBodyFields: Set<String>? = providers.firstWith { it.maskedLoggingBodyFields }.also { it?.log(MASKED_LOGGING_BODY_FIELDS) }?.retrieve()
+    override val okHttpClient: OkHttpClient? = providers.firstWith { it.okHttpClient }?.retrieve()
 
     private fun <T> ProvidedConfiguration<T>.log(configurationName: String) {
         log.info(LoggingMessageProvider.getChosenProviderMessage(configurationName, providerName))

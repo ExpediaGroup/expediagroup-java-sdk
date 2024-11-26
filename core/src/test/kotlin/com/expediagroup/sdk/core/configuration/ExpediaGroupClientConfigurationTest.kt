@@ -32,6 +32,7 @@ class ExpediaGroupClientConfigurationTest {
             assertNull(it.socketTimeout)
             assertNull(it.maskedLoggingHeaders)
             assertNull(it.maskedLoggingBodyFields)
+            assertNull(it.okHttpClient)
         }
     }
 
@@ -72,6 +73,7 @@ class ExpediaGroupClientConfigurationTest {
             assertNull(it.socketTimeout)
             assertNull(it.maskedLoggingHeaders)
             assertNull(it.maskedLoggingBodyFields)
+            assertNull(it.okHttpClient)
         }
     }
 
