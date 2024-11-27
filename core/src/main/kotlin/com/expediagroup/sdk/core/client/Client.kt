@@ -51,6 +51,7 @@ import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.request
 import okhttp3.Dispatcher
+import okhttp3.OkHttpClient
 
 // Create a Dispatcher with limits
 val dispatcher = Dispatcher().apply {
@@ -61,7 +62,7 @@ val dispatcher = Dispatcher().apply {
 val DEFAULT_HTTP_CLIENT_ENGINE: HttpClientEngine =
     OkHttp.create {
         config {
-            eventListener(OkHttpEventListener)
+            eventListenerFactory(OkHttpEventListener.FACTORY)
             dispatcher(dispatcher)
         }
     }
@@ -147,7 +148,7 @@ abstract class Client(
     suspend fun performGet(url: String): HttpResponse = httpHandler.performGet(httpClient, url)
 
     /**
-     * A [Client] builder.
+     * A [Client] base builder.
      */
     abstract class Builder<SELF : Builder<SELF>> {
         /** Sets the API key to use for authentication. */
@@ -158,33 +159,6 @@ abstract class Client(
 
         /** Sets the API endpoint to use for requests. */
         protected var endpoint: String? = null
-
-        /**
-         * Sets the request timeout in milliseconds.
-         *
-         * Request timeout is the time period from the start of the request to the completion of the response.
-         *
-         * Default is infinite - no timeout.
-         */
-        protected var requestTimeout: Long? = null
-
-        /**
-         * Sets the connection timeout in milliseconds.
-         *
-         * Connection timeout is the time period from the start of the request to the establishment of the connection with the server.
-         *
-         * Default is 10 seconds (10000 milliseconds).
-         */
-        protected var connectionTimeout: Long? = null
-
-        /**
-         * Sets the socket timeout in milliseconds.
-         *
-         * Socket timeout is the maximum period of inactivity between two consecutive data packets.
-         *
-         * Default is 15 seconds (15000 milliseconds).
-         */
-        protected var socketTimeout: Long? = null
 
         /** Sets tne body fields to be masked in logging. */
         protected var maskedLoggingHeaders: Set<String>? = null
@@ -222,6 +196,75 @@ abstract class Client(
             log.info(LoggingMessageProvider.getRuntimeConfigurationProviderMessage(ConfigurationName.ENDPOINT, endpoint))
             return self()
         }
+
+        /**
+         * Sets tne headers to be masked in logging.
+         *
+         * @param headers the headers to be masked in logging.
+         * @return The [Builder] instance.
+         */
+        fun maskedLoggingHeaders(vararg headers: String): SELF {
+            this.maskedLoggingHeaders = headers.toSet()
+            log.info(LoggingMessageProvider.getRuntimeConfigurationProviderMessage(ConfigurationName.MASKED_LOGGING_HEADERS, headers.joinToString()))
+            return self()
+        }
+
+        /**
+         * Sets tne body fields to be masked in logging.
+         *
+         * @param fields the body fields to be masked in logging.
+         * @return The [Builder] instance.
+         */
+        fun maskedLoggingBodyFields(vararg fields: String): SELF {
+            this.maskedLoggingBodyFields = fields.toSet()
+            log.info(LoggingMessageProvider.getRuntimeConfigurationProviderMessage(ConfigurationName.MASKED_LOGGING_BODY_FIELDS, fields.joinToString()))
+            return self()
+        }
+
+        /** Create a [Client] object. */
+        abstract fun build(): Client
+
+        @Suppress("UNCHECKED_CAST") // This is safe because of the type parameter
+        protected open fun self(): SELF = this as SELF
+    }
+
+
+    /**
+     * A builder class for configuring HTTP-related settings for a [Client].
+     *
+     * This builder class extends the base [Client.Builder] class and provides additional methods
+     * for configuring HTTP-specific settings such as request timeout, connection timeout, and socket timeout.
+     *
+     * @param <SELF> The type of the builder itself, used for method chaining.
+     */
+    abstract class HttpConfigurableBuilder<SELF : Builder<SELF>> : Builder<SELF>() {
+
+        /**
+         * Sets the request timeout in milliseconds.
+         *
+         * Request timeout is the time period from the start of the request to the completion of the response.
+         *
+         * Default is infinite - no timeout.
+         */
+        protected var requestTimeout: Long? = null
+
+        /**
+         * Sets the connection timeout in milliseconds.
+         *
+         * Connection timeout is the time period from the start of the request to the establishment of the connection with the server.
+         *
+         * Default is 10 seconds (10000 milliseconds).
+         */
+        protected var connectionTimeout: Long? = null
+
+        /**
+         * Sets the socket timeout in milliseconds.
+         *
+         * Socket timeout is the maximum period of inactivity between two consecutive data packets.
+         *
+         * Default is 15 seconds (15000 milliseconds).
+         */
+        protected var socketTimeout: Long? = null
 
         /**
          * Sets the request timeout in milliseconds.
@@ -265,35 +308,30 @@ abstract class Client(
             return self()
         }
 
-        /**
-         * Sets tne headers to be masked in logging.
-         *
-         * @param headers the headers to be masked in logging.
-         * @return The [Builder] instance.
-         */
-        fun maskedLoggingHeaders(vararg headers: String): SELF {
-            this.maskedLoggingHeaders = headers.toSet()
-            log.info(LoggingMessageProvider.getRuntimeConfigurationProviderMessage(ConfigurationName.MASKED_LOGGING_HEADERS, headers.joinToString()))
-            return self()
-        }
-
-        /**
-         * Sets tne body fields to be masked in logging.
-         *
-         * @param fields the body fields to be masked in logging.
-         * @return The [Builder] instance.
-         */
-        fun maskedLoggingBodyFields(vararg fields: String): SELF {
-            this.maskedLoggingBodyFields = fields.toSet()
-            log.info(LoggingMessageProvider.getRuntimeConfigurationProviderMessage(ConfigurationName.MASKED_LOGGING_BODY_FIELDS, fields.joinToString()))
-            return self()
-        }
-
         /** Create a [Client] object. */
-        abstract fun build(): Client
+        abstract override fun build(): Client
+    }
 
-        @Suppress("UNCHECKED_CAST") // This is safe because of the type parameter
-        protected open fun self(): SELF = this as SELF
+
+    /**
+     * A builder class for configuring HTTP-related settings for a [Client] with the ability to pass a custom [OkHttpClient].
+     *
+     * This builder class extends the base [Client.Builder] class and provides additional methods
+     * for setting a configured okhttp client.
+     *
+     * @param <SELF> The type of the builder itself, used for method chaining.
+     */
+    abstract class BuilderWithHttpClient<SELF : Builder<SELF>> : Builder<SELF>() {
+        protected var okHttpClient: OkHttpClient? = null
+
+        @Suppress("UNCHECKED_CAST")
+        override fun self(): SELF = this as SELF
+
+        /** Sets the [OkHttpClient] to use for the [Client]. */
+        fun okHttpClient(okHttpClient: OkHttpClient): SELF {
+            this.okHttpClient = okHttpClient
+            return self()
+        }
     }
 }
 

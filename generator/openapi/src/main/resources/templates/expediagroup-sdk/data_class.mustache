@@ -1,16 +1,21 @@
 import com.fasterxml.jackson.annotation.JsonProperty
 import javax.validation.constraints.Max
 import javax.validation.constraints.Min
+import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
 import javax.validation.Valid
+import javax.validation.Validation
 import org.hibernate.validator.constraints.Length
+import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator
 {{#discriminator}}
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import com.fasterxml.jackson.annotation.JsonSubTypes
-import com.fasterxml.jackson.annotation.JsonSubTypes.Type
-import com.fasterxml.jackson.annotation.JsonTypeInfo
+    import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+    import com.fasterxml.jackson.annotation.JsonSubTypes
+    import com.fasterxml.jackson.annotation.JsonSubTypes.Type
+    import com.fasterxml.jackson.annotation.JsonTypeInfo
 {{/discriminator}}
+
+import com.expediagroup.sdk.core.model.exception.client.PropertyConstraintViolationException
 
 /**
  * {{{description}}}
@@ -52,45 +57,49 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
     }
 
     class Builder(
-    {{#allVars}}
-        {{#eliminateDiscriminators}}
-            private var {{{name}}}: {{#isEnum}}{{#isArray}}kotlin.collections.List<{{classname}}.{{{nameInCamelCase}}}>{{/isArray}}{{^isArray}}{{#isInherited}}{{{parent}}}.{{{nameInCamelCase}}}{{/isInherited}}{{^isInherited}}{{classname}}.{{{nameInCamelCase}}}{{/isInherited}}{{/isArray}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}? = null{{^-last}},{{/-last}}
-        {{/eliminateDiscriminators}}
-    {{/allVars}}
-    ) {
-    {{#allVars}}
-        {{#eliminateDiscriminators}}
-            fun {{{name}}}({{{name}}}: {{#isEnum}}{{#isArray}}kotlin.collections.List<{{classname}}.{{{nameInCamelCase}}}>{{/isArray}}{{^isArray}}{{#isInherited}}{{{parent}}}.{{{nameInCamelCase}}}{{/isInherited}}{{^isInherited}}{{classname}}.{{{nameInCamelCase}}}{{/isInherited}}{{/isArray}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}?{{/required}}) = apply { this.{{{name}}} = {{{name}}} }
-        {{/eliminateDiscriminators}}
-    {{/allVars}}
-
-        fun build(): {{classname}} {
-        {{#hasRequired}}
-            // Check required params
-            validateNullity()
-         {{/hasRequired}}
-            return {{classname}}(
-            {{#allVars}}
-                {{#eliminateDiscriminators}}
-                {{{name}}} = {{{name}}}{{#required}}!!{{/required}}{{^-last}},{{/-last}}
-                {{/eliminateDiscriminators}}
-            {{/allVars}}
-            )
-        }
-
-    {{#hasRequired}}
-        private fun validateNullity() {
         {{#allVars}}
             {{#eliminateDiscriminators}}
-            {{#required}}
-            if ({{{name}}} == null) {
-                throw NullPointerException("Required parameter {{{name}}} is missing")
-            }
-            {{/required}}
+                private var {{{name}}}: {{#isEnum}}{{#isArray}}kotlin.collections.List<{{classname}}.{{{nameInCamelCase}}}>{{/isArray}}{{^isArray}}{{#isInherited}}{{{parent}}}.{{{nameInCamelCase}}}{{/isInherited}}{{^isInherited}}{{classname}}.{{{nameInCamelCase}}}{{/isInherited}}{{/isArray}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}? = null{{^-last}},{{/-last}}
             {{/eliminateDiscriminators}}
         {{/allVars}}
+    ) {
+        {{#allVars}}
+            {{#eliminateDiscriminators}}
+                fun {{{name}}}({{{name}}}: {{#isEnum}}{{#isArray}}kotlin.collections.List<{{classname}}.{{{nameInCamelCase}}}>{{/isArray}}{{^isArray}}{{#isInherited}}{{{parent}}}.{{{nameInCamelCase}}}{{/isInherited}}{{^isInherited}}{{classname}}.{{{nameInCamelCase}}}{{/isInherited}}{{/isArray}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}?{{/required}}) = apply { this.{{{name}}} = {{{name}}} }
+            {{/eliminateDiscriminators}}
+        {{/allVars}}
+
+        fun build(): {{classname}} {
+            val instance = {{classname}}(
+                {{#allVars}}
+                    {{#eliminateDiscriminators}}
+                        {{{name}}} = {{{name}}}{{#required}}!!{{/required}}{{^-last}},{{/-last}}
+                    {{/eliminateDiscriminators}}
+                {{/allVars}}
+            )
+
+            validate(instance)
+
+            return instance
         }
-    {{/hasRequired}}
+
+        private fun validate(instance: {{classname}}) {
+            val validator =
+                Validation
+                    .byDefaultProvider()
+                    .configure()
+                    .messageInterpolator(ParameterMessageInterpolator())
+                    .buildValidatorFactory()
+                    .validator
+
+            val violations = validator.validate(instance)
+
+            if (violations.isNotEmpty()) {
+                throw PropertyConstraintViolationException(
+                    constraintViolations = violations.map { "${it.propertyPath}: ${it.message}" }
+                )
+            }
+        }
     }
 
     fun toBuilder() = Builder(

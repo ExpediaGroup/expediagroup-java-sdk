@@ -16,6 +16,7 @@
 package com.expediagroup.sdk.core.configuration
 
 import com.expediagroup.sdk.core.client.BaseRapidClient
+import okhttp3.OkHttpClient
 
 /**
  * Configuration for the [BaseRapidClient].
@@ -37,5 +38,6 @@ data class RapidClientConfiguration(
     override val connectionTimeout: Long? = null,
     override val socketTimeout: Long? = null,
     override val maskedLoggingHeaders: Set<String>? = null,
-    override val maskedLoggingBodyFields: Set<String>? = null
+    override val maskedLoggingBodyFields: Set<String>? = null,
+    override val okHttpClient: OkHttpClient? = null
 ) : ClientConfiguration

@@ -16,6 +16,7 @@
 package com.expediagroup.sdk.core.configuration.provider
 
 import com.expediagroup.sdk.core.constant.ConfigurationName.RUNTIME_CONFIGURATION_PROVIDER
+import okhttp3.OkHttpClient
 
 /**
  * A runtime-built configuration provider.
@@ -41,5 +42,6 @@ data class RuntimeConfigurationProvider(
     override val connectionTimeout: Long? = null,
     override val socketTimeout: Long? = null,
     override val maskedLoggingHeaders: Set<String>? = null,
-    override val maskedLoggingBodyFields: Set<String>? = null
+    override val maskedLoggingBodyFields: Set<String>? = null,
+    override val okHttpClient: OkHttpClient? = null
 ) : ConfigurationProvider
