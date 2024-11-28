@@ -1,0 +1,73 @@
+name: Run Tests
+on:
+  workflow_call:
+    inputs:
+      sdk_version:
+        description: 'Run tests based on SDK'
+        type: string
+        default: 'LATEST'
+      sdk_namespace:
+        description: 'SDK to test'
+        type: string
+        default: 'rapid'
+      transformations:
+        description: 'Specs transformations'
+        required: true
+        type: string
+      product_repo:
+        description: 'Product repository'
+        required: true
+        type: string
+
+jobs:
+  generate-test-sdk:
+    uses: ./.github/workflows/generator-test-sdk.yaml
+    secrets: inherit
+    with:
+      version: ${{ inputs.sdk_version }}
+      namespace: ${{ inputs.sdk_namespace }}
+      product_repo: ${{ inputs.product_repo }}
+      transformations: ${{ inputs.transformations }}
+
+  run-rapid-examples:
+    strategy:
+      matrix:
+        jdk: [8, 11, 17, 21]
+    if: inputs.sdk_namespace == 'rapid'
+    needs: [ generate-test-sdk ]
+    uses: "ExpediaGroup/rapid-java-sdk/.github/workflows/run-examples.yaml@main"
+    with:
+      sdk_version: ${{ needs.generate-test-sdk.outputs.version }}
+      jdk: ${{ matrix.jdk }}
+      source: 'specs'
+
+    secrets:
+      KEY: ${{ secrets.RAPID_KEY }}
+      SECRET: ${{ secrets.RAPID_SECRET }}
+
+  generate-contract-tests:
+    needs: [ generate-test-sdk ]
+    uses: ./.github/workflows/selfserve-generate-contract-test-sources.yaml
+    with:
+      artifact_key: 'sdk-test'
+      repo_key: 'sdk-repo'
+      templates_key: 'test-templates'
+      specs_key: 'transformedSpecs'
+      namespace: ${{ inputs.sdk_namespace }}
+      generation_options: '--version 0.0.1 --target-group com.expediagroup --target-artifact ${{ inputs.sdk_artifact_id }} --target-version ${{ inputs.sdk_version }} -m 5' # TODO: remove -m param
+
+  run-rapid-contract-tests:
+    if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled') && inputs.sdk_namespace == 'rapid'
+    needs: [ generate-contract-tests ]
+    uses: ./.github/workflows/selfserve-run-mocked-service-tests.yaml
+    with:
+      specs_key: 'transformedSpecs'
+      test_sources_key: 'sdk-test'
+      sdk_key: 'sdk'
+      jdk: ${{ matrix.jdk }}
+    secrets:
+      KEY: ${{ secrets.RAPID_KEY }}
+      SECRET: ${{ secrets.RAPID_SECRET }}
+    strategy:
+      matrix:
+        jdk: [ 8, 11, 17, 21 ]

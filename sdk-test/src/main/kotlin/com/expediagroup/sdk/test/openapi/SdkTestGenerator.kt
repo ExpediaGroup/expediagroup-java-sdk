@@ -45,6 +45,7 @@ import java.io.File
 class SdkTestGenerator(
     private val productTest: ProductTest,
     private val spec: File,
+    private val targetArtifact: ArtifactMetadata,
     private val version: String = "1.0.0",
     private val templatesDir: File = File("src/main/resources/templates/expediagroup-sdk"),
     private val outputDir: File = File("target/sdk")
@@ -85,6 +86,10 @@ class SdkTestGenerator(
 
             addAdditionalProperty("namespace", productTest.namespace)
             addAdditionalProperty("clientClassname", productTest.namespace.pascalCase())
+
+            addAdditionalProperty("targetSdkArtifactId", targetArtifact.artifactId)
+            addAdditionalProperty("targetSdkGroupId", targetArtifact.groupId)
+            addAdditionalProperty("targetSdkVersion", targetArtifact.version)
 
             // Mustache Helpers
             mustacheHelpers.forEach { (name, func) ->
