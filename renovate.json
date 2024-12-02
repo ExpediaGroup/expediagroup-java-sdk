@@ -3,6 +3,9 @@
   "extends": [
     "local>ExpediaGroup/renovate-config"
   ],
+  "ignorePaths": [
+    "release/**"
+  ],
   "maven": {
     "fileMatch": [
       "^.*\\/pom\\.xml$",
