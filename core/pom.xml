@@ -58,7 +58,7 @@
 
         <ktlint-plugin.version>3.3.0</ktlint-plugin.version>
         <build-helper-maven-plugin.version>3.6.0</build-helper-maven-plugin.version>
-        <kotlin-atomic.version>0.26.0</kotlin-atomic.version>
+        <kotlin-atomic.version>0.26.1</kotlin-atomic.version>
 
         <junit5.version>5.11.3</junit5.version>
         <assertj.version>3.26.3</assertj.version>
