@@ -81,7 +81,7 @@
         <maven.licence.plugin.version>4.6</maven.licence.plugin.version>
 
         <!-- Library Versions -->
-        <junit5.version>5.11.3</junit5.version>
+        <junit5.version>5.11.4</junit5.version>
 
         <!-- Ktlint Configurationds      -->
         <ktlint.skip>false</ktlint.skip>
@@ -105,7 +105,7 @@
             <dependency>
                 <groupId>org.assertj</groupId>
                 <artifactId>assertj-core</artifactId>
-                <version>3.26.3</version>
+                <version>3.27.1</version>
             </dependency>
             <dependency>
                 <groupId>org.junit</groupId>

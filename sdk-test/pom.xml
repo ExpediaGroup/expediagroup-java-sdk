@@ -33,7 +33,7 @@
         <kotlin.compiler.jvmTarget>1.8</kotlin.compiler.jvmTarget>
 
         <!--External Libraries-->
-        <specmatic.version>2.0.41</specmatic.version>
+        <specmatic.version>2.0.50</specmatic.version>
         <jackson.version>2.18.2</jackson.version>
 
         <!--Plugin Versions-->
@@ -159,7 +159,7 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.11.3</version>
+            <version>5.11.4</version>
             <scope>test</scope>
         </dependency>
         <dependency>
