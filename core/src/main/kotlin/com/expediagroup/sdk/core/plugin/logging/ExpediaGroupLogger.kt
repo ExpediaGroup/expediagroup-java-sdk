@@ -22,7 +22,21 @@ import org.slf4j.Logger
 
 internal class ExpediaGroupLogger(private val logger: Logger, private val client: Client? = null) : Logger by logger {
 
-    private val mask = LogMasker(getMaskedBodyFieldFilters())
+    companion object {
+        @Volatile private var LOG_MASKER: LogMasker? = null
+
+        private fun getLogMasker(client: Client? = null): LogMasker {
+            return LOG_MASKER ?: LogMasker(getMaskedBodyFieldFilters(client)).also { LOG_MASKER = it }
+        }
+
+        private fun getMaskedBodyFieldFilters(client: Client?): Iterable<ExpediaGroupJsonFieldFilter> = listOf(
+            ExpediaGroupJsonFieldFilter(getMaskedBodyFields(client).toTypedArray()),
+        )
+
+        private fun getMaskedBodyFields(client: Client?): Set<String> = client?.getLoggingMaskedFieldsProvider()?.getMaskedBodyFields() ?: LogMaskingFields.DEFAULT_MASKED_BODY_FIELDS
+    }
+
+    private val mask = getLogMasker(client)
 
     override fun info(msg: String) {
         if (logger.isInfoEnabled) {
@@ -44,10 +58,4 @@ internal class ExpediaGroupLogger(private val logger: Logger, private val client
     }
 
     private fun decorate(msg: String): String = "$LOGGING_PREFIX ${mask(msg)}"
-
-    private fun getMaskedBodyFields(): Set<String> = client?.getLoggingMaskedFieldsProvider()?.getMaskedBodyFields() ?: LogMaskingFields.DEFAULT_MASKED_BODY_FIELDS
-
-    private fun getMaskedBodyFieldFilters(): Iterable<ExpediaGroupJsonFieldFilter> = listOf(
-        ExpediaGroupJsonFieldFilter(getMaskedBodyFields().toTypedArray()),
-    )
 }
