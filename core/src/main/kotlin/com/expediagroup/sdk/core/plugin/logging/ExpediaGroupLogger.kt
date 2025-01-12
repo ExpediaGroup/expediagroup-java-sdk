@@ -15,28 +15,25 @@
  */
 package com.expediagroup.sdk.core.plugin.logging
 
-import com.expediagroup.sdk.core.client.Client
 import com.expediagroup.sdk.core.constant.LogMaskingFields
 import com.expediagroup.sdk.core.constant.LoggingMessage.LOGGING_PREFIX
 import org.slf4j.Logger
 
-internal class ExpediaGroupLogger(private val logger: Logger, private val client: Client? = null) : Logger by logger {
+internal class ExpediaGroupLogger(private val logger: Logger) : Logger by logger {
 
     companion object {
         @Volatile private var LOG_MASKER: LogMasker? = null
 
-        private fun getLogMasker(client: Client? = null): LogMasker {
-            return LOG_MASKER ?: LogMasker(getMaskedBodyFieldFilters(client)).also { LOG_MASKER = it }
+        private fun getLogMasker(): LogMasker {
+            return LOG_MASKER ?: LogMasker(getMaskedBodyFieldFilters()).also { LOG_MASKER = it }
         }
 
-        private fun getMaskedBodyFieldFilters(client: Client?): Iterable<ExpediaGroupJsonFieldFilter> = listOf(
-            ExpediaGroupJsonFieldFilter(getMaskedBodyFields(client).toTypedArray()),
+        private fun getMaskedBodyFieldFilters(): Iterable<ExpediaGroupJsonFieldFilter> = listOf(
+            ExpediaGroupJsonFieldFilter(LogMaskingFields.DEFAULT_MASKED_BODY_FIELDS.toTypedArray()),
         )
-
-        private fun getMaskedBodyFields(client: Client?): Set<String> = client?.getLoggingMaskedFieldsProvider()?.getMaskedBodyFields() ?: LogMaskingFields.DEFAULT_MASKED_BODY_FIELDS
     }
 
-    private val mask = getLogMasker(client)
+    private val mask = getLogMasker()
 
     override fun info(msg: String) {
         if (logger.isInfoEnabled) {

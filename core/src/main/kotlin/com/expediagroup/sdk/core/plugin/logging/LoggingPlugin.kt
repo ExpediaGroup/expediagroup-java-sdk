@@ -31,11 +31,10 @@ internal object LoggingPlugin : Plugin<LoggingConfiguration> {
     ) {
         clientLoggingMaskedFieldsProviders[client] =
             LoggingMaskedFieldsProvider(
-                configurations.maskedLoggingHeaders,
-                configurations.maskedLoggingBodyFields
+                configurations.maskedLoggingHeaders
             )
         configurations.httpClientConfiguration.install(Logging) {
-            logger = configurations.getLogger(client)
+            logger = configurations.getLogger()
             level = configurations.level
             sanitizeHeader(LoggingMessage.OMITTED) { header ->
                 client.getLoggingMaskedFieldsProvider().getMaskedHeaderFields().contains(header)
