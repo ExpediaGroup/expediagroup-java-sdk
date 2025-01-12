@@ -3,10 +3,6 @@ name: Deploy Reference Docs
 on:
   workflow_call:
     inputs:
-      ref:
-        description: 'Branch or tag to checkout on the provided repository'
-        type: string
-        default: 'main'
       buildsystem:
         description: 'Build system to use. Currently only supports `gradle` and `maven`'
         type: string
@@ -26,8 +22,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          ref: ${{ inputs.ref }}
 
       - name: Setup java
         uses: actions/setup-java@v4
