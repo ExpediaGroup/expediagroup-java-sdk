@@ -45,6 +45,8 @@ jobs:
 
       - name: Move Latest Docs to the "$temp/older" Directory (Archiving latest live release)
         run: |
+          mkdir -p older
+          mv -v older ${{ runner.temp }}/older
           mkdir -p ${{ runner.temp }}/older/${{ env.LATEST_DOCS_VERSION }}
           mv -v ./* ${{ runner.temp }}/older/${{ env.LATEST_DOCS_VERSION }}
           mv -v ${{ runner.temp }}/older/${{ env.LATEST_DOCS_VERSION }}/assets ${{ runner.temp }}/assets
