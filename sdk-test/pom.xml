@@ -33,7 +33,7 @@
         <kotlin.compiler.jvmTarget>1.8</kotlin.compiler.jvmTarget>
 
         <!--External Libraries-->
-        <specmatic.version>2.0.43</specmatic.version>
+        <specmatic.version>2.0.50</specmatic.version>
         <jackson.version>2.18.2</jackson.version>
 
         <!--Plugin Versions-->
@@ -113,7 +113,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-text</artifactId>
-            <version>1.12.0</version>
+            <version>1.13.0</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.module</groupId>
