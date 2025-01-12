@@ -35,6 +35,11 @@ jobs:
           git config --global user.name "eg-oss-ci"
           git fetch --all
 
+          echo "REF=$(git branch --show-current)" >> $GITHUB_ENV
+
+      - name: Checkout to gh-pages branch
+        run: git checkout gh-pages
+
       - name: Extract and Store Latest Live Docs Version Number
         run: echo "LATEST_DOCS_VERSION=$(jq -r '.version' version.json)" >> $GITHUB_ENV
 
@@ -44,8 +49,8 @@ jobs:
           mv ./* ${{ runner.temp }}/older/${{ env.LATEST_DOCS_VERSION }}
           mv ${{ runner.temp }}/older/${{ env.LATEST_DOCS_VERSION }}/assets ${{ runner.temp }}/assets
 
-      - name: Checkout "main" Branch
-        run: git checkout main
+      - name: Checkout back to original branch
+        run: git checkout ${{ env.REF }}
 
       - name: Generate Reference Docs
         run: |
