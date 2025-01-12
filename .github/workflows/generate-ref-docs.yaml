@@ -13,7 +13,7 @@ on:
         required: true
         default: 'gradle'
     secrets:
-      GITHUB_TOKEN:
+      GITHUB_PAT:
         description: 'Token to authenticate with GitHub'
         required: true
 
@@ -113,7 +113,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_PAT }}
           commit-message: "chore: publishing docs for version ${{ env.NEW_DOCS_VERSION }}"
           body: "This PR adds the reference documentation for version ${{ env.NEW_DOCS_VERSION }}."
           title: "chore: reference docs update for version ${{ env.NEW_DOCS_VERSION }}"
