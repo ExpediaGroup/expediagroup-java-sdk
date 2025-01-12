@@ -110,9 +110,9 @@ jobs:
 #          git push origin gh-pages
 #
       - run: git add .
-      - run: |
-          git commit -m "chore: publishing docs for version ${{ env.NEW_DOCS_VERSION }}"
-      - run: git push origin gh-pages
+#      - run: |
+#          git commit -m "chore: publishing docs for version ${{ env.NEW_DOCS_VERSION }}"
+#      - run: git push origin gh-pages
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
