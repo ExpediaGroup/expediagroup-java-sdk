@@ -103,11 +103,16 @@ jobs:
           mv ${{ runner.temp }}/assets ./assets
           mv ${{ runner.temp }}/${{ env.NEW_DOCS_VERSION }}/* .
 
-      - name: Commit and Push the Changes
-        run: |
-          git add .
-          git commit -m "Update Reference Docs to version ${{ env.NEW_DOCS_VERSION }}"
-          git push origin gh-pages
+#      - name: Commit and Push the Changes
+#        run: |
+#          git add .
+#          git commit -m "Update Reference Docs to version ${{ env.NEW_DOCS_VERSION }}"
+#          git push origin gh-pages
+#
+      - run: git add .
+      - run: |
+          git commit -m "chore: publishing docs for version ${{ env.NEW_DOCS_VERSION }}"
+      - run: git push origin gh-pages
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
