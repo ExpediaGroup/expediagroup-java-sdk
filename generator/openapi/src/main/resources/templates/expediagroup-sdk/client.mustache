@@ -22,8 +22,21 @@ import kotlinx.coroutines.runBlocking
 class {{clientClassname}}Client private constructor(clientConfiguration: ExpediaGroupClientConfiguration) : ExpediaGroupClient("{{namespace}}", clientConfiguration) {
     class Builder : ExpediaGroupClient.Builder<Builder>() {
         override fun build() = {{clientClassname}}Client(
-            ExpediaGroupClientConfiguration(key, secret, endpoint, requestTimeout, connectionTimeout, socketTimeout, maskedLoggingHeaders, maskedLoggingBodyFields, null, authEndpoint)
+            ExpediaGroupClientConfiguration(key, secret, endpoint, requestTimeout, connectionTimeout, socketTimeout, maskedLoggingHeaders, null, authEndpoint)
         )
+    }
+
+    class BuilderWithHttpClient() : ExpediaGroupClient.BuilderWithHttpClient<BuilderWithHttpClient>() {
+        override fun build() : {{clientClassname}}Client {
+
+            if (okHttpClient == null) {
+                throw ExpediaGroupConfigurationException(getMissingRequiredConfigurationMessage(ConfigurationName.OKHTTP_CLIENT))
+            }
+
+            return {{clientClassname}}Client(
+                ExpediaGroupClientConfiguration(key, secret, endpoint, null, null, null, maskedLoggingHeaders, null, authEndpoint, okHttpClient)
+            )
+        }
     }
 
     companion object {
