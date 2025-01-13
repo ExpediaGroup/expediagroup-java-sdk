@@ -1,0 +1,60 @@
+openapi: 3.0.1
+info:
+  title: Exemplar API
+  version: v1
+servers:
+- url: http://127.0.0.1:8080
+  description: Generated server url
+paths:
+  /text:
+    get:
+      tags:
+      - messages
+      operationId: getMessage
+      responses:
+        "200":
+          description: OK
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/Message"
+    post:
+      tags:
+        - messages
+      operationId: createLargeMessage
+      requestBody:
+        required: true
+        content:
+          'application/json':
+            schema:
+              $ref: "#/components/schemas/Message"
+      responses:
+        "200":
+          description: OK
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/Message"
+
+  /files:
+    get:
+      tags:
+      - files
+      operationId: downloadFile
+      responses:
+        "200":
+          description: OK
+          content:
+            'image/jpeg':
+              schema:
+                type: string
+                format: binary
+components:
+  schemas:
+    Message:
+      required:
+      - text
+      type: object
+      properties:
+        text:
+          type: string
