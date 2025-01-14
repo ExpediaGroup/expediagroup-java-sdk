@@ -37,7 +37,6 @@ internal class ConfigurationCollectorTest {
         assertNull(collector.connectionTimeout)
         assertNull(collector.socketTimeout)
         assertNull(collector.maskedLoggingHeaders)
-        assertNull(collector.maskedLoggingBodyFields)
     }
 
     @Test
@@ -62,8 +61,7 @@ internal class ConfigurationCollectorTest {
                 requestTimeout = ExpediaGroupConfigurationProvider.requestTimeout,
                 connectionTimeout = ExpediaGroupConfigurationProvider.connectionTimeout,
                 socketTimeout = ExpediaGroupConfigurationProvider.socketTimeout,
-                maskedLoggingHeaders = ExpediaGroupConfigurationProvider.maskedLoggingHeaders,
-                maskedLoggingBodyFields = ExpediaGroupConfigurationProvider.maskedLoggingBodyFields
+                maskedLoggingHeaders = ExpediaGroupConfigurationProvider.maskedLoggingHeaders
             )
 
         val collector =
@@ -79,7 +77,6 @@ internal class ConfigurationCollectorTest {
         assertEquals(ExpediaGroupConfigurationProvider.connectionTimeout, collector.connectionTimeout)
         assertEquals(ExpediaGroupConfigurationProvider.socketTimeout, collector.socketTimeout)
         assertEquals(ExpediaGroupConfigurationProvider.maskedLoggingHeaders, collector.maskedLoggingHeaders)
-        assertEquals(ExpediaGroupConfigurationProvider.maskedLoggingBodyFields, collector.maskedLoggingBodyFields)
     }
 
     @Test
@@ -104,7 +101,6 @@ internal class ConfigurationCollectorTest {
         assertNull(collector.connectionTimeout)
         assertNull(collector.socketTimeout)
         assertNull(collector.maskedLoggingHeaders)
-        assertNull(collector.maskedLoggingBodyFields)
     }
 
     @Test
@@ -129,6 +125,5 @@ internal class ConfigurationCollectorTest {
         assertEquals(ExpediaGroupConfigurationProvider.connectionTimeout, collector.connectionTimeout) // from default provider
         assertEquals(ExpediaGroupConfigurationProvider.socketTimeout, collector.socketTimeout) // from default provider
         assertEquals(ExpediaGroupConfigurationProvider.maskedLoggingHeaders, collector.maskedLoggingHeaders) // from default provider
-        assertEquals(ExpediaGroupConfigurationProvider.maskedLoggingBodyFields, collector.maskedLoggingBodyFields) // from default provider
     }
 }

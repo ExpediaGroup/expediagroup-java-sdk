@@ -31,7 +31,6 @@ class ExpediaGroupClientConfigurationTest {
             assertNull(it.connectionTimeout)
             assertNull(it.socketTimeout)
             assertNull(it.maskedLoggingHeaders)
-            assertNull(it.maskedLoggingBodyFields)
             assertNull(it.okHttpClient)
         }
     }
@@ -46,8 +45,7 @@ class ExpediaGroupClientConfigurationTest {
             requestTimeout = 10_000,
             connectionTimeout = 5_000,
             socketTimeout = 15_000,
-            maskedLoggingHeaders = setOf("header1", "header2"),
-            maskedLoggingBodyFields = setOf("field1", "field2")
+            maskedLoggingHeaders = setOf("header1", "header2")
         ).let {
             assertEquals("key", it.key)
             assertEquals("secret", it.secret)
@@ -57,7 +55,6 @@ class ExpediaGroupClientConfigurationTest {
             assertEquals(5_000, it.connectionTimeout)
             assertEquals(15_000, it.socketTimeout)
             assertEquals(setOf("header1", "header2"), it.maskedLoggingHeaders)
-            assertEquals(setOf("field1", "field2"), it.maskedLoggingBodyFields)
         }
     }
 
@@ -72,7 +69,6 @@ class ExpediaGroupClientConfigurationTest {
             assertNull(it.connectionTimeout)
             assertNull(it.socketTimeout)
             assertNull(it.maskedLoggingHeaders)
-            assertNull(it.maskedLoggingBodyFields)
             assertNull(it.okHttpClient)
         }
     }
@@ -88,7 +84,6 @@ class ExpediaGroupClientConfigurationTest {
             connectionTimeout = 5_000,
             socketTimeout = 15_000,
             maskedLoggingHeaders = setOf("header1", "header2"),
-            maskedLoggingBodyFields = setOf("field1", "field2")
         ).toProvider().let {
             assertEquals("key", it.key)
             assertEquals("secret", it.secret)
@@ -98,7 +93,6 @@ class ExpediaGroupClientConfigurationTest {
             assertEquals(5_000, it.connectionTimeout)
             assertEquals(15_000, it.socketTimeout)
             assertEquals(setOf("header1", "header2"), it.maskedLoggingHeaders)
-            assertEquals(setOf("field1", "field2"), it.maskedLoggingBodyFields)
         }
     }
 }

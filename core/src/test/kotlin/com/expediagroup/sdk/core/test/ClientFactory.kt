@@ -51,13 +51,11 @@ internal object ClientFactory {
 
     fun createExpediaGroupClient(
         maskedHeaderFields: Set<String> = setOf(),
-        maskedBodyFields: Set<String> = setOf()
     ): ExpediaGroupClient =
         createExpediaGroupClient(
             MockEngineFactory.createDefaultEngine(),
             expediaGroupConfiguration.copy(
-                maskedLoggingHeaders = maskedHeaderFields,
-                maskedLoggingBodyFields = maskedBodyFields
+                maskedLoggingHeaders = maskedHeaderFields
             )
         )
 
