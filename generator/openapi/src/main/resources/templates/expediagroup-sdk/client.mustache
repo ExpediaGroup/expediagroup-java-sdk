@@ -34,7 +34,7 @@ class {{clientClassname}}Client private constructor(clientConfiguration: Expedia
             }
 
             return {{clientClassname}}Client(
-                ExpediaGroupClientConfiguration(key, secret, endpoint, null, null, null, maskedLoggingHeaders, null, authEndpoint, okHttpClient)
+                ExpediaGroupClientConfiguration(key, secret, endpoint, null, null, null, maskedLoggingHeaders, okHttpClient, authEndpoint)
             )
         }
     }
