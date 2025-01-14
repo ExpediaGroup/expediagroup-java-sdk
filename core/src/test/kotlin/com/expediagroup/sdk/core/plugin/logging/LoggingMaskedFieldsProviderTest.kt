@@ -43,29 +43,10 @@ internal class LoggingMaskedFieldsProviderTest {
     }
 
     @Test
-    fun `given invalid body field name then throws exception`() {
-        assertThrows<ExpediaGroupInvalidFieldNameException>(
-            "All fields names must contain only alphanumeric characters in addition to - and _ but found [invalid_field^]"
-        ) {
-            ClientFactory.createExpediaGroupClient(maskedBodyFields = setOf("invalid_field^"))
-        }
-    }
-
-    @Test
-    fun `given list containing invalid body fields names then throws exception`() {
-        assertThrows<ExpediaGroupInvalidFieldNameException>(
-            "All fields names must contain only alphanumeric characters in addition to - and _ but found [invalid_field1*, invalid_field2*]"
-        ) {
-            ClientFactory.createExpediaGroupClient(maskedBodyFields = setOf("invalid_field1*", "invalid_field2#", "valid-field1*"))
-        }
-    }
-
-    @Test
     fun `given valid fields names then add to sets`() {
         val client =
             ClientFactory.createExpediaGroupClient(
                 maskedHeaderFields = setOf("valid_field1", "valid_field2", "valid-field3", "valid-field4"),
-                maskedBodyFields = setOf("valid_field1", "valid_field2", "valid-field3", "valid-field4")
             )
 
         val loggingMaskedFieldsProvider = client.getLoggingMaskedFieldsProvider()
@@ -73,9 +54,5 @@ internal class LoggingMaskedFieldsProviderTest {
         assertThat(loggingMaskedFieldsProvider.getMaskedHeaderFields()).isNotEqualTo(DEFAULT_MASKED_HEADER_FIELDS)
         assertThat(loggingMaskedFieldsProvider.getMaskedHeaderFields()).containsAll(DEFAULT_MASKED_HEADER_FIELDS)
         assertThat(loggingMaskedFieldsProvider.getMaskedHeaderFields()).containsAll(setOf("valid_field1", "valid_field2", "valid-field3", "valid-field4"))
-
-        assertThat(loggingMaskedFieldsProvider.getMaskedBodyFields()).isNotEqualTo(DEFAULT_MASKED_BODY_FIELDS)
-        assertThat(loggingMaskedFieldsProvider.getMaskedBodyFields()).containsAll(DEFAULT_MASKED_BODY_FIELDS)
-        assertThat(loggingMaskedFieldsProvider.getMaskedBodyFields()).containsAll(setOf("valid_field1", "valid_field2", "valid-field3", "valid-field4"))
     }
 }
