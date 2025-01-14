@@ -34,7 +34,6 @@ internal class ExpediaGroupLogger(private val logger: Logger, private val client
         if (logger.isWarnEnabled) {
             logger.warn(decorate(msg))
         }
-
     }
 
     override fun debug(msg: String) {
