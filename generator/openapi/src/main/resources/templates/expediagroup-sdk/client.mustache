@@ -41,6 +41,8 @@ class {{clientClassname}}Client private constructor(clientConfiguration: Expedia
 
     companion object {
         @JvmStatic fun builder() = Builder()
+
+        @JvmStatic fun builderWithHttpClient() = BuilderWithHttpClient()
     }
 
     override suspend fun throwServiceException(response: HttpResponse, operationId: String) {
