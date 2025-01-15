@@ -62,7 +62,7 @@ class ExpediaGroupLoggerTest {
                         -> Content-Length: 0
                         BODY Content-Type: application/json; charset=UTF-8
                         BODY START
-                        { field1: "value1", cvv: "123", card_number: "0123456789123456", field: "value2" }
+                        { "field1": "value1", "cvv": "123", "card_number": "0123456789123456", "field": "value2" }
                         BODY END"""
         expediaGroupLogger.info(message)
 
@@ -75,7 +75,7 @@ class ExpediaGroupLoggerTest {
                         -> Content-Length: 0
                         BODY Content-Type: application/json; charset=UTF-8
                         BODY START
-                        { field1: "value1", cvv: "$OMITTED", card_number: "$OMITTED", field: "value2" }
+                        { "field1": "value1", "cvv": "$OMITTED", "card_number": "$OMITTED", "field": "value2" }
                         BODY END"""
         verify(exactly = 1) { mockedLogger.info(expectedLog) }
     }
@@ -95,7 +95,7 @@ class ExpediaGroupLoggerTest {
                         -> Content-Length: 0
                         BODY Content-Type: application/json; charset=UTF-8
                         BODY START
-                        { field1: "value1", cvv: "123", card_number: "0123456789123456", field: "value2", some_added_field: "value" }
+                        { "field1": "value1", "cvv": "123", "card_number": "0123456789123456", "field": "value2", "some_added_field": "value" }
                         BODY END"""
         expediaGroupLogger.info(message)
 
@@ -108,7 +108,7 @@ class ExpediaGroupLoggerTest {
                         -> Content-Length: 0
                         BODY Content-Type: application/json; charset=UTF-8
                         BODY START
-                        { field1: "value1", cvv: "$OMITTED", card_number: "$OMITTED", field: "value2", some_added_field: "$OMITTED" }
+                        { "field1": "value1", "cvv": "$OMITTED", "card_number": "$OMITTED", "field": "value2", "some_added_field": "$OMITTED" }
                         BODY END"""
         verify(exactly = 1) { mockedLogger.info(expectedLog) }
     }
