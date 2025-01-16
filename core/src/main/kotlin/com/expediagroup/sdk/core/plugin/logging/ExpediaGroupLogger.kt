@@ -15,6 +15,8 @@
  */
 package com.expediagroup.sdk.core.plugin.logging
 
+import com.ebay.ejmask.core.BaseFilter
+import com.expediagroup.sdk.core.constant.LogMaskingField
 import com.expediagroup.sdk.core.constant.LogMaskingFields
 import com.expediagroup.sdk.core.constant.LoggingMessage.LOGGING_PREFIX
 import org.slf4j.Logger
@@ -28,9 +30,26 @@ internal class ExpediaGroupLogger(private val logger: Logger) : Logger by logger
             return LOG_MASKER ?: LogMasker(getMaskedBodyFieldFilters()).also { LOG_MASKER = it }
         }
 
-        private fun getMaskedBodyFieldFilters(): Iterable<ExpediaGroupJsonFieldFilter> = listOf(
-            ExpediaGroupJsonFieldFilter(LogMaskingFields.DEFAULT_MASKED_BODY_FIELDS.toTypedArray()),
-        )
+        private fun getMaskedBodyFieldFilters(): Iterable<BaseFilter> =
+            buildList {
+                add(
+                    ExpediaGroupJsonFieldFilter(
+                        LogMaskingFields
+                            .DEFAULT_MASKED_BODY_FIELDS
+                            .filterIsInstance<LogMaskingField.Single>()
+                            .map(LogMaskingField.Single::value)
+                            .toTypedArray()
+                    )
+                )
+
+               addAll(LogMaskingFields
+                    .DEFAULT_MASKED_BODY_FIELDS
+                    .filterIsInstance<LogMaskingField.Pair>()
+                    .map { (first, second) ->
+                        ExpediaGroupJsonRelativeFieldFilter(arrayOf(first, second))
+                    }
+               )
+            }
     }
 
     private val mask = getLogMasker()
