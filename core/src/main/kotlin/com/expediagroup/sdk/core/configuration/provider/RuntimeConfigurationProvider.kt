@@ -30,6 +30,7 @@ import okhttp3.OkHttpClient
  * @property connectionTimeout The connection timeout to be used in milliseconds.
  * @property socketTimeout The socket timeout to be used in milliseconds.
  * @property maskedLoggingHeaders The headers to be masked in logging.
+ * @property maskedLoggingBodyFields The body fields to be masked in logging.
  */
 data class RuntimeConfigurationProvider(
     override val name: String = RUNTIME_CONFIGURATION_PROVIDER,
@@ -41,5 +42,6 @@ data class RuntimeConfigurationProvider(
     override val connectionTimeout: Long? = null,
     override val socketTimeout: Long? = null,
     override val maskedLoggingHeaders: Set<String>? = null,
+    override val maskedLoggingBodyFields: Set<String>? = null,
     override val okHttpClient: OkHttpClient? = null
 ) : ConfigurationProvider

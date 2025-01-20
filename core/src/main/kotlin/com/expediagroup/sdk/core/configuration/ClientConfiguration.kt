@@ -26,6 +26,7 @@ interface ClientConfiguration {
     val connectionTimeout: Long?
     val socketTimeout: Long?
     val maskedLoggingHeaders: Set<String>?
+    val maskedLoggingBodyFields: Set<String>?
     val okHttpClient: OkHttpClient?
 
     /** Build a [RuntimeConfigurationProvider] from a [ClientConfiguration]. */
@@ -38,6 +39,7 @@ interface ClientConfiguration {
             connectionTimeout = connectionTimeout,
             socketTimeout = socketTimeout,
             maskedLoggingHeaders = maskedLoggingHeaders,
+            maskedLoggingBodyFields = maskedLoggingBodyFields,
             okHttpClient = okHttpClient
         )
 }

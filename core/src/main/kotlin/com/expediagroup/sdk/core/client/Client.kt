@@ -102,6 +102,7 @@ abstract class Client(
             val connectionTimeout: Long = configurationProvider.connectionTimeout ?: fireMissingConfigurationIssue(ConfigurationName.CONNECTION_TIMEOUT_MILLIS)
             val socketTimeout: Long = configurationProvider.socketTimeout ?: fireMissingConfigurationIssue(ConfigurationName.SOCKET_TIMEOUT_MILLIS)
             val maskedLoggingHeaders: Set<String> = configurationProvider.maskedLoggingHeaders ?: setOf()
+            val maskedLoggingBodyFields: Set<String> = configurationProvider.maskedLoggingBodyFields ?: setOf()
 
             val authenticationConfiguration =
                 AuthenticationConfiguration.from(
@@ -112,7 +113,7 @@ abstract class Client(
                 )
 
             plugins {
-                use(LoggingPlugin).with(LoggingConfiguration.from(httpClientConfig, maskedLoggingHeaders))
+                use(LoggingPlugin).with(LoggingConfiguration.from(httpClientConfig, maskedLoggingHeaders, maskedLoggingBodyFields))
                 use(SerializationPlugin).with(SerializationConfiguration.from(httpClientConfig))
                 use(AuthenticationPlugin).with(authenticationConfiguration)
                 use(DefaultRequestPlugin).with(DefaultRequestConfiguration.from(httpClientConfig, endpoint))
@@ -162,6 +163,9 @@ abstract class Client(
         /** Sets tne body fields to be masked in logging. */
         protected var maskedLoggingHeaders: Set<String>? = null
 
+        /** Sets tne body fields to be masked in logging. */
+        protected var maskedLoggingBodyFields: Set<String>? = null
+
         /** Sets the API key to use for authentication.
          *
          * @param key The API key to use for authentication.
@@ -202,6 +206,18 @@ abstract class Client(
         fun maskedLoggingHeaders(vararg headers: String): SELF {
             this.maskedLoggingHeaders = headers.toSet()
             log.info(LoggingMessageProvider.getRuntimeConfigurationProviderMessage(ConfigurationName.MASKED_LOGGING_HEADERS, headers.joinToString()))
+            return self()
+        }
+
+        /**
+         * Sets tne body fields to be masked in logging.
+         *
+         * @param fields the body fields to be masked in logging.
+         * @return The [Builder] instance.
+         */
+        fun maskedLoggingBodyFields(vararg fields: String): SELF {
+            this.maskedLoggingBodyFields = fields.toSet()
+            log.info(LoggingMessageProvider.getRuntimeConfigurationProviderMessage(ConfigurationName.MASKED_LOGGING_BODY_FIELDS, fields.joinToString()))
             return self()
         }
 
