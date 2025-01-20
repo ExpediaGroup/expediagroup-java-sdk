@@ -34,8 +34,3 @@ internal data object LogMaskingFields {
         "card_cvv2_response"
     )
 }
-
-sealed class LogMaskingField {
-    data class Single(val value: String) : LogMaskingField()
-    data class Pair(val first: String, val second: String) : LogMaskingField()
-}
