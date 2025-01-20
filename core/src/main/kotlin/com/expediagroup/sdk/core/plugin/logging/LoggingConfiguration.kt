@@ -41,7 +41,7 @@ internal data class LoggingConfiguration(
 private val createCustomLogger: (client: Client) -> Logger
     get() = {
         object : Logger {
-            val delegate = ExpediaGroupLoggerFactory.getLogger(Client::class.java)
+            val delegate = ExpediaGroupLoggerFactory.getLogger(Client::class.java, it)
 
             override fun log(message: String) = delegate.info(message, it)
         }
