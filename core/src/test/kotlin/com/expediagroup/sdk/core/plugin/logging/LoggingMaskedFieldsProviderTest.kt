@@ -43,6 +43,24 @@ internal class LoggingMaskedFieldsProviderTest {
     }
 
     @Test
+    fun `given invalid body field name then throws exception`() {
+        assertThrows<ExpediaGroupInvalidFieldNameException>(
+            "All fields names must contain only alphanumeric characters in addition to - and _ but found [invalid_field^]"
+        ) {
+            ClientFactory.createExpediaGroupClient(maskedBodyFields = setOf("invalid_field^"))
+        }
+    }
+
+    @Test
+    fun `given list containing invalid body fields names then throws exception`() {
+        assertThrows<ExpediaGroupInvalidFieldNameException>(
+            "All fields names must contain only alphanumeric characters in addition to - and _ but found [invalid_field1*, invalid_field2*]"
+        ) {
+            ClientFactory.createExpediaGroupClient(maskedBodyFields = setOf("invalid_field1*", "invalid_field2#", "valid-field1*"))
+        }
+    }
+
+    @Test
     fun `given valid fields names then add to sets`() {
         val client =
             ClientFactory.createExpediaGroupClient(

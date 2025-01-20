@@ -15,8 +15,10 @@
  */
 package com.expediagroup.sdk.core.plugin.logging
 
+import com.expediagroup.sdk.core.client.ExpediaGroupClient
 import com.expediagroup.sdk.core.constant.LoggingMessage.LOGGING_PREFIX
 import com.expediagroup.sdk.core.constant.LoggingMessage.OMITTED
+import com.expediagroup.sdk.core.test.ClientFactory
 import io.mockk.every
 import io.mockk.mockkClass
 import io.mockk.verify
@@ -74,6 +76,39 @@ class ExpediaGroupLoggerTest {
                         BODY Content-Type: application/json; charset=UTF-8
                         BODY START
                         { "field1": "value1", "cvv": "$OMITTED", "card_number": "$OMITTED", "field": "value2" }
+                        BODY END"""
+        verify(exactly = 1) { mockedLogger.info(expectedLog) }
+    }
+
+    @Test
+    fun `should mask newly added fields`() {
+        val client: ExpediaGroupClient = ClientFactory.createExpediaGroupClient(maskedBodyFields = setOf("some_added_field"))
+        val mockedLogger = createMockedLogger()
+        val expediaGroupLogger = ExpediaGroupLogger(mockedLogger, client)
+
+        val message = """METHOD: HttpMethod(value=POST)
+                        COMMON HEADERS
+                        -> Accept: application/json
+                        -> Accept-Charset: UTF-8
+                        -> Accept-Encoding: gzip
+                        CONTENT HEADERS
+                        -> Content-Length: 0
+                        BODY Content-Type: application/json; charset=UTF-8
+                        BODY START
+                        { "field1": "value1", "cvv": "123", "card_number": "0123456789123456", "field": "value2", "some_added_field": "value" }
+                        BODY END"""
+        expediaGroupLogger.info(message)
+
+        val expectedLog = """$LOGGING_PREFIX METHOD: HttpMethod(value=POST)
+                        COMMON HEADERS
+                        -> Accept: application/json
+                        -> Accept-Charset: UTF-8
+                        -> Accept-Encoding: gzip
+                        CONTENT HEADERS
+                        -> Content-Length: 0
+                        BODY Content-Type: application/json; charset=UTF-8
+                        BODY START
+                        { "field1": "value1", "cvv": "$OMITTED", "card_number": "$OMITTED", "field": "value2", "some_added_field": "$OMITTED" }
                         BODY END"""
         verify(exactly = 1) { mockedLogger.info(expectedLog) }
     }
