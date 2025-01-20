@@ -31,7 +31,8 @@ internal object LoggingPlugin : Plugin<LoggingConfiguration> {
     ) {
         clientLoggingMaskedFieldsProviders[client] =
             LoggingMaskedFieldsProvider(
-                configurations.maskedLoggingHeaders
+                configurations.maskedLoggingHeaders,
+                configurations.maskedLoggingBodyFields
             )
         configurations.httpClientConfiguration.install(Logging) {
             logger = configurations.getLogger()

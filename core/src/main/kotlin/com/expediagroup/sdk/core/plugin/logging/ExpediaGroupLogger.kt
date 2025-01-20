@@ -15,44 +15,12 @@
  */
 package com.expediagroup.sdk.core.plugin.logging
 
-import com.ebay.ejmask.core.BaseFilter
-import com.expediagroup.sdk.core.constant.LogMaskingField
+import com.expediagroup.sdk.core.client.Client
 import com.expediagroup.sdk.core.constant.LogMaskingFields
 import com.expediagroup.sdk.core.constant.LoggingMessage.LOGGING_PREFIX
 import org.slf4j.Logger
 
-internal class ExpediaGroupLogger(private val logger: Logger) : Logger by logger {
-
-    companion object {
-        @Volatile private var LOG_MASKER: LogMasker? = null
-
-        private fun getLogMasker(): LogMasker {
-            return LOG_MASKER ?: LogMasker(getMaskedBodyFieldFilters()).also { LOG_MASKER = it }
-        }
-
-        private fun getMaskedBodyFieldFilters(): Iterable<BaseFilter> =
-            buildList {
-                add(
-                    ExpediaGroupJsonFieldFilter(
-                        LogMaskingFields
-                            .DEFAULT_MASKED_BODY_FIELDS
-                            .filterIsInstance<LogMaskingField.Single>()
-                            .map(LogMaskingField.Single::value)
-                            .toTypedArray()
-                    )
-                )
-
-               addAll(LogMaskingFields
-                    .DEFAULT_MASKED_BODY_FIELDS
-                    .filterIsInstance<LogMaskingField.Pair>()
-                    .map { (first, second) ->
-                        ExpediaGroupJsonRelativeFieldFilter(arrayOf(first, second))
-                    }
-               )
-            }
-    }
-
-    private val mask = getLogMasker()
+internal class ExpediaGroupLogger(private val logger: Logger, private val client: Client? = null) : Logger by logger {
 
     override fun info(msg: String) {
         if (logger.isInfoEnabled) {
@@ -72,5 +40,7 @@ internal class ExpediaGroupLogger(private val logger: Logger) : Logger by logger
         }
     }
 
-    private fun decorate(msg: String): String = "$LOGGING_PREFIX ${mask(msg)}"
+    private fun decorate(msg: String): String = "$LOGGING_PREFIX ${mask(msg, getMaskedBodyFields())}"
+
+    private fun getMaskedBodyFields(): Set<String> = client?.getLoggingMaskedFieldsProvider()?.getMaskedBodyFields() ?: LogMaskingFields.DEFAULT_MASKED_BODY_FIELDS
 }
