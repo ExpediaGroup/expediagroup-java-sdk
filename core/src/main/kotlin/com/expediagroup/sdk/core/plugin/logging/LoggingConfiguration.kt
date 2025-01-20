@@ -43,6 +43,6 @@ private val createCustomLogger: (client: Client) -> Logger
         object : Logger {
             val delegate = ExpediaGroupLoggerFactory.getLogger(Client::class.java)
 
-            override fun log(message: String) = delegate.info(message)
+            override fun log(message: String) = delegate.info(message, it)
         }
     }

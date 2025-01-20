@@ -35,7 +35,7 @@ internal object LoggingPlugin : Plugin<LoggingConfiguration> {
                 configurations.maskedLoggingBodyFields
             )
         configurations.httpClientConfiguration.install(Logging) {
-            logger = configurations.getLogger()
+            logger = configurations.getLogger(client)
             level = configurations.level
             sanitizeHeader(LoggingMessage.OMITTED) { header ->
                 client.getLoggingMaskedFieldsProvider().getMaskedHeaderFields().contains(header)
