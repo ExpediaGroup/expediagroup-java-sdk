@@ -7,7 +7,6 @@ on:
         description: 'Branch or tag to deploy reference docs from'
         type: string
         required: true
-        default: 'main'
       buildsystem:
         description: 'Build system to use. Currently only supports `gradle` and `maven`'
         type: string
@@ -26,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Normalize Inputs
-        shell: python -u {0}
+        shell: python
         run: |
           buildsystem = "${{ inputs.buildsystem }}".lower()
           if buildsystem not in ["gradle", "maven"]:
