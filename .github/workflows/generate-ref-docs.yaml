@@ -25,15 +25,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Normalize Inputs
-        shell: python
         run: |
-          buildsystem = "${{ inputs.buildsystem }}".lower()
-          if buildsystem not in ["gradle", "maven"]:
-            print(f"Error: Unsupported build system: {buildsystem}")
-            exit(1)
-
-          with open("$GITHUB_ENV", "a") as env_file:
-            print(f"BUILD_SYSTEM={buildsystem}", file=env_file)
+          buildsystem=$(echo "${{ inputs.buildsystem }}" | tr '[:upper:]' '[:lower:]')
+          if [[ "$buildsystem" != "gradle" && "$buildsystem" != "maven" ]]; then
+            echo "Error: Unsupported build system: $buildsystem"
+            exit 1
+          fi
+          echo "BUILD_SYSTEM=$buildsystem" >> "$GITHUB_ENV"
 
       - name: Checkout repository
         uses: actions/checkout@v4
