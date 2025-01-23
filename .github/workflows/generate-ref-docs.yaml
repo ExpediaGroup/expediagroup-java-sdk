@@ -20,6 +20,17 @@ jobs:
   deploy-reference-docs:
     runs-on: ubuntu-latest
     steps:
+      - name: Normalize Inputs
+        shell: python -u {0}
+        run: |
+          buildsystem = "${{ inputs.buildsystem }}".lower()
+          if buildsystem not in ["gradle", "maven"]:
+            print(f"Error: Unsupported build system: {buildsystem}")
+            exit(1)
+
+          with open("$GITHUB_ENV", "a") as env_file:
+            print(f"BUILD_SYSTEM={buildsystem}", file=env_file)
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -56,9 +67,9 @@ jobs:
 
       - name: Generate Reference Docs
         run: |
-          if [ "${{ inputs.buildsystem }}" == "gradle" ]; then
+          if [ "${{ env.BUILD_SYSTEM }}" == "gradle" ]; then
             gradle -p code dokkaHtml -Pdokka-old-versions.location=${{ runner.temp }}/older -Pdokka-assets.location=${{ runner.temp }}/assets
-          elif [ "${{ inputs.buildsystem }}" == "maven" ]; then
+          elif [ "${{ env.BUILD_SYSTEM }}" == "maven" ]; then
             mvn -f code dokka:dokka -Ddokka-old-versions.location=${{ runner.temp }}/older -Ddokka-assets.location=${{ runner.temp }}/assets
           else
             echo "Error: Unsupported build system"
@@ -67,9 +78,9 @@ jobs:
 
       - name: Extract and Store Newly Generated Docs Version Number
         run: |
-          if [ "${{ inputs.buildsystem }}" == "gradle" ]; then
+          if [ "${{ env.BUILD_SYSTEM }}" == "gradle" ]; then
             echo "NEW_DOCS_VERSION=$(jq -r '.version' code/build/dokka/html/version.json)" >> $GITHUB_ENV
-          elif [ "${{ inputs.buildsystem }}" == "maven" ]; then
+          elif [ "${{ env.BUILD_SYSTEM }}" == "maven" ]; then
             echo "NEW_DOCS_VERSION=$(jq -r '.version' code/target/dokka/version.json)" >> $GITHUB_ENV
           fi
 
@@ -88,9 +99,9 @@ jobs:
 
       - name: Move the Newly Generated Docs to a Temporary Workspace
         run: |
-          if [ "${{ inputs.buildsystem }}" == "gradle" ]; then
+          if [ "${{ env.BUILD_SYSTEM }}" == "gradle" ]; then
             mv -v code/build/dokka/html ${{ runner.temp }}/${{ env.NEW_DOCS_VERSION }}
-          elif [ "${{ inputs.buildsystem }}" == "maven" ]; then
+          elif [ "${{ env.BUILD_SYSTEM }}" == "maven" ]; then
             mv -v code/target/dokka ${{ runner.temp }}/${{ env.NEW_DOCS_VERSION }}
           else
             echo "Error: Unsupported build system"
