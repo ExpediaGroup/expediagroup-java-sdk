@@ -3,6 +3,11 @@ name: Deploy Reference Docs
 on:
   workflow_call:
     inputs:
+      ref:
+        description: 'Branch or tag to deploy reference docs from'
+        type: string
+        required: true
+        default: 'main'
       buildsystem:
         description: 'Build system to use. Currently only supports `gradle` and `maven`'
         type: string
@@ -33,6 +38,8 @@ jobs:
 
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
 
       - name: Setup java
         uses: actions/setup-java@v4
@@ -45,8 +52,6 @@ jobs:
           git config --global user.email "oss@expediagroup.com"
           git config --global user.name "eg-oss-ci"
           git fetch --all
-
-          echo "REF=$(git branch --show-current)" >> $GITHUB_ENV
 
       - name: Checkout to gh-pages branch
         run: git checkout gh-pages
@@ -63,7 +68,7 @@ jobs:
           mv -v ${{ runner.temp }}/older/${{ env.LATEST_DOCS_VERSION }}/assets ${{ runner.temp }}/assets
 
       - name: Checkout back to original branch
-        run: git checkout ${{ env.REF }}
+        run: git checkout ${{ inputs.ref }}
 
       - name: Generate Reference Docs
         run: |
