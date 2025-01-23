@@ -18,8 +18,6 @@ package com.expediagroup.sdk.core.plugin.logging
 import com.expediagroup.sdk.core.client.Client
 import com.expediagroup.sdk.core.constant.LogMaskingFields
 import com.expediagroup.sdk.core.constant.LoggingMessage.LOGGING_PREFIX
-import com.expediagroup.sdk.core.constant.LoggingMessage.LOG_LIMIT
-import com.expediagroup.sdk.core.constant.LoggingMessage.TRUNCATED
 import org.slf4j.Logger
 
 internal class ExpediaGroupLogger(private val logger: Logger, private val client: Client? = null) : Logger by logger {
@@ -42,9 +40,7 @@ internal class ExpediaGroupLogger(private val logger: Logger, private val client
         }
     }
 
-    private fun decorate(msg: String): String = "$LOGGING_PREFIX ${mask(truncate(msg), getMaskedBodyFields())}"
-
-    private fun truncate(msg: String): String = if (msg.length > LOG_LIMIT) "${msg.substring(0, LOG_LIMIT)}${TRUNCATED}" else msg
+    private fun decorate(msg: String): String = "$LOGGING_PREFIX ${mask(msg, getMaskedBodyFields())}"
 
     private fun getMaskedBodyFields(): Set<String> = client?.getLoggingMaskedFieldsProvider()?.getMaskedBodyFields() ?: LogMaskingFields.DEFAULT_MASKED_BODY_FIELDS
 }
