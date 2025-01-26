@@ -16,7 +16,7 @@
 package com.expediagroup.sdk.core.plugin.logging
 
 import com.expediagroup.sdk.core.constant.LogMaskingRegex.NUMBER_FIELD_REGEX
-import com.expediagroup.sdk.core.constant.LoggingMessage.OMITTED
+import com.expediagroup.sdk.core.constant.LogMaskingRegex.REPLACEMENT_TEMPLATE
 import com.expediagroup.sdk.core.constant.provider.LogMaskingRegexProvider.getMaskedFieldsRegex
 
 internal fun mask(
@@ -30,9 +30,7 @@ internal fun interface Mask {
     fun mask(
         string: String,
         maskedBodyFields: Set<String>
-    ): String = string.replace(this.getRegex(maskedBodyFields)) { maskSubstring(it.value) }
-
-    fun maskSubstring(string: String) = OMITTED
+    ): String = string.replace(this.getRegex(maskedBodyFields), REPLACEMENT_TEMPLATE)
 }
 
 internal val masks: List<Mask> =

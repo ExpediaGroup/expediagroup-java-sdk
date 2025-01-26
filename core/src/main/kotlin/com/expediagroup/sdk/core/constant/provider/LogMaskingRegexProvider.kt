@@ -18,6 +18,6 @@ package com.expediagroup.sdk.core.constant.provider
 internal object LogMaskingRegexProvider {
     fun getMaskedFieldsRegex(maskedBodyFields: Set<String>): Regex {
         val fields = maskedBodyFields.joinToString("|")
-        return "\"(${fields})(\"\\s*:\\s*\")([^\"]{1,2})[^\"]*\"".toRegex()
+        return "\"(${fields})(\\\\*\\\"\\s*:\\s*\\\\*\\\")([^\\\"]{1,2})[^\\\"]*(\\\\?\\\"|)".toRegex()
     }
 }
