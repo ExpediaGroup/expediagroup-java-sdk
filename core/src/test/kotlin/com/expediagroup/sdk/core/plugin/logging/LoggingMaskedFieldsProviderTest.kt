@@ -65,6 +65,7 @@ internal class LoggingMaskedFieldsProviderTest {
         val client =
             ClientFactory.createExpediaGroupClient(
                 maskedHeaderFields = setOf("valid_field1", "valid_field2", "valid-field3", "valid-field4"),
+                maskedBodyFields = setOf("valid_field1", "valid_field2", "valid-field3", "valid-field4")
             )
 
         val loggingMaskedFieldsProvider = client.getLoggingMaskedFieldsProvider()
@@ -72,5 +73,8 @@ internal class LoggingMaskedFieldsProviderTest {
         assertThat(loggingMaskedFieldsProvider.getMaskedHeaderFields()).isNotEqualTo(DEFAULT_MASKED_HEADER_FIELDS)
         assertThat(loggingMaskedFieldsProvider.getMaskedHeaderFields()).containsAll(DEFAULT_MASKED_HEADER_FIELDS)
         assertThat(loggingMaskedFieldsProvider.getMaskedHeaderFields()).containsAll(setOf("valid_field1", "valid_field2", "valid-field3", "valid-field4"))
+        assertThat(loggingMaskedFieldsProvider.getMaskedBodyFields()).isNotEqualTo(DEFAULT_MASKED_BODY_FIELDS)
+        assertThat(loggingMaskedFieldsProvider.getMaskedBodyFields()).containsAll(DEFAULT_MASKED_BODY_FIELDS)
+        assertThat(loggingMaskedFieldsProvider.getMaskedBodyFields()).containsAll(setOf("valid_field1", "valid_field2", "valid-field3", "valid-field4"))
     }
 }
