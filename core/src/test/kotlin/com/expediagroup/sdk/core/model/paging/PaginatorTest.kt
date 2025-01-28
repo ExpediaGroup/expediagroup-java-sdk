@@ -123,5 +123,31 @@ class PaginatorTest {
             assertFalse(paginator.hasNext())
             assertEquals(2, paginator.paginationTotalResults)
         }
+
+        @Test
+        fun `should return empty value when next response body is empty`() {
+            val client = createRapidClient(createEmptyResponseEngine())
+            val firstResponse = Response(200, "first", mapOf("link" to listOf("<second>; rel=\"next\""), "pagination-total-results" to listOf("2")))
+
+            val paginator = ResponsePaginator(client, firstResponse, getBody)
+            assertTrue(paginator.hasNext())
+            assertEquals("first", paginator.next().data)
+            assertTrue(paginator.hasNext())
+            assertEquals(EMPTY_STRING, paginator.next().data)
+            assertFalse(paginator.hasNext())
+        }
+
+        @Test
+        fun `should return empty value when next response body is empty and gzip encoded`() {
+            val client = createRapidClient(createGzipEncodedEmptyResponseEngine())
+            val firstResponse = Response(200, "first", mapOf("link" to listOf("<second>; rel=\"next\""), "pagination-total-results" to listOf("2")))
+
+            val paginator = ResponsePaginator(client, firstResponse, getBody)
+            assertTrue(paginator.hasNext())
+            assertEquals("first", paginator.next().data)
+            assertTrue(paginator.hasNext())
+            assertEquals(EMPTY_STRING, paginator.next().data)
+            assertFalse(paginator.hasNext())
+        }
     }
 }
