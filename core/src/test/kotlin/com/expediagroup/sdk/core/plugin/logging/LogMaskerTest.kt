@@ -43,7 +43,21 @@ internal class LogMaskerTest {
             ]
         )
         fun `given a text with payment info then omit it`(key: String) {
-            assertThat(mask("\"$key\":\"123456\" \"some_key\":\"some_value\"", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("\"$key\":\"$OMITTED\" \"some_key\":\"some_value\"")
+            var actual: String = mask("{\"$key\":\"123456\"}", DEFAULT_MASKED_BODY_FIELDS)
+            var expected = "{\"$key\":\"$OMITTED\"}"
+            assertThat(actual).isEqualTo(expected)
+
+            actual = mask("{\"$key\":\"something\"}", DEFAULT_MASKED_BODY_FIELDS)
+            expected = "{\"$key\":\"$OMITTED\"}"
+            assertThat(actual).isEqualTo(expected)
+
+            actual = mask("{" +
+                " \"$key\":\"something\" " +
+                "}", DEFAULT_MASKED_BODY_FIELDS)
+            expected = "{" +
+                " \"$key\":\"$OMITTED\" " +
+                "}"
+            assertThat(actual).isEqualTo(expected)
         }
     }
 
