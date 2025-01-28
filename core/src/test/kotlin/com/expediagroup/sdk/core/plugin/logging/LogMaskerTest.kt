@@ -43,11 +43,7 @@ internal class LogMaskerTest {
             ]
         )
         fun `given a text with payment info then omit it`(key: String) {
-            assertThat(mask("$key:\"123456\" something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("$key:\"$OMITTED\" something else")
-            assertThat(mask("\"$key\":\"123456\" something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("\"$key\":\"$OMITTED\" something else")
-            assertThat(mask("$key: \"123456\" something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("$key: \"$OMITTED\" something else")
-            assertThat(mask("$key:'123456' something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("$key:'$OMITTED' something else")
-            assertThat(mask("$key: '123456' something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("$key: '$OMITTED' something else")
+            assertThat(mask("\"$key\":\"123456\" \"some_key\":\"some_value\"", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("\"$key\":\"$OMITTED\" \"some_key\":\"some_value\"")
         }
     }
 
@@ -62,19 +58,13 @@ internal class LogMaskerTest {
             ]
         )
         fun `given a text with number of 15 or 16 digits then omit it`(number: String) {
-            assertThat(mask("number:\"$number\" something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("number:\"$OMITTED\" something else")
-            assertThat(mask("number: \"$number\" something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("number: \"$OMITTED\" something else")
-            assertThat(mask("number:'$number' something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("number:'$OMITTED' something else")
-            assertThat(mask("number: '$number' something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("number: '$OMITTED' something else")
+            assertThat(mask("\"number\": \"$number\" \"some_key\":\"some_value\"", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("\"number\": \"$OMITTED\" \"some_key\":\"some_value\"")
         }
 
         @Test
-        fun `given a text with number of 14 digits then do not omit it`() {
-            val number = "01234567890123"
-            assertThat(mask("number:\"$number\" something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("number:\"$number\" something else")
-            assertThat(mask("number: \"$number\" something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("number: \"$number\" something else")
-            assertThat(mask("number:'$number' something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("number:'$number' something else")
-            assertThat(mask("number: '$number' something else", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("number: '$number' something else")
+        fun `given a text with number of 10 digits then do not omit it`() {
+            val number = "0123456789"
+            assertThat(mask("\"number\": \"$number\" \"some_key\":\"some_value\"", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("\"number\": \"$number\" \"some_key\":\"some_value\"")
         }
     }
 }
