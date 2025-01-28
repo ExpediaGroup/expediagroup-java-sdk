@@ -58,6 +58,22 @@ internal class LogMaskerTest {
                 " \"$key\":\"$OMITTED\" " +
                 "}"
             assertThat(actual).isEqualTo(expected)
+
+            actual = mask("{" +
+                " \"$key\":\"417956af-3aee-4c19-8286-e72da5154984\" " +
+                "}", DEFAULT_MASKED_BODY_FIELDS)
+            expected = "{" +
+                " \"$key\":\"$OMITTED\" " +
+                "}"
+            assertThat(actual).isEqualTo(expected)
+
+            actual = mask("{" +
+                " \"uuid\":\"417956af-3aee-4c19-8286-e72da5154984\" " +
+                "}", DEFAULT_MASKED_BODY_FIELDS)
+            expected = "{" +
+                " \"uuid\":\"417956af-3aee-4c19-8286-e72da5154984\" " +
+                "}"
+            assertThat(actual).isEqualTo(expected)
         }
     }
 
@@ -72,13 +88,25 @@ internal class LogMaskerTest {
             ]
         )
         fun `given a text with number of 15 or 16 digits then omit it`(number: String) {
-            assertThat(mask("\"number\": \"$number\" \"some_key\":\"some_value\"", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("\"number\": \"$OMITTED\" \"some_key\":\"some_value\"")
+            val actual = mask("{" +
+                "\"number\": \"$number\" \"some_key\":\"some_value\"" +
+                "}", DEFAULT_MASKED_BODY_FIELDS)
+            val expected = "{" +
+                "\"number\": \"$OMITTED\" \"some_key\":\"some_value\"" +
+                "}"
+            assertThat(actual).isEqualTo(expected)
         }
 
         @Test
         fun `given a text with number of 10 digits then do not omit it`() {
             val number = "0123456789"
-            assertThat(mask("\"number\": \"$number\" \"some_key\":\"some_value\"", DEFAULT_MASKED_BODY_FIELDS)).isEqualTo("\"number\": \"$number\" \"some_key\":\"some_value\"")
+            val actual = mask("{" +
+                "\"number\": \"$number\" \"some_key\":\"some_value\"" +
+                "}", DEFAULT_MASKED_BODY_FIELDS)
+            val expected = "{" +
+                "\"number\": \"$number\" \"some_key\":\"some_value\"" +
+                "}"
+            assertThat(actual).isEqualTo(expected)
         }
     }
 }
