@@ -84,12 +84,12 @@ internal class LogMaskerTest {
         @ParameterizedTest(name = "{0} digits then {1}")
         @MethodSource("paymentNumberTests")
         fun `given a number of`(number: String, omitted: Boolean) {
-            val actual = mask("{" +
-                "\"number\": \"$number\", \"some_key\":\"some_value\"" +
-                "}", DEFAULT_MASKED_BODY_FIELDS)
-            val expected = "{" +
-                "\"number\": \"${if (omitted) OMITTED else number}\", \"some_key\":\"some_value\"" +
-                "}"
+            val actual = mask(
+                "{\"number\": \"$number\", \"some_key\":\"some_value\"}",
+                DEFAULT_MASKED_BODY_FIELDS
+            )
+            val value = if (omitted) OMITTED else number
+            val expected = "{\"number\": \"$value\", \"some_key\":\"some_value\"}"
             assertThat(actual).isEqualTo(expected)
         }
 
