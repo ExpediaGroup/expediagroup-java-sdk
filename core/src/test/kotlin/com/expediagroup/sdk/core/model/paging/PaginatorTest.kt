@@ -130,11 +130,11 @@ class PaginatorTest {
             val client = createRapidClient(createEmptyResponseEngine())
             val firstResponse = Response(200, "first", mapOf("link" to listOf("<second>; rel=\"next\""), "pagination-total-results" to listOf("2")))
 
-            val paginator = ResponsePaginator(client, firstResponse, EMPTY_STRING, getBody)
+            val paginator = ResponsePaginator(client, firstResponse, fallbackBody, getBody)
             assertTrue(paginator.hasNext())
             assertEquals("first", paginator.next().data)
             assertTrue(paginator.hasNext())
-            assertEquals(EMPTY_STRING, paginator.next().data)
+            assertEquals(fallbackBody, paginator.next().data)
             assertFalse(paginator.hasNext())
         }
 
@@ -144,11 +144,11 @@ class PaginatorTest {
             val client = createRapidClient(createGzipEncodedEmptyResponseEngine())
             val firstResponse = Response(200, "first", mapOf("link" to listOf("<second>; rel=\"next\""), "pagination-total-results" to listOf("2")))
 
-            val paginator = ResponsePaginator(client, firstResponse, EMPTY_STRING, getBody)
+            val paginator = ResponsePaginator(client, firstResponse, fallbackBody, getBody)
             assertTrue(paginator.hasNext())
             assertEquals("first", paginator.next().data)
             assertTrue(paginator.hasNext())
-            assertEquals(EMPTY_STRING, paginator.next().data)
+            assertEquals(fallbackBody, paginator.next().data)
             assertFalse(paginator.hasNext())
         }
     }
