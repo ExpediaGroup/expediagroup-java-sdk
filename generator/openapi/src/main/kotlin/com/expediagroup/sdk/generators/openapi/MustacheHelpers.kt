@@ -31,7 +31,16 @@ val mustacheHelpers =
                 val paginationHeaders = listOf("Pagination-Total-Results", "Link")
                 val availableHeaders = operation.responses.find { it.code == "200" }?.headers?.filter { it.baseName in paginationHeaders }
                 if (availableHeaders?.size == paginationHeaders.size) {
-                    fragment.execute(writer)
+                    val fallbackBody =
+                        when {
+                            operation.returnType.startsWith("kotlin.collections.List") -> "emptyList()"
+                            operation.returnType.startsWith("kotlin.collections.Map") -> "emptyMap()"
+                            operation.returnType.startsWith("kotlin.collections.Set") -> "emptySet()"
+                            else -> ""
+                        }
+
+                    val context = mapOf("fallbackBody" to fallbackBody)
+                    fragment.execute(context, writer)
                 }
             }
         },

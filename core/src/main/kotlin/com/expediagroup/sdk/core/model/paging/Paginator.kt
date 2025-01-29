@@ -24,6 +24,7 @@ import io.ktor.client.statement.HttpResponse
 sealed class BasePaginator<R, T>(
     private val client: Client,
     firstResponse: Response<T>,
+    private val fallbackBody: T,
     private val getBody: suspend (HttpResponse) -> T
 ) : Iterator<R> {
     private var state: ResponseState<T> = DefaultResponseState(firstResponse)
@@ -41,7 +42,7 @@ sealed class BasePaginator<R, T>(
 
     protected fun nextResponse(): Response<T> {
         val response = state.getNextResponse()
-        state = ResponseStateFactory.getState(extractLink(response.headers), client, getBody)
+        state = ResponseStateFactory.getState(extractLink(response.headers), client, fallbackBody, getBody)
         return response
     }
 }
@@ -56,8 +57,9 @@ sealed class BasePaginator<R, T>(
 class Paginator<T>(
     client: Client,
     firstResponse: Response<T>,
+    fallbackBody: T,
     getBody: suspend (HttpResponse) -> T
-) : BasePaginator<T, T>(client, firstResponse, getBody) {
+) : BasePaginator<T, T>(client, firstResponse, fallbackBody, getBody) {
     /**
      * Returns the body of the next response.
      *
@@ -76,8 +78,9 @@ class Paginator<T>(
 class ResponsePaginator<T>(
     client: Client,
     firstResponse: Response<T>,
+    fallbackBody: T,
     getBody: suspend (HttpResponse) -> T
-) : BasePaginator<Response<T>, T>(client, firstResponse, getBody) {
+) : BasePaginator<Response<T>, T>(client, firstResponse, fallbackBody, getBody) {
     /**
      * Returns the next response.
      *

@@ -44,7 +44,7 @@ class PaginatorTest {
         fun `test paginator with one response`() {
             val firstResponse = Response(200, "first", emptyMap())
 
-            val paginator = Paginator(client, firstResponse, getBody)
+            val paginator = Paginator(client, firstResponse, EMPTY_STRING, getBody)
             assertTrue(paginator.hasNext())
             assertEquals("first", paginator.next())
             assertFalse(paginator.hasNext())
@@ -54,7 +54,7 @@ class PaginatorTest {
         fun `test paginator with multiple responses`() {
             val firstResponse = Response(200, "first", mapOf("link" to listOf("<second>; rel=\"next\"")))
 
-            val paginator = Paginator(client, firstResponse, getBody)
+            val paginator = Paginator(client, firstResponse, EMPTY_STRING, getBody)
             assertTrue(paginator.hasNext())
             assertEquals("first", paginator.next())
             assertTrue(paginator.hasNext())
@@ -66,7 +66,7 @@ class PaginatorTest {
         fun `test paginator with multiple responses and total results`() {
             val firstResponse = Response(200, "first", mapOf("link" to listOf("<second>; rel=\"next\""), "pagination-total-results" to listOf("2")))
 
-            val paginator = Paginator(client, firstResponse, getBody)
+            val paginator = Paginator(client, firstResponse, EMPTY_STRING, getBody)
             assertTrue(paginator.hasNext())
             assertEquals("first", paginator.next())
             assertTrue(paginator.hasNext())
@@ -79,7 +79,7 @@ class PaginatorTest {
         fun `test paginator as list`() {
             val firstResponse = Response(200, "first", mapOf("link" to listOf("<second>; rel=\"next\""), "pagination-total-results" to listOf("2")))
 
-            val paginator = Paginator(client, firstResponse, getBody)
+            val paginator = Paginator(client, firstResponse, EMPTY_STRING, getBody)
             val list = paginator.asSequence().toList()
             assertEquals(2, list.size)
             assertEquals("first", list[0])
@@ -93,7 +93,7 @@ class PaginatorTest {
         fun `test response paginator with one response`() {
             val firstResponse = Response(200, "first", emptyMap())
 
-            val paginator = ResponsePaginator(client, firstResponse, getBody)
+            val paginator = ResponsePaginator(client, firstResponse, EMPTY_STRING, getBody)
             assertTrue(paginator.hasNext())
             assertEquals("first", paginator.next().data)
             assertFalse(paginator.hasNext())
@@ -103,7 +103,7 @@ class PaginatorTest {
         fun `test response paginator with multiple responses`() {
             val firstResponse = Response(200, "first", mapOf("link" to listOf("<second>; rel=\"next\"")))
 
-            val paginator = ResponsePaginator(client, firstResponse, getBody)
+            val paginator = ResponsePaginator(client, firstResponse, EMPTY_STRING, getBody)
             assertTrue(paginator.hasNext())
             assertEquals("first", paginator.next().data)
             assertTrue(paginator.hasNext())
@@ -115,7 +115,7 @@ class PaginatorTest {
         fun `test response paginator with multiple responses and total results`() {
             val firstResponse = Response(200, "first", mapOf("link" to listOf("<second>; rel=\"next\""), "pagination-total-results" to listOf("2")))
 
-            val paginator = ResponsePaginator(client, firstResponse, getBody)
+            val paginator = ResponsePaginator(client, firstResponse, EMPTY_STRING, getBody)
             assertTrue(paginator.hasNext())
             assertEquals("first", paginator.next().data)
             assertTrue(paginator.hasNext())
@@ -124,12 +124,13 @@ class PaginatorTest {
             assertEquals(2, paginator.paginationTotalResults)
         }
 
-        @Test
-        fun `should return empty value when next response body is empty`() {
+        @ParameterizedTest
+        @ValueSource(strings = [EMPTY_STRING, "second", "some_value"])
+        fun `should return fallback value when next response body is empty`(fallbackBody: String) {
             val client = createRapidClient(createEmptyResponseEngine())
             val firstResponse = Response(200, "first", mapOf("link" to listOf("<second>; rel=\"next\""), "pagination-total-results" to listOf("2")))
 
-            val paginator = ResponsePaginator(client, firstResponse, getBody)
+            val paginator = ResponsePaginator(client, firstResponse, EMPTY_STRING, getBody)
             assertTrue(paginator.hasNext())
             assertEquals("first", paginator.next().data)
             assertTrue(paginator.hasNext())
@@ -137,12 +138,13 @@ class PaginatorTest {
             assertFalse(paginator.hasNext())
         }
 
-        @Test
-        fun `should return empty value when next response body is empty and gzip encoded`() {
+        @ParameterizedTest
+        @ValueSource(strings = [EMPTY_STRING, "second", "some_value"])
+        fun `should return fallback value when next response body is empty and gzip encoded`(fallbackBody: String) {
             val client = createRapidClient(createGzipEncodedEmptyResponseEngine())
             val firstResponse = Response(200, "first", mapOf("link" to listOf("<second>; rel=\"next\""), "pagination-total-results" to listOf("2")))
 
-            val paginator = ResponsePaginator(client, firstResponse, getBody)
+            val paginator = ResponsePaginator(client, firstResponse, EMPTY_STRING, getBody)
             assertTrue(paginator.hasNext())
             assertEquals("first", paginator.next().data)
             assertTrue(paginator.hasNext())

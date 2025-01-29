@@ -18,6 +18,7 @@ package com.expediagroup.sdk.core.model.paging
 import com.expediagroup.sdk.core.client.Client
 import com.expediagroup.sdk.core.model.Response
 import io.ktor.client.statement.HttpResponse
+import io.ktor.client.statement.bodyAsBytes
 import kotlinx.coroutines.runBlocking
 
 internal interface ResponseState<T> {
@@ -51,6 +52,7 @@ internal class LastResponseState<T> : ResponseState<T> {
 internal class FetchLinkState<T>(
     private val link: String,
     private val client: Client,
+    private val fallbackBody: T,
     private val getBody: suspend (HttpResponse) -> T
 ) : ResponseState<T> {
     override fun getNextResponse(): Response<T> {
@@ -66,7 +68,9 @@ internal class FetchLinkState<T>(
     }
 
     private suspend fun parseBody(response: HttpResponse): T {
-        return getBody(response)
+        // response.bodyAsBytes() applies all plugins
+        // if content-length header is set, response.contentLength could be used instead
+        return if (response.bodyAsBytes().isEmpty()) fallbackBody else getBody(response)
     }
 }
 
@@ -75,9 +79,10 @@ internal class ResponseStateFactory {
         fun <T> getState(
             link: String?,
             client: Client,
+            fallbackBody: T,
             getBody: suspend (HttpResponse) -> T
         ): ResponseState<T> {
-            return link?.let { FetchLinkState(it, client, getBody) } ?: LastResponseState()
+            return link?.let { FetchLinkState(it, client, fallbackBody, getBody) } ?: LastResponseState()
         }
     }
 }
