@@ -18,9 +18,13 @@ package com.expediagroup.sdk.core.plugin.logging
 import com.expediagroup.sdk.core.constant.LogMaskingFields.DEFAULT_MASKED_BODY_FIELDS
 import com.expediagroup.sdk.core.constant.LoggingMessage.OMITTED
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Named
 import org.junit.jupiter.api.Nested
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.MethodSource
 import org.junit.jupiter.params.provider.ValueSource
 
 internal class LogMaskerTest {
@@ -43,70 +47,67 @@ internal class LogMaskerTest {
             ]
         )
         fun `given a text with payment info then omit it`(key: String) {
-            var actual: String = mask("{\"$key\":\"123456\"}", DEFAULT_MASKED_BODY_FIELDS)
+            var actual: String = mask(
+                "{\"$key\":\"123456\"}",
+                DEFAULT_MASKED_BODY_FIELDS
+            )
             var expected = "{\"$key\":\"$OMITTED\"}"
             assertThat(actual).isEqualTo(expected)
 
-            actual = mask("{\"$key\":\"something\"}", DEFAULT_MASKED_BODY_FIELDS)
+            actual = mask(
+                "{\"$key\":\"value\"}",
+                DEFAULT_MASKED_BODY_FIELDS
+            )
             expected = "{\"$key\":\"$OMITTED\"}"
             assertThat(actual).isEqualTo(expected)
 
-            actual = mask("{" +
-                " \"$key\":\"something\" " +
-                "}", DEFAULT_MASKED_BODY_FIELDS)
-            expected = "{" +
-                " \"$key\":\"$OMITTED\" " +
-                "}"
+            actual = mask(
+                "{\"$key\":\"417956af-3aee-4c19-8286-e72da5154984\"}",
+                DEFAULT_MASKED_BODY_FIELDS
+            )
+            expected = "{\"$key\":\"$OMITTED\"}"
             assertThat(actual).isEqualTo(expected)
 
-            actual = mask("{" +
-                " \"$key\":\"417956af-3aee-4c19-8286-e72da5154984\" " +
-                "}", DEFAULT_MASKED_BODY_FIELDS)
-            expected = "{" +
-                " \"$key\":\"$OMITTED\" " +
-                "}"
-            assertThat(actual).isEqualTo(expected)
-
-            actual = mask("{" +
-                " \"uuid\":\"417956af-3aee-4c19-8286-e72da5154984\" " +
-                "}", DEFAULT_MASKED_BODY_FIELDS)
-            expected = "{" +
-                " \"uuid\":\"417956af-3aee-4c19-8286-e72da5154984\" " +
-                "}"
+            actual = mask(
+                "{\"uuid\":\"417956af-3aee-4c19-8286-e72da5154984\"}",
+                DEFAULT_MASKED_BODY_FIELDS
+            )
+            expected = "{\"uuid\":\"417956af-3aee-4c19-8286-e72da5154984\"}"
             assertThat(actual).isEqualTo(expected)
         }
     }
 
     @Nested
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     inner class PaymentNumberTest {
-        @ParameterizedTest
-        @ValueSource(
-            strings = [
-                "012345678901234",
-                "0123456789012345",
-                "4111111111111111"
-            ]
-        )
-        fun `given a text with number of 15 or 16 digits then omit it`(number: String) {
+        @DisplayName("Given a number of")
+        @ParameterizedTest(name = "{0} digits then {1}")
+        @MethodSource("paymentNumberTests")
+        fun `given a number of`(number: String, omitted: Boolean) {
             val actual = mask("{" +
-                "\"number\": \"$number\" \"some_key\":\"some_value\"" +
+                "\"number\": \"$number\", \"some_key\":\"some_value\"" +
                 "}", DEFAULT_MASKED_BODY_FIELDS)
             val expected = "{" +
-                "\"number\": \"$OMITTED\" \"some_key\":\"some_value\"" +
+                "\"number\": \"${if (omitted) OMITTED else number}\", \"some_key\":\"some_value\"" +
                 "}"
             assertThat(actual).isEqualTo(expected)
         }
 
-        @Test
-        fun `given a text with number of 10 digits then do not omit it`() {
-            val number = "0123456789"
-            val actual = mask("{" +
-                "\"number\": \"$number\" \"some_key\":\"some_value\"" +
-                "}", DEFAULT_MASKED_BODY_FIELDS)
-            val expected = "{" +
-                "\"number\": \"$number\" \"some_key\":\"some_value\"" +
-                "}"
-            assertThat(actual).isEqualTo(expected)
-        }
+        private fun paymentNumberTests() =
+            listOf(
+                "12345678901",
+                "123456789012",
+                "123456789012345",
+                "1234567890123456789",
+                "12345678901234567890"
+            ).map {
+                Arguments.of(
+                    Named.of(it.length.toString(), it),
+                    Named.of(
+                        if (it.length in (12..19)) "omit it" else "do not omit it",
+                        it.length in (12..19)
+                    )
+                )
+            }
     }
 }
