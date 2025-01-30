@@ -78,36 +78,39 @@ internal class LogMaskerTest {
     }
 
     @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     inner class PaymentNumberTest {
-        @DisplayName("Given a number of")
-        @ParameterizedTest(name = "{0} digits then {1}")
-        @MethodSource("paymentNumberTests")
-        fun `given a number of`(number: String, omitted: Boolean) {
+        @ParameterizedTest
+        @ValueSource(
+            strings = [
+                "123456789012",
+                "123456789012345",
+                "1234567890123456789",
+            ]
+        )
+        fun `given a credit card-like number then omit it`(number: String) {
             val actual = mask(
                 "{\"number\": \"$number\", \"some_key\":\"some_value\"}",
                 DEFAULT_MASKED_BODY_FIELDS
             )
-            val value = if (omitted) OMITTED else number
-            val expected = "{\"number\": \"$value\", \"some_key\":\"some_value\"}"
+
+            val expected = "{\"number\": \"$OMITTED\", \"some_key\":\"some_value\"}"
             assertThat(actual).isEqualTo(expected)
         }
 
-        private fun paymentNumberTests() =
-            listOf(
+        @ParameterizedTest
+        @ValueSource(
+            strings = [
                 "12345678901",
-                "123456789012",
-                "123456789012345",
-                "1234567890123456789",
                 "12345678901234567890"
-            ).map {
-                Arguments.of(
-                    Named.of(it.length.toString(), it),
-                    Named.of(
-                        if (it.length in (12..19)) "omit it" else "do not omit it",
-                        it.length in (12..19)
-                    )
-                )
-            }
+            ]
+        )
+        fun `given a non credit card-like number then keep it`(number: String) {
+            val actual = mask(
+                "{\"number\": \"$number\", \"some_key\":\"some_value\"}",
+                DEFAULT_MASKED_BODY_FIELDS
+            )
+            val expected = "{\"number\": \"$number\", \"some_key\":\"some_value\"}"
+            assertThat(actual).isEqualTo(expected)
+        }
     }
 }
