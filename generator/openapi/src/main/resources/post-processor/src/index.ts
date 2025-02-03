@@ -6,6 +6,9 @@ const filePath = args[0];
 const fileName = path.parse(filePath).name;
 
 switch (fileName) {
+  case 'ExemplarClient':
+    new DummyProcessor().process(filePath);
+    break;
   default:
     break;
 }
