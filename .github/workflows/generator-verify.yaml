@@ -16,11 +16,16 @@ jobs:
         with:
           java-version: '11'
           distribution: 'temurin'
+      - name: Build Generator Post-processor
+        working-directory: generator/openapi/src/main/resources/post-processor
+        run: npm ci && npm run clean && npm run compile
       - id: build-with-maven
         working-directory: generator
         run: mvn clean install -P github-generate-action-profile
       - name: Generate SDK Files
         working-directory: generator/openapi
+        env:
+          KOTLIN_POST_PROCESS_FILE: "npm run --prefix src/main/resources/post-processor process"
         run: |
           mvn clean install exec:java "-Dnamespace=exemplar" "-DsdkVersion=1.0.0" "-Dspec=./src/test/resources/exemplar.yaml"
       - uses: actions/upload-artifact@v4
