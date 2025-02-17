@@ -1,0 +1,11 @@
+plugins {
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.9.0'
+}
+
+rootProject.name = "expediagroup-java-sdk"
+
+include 'expediagroup-sdk-core'
+include 'expediagroup-sdk-transport-okhttp'
+include 'expediagroup-sdk-graphql'
+include 'expediagroup-sdk-rest'
+

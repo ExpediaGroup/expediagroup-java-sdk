@@ -1,0 +1,26 @@
+plugins {
+    id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '2.1.10' apply false
+}
+
+subprojects {
+    /* Shared plugins between all modules */
+    apply plugin: 'java'
+    apply plugin: 'org.jetbrains.kotlin.jvm'
+
+    /* Shared repositories between all modules */
+    repositories {
+        mavenCentral()
+        mavenLocal()
+    }
+
+    java {
+        withSourcesJar()
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(8))
+        }
+    }
+}

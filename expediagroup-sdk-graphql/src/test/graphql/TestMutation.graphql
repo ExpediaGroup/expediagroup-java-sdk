@@ -1,0 +1,5 @@
+mutation TestMutation {
+    testMutation {
+        id
+    }
+}
