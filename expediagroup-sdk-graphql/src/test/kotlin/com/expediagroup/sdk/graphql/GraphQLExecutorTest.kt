@@ -41,12 +41,13 @@ class GraphQLExecutorTest {
 
         val buffer = Buffer().apply { writeUtf8(testOperationData.toResponseJson()) }
 
-        val testSDKResponse = Response.builder()
-            .status(Status.OK)
-            .protocol(Protocol.HTTP_1_1)
-            .request(mockk())
-            .body(ResponseBody.create(buffer))
-            .build()
+        val testSDKResponse =
+            Response.builder()
+                .status(Status.OK)
+                .protocol(Protocol.HTTP_1_1)
+                .request(mockk())
+                .body(ResponseBody.create(buffer))
+                .build()
 
         every { mockRequestExecutor.execute(any()) } returns testSDKResponse
 
@@ -67,19 +68,21 @@ class GraphQLExecutorTest {
 
         val buffer = Buffer().apply { writeUtf8(testOperationData) }
 
-        val testSDKResponse = Response.builder()
-            .status(Status.OK)
-            .protocol(Protocol.HTTP_1_1)
-            .request(mockk())
-            .body(ResponseBody.create(buffer))
-            .build()
+        val testSDKResponse =
+            Response.builder()
+                .status(Status.OK)
+                .protocol(Protocol.HTTP_1_1)
+                .request(mockk())
+                .body(ResponseBody.create(buffer))
+                .build()
 
         every { mockRequestExecutor.execute(any()) } returns testSDKResponse
 
         // When & Expect
-        val exception = assertThrows<ExpediaGroupServiceException> {
-            graphqlExecutor.execute(testOperation)
-        }
+        val exception =
+            assertThrows<ExpediaGroupServiceException> {
+                graphqlExecutor.execute(testOperation)
+            }
 
         assertInstanceOf(ExpediaGroupServiceException::class.java, exception)
     }
@@ -89,19 +92,21 @@ class GraphQLExecutorTest {
         // Given
         val errorResponse = """{"errors": [{ "message": "Some error occurred" }]}"""
         val buffer = Buffer().apply { writeUtf8(errorResponse) }
-        val testSDKResponse = Response.builder()
-            .status(Status.OK)
-            .protocol(Protocol.HTTP_1_1)
-            .request(mockk())
-            .body(ResponseBody.create(buffer))
-            .build()
+        val testSDKResponse =
+            Response.builder()
+                .status(Status.OK)
+                .protocol(Protocol.HTTP_1_1)
+                .request(mockk())
+                .body(ResponseBody.create(buffer))
+                .build()
 
         every { mockRequestExecutor.execute(any()) } returns testSDKResponse
 
         // When & Expect
-        val exception = assertThrows<NoDataException> {
-            graphqlExecutor.execute(TestQuery())
-        }
+        val exception =
+            assertThrows<NoDataException> {
+                graphqlExecutor.execute(TestQuery())
+            }
 
         assertEquals("No data received from the server", exception.message)
         assertEquals("Some error occurred", exception.errors[0].message)
@@ -112,20 +117,21 @@ class GraphQLExecutorTest {
         // Given
         val partialDataResponse =
             """
-                {
-                  "data": { "testMutation": { "id": "id-1" } },
-                  "errors": [{ "message": "Some error occurred" }]
-                }
-                """.trimIndent()
+            {
+              "data": { "testMutation": { "id": "id-1" } },
+              "errors": [{ "message": "Some error occurred" }]
+            }
+            """.trimIndent()
 
         val buffer = Buffer().apply { writeUtf8(partialDataResponse) }
 
-        val testSDKResponse = Response.builder()
-            .status(Status.OK)
-            .protocol(Protocol.HTTP_1_1)
-            .request(mockk())
-            .body(ResponseBody.create(buffer))
-            .build()
+        val testSDKResponse =
+            Response.builder()
+                .status(Status.OK)
+                .protocol(Protocol.HTTP_1_1)
+                .request(mockk())
+                .body(ResponseBody.create(buffer))
+                .build()
 
         every { mockRequestExecutor.execute(any()) } returns testSDKResponse
 

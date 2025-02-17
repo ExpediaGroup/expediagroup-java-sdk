@@ -31,7 +31,6 @@ import okhttp3.OkHttpClient
  * @property okHttpClient The OkHttp client used to execute HTTP requests.
  */
 class OkHttpTransport(private val okHttpClient: OkHttpClient) : Transport {
-
     constructor() : this(BaseOkHttpClient.getInstance())
 
     constructor(configuration: OkHttpClientConfiguration) : this(BaseOkHttpClient.getConfiguredInstance(configuration))
@@ -47,11 +46,12 @@ class OkHttpTransport(private val okHttpClient: OkHttpClient) : Transport {
      * @return The SDK response resulting from the HTTP request execution.
      * @throws ExpediaGroupNetworkException If an error occurs during the request execution.
      */
-    override fun execute(request: Request): Response = try {
-        request.toOkHttpRequest().let { okHttpClient.newCall(it).execute() }.toSDKResponse(request)
-    } catch (e: Exception) {
-        throw ExpediaGroupNetworkException("Failed to execute the request", e)
-    }
+    override fun execute(request: Request): Response =
+        try {
+            request.toOkHttpRequest().let { okHttpClient.newCall(it).execute() }.toSDKResponse(request)
+        } catch (e: Exception) {
+            throw ExpediaGroupNetworkException("Failed to execute the request", e)
+        }
 
     override fun dispose() {
         okHttpClient.dispatcher.executorService.shutdown()

@@ -20,11 +20,11 @@ import com.expediagroup.sdk.core.exception.service.ExpediaGroupNetworkException
 import com.expediagroup.sdk.core.http.Request
 import com.expediagroup.sdk.core.http.Response
 import com.expediagroup.sdk.core.transport.AsyncTransport
-import java.io.IOException
-import java.util.concurrent.CompletableFuture
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.OkHttpClient
+import java.io.IOException
+import java.util.concurrent.CompletableFuture
 
 /**
  * Async transport implementation using OkHttp to execute HTTP requests.
@@ -36,7 +36,6 @@ import okhttp3.OkHttpClient
 class OkHttpAsyncTransport(
     private val okHttpClient: OkHttpClient
 ) : AsyncTransport {
-
     constructor() : this(BaseOkHttpClient.getInstance())
 
     constructor(configuration: OkHttpClientConfiguration) : this(BaseOkHttpClient.getConfiguredInstance(configuration))
@@ -45,15 +44,23 @@ class OkHttpAsyncTransport(
         val future = CompletableFuture<Response>()
 
         request.toOkHttpRequest().let {
-            okHttpClient.newCall(it).enqueue(object : Callback {
-                override fun onFailure(call: Call, e: IOException) {
-                    future.completeExceptionally(ExpediaGroupNetworkException("Failed to execute the request", e))
-                }
+            okHttpClient.newCall(it).enqueue(
+                object : Callback {
+                    override fun onFailure(
+                        call: Call,
+                        e: IOException
+                    ) {
+                        future.completeExceptionally(ExpediaGroupNetworkException("Failed to execute the request", e))
+                    }
 
-                override fun onResponse(call: Call, response: okhttp3.Response) {
-                    future.complete(response.toSDKResponse(request))
+                    override fun onResponse(
+                        call: Call,
+                        response: okhttp3.Response
+                    ) {
+                        future.complete(response.toSDKResponse(request))
+                    }
                 }
-            })
+            )
         }
 
         return future

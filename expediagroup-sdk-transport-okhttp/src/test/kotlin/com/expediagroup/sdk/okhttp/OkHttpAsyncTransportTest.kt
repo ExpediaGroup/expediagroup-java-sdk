@@ -15,13 +15,13 @@ import io.mockk.verify
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.OkHttpClient
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertInstanceOf
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import java.io.IOException
 import java.util.concurrent.ExecutionException
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertInstanceOf
 
 class OkHttpAsyncTransportTest {
     private lateinit var mockOkHttpClient: OkHttpClient
@@ -36,17 +36,19 @@ class OkHttpAsyncTransportTest {
     @Test
     fun `should complete successfully on valid response`() {
         // Given
-        val sdkRequest = Request.builder()
-            .url("https://example.com/")
-            .method(Method.GET)
-            .build()
+        val sdkRequest =
+            Request.builder()
+                .url("https://example.com/")
+                .method(Method.GET)
+                .build()
 
-        val sdkResponse = Response.builder()
-            .request(sdkRequest)
-            .status(Status.OK)
-            .protocol(Protocol.HTTP_1_1)
-            .message("OK")
-            .build()
+        val sdkResponse =
+            Response.builder()
+                .request(sdkRequest)
+                .status(Status.OK)
+                .protocol(Protocol.HTTP_1_1)
+                .message("OK")
+                .build()
 
         val okHttpResponse = sdkResponse.toOkHttpResponse()
 
@@ -81,10 +83,11 @@ class OkHttpAsyncTransportTest {
     @Test
     fun `should complete exceptionally on failure`() {
         // Given
-        val sdkRequest = Request.builder()
-            .url("https://example.com/")
-            .method(Method.GET)
-            .build()
+        val sdkRequest =
+            Request.builder()
+                .url("https://example.com/")
+                .method(Method.GET)
+                .build()
 
         every { mockOkHttpClient.newCall(any()) } returns mockCall
 

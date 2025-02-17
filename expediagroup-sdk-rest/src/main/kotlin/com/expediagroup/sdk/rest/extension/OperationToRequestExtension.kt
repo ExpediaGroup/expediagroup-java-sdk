@@ -97,8 +97,7 @@ internal fun UrlPathTrait.parseURL(base: URL): URL =
  * @return the HTTP method
  * @throws IllegalArgumentException if the HTTP method is invalid
  */
-internal fun OperationRequestTrait.parseMethod(): Method =
-    Method.valueOf(getHttpMethod().uppercase())
+internal fun OperationRequestTrait.parseMethod(): Method = Method.valueOf(getHttpMethod().uppercase())
 
 /**
  * Extension function to parse the media type of operation request.
@@ -108,8 +107,7 @@ internal fun OperationRequestTrait.parseMethod(): Method =
  * @return the media type
  * @throws IllegalArgumentException if the content type is invalid
  */
-internal fun ContentTypeTrait.parseMediaType(): MediaType =
-    MediaType.parse(getContentType())
+internal fun ContentTypeTrait.parseMediaType(): MediaType = MediaType.parse(getContentType())
 
 /**
  * Extension function to parse the request body of an operation request.
@@ -121,9 +119,7 @@ internal fun ContentTypeTrait.parseMediaType(): MediaType =
  * @throws IllegalStateException if the request body cannot be serialized
  * @throws IOException if an I/O error occurs
  */
-internal fun OperationRequestBodyTrait<*>.parseRequestBody(
-    mapper: ObjectMapper
-): RequestBody {
+internal fun OperationRequestBodyTrait<*>.parseRequestBody(mapper: ObjectMapper): RequestBody {
     val inputStream = mapper.writeValueAsBytes(this.getRequestBody()).inputStream()
 
     return RequestBody.create(

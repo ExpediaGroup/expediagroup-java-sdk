@@ -3,11 +3,6 @@ import kotlinx.kover.gradle.plugin.dsl.CoverageUnit
 
 plugins {
     id 'org.jetbrains.kotlin.jvm'
-    id 'org.jetbrains.kotlinx.kover' version "0.9.1"
-}
-
-kotlin {
-    jvmToolchain(8)
 }
 
 repositories {

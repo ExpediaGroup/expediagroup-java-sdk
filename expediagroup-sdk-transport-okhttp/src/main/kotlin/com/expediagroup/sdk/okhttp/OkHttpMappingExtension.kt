@@ -27,11 +27,11 @@ import com.expediagroup.sdk.core.http.Response
 import com.expediagroup.sdk.core.http.ResponseBody
 import com.expediagroup.sdk.core.http.ResponseBody.Companion.create
 import com.expediagroup.sdk.core.http.Status
-import java.io.IOException
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody.Companion.asResponseBody
 import okio.Buffer
 import okio.BufferedSink
+import java.io.IOException
 
 /**
  * Converts an [okhttp3.Request] object to the SDK [Request] object.
@@ -66,8 +66,8 @@ fun okhttp3.Request.toSDKRequest(): Request {
  * @receiver The [okhttp3.Headers] to convert.
  * @return A new [Headers] object representing the same HTTP headers in the SDK Headers format.
  */
-fun okhttp3.Headers.toSDKHeaders(): Headers {
-    return Headers
+fun okhttp3.Headers.toSDKHeaders(): Headers =
+    Headers
         .builder()
         .apply {
             this@toSDKHeaders.toMultimap().entries.forEach {
@@ -75,7 +75,6 @@ fun okhttp3.Headers.toSDKHeaders(): Headers {
             }
         }
         .build()
-}
 
 /**
  * Converts an [okhttp3.RequestBody] to the SDK [RequestBody].
@@ -86,18 +85,18 @@ fun okhttp3.Headers.toSDKHeaders(): Headers {
  * @receiver The [okhttp3.RequestBody] to convert.
  * @return A new [RequestBody] compatible with the SDK.
  */
-fun okhttp3.RequestBody.toSDKRequestBody(): RequestBody {
-    return object : RequestBody() {
-        override fun mediaType(): MediaType? = this@toSDKRequestBody.contentType()?.let {
-            parse(it.toString())
-        }
+fun okhttp3.RequestBody.toSDKRequestBody(): RequestBody =
+    object : RequestBody() {
+        override fun mediaType(): MediaType? =
+            this@toSDKRequestBody.contentType()?.let {
+                parse(it.toString())
+            }
 
         override fun contentLength() = this@toSDKRequestBody.contentLength()
 
         @Throws(IOException::class)
         override fun writeTo(sink: BufferedSink) = this@toSDKRequestBody.writeTo(sink)
     }
-}
 
 /**
  * Converts the SDK [Request] object to an [okhttp3.Request].
@@ -130,14 +129,13 @@ fun Request.toOkHttpRequest(): okhttp3.Request {
  * @receiver The SDK [Headers] to convert.
  * @return A new [okhttp3.Headers] object representing the same HTTP headers.
  */
-fun Headers.toOkHttpHeaders(): okhttp3.Headers {
-    return okhttp3.Headers.Builder()
+fun Headers.toOkHttpHeaders(): okhttp3.Headers =
+    okhttp3.Headers.Builder()
         .apply {
             this@toOkHttpHeaders.entries().forEach { (name, values) ->
                 values.forEach { value -> this.add(name, value) }
             }
         }.build()
-}
 
 /**
  * Converts the SDK [RequestBody] to an [okhttp3.RequestBody].
@@ -170,14 +168,15 @@ fun RequestBody.toOkHttpRequestBody(): okhttp3.RequestBody {
  * @receiver The SDK [Response] to convert.
  * @return An OkHttp [Response] object equivalent to the SDK [Response].
  */
-fun Response.toOkHttpResponse(): okhttp3.Response = okhttp3.Response.Builder()
-    .request(request.toOkHttpRequest())
-    .headers(headers.toOkHttpHeaders())
-    .code(status.code)
-    .protocol(okhttp3.Protocol.valueOf(protocol.name))
-    .message(message ?: "")
-    .body(body?.toOkHttpResponseBody())
-    .build()
+fun Response.toOkHttpResponse(): okhttp3.Response =
+    okhttp3.Response.Builder()
+        .request(request.toOkHttpRequest())
+        .headers(headers.toOkHttpHeaders())
+        .code(status.code)
+        .protocol(okhttp3.Protocol.valueOf(protocol.name))
+        .message(message ?: "")
+        .body(body?.toOkHttpResponseBody())
+        .build()
 
 /**
  * Converts SDK [ResponseBody] to OkHttp [okhttp3.ResponseBody].
@@ -187,11 +186,12 @@ fun Response.toOkHttpResponse(): okhttp3.Response = okhttp3.Response.Builder()
  * @receiver The SDK [ResponseBody] to convert.
  * @return An OkHttp [ResponseBody] object equivalent to the SDK [ResponseBody].
  */
-fun ResponseBody.toOkHttpResponseBody(): okhttp3.ResponseBody = use {
-    Buffer().apply {
-        source().readAll(this)
-    }.asResponseBody(mediaType().toString().toMediaTypeOrNull(), contentLength())
-}
+fun ResponseBody.toOkHttpResponseBody(): okhttp3.ResponseBody =
+    use {
+        Buffer().apply {
+            source().readAll(this)
+        }.asResponseBody(mediaType().toString().toMediaTypeOrNull(), contentLength())
+    }
 
 /**
  * Converts an [okhttp3.Response] to the SDK `Response`.
@@ -203,14 +203,15 @@ fun ResponseBody.toOkHttpResponseBody(): okhttp3.ResponseBody = use {
  * @param request The original SDK [Request] that generated this response.
  * @return A new [Response] object in the SDK format.
  */
-fun okhttp3.Response.toSDKResponse(request: Request): Response = Response.builder()
-    .headers(this.headers.toSDKHeaders())
-    .body(this.body?.toSDKResponseBody())
-    .request(request)
-    .protocol(Protocol.valueOf(protocol.name))
-    .status(Status.fromCode(code))
-    .message(message)
-    .build()
+fun okhttp3.Response.toSDKResponse(request: Request): Response =
+    Response.builder()
+        .headers(this.headers.toSDKHeaders())
+        .body(this.body?.toSDKResponseBody())
+        .request(request)
+        .protocol(Protocol.valueOf(protocol.name))
+        .status(Status.fromCode(code))
+        .message(message)
+        .build()
 
 /**
  * Converts an [okhttp3.ResponseBody] to the SDK [ResponseBody].
@@ -223,13 +224,14 @@ fun okhttp3.Response.toSDKResponse(request: Request): Response = Response.builde
  * @receiver The [okhttp3.ResponseBody] to convert.
  * @return A new [ResponseBody] compatible with the SDK.
  */
-fun okhttp3.ResponseBody.toSDKResponseBody(): ResponseBody = use {
-    create(
-        source = Buffer().apply { source().readAll(this) },
-        contentLength = contentLength(),
-        mediaType = contentType().toSDKMediaType()
-    )
-}
+fun okhttp3.ResponseBody.toSDKResponseBody(): ResponseBody =
+    use {
+        create(
+            source = Buffer().apply { source().readAll(this) },
+            contentLength = contentLength(),
+            mediaType = contentType().toSDKMediaType()
+        )
+    }
 
 /**
  * Converts SDK [MediaType] to OkHttp [MediaType].
@@ -237,6 +239,4 @@ fun okhttp3.ResponseBody.toSDKResponseBody(): ResponseBody = use {
  * @receiver The SDK [MediaType] to convert.
  * @return An OkHttp [MediaType] object equivalent to the SDK [MediaType].
  */
-fun okhttp3.MediaType?.toSDKMediaType(): MediaType? {
-    return if (this != null) parse(this@toSDKMediaType.toString()) else null
-}
+fun okhttp3.MediaType?.toSDKMediaType(): MediaType? = if (this != null) parse(this@toSDKMediaType.toString()) else null

@@ -19,7 +19,7 @@ internal fun <T : Any> SDKCoreResponse.parseBodyAs(
     mapper: ObjectMapper
 ): T {
     require(body != null) { "Response body is null!" }
-    require(body!!.source().isOpen ) { "Response body is closed!" }
+    require(body!!.source().isOpen) { "Response body is closed!" }
     require(body!!.contentLength() != 0L) { "Response body is empty!" }
     require(body!!.source().exhausted().not()) { "Response body is exhausted!" }
 
@@ -37,12 +37,11 @@ internal fun <T : Any> SDKCoreResponse.parseBodyAs(
 internal fun <T : Any> SDKCoreResponse.toRestResponse(
     operation: JacksonModelOperationResponseBodyTrait<T>,
     mapper: ObjectMapper
-): Response<T> {
-    return Response(
+): Response<T> =
+    Response(
         data = parseBodyAs(operation, mapper),
         headers = headers
     )
-}
 
 /**
  * Extension function to convert an SDKCoreResponse to a RestResponse with empty body.
@@ -50,9 +49,8 @@ internal fun <T : Any> SDKCoreResponse.toRestResponse(
  * @return a Response object containing null data and headers
  */
 @Suppress("UNUSED_PARAMETER")
-internal fun SDKCoreResponse.toRestResponse(operation: OperationNoResponseBodyTrait): Response<Nothing?> {
-    return Response(
+internal fun SDKCoreResponse.toRestResponse(operation: OperationNoResponseBodyTrait): Response<Nothing?> =
+    Response(
         data = null,
         headers = headers
     )
-}

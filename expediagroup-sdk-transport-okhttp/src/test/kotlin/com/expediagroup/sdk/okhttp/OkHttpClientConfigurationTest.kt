@@ -1,6 +1,5 @@
 package com.expediagroup.sdk.okhttp
 
-import java.util.concurrent.TimeUnit
 import okhttp3.ConnectionPool
 import okhttp3.Interceptor
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -8,9 +7,9 @@ import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import java.util.concurrent.TimeUnit
 
 class OkHttpClientConfigurationTest {
-
     @Nested
     inner class OkHttpClientBuilderTest {
         @Test
@@ -21,17 +20,18 @@ class OkHttpClientConfigurationTest {
             val connectionPool = ConnectionPool(5, 5, TimeUnit.MINUTES)
 
             // When
-            val config = OkHttpClientConfiguration
-                .builder()
-                .interceptors(listOf(mockInterceptor1))
-                .networkInterceptors(listOf(mockInterceptor2))
-                .connectionPool(connectionPool)
-                .retryOnConnectionFailure(true)
-                .callTimeout(1000)
-                .connectTimeout(2000)
-                .readTimeout(3000)
-                .writeTimeout(4000)
-                .build()
+            val config =
+                OkHttpClientConfiguration
+                    .builder()
+                    .interceptors(listOf(mockInterceptor1))
+                    .networkInterceptors(listOf(mockInterceptor2))
+                    .connectionPool(connectionPool)
+                    .retryOnConnectionFailure(true)
+                    .callTimeout(1000)
+                    .connectTimeout(2000)
+                    .readTimeout(3000)
+                    .writeTimeout(4000)
+                    .build()
 
             // Expect
             assertNotNull(config)

@@ -13,7 +13,6 @@ import com.expediagroup.sdk.core.http.Status
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import java.net.URI
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody.Companion.toResponseBody
 import okio.Buffer
@@ -26,22 +25,23 @@ import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import java.net.URI
 
 class OkHttpMappingExtensionTest {
     @Nested
     inner class FromOkHttpToSDKConversion {
-
         @Nested
         inner class ToSDKRequestExtensionFunction {
             @Test
             fun `should correctly map OkHttp Request to SDK Request without body`() {
                 // Given
-                val okHttpRequest = okhttp3.Request.Builder()
-                    .url("https://example.com")
-                    .method("GET", null)
-                    .header("Authorization", "Bearer token")
-                    .method("GET", null)
-                    .build()
+                val okHttpRequest =
+                    okhttp3.Request.Builder()
+                        .url("https://example.com")
+                        .method("GET", null)
+                        .header("Authorization", "Bearer token")
+                        .method("GET", null)
+                        .build()
 
                 // When
                 val sdkRequest = okHttpRequest.toSDKRequest()
@@ -58,18 +58,21 @@ class OkHttpMappingExtensionTest {
                 val content = "Hello World"
                 val mediaTypeString = "text/plain"
 
-                val okHttpRequestBody = object : okhttp3.RequestBody() {
-                    override fun contentType(): okhttp3.MediaType? = mediaTypeString.toMediaTypeOrNull()
-                    override fun writeTo(sink: BufferedSink) {
-                        sink.writeUtf8(content)
-                    }
-                }
+                val okHttpRequestBody =
+                    object : okhttp3.RequestBody() {
+                        override fun contentType(): okhttp3.MediaType? = mediaTypeString.toMediaTypeOrNull()
 
-                val okHttpRequest = okhttp3.Request.Builder()
-                    .url("https://example.com")
-                    .method("POST", okHttpRequestBody)
-                    .header("Authorization", "Bearer token")
-                    .build()
+                        override fun writeTo(sink: BufferedSink) {
+                            sink.writeUtf8(content)
+                        }
+                    }
+
+                val okHttpRequest =
+                    okhttp3.Request.Builder()
+                        .url("https://example.com")
+                        .method("POST", okHttpRequestBody)
+                        .header("Authorization", "Bearer token")
+                        .build()
 
                 // When
                 val sdkRequest = okHttpRequest.toSDKRequest()
@@ -96,11 +99,12 @@ class OkHttpMappingExtensionTest {
             @Test
             fun `should correctly map OkHttp Headers to SDK Headers`() {
                 // Given
-                val okHttpHeaders = okhttp3.Headers.Builder()
-                    .add("Content-Type", "application/json")
-                    .add("Authorization", "Bearer token")
-                    .add("Content-Type", "text/plain")
-                    .build()
+                val okHttpHeaders =
+                    okhttp3.Headers.Builder()
+                        .add("Content-Type", "application/json")
+                        .add("Authorization", "Bearer token")
+                        .add("Content-Type", "text/plain")
+                        .build()
 
                 // When
                 val sdkHeaders = okHttpHeaders.toSDKHeaders()
@@ -120,13 +124,16 @@ class OkHttpMappingExtensionTest {
                 val mediaTypeString = "text/plain"
                 val contentLength = content.length.toLong()
 
-                val okHttpRequestBody = object : okhttp3.RequestBody() {
-                    override fun contentLength(): Long = contentLength
-                    override fun contentType(): okhttp3.MediaType? = mediaTypeString.toMediaTypeOrNull()
-                    override fun writeTo(sink: BufferedSink) {
-                        sink.writeUtf8(content)
+                val okHttpRequestBody =
+                    object : okhttp3.RequestBody() {
+                        override fun contentLength(): Long = contentLength
+
+                        override fun contentType(): okhttp3.MediaType? = mediaTypeString.toMediaTypeOrNull()
+
+                        override fun writeTo(sink: BufferedSink) {
+                            sink.writeUtf8(content)
+                        }
                     }
-                }
 
                 // When
                 val sdkRequestBody = okHttpRequestBody.toSDKRequestBody()
@@ -145,13 +152,16 @@ class OkHttpMappingExtensionTest {
                 val content = "Hello World"
                 val contentLength = content.length.toLong()
 
-                val okHttpRequestBody = object : okhttp3.RequestBody() {
-                    override fun contentType(): okhttp3.MediaType? = null
-                    override fun contentLength(): Long = contentLength
-                    override fun writeTo(sink: BufferedSink) {
-                        sink.writeUtf8("Hello World")
+                val okHttpRequestBody =
+                    object : okhttp3.RequestBody() {
+                        override fun contentType(): okhttp3.MediaType? = null
+
+                        override fun contentLength(): Long = contentLength
+
+                        override fun writeTo(sink: BufferedSink) {
+                            sink.writeUtf8("Hello World")
+                        }
                     }
-                }
 
                 // When
                 val sdkRequestBody = okHttpRequestBody.toSDKRequestBody()
@@ -170,19 +180,21 @@ class OkHttpMappingExtensionTest {
             @Test
             fun `should correctly map OkHttp Response to SDK Response with response body`() {
                 // Given
-                val sdkRequest = Request.builder()
-                    .url("https://example.com")
-                    .method(Method.POST)
-                    .build()
+                val sdkRequest =
+                    Request.builder()
+                        .url("https://example.com")
+                        .method(Method.POST)
+                        .build()
 
-                val okHttpResponse = okhttp3.Response.Builder()
-                    .request(okhttp3.Request.Builder().url("https://example.com").build())
-                    .protocol(okhttp3.Protocol.HTTP_1_1)
-                    .code(200)
-                    .message("OK")
-                    .header("Content-Type", "application/json")
-                    .body("Response body".toResponseBody())
-                    .build()
+                val okHttpResponse =
+                    okhttp3.Response.Builder()
+                        .request(okhttp3.Request.Builder().url("https://example.com").build())
+                        .protocol(okhttp3.Protocol.HTTP_1_1)
+                        .code(200)
+                        .message("OK")
+                        .header("Content-Type", "application/json")
+                        .body("Response body".toResponseBody())
+                        .build()
 
                 // When
                 val sdkResponse = okHttpResponse.toSDKResponse(sdkRequest)
@@ -198,18 +210,20 @@ class OkHttpMappingExtensionTest {
             @Test
             fun `should correctly map OkHttp Response to SDK Response without response body`() {
                 // Given
-                val sdkRequest = Request.builder()
-                    .url("https://example.com")
-                    .method(Method.POST)
-                    .build()
+                val sdkRequest =
+                    Request.builder()
+                        .url("https://example.com")
+                        .method(Method.POST)
+                        .build()
 
-                val okHttpResponse = okhttp3.Response.Builder()
-                    .request(okhttp3.Request.Builder().url("https://example.com").build())
-                    .protocol(okhttp3.Protocol.HTTP_1_1)
-                    .code(200)
-                    .message("OK")
-                    .header("Content-Type", "application/json")
-                    .build()
+                val okHttpResponse =
+                    okhttp3.Response.Builder()
+                        .request(okhttp3.Request.Builder().url("https://example.com").build())
+                        .protocol(okhttp3.Protocol.HTTP_1_1)
+                        .code(200)
+                        .message("OK")
+                        .header("Content-Type", "application/json")
+                        .build()
 
                 // When
                 val sdkResponse = okHttpResponse.toSDKResponse(sdkRequest)
@@ -292,7 +306,6 @@ class OkHttpMappingExtensionTest {
 
     @Nested
     inner class FromSDKToOkHttpConversion {
-
         @Nested
         inner class ToOkHttpRequestExtensionFunction {
             @Test
@@ -300,12 +313,13 @@ class OkHttpMappingExtensionTest {
                 // Given
                 val originalContent = "Hello World"
 
-                val sdkRequest = Request.builder()
-                    .url("https://example.com")
-                    .addHeader("Authorization", "Bearer token")
-                    .method(Method.POST)
-                    .body(RequestBody.create(originalContent.byteInputStream(), CommonMediaTypes.TEXT_PLAIN))
-                    .build()
+                val sdkRequest =
+                    Request.builder()
+                        .url("https://example.com")
+                        .addHeader("Authorization", "Bearer token")
+                        .method(Method.POST)
+                        .body(RequestBody.create(originalContent.byteInputStream(), CommonMediaTypes.TEXT_PLAIN))
+                        .build()
 
                 // When
                 val okHttpRequest = sdkRequest.toOkHttpRequest()
@@ -327,12 +341,13 @@ class OkHttpMappingExtensionTest {
                 // Given
                 val originalContent = "Hello World"
 
-                val sdkRequest = Request.builder()
-                    .url("https://example.com")
-                    .addHeader("Authorization", "Bearer token")
-                    .method(Method.POST)
-                    .body(RequestBody.create(originalContent.byteInputStream()))
-                    .build()
+                val sdkRequest =
+                    Request.builder()
+                        .url("https://example.com")
+                        .addHeader("Authorization", "Bearer token")
+                        .method(Method.POST)
+                        .body(RequestBody.create(originalContent.byteInputStream()))
+                        .build()
 
                 // When
                 val okHttpRequest = sdkRequest.toOkHttpRequest()
@@ -353,11 +368,12 @@ class OkHttpMappingExtensionTest {
             @Test
             fun `should correctly map SDK Request to OkHttp Request without request body`() {
                 // Given
-                val sdkRequest = Request.builder()
-                    .url("https://example.com")
-                    .addHeader("Authorization", "Bearer token")
-                    .method(Method.GET)
-                    .build()
+                val sdkRequest =
+                    Request.builder()
+                        .url("https://example.com")
+                        .addHeader("Authorization", "Bearer token")
+                        .method(Method.GET)
+                        .build()
 
                 // When
                 val okHttpRequest = sdkRequest.toOkHttpRequest()
@@ -375,11 +391,12 @@ class OkHttpMappingExtensionTest {
             @Test
             fun `should correctly map SDK Headers to OkHttp Headers`() {
                 // Given
-                val sdkHeaders = Headers.builder()
-                    .add("Content-Type", "application/json")
-                    .add("Authorization", "Bearer token")
-                    .add("Accept", listOf("text/plain", "text/html"))
-                    .build()
+                val sdkHeaders =
+                    Headers.builder()
+                        .add("Content-Type", "application/json")
+                        .add("Authorization", "Bearer token")
+                        .add("Accept", listOf("text/plain", "text/html"))
+                        .build()
 
                 // When
                 val okHttpHeaders = sdkHeaders.toOkHttpHeaders()
@@ -397,11 +414,12 @@ class OkHttpMappingExtensionTest {
             fun `should correctly map SDK RequestBody to OkHttp RequestBody with media type`() {
                 // Given
                 val content = "Hello World"
-                val sdkRequestBody = RequestBody.create(
-                    inputStream = content.byteInputStream(),
-                    mediaType = MediaType.parse("text/plain"),
-                    contentLength = content.length.toLong()
-                )
+                val sdkRequestBody =
+                    RequestBody.create(
+                        inputStream = content.byteInputStream(),
+                        mediaType = MediaType.parse("text/plain"),
+                        contentLength = content.length.toLong()
+                    )
 
                 // When
                 val okHttpRequestBody = sdkRequestBody.toOkHttpRequestBody()
@@ -423,10 +441,11 @@ class OkHttpMappingExtensionTest {
             fun `should correctly map SDK RequestBody to OkHttp RequestBody without media type`() {
                 // Given
                 val content = "Hello World"
-                val sdkRequestBody = RequestBody.create(
-                    inputStream = content.byteInputStream(),
-                    contentLength = content.length.toLong()
-                )
+                val sdkRequestBody =
+                    RequestBody.create(
+                        inputStream = content.byteInputStream(),
+                        contentLength = content.length.toLong()
+                    )
 
                 // When
                 val okHttpRequestBody = sdkRequestBody.toOkHttpRequestBody()
@@ -452,18 +471,20 @@ class OkHttpMappingExtensionTest {
                 // Given
                 val content = "Response Body"
 
-                val sdkResponseBody = ResponseBody.create(
-                    inputStream = content.byteInputStream(),
-                    mediaType = CommonMediaTypes.TEXT_PLAIN,
-                    contentLength = content.length.toLong()
-                )
+                val sdkResponseBody =
+                    ResponseBody.create(
+                        inputStream = content.byteInputStream(),
+                        mediaType = CommonMediaTypes.TEXT_PLAIN,
+                        contentLength = content.length.toLong()
+                    )
 
-                val sdkResponse = Response.builder()
-                    .body(sdkResponseBody)
-                    .protocol(Protocol.HTTP_1_1)
-                    .status(Status.OK)
-                    .request(Request.Builder().url("https://example.com").method(Method.GET).build())
-                    .build()
+                val sdkResponse =
+                    Response.builder()
+                        .body(sdkResponseBody)
+                        .protocol(Protocol.HTTP_1_1)
+                        .status(Status.OK)
+                        .request(Request.Builder().url("https://example.com").method(Method.GET).build())
+                        .build()
 
                 // When
                 val okHttpResponse = sdkResponse.toOkHttpResponse()
@@ -505,11 +526,12 @@ class OkHttpMappingExtensionTest {
             fun `should correctly map SDK ResponseBody to OkHttp ResponseBody`() {
                 // Given
                 val content = "Response Body"
-                val sdkResponseBody = ResponseBody.create(
-                    inputStream = content.byteInputStream(),
-                    mediaType = CommonMediaTypes.TEXT_PLAIN,
-                    contentLength = content.length.toLong()
-                )
+                val sdkResponseBody =
+                    ResponseBody.create(
+                        inputStream = content.byteInputStream(),
+                        mediaType = CommonMediaTypes.TEXT_PLAIN,
+                        contentLength = content.length.toLong()
+                    )
 
                 // When
                 val okHttpResponseBody = sdkResponseBody.toOkHttpResponseBody()

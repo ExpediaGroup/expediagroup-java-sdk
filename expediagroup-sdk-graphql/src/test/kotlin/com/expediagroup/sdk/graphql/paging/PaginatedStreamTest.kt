@@ -1,10 +1,10 @@
 package com.expediagroup.sdk.graphql.paging
 
-import java.util.stream.Collectors
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import java.util.stream.Collectors
 
 internal class TestPaginatedStream(private val pages: List<List<String?>?>?) : PaginatedStream<String?>() {
     private var pageIndex = 0
@@ -17,15 +17,15 @@ internal class TestPaginatedStream(private val pages: List<List<String?>?>?) : P
 }
 
 class PaginatedStreamTest {
-
     @Test
     fun `should stream all items across multiple pages`() {
         // Given
-        val pages = listOf(
-            listOf("item1", "item2"),
-            listOf("item3", "item4"),
-            listOf("item5")
-        )
+        val pages =
+            listOf(
+                listOf("item1", "item2"),
+                listOf("item3", "item4"),
+                listOf("item5")
+            )
 
         val paginatedStream = TestPaginatedStream(pages)
 
@@ -39,9 +39,10 @@ class PaginatedStreamTest {
     @Test
     fun `should stream items from a single page`() {
         // Given
-        val pages = listOf(
-            listOf("item1", "item2", "item3")
-        )
+        val pages =
+            listOf(
+                listOf("item1", "item2", "item3")
+            )
 
         val paginatedStream = TestPaginatedStream(pages)
 
@@ -68,10 +69,11 @@ class PaginatedStreamTest {
     @Test
     fun `should fetch pages lazily`() {
         // Given
-        val pages = listOf(
-            listOf("item1", "item2"),
-            listOf("item3", "item4")
-        )
+        val pages =
+            listOf(
+                listOf("item1", "item2"),
+                listOf("item3", "item4")
+            )
         val paginatedStream = TestPaginatedStream(pages)
 
         // When
@@ -89,10 +91,11 @@ class PaginatedStreamTest {
     @Test
     fun `should handle null items in pages`() {
         // Given
-        val pages = listOf(
-            listOf("item1", null, "item2"),
-            listOf("item3")
-        )
+        val pages =
+            listOf(
+                listOf("item1", null, "item2"),
+                listOf("item3")
+            )
         val paginatedStream = TestPaginatedStream(pages)
 
         // When
@@ -105,11 +108,12 @@ class PaginatedStreamTest {
     @Test
     fun `should stop the stream on first empty page`() {
         // Given
-        val pages = listOf(
-            listOf("item1", "item2"),
-            null,
-            listOf("item3")
-        )
+        val pages =
+            listOf(
+                listOf("item1", "item2"),
+                null,
+                listOf("item3")
+            )
 
         val paginatedStream = TestPaginatedStream(pages)
 

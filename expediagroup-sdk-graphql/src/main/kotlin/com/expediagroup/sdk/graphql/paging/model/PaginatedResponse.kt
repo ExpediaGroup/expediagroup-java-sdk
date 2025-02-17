@@ -30,7 +30,6 @@ import com.expediagroup.sdk.graphql.model.Response
  * the complete unprocessed data and error information from the GraphQL operation.
  */
 interface PaginatedResponse<T, R : Operation.Data> : Response<T, R> {
-
     /**
      * Metadata about the pagination state, including page size, cursor position, and whether additional pages are available.
      */

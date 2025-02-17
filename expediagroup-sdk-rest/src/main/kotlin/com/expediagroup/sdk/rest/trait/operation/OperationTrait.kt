@@ -5,4 +5,4 @@ import com.expediagroup.sdk.rest.trait.Trait
 /**
  * Marker interface for operation traits.
  */
-interface OperationTrait: Trait
+interface OperationTrait : Trait

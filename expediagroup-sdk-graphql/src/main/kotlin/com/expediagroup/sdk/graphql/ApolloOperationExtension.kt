@@ -28,19 +28,21 @@ import com.expediagroup.sdk.core.http.Method
 import com.expediagroup.sdk.core.http.Request
 import com.expediagroup.sdk.core.http.RequestBody
 import com.expediagroup.sdk.core.http.Response
-import java.util.UUID
 import okio.Buffer
+import java.util.UUID
 
 fun <D : Operation.Data> Operation<D>.toSDKRequest(url: String): Request {
-    val body = buildJsonString {
-        this@toSDKRequest.composeJsonRequest(this)
-    }
+    val body =
+        buildJsonString {
+            this@toSDKRequest.composeJsonRequest(this)
+        }
 
-    val requestBody = RequestBody.create(
-        source = Buffer().writeUtf8(body),
-        mediaType = CommonMediaTypes.APPLICATION_JSON,
-        contentLength = body.length.toLong()
-    )
+    val requestBody =
+        RequestBody.create(
+            source = Buffer().writeUtf8(body),
+            mediaType = CommonMediaTypes.APPLICATION_JSON,
+            contentLength = body.length.toLong()
+        )
 
     return Request.builder()
         .url(url)
@@ -51,10 +53,11 @@ fun <D : Operation.Data> Operation<D>.toSDKRequest(url: String): Request {
 }
 
 fun <D : Operation.Data> Response.toApolloResponse(operation: Operation<D>): ApolloResponse<D> {
-    val apolloResponse = this.body?.let {
-        val jsonReader = it.source().buffer.jsonReader()
-        operation.parseResponse(jsonReader)
-    }
+    val apolloResponse =
+        this.body?.let {
+            val jsonReader = it.source().buffer.jsonReader()
+            operation.parseResponse(jsonReader)
+        }
 
     return apolloResponse ?: ApolloResponse.Builder(operation, UUID.randomUUID())
         .data(null)

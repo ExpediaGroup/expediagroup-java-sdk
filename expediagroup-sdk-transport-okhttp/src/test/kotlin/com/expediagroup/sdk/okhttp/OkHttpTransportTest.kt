@@ -18,24 +18,25 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
 class OkHttpTransportTest {
-
     @Test
     fun `execute should correctly execute the request and return a response`() {
         // Given
         val mockOkHttpClient = mockk<OkHttpClient>()
         val mockCall = mockk<Call>()
 
-        val sdkRequest = Request.builder()
-            .url("https://example.com/")
-            .method(Method.GET)
-            .build()
+        val sdkRequest =
+            Request.builder()
+                .url("https://example.com/")
+                .method(Method.GET)
+                .build()
 
-        val sdkResponse = Response.builder()
-            .request(sdkRequest)
-            .status(Status.OK)
-            .protocol(Protocol.HTTP_1_1)
-            .message("OK")
-            .build()
+        val sdkResponse =
+            Response.builder()
+                .request(sdkRequest)
+                .status(Status.OK)
+                .protocol(Protocol.HTTP_1_1)
+                .message("OK")
+                .build()
 
         val okHttpResponse = sdkResponse.toOkHttpResponse()
 
@@ -67,10 +68,11 @@ class OkHttpTransportTest {
         val mockOkHttpClient = mockk<OkHttpClient>()
         val mockCall = mockk<Call>()
 
-        val sdkRequest = Request.builder()
-            .url("https://example.com/")
-            .method(Method.GET)
-            .build()
+        val sdkRequest =
+            Request.builder()
+                .url("https://example.com/")
+                .method(Method.GET)
+                .build()
 
         every { mockOkHttpClient.newCall(any()) } returns mockCall
         every { mockCall.execute() } throws RuntimeException()

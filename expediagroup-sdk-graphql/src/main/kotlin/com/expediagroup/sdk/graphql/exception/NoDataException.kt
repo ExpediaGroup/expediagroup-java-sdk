@@ -32,5 +32,5 @@ import com.expediagroup.sdk.graphql.model.GraphQLError
 class NoDataException(
     message: String? = null,
     cause: Throwable? = null,
-    val errors: List<GraphQLError>,
+    val errors: List<GraphQLError>
 ) : ExpediaGroupServiceException(message, cause)

@@ -30,11 +30,10 @@ data class GraphQLError(
     val path: List<String>?
 ) {
     companion object {
-        fun fromApolloError(apolloError: Error): GraphQLError {
-            return GraphQLError(
+        fun fromApolloError(apolloError: Error): GraphQLError =
+            GraphQLError(
                 message = apolloError.message,
                 path = apolloError.path?.map { it.toString() }
             )
-        }
     }
 }

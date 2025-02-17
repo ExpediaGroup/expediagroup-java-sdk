@@ -38,7 +38,6 @@ class GraphQLExecutor(
     private val requestExecutor: AbstractRequestExecutor,
     private val serverUrl: String
 ) : Disposable by requestExecutor {
-
     /**
      * Executes a GraphQL operation and returns a [RawResponse] containing the complete data and any errors.
      *
@@ -47,20 +46,21 @@ class GraphQLExecutor(
      * @throws [ExpediaGroupServiceException] If an exception occurs during operation execution.
      * @throws [NoDataException] If the operation completes without data but includes errors.
      */
-    fun <T : Operation.Data> execute(operation: Operation<T>): RawResponse<T> = operation
-        .toSDKRequest(serverUrl).let {
-            requestExecutor.execute(it)
-        }.toApolloResponse(operation).let {
-            processApolloResponse(it)
-        }
+    fun <T : Operation.Data> execute(operation: Operation<T>): RawResponse<T> =
+        operation
+            .toSDKRequest(serverUrl).let {
+                requestExecutor.execute(it)
+            }.toApolloResponse(operation).let {
+                processApolloResponse(it)
+            }
 
     /**
      * Handles the response from a GraphQL operation
      *
      * @param response The ApolloResponse containing the data and errors from the GraphQL operation.
      */
-    private fun <T : Operation.Data> processApolloResponse(response: ApolloResponse<T>): RawResponse<T> {
-        return when {
+    private fun <T : Operation.Data> processApolloResponse(response: ApolloResponse<T>): RawResponse<T> =
+        when {
             response.exception != null -> throw ExpediaGroupServiceException(cause = response.exception)
 
             response.data == null && response.hasErrors() -> throw NoDataException(
@@ -68,10 +68,10 @@ class GraphQLExecutor(
                 errors = response.errors!!.map { GraphQLError.fromApolloError(it) }
             )
 
-            else -> RawResponse(
-                data = response.data!!,
-                errors = response.errors?.map { GraphQLError.fromApolloError(it) }
-            )
+            else ->
+                RawResponse(
+                    data = response.data!!,
+                    errors = response.errors?.map { GraphQLError.fromApolloError(it) }
+                )
         }
-    }
 }

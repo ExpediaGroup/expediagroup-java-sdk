@@ -17,9 +17,7 @@ internal class TestPaginatedResponse(
 internal class TestPaginator(private val availablePages: Int) : Paginator<TestPaginatedResponse>() {
     private var fetchedPages = 0
 
-    override fun hasPagesToFetch(): Boolean {
-        return availablePages > 0
-    }
+    override fun hasPagesToFetch(): Boolean = availablePages > 0
 
     override fun next(): TestPaginatedResponse {
         fetchedPages++
@@ -27,17 +25,17 @@ internal class TestPaginator(private val availablePages: Int) : Paginator<TestPa
 
         return TestPaginatedResponse(
             data = TestQuery.Data {},
-            pageInfo = PageInfo(
-                pageSize = 1,
-                hasNext = hasNext()
-            ),
+            pageInfo =
+                PageInfo(
+                    pageSize = 1,
+                    hasNext = hasNext()
+                ),
             rawResponse = RawResponse(data = TestQuery.Data {}, errors = emptyList())
         )
     }
 }
 
 class PaginatorTest {
-
     @Test
     fun `hasNext should return true if there are available pages for the firs call`() {
         val paginator = TestPaginator(availablePages = 3)

@@ -11,7 +11,6 @@ import com.expediagroup.sdk.rest.trait.operation.OperationRequestTrait
 import com.expediagroup.sdk.rest.trait.operation.UrlPathTrait
 import com.expediagroup.sdk.rest.trait.operation.UrlQueryParamsTrait
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import java.net.URL
 import okio.Buffer
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -20,16 +19,19 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
+import java.net.URL
 
 class OperationToRequestExtensionTest {
     @Nested
     inner class ParseRequestTest {
         @Test
         fun `throws exception when method is empty`() {
-            val operation = object : UrlPathTrait {
-                override fun getUrlPath(): String = "/test"
-                override fun getHttpMethod(): String = ""
-            }
+            val operation =
+                object : UrlPathTrait {
+                    override fun getUrlPath(): String = "/test"
+
+                    override fun getHttpMethod(): String = ""
+                }
 
             assertThrows<IllegalArgumentException> {
                 operation.parseRequest(
@@ -41,15 +43,18 @@ class OperationToRequestExtensionTest {
 
         @Test
         fun `parses url path when UrlPathTrait is implemented`() {
-            val operation = object : UrlPathTrait, OperationRequestTrait {
-                override fun getUrlPath(): String = "/test"
-                override fun getHttpMethod(): String = "GET"
-            }
+            val operation =
+                object : UrlPathTrait, OperationRequestTrait {
+                    override fun getUrlPath(): String = "/test"
 
-            val request = operation.parseRequest(
-                mapper = jacksonObjectMapper(),
-                url = URL("https://example.com")
-            )
+                    override fun getHttpMethod(): String = "GET"
+                }
+
+            val request =
+                operation.parseRequest(
+                    mapper = jacksonObjectMapper(),
+                    url = URL("https://example.com")
+                )
 
             val actual = request.url.toString()
             val expected = "https://example.com/test"
@@ -59,15 +64,18 @@ class OperationToRequestExtensionTest {
 
         @Test
         fun `ignores url path and returns base url when path is blank`() {
-            val operation = object : OperationRequestTrait, UrlPathTrait {
-                override fun getHttpMethod(): String = "GET"
-                override fun getUrlPath(): String = ""
-            }
+            val operation =
+                object : OperationRequestTrait, UrlPathTrait {
+                    override fun getHttpMethod(): String = "GET"
 
-            val request = operation.parseRequest(
-                mapper = jacksonObjectMapper(),
-                url = URL("https://example.com")
-            )
+                    override fun getUrlPath(): String = ""
+                }
+
+            val request =
+                operation.parseRequest(
+                    mapper = jacksonObjectMapper(),
+                    url = URL("https://example.com")
+                )
 
             val actual = request.url.toString()
             val expected = "https://example.com"
@@ -77,24 +85,29 @@ class OperationToRequestExtensionTest {
 
         @Test
         fun `parses headers when HeadersTrait is implemented`() {
-            val operation = object : OperationRequestTrait, HeadersTrait {
-                override fun getHttpMethod(): String = "POST"
-                override fun getHeaders(): Headers = Headers.builder()
+            val operation =
+                object : OperationRequestTrait, HeadersTrait {
+                    override fun getHttpMethod(): String = "POST"
+
+                    override fun getHeaders(): Headers =
+                        Headers.builder()
+                            .add("key1", "value1")
+                            .add("key2", "value2")
+                            .build()
+                }
+
+            val request =
+                operation.parseRequest(
+                    mapper = jacksonObjectMapper(),
+                    url = URL("https://example.com")
+                )
+
+            val actual = request.headers
+            val expected =
+                Headers.builder()
                     .add("key1", "value1")
                     .add("key2", "value2")
                     .build()
-            }
-
-            val request = operation.parseRequest(
-                mapper = jacksonObjectMapper(),
-                url = URL("https://example.com")
-            )
-
-            val actual = request.headers
-            val expected = Headers.builder()
-                .add("key1", "value1")
-                .add("key2", "value2")
-                .build()
 
             assertEquals(expected, actual)
             assertEquals(request.url, URL("https://example.com"))
@@ -102,19 +115,23 @@ class OperationToRequestExtensionTest {
 
         @Test
         fun `headers are empty when operation headers are empty`() {
-            val operation = object : OperationRequestTrait, HeadersTrait {
-                override fun getHttpMethod(): String = "POST"
-                override fun getHeaders(): Headers = Headers.builder().build()
-            }
+            val operation =
+                object : OperationRequestTrait, HeadersTrait {
+                    override fun getHttpMethod(): String = "POST"
 
-            val request = operation.parseRequest(
-                mapper = jacksonObjectMapper(),
-                url = URL("https://example.com")
-            )
+                    override fun getHeaders(): Headers = Headers.builder().build()
+                }
+
+            val request =
+                operation.parseRequest(
+                    mapper = jacksonObjectMapper(),
+                    url = URL("https://example.com")
+                )
 
             val actual = request.headers
-            val expected = Headers.builder()
-                .build()
+            val expected =
+                Headers.builder()
+                    .build()
 
             assertEquals(expected, actual)
             assertEquals(request.url, URL("https://example.com"))
@@ -122,28 +139,34 @@ class OperationToRequestExtensionTest {
 
         @Test
         fun `parses request body when RequestBodyTrait is implemented`() {
-            val operation = object : OperationRequestTrait, OperationRequestBodyTrait<List<String>> {
-                override fun getHttpMethod(): String = "POST"
-                override fun getRequestBody(): List<String> = listOf("test1", "test2")
-                override fun getContentType(): String = "application/json"
-            }
+            val operation =
+                object : OperationRequestTrait, OperationRequestBodyTrait<List<String>> {
+                    override fun getHttpMethod(): String = "POST"
 
-            val request = operation.parseRequest(
-                mapper = jacksonObjectMapper(),
-                url = URL("https://example.com")
-            )
+                    override fun getRequestBody(): List<String> = listOf("test1", "test2")
 
-            val actual = Buffer().apply {
-                request.body!!.writeTo(this)
-            }.readUtf8()
+                    override fun getContentType(): String = "application/json"
+                }
 
-            val expected = Buffer().apply {
-                RequestBody.create(
-                    inputStream = """["test1","test2"]""".byteInputStream(),
-                    mediaType = MediaType.parse("application/json"),
-                    contentLength = """["test1","test2"]""".byteInputStream().available().toLong()
-                ).writeTo(this)
-            }.readUtf8()
+            val request =
+                operation.parseRequest(
+                    mapper = jacksonObjectMapper(),
+                    url = URL("https://example.com")
+                )
+
+            val actual =
+                Buffer().apply {
+                    request.body!!.writeTo(this)
+                }.readUtf8()
+
+            val expected =
+                Buffer().apply {
+                    RequestBody.create(
+                        inputStream = """["test1","test2"]""".byteInputStream(),
+                        mediaType = MediaType.parse("application/json"),
+                        contentLength = """["test1","test2"]""".byteInputStream().available().toLong()
+                    ).writeTo(this)
+                }.readUtf8()
 
             assertEquals(expected, actual)
             assertEquals(MediaType.parse("application/json"), request.body!!.mediaType())
@@ -165,10 +188,12 @@ class OperationToRequestExtensionTest {
         )
         fun `parses url with different ports`(base: String) {
             val baseUrl = URL(base)
-            val operation = object : UrlPathTrait {
-                override fun getUrlPath(): String = "/test"
-                override fun getHttpMethod(): String = "POST"
-            }
+            val operation =
+                object : UrlPathTrait {
+                    override fun getUrlPath(): String = "/test"
+
+                    override fun getHttpMethod(): String = "POST"
+                }
 
             val actual = operation.parseURL(baseUrl)
             val expected = URL("$base/test")
@@ -184,15 +209,17 @@ class OperationToRequestExtensionTest {
                 "https://example.com/v1/api",
                 "ftp://ftp.example.com/v1/api",
                 "file:///home/v1/api",
-                "file://servername/v1/api",
+                "file://servername/v1/api"
             ]
         )
         fun `respects base url path`(base: String) {
             val baseUrl = URL(base)
-            val operation = object : UrlPathTrait {
-                override fun getUrlPath(): String = "/test"
-                override fun getHttpMethod(): String = "POST"
-            }
+            val operation =
+                object : UrlPathTrait {
+                    override fun getUrlPath(): String = "/test"
+
+                    override fun getHttpMethod(): String = "POST"
+                }
 
             val actual = operation.parseURL(baseUrl)
             val expected = URL("$base/test")
@@ -208,19 +235,23 @@ class OperationToRequestExtensionTest {
                 "https://example.com/v1/api",
                 "ftp://ftp.example.com/v1/api",
                 "file:///home/v1/api",
-                "file://servername/v1/api",
+                "file://servername/v1/api"
             ]
         )
         fun `adds query parameters`(base: String) {
             val baseUrl = URL(base)
-            val operation = object : UrlPathTrait, UrlQueryParamsTrait {
-                override fun getUrlPath(): String = "/test"
-                override fun getHttpMethod(): String = "POST"
-                override fun getUrlQueryParams(): Map<String, List<String>> = mapOf(
-                    "key1" to listOf("value1"),
-                    "key2" to listOf("value2", "value3")
-                )
-            }
+            val operation =
+                object : UrlPathTrait, UrlQueryParamsTrait {
+                    override fun getUrlPath(): String = "/test"
+
+                    override fun getHttpMethod(): String = "POST"
+
+                    override fun getUrlQueryParams(): Map<String, List<String>> =
+                        mapOf(
+                            "key1" to listOf("value1"),
+                            "key2" to listOf("value2", "value3")
+                        )
+                }
 
             val actual = operation.parseURL(baseUrl)
             val expected = URL("$base/test?key1=value1&key2=value2&key2=value3")
@@ -236,23 +267,25 @@ class OperationToRequestExtensionTest {
                 "https://example.com/v1/api",
                 "ftp://ftp.example.com/v1/api",
                 "file:///home/v1/api",
-                "file://servername/v1/api",
+                "file://servername/v1/api"
             ]
         )
         fun `ignores empty query parameters when UrlPathTrait is implemented`(base: String) {
             val baseUrl = URL(base)
-            val operation = object : UrlPathTrait, UrlQueryParamsTrait {
-                override fun getUrlPath(): String = "/test"
-                override fun getHttpMethod(): String = "POST"
-                override fun getUrlQueryParams(): Map<String, List<String>> = emptyMap()
-            }
+            val operation =
+                object : UrlPathTrait, UrlQueryParamsTrait {
+                    override fun getUrlPath(): String = "/test"
+
+                    override fun getHttpMethod(): String = "POST"
+
+                    override fun getUrlQueryParams(): Map<String, List<String>> = emptyMap()
+                }
 
             val actual = operation.parseURL(baseUrl)
             val expected = URL("$base/test")
 
             assertEquals(expected, actual)
         }
-
 
         @ParameterizedTest
         @ValueSource(
@@ -262,19 +295,23 @@ class OperationToRequestExtensionTest {
                 "https://example.com/v1/api",
                 "ftp://ftp.example.com/v1/api",
                 "file:///home/v1/api",
-                "file://servername/v1/api",
+                "file://servername/v1/api"
             ]
         )
         fun `adds query parameters and ignores empty values`(base: String) {
             val baseUrl = URL(base)
-            val operation = object : UrlPathTrait, UrlQueryParamsTrait {
-                override fun getHttpMethod(): String = "POST"
-                override fun getUrlPath(): String = "/test"
-                override fun getUrlQueryParams(): Map<String, List<String>> = mapOf(
-                    "key1" to emptyList(),
-                    "key2" to listOf("value2", "value3")
-                )
-            }
+            val operation =
+                object : UrlPathTrait, UrlQueryParamsTrait {
+                    override fun getHttpMethod(): String = "POST"
+
+                    override fun getUrlPath(): String = "/test"
+
+                    override fun getUrlQueryParams(): Map<String, List<String>> =
+                        mapOf(
+                            "key1" to emptyList(),
+                            "key2" to listOf("value2", "value3")
+                        )
+                }
 
             val actual = operation.parseURL(baseUrl)
             val expected = URL("$base/test?key2=value2&key2=value3")
@@ -290,19 +327,23 @@ class OperationToRequestExtensionTest {
                 "https://example.com/v1/api",
                 "ftp://ftp.example.com/v1/api",
                 "file:///home/v1/api",
-                "file://servername/v1/api",
+                "file://servername/v1/api"
             ]
         )
         fun `adds query parameters and ignores empty keys`(base: String) {
             val baseUrl = URL(base)
-            val operation = object : UrlPathTrait, UrlQueryParamsTrait {
-                override fun getHttpMethod(): String = "POST"
-                override fun getUrlPath(): String = "/test"
-                override fun getUrlQueryParams(): Map<String, List<String>> = mapOf(
-                    "key1" to emptyList(),
-                    "" to listOf("value2", "value3")
-                )
-            }
+            val operation =
+                object : UrlPathTrait, UrlQueryParamsTrait {
+                    override fun getHttpMethod(): String = "POST"
+
+                    override fun getUrlPath(): String = "/test"
+
+                    override fun getUrlQueryParams(): Map<String, List<String>> =
+                        mapOf(
+                            "key1" to emptyList(),
+                            "" to listOf("value2", "value3")
+                        )
+                }
 
             val actual = operation.parseURL(baseUrl)
             val expected = URL("$base/test")
@@ -318,19 +359,23 @@ class OperationToRequestExtensionTest {
                 "https://example.com/v1/api",
                 "ftp://ftp.example.com/v1/api",
                 "file:///home/v1/api",
-                "file://servername/v1/api",
+                "file://servername/v1/api"
             ]
         )
         fun `adds query parameters and ignores empty keys and values`(base: String) {
             val baseUrl = URL(base)
-            val operation = object : UrlPathTrait, UrlQueryParamsTrait {
-                override fun getHttpMethod(): String = "POST"
-                override fun getUrlPath(): String = "/test"
-                override fun getUrlQueryParams(): Map<String, List<String>> = mapOf(
-                    "key1" to emptyList(),
-                    "" to emptyList()
-                )
-            }
+            val operation =
+                object : UrlPathTrait, UrlQueryParamsTrait {
+                    override fun getHttpMethod(): String = "POST"
+
+                    override fun getUrlPath(): String = "/test"
+
+                    override fun getUrlQueryParams(): Map<String, List<String>> =
+                        mapOf(
+                            "key1" to emptyList(),
+                            "" to emptyList()
+                        )
+                }
 
             val actual = operation.parseURL(baseUrl)
             val expected = URL("$base/test")
@@ -341,10 +386,12 @@ class OperationToRequestExtensionTest {
         @Test
         fun `ignores empty operation path`() {
             val baseUrl = URL("https://example.com/v1/api")
-            val operation = object : UrlPathTrait {
-                override fun getHttpMethod(): String = "POST"
-                override fun getUrlPath(): String = ""
-            }
+            val operation =
+                object : UrlPathTrait {
+                    override fun getHttpMethod(): String = "POST"
+
+                    override fun getUrlPath(): String = ""
+                }
 
             val actual = operation.parseURL(baseUrl)
             val expected = URL("https://example.com/v1/api")
@@ -355,14 +402,18 @@ class OperationToRequestExtensionTest {
         @Test
         fun `adds query parameters with empty path`() {
             val baseUrl = URL("https://example.com")
-            val operation = object : UrlPathTrait, UrlQueryParamsTrait {
-                override fun getHttpMethod(): String = "POST"
-                override fun getUrlPath(): String = ""
-                override fun getUrlQueryParams(): Map<String, List<String>> = mapOf(
-                    "key1" to listOf("value1"),
-                    "key2" to listOf("value2", "value3")
-                )
-            }
+            val operation =
+                object : UrlPathTrait, UrlQueryParamsTrait {
+                    override fun getHttpMethod(): String = "POST"
+
+                    override fun getUrlPath(): String = ""
+
+                    override fun getUrlQueryParams(): Map<String, List<String>> =
+                        mapOf(
+                            "key1" to listOf("value1"),
+                            "key2" to listOf("value2", "value3")
+                        )
+                }
 
             val actual = operation.parseURL(baseUrl)
             val expected = URL("https://example.com?key1=value1&key2=value2&key2=value3")
@@ -389,9 +440,10 @@ class OperationToRequestExtensionTest {
             ]
         )
         fun `parses valid http methods case insensitive`(method: String) {
-            val operation = object : OperationRequestTrait {
-                override fun getHttpMethod(): String = method
-            }
+            val operation =
+                object : OperationRequestTrait {
+                    override fun getHttpMethod(): String = method
+                }
 
             val actual = operation.parseMethod()
             val expected = Method.valueOf(method.uppercase())
@@ -407,13 +459,14 @@ class OperationToRequestExtensionTest {
                 "Nasser",
                 "Dwairi",
                 "Noor",
-                "Dana",
+                "Dana"
             ]
         )
         fun `throws exception for invalid http methods`(method: String) {
-            val operation = object : OperationRequestTrait {
-                override fun getHttpMethod(): String = method
-            }
+            val operation =
+                object : OperationRequestTrait {
+                    override fun getHttpMethod(): String = method
+                }
 
             assertThrows<IllegalArgumentException> {
                 operation.parseMethod()
@@ -437,14 +490,16 @@ class OperationToRequestExtensionTest {
                 "application/ZiP",
                 "application/GZIP",
                 "application/X-tar",
-                "application/x-RAR-compressed",
+                "application/x-RAR-compressed"
             ]
         )
         fun `parses valid media types cases insensitive`(mediaType: String) {
-            val operation = object : ContentTypeTrait {
-                override fun getHttpMethod(): String = "POST"
-                override fun getContentType(): String = mediaType
-            }
+            val operation =
+                object : ContentTypeTrait {
+                    override fun getHttpMethod(): String = "POST"
+
+                    override fun getContentType(): String = mediaType
+                }
 
             val actual = operation.parseMediaType()
             val expected = MediaType.parse(mediaType)
@@ -457,14 +512,16 @@ class OperationToRequestExtensionTest {
             strings = [
                 "application Omar",
                 "Jordan The Guy",
-                "JSML",
+                "JSML"
             ]
         )
         fun `throws exception for invalid media types`(mediaType: String) {
-            val operation = object : ContentTypeTrait {
-                override fun getHttpMethod(): String = "POST"
-                override fun getContentType(): String = mediaType
-            }
+            val operation =
+                object : ContentTypeTrait {
+                    override fun getHttpMethod(): String = "POST"
+
+                    override fun getContentType(): String = mediaType
+                }
 
             assertThrows<IllegalArgumentException> {
                 operation.parseMediaType()
@@ -478,25 +535,31 @@ class OperationToRequestExtensionTest {
 
         @Test
         fun `parses request body`() {
-            val operation = object : OperationRequestBodyTrait<List<String>> {
-                override fun getHttpMethod(): String = "POST"
-                override fun getRequestBody(): List<String> = listOf("test1", "test2")
-                override fun getContentType(): String = "application/json"
-            }
+            val operation =
+                object : OperationRequestBodyTrait<List<String>> {
+                    override fun getHttpMethod(): String = "POST"
+
+                    override fun getRequestBody(): List<String> = listOf("test1", "test2")
+
+                    override fun getContentType(): String = "application/json"
+                }
 
             val actual = operation.parseRequestBody(mapper)
-            val expected = RequestBody.create(
-                inputStream = """["test1","test2"]""".byteInputStream(),
-                mediaType = MediaType.parse("application/json"),
-                contentLength = """["test1","test2"]""".byteInputStream().available().toLong()
-            )
+            val expected =
+                RequestBody.create(
+                    inputStream = """["test1","test2"]""".byteInputStream(),
+                    mediaType = MediaType.parse("application/json"),
+                    contentLength = """["test1","test2"]""".byteInputStream().available().toLong()
+                )
 
-            val actualStream = Buffer().apply {
-                actual.writeTo(this)
-            }.readUtf8()
-            val expectedStream = Buffer().apply {
-                expected.writeTo(this)
-            }.readUtf8()
+            val actualStream =
+                Buffer().apply {
+                    actual.writeTo(this)
+                }.readUtf8()
+            val expectedStream =
+                Buffer().apply {
+                    expected.writeTo(this)
+                }.readUtf8()
 
             assertAll(
                 { assertEquals(expected.contentLength(), actual.contentLength()) },
@@ -507,11 +570,14 @@ class OperationToRequestExtensionTest {
 
         @Test
         fun `throws exception for invalid media type`() {
-            val operation = object : OperationRequestBodyTrait<List<String>> {
-                override fun getHttpMethod(): String = "POST"
-                override fun getRequestBody(): List<String> = listOf("test1", "test2")
-                override fun getContentType(): String = "hi ;)"
-            }
+            val operation =
+                object : OperationRequestBodyTrait<List<String>> {
+                    override fun getHttpMethod(): String = "POST"
+
+                    override fun getRequestBody(): List<String> = listOf("test1", "test2")
+
+                    override fun getContentType(): String = "hi ;)"
+                }
 
             assertThrows<IllegalArgumentException> {
                 operation.parseRequestBody(mapper)

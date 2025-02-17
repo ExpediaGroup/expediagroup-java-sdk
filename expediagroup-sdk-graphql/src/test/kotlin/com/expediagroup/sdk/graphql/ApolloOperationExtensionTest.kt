@@ -17,7 +17,6 @@ import testservice.TestQuery
 import testservice.type.buildTestData
 
 class ApolloOperationExtensionTest {
-
     @Test
     fun `toSDKRequest should map Apollo Operation to valid SDK request`() {
         // Given
@@ -49,12 +48,13 @@ class ApolloOperationExtensionTest {
 
         val buffer = Buffer().apply { writeUtf8(testResponseBody) }
 
-        val testSDKResponse = Response.builder()
-            .status(Status.OK)
-            .protocol(Protocol.HTTP_1_1)
-            .request(mockk())
-            .body(ResponseBody.create(buffer))
-            .build()
+        val testSDKResponse =
+            Response.builder()
+                .status(Status.OK)
+                .protocol(Protocol.HTTP_1_1)
+                .request(mockk())
+                .body(ResponseBody.create(buffer))
+                .build()
 
         // When
         val apolloResponse = testSDKResponse.toApolloResponse(testOperation)
@@ -67,11 +67,12 @@ class ApolloOperationExtensionTest {
     @Test
     fun `toApolloResponse should return error response if the response body is null`() {
         // Given
-        val testSDKResponse = Response.builder()
-            .status(Status.OK)
-            .protocol(Protocol.HTTP_1_1)
-            .request(mockk())
-            .build()
+        val testSDKResponse =
+            Response.builder()
+                .status(Status.OK)
+                .protocol(Protocol.HTTP_1_1)
+                .request(mockk())
+                .build()
 
         // When
         val apolloResponse = testSDKResponse.toApolloResponse(TestMutation())

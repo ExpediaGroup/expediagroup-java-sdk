@@ -29,7 +29,6 @@ import com.apollographql.apollo.api.Operation
  * the complete unprocessed data and error information from the GraphQL operation.
  */
 interface Response<T, R : Operation.Data> {
-
     /**
      * The specific data fragment of interest to the user, extracted from the full response.
      * This fragment simplifies access to nested data by focusing on the relevant portion directly.
@@ -42,4 +41,3 @@ interface Response<T, R : Operation.Data> {
      */
     val rawResponse: RawResponse<R>
 }
-

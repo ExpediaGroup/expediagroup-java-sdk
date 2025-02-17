@@ -1,9 +1,6 @@
 package com.expediagroup.sdk.okhttp
 
 import io.mockk.mockk
-import java.util.concurrent.Callable
-import java.util.concurrent.Executors
-import java.util.concurrent.TimeUnit
 import okhttp3.ConnectionPool
 import okhttp3.Interceptor
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -12,6 +9,9 @@ import org.junit.jupiter.api.Assertions.assertNotSame
 import org.junit.jupiter.api.Assertions.assertSame
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import java.util.concurrent.Callable
+import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 
 class BaseOkHttpClientTest {
     @Test
@@ -24,12 +24,13 @@ class BaseOkHttpClientTest {
     @Test
     fun `should return configured instance with timeouts correctly`() {
         // Given
-        val configuration = OkHttpClientConfiguration.builder()
-            .callTimeout(1000)
-            .connectTimeout(2000)
-            .readTimeout(3000)
-            .writeTimeout(4000)
-            .build()
+        val configuration =
+            OkHttpClientConfiguration.builder()
+                .callTimeout(1000)
+                .connectTimeout(2000)
+                .readTimeout(3000)
+                .writeTimeout(4000)
+                .build()
 
         // When
         val client = BaseOkHttpClient.getConfiguredInstance(configuration)
@@ -45,9 +46,10 @@ class BaseOkHttpClientTest {
     fun `should return configured instance with connection pool correctly`() {
         // Given
         val connectionPool = ConnectionPool(5, 10, TimeUnit.MINUTES)
-        val configuration = OkHttpClientConfiguration.builder()
-            .connectionPool(connectionPool)
-            .build()
+        val configuration =
+            OkHttpClientConfiguration.builder()
+                .connectionPool(connectionPool)
+                .build()
 
         // When
         val client = BaseOkHttpClient.getConfiguredInstance(configuration)
@@ -60,9 +62,10 @@ class BaseOkHttpClientTest {
     fun `should return configured instance with interceptors correctly`() {
         // Given
         val mockInterceptor = mockk<Interceptor>()
-        val configuration = OkHttpClientConfiguration.builder()
-            .interceptors(listOf(mockInterceptor))
-            .build()
+        val configuration =
+            OkHttpClientConfiguration.builder()
+                .interceptors(listOf(mockInterceptor))
+                .build()
 
         // When
         val client = BaseOkHttpClient.getConfiguredInstance(configuration)
@@ -75,9 +78,10 @@ class BaseOkHttpClientTest {
     fun `should return configured instance with network interceptors correctly`() {
         // Given
         val mockNetworkInterceptor = mockk<Interceptor>()
-        val configuration = OkHttpClientConfiguration.builder()
-            .networkInterceptors(listOf(mockNetworkInterceptor))
-            .build()
+        val configuration =
+            OkHttpClientConfiguration.builder()
+                .networkInterceptors(listOf(mockNetworkInterceptor))
+                .build()
 
         // When
         val client = BaseOkHttpClient.getConfiguredInstance(configuration)
@@ -89,9 +93,10 @@ class BaseOkHttpClientTest {
     @Test
     fun `should return configured instance with retryOnConnectionFailure correctly`() {
         // Given
-        val configuration = OkHttpClientConfiguration.builder()
-            .retryOnConnectionFailure(true)
-            .build()
+        val configuration =
+            OkHttpClientConfiguration.builder()
+                .retryOnConnectionFailure(true)
+                .build()
 
         // When
         val client = BaseOkHttpClient.getConfiguredInstance(configuration)
@@ -104,12 +109,14 @@ class BaseOkHttpClientTest {
     fun `should assign a new connection pool to the new instance if passed through the configurations`() {
         // Given
         val baseInstance = BaseOkHttpClient.getInstance()
-        val instanceWithCustomCallTimeout = BaseOkHttpClient.getConfiguredInstance(
-            OkHttpClientConfiguration.builder().callTimeout(1000).build()
-        )
-        val newConnectionPoolConfiguration = OkHttpClientConfiguration.builder()
-            .connectionPool(ConnectionPool(5, 10, TimeUnit.MINUTES))
-            .build()
+        val instanceWithCustomCallTimeout =
+            BaseOkHttpClient.getConfiguredInstance(
+                OkHttpClientConfiguration.builder().callTimeout(1000).build()
+            )
+        val newConnectionPoolConfiguration =
+            OkHttpClientConfiguration.builder()
+                .connectionPool(ConnectionPool(5, 10, TimeUnit.MINUTES))
+                .build()
 
         // When
         val instanceWithCustomConnectionPool = BaseOkHttpClient.getConfiguredInstance(newConnectionPoolConfiguration)
@@ -123,9 +130,10 @@ class BaseOkHttpClientTest {
     fun `should return a new instance that share the same connection pool created by the base instance`() {
         // Given
         val baseInstance = BaseOkHttpClient.getInstance()
-        val configuredInstance = BaseOkHttpClient.getConfiguredInstance(
-            OkHttpClientConfiguration.builder().callTimeout(1000).build()
-        )
+        val configuredInstance =
+            BaseOkHttpClient.getConfiguredInstance(
+                OkHttpClientConfiguration.builder().callTimeout(1000).build()
+            )
 
         // When
         val baseInstanceConnectionPool = baseInstance.connectionPool

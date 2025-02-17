@@ -39,7 +39,6 @@ class AsyncGraphQLExecutor(
     private val asyncRequestExecutor: AbstractAsyncRequestExecutor,
     private val serverUrl: String
 ) : Disposable by asyncRequestExecutor {
-
     /**
      * Executes the given GraphQL operation asynchronously.
      *
@@ -75,25 +74,28 @@ class AsyncGraphQLExecutor(
         future: CompletableFuture<RawResponse<T>>
     ) {
         when {
-            response.exception != null -> future.completeExceptionally(
-                ExpediaGroupServiceException(
-                    cause = response.exception
+            response.exception != null ->
+                future.completeExceptionally(
+                    ExpediaGroupServiceException(
+                        cause = response.exception
+                    )
                 )
-            )
 
-            response.data == null && response.hasErrors() -> future.completeExceptionally(
-                NoDataException(
-                    message = "No data received from the server",
-                    errors = response.errors!!.map { GraphQLError.fromApolloError(it) }
+            response.data == null && response.hasErrors() ->
+                future.completeExceptionally(
+                    NoDataException(
+                        message = "No data received from the server",
+                        errors = response.errors!!.map { GraphQLError.fromApolloError(it) }
+                    )
                 )
-            )
 
-            else -> future.complete(
-                RawResponse(
-                    data = response.data!!,
-                    errors = response.errors?.map { GraphQLError.fromApolloError(it) }
+            else ->
+                future.complete(
+                    RawResponse(
+                        data = response.data!!,
+                        errors = response.errors?.map { GraphQLError.fromApolloError(it) }
+                    )
                 )
-            )
         }
     }
 }
