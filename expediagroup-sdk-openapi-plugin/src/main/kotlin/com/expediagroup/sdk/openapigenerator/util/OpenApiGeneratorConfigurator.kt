@@ -81,7 +81,7 @@ object OpenApiGeneratorConfigurator {
             // Merge additional properties
             val defaultAdditionalProps =
                 mapOf(
-                    "namespace" to namespace.lowercase(),
+                    "namespace" to product.namespace,
                     "apiSuffix" to "Operation"
                 )
             val userAdditionalProps = ext.additionalProperties.orNull ?: emptyMap<String, Any>()
