@@ -81,7 +81,7 @@
         <maven.licence.plugin.version>4.6</maven.licence.plugin.version>
 
         <!-- Library Versions -->
-        <junit5.version>5.11.4</junit5.version>
+        <junit5.version>5.12.0</junit5.version>
 
         <!-- Ktlint Configurationds      -->
         <ktlint.skip>false</ktlint.skip>
