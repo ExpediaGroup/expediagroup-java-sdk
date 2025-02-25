@@ -2,8 +2,10 @@ import kotlinx.kover.gradle.plugin.dsl.AggregationType
 import kotlinx.kover.gradle.plugin.dsl.CoverageUnit
 
 plugins {
-    id 'org.jetbrains.kotlin.jvm'
+    id 'maven-publish'
 }
+
+apply from:  "$rootDir/gradle-tasks/publishing.gradle"
 
 repositories {
     mavenCentral()

@@ -2,9 +2,11 @@ import kotlinx.kover.gradle.plugin.dsl.AggregationType
 import kotlinx.kover.gradle.plugin.dsl.CoverageUnit
 
 plugins {
-    id 'org.jetbrains.kotlin.jvm'
     id 'com.apollographql.apollo' version '4.1.1'
+    id 'maven-publish'
 }
+
+apply from:  "$rootDir/gradle-tasks/publishing.gradle"
 
 dependencies {
     /* Kotlin */

@@ -5,6 +5,8 @@ plugins {
     id 'maven-publish'
 }
 
+apply from:  "$rootDir/gradle-tasks/publishing.gradle"
+
 repositories {
     mavenCentral()
 }
@@ -40,20 +42,5 @@ gradlePlugin {
             displayName = "EG SDK OpenApi Gradle Plugin Wrapper"
             description = "applies the standard OpenAPI Generator plugin (\"org.openapi.generator\") and configures it with Expedia Group SDK defaults."
         }
-    }
-}
-
-publishing {
-    publications {
-        mavenLocal(MavenPublication) {
-            artifactId = 'expediagroup-sdk-openapi-plugin'
-            version = '1.0.0-SNAPSHOT'
-            groupId = project.property('groupId')
-
-            from components.java
-        }
-    }
-    repositories {
-        mavenLocal()
     }
 }
