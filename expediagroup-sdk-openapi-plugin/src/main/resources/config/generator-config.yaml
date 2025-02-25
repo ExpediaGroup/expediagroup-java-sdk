@@ -1,0 +1,4 @@
+files:
+  operation_params.mustache:
+    templateType: API
+    destinationFilename: Params.kt

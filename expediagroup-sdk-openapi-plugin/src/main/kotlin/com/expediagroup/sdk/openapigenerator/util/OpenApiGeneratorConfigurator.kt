@@ -29,6 +29,12 @@ import com.expediagroup.sdk.openapigenerator.mustache.RemoveDoubleQuotesLambda
 import com.expediagroup.sdk.openapigenerator.mustache.RemoveLeadingSlashesLambda
 import org.gradle.api.Project
 import org.openapitools.generator.gradle.plugin.extensions.OpenApiGeneratorGenerateExtension
+import java.io.IOException
+import java.io.InputStream
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
+import java.nio.file.StandardCopyOption
 
 /**
  * Configures an [OpenApiGeneratorGenerateExtension] instance with default settings specific to
@@ -41,6 +47,8 @@ import org.openapitools.generator.gradle.plugin.extensions.OpenApiGeneratorGener
  * 4. Merges user-supplied global and additional properties with SDK defaults.
  */
 object OpenApiGeneratorConfigurator {
+    private const val CONFIG_FILE_PATH = "/config/generator-config.yaml"
+
     /**
      * Applies default configuration values to the given [ext] extension after the project is evaluated.
      *
@@ -58,6 +66,7 @@ object OpenApiGeneratorConfigurator {
         ext: OpenApiGeneratorGenerateExtension
     ) {
         val finalTemplatesDirectoryPath = MustacheTemplatesHandler.resolveFinalTemplates(project)
+        val configFilePath = extractConfigFile(project.layout.buildDirectory.dir("config").get().asFile.absolutePath)
 
         project.afterEvaluate {
             val namespace = project.properties["namespace"]?.toString()
@@ -65,6 +74,8 @@ object OpenApiGeneratorConfigurator {
             require(!namespace.isNullOrBlank()) {
                 "namespace must be set. Make sure to specify the SDK namespace in gradle.properties"
             }
+
+            ext.configFile.set(configFilePath)
 
             val product = Product(namespace)
 
@@ -114,5 +125,28 @@ object OpenApiGeneratorConfigurator {
             val userAdditionalProps = ext.additionalProperties.orNull ?: emptyMap<String, Any>()
             ext.additionalProperties.set(defaultAdditionalProps + userAdditionalProps + lambdas)
         }
+    }
+
+    private fun extractConfigFile(targetDir: String): String {
+        val resourceStream: InputStream? = this::class.java.getResourceAsStream(CONFIG_FILE_PATH)
+
+        if (resourceStream == null) {
+            throw IOException("Resource not found: $CONFIG_FILE_PATH")
+        }
+
+        val targetDirectory: Path = Paths.get(targetDir)
+
+        if (!Files.exists(targetDirectory)) {
+            Files.createDirectories(targetDirectory)
+        }
+
+        val fileName = Paths.get(CONFIG_FILE_PATH).fileName.toString()
+        val targetFile = targetDirectory.resolve(fileName)
+
+        resourceStream.use { input ->
+            Files.copy(input, targetFile, StandardCopyOption.REPLACE_EXISTING)
+        }
+
+        return targetFile.toAbsolutePath().toString()
     }
 }
