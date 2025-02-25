@@ -78,3 +78,23 @@ val stringifyPipeDelimited =
             append(param.value.joinToString("|"))
         }.toString()
     }
+
+/**
+ * A map that associates Swagger collection format identifiers with their corresponding
+ * `StringifyQueryParam` implementations. This map is used to convert `UrlQueryParam`
+ * objects to their respective string representations based on the specified collection format.
+ *
+ * The supported collection formats are:
+ * - "csv": Comma-separated values (e.g., key=value1,value2)
+ * - "ssv": Space-separated values (e.g., key=value1%20value2)
+ * - "pipes": Pipe-separated values (e.g., key=value1|value2)
+ * - "multi": Multiple key-value pairs (e.g., key=value1&key=value2)
+ */
+@Suppress("unused")
+val swaggerCollectionFormatStringifier =
+    mapOf(
+        "csv" to stringifyForm,
+        "ssv" to stringifySpaceDelimited,
+        "pipes" to stringifyPipeDelimited,
+        "multi" to stringifyExplode
+    )
