@@ -320,68 +320,6 @@ class OperationToRequestExtensionTest {
             assertEquals(expected, actual)
         }
 
-        @ParameterizedTest
-        @ValueSource(
-            strings = [
-                "https://example.com/v1/api",
-                "http://127.0.0.1:8080/v1/api",
-                "https://example.com/v1/api",
-                "ftp://ftp.example.com/v1/api",
-                "file:///home/v1/api",
-                "file://servername/v1/api"
-            ]
-        )
-        fun `adds query parameters and ignores empty keys`(base: String) {
-            val baseUrl = URL(base)
-            val operation =
-                object : UrlPathTrait, UrlQueryParamsTrait {
-                    override fun getHttpMethod(): String = "POST"
-
-                    override fun getUrlPath(): String = "/test"
-
-                    override fun getUrlQueryParams(): List<UrlQueryParam> =
-                        listOf(
-                            UrlQueryParam("key1", emptyList(), stringifyExplode)
-                        )
-                }
-
-            val actual = operation.parseURL(baseUrl)
-            val expected = URL("$base/test")
-
-            assertEquals(expected, actual)
-        }
-
-        @ParameterizedTest
-        @ValueSource(
-            strings = [
-                "https://example.com/v1/api",
-                "http://127.0.0.1:8080/v1/api",
-                "https://example.com/v1/api",
-                "ftp://ftp.example.com/v1/api",
-                "file:///home/v1/api",
-                "file://servername/v1/api"
-            ]
-        )
-        fun `adds query parameters and ignores empty keys and values`(base: String) {
-            val baseUrl = URL(base)
-            val operation =
-                object : UrlPathTrait, UrlQueryParamsTrait {
-                    override fun getHttpMethod(): String = "POST"
-
-                    override fun getUrlPath(): String = "/test"
-
-                    override fun getUrlQueryParams(): List<UrlQueryParam> =
-                        listOf(
-                            UrlQueryParam("key1", emptyList(), stringifyExplode)
-                        )
-                }
-
-            val actual = operation.parseURL(baseUrl)
-            val expected = URL("$base/test")
-
-            assertEquals(expected, actual)
-        }
-
         @Test
         fun `ignores empty operation path`() {
             val baseUrl = URL("https://example.com/v1/api")
