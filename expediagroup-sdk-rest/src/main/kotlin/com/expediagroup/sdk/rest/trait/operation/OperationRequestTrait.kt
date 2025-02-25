@@ -17,6 +17,7 @@
 package com.expediagroup.sdk.rest.trait.operation
 
 import com.expediagroup.sdk.core.http.Headers
+import com.expediagroup.sdk.rest.model.UrlQueryParam
 
 /**
  * Marker interface for operation requests.
@@ -51,7 +52,7 @@ interface UrlQueryParamsTrait : OperationRequestTrait {
      *
      * @return a map of query parameters where the key is the parameter name and the value is a list of parameter values
      */
-    fun getUrlQueryParams(): Map<String, List<String>>
+    fun getUrlQueryParams(): List<UrlQueryParam>
 }
 
 /**
