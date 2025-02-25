@@ -4,12 +4,14 @@ import com.expediagroup.sdk.core.http.Headers
 import com.expediagroup.sdk.core.http.MediaType
 import com.expediagroup.sdk.core.http.Method
 import com.expediagroup.sdk.core.http.RequestBody
+import com.expediagroup.sdk.rest.model.UrlQueryParam
 import com.expediagroup.sdk.rest.trait.operation.ContentTypeTrait
 import com.expediagroup.sdk.rest.trait.operation.HeadersTrait
 import com.expediagroup.sdk.rest.trait.operation.OperationRequestBodyTrait
 import com.expediagroup.sdk.rest.trait.operation.OperationRequestTrait
 import com.expediagroup.sdk.rest.trait.operation.UrlPathTrait
 import com.expediagroup.sdk.rest.trait.operation.UrlQueryParamsTrait
+import com.expediagroup.sdk.rest.util.stringifyExplode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import okio.Buffer
 import org.junit.jupiter.api.Assertions.assertAll
@@ -246,10 +248,10 @@ class OperationToRequestExtensionTest {
 
                     override fun getHttpMethod(): String = "POST"
 
-                    override fun getUrlQueryParams(): Map<String, List<String>> =
-                        mapOf(
-                            "key1" to listOf("value1"),
-                            "key2" to listOf("value2", "value3")
+                    override fun getUrlQueryParams(): List<UrlQueryParam> =
+                        listOf(
+                            UrlQueryParam("key1", listOf("value1"), stringifyExplode),
+                            UrlQueryParam("key2", listOf("value2", "value3"), stringifyExplode)
                         )
                 }
 
@@ -278,7 +280,7 @@ class OperationToRequestExtensionTest {
 
                     override fun getHttpMethod(): String = "POST"
 
-                    override fun getUrlQueryParams(): Map<String, List<String>> = emptyMap()
+                    override fun getUrlQueryParams() = emptyList<UrlQueryParam>()
                 }
 
             val actual = operation.parseURL(baseUrl)
@@ -306,10 +308,9 @@ class OperationToRequestExtensionTest {
 
                     override fun getUrlPath(): String = "/test"
 
-                    override fun getUrlQueryParams(): Map<String, List<String>> =
-                        mapOf(
-                            "key1" to emptyList(),
-                            "key2" to listOf("value2", "value3")
+                    override fun getUrlQueryParams(): List<UrlQueryParam> =
+                        listOf(
+                            UrlQueryParam("key2", listOf("value2", "value3"), stringifyExplode)
                         )
                 }
 
@@ -338,10 +339,9 @@ class OperationToRequestExtensionTest {
 
                     override fun getUrlPath(): String = "/test"
 
-                    override fun getUrlQueryParams(): Map<String, List<String>> =
-                        mapOf(
-                            "key1" to emptyList(),
-                            "" to listOf("value2", "value3")
+                    override fun getUrlQueryParams(): List<UrlQueryParam> =
+                        listOf(
+                            UrlQueryParam("key1", emptyList(), stringifyExplode)
                         )
                 }
 
@@ -370,10 +370,9 @@ class OperationToRequestExtensionTest {
 
                     override fun getUrlPath(): String = "/test"
 
-                    override fun getUrlQueryParams(): Map<String, List<String>> =
-                        mapOf(
-                            "key1" to emptyList(),
-                            "" to emptyList()
+                    override fun getUrlQueryParams(): List<UrlQueryParam> =
+                        listOf(
+                            UrlQueryParam("key1", emptyList(), stringifyExplode)
                         )
                 }
 
@@ -408,10 +407,10 @@ class OperationToRequestExtensionTest {
 
                     override fun getUrlPath(): String = ""
 
-                    override fun getUrlQueryParams(): Map<String, List<String>> =
-                        mapOf(
-                            "key1" to listOf("value1"),
-                            "key2" to listOf("value2", "value3")
+                    override fun getUrlQueryParams(): List<UrlQueryParam> =
+                        listOf(
+                            UrlQueryParam("key1", listOf("value1"), stringifyExplode),
+                            UrlQueryParam("key2", listOf("value2", "value3"), stringifyExplode)
                         )
                 }
 
