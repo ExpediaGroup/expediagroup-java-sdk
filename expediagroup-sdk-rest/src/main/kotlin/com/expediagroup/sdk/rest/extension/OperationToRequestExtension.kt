@@ -90,13 +90,7 @@ internal fun UrlPathTrait.parseURL(base: URL): URL =
 
             if (this@parseURL is UrlQueryParamsTrait && this@parseURL.getUrlQueryParams().isNotEmpty()) {
                 append("?")
-                this@parseURL.getUrlQueryParams().forEach { (key, values) ->
-                    if (key.isBlank()) {
-                        return@forEach
-                    }
-                    values.forEach { value -> append("$key=$value&") }
-                }
-                deleteCharAt(length - 1)
+                append(this@parseURL.getUrlQueryParams().joinToString("&"))
             }
         }.toString()
     )
