@@ -1,6 +1,5 @@
 package com.expediagroup.sdk.{{namespace}}.operations
 
-
 {{#operations}}
     {{#operation}}
         {{#hasNonBodyParams}}
@@ -54,7 +53,7 @@ package com.expediagroup.sdk.{{namespace}}.operations
                             ) {
                                 {{#allowableValues}}
                                     {{#enumVars}}
-                                        {{name}}({{{value}}})
+                                        {{&name}}({{{value}}})
                                         {{^-last}},{{/-last}}
                                     {{/enumVars}}
                                 {{/allowableValues}}
