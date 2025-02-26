@@ -1,0 +1,43 @@
+{{{paramName}}}: {{>partials/datatype}}
+{{#required}}
+    {{#defaultValue}} =
+    {{#isEnum}}
+        {{classname}}Params.{{{enumName}}}.{{{enumDefaultValue}}}
+    {{/isEnum}}
+    {{^isEnum}}
+        {{#isString}}
+            {{#removeDoubleQuotes}}{{{defaultValue}}}{{/removeDoubleQuotes}}
+        {{/isString}}
+    {{/isEnum}}
+    {{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}
+    {{^isString}}
+        {{^isNumber}}{{{defaultValue}}}{{/isNumber}}
+    {{/isString}}
+    {{/defaultValue}}
+{{/required}}
+{{^required}}?
+{{#defaultValue}} =
+{{#isContainer}}
+    null
+{{/isContainer}}
+{{^isContainer}}
+    {{#isEnum}}
+        {{{enumName}}}.{{{enumDefaultValue}}}
+    {{/isEnum}}
+    {{^isEnum}}
+        {{#isString}}
+            {{#removeDoubleQuotes}}{{{defaultValue}}}{{/removeDoubleQuotes}}
+        {{/isString}}
+    {{/isEnum}}
+    {{#isNumber}}
+        {{{defaultValue}}}.toDouble()
+    {{/isNumber}}
+    {{^isString}}
+        {{^isNumber}}{{{defaultValue}}}{{/isNumber}}
+    {{/isString}}
+{{/isContainer}}
+{{/defaultValue}}
+{{^defaultValue}}
+    = null
+{{/defaultValue}}
+{{/required}}
