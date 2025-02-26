@@ -59,13 +59,13 @@ import com.expediagroup.sdk.rest.exception.client.PropertyConstraintViolationExc
     class Builder(
         {{#allVars}}
             {{#eliminateDiscriminators}}
-                private var {{{name}}}: {{#isEnum}}{{#isArray}}kotlin.collections.List<{{classname}}.{{{nameInCamelCase}}}>{{/isArray}}{{^isArray}}{{#isInherited}}{{{parent}}}.{{{nameInCamelCase}}}{{/isInherited}}{{^isInherited}}{{classname}}.{{{nameInCamelCase}}}{{/isInherited}}{{/isArray}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}? = null{{^-last}},{{/-last}}
+                private var {{{name}}}: {{#isEnum}}{{#isArray}}kotlin.collections.List<{{classname}}.{{{nameInPascalCase}}}>{{/isArray}}{{^isArray}}{{#isInherited}}{{{parent}}}.{{{nameInPascalCase}}}{{/isInherited}}{{^isInherited}}{{classname}}.{{{nameInPascalCase}}}{{/isInherited}}{{/isArray}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}? = null{{^-last}},{{/-last}}
             {{/eliminateDiscriminators}}
         {{/allVars}}
     ) {
         {{#allVars}}
             {{#eliminateDiscriminators}}
-                fun {{{name}}}({{{name}}}: {{#isEnum}}{{#isArray}}kotlin.collections.List<{{classname}}.{{{nameInCamelCase}}}>{{/isArray}}{{^isArray}}{{#isInherited}}{{{parent}}}.{{{nameInCamelCase}}}{{/isInherited}}{{^isInherited}}{{classname}}.{{{nameInCamelCase}}}{{/isInherited}}{{/isArray}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}?{{/required}}) = apply { this.{{{name}}} = {{{name}}} }
+                fun {{{name}}}({{{name}}}: {{#isEnum}}{{#isArray}}kotlin.collections.List<{{classname}}.{{{nameInPascalCase}}}>{{/isArray}}{{^isArray}}{{#isInherited}}{{{parent}}}.{{{nameInPascalCase}}}{{/isInherited}}{{^isInherited}}{{classname}}.{{{nameInPascalCase}}}{{/isInherited}}{{/isArray}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}?{{/required}}) = apply { this.{{{name}}} = {{{name}}} }
             {{/eliminateDiscriminators}}
         {{/allVars}}
 
@@ -119,7 +119,7 @@ import com.expediagroup.sdk.rest.exception.client.PropertyConstraintViolationExc
      * {{{description}}}
      * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
      */
-    enum class {{&nameInCamelCase}}(val value: {{#isArray}}{{{items.dataType}}}{{/isArray}}{{^isArray}}{{dataType}}{{/isArray}}) {
+    enum class {{&nameInPascalCase}}(val value: {{#isArray}}{{{items.dataType}}}{{/isArray}}{{^isArray}}{{dataType}}{{/isArray}}) {
     {{#allowableValues}}
         {{#enumVars}}
         @JsonProperty({{{value}}})
