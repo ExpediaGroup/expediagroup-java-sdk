@@ -64,4 +64,16 @@ class UrlQueryParamUtilsTest {
 
         assertEquals(expectedString, actualString)
     }
+
+    @Test
+    fun `swaggerCollectionFormatStringifier should return correct stringify method`() {
+        mapOf(
+            "csv" to stringifyForm,
+            "pipes" to stringifyPipeDelimited,
+            "ssv" to stringifySpaceDelimited,
+            "multi" to stringifyExplode
+        ).forEach { (format, expected) ->
+            assertEquals(swaggerCollectionFormatStringifier.get(format), expected)
+        }
+    }
 }
