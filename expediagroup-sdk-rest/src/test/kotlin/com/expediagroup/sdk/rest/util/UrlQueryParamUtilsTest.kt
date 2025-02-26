@@ -66,22 +66,14 @@ class UrlQueryParamUtilsTest {
     }
 
     @Test
-    fun `swaggerCollectionFormatStringifier should return default stringifyExplode`() {
-        val expected = stringifyExplode
-
-        assertEquals(swaggerCollectionFormatStringifier.getOrDefault("", stringifyExplode), expected)
-    }
-
-    @Test
     fun `swaggerCollectionFormatStringifier should return correct stringify method`() {
         mapOf(
             "csv" to stringifyForm,
-            "tsv" to stringifyExplode,
             "pipes" to stringifyPipeDelimited,
             "ssv" to stringifySpaceDelimited,
             "multi" to stringifyExplode
         ).forEach { (format, expected) ->
-            assertEquals(swaggerCollectionFormatStringifier.getOrDefault(format, stringifyExplode), expected)
+            assertEquals(swaggerCollectionFormatStringifier.get(format), expected)
         }
     }
 }
