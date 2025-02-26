@@ -27,7 +27,8 @@ internal object ResponseLogger {
         logger: LoggerDecorator,
         response: Response,
         vararg tags: String,
-        maxBodyLogSize: Long? = null
+        maxBodyLogSize: Long? = null,
+        mask: (String) -> String = { it }
     ) {
         try {
             var logString =
@@ -38,7 +39,7 @@ internal object ResponseLogger {
             if (logger.isDebugEnabled) {
                 val responseBodyString =
                     response.body?.let {
-                        it.readLoggableBody(maxBodyLogSize, it.mediaType()?.charset)
+                        mask(it.readLoggableBody(maxBodyLogSize, it.mediaType()?.charset))
                     }
 
                 logString += ", Body=$responseBodyString"
