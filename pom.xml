@@ -103,7 +103,7 @@
         <airline.version>3.0.0</airline.version>
         <assertj.version>3.27.3</assertj.version>
         <junit5.version>5.12.0</junit5.version>
-        <mockk.version>1.13.16</mockk.version>
+        <mockk.version>1.13.17</mockk.version>
         <mockito.version>5.15.2</mockito.version>
         <slf4j.version>2.0.17</slf4j.version>
         <log4j.version>2.24.3</log4j.version>
