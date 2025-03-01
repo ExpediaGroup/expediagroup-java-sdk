@@ -17,6 +17,7 @@
 package com.expediagroup.sdk.rest.util
 
 import com.expediagroup.sdk.rest.model.UrlQueryParam
+import java.net.URLEncoder
 
 /**
  * Functional interface for converting a UrlQueryParam to a String.
@@ -39,7 +40,7 @@ val stringifyForm =
     StringifyQueryParam { param ->
         StringBuilder().apply {
             append("${param.key}=")
-            append(param.value.joinToString(","))
+            append(param.value.joinToString(URLEncoder.encode(",", "UTF-8")))
         }.toString()
     }
 
@@ -63,7 +64,7 @@ val stringifySpaceDelimited =
     StringifyQueryParam { param ->
         StringBuilder().apply {
             append("${param.key}=")
-            append(param.value.joinToString("%20"))
+            append(param.value.joinToString(URLEncoder.encode(" ", "UTF-8")))
         }.toString()
     }
 
@@ -75,7 +76,7 @@ val stringifyPipeDelimited =
     StringifyQueryParam { param ->
         StringBuilder().apply {
             append("${param.key}=")
-            append(param.value.joinToString("|"))
+            append(param.value.joinToString(URLEncoder.encode("|", "UTF-8")))
         }.toString()
     }
 
