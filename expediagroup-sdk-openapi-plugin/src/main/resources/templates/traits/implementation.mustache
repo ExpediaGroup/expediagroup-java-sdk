@@ -8,7 +8,7 @@ override fun getUrlPath(): String {
     {{#hasPathParams}}{{#pathParams}}
         url = url.replace(
             oldValue = "{" + "{{baseName}}" + "}",
-            newValue = {{paramName}}{{#isEnum}}.value{{/isEnum}},
+            newValue = this.params.{{paramName}}{{#isEnum}}.value{{/isEnum}},
             ignoreCase = true
         )
     {{/pathParams}}{{/hasPathParams}}
