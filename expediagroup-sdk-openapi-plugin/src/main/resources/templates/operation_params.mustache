@@ -4,13 +4,10 @@ package com.expediagroup.sdk.{{namespace}}.operations
     {{#operation}}
         {{#hasNonBodyParams}}
             import com.expediagroup.sdk.rest.exception.client.PropertyConstraintViolationException
-            import com.expediagroup.sdk.core.http.*
             import com.fasterxml.jackson.annotation.JsonProperty
             import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 
-            import com.expediagroup.sdk.core.http.Headers
-            import com.expediagroup.sdk.rest.model.UrlQueryParam
-            import com.expediagroup.sdk.rest.util.*
+            {{>traits/imports}}
 
             import javax.validation.constraints.Max
             import javax.validation.constraints.Min

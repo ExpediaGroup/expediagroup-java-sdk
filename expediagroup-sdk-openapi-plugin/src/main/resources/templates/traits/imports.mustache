@@ -1,0 +1,20 @@
+import com.expediagroup.sdk.rest.trait.operation.OperationRequestTrait
+import com.expediagroup.sdk.rest.trait.operation.UrlPathTrait
+{{#hasBodyParam}}import com.expediagroup.sdk.rest.trait.operation.OperationRequestBodyTrait{{/hasBodyParam}}
+{{#customReturnType}}
+    import com.fasterxml.jackson.core.type.TypeReference
+    import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+    import com.expediagroup.sdk.rest.trait.operation.JacksonModelOperationResponseBodyTrait
+{{/customReturnType}}
+{{^returnType}}import com.expediagroup.sdk.rest.trait.operation.OperationNoResponseBodyTrait{{/returnType}}
+{{#hasConsumes}}import com.expediagroup.sdk.rest.trait.operation.ContentTypeTrait{{/hasConsumes}}
+{{#hasQueryParams}}
+    import com.expediagroup.sdk.rest.trait.operation.UrlQueryParamsTrait
+    import com.expediagroup.sdk.rest.model.UrlQueryParam
+    import com.expediagroup.sdk.rest.util.swaggerCollectionFormatStringifier
+    import com.expediagroup.sdk.rest.util.stringifyExplode
+{{/hasQueryParams}}
+{{#hasHeaderParams}}
+    import com.expediagroup.sdk.rest.trait.operation.HeadersTrait
+    import com.expediagroup.sdk.core.http.Headers
+{{/hasHeaderParams}}
