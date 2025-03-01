@@ -1,0 +1,9 @@
+{{#hasPathParams}}fun getPathParams() : Map<String, String> {
+    return buildMap {
+    {{#pathParams}}
+        {{paramName}}?.also {
+        put("{{baseName}}", {{paramName}}{{#isEnum}}.value{{/isEnum}})
+        }
+    {{/pathParams}}
+    }
+}{{/hasPathParams}}

@@ -1,0 +1,57 @@
+class Builder(
+{{#nonBodyParams}}
+    {{#params}}
+        @JsonProperty("{{{baseName}}}") private var {{{paramName}}}: {{>partials/datatype}}? = null
+        {{^-last}},{{/-last}}
+    {{/params}}
+{{/nonBodyParams}}
+) {
+{{#nonBodyParams}}
+    {{#params}}
+        /**
+        * @param {{{paramName}}} {{{description}}}
+        */
+        fun {{{paramName}}}({{{paramName}}}: {{>partials/datatype}}) = apply { this.{{{paramName}}} = {{{paramName}}} }
+    {{/params}}
+{{/nonBodyParams}}
+
+    fun build(): {{classname}}Params {
+    val params = {{classname}}Params(
+{{#nonBodyParams}}
+    {{#params}}
+        {{{paramName}}} = {{{paramName}}}{{#required}}!!{{/required}}{{^-last}},{{/-last}}
+    {{/params}}
+{{/nonBodyParams}}
+    )
+
+        validate(params)
+
+        return params
+    }
+
+    private fun validate(params: {{classname}}Params) {
+        val validator =
+            Validation
+            .byDefaultProvider()
+            .configure()
+            .messageInterpolator(ParameterMessageInterpolator())
+            .buildValidatorFactory()
+            .validator
+
+        val violations = validator.validate(params)
+
+        if (violations.isNotEmpty()) {
+            throw PropertyConstraintViolationException(
+                constraintViolations = violations.map { "${it.propertyPath}: ${it.message}" }
+            )
+        }
+    }
+}
+
+fun toBuilder() = Builder(
+{{#nonBodyParams}}
+    {{#params}}
+        {{{paramName}}} = {{{paramName}}}{{^-last}},{{/-last}}
+    {{/params}}
+{{/nonBodyParams}}
+)
