@@ -16,6 +16,7 @@
 
 package com.expediagroup.sdk.core.pipeline.step
 
+import com.expediagroup.sdk.core.http.Headers
 import com.expediagroup.sdk.core.http.Request
 import com.expediagroup.sdk.core.http.RequestBody
 import com.expediagroup.sdk.core.logging.LoggerDecorator
@@ -25,7 +26,9 @@ import okio.Buffer
 
 class RequestLoggingStep(
     private val logger: LoggerDecorator,
-    private val maxRequestBodySize: Long? = null
+    private val maxRequestBodySize: Long? = null,
+    private val maskBody: (String) -> String = { it },
+    private val maskHeaders: (Headers) -> Headers = { it }
 ) : RequestPipelineStep {
     override fun invoke(request: Request): Request {
         var reusableRequest: Request = request
@@ -38,7 +41,13 @@ class RequestLoggingStep(
                     .build()
         }
 
-        RequestLogger.log(logger, reusableRequest, maxBodyLogSize = maxRequestBodySize)
+        RequestLogger.log(
+            logger,
+            reusableRequest,
+            maxBodyLogSize = maxRequestBodySize,
+            maskBody = maskBody,
+            maskHeaders = maskHeaders
+        )
 
         return reusableRequest
     }
