@@ -1,0 +1,18 @@
+{{#nonBodyParams}}
+    {{#params}}
+        {{#isEnum}}
+            enum class {{enumName}}(
+            val value:
+            {{#isContainer}}{{{items.dataType}}}{{/isContainer}}
+            {{^isContainer}}{{dataType}}{{/isContainer}}
+            ) {
+            {{#allowableValues}}
+                {{#enumVars}}
+                    {{&name}}({{{value}}})
+                    {{^-last}},{{/-last}}
+                {{/enumVars}}
+            {{/allowableValues}}
+            }
+        {{/isEnum}}
+    {{/params}}
+{{/nonBodyParams}}

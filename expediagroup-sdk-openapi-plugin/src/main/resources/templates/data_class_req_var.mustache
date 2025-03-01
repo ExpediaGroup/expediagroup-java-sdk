@@ -1,5 +1,5 @@
 {{#description}}
-/* {{{.}}} */
+    /* {{{.}}} */
 {{/description}}
 {{#deprecated}}
     @Deprecated(message = "This property is deprecated.")
@@ -15,39 +15,39 @@
 {{#isArray}}
     {{#isList}}
         {{#uniqueItems}}kotlin.collections.
-            {{#modelMutable}}Mutable{{/modelMutable}}Set
+        {{#modelMutable}}Mutable{{/modelMutable}}Set
         {{/uniqueItems}}
         {{^uniqueItems}}kotlin.collections.
-            {{#modelMutable}}Mutable{{/modelMutable}}List
+        {{#modelMutable}}Mutable{{/modelMutable}}List
         {{/uniqueItems}}
     {{/isList}}
     {{^isList}}
         kotlin.Array
     {{/isList}}<
-        {{^items.isEnum}}
-            {{{items.dataType}}}
-        {{/items.isEnum}}
-        {{#items.isEnum}}
-            {{classname}}.{{{nameInCamelCase}}}
-        {{/items.isEnum}}>
+    {{^items.isEnum}}
+        {{{items.dataType}}}
+    {{/items.isEnum}}
+    {{#items.isEnum}}
+        {{classname}}.{{{nameInPascalCase}}}
+    {{/items.isEnum}}>
 {{/isArray}}
 {{^isEnum}}
     {{^isArray}}{{{dataType}}}{{/isArray}}
 {{/isEnum}}
 {{#isEnum}}
     {{^isArray}}
-        {{^isInherited}}{{classname}}.{{{nameInCamelCase}}}{{/isInherited}}
+        {{^isInherited}}{{classname}}.{{{nameInPascalCase}}}{{/isInherited}}
     {{/isArray}}
     {{^isArray}}
-        {{#isInherited}}{{{parent}}}.{{{nameInCamelCase}}}{{/isInherited}}
+        {{#isInherited}}{{{parent}}}.{{{nameInPascalCase}}}{{/isInherited}}
     {{/isArray}}
 {{/isEnum}}
 {{#defaultValue}} =
-    {{^isNumber}}
-        {{{defaultValue}}}
-    {{/isNumber}}
-    {{#isNumber}}
-        {{^multiplatform}}{{{dataType}}}("{{{defaultValue}}}"){{/multiplatform}}
-        {{#multiplatform}}({{{defaultValue}}}).toDouble(){{/multiplatform}}
-    {{/isNumber}}
+{{^isNumber}}
+    {{{defaultValue}}}
+{{/isNumber}}
+{{#isNumber}}
+    {{^multiplatform}}{{{dataType}}}("{{{defaultValue}}}"){{/multiplatform}}
+    {{#multiplatform}}({{{defaultValue}}}).toDouble(){{/multiplatform}}
+{{/isNumber}}
 {{/defaultValue}}

@@ -15,31 +15,31 @@ import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator
     import com.fasterxml.jackson.annotation.JsonTypeInfo
 {{/discriminator}}
 
-import com.expediagroup.sdk.core.model.exception.client.PropertyConstraintViolationException
+import com.expediagroup.sdk.rest.exception.client.PropertyConstraintViolationException
 
 /**
- * {{{description}}}
+* {{{description}}}
 {{#vars}}
- * @param {{{name}}} {{{description}}}
+    * @param {{{name}}} {{{description}}}
 {{/vars}}
- */
+*/
 {{#discriminator}}
-@JsonIgnoreProperties(ignoreUnknown = true, value = ["{{discriminator.propertyName}}"])
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "{{discriminator.propertyName}}", visible = true)
-@JsonSubTypes(
+    @JsonIgnoreProperties(ignoreUnknown = true, value = ["{{discriminator.propertyName}}"])
+    @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "{{discriminator.propertyName}}", visible = true)
+    @JsonSubTypes(
     {{#discriminator.mappedModels}}
-    Type(value = {{modelName}}::class, name = "{{mappingName}}"){{^-last}},{{/-last}}
+        Type(value = {{modelName}}::class, name = "{{mappingName}}"){{^-last}},{{/-last}}
     {{/discriminator.mappedModels}}
-)
+    )
 {{/discriminator}}
 {{#nonPublicApi}}internal {{/nonPublicApi}}{{#discriminator}}interface {{/discriminator}}{{^discriminator}}data class {{/discriminator}}{{classname}}{{^discriminator}}(
 {{#allVars}}
     {{#eliminateDiscriminators}}
         {{#required}}{{>data_class_req_var}}{{/required}}{{^required}}{{>data_class_opt_var}}{{/required}}{{^-last}},{{/-last}}
     {{/eliminateDiscriminators}}
-{{^-last}}
+    {{^-last}}
 
-{{/-last}}
+    {{/-last}}
 {{/allVars}}
 ){{/discriminator}}{{#parent}}{{^serializableModel}}{{^parcelizeModels}}{{^isMap}} : {{{parent}}}{{#isArray}}(){{/isArray}}{{/isMap}}{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{#serializableModel}}{{^parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Serializable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{^serializableModel}}{{#parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{#serializableModel}}{{#parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Serializable, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{#serializableModel}}{{^parcelizeModels}} : Serializable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{^serializableModel}}{{#parcelizeModels}} : Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{#serializableModel}}{{#parcelizeModels}} : Serializable, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}} {
 {{^discriminator}}
@@ -51,83 +51,83 @@ import com.expediagroup.sdk.core.model.exception.client.PropertyConstraintViolat
     {{>interface_opt_var}}{{/required}}{{/vars}}{{/discriminator}}
 {{^isKotlin}}
     {{^discriminator}}
-    companion object {
+        companion object {
         @JvmStatic
         fun builder() = Builder()
-    }
+        }
 
-    class Builder(
+        class Builder(
         {{#allVars}}
             {{#eliminateDiscriminators}}
-                private var {{{name}}}: {{#isEnum}}{{#isArray}}kotlin.collections.List<{{classname}}.{{{nameInCamelCase}}}>{{/isArray}}{{^isArray}}{{#isInherited}}{{{parent}}}.{{{nameInCamelCase}}}{{/isInherited}}{{^isInherited}}{{classname}}.{{{nameInCamelCase}}}{{/isInherited}}{{/isArray}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}? = null{{^-last}},{{/-last}}
+                private var {{{name}}}: {{#isEnum}}{{#isArray}}kotlin.collections.List<{{classname}}.{{{nameInPascalCase}}}>{{/isArray}}{{^isArray}}{{#isInherited}}{{{parent}}}.{{{nameInPascalCase}}}{{/isInherited}}{{^isInherited}}{{classname}}.{{{nameInPascalCase}}}{{/isInherited}}{{/isArray}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}? = null{{^-last}},{{/-last}}
             {{/eliminateDiscriminators}}
         {{/allVars}}
-    ) {
+        ) {
         {{#allVars}}
             {{#eliminateDiscriminators}}
-                fun {{{name}}}({{{name}}}: {{#isEnum}}{{#isArray}}kotlin.collections.List<{{classname}}.{{{nameInCamelCase}}}>{{/isArray}}{{^isArray}}{{#isInherited}}{{{parent}}}.{{{nameInCamelCase}}}{{/isInherited}}{{^isInherited}}{{classname}}.{{{nameInCamelCase}}}{{/isInherited}}{{/isArray}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}?{{/required}}) = apply { this.{{{name}}} = {{{name}}} }
+                fun {{{name}}}({{{name}}}: {{#isEnum}}{{#isArray}}kotlin.collections.List<{{classname}}.{{{nameInPascalCase}}}>{{/isArray}}{{^isArray}}{{#isInherited}}{{{parent}}}.{{{nameInPascalCase}}}{{/isInherited}}{{^isInherited}}{{classname}}.{{{nameInPascalCase}}}{{/isInherited}}{{/isArray}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}?{{/required}}) = apply { this.{{{name}}} = {{{name}}} }
             {{/eliminateDiscriminators}}
         {{/allVars}}
 
         fun build(): {{classname}} {
-            val instance = {{classname}}(
-                {{#allVars}}
-                    {{#eliminateDiscriminators}}
-                        {{{name}}} = {{{name}}}{{#required}}!!{{/required}}{{^-last}},{{/-last}}
-                    {{/eliminateDiscriminators}}
-                {{/allVars}}
-            )
-
-            validate(instance)
-
-            return instance
-        }
-
-        private fun validate(instance: {{classname}}) {
-            val validator =
-                Validation
-                    .byDefaultProvider()
-                    .configure()
-                    .messageInterpolator(ParameterMessageInterpolator())
-                    .buildValidatorFactory()
-                    .validator
-
-            val violations = validator.validate(instance)
-
-            if (violations.isNotEmpty()) {
-                throw PropertyConstraintViolationException(
-                    constraintViolations = violations.map { "${it.propertyPath}: ${it.message}" }
-                )
-            }
-        }
-    }
-
-    fun toBuilder() = Builder(
+        val instance = {{classname}}(
         {{#allVars}}
             {{#eliminateDiscriminators}}
                 {{{name}}} = {{{name}}}{{#required}}!!{{/required}}{{^-last}},{{/-last}}
             {{/eliminateDiscriminators}}
         {{/allVars}}
-    )
+        )
+
+        validate(instance)
+
+        return instance
+        }
+
+        private fun validate(instance: {{classname}}) {
+        val validator =
+        Validation
+        .byDefaultProvider()
+        .configure()
+        .messageInterpolator(ParameterMessageInterpolator())
+        .buildValidatorFactory()
+        .validator
+
+        val violations = validator.validate(instance)
+
+        if (violations.isNotEmpty()) {
+        throw PropertyConstraintViolationException(
+        constraintViolations = violations.map { "${it.propertyPath}: ${it.message}" }
+        )
+        }
+        }
+        }
+
+        fun toBuilder() = Builder(
+        {{#allVars}}
+            {{#eliminateDiscriminators}}
+                {{{name}}} = {{{name}}}{{#required}}!!{{/required}}{{^-last}},{{/-last}}
+            {{/eliminateDiscriminators}}
+        {{/allVars}}
+        )
     {{/discriminator}}
 {{/isKotlin}}
 {{#hasEnums}}
     {{#vars}}
         {{#isEnum}}
 
-    /**
-     * {{{description}}}
-     * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
-     */
-    enum class {{&nameInCamelCase}}(val value: {{#isArray}}{{{items.dataType}}}{{/isArray}}{{^isArray}}{{dataType}}{{/isArray}}) {
-    {{#allowableValues}}
-        {{#enumVars}}
-        @JsonProperty({{{value}}})
-        {{&name}}({{{value}}}){{^-last}},
-        {{/-last}}{{#-last}};{{/-last}}
-        {{/enumVars}}
-    {{/allowableValues}}
-    }
+            /**
+            * {{{description}}}
+            * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
+            */
+            enum class {{&nameInPascalCase}}(val value: {{#isArray}}{{{items.dataType}}}{{/isArray}}{{^isArray}}{{dataType}}{{/isArray}}) {
+            {{#allowableValues}}
+                {{#enumVars}}
+                    @JsonProperty({{{value}}})
+                    {{&name}}({{{value}}}){{^-last}},
+                    {{/-last}}{{#-last}};{{/-last}}
+                {{/enumVars}}
+            {{/allowableValues}}
+            }
         {{/isEnum}}
     {{/vars}}
 {{/hasEnums}}
