@@ -16,13 +16,24 @@
 
 package com.expediagroup.sdk.core.pipeline.step
 
+import com.expediagroup.sdk.core.http.Headers
 import com.expediagroup.sdk.core.http.Response
 import com.expediagroup.sdk.core.logging.LoggerDecorator
 import com.expediagroup.sdk.core.logging.ResponseLogger
 import com.expediagroup.sdk.core.pipeline.ResponsePipelineStep
 
 class ResponseLoggingStep(
-    private val logger: LoggerDecorator
+    private val logger: LoggerDecorator,
+    private val maskBody: (String) -> String = { it },
+    private val maskHeaders: (Headers) -> Headers = { it }
 ) : ResponsePipelineStep {
-    override fun invoke(response: Response): Response = response.also { ResponseLogger.log(logger, it) }
+    override fun invoke(response: Response): Response =
+        response.also {
+            ResponseLogger.log(
+                logger,
+                it,
+                maskBody = maskBody,
+                maskHeaders = maskHeaders
+            )
+        }
 }
