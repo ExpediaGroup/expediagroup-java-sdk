@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
   "bootstrap-sha": "2c3d5b5a14172db2cef48c617194e12c5b39c7be",
-  "release-type": "simple",
+  "release-type": "java",
   "include-component-in-tag": true,
   "bump-minor-pre-major": true,
   "bump-patch-for-minor-pre-major": true,
@@ -11,10 +11,6 @@
     "expediagroup-sdk-core": {
       "path": "expediagroup-sdk-core",
       "component": "expediagroup-sdk-core",
-      "bump-minor-pre-major": true,
-      "bump-patch-for-minor-pre-major": true,
-      "prerelease": true,
-      "prerelease-type": "beta",
       "extra-files": [
         "gradle.properties"
       ]
