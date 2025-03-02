@@ -1,12 +1,10 @@
 {
   "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
-  "bootstrap-sha": "ea98798b5bbc33ce19ee7309e73793939b5cb142",
+  "bootstrap-sha": "eab6bd5bf61ea77c23363824f43e828196c64979",
   "release-type": "simple",
   "include-component-in-tag": true,
   "bump-minor-pre-major": true,
   "bump-patch-for-minor-pre-major": true,
-  "prerelease": true,
-  "prerelease-type": "beta",
   "packages": {
     "expediagroup-sdk-core": {
       "path": "expediagroup-sdk-core",
