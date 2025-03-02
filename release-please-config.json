@@ -1,0 +1,48 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "bootstrap-sha": "f53c8b993c11d8d1d2a63cbcf55abbf2c9447e40",
+  "release-type": "simple",
+  "include-component-in-tag": true,
+  "bump-minor-pre-major": true,
+  "bump-patch-for-minor-pre-major": false,
+  "skip-github-release": true,
+  "prerelease": true,
+  "packages": {
+    "expediagroup-sdk-core": {
+      "path": "expediagroup-sdk-core",
+      "component": "expediagroup-sdk-core",
+      "prerelease": true,
+      "extra-files": [
+        "gradle.properties"
+      ]
+    },
+    "expediagroup-sdk-graphql": {
+      "path": "expediagroup-sdk-graphql",
+      "component": "expediagroup-sdk-graphql",
+      "extra-files": [
+        "gradle.properties"
+      ]
+    },
+    "expediagroup-sdk-rest": {
+      "path": "expediagroup-sdk-rest",
+      "component": "expediagroup-sdk-rest",
+      "extra-files": [
+        "gradle.properties"
+      ]
+    },
+    "expediagroup-sdk-transport-okhttp": {
+      "path": "expediagroup-sdk-rest",
+      "component": "expediagroup-sdk-rest",
+      "extra-files": [
+        "gradle.properties"
+      ]
+    },
+    "expediagroup-sdk-openapi-plugin": {
+      "path": "expediagroup-sdk-openapi-plugin",
+      "component": "expediagroup-sdk-openapi-plugin",
+      "extra-files": [
+        "gradle.properties"
+      ]
+    }
+  }
+}
