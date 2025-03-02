@@ -3,7 +3,7 @@ name: release-please
 on:
   push:
     branches:
-      - "mdwairi/configure-publish-tasks"
+      - "feature/new-sdk-core"
 
 permissions:
   contents: write
@@ -45,6 +45,94 @@ jobs:
 
       - name: Publish expediagroup-sdk-core
         run: ./gradlew :expediagroup-sdk-core:publishToMavenLocal
+
+      - name: Print Maven Local contents
+        run: ls -R ~/.m2/repository
+
+  release-expediagroup-sdk-graphql:
+    needs: release-please
+    runs-on: ubuntu-latest
+    if: ${{needs.release-please.outputs.expediagroup-sdk-graphql--released}}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Grant execute permission for Gradle
+        run: chmod +x gradlew
+
+      - name: Publish expediagroup-sdk-graphql
+        run: ./gradlew :expediagroup-sdk-graphql:publishToMavenLocal
+
+      - name: Print Maven Local contents
+        run: ls -R ~/.m2/repository
+
+  release-expediagroup-sdk-rest:
+    needs: release-please
+    runs-on: ubuntu-latest
+    if: ${{needs.release-please.outputs.expediagroup-sdk-rest--released}}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Grant execute permission for Gradle
+        run: chmod +x gradlew
+
+      - name: Publish expediagroup-sdk-rest
+        run: ./gradlew :expediagroup-sdk-rest:publishToMavenLocal
+
+      - name: Print Maven Local contents
+        run: ls -R ~/.m2/repository
+
+  release-expediagroup-sdk-transport-okhttp:
+    needs: release-please
+    runs-on: ubuntu-latest
+    if: ${{needs.release-please.outputs.expediagroup-sdk-transport-okhttp--released}}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Grant execute permission for Gradle
+        run: chmod +x gradlew
+
+      - name: Publish expediagroup-sdk-transport-okhttp
+        run: ./gradlew :expediagroup-sdk-transport-okhttp:publishToMavenLocal
+
+      - name: Print Maven Local contents
+        run: ls -R ~/.m2/repository
+
+  release-expediagroup-sdk-openapi-plugin:
+    needs: release-please
+    runs-on: ubuntu-latest
+    if: ${{needs.release-please.outputs.expediagroup-sdk-openapi-plugin--released}}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Grant execute permission for Gradle
+        run: chmod +x gradlew
+
+      - name: Publish expediagroup-sdk-openapi-plugin
+        run: ./gradlew :expediagroup-sdk-transport-okhttp:publishToMavenLocal
 
       - name: Print Maven Local contents
         run: ls -R ~/.m2/repository

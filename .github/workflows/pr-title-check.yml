@@ -3,6 +3,8 @@ name: PR Title Check
 on:
   pull_request:
     types: [opened, edited, synchronize, reopened]
+    branches:
+      - "feature/new-sdk-core"
 
 jobs:
   check-pr-title:
