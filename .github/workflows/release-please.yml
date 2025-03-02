@@ -10,13 +10,42 @@ permissions:
   pull-requests: write
 
 jobs:
-  release:
+  release-please:
     runs-on: ubuntu-latest
     outputs:
-      tag_name: ${{ steps.release.outputs.tag_name }}
-      release_created: ${{ steps.release.outputs.release_created }}
+      expediagroup-sdk-core--release_created: ${{ steps.release.outputs.expediagroup-sdk-core--release_created}}
+      expediagroup-sdk-graphql--release_created: ${{ steps.release.outputs.expediagroup-sdk-graphql--release_created}}
+      expediagroup-sdk-rest--release_created: ${{ steps.release.outputs.expediagroup-sdk-rest--release_created}}
+      expediagroup-sdk-transport-okhttp--release_created: ${{ steps.release.outputs.expediagroup-sdk-transport-okhttp--release_created}}
+      expediagroup-sdk-openapi-plugin--release_created: ${{ steps.release.outputs.expediagroup-sdk-openapi-plugin--release_created}}
     steps:
       - uses: googleapis/release-please-action@v4
         id: release
         with:
-          target-branch: ${{ github.ref_name }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          target-branch: ${{ github.ref }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+
+  release-expediagroup-sdk-core:
+    needs: release-please
+    runs-on: ubuntu-latest
+    if: ${{needs.release-please.outputs.expediagroup-sdk-core--release_created}}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Grant execute permission for Gradle
+        run: chmod +x gradlew
+
+      - name: Publish expediagroup-sdk-core
+        run: ./gradlew publishToMavenLocal
+
+      - name: Print Maven Local contents
+        run: ls -R ~/.m2/repository
+
