@@ -1,0 +1,22 @@
+{{#hasQueryParams}}fun getQueryParams(): List<UrlQueryParam> =
+    buildList {
+    {{#queryParams}}
+        {{paramName}}?.let {
+        val key = "{{paramName}}"
+        val value = buildList {
+        {{#isContainer}}
+            addAll(it{{#isEnum}}.map { it.value }{{/isEnum}})
+        {{/isContainer}}
+        {{^isContainer}}
+            add(it{{#isEnum}}.value{{/isEnum}}{{^isString}}.toString(){{/isString}})
+        {{/isContainer}}
+        }
+
+        add(UrlQueryParam(
+        key = key,
+        value = value,
+        stringify = swaggerCollectionFormatStringifier.getOrDefault("{{collectionFormat}}", stringifyExplode)
+        ))
+        }
+    {{/queryParams}}
+}{{/hasQueryParams}}

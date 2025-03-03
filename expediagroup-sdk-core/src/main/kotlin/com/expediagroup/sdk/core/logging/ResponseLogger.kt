@@ -16,6 +16,7 @@
 
 package com.expediagroup.sdk.core.logging
 
+import com.expediagroup.sdk.core.http.Headers
 import com.expediagroup.sdk.core.http.Response
 import com.expediagroup.sdk.core.http.ResponseBody
 import com.expediagroup.sdk.core.logging.Constant.DEFAULT_MAX_BODY_SIZE
@@ -27,18 +28,20 @@ internal object ResponseLogger {
         logger: LoggerDecorator,
         response: Response,
         vararg tags: String,
-        maxBodyLogSize: Long? = null
+        maxBodyLogSize: Long? = null,
+        maskBody: (String) -> String = { it },
+        maskHeaders: (Headers) -> Headers = { it }
     ) {
         try {
             var logString =
                 buildString {
-                    append("URL=${response.request.url}, Code=${response.status.code}, Headers=[${response.headers}]")
+                    append("URL=${response.request.url}, Code=${response.status.code}, Headers=[${maskHeaders(response.headers)}]")
                 }
 
             if (logger.isDebugEnabled) {
                 val responseBodyString =
                     response.body?.let {
-                        it.readLoggableBody(maxBodyLogSize, it.mediaType()?.charset)
+                        maskBody(it.readLoggableBody(maxBodyLogSize, it.mediaType()?.charset))
                     }
 
                 logString += ", Body=$responseBodyString"

@@ -1,0 +1,12 @@
+import {{packageName}}.models.*
+
+{{#apiInfo}}
+    {{#apis}}{{#operations}}{{#operation}}
+        import {{packageName}}.operations.{{classname}}
+        import {{packageName}}.operations.{{classname}}Params
+    {{/operation}}{{/operations}}{{/apis}}
+    {{#defineApiExceptions}}
+        import {{packageName}}.models.exception.ExpediaGroupApi{{dataType}}Exception
+        import {{packageName}}.models.exception.ErrorObjectMapper
+    {{/defineApiExceptions}}
+{{/apiInfo}}

@@ -1,0 +1,55 @@
+package com.expediagroup.sdk.{{namespace}}.operations
+
+{{>traits/imports}}
+
+{{#operations}}
+    {{#operation}}
+        {{#hasNonBodyParams}}
+            import com.expediagroup.sdk.rest.exception.client.PropertyConstraintViolationException
+            import com.fasterxml.jackson.annotation.JsonProperty
+            import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+
+            import javax.validation.constraints.Max
+            import javax.validation.constraints.Min
+            import javax.validation.constraints.NotNull
+            import javax.validation.constraints.Pattern
+            import javax.validation.constraints.Size
+            import javax.validation.Valid
+            import javax.validation.Validation
+
+            import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator
+
+            /**
+            {{#nonBodyParams}}
+                {{#params}}
+                    * @property {{{paramName}}} {{{description}}}
+                {{/params}}
+            {{/nonBodyParams}}
+            */
+            @JsonDeserialize(builder = {{classname}}Params.Builder::class)
+            data class {{classname}}Params(
+            {{#nonBodyParams}}
+                {{#params}}
+                    {{>models/constraints}}
+                    {{>modelMutable}} {{>client/apiParam}}{{^-last}}, {{/-last}}
+                {{/params}}
+            {{/nonBodyParams}}
+            ) {
+            companion object {
+            @JvmStatic
+            fun builder() = Builder()
+            }
+
+            {{>operations/params/enum_types}}
+
+            {{>operations/params/builder}}
+
+            {{>operations/params/get_headers}}
+
+            {{>operations/params/get_query_params}}
+
+            {{>operations/params/get_path_params}}
+            }
+        {{/hasNonBodyParams}}
+    {{/operation}}
+{{/operations}}

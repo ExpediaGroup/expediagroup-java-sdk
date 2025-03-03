@@ -225,4 +225,126 @@ class RequestLoggerTest {
 
         verify { mockLogger.debug(expectedLogMessage, "Outgoing", *anyVararg<String>()) }
     }
+
+    @Test
+    fun `should call masker with each log on debug level`() {
+        val json = """{"username":"john", "apiKey":"secret123", "email":"john@example.com", "password":"p@ssw0rd"}"""
+        val bodyContent = Buffer().write(json.toByteArray())
+
+        val testRequest =
+            Request
+                .builder()
+                .url("https://example.com")
+                .method(Method.POST)
+                .addHeader("Content-Type", "application/json")
+                .body(RequestBody.create(bodyContent, mediaType = MediaType.parse("application/json")))
+                .build()
+
+        every { mockLogger.isDebugEnabled } returns true
+
+        val mockMasker = mockk<(String) -> String>(relaxed = true)
+
+        // When
+        RequestLogger.log(mockLogger, testRequest, maskBody = mockMasker)
+
+        // Expect
+        verify(exactly = 1) {
+            mockMasker.invoke(any<String>())
+        }
+    }
+
+    @Test
+    fun `should not call body masker when debug level is not enabled`() {
+        val json = """{"username":"john", "apiKey":"secret123", "email":"john@example.com", "password":"p@ssw0rd"}"""
+        val bodyContent = Buffer().write(json.toByteArray())
+
+        val testRequest =
+            Request
+                .builder()
+                .url("https://example.com")
+                .method(Method.POST)
+                .addHeader("Content-Type", "application/json")
+                .body(RequestBody.create(bodyContent, mediaType = MediaType.parse("application/json")))
+                .build()
+
+        every { mockLogger.isDebugEnabled } returns false
+
+        val mockMasker = mockk<(String) -> String>(relaxed = true)
+
+        // When
+        RequestLogger.log(mockLogger, testRequest, maskBody = mockMasker)
+
+        // Expect
+        verify(exactly = 0) {
+            mockMasker.invoke(any<String>())
+        }
+    }
+
+    @Test
+    fun `should apply body masker to logged messages`() {
+        val json = """{"username":"john", "apiKey":"secret123", "email":"john@example.com", "password":"p@ssw0rd"}"""
+        val bodyContent = Buffer().write(json.toByteArray())
+
+        val testRequest =
+            Request
+                .builder()
+                .url("https://example.com")
+                .method(Method.POST)
+                .addHeader("Content-Type", "application/json")
+                .body(RequestBody.create(bodyContent, mediaType = MediaType.parse("application/json")))
+                .build()
+
+        every { mockLogger.isDebugEnabled } returns true
+
+        val mockMasker: (String) -> String = {
+            "something"
+        }
+
+        // When
+        RequestLogger.log(mockLogger, testRequest, maskBody = mockMasker)
+
+        // Expect
+        verify(exactly = 1) {
+            mockLogger.debug(
+                "URL=https://example.com, Method=POST, Headers=[{content-type=[application/json]}], Body=something",
+                "Outgoing",
+                *anyVararg()
+            )
+        }
+    }
+
+    @Test
+    fun `should apply headers masker to logged messages`() {
+        val json = """something"""
+        val bodyContent = Buffer().write(json.toByteArray())
+
+        val testRequest =
+            Request
+                .builder()
+                .url("https://example.com")
+                .method(Method.POST)
+                .addHeader("Content-Type", "application/json")
+                .body(RequestBody.create(bodyContent, mediaType = MediaType.parse("application/json")))
+                .build()
+
+        every { mockLogger.isDebugEnabled } returns false
+
+        val mockMasker: (Headers) -> Headers = {
+            Headers.builder().add("Content-Type", "application/json").build()
+        }
+
+        // When
+        RequestLogger.log(mockLogger, testRequest, maskHeaders = mockMasker)
+
+        // Expect
+        verify(exactly = 1) {
+            mockLogger.info(
+                "URL=https://example.com, Method=POST, Headers=[{content-type=[application/json]}]",
+                "Outgoing",
+                *anyVararg()
+            )
+
+            mockMasker.invoke(testRequest.headers)
+        }
+    }
 }

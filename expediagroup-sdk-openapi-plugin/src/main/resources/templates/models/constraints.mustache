@@ -1,0 +1,41 @@
+{{#pattern}}@field:Pattern(regexp = "{{{pattern}}}"){{/pattern}}
+{{#maxLength}}
+    {{#minLength}}
+        @field:Length(min = {{minLength}}, max = {{maxLength}})
+    {{/minLength}}
+{{/maxLength}}
+{{^maxLength}}
+    {{#minLength}}
+        @field:Length(min = {{minLength}})
+    {{/minLength}}
+{{/maxLength}}
+{{#maxLength}}
+    {{^minLength}}
+        @field:Length(max = {{maxLength}})
+    {{/minLength}}
+{{/maxLength}}
+{{#maxItems}}
+    {{#minItems}}
+        @field:Size(min = {{minItems}}, max = {{maxItems}})
+    {{/minItems}}
+{{/maxItems}}
+{{^maxItems}}
+    {{#minItems}}
+        @field:Size(min = {{minItems}})
+    {{/minItems}}
+{{/maxItems}}
+{{#maxItems}}
+    {{^minItems}}
+        @field:Size(max = {{maxItems}})
+    {{/minItems}}
+{{/maxItems}}
+{{#minimum}}
+    @field:Min({{minimum}}{{#exclusiveMinimum}} + 1{{/exclusiveMinimum}})
+{{/minimum}}
+{{#maximum}}
+    @field:Max({{maximum}}{{#exclusiveMaximum}} - 1{{/exclusiveMaximum}})
+{{/maximum}}
+{{#required}}
+    @field:NotNull
+{{/required}}
+{{^isEnum}}@field:Valid{{/isEnum}}

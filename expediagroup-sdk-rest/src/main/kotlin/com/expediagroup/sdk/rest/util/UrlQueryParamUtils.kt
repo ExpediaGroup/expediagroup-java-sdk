@@ -17,6 +17,7 @@
 package com.expediagroup.sdk.rest.util
 
 import com.expediagroup.sdk.rest.model.UrlQueryParam
+import java.net.URLEncoder
 
 /**
  * Functional interface for converting a UrlQueryParam to a String.
@@ -39,7 +40,7 @@ val stringifyForm =
     StringifyQueryParam { param ->
         StringBuilder().apply {
             append("${param.key}=")
-            append(param.value.joinToString(","))
+            append(param.value.joinToString(URLEncoder.encode(",", "UTF-8")))
         }.toString()
     }
 
@@ -63,7 +64,7 @@ val stringifySpaceDelimited =
     StringifyQueryParam { param ->
         StringBuilder().apply {
             append("${param.key}=")
-            append(param.value.joinToString("%20"))
+            append(param.value.joinToString(URLEncoder.encode(" ", "UTF-8")))
         }.toString()
     }
 
@@ -75,6 +76,26 @@ val stringifyPipeDelimited =
     StringifyQueryParam { param ->
         StringBuilder().apply {
             append("${param.key}=")
-            append(param.value.joinToString("|"))
+            append(param.value.joinToString(URLEncoder.encode("|", "UTF-8")))
         }.toString()
     }
+
+/**
+ * A map that associates Swagger collection format identifiers with their corresponding
+ * `StringifyQueryParam` implementations. This map is used to convert `UrlQueryParam`
+ * objects to their respective string representations based on the specified collection format.
+ *
+ * The supported collection formats are:
+ * - "csv": Comma-separated values (e.g., key=value1,value2)
+ * - "ssv": Space-separated values (e.g., key=value1%20value2)
+ * - "pipes": Pipe-separated values (e.g., key=value1|value2)
+ * - "multi": Multiple key-value pairs (e.g., key=value1&key=value2)
+ */
+@Suppress("unused")
+val swaggerCollectionFormatStringifier =
+    mapOf(
+        "csv" to stringifyForm,
+        "ssv" to stringifySpaceDelimited,
+        "pipes" to stringifyPipeDelimited,
+        "multi" to stringifyExplode
+    )
