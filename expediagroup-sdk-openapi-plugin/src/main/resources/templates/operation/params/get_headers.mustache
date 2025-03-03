@@ -1,0 +1,14 @@
+{{#hasHeaderParams}}fun getHeaders(): Headers {
+return Headers.builder().apply {
+{{#headerParams}}
+    {{paramName}}?.let {
+    add("{{baseName}}", it{{#isEnum}}.value{{/isEnum}})
+    }
+{{/headerParams}}
+{{#responses}}
+    {{#httpAcceptHeader}}
+        add("Accept", "{{mediaTypes}}")
+    {{/httpAcceptHeader}}
+{{/responses}}
+}.build()
+}{{/hasHeaderParams}}
