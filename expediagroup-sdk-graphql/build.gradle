@@ -10,6 +10,7 @@ plugins {
 version = project.property("VERSION")
 
 apply from: "$rootDir/gradle-tasks/publish.gradle"
+apply from: "$rootDir/gradle-tasks/signing.gradle"
 
 dependencies {
     /* Kotlin */

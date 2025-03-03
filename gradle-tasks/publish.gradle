@@ -1,7 +1,3 @@
-tasks.named("publish") {
-    dependsOn tasks.named("signPluginMavenPublication")
-}
-
 publishing {
     publications {
         mavenJava(MavenPublication) {
@@ -57,12 +53,4 @@ publishing {
             }
         }
     }
-}
-
-signing {
-    def signingKey = System.getenv("GPG_SECRET")
-    def signingPassword = System.getenv("GPG_PASSPHRASE")
-
-    useInMemoryPgpKeys(signingKey, signingPassword)
-    sign publishing.publications
 }
