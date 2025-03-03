@@ -3,9 +3,10 @@ import kotlinx.kover.gradle.plugin.dsl.CoverageUnit
 
 plugins {
     id 'maven-publish'
+    id 'signing'
 }
 
-apply from:  "$rootDir/gradle-tasks/publishing.gradle"
+apply from: "$rootDir/gradle-tasks/publish.gradle"
 
 dependencies {
     /* Kotlin */
@@ -48,7 +49,7 @@ kover {
         filters {
             excludes {
                 packages(
-                        "com.expediagroup.sdk.core.exception"
+                    "com.expediagroup.sdk.core.exception"
                 )
             }
         }

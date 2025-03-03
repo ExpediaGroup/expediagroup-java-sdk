@@ -3,13 +3,10 @@ import kotlinx.kover.gradle.plugin.dsl.CoverageUnit
 
 plugins {
     id 'maven-publish'
+    id 'signing'
 }
 
-apply from:  "$rootDir/gradle-tasks/publishing.gradle"
-
-repositories {
-    mavenCentral()
-}
+apply from: "$rootDir/gradle-tasks/publish.gradle"
 
 dependencies {
     /* Kotlin */

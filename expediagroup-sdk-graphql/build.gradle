@@ -4,9 +4,10 @@ import kotlinx.kover.gradle.plugin.dsl.CoverageUnit
 plugins {
     id 'com.apollographql.apollo' version '4.1.1'
     id 'maven-publish'
+    id 'signing'
 }
 
-apply from:  "$rootDir/gradle-tasks/publishing.gradle"
+apply from: "$rootDir/gradle-tasks/publish.gradle"
 
 dependencies {
     /* Kotlin */
@@ -52,10 +53,10 @@ kover {
         filters {
             excludes {
                 packages(
-                        "testservice",
-                        "com.expediagroup.sdk.graphql.model",
-                        "com.expediagroup.sdk.graphql.exception",
-                        "com.expediagroup.sdk.graphql.paging.model",
+                    "testservice",
+                    "com.expediagroup.sdk.graphql.model",
+                    "com.expediagroup.sdk.graphql.exception",
+                    "com.expediagroup.sdk.graphql.paging.model",
                 )
             }
         }

@@ -3,13 +3,10 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id 'java-gradle-plugin'
     id 'maven-publish'
+    id 'signing'
 }
 
-apply from:  "$rootDir/gradle-tasks/publishing.gradle"
-
-repositories {
-    mavenCentral()
-}
+apply from: "$rootDir/gradle-tasks/publish.gradle"
 
 dependencies {
     implementation 'org.openapitools:openapi-generator:7.11.0'

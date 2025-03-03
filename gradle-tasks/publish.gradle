@@ -4,7 +4,7 @@ publishing {
             from components.java
             artifactId = project.property("ARTIFACT_NAME")
             groupId = project.property("GROUP_ID")
-            version = project.property("VERSION")
+            version = project.findProperty("SNAPSHOT_VERSION") ? project.findProperty("SNAPSHOT_VERSION") : project.property("VERSION")
             description = findProperty("DESCRIPTION")
 
             pom {
@@ -39,8 +39,23 @@ publishing {
     }
 
     repositories {
-        // TODO: Add release and snapshot repos
-
-        mavenLocal()
+        maven {
+            if (project.version.contains("SNAPSHOT")) {
+                name = "oss-sonatype-snapshots"
+                url = uri("https://oss.sonatype.org/content/repositories/snapshots")
+            } else {
+                name = "oss-sonatype-releases"
+                url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2")
+            }
+            credentials {
+                username = System.getenv("SONATYPE_USERNAME")
+                password = System.getenv("SONATYPE_PASSWORD")
+            }
+        }
     }
+}
+
+signing {
+    useGpgCmd()  // Ensure Gradle uses GPG for signing
+    sign publishing.publications
 }

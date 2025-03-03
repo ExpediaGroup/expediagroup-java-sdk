@@ -8,6 +8,8 @@ plugins {
     id 'org.jetbrains.kotlinx.kover' version "0.9.1" apply false
 }
 
+apply from: "$rootDir/gradle-tasks/publish-snapshot.gradle"
+
 subprojects {
     /* Shared plugins between all modules */
     apply plugin: 'java'
