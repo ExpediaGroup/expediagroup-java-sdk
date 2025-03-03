@@ -3,35 +3,35 @@ override fun getHttpMethod(): String = "{{httpMethod}}"
 override fun getRequestInfo(): OperationRequestTrait = this
 
 override fun getUrlPath(): String {
-    var url = "{{{path}}}"
+var url = "{{{path}}}"
 
-    {{#hasPathParms}}{{#pathParams}}
-        url = url.replace(
-            oldValue = "{{baseName}}",
-            newValue = {{paramName}}{{#isEnum}}.value{{/isEnum}},
-            ignoreCase = true
-        )
-    {{/pathParams}}{{/hasPathParms}}
+{{#hasPathParams}}{{#pathParams}}
+    url = url.replace(
+    oldValue = "{" + "{{baseName}}" + "}",
+    newValue = this.params.{{paramName}}{{#isEnum}}.value{{/isEnum}},
+    ignoreCase = true
+    )
+{{/pathParams}}{{/hasPathParams}}
 
-    return url
+return url
 }
 
 {{#hasBodyParam}}{{#bodyParam}}
-override fun getRequestBody(): {{{dataType}}} = requestBody
+    override fun getRequestBody(): {{{dataType}}} = requestBody
 {{/bodyParam}}{{/hasBodyParam}}
 
 {{#customReturnType}}
-override fun getTypeIdentifier(): TypeReference<{{{returnType}}}> = jacksonTypeRef()
+    override fun getTypeIdentifier(): TypeReference<{{{returnType}}}> = jacksonTypeRef()
 {{/customReturnType}}
 
 {{#hasHeaderParams}}
-override fun getHeaders(): Headers = this.params.getHeaders()
+    override fun getHeaders(): Headers = this.params.getHeaders()
 {{/hasHeaderParams}}
 
 {{#hasConsumes}}
-override fun getContentType(): String = "{{{consumes}}}"
+    override fun getContentType(): String = "{{{consumes}}}"
 {{/hasConsumes}}
 
 {{#hasQueryParams}}
-override fun getUrlQueryParams() = this.params.getQueryParams()
+    override fun getUrlQueryParams() = this.params.getQueryParams()
 {{/hasQueryParams}}
