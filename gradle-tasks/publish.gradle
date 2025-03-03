@@ -55,7 +55,7 @@ publishing {
     }
 }
 
-signing {
-    useGpgCmd()  // Ensure Gradle uses GPG for signing
-    sign publishing.publications
-}
+//signing {
+//    useGpgCmd()  // Ensure Gradle uses GPG for signing
+//    sign publishing.publications
+//}
