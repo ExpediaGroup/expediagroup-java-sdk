@@ -1,9 +1,6 @@
 name: Publish Snapshots
 
 on:
-  push:
-    branches:
-      - "mdwairi/configure-publish-tasks"
   workflow_dispatch:
     inputs:
       branch:
@@ -28,6 +25,7 @@ jobs:
       - name: Publish Snapshots
         env:
           GPG_PASSPHRASE: ${{ secrets.GPG_PRIVATE_KEY_PASSPHRASE }}
+          GPG_SECRET: ${{ secrets.GPG_PRIVATE_KEY }}
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
         run: ./gradlew publishSnapshots

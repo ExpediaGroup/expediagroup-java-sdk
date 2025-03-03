@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id 'java-gradle-plugin'
-    id 'maven-publish'
+    id 'com.gradle.plugin-publish' version '1.3.1'
     id 'signing'
 }
 
@@ -34,12 +34,15 @@ tasks.withType(KotlinCompile).configureEach {
 
 
 gradlePlugin {
+    website = 'https://github.com/ExpediaGroup/expediagroup-java-sdk'
+    vcsUrl = 'https://github.com/ExpediaGroup/expediagroup-java-sdk'
     plugins {
         create("egSdkOpenApiGenerator") {
             id = "com.expediagroup.sdk.openapigenerator"
             implementationClass = "com.expediagroup.sdk.openapigenerator.EgSdkOpenApiGeneratorPlugin"
             displayName = "EG SDK OpenApi Gradle Plugin Wrapper"
             description = "applies the standard OpenAPI Generator plugin (\"org.openapi.generator\") and configures it with Expedia Group SDK defaults."
+            tags = ["expediagroup", "expedia", "sdk", "plugin", "openapi", "generator"]
         }
     }
 }
