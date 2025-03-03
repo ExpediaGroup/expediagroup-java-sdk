@@ -1,3 +1,7 @@
+tasks.named("publish") {
+    dependsOn tasks.named("signPluginMavenPublication")
+}
+
 publishing {
     publications {
         mavenJava(MavenPublication) {
