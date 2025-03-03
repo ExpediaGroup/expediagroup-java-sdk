@@ -6,6 +6,8 @@ plugins {
     id 'signing'
 }
 
+version = project.property("VERSION")
+
 apply from: "$rootDir/gradle-tasks/publish.gradle"
 
 dependencies {
