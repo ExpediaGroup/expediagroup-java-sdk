@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - "feature/new-sdk-core"
+      - "mdwairi/configure-publish-tasks"
 
 permissions:
   contents: write
@@ -49,13 +50,7 @@ jobs:
           GPG_SECRET: ${{ secrets.GPG_PRIVATE_KEY }}
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-          GRADLE_PUBLISH_KEY: ${{ secrets.GRADLE_PUBLISH_KEY }}
-          GRADLE_PUBLISH_SECRET: ${{ secrets.GRADLE_PUBLISH_SECRET }}
-
-        run: ./gradlew :expediagroup-sdk-core:publishToMavenLocal
-
-      - name: Print Maven Local contents
-        run: ls -R ~/.m2/repository
+        run: ./gradlew :expediagroup-sdk-core:publish
 
   release-expediagroup-sdk-graphql:
     needs: release-please
@@ -74,10 +69,12 @@ jobs:
         run: chmod +x gradlew
 
       - name: Publish expediagroup-sdk-graphql
-        run: ./gradlew :expediagroup-sdk-graphql:publishToMavenLocal
-
-      - name: Print Maven Local contents
-        run: ls -R ~/.m2/repository
+        env:
+          GPG_PASSPHRASE: ${{ secrets.GPG_PRIVATE_KEY_PASSPHRASE }}
+          GPG_SECRET: ${{ secrets.GPG_PRIVATE_KEY }}
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+        run: ./gradlew :expediagroup-sdk-graphql:publish
 
   release-expediagroup-sdk-rest:
     needs: release-please
@@ -96,10 +93,12 @@ jobs:
         run: chmod +x gradlew
 
       - name: Publish expediagroup-sdk-rest
-        run: ./gradlew :expediagroup-sdk-rest:publishToMavenLocal
-
-      - name: Print Maven Local contents
-        run: ls -R ~/.m2/repository
+        env:
+          GPG_PASSPHRASE: ${{ secrets.GPG_PRIVATE_KEY_PASSPHRASE }}
+          GPG_SECRET: ${{ secrets.GPG_PRIVATE_KEY }}
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+        run: ./gradlew :expediagroup-sdk-rest:publish
 
   release-expediagroup-sdk-transport-okhttp:
     needs: release-please
@@ -118,10 +117,12 @@ jobs:
         run: chmod +x gradlew
 
       - name: Publish expediagroup-sdk-transport-okhttp
-        run: ./gradlew :expediagroup-sdk-transport-okhttp:publishToMavenLocal
-
-      - name: Print Maven Local contents
-        run: ls -R ~/.m2/repository
+        env:
+          GPG_PASSPHRASE: ${{ secrets.GPG_PRIVATE_KEY_PASSPHRASE }}
+          GPG_SECRET: ${{ secrets.GPG_PRIVATE_KEY }}
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+        run: ./gradlew :expediagroup-sdk-transport-okhttp:publish
 
   release-expediagroup-sdk-openapi-plugin:
     needs: release-please
@@ -140,8 +141,9 @@ jobs:
         run: chmod +x gradlew
 
       - name: Publish expediagroup-sdk-openapi-plugin
-        run: ./gradlew :expediagroup-sdk-transport-okhttp:publishToMavenLocal
+        env:
+          GRADLE_PUBLISH_KEY: ${{ secrets.GRADLE_PUBLISH_KEY }}
+          GRADLE_PUBLISH_SECRET: ${{ secrets.GRADLE_PUBLISH_SECRET }}
 
-      - name: Print Maven Local contents
-        run: ls -R ~/.m2/repository
+        run: ./gradlew :expediagroup-sdk-openapi-plugin:publishPlugins
 
