@@ -2,7 +2,7 @@
     buildList {
     {{#queryParams}}
         {{paramName}}?.let {
-        val key = "{{paramName}}"
+        val key = "{{baseName}}"
         val value = buildList {
         {{#isContainer}}
             addAll(it{{#isEnum}}.map { it.value }{{/isEnum}})
