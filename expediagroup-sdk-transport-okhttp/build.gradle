@@ -18,7 +18,7 @@ dependencies {
 
     /* EG SDK Core */
     api 'com.squareup.okhttp3:okhttp:4.12.0'
-    compileOnly(project(":expediagroup-sdk-core"))
+    compileOnly 'com.expediagroup:expediagroup-sdk-core:0.0.1-SNAPSHOT'
 
     /* Testing */
     testImplementation platform('org.junit:junit-bom:5.11.4')
