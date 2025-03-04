@@ -75,7 +75,7 @@ object OpenApiGeneratorConfigurator {
                 "namespace must be set. Make sure to specify the SDK namespace in gradle.properties"
             }
 
-            ext.configFile.set(configFilePath)
+            ext.configFile.convention(configFilePath)
 
             val product = Product(namespace)
 
