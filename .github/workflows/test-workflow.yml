@@ -1,0 +1,31 @@
+name: release-please
+
+on:
+  push:
+    branches:
+      - "mdwairi/configure-publish-tasks"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-expediagroup-sdk-core:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Publish expediagroup-sdk-core
+        env:
+          GPG_PASSPHRASE: ${{ secrets.GPG_PRIVATE_KEY_PASSPHRASE }}
+          GPG_SECRET: ${{ secrets.GPG_PRIVATE_KEY }}
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+        run: ./gradlew :expediagroup-sdk-core:publish
+
