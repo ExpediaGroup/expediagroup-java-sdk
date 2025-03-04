@@ -7,6 +7,7 @@ plugins {
 }
 
 version = project.property("VERSION")
+group = project.property("GROUP_ID")
 
 apply from: "$rootDir/gradle-tasks/publish.gradle"
 apply from: "$rootDir/gradle-tasks/signing.gradle"
