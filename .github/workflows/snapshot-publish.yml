@@ -1,6 +1,9 @@
 name: Publish Snapshots
 
 on:
+  push:
+    branches:
+      - "mdwairi/configure-publish-tasks"
   workflow_dispatch:
     inputs:
       branch:
