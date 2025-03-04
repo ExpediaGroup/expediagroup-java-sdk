@@ -1,4 +1,4 @@
-name: release-please
+name: Test Sonatype
 
 on:
   push:
@@ -27,5 +27,5 @@ jobs:
           GPG_SECRET: ${{ secrets.GPG_PRIVATE_KEY }}
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-        run: ./gradlew :expediagroup-sdk-core:publish
+        run: ./gradlew :expediagroup-sdk-core:publishToSonatype :expediagroup-sdk-core:closeAndReleaseSonatypeStagingRepository
 

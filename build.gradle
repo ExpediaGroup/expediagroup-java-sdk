@@ -6,9 +6,19 @@ plugins {
     id 'org.jetbrains.kotlin.jvm' version '2.1.10' apply false
     id "org.jlleitschuh.gradle.ktlint" version "12.1.2" apply false
     id 'org.jetbrains.kotlinx.kover' version "0.9.1" apply false
+    id 'io.github.gradle-nexus.publish-plugin' version '2.0.0'
 }
 
 apply from: "$rootDir/gradle-tasks/publish-snapshot.gradle"
+
+nexusPublishing {
+    repositories {
+        sonatype {
+            username = System.getenv("SONATYPE_USERNAME")
+            password = System.getenv("SONATYPE_PASSWORD")
+        }
+    }
+}
 
 subprojects {
     /* Shared plugins between all modules */

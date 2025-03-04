@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - "feature/new-sdk-core"
-      - "mdwairi/configure-publish-tasks"
 
 permissions:
   contents: write
