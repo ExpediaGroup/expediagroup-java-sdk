@@ -147,15 +147,17 @@ val mustacheHelpers =
                 fragment.execute(context, writer)
             }
         },
-        "allowedMediaTypes" to Mustache.Lambda { fragment, writer ->
-            val response: CodegenResponse = fragment.context() as CodegenResponse
-            if (response.is2xx) {
-                val mediaTypes: List<String> = response.content.keys.filter {
-                    !it.contains("xml", ignoreCase = true)
-                }
+        "allowedMediaTypes" to {
+            Mustache.Lambda { fragment, writer ->
+                val response: CodegenResponse = fragment.context() as CodegenResponse
+                if (response.is2xx) {
+                    val mediaTypes: List<String> = response.content.keys.filter {
+                        !it.contains("xml", ignoreCase = true)
+                    }
 
-                val context = mapOf("mediaTypes" to mediaTypes)
-                fragment.execute(context, writer)
+                    val context = mapOf("mediaTypes" to mediaTypes)
+                    fragment.execute(context, writer)
+                }
             }
         }
     )
