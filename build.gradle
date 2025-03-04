@@ -9,6 +9,8 @@ plugins {
     id 'io.github.gradle-nexus.publish-plugin' version '2.0.0'
 }
 
+group = project.property("GROUP_ID")
+
 apply from: "$rootDir/gradle-tasks/publish-snapshot.gradle"
 
 nexusPublishing {
