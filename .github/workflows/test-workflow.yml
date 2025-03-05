@@ -1,8 +1,9 @@
 name: Test Sonatype
 
 on:
-  workflow_dispatch:
-
+  push:
+    branches:
+      - "mdwairi/configure-publish-tasks"
 
 
 permissions:
