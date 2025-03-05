@@ -1,9 +1,8 @@
 name: Close and Release Sonatype Staging
 
 on:
-  push:
-    branches:
-      - "mdwairi/configure-publish-tasks"
+  workflow_dispatch:
+
 
 jobs:
   close-and-release:
