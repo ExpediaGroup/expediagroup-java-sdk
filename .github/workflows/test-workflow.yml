@@ -1,9 +1,8 @@
 name: Test Sonatype
 
 on:
-  push:
-    branches:
-      - "mdwairi/configure-publish-tasks"
+  workflow_dispatch:
+
 
 permissions:
   contents: write
@@ -27,5 +26,5 @@ jobs:
           GPG_SECRET: ${{ secrets.GPG_PRIVATE_KEY }}
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-        run: ./gradlew :expediagroup-sdk-core:publishToSonatype closeAndReleaseSonatypeStagingRepository -Pversion="0.0.1"
+        run: ./gradlew :expediagroup-sdk-core:publishToSonatype closeAndReleaseSonatypeStagingRepository
 

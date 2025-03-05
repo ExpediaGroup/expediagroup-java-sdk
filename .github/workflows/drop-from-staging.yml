@@ -1,7 +1,9 @@
 name: Drop Sonatype Staging Repository
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - "mdwairi/configure-publish-tasks"
 
 
 jobs:
@@ -16,7 +18,7 @@ jobs:
                -d '{
                      "data": {
                        "stagedRepositoryIds": [
-                         "comexpediagroup-1672"
+                         "comexpediagroup-1673"
                        ],
                        "description": "Dropping this staging repository via REST API."
                      }
