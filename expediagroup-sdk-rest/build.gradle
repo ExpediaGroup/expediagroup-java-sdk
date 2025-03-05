@@ -21,7 +21,7 @@ dependencies {
     implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.18.2'
 
     /* EG SDK Core */
-    api(project(":expediagroup-sdk-core"))
+    api 'com.expediagroup:expediagroup-sdk-core:0.0.1-alpha'
 
     /* Testing */
     testImplementation platform('org.junit:junit-bom:5.11.4')
