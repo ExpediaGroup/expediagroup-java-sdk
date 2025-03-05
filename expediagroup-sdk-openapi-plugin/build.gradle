@@ -32,7 +32,6 @@ tasks.withType(KotlinCompile).configureEach {
     }
 }
 
-
 gradlePlugin {
     website = 'https://github.com/ExpediaGroup/expediagroup-java-sdk'
     vcsUrl = 'https://github.com/ExpediaGroup/expediagroup-java-sdk'

@@ -49,7 +49,7 @@ jobs:
           GPG_SECRET: ${{ secrets.GPG_PRIVATE_KEY }}
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-        run: ./gradlew :expediagroup-sdk-core:publish --debug
+        run: ./gradlew :expediagroup-sdk-core:publishToSonatype closeAndReleaseSonatypeStagingRepository
 
   release-expediagroup-sdk-graphql:
     needs: release-please
@@ -73,7 +73,7 @@ jobs:
           GPG_SECRET: ${{ secrets.GPG_PRIVATE_KEY }}
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-        run: ./gradlew :expediagroup-sdk-graphql:publish --debug
+        run: ./gradlew :expediagroup-sdk-graphql:publishToSonatype closeAndReleaseSonatypeStagingRepository
 
   release-expediagroup-sdk-rest:
     needs: release-please
@@ -97,7 +97,7 @@ jobs:
           GPG_SECRET: ${{ secrets.GPG_PRIVATE_KEY }}
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-        run: ./gradlew :expediagroup-sdk-rest:publish --debug
+        run: ./gradlew :expediagroup-sdk-rest:publishToSonatype closeAndReleaseSonatypeStagingRepository
 
   release-expediagroup-sdk-transport-okhttp:
     needs: release-please
@@ -121,7 +121,7 @@ jobs:
           GPG_SECRET: ${{ secrets.GPG_PRIVATE_KEY }}
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-        run: ./gradlew :expediagroup-sdk-transport-okhttp:publish --debug
+        run: ./gradlew :expediagroup-sdk-transport-okhttp:publishToSonatype closeAndReleaseSonatypeStagingRepository
 
   release-expediagroup-sdk-openapi-plugin:
     needs: release-please
