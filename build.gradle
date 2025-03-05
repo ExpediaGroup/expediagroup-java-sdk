@@ -1,5 +1,6 @@
 import org.jetbrains.kotlin.gradle.plugin.KotlinBasePluginWrapper
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.time.Duration
 
 plugins {
     id 'java'
@@ -19,6 +20,11 @@ nexusPublishing {
             username = System.getenv("SONATYPE_USERNAME")
             password = System.getenv("SONATYPE_PASSWORD")
         }
+    }
+
+    transitionCheckOptions {
+        maxRetries = 60
+        delayBetween = Duration.ofMillis(5000)
     }
 }
 
