@@ -17,7 +17,7 @@ jobs:
                -d '{
                      "data": {
                        "stagedRepositoryIds": [
-                         "comexpediagroup-1670"
+                         "comexpediagroup-1669"
                        ],
                        "description": "Dropping this staging repository via REST API."
                      }
