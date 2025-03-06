@@ -1,16 +1,20 @@
 package com.expediagroup.sdk.core.http
 
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import java.net.MalformedURLException
 import java.net.URL
+import java.util.UUID
 
 class RequestTest {
     @Test
     fun `should build request instance with all properties`() {
         // Given
+        val id = UUID.randomUUID()
         val method = Method.POST
         val url = URL("https://example.com")
         val headers = Headers.Builder().add("Authorization", "Bearer token").build()
@@ -20,6 +24,7 @@ class RequestTest {
         val request =
             Request
                 .builder()
+                .id(id)
                 .method(method)
                 .url(url)
                 .headers(headers)
@@ -27,6 +32,7 @@ class RequestTest {
                 .build()
 
         // Expect
+        assertEquals(id, request.id)
         assertEquals(method, request.method)
         assertEquals(url, request.url)
         assertEquals("Bearer token", request.headers.get("Authorization"))
@@ -39,6 +45,7 @@ class RequestTest {
         val originalRequest =
             Request
                 .builder()
+                .id(UUID.randomUUID())
                 .method(Method.GET)
                 .url("https://example.com")
                 .addHeader("Content-Type", "application/json")
@@ -52,6 +59,7 @@ class RequestTest {
                 .build()
 
         // Expect
+        assertEquals(originalRequest.id, newRequest.id)
         assertEquals(Method.GET, newRequest.method)
         assertEquals(originalRequest.url, newRequest.url)
 
@@ -60,6 +68,22 @@ class RequestTest {
 
         assertEquals("application/json", newRequest.headers.get("Content-Type"))
         assertEquals("text/plain", newRequest.headers.get("Accept"))
+    }
+
+    @Test
+    fun `request id is auto generated if not passed`() {
+        // Given
+        val request =
+            Request
+                .builder()
+                .method(Method.GET)
+                .url("https://example.com")
+                .addHeader("Content-Type", "application/json")
+                .build()
+
+        // Expect
+        assertNotNull(request.id)
+        assertTrue(request.id.toString().isNotBlank())
     }
 
     @Test
