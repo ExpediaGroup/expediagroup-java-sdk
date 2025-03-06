@@ -40,6 +40,9 @@ jobs:
           - expediagroup-sdk-transport-okhttp
           - expediagroup-sdk-openapi-plugin
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
       - name: Publish ${{ matrix.module }}
         if: ${{ needs.release-please.outputs[format('{0}--released', matrix.module)] }}
         uses: ./.github/workflows/publish.yml
