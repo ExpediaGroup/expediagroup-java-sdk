@@ -49,6 +49,10 @@ gradlePlugin {
     }
 }
 
+/*
+*  Customize the plugin's marker publication POM file with the needed information
+*  to match Maven Central requirements.
+*/
 tasks {
     publishing {
         afterEvaluate {
