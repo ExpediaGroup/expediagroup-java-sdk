@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.4-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-graphql-v0.0.3-alpha...expediagroup-sdk-graphql-v0.0.4-alpha) (2025-03-06)
+
+
+### Bug Fixes
+
+* trigger dummy release ([43a39eb](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/43a39eb0cc41344f71b0f78f21df942ef24e465e))
+
 ## [0.0.3-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-graphql-v0.0.2-alpha...expediagroup-sdk-graphql-v0.0.3-alpha) (2025-03-06)
 
 
