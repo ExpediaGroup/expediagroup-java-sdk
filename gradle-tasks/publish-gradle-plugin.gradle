@@ -1,7 +1,6 @@
 publishing {
     publications {
-        mavenPlugin(MavenPublication) {
-            from components.java
+        pluginMaven(MavenPublication) {
             artifactId = project.property("ARTIFACT_NAME")
             groupId = project.property("GROUP_ID")
             version = project.findProperty("SNAPSHOT_VERSION") ? project.findProperty("SNAPSHOT_VERSION") : project.property("VERSION")

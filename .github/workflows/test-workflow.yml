@@ -28,5 +28,4 @@ jobs:
           GPG_SECRET: ${{ secrets.GPG_PRIVATE_KEY }}
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-        run: ./gradlew :expediagroup-sdk-openapi-plugin:publishMavenPluginPublicationToSonatypeRepository closeAndReleaseSonatypeStagingRepository
-
+        run: ./gradlew :expediagroup-sdk-openapi-plugin:publishEgSdkOpenApiGeneratorPluginMarkerMavenPublicationToSonatypeRepository closeAndReleaseSonatypeStagingRepository
