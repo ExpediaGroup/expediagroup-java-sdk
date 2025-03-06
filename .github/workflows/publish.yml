@@ -36,4 +36,5 @@ jobs:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
         run: |
-          ./gradlew :${{ inputs.module }}:publishToSonatype closeAndReleaseSonatypeStagingRepository
+          echo "Publishing"
+#          ./gradlew :${{ inputs.module }}:publishToSonatype closeAndReleaseSonatypeStagingRepository
