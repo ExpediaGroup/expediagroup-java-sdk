@@ -48,3 +48,41 @@ gradlePlugin {
         }
     }
 }
+
+tasks {
+    publishing {
+        afterEvaluate {
+            publications {
+                egSdkOpenApiGeneratorPluginMarkerMaven(MavenPublication) {
+                    pom {
+                        description = findProperty("DESCRIPTION")
+                        url = project.property("POM_URL")
+
+                        licenses {
+                            license {
+                                name = project.property("LICENSE_NAME")
+                                url = project.property("LICENSE_URL")
+                                distribution = project.property("LICENSE_DISTRIBUTION")
+                                comments = project.property("LICENSE_COMMENTS")
+                            }
+                        }
+
+                        developers {
+                            developer {
+                                name = project.property("DEVELOPER_NAME")
+                                organization = project.property("DEVELOPER_ORG")
+                                organizationUrl = project.property("DEVELOPER_ORG_URL")
+                            }
+                        }
+
+                        scm {
+                            url = project.property("POM_SCM_URL")
+                            connection = project.property("POM_SCM_CONNECTION")
+                            developerConnection = project.property("POM_SCM_DEVELOPER_CONNECTION")
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
