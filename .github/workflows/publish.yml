@@ -6,15 +6,6 @@ on:
       module:
         required: true
         type: string
-    secrets:
-      GPG_PRIVATE_KEY:
-        required: true
-      GPG_PRIVATE_KEY_PASSPHRASE:
-        required: true
-      SONATYPE_USERNAME:
-        required: true
-      SONATYPE_PASSWORD:
-        required: true
 
 jobs:
   publish:

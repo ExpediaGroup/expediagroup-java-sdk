@@ -28,23 +28,42 @@ jobs:
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
 
-  publish-released-modules:
+  publish-expediagroup-sdk-core:
+    if: ${{needs.release-please.outputs.expediagroup-sdk-core--released}}
     needs: release-please
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        module:
-          - expediagroup-sdk-core
-          - expediagroup-sdk-graphql
-          - expediagroup-sdk-rest
-          - expediagroup-sdk-transport-okhttp
-          - expediagroup-sdk-openapi-plugin
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+    secrets: inherit
+    uses: ./.github/workflows/publish.yml
+    with:
+      module: expediagroup-sdk-core
 
-      - name: Publish ${{ matrix.module }}
-        if: ${{ needs.release-please.outputs[format('{0}--released', matrix.module)] }}
-        uses: ./.github/workflows/publish.yml
-        with:
-          module: ${{ matrix.module }}
+  publish-expediagroup-sdk-graphql:
+    if: ${{needs.release-please.outputs.expediagroup-sdk-graphql--released}}
+    needs: release-please
+    secrets: inherit
+    uses: ./.github/workflows/publish.yml
+    with:
+      module: expediagroup-sdk-graphql
+
+  publish-expediagroup-sdk-rest:
+    if: ${{needs.release-please.outputs.expediagroup-sdk-rest--released}}
+    needs: release-please
+    secrets: inherit
+    uses: ./.github/workflows/publish.yml
+    with:
+      module: expediagroup-sdk-rest
+
+  publish-expediagroup-sdk-transport-okhttp:
+    if: ${{needs.release-please.outputs.expediagroup-sdk-transport-okhttp--released}}
+    needs: release-please
+    secrets: inherit
+    uses: ./.github/workflows/publish.yml
+    with:
+      module: expediagroup-sdk-transport-okhttp
+
+  publish-expediagroup-sdk-openapi-plugin:
+    if: ${{needs.release-please.outputs.expediagroup-sdk-openapi-plugin--released}}
+    needs: release-please
+    secrets: inherit
+    uses: ./.github/workflows/publish.yml
+    with:
+      module: expediagroup-sdk-openapi-plugin
