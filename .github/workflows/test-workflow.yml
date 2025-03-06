@@ -11,39 +11,39 @@ permissions:
   pull-requests: write
 
 jobs:
-#  release-expediagroup-sdk-core:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v4
-#
-#      - name: Setup JDK 17
-#        uses: actions/setup-java@v3
-#        with:
-#          distribution: 'temurin'
-#          java-version: '17'
-#
-#      - name: Publish expediagroup-sdk-openapi-plugin
-#        env:
-#          GPG_PASSPHRASE: ${{ secrets.GPG_PRIVATE_KEY_PASSPHRASE }}
-#          GPG_SECRET: ${{ secrets.GPG_PRIVATE_KEY }}
-#          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
-#          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-#        run: ./gradlew :expediagroup-sdk-openapi-plugin:publishEgSdkOpenApiGeneratorPluginMarkerMavenPublicationToSonatypeRepository closeAndReleaseSonatypeStagingRepository
-
-  drop-staging-repo:
+  release-expediagroup-sdk-core:
     runs-on: ubuntu-latest
     steps:
-      - name: Drop staging repository
-        run: |
-          curl -u "${{ secrets.SONATYPE_USERNAME }}:${{ secrets.SONATYPE_PASSWORD }}" \
-               -X POST \
-               -H "Content-Type: application/json" \
-               -d '{
-                     "data": {
-                       "stagedRepositoryIds": [
-                         "comexpediagroup-1682"
-                       ],
-                       "description": "Dropping this staging repository via REST API."
-                     }
-                   }' \
-               "https://oss.sonatype.org/service/local/staging/bulk/drop"
+      - uses: actions/checkout@v4
+
+      - name: Setup JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Publish expediagroup-sdk-openapi-plugin
+        env:
+          GPG_PASSPHRASE: ${{ secrets.GPG_PRIVATE_KEY_PASSPHRASE }}
+          GPG_SECRET: ${{ secrets.GPG_PRIVATE_KEY }}
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+        run: ./gradlew :expediagroup-sdk-openapi-plugin:publishToSonatype closeAndReleaseSonatypeStagingRepository
+
+#  drop-staging-repo:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Drop staging repository
+#        run: |
+#          curl -u "${{ secrets.SONATYPE_USERNAME }}:${{ secrets.SONATYPE_PASSWORD }}" \
+#               -X POST \
+#               -H "Content-Type: application/json" \
+#               -d '{
+#                     "data": {
+#                       "stagedRepositoryIds": [
+#                         "comexpediagroup-1682"
+#                       ],
+#                       "description": "Dropping this staging repository via REST API."
+#                     }
+#                   }' \
+#               "https://oss.sonatype.org/service/local/staging/bulk/drop"
