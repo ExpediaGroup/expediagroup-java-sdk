@@ -2,13 +2,15 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id 'java-gradle-plugin'
-    id 'com.gradle.plugin-publish' version '1.3.1'
+    id 'maven-publish'
+    id 'signing'
 }
 
 version = project.property("VERSION")
 group = project.property("GROUP_ID")
 
-apply from: "$rootDir/gradle-tasks/publish.gradle"
+apply from: "$rootDir/gradle-tasks/publish-gradle-plugin.gradle"
+apply from: "$rootDir/gradle-tasks/signing.gradle"
 
 dependencies {
     implementation 'org.openapitools:openapi-generator:7.11.0'

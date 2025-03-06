@@ -22,11 +22,11 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Publish expediagroup-sdk-transport-okhttp
+      - name: Publish expediagroup-sdk-openapi-plugin
         env:
           GPG_PASSPHRASE: ${{ secrets.GPG_PRIVATE_KEY_PASSPHRASE }}
           GPG_SECRET: ${{ secrets.GPG_PRIVATE_KEY }}
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-        run: ./gradlew :expediagroup-sdk-transport-okhttp:publishToSonatype closeAndReleaseSonatypeStagingRepository
+        run: ./gradlew :expediagroup-sdk-openapi-plugin:publishMavenPluginPublicationToSonatypeRepository closeAndReleaseSonatypeStagingRepository
 
