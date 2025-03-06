@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - "feature/new-sdk-core"
+      - "mdwairi/configure-publish-tasks"
 
 permissions:
   contents: write
@@ -48,14 +49,11 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Grant execute permission for Gradle
-        run: chmod +x gradlew
-
-      - name: Publish ${{ matrix.module }}
-        env:
-          GPG_PASSPHRASE: ${{ secrets.GPG_PRIVATE_KEY_PASSPHRASE }}
-          GPG_SECRET: ${{ secrets.GPG_PRIVATE_KEY }}
-          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
-          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-        run: |
-          ./gradlew :${{ matrix.module }}:publishToSonatype closeAndReleaseSonatypeStagingRepository
+#      - name: Publish ${{ matrix.module }}
+#        env:
+#          GPG_PASSPHRASE: ${{ secrets.GPG_PRIVATE_KEY_PASSPHRASE }}
+#          GPG_SECRET: ${{ secrets.GPG_PRIVATE_KEY }}
+#          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+#          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+#        run: |
+#          ./gradlew :${{ matrix.module }}:publishToSonatype closeAndReleaseSonatypeStagingRepository
