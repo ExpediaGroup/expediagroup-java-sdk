@@ -2,12 +2,15 @@ import kotlinx.kover.gradle.plugin.dsl.AggregationType
 import kotlinx.kover.gradle.plugin.dsl.CoverageUnit
 
 plugins {
-    id 'org.jetbrains.kotlin.jvm'
+    id 'maven-publish'
+    id 'signing'
 }
 
-repositories {
-    mavenCentral()
-}
+version = project.property("VERSION")
+group = project.property("GROUP_ID")
+
+apply from: "$rootDir/gradle-tasks/publish.gradle"
+apply from: "$rootDir/gradle-tasks/signing.gradle"
 
 dependencies {
     /* Kotlin */
@@ -18,7 +21,7 @@ dependencies {
     implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.18.2'
 
     /* EG SDK Core */
-    api(project(":expediagroup-sdk-core"))
+    api 'com.expediagroup:expediagroup-sdk-core:0.0.2-alpha'
 
     /* Testing */
     testImplementation platform('org.junit:junit-bom:5.11.4')
