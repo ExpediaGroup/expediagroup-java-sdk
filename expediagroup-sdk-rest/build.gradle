@@ -42,7 +42,6 @@ kover {
             excludes {
                 packages(
                     "com.expediagroup.sdk.rest.trait",
-                    "com.expediagroup.sdk.rest.exception",
                 )
             }
         }

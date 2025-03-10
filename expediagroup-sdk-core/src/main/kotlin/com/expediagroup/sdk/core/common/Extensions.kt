@@ -17,3 +17,34 @@
 package com.expediagroup.sdk.core.common
 
 inline fun <T> T?.getOrThrow(exceptionSupplier: () -> Throwable): T = this ?: throw exceptionSupplier()
+
+/**
+ * Retrieves an exception of the specified type from the exception stack.
+ *
+ * This function traverses the exception cause chain up to the specified limit
+ * to find the first occurrence of the requested exception type.
+ *
+ * @param exceptionType The class of the exception type to search for
+ * @param limit Maximum number of exceptions to traverse in the chain (default: 1_000)
+ * @return The first exception of the specified type found in the chain, or null if not found
+ *
+ * @see Throwable.cause
+ */
+fun Throwable.getExceptionFromStack(
+    exceptionType: Class<out Throwable>,
+    limit: Int = 1_000
+): Throwable? {
+    var depth = 0
+    var throwable: Throwable? = this
+
+    while (throwable != null && depth < limit) {
+        if (exceptionType.isInstance(throwable)) {
+            return throwable
+        }
+
+        throwable = throwable.cause
+        depth++
+    }
+
+    return null
+}

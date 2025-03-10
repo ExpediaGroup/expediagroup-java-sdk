@@ -29,7 +29,6 @@ import com.expediagroup.sdk.core.http.Request
 import com.expediagroup.sdk.core.http.RequestBody
 import com.expediagroup.sdk.core.http.Response
 import okio.Buffer
-import java.util.UUID
 
 fun <D : Operation.Data> Operation<D>.toSDKRequest(url: String): Request {
     val body =
@@ -59,7 +58,7 @@ fun <D : Operation.Data> Response.toApolloResponse(operation: Operation<D>): Apo
             operation.parseResponse(jsonReader)
         }
 
-    return apolloResponse ?: ApolloResponse.Builder(operation, UUID.randomUUID())
+    return apolloResponse ?: ApolloResponse.Builder(operation, request.id)
         .data(null)
         .errors(listOf(Error.Builder("Failed to parse response with null body").build()))
         .build()

@@ -16,39 +16,44 @@
 package com.expediagroup.sdk.core.exception.service
 
 import com.expediagroup.sdk.core.http.Status
+import java.util.UUID
 
 /**
  * An exception that is thrown when an authentication error occurs.
  *
+ * @param requestId The ID of the auth request.
  * @param message The error message.
  * @param cause The cause of the error.
- * @param transactionId The transaction-id of the auth request.
  */
 
 class ExpediaGroupAuthException(
+    requestId: UUID? = null,
     message: String? = null,
-    cause: Throwable? = null,
-    transactionId: String? = null
-) : ExpediaGroupServiceException(message, cause, transactionId) {
+    cause: Throwable? = null
+) : ExpediaGroupServiceException(requestId, message, cause) {
     /**
      * An exception that is thrown when an authentication error occurs.
      *
+     * @param requestId The ID of the auth request.
      * @param status The HTTP status of the error.
      * @param message The error message.
      */
     constructor(
+        requestId: UUID,
         status: Status,
         message: String
-    ) : this(message = "[${status.code}] $message")
+    ) : this(requestId, message = "[${status.code}] $message")
 
     /**
      * An exception that is thrown when an authentication error occurs.
      *
+     * @param requestId The ID of the auth request.
      * @param status The HTTP status of the error (as an integer).
      * @param message The error message.
      */
     constructor(
+        requestId: UUID,
         status: Int,
         message: String
-    ) : this(Status.fromCode(status), message)
+    ) : this(requestId, Status.fromCode(status), message)
 }

@@ -7,6 +7,7 @@ import com.expediagroup.sdk.core.http.Protocol
 import com.expediagroup.sdk.core.http.Response
 import com.expediagroup.sdk.core.http.ResponseBody
 import com.expediagroup.sdk.core.http.Status
+import io.mockk.every
 import io.mockk.mockk
 import okio.Buffer
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -15,6 +16,7 @@ import org.junit.jupiter.api.Test
 import testservice.TestMutation
 import testservice.TestQuery
 import testservice.type.buildTestData
+import java.util.UUID
 
 class ApolloOperationExtensionTest {
     @Test
@@ -71,7 +73,7 @@ class ApolloOperationExtensionTest {
             Response.builder()
                 .status(Status.OK)
                 .protocol(Protocol.HTTP_1_1)
-                .request(mockk())
+                .request(mockk { every { id } returns UUID.randomUUID() })
                 .build()
 
         // When
