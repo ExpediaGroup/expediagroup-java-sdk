@@ -29,7 +29,7 @@ return url
 {{/hasHeaderParams}}
 
 {{#hasConsumes}}
-    override fun getContentType(): String = "{{{consumes}}}"
+    override fun getContentType(): String = {{#consumes}}"{{{mediaType}}}{{^-last}},{{/-last}}"{{/consumes}}
 {{/hasConsumes}}
 
 {{#hasQueryParams}}

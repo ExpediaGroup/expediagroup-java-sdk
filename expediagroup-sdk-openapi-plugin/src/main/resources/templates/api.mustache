@@ -13,10 +13,10 @@ package com.expediagroup.sdk.{{namespace}}.operations
         */
         class {{classname}}(
         {{#hasNonBodyParams}}
-            val params: {{classname}}Params,
+            private val params: {{classname}}Params,
         {{/hasNonBodyParams}}
         {{#hasBodyParam}}
-            val requestBody: {{#bodyParam}}{{dataType}}{{/bodyParam}},
+            private val requestBody: {{#bodyParam}}{{dataType}}{{/bodyParam}},
         {{/hasBodyParam}}
         ) : {{>traits/inheritance}} {
         {{>traits/implementation}}
