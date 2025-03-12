@@ -61,9 +61,13 @@ class GraphQLExecutor(
      */
     private fun <T : Operation.Data> processApolloResponse(response: ApolloResponse<T>): RawResponse<T> =
         when {
-            response.exception != null -> throw ExpediaGroupServiceException(cause = response.exception)
+            response.exception != null -> throw ExpediaGroupServiceException(
+                requestId = response.requestUuid,
+                cause = response.exception
+            )
 
             response.data == null && response.hasErrors() -> throw NoDataException(
+                requestId = response.requestUuid,
                 message = "No data received from the server",
                 errors = response.errors!!.map { GraphQLError.fromApolloError(it) }
             )

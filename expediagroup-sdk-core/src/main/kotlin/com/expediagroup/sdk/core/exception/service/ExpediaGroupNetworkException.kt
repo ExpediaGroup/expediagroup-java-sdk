@@ -16,19 +16,21 @@
 
 package com.expediagroup.sdk.core.exception.service
 
+import java.util.UUID
+
 /**
  * Exception thrown when network-related errors occur during service operations.
  *
  * This exception wraps network-level failures that occur while communicating with
  * Expedia Group services (e.g., connection timeouts, DNS failures, SSL/TLS errors).
  *
+ * @param requestId The unique identifier for the request
  * @param message A human-readable description of the network error
  * @param cause The underlying exception that caused this network error
- * @param transactionId Unique identifier for tracking this request across systems
  */
 
 class ExpediaGroupNetworkException(
+    requestId: UUID,
     message: String? = null,
-    cause: Throwable? = null,
-    transactionId: String? = null
-) : ExpediaGroupServiceException(message, cause, transactionId)
+    cause: Throwable? = null
+) : ExpediaGroupServiceException(requestId, message, cause)

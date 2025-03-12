@@ -25,6 +25,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.assertInstanceOf
 import org.junit.jupiter.api.assertThrows
+import java.util.UUID
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class BearerAuthenticationManagerTest {
@@ -104,13 +105,15 @@ class BearerAuthenticationManagerTest {
 
         // Expect
         assertEquals("Authentication Failed", exception.message)
+        assertEquals(request.id, exception.requestId)
         verify(exactly = 1) { transport.execute(any()) }
     }
 
     @Test
     fun `should wrap unexpected exceptions with ExpediaGroupAuthException`() {
         // Given
-        every { transport.execute(any()) } throws ExpediaGroupNetworkException("Network error")
+        val id = UUID.randomUUID()
+        every { transport.execute(any()) } throws ExpediaGroupNetworkException(id, "Network error")
 
         // When
         val exception =

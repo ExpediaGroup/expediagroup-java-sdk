@@ -17,7 +17,9 @@
 package com.expediagroup.sdk.core.authentication.bearer
 
 import com.expediagroup.sdk.core.authentication.common.Credentials
+import com.expediagroup.sdk.core.common.getExceptionFromStack
 import com.expediagroup.sdk.core.exception.service.ExpediaGroupAuthException
+import com.expediagroup.sdk.core.exception.service.ExpediaGroupServiceException
 import com.expediagroup.sdk.core.http.Request
 import com.expediagroup.sdk.core.http.Response
 import com.expediagroup.sdk.core.logging.LoggerDecorator
@@ -28,6 +30,7 @@ import com.expediagroup.sdk.core.pipeline.step.ResponseLoggingStep
 import com.expediagroup.sdk.core.transport.AbstractAsyncRequestExecutor
 import com.expediagroup.sdk.core.transport.AsyncTransport
 import org.slf4j.LoggerFactory
+import java.util.UUID
 import java.util.concurrent.CompletableFuture
 
 /**
@@ -66,12 +69,23 @@ class BearerAuthenticationAsyncManager(
     override fun authenticate() {
         try {
             clearAuthentication()
-            executeAuthenticationRequest(buildAuthenticationRequest())
+
+            val request = buildAuthenticationRequest()
+            executeAuthenticationRequest(request)
                 .thenApply { BearerTokenResponse.parse(it) }
                 .thenAccept { storeToken(it) }
                 .join()
         } catch (e: Exception) {
-            throw ExpediaGroupAuthException(message = "Authentication Failed", cause = e)
+            val requestId: UUID? =
+                e.getExceptionFromStack(ExpediaGroupServiceException::class.java)?.let {
+                    (it as ExpediaGroupServiceException).requestId
+                }
+
+            throw ExpediaGroupAuthException(
+                requestId = requestId,
+                message = "Authentication Failed",
+                cause = e
+            )
         }
     }
 
@@ -85,7 +99,10 @@ class BearerAuthenticationAsyncManager(
                 if (it.isSuccessful) {
                     it
                 } else {
-                    throw ExpediaGroupAuthException("Received unsuccessful authentication response: [${it.status}]")
+                    throw ExpediaGroupAuthException(
+                        requestId = it.request.id,
+                        "Received unsuccessful authentication response: [${it.status}]"
+                    )
                 }
             }.exceptionally {
                 throw it

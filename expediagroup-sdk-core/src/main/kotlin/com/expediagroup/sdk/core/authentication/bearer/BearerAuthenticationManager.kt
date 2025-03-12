@@ -17,7 +17,9 @@
 package com.expediagroup.sdk.core.authentication.bearer
 
 import com.expediagroup.sdk.core.authentication.common.Credentials
+import com.expediagroup.sdk.core.common.getExceptionFromStack
 import com.expediagroup.sdk.core.exception.service.ExpediaGroupAuthException
+import com.expediagroup.sdk.core.exception.service.ExpediaGroupServiceException
 import com.expediagroup.sdk.core.http.Request
 import com.expediagroup.sdk.core.http.Response
 import com.expediagroup.sdk.core.logging.LoggerDecorator
@@ -28,6 +30,7 @@ import com.expediagroup.sdk.core.pipeline.step.ResponseLoggingStep
 import com.expediagroup.sdk.core.transport.AbstractRequestExecutor
 import com.expediagroup.sdk.core.transport.Transport
 import org.slf4j.LoggerFactory
+import java.util.UUID
 
 /**
  * Manages bearer token authentication for HTTP requests.
@@ -81,7 +84,12 @@ class BearerAuthenticationManager(
                     storeToken(it)
                 }
         } catch (e: Exception) {
-            throw ExpediaGroupAuthException(message = "Authentication Failed", cause = e)
+            val id: UUID? =
+                e.getExceptionFromStack(ExpediaGroupServiceException::class.java)?.let {
+                    (it as ExpediaGroupServiceException).requestId
+                }
+
+            throw ExpediaGroupAuthException(requestId = id, message = "Authentication Failed", cause = e)
         }
     }
 
@@ -95,7 +103,10 @@ class BearerAuthenticationManager(
     private fun executeAuthenticationRequest(request: Request): Response =
         requestExecutor.execute(request).apply {
             if (!this.isSuccessful) {
-                throw throw ExpediaGroupAuthException("Received unsuccessful authentication response: [${this.status}]")
+                throw throw ExpediaGroupAuthException(
+                    requestId = this.request.id,
+                    message = "Received unsuccessful authentication response: [${this.status}]"
+                )
             }
         }
 

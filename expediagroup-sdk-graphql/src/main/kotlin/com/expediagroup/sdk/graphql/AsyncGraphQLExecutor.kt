@@ -77,6 +77,7 @@ class AsyncGraphQLExecutor(
             response.exception != null ->
                 future.completeExceptionally(
                     ExpediaGroupServiceException(
+                        requestId = response.requestUuid,
                         cause = response.exception
                     )
                 )
@@ -84,6 +85,7 @@ class AsyncGraphQLExecutor(
             response.data == null && response.hasErrors() ->
                 future.completeExceptionally(
                     NoDataException(
+                        requestId = response.requestUuid,
                         message = "No data received from the server",
                         errors = response.errors!!.map { GraphQLError.fromApolloError(it) }
                     )

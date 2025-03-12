@@ -50,7 +50,13 @@ class OkHttpAsyncTransport(
                         call: Call,
                         e: IOException
                     ) {
-                        future.completeExceptionally(ExpediaGroupNetworkException("Failed to execute the request", e))
+                        future.completeExceptionally(
+                            ExpediaGroupNetworkException(
+                                requestId = request.id,
+                                message = "Failed to execute the request",
+                                cause = e
+                            )
+                        )
                     }
 
                     override fun onResponse(
