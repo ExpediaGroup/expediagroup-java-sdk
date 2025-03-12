@@ -18,6 +18,7 @@ package com.expediagroup.sdk.core.http
 
 import java.net.MalformedURLException
 import java.net.URL
+import java.util.UUID
 
 /**
  * Represents an immutable HTTP request.
@@ -26,6 +27,7 @@ import java.net.URL
  */
 @ConsistentCopyVisibility
 data class Request private constructor(
+    val id: UUID = UUID.randomUUID(),
     val method: Method,
     val url: URL,
     val headers: Headers,

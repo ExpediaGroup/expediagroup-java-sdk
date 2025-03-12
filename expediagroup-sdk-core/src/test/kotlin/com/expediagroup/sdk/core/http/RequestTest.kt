@@ -1,6 +1,8 @@
 package com.expediagroup.sdk.core.http
 
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -60,6 +62,25 @@ class RequestTest {
 
         assertEquals("application/json", newRequest.headers.get("Content-Type"))
         assertEquals("text/plain", newRequest.headers.get("Accept"))
+    }
+
+    @Test
+    fun `request id changes when request is built based on another request instance`() {
+        // Given
+        val firstRequest =
+            Request
+                .builder()
+                .method(Method.GET)
+                .url("https://example.com")
+                .addHeader("Content-Type", "application/json")
+                .build()
+
+        val secondRequest = firstRequest.newBuilder().build()
+
+        // Expect
+        assertNotNull(firstRequest.id)
+        assertNotNull(secondRequest.id)
+        assertNotEquals(firstRequest.id, secondRequest.id)
     }
 
     @Test
