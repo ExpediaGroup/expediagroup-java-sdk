@@ -2,8 +2,15 @@ import kotlinx.kover.gradle.plugin.dsl.AggregationType
 import kotlinx.kover.gradle.plugin.dsl.CoverageUnit
 
 plugins {
-    id 'org.jetbrains.kotlin.jvm'
+    id 'maven-publish'
+    id 'signing'
 }
+
+version = project.property("VERSION")
+group = project.property("GROUP_ID")
+
+apply from: "$rootDir/gradle-tasks/publish.gradle"
+apply from: "$rootDir/gradle-tasks/signing.gradle"
 
 dependencies {
     /* Kotlin */
@@ -46,7 +53,7 @@ kover {
         filters {
             excludes {
                 packages(
-                        "com.expediagroup.sdk.core.exception"
+                    "com.expediagroup.sdk.core.exception"
                 )
             }
         }

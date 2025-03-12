@@ -1,0 +1,68 @@
+name: release-please
+
+on:
+  push:
+    branches:
+      - "feature/new-sdk-core"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    outputs:
+      expediagroup-sdk-core--released: ${{ steps.release.outputs.expediagroup-sdk-core--release_created }}
+      expediagroup-sdk-graphql--released: ${{ steps.release.outputs.expediagroup-sdk-graphql--release_created }}
+      expediagroup-sdk-rest--released: ${{ steps.release.outputs.expediagroup-sdk-rest--release_created }}
+      expediagroup-sdk-transport-okhttp--released: ${{ steps.release.outputs.expediagroup-sdk-transport-okhttp--release_created }}
+      expediagroup-sdk-openapi-plugin--released: ${{ steps.release.outputs.expediagroup-sdk-openapi-plugin--release_created }}
+    steps:
+      - uses: googleapis/release-please-action@v4
+        id: release
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          target-branch: ${{ github.ref_name }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+
+  publish-expediagroup-sdk-core:
+    if: ${{needs.release-please.outputs.expediagroup-sdk-core--released}}
+    needs: release-please
+    secrets: inherit
+    uses: ./.github/workflows/publish.yml
+    with:
+      module: expediagroup-sdk-core
+
+  publish-expediagroup-sdk-graphql:
+    if: ${{needs.release-please.outputs.expediagroup-sdk-graphql--released}}
+    needs: release-please
+    secrets: inherit
+    uses: ./.github/workflows/publish.yml
+    with:
+      module: expediagroup-sdk-graphql
+
+  publish-expediagroup-sdk-rest:
+    if: ${{needs.release-please.outputs.expediagroup-sdk-rest--released}}
+    needs: release-please
+    secrets: inherit
+    uses: ./.github/workflows/publish.yml
+    with:
+      module: expediagroup-sdk-rest
+
+  publish-expediagroup-sdk-transport-okhttp:
+    if: ${{needs.release-please.outputs.expediagroup-sdk-transport-okhttp--released}}
+    needs: release-please
+    secrets: inherit
+    uses: ./.github/workflows/publish.yml
+    with:
+      module: expediagroup-sdk-transport-okhttp
+
+  publish-expediagroup-sdk-openapi-plugin:
+    if: ${{needs.release-please.outputs.expediagroup-sdk-openapi-plugin--released}}
+    needs: release-please
+    secrets: inherit
+    uses: ./.github/workflows/publish.yml
+    with:
+      module: expediagroup-sdk-openapi-plugin
