@@ -5,18 +5,18 @@ package com.expediagroup.sdk.{{namespace}}.operations
         /**
         * {{{summary}}}
         {{#hasBodyParam}}
-            * @property requestBody [{{#bodyParam}}{{dataType}}{{/bodyParam}}]
+            * @property requestBody [{{#bodyParam}}{{{dataType}}}{{/bodyParam}}]
         {{/hasBodyParam}}
         {{#hasNonBodyParams}}
-            * @property params [{{classname}}Params]
+            * @property params [{{{classname}}}Params]
         {{/hasNonBodyParams}}
         */
         class {{classname}}(
         {{#hasNonBodyParams}}
-            val params: {{classname}}Params,
+            private val params: {{{classname}}}Params,
         {{/hasNonBodyParams}}
         {{#hasBodyParam}}
-            val requestBody: {{#bodyParam}}{{dataType}}{{/bodyParam}},
+            private val requestBody: {{#bodyParam}}{{{dataType}}}{{/bodyParam}},
         {{/hasBodyParam}}
         ) : {{>traits/inheritance}} {
         {{>traits/implementation}}

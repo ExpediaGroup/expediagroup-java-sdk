@@ -7,7 +7,7 @@ return Headers.builder().apply {
 {{/headerParams}}
 {{#responses}}
     {{#httpAcceptHeader}}
-        add("Accept", "{{mediaTypes}}")
+        add("Accept", "{{{mediaTypes}}}")
     {{/httpAcceptHeader}}
 {{/responses}}
 }.build()

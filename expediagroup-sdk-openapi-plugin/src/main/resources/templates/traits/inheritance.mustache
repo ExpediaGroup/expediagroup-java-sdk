@@ -1,6 +1,6 @@
 OperationRequestTrait,
 UrlPathTrait
-{{#hasBodyParam}}{{#bodyParam}}, OperationRequestBodyTrait<{{dataType}}>{{/bodyParam}}{{/hasBodyParam}}
+{{#hasBodyParam}}{{#bodyParam}}, OperationRequestBodyTrait<{{{dataType}}}>{{/bodyParam}}{{/hasBodyParam}}
 {{#customReturnType}}, JacksonModelOperationResponseBodyTrait<{{{returnType}}}>{{/customReturnType}}
 {{^returnType}}, OperationNoResponseBodyTrait{{/returnType}}
 {{#hasConsumes}}, ContentTypeTrait{{/hasConsumes}}
