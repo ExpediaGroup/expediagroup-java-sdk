@@ -27,7 +27,7 @@ import java.util.UUID
  */
 @ConsistentCopyVisibility
 data class Request private constructor(
-    val id: UUID,
+    val id: UUID = UUID.randomUUID(),
     val method: Method,
     val url: URL,
     val headers: Headers,
@@ -44,7 +44,6 @@ data class Request private constructor(
      * Builder class for [Request].
      */
     class Builder {
-        private var id: UUID = UUID.randomUUID()
         private var method: Method? = null
         private var url: URL? = null
         private var headersBuilder: Headers.Builder = Headers.Builder()
@@ -61,7 +60,6 @@ data class Request private constructor(
          * @param request The request to copy data from.
          */
         constructor(request: Request) {
-            this.id = request.id
             this.method = request.method
             this.url = request.url
             this.headersBuilder = request.headers.newBuilder()
@@ -102,17 +100,6 @@ data class Request private constructor(
             apply {
                 val parsedUrl = URL(url)
                 this.url = parsedUrl
-            }
-
-        /**
-         * Sets the request id.
-         *
-         * @param id The request id.
-         * @return This builder.
-         */
-        fun id(id: UUID) =
-            apply {
-                this.id = id
             }
 
         /**
@@ -215,7 +202,6 @@ data class Request private constructor(
             val url = this.url ?: throw IllegalStateException("URL is required.")
 
             return Request(
-                id = id,
                 method = method,
                 url = url,
                 headers = headersBuilder.build(),

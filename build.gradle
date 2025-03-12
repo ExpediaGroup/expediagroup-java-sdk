@@ -1,24 +1,47 @@
 import org.jetbrains.kotlin.gradle.plugin.KotlinBasePluginWrapper
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.time.Duration
 
 plugins {
     id 'java'
     id 'org.jetbrains.kotlin.jvm' version '2.1.10' apply false
     id "org.jlleitschuh.gradle.ktlint" version "12.1.2" apply false
     id 'org.jetbrains.kotlinx.kover' version "0.9.1" apply false
+    id 'io.github.gradle-nexus.publish-plugin' version '2.0.0'
+}
+
+group = project.property("GROUP_ID")
+
+apply from: "$rootDir/gradle-tasks/publish-snapshot.gradle"
+
+nexusPublishing {
+    repositories {
+        sonatype {
+            username = System.getenv("SONATYPE_USERNAME")
+            password = System.getenv("SONATYPE_PASSWORD")
+        }
+    }
+
+    transitionCheckOptions {
+        maxRetries = 60
+        delayBetween = Duration.ofMillis(5000)
+    }
 }
 
 subprojects {
-    /* Shared plugins between all modules */
+    /* Shared plugins across all modules */
     apply plugin: 'java'
     apply plugin: 'org.jetbrains.kotlin.jvm'
     apply plugin: 'org.jlleitschuh.gradle.ktlint'
     apply plugin: 'org.jetbrains.kotlinx.kover'
 
-    /* Shared repositories between all modules */
+    /* Shared repositories across all modules */
     repositories {
         mavenCentral()
         mavenLocal()
+        maven {
+            url "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
     }
 
     plugins.withId("org.jetbrains.kotlin.jvm") {
@@ -37,6 +60,7 @@ subprojects {
 
     java {
         withSourcesJar()
+        withJavadocJar()
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
 

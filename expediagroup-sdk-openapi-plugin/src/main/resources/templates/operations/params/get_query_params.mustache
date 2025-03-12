@@ -1,8 +1,8 @@
 {{#hasQueryParams}}fun getQueryParams(): List<UrlQueryParam> =
     buildList {
     {{#queryParams}}
-        {{paramName}}?.let {
-        val key = "{{baseName}}"
+        {{{paramName}}}?.let {
+        val key = "{{{baseName}}}"
         val value = buildList {
         {{#isContainer}}
             addAll(it{{#isEnum}}.map { it.value }{{/isEnum}})
