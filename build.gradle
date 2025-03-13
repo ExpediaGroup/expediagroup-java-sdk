@@ -11,6 +11,7 @@ plugins {
 }
 
 group = project.property("GROUP_ID")
+version = '0.0.3-SNAPSHOT'
 
 apply from: "$rootDir/gradle-tasks/publish-snapshot.gradle"
 
