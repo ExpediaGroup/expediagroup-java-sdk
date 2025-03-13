@@ -1,10 +1,18 @@
+// Conditionally set root project version only when publishSnapshots is executed
+gradle.taskGraph.whenReady { taskGraph ->
+    if (taskGraph.hasTask(":publishSnapshots")) {
+        rootProject.version = "1.0.0-SNAPSHOT"
+        println "📌 Setting root project version to 1.0.0-SNAPSHOT for publishSnapshots task"
+    }
+}
+
 tasks.register("publishSnapshots") {
     def snapshotModules = rootProject.subprojects.findAll { project ->
         project.version.toString().contains("-SNAPSHOT") && project.tasks.named("publish") != null
     }
 
     if (!snapshotModules.isEmpty()) {
-        dependsOn snapshotModules.collect { ":${it.name}:publish -Pversion=1.0.0-SNAPSHOT" }
+        dependsOn snapshotModules.collect { ":${it.name}:publish" }
     }
 
     doLast {
