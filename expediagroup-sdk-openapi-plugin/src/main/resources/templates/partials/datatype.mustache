@@ -1,6 +1,6 @@
 {{#isContainer}}
     {{#uniqueItems}}
-        kotlin.collections.{{#modelMutable}}Mutable{{/modelMutable}}Set
+        kotlin.collections.HashSet
     {{/uniqueItems}}
     {{^uniqueItems}}
         kotlin.collections.{{#modelMutable}}Mutable{{/modelMutable}}List

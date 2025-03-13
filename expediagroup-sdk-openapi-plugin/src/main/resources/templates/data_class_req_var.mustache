@@ -15,10 +15,10 @@
 {{#isArray}}
     {{#isList}}
         {{#uniqueItems}}kotlin.collections.
-        {{#modelMutable}}Mutable{{/modelMutable}}Set
+        HashSet
         {{/uniqueItems}}
         {{^uniqueItems}}kotlin.collections.
-        {{#modelMutable}}Mutable{{/modelMutable}}List
+        ArrayList
         {{/uniqueItems}}
     {{/isList}}
     {{^isList}}
