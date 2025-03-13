@@ -1,0 +1,40 @@
+{{#nonBodyParams}}
+    {{#params}}
+        {{#required}}
+            require({{{paramName}}} != null) { "{{{paramName}}} must not be null" }
+        {{/required}}
+
+        {{#minLength}}
+            require({{{paramName}}}?.length ?: 0 >= {{minLength}}) { "{{{paramName}}} must be at least {{minLength}} characters long" }
+        {{/minLength}}
+
+        {{#maxLength}}
+            require({{{paramName}}}?.length ?: 0 <= {{maxLength}}) { "{{{paramName}}} must be at most {{maxLength}} characters long" }
+        {{/maxLength}}
+
+        {{#pattern}}
+            require({{{paramName}}}?.matches(Regex("{{{pattern}}}")) ?: true) { "{{{paramName}}} does not match pattern {{{pattern}}}" }
+        {{/pattern}}
+
+        {{#minItems}}
+            require({{{paramName}}}?.size ?: 0 >= {{minItems}}) { "{{{paramName}}} must have at least {{minItems}} items" }
+        {{/minItems}}
+
+        {{#maxItems}}
+            require({{{paramName}}}?.size ?: 0 <= {{maxItems}}) { "{{{paramName}}} must have at most {{maxItems}} items" }
+        {{/maxItems}}
+
+        {{#minimum}}
+            require({{{paramName}}}?.let { it {{#exclusiveMinimum}}> {{/exclusiveMinimum}}{{^exclusiveMinimum}}>= {{/exclusiveMinimum}}{{minimum}} } ?: true) {
+            "{{{paramName}}} must be {{#exclusiveMinimum}}greater than{{/exclusiveMinimum}}{{^exclusiveMinimum}}at least{{/exclusiveMinimum}} {{minimum}}"
+            }
+        {{/minimum}}
+
+        {{#maximum}}
+            require({{{paramName}}}?.let { it {{#exclusiveMaximum}}< {{/exclusiveMaximum}}{{^exclusiveMaximum}}<= {{/exclusiveMaximum}}{{maximum}} } ?: true) {
+            "{{{paramName}}} must be {{#exclusiveMaximum}}less than{{/exclusiveMaximum}}{{^exclusiveMaximum}}at most{{/exclusiveMaximum}} {{maximum}}"
+            }
+        {{/maximum}}
+
+    {{/params}}
+{{/nonBodyParams}}
