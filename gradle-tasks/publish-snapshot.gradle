@@ -4,7 +4,7 @@ tasks.register("publishSnapshots") {
     }
 
     if (!snapshotModules.isEmpty()) {
-        dependsOn snapshotModules.collect { ":${it.name}:publish" }
+        dependsOn snapshotModules.collect { ":${it.name}:publish -Pversion=1.0.0-SNAPSHOT" }
     }
 
     doLast {
