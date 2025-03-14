@@ -1,4 +1,6 @@
-// Conditionally set root project version only when publishSnapshots is executed
+// Nexus publishing plugin relies on the root project version to determine which repository to use (releases | snapshots)
+// We're setting the root project to a dummy version (1.0.0-SNAPSHOT) to instruct the plugin to use the snapshot repo.
+// This version won't be published. The publishSnapshots task will publish submodules with the defined version in their gradle.properties
 gradle.taskGraph.whenReady { taskGraph ->
     if (taskGraph.hasTask(":publishSnapshots")) {
         rootProject.version = "1.0.0-SNAPSHOT"
