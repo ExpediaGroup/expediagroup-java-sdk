@@ -13,10 +13,10 @@
         }
 
         add(UrlQueryParam(
-        key = key,
-        value = value,
-        stringify = swaggerCollectionFormatStringifier.getOrDefault("{{collectionFormat}}", stringifyExplode)
+            key = key,
+            value = value,
+            stringify = swaggerCollectionFormatStringifier.getOrDefault("{{collectionFormat}}", stringifyExplode)
         ))
-        }
+    }
     {{/queryParams}}
 }{{/hasQueryParams}}

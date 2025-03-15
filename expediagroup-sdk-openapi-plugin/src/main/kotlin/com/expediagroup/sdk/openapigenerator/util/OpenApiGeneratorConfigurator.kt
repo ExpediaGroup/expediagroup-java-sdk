@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2025 Expedia, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.expediagroup.sdk.openapigenerator.util
 
 import com.expediagroup.sdk.openapigenerator.mustache.AssignDiscriminatorsLambda
@@ -25,16 +9,20 @@ import com.expediagroup.sdk.openapigenerator.mustache.HasNonBodyParamsLambda
 import com.expediagroup.sdk.openapigenerator.mustache.HttpAcceptHeaderLambda
 import com.expediagroup.sdk.openapigenerator.mustache.IsPaginatableLambda
 import com.expediagroup.sdk.openapigenerator.mustache.NonBodyParamsLambda
+import com.expediagroup.sdk.openapigenerator.mustache.ProcessModel
+import com.expediagroup.sdk.openapigenerator.mustache.ProcessOperation
 import com.expediagroup.sdk.openapigenerator.mustache.RemoveDoubleQuotesLambda
 import com.expediagroup.sdk.openapigenerator.mustache.RemoveLeadingSlashesLambda
-import org.gradle.api.Project
-import org.openapitools.generator.gradle.plugin.extensions.OpenApiGeneratorGenerateExtension
 import java.io.IOException
 import java.io.InputStream
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
+import org.gradle.api.Project
+import org.openapitools.codegen.CodegenModel
+import org.openapitools.codegen.CodegenOperation
+import org.openapitools.generator.gradle.plugin.extensions.OpenApiGeneratorGenerateExtension
 
 /**
  * Configures an [OpenApiGeneratorGenerateExtension] instance with default settings specific to
@@ -75,7 +63,7 @@ object OpenApiGeneratorConfigurator {
             val product = Product(namespace)
 
             loadInitialConfigurations(ext, finalTemplatesDirectoryPath, configFilePath)
-            loadArtifactData(ext, product)
+            loadArtifactMetadata(ext, product)
             loadGlobalProperties(ext)
             loadTypeMappings(ext)
             loadLambdas(ext)
@@ -83,6 +71,13 @@ object OpenApiGeneratorConfigurator {
         }
     }
 
+    /**
+     * Extracts the configuration file from the resources to the target directory.
+     *
+     * @param targetDir The target directory where the configuration file will be extracted.
+     * @return The absolute path to the extracted configuration file.
+     * @throws IOException if the resource cannot be found or the file cannot be created.
+     */
     private fun extractConfigFile(targetDir: String): String {
         val resourceStream: InputStream? = this::class.java.getResourceAsStream(CONFIG_FILE_PATH)
 
@@ -106,7 +101,29 @@ object OpenApiGeneratorConfigurator {
         return targetFile.toAbsolutePath().toString()
     }
 
+    /**
+     * Loads lambda functions into the OpenAPI generator extension.
+     *
+     * @param ext The [OpenApiGeneratorGenerateExtension] to configure.
+     */
+    @Suppress("UNCHECKED_CAST")
     private fun loadLambdas(ext: OpenApiGeneratorGenerateExtension) {
+        val operationProcessors: List<(CodegenOperation) -> CodegenOperation> =
+            ext.additionalProperties.orNull?.let {
+                it.getOrDefault(
+                    "operationProcessors",
+                    emptyList<(CodegenOperation) -> CodegenOperation>()
+                ) as List<(CodegenOperation) -> CodegenOperation>
+            } ?: emptyList()
+
+        val modelProcessors: List<(CodegenModel) -> CodegenModel> =
+            ext.additionalProperties.orNull?.let {
+                it.getOrDefault(
+                    "modelProcessors",
+                    emptyList<(CodegenModel) -> CodegenModel>()
+                ) as List<(CodegenModel) -> CodegenModel>
+            } ?: emptyList()
+
         val lambdas =
             mapOf(
                 "customReturnType" to CustomReturnTypeLambda(),
@@ -119,13 +136,20 @@ object OpenApiGeneratorConfigurator {
                 "eliminateDiscriminators" to EliminateDiscriminatorsLambda(),
                 "assignDiscriminators" to AssignDiscriminatorsLambda(),
                 "removeLeadingSlashes" to RemoveLeadingSlashesLambda(),
-                "isPaginatable" to IsPaginatableLambda()
+                "isPaginatable" to IsPaginatableLambda(),
+                "processOperation" to ProcessOperation(operationProcessors),
+                "processModel" to ProcessModel(modelProcessors)
             )
 
         val userAdditionalProps = ext.additionalProperties.orNull ?: emptyMap<String, Any>()
         ext.additionalProperties.set(lambdas + userAdditionalProps)
     }
 
+    /**
+     * Loads type mappings into the OpenAPI generator extension.
+     *
+     * @param ext The [OpenApiGeneratorGenerateExtension] to configure.
+     */
     private fun loadTypeMappings(ext: OpenApiGeneratorGenerateExtension) {
         val typeMappings =
             mapOf(
@@ -138,6 +162,12 @@ object OpenApiGeneratorConfigurator {
         ext.typeMappings.set(typeMappings + userTypeMappings)
     }
 
+    /**
+     * Loads additional properties into the OpenAPI generator extension.
+     *
+     * @param ext The [OpenApiGeneratorGenerateExtension] to configure.
+     * @param product The [Product] containing namespace and other information.
+     */
     private fun loadAdditionalProperties(
         ext: OpenApiGeneratorGenerateExtension,
         product: Product
@@ -152,6 +182,11 @@ object OpenApiGeneratorConfigurator {
         ext.additionalProperties.set(defaultAdditionalProps + userAdditionalProps)
     }
 
+    /**
+     * Loads global properties into the OpenAPI generator extension.
+     *
+     * @param ext The [OpenApiGeneratorGenerateExtension] to configure.
+     */
     private fun loadGlobalProperties(ext: OpenApiGeneratorGenerateExtension) {
         val defaultGlobalProps =
             mapOf(
@@ -166,7 +201,13 @@ object OpenApiGeneratorConfigurator {
         ext.globalProperties.set(defaultGlobalProps + userGlobalProps)
     }
 
-    private fun loadArtifactData(
+    /**
+     * Loads artifact metadata into the OpenAPI generator extension.
+     *
+     * @param ext The [OpenApiGeneratorGenerateExtension] to configure.
+     * @param product The [Product] containing namespace and other information.
+     */
+    private fun loadArtifactMetadata(
         ext: OpenApiGeneratorGenerateExtension,
         product: Product
     ) {
@@ -176,6 +217,13 @@ object OpenApiGeneratorConfigurator {
         ext.modelPackage.convention(product.modelsPackage)
     }
 
+    /**
+     * Loads initial configurations into the OpenAPI generator extension.
+     *
+     * @param ext The [OpenApiGeneratorGenerateExtension] to configure.
+     * @param finalTemplatesDirectoryPath The path to the final templates directory.
+     * @param configFilePath The path to the configuration file.
+     */
     private fun loadInitialConfigurations(
         ext: OpenApiGeneratorGenerateExtension,
         finalTemplatesDirectoryPath: String,

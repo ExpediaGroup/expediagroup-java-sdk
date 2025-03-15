@@ -177,3 +177,37 @@ class CustomReturnTypeLambda : Mustache.Lambda, Serializable {
         fragment.execute(context, writer)
     }
 }
+
+class ProcessOperation(
+    private val processors: List<(CodegenOperation) -> CodegenOperation>
+) :  Mustache.Lambda, Serializable {
+    override fun execute(
+        fragment: Template.Fragment,
+        writer: Writer
+    ) {
+        var operation: CodegenOperation = fragment.context() as CodegenOperation
+
+        processors.forEach { process ->
+            operation = process(operation)
+        }
+
+        fragment.execute(operation, writer)
+    }
+}
+
+class ProcessModel(
+    private val processors: List<(CodegenModel) -> CodegenModel>
+) : Mustache.Lambda, Serializable {
+    override fun execute(
+        fragment: Template.Fragment,
+        writer: Writer
+    ) {
+        var model: CodegenModel = fragment.context() as CodegenModel
+
+        processors.forEach { process ->
+            model = process(model)
+        }
+
+        fragment.execute(model, writer)
+    }
+}

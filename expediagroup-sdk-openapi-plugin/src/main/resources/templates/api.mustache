@@ -2,6 +2,7 @@ package com.expediagroup.sdk.{{namespace}}.operations
 {{>operations/imports}}
 {{#operations}}
     {{#operation}}
+        {{#processOperation}}
         /**
         * {{{summary}}}
         {{#hasBodyParam}}
@@ -21,5 +22,6 @@ package com.expediagroup.sdk.{{namespace}}.operations
         ) : {{>traits/inheritance}} {
         {{>traits/implementation}}
         }
+        {{/processOperation}}
     {{/operation}}
 {{/operations}}
