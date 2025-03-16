@@ -17,11 +17,11 @@ import okhttp3.Callback
 import okhttp3.OkHttpClient
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertInstanceOf
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import java.io.IOException
-import java.util.UUID
 import java.util.concurrent.ExecutionException
 
 class OkHttpAsyncTransportTest {
@@ -84,10 +84,8 @@ class OkHttpAsyncTransportTest {
     @Test
     fun `should complete exceptionally on failure`() {
         // Given
-        val requestId = UUID.randomUUID()
         val sdkRequest =
             Request.builder()
-                .id(requestId)
                 .url("https://example.com/")
                 .method(Method.GET)
                 .build()
@@ -109,7 +107,7 @@ class OkHttpAsyncTransportTest {
         val exception = assertThrows<ExecutionException> { future.get() }
         assertInstanceOf(ExpediaGroupNetworkException::class.java, exception.cause)
         assertEquals("Failed to execute the request", exception.cause?.message)
-        assertEquals(requestId, (exception.cause as ExpediaGroupNetworkException).requestId)
+        assertNotNull((exception.cause as ExpediaGroupNetworkException).requestId)
     }
 
     @Test

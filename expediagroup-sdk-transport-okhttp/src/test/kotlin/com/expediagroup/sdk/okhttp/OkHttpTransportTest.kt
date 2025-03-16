@@ -14,9 +14,9 @@ import io.mockk.verify
 import okhttp3.Call
 import okhttp3.OkHttpClient
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import java.util.UUID
 
 class OkHttpTransportTest {
     @Test
@@ -66,13 +66,11 @@ class OkHttpTransportTest {
     @Test
     fun `should throw ExpediaGroupNetworkException if the request execution fails`() {
         // Given
-        val requestId = UUID.randomUUID()
         val mockOkHttpClient = mockk<OkHttpClient>()
         val mockCall = mockk<Call>()
 
         val sdkRequest =
             Request.builder()
-                .id(requestId)
                 .url("https://example.com/")
                 .method(Method.GET)
                 .build()
@@ -88,7 +86,7 @@ class OkHttpTransportTest {
                 transport.execute(sdkRequest)
             }
 
-        assertEquals(exception.requestId, requestId)
+        assertNotNull(exception.requestId)
     }
 
     @Test

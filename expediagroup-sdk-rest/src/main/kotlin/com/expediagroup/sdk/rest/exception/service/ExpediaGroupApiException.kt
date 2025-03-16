@@ -28,7 +28,6 @@ class ExpediaGroupApiException(
          * @return an instance of `ExpediaGroupApiException`
          * @throws IllegalArgumentException if the response is successful
          */
-        @JvmStatic
         fun forResponse(response: Response): ExpediaGroupApiException {
             require(!response.isSuccessful) { "Response is successful!" }
 
@@ -36,10 +35,10 @@ class ExpediaGroupApiException(
             val message = "Unsuccessful response code [${response.status.code}] for request-id [$id]"
 
             val cause: ExpediaGroupApiException? =
-                response.body?.source()?.readUtf8()?.let {
+                response.body?.let {
                     ExpediaGroupApiException(
                         requestId = id,
-                        message = it
+                        message = it.source().readUtf8()
                     )
                 }
 
