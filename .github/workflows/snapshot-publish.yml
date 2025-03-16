@@ -1,6 +1,9 @@
 name: Publish Snapshots
 
 on:
+  push:
+    branches:
+      - 'feature/OmarAlJarrah/publish-snapshots-16-mar-2025'
   workflow_dispatch:
     inputs:
       branch:
@@ -14,7 +17,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.branch }}
+          ref: 'feature/OmarAlJarrah/publish-snapshots-16-mar-2025'
 
       - name: Set Up JDK
         uses: actions/setup-java@v3
