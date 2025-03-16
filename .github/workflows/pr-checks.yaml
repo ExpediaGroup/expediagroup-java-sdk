@@ -19,9 +19,6 @@ jobs:
       - name: Build expediagroup-sdk-core
         working-directory: expediagroup-sdk-core
         run: gradle clean build
-      - name: Build expediagroup-sdk-core
-        working-directory: expediagroup-sdk-core
-        run: gradle clean build
       - name: Build expediagroup-sdk-graphql
         working-directory: expediagroup-sdk-graphql
         run: gradle clean build
