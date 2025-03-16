@@ -5,6 +5,7 @@
   "include-component-in-tag": true,
   "bump-minor-pre-major": true,
   "bump-patch-for-minor-pre-major": true,
+  "last-release-sha": "edca48e129eb1ad0c7d4b65a0ff70107ccf33a63",
   "packages": {
     "expediagroup-sdk-core": {
       "path": "expediagroup-sdk-core",
