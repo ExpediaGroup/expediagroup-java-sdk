@@ -17,6 +17,7 @@ import okhttp3.Callback
 import okhttp3.OkHttpClient
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertInstanceOf
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -105,6 +106,8 @@ class OkHttpAsyncTransportTest {
         // Expect
         val exception = assertThrows<ExecutionException> { future.get() }
         assertInstanceOf(ExpediaGroupNetworkException::class.java, exception.cause)
+        assertEquals("Failed to execute the request", exception.cause?.message)
+        assertNotNull((exception.cause as ExpediaGroupNetworkException).requestId)
     }
 
     @Test

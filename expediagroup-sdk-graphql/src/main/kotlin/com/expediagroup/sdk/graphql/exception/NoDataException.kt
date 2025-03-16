@@ -18,6 +18,7 @@ package com.expediagroup.sdk.graphql.exception
 
 import com.expediagroup.sdk.core.exception.service.ExpediaGroupServiceException
 import com.expediagroup.sdk.graphql.model.GraphQLError
+import java.util.UUID
 
 /**
  * Exception thrown when a GraphQL response completes without data but includes error details.
@@ -25,12 +26,14 @@ import com.expediagroup.sdk.graphql.model.GraphQLError
  * Typically used to indicate that the server processed the request but encountered issues,
  * resulting in an empty data payload accompanied by one or more errors.
  *
+ * @param requestId The unique identifier for the request.
  * @param message An optional message providing context about the exception.
  * @param cause The underlying cause of the exception, if available.
  * @param errors A list of [GraphQLError] objects describing issues from the GraphQL response, useful for precise error handling.
  */
 class NoDataException(
+    requestId: UUID,
     message: String? = null,
     cause: Throwable? = null,
     val errors: List<GraphQLError>
-) : ExpediaGroupServiceException(message, cause)
+) : ExpediaGroupServiceException(requestId, message, cause)

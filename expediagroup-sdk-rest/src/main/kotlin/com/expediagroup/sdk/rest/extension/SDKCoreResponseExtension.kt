@@ -16,6 +16,7 @@
 
 package com.expediagroup.sdk.rest.extension
 
+import com.expediagroup.sdk.rest.exception.service.ExpediaGroupApiException
 import com.expediagroup.sdk.rest.model.Response
 import com.expediagroup.sdk.rest.trait.operation.JacksonModelOperationResponseBodyTrait
 import com.expediagroup.sdk.rest.trait.operation.OperationNoResponseBodyTrait
@@ -55,6 +56,10 @@ internal fun <T : Any> SDKCoreResponse.toRestResponse(
     mapper: ObjectMapper
 ): Response<T> =
     use {
+        this.throwOnFailure {
+            ExpediaGroupApiException.forResponse(this)
+        }
+
         Response(
             data = parseBodyAs(operation, mapper),
             headers = headers
@@ -69,8 +74,26 @@ internal fun <T : Any> SDKCoreResponse.toRestResponse(
 @Suppress("UNUSED_PARAMETER")
 internal fun SDKCoreResponse.toRestResponse(operation: OperationNoResponseBodyTrait): Response<Nothing?> =
     use {
+        this.throwOnFailure {
+            ExpediaGroupApiException.forResponse(this)
+        }
+
         Response(
             data = null,
             headers = headers
         )
+    }
+
+/**
+ * Throws an exception if the response is not successful.
+ *
+ * @param block a lambda function that takes the response and returns a RuntimeException
+ * @return the SDKCoreResponse itself if it is successful
+ * @throws RuntimeException if the response is not successful
+ */
+internal fun SDKCoreResponse.throwOnFailure(block: (SDKCoreResponse) -> RuntimeException): SDKCoreResponse =
+    if (isSuccessful) {
+        this
+    } else {
+        throw block(this)
     }

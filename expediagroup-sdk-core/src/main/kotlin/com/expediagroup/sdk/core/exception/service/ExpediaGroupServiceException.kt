@@ -17,15 +17,17 @@
 package com.expediagroup.sdk.core.exception.service
 
 import com.expediagroup.sdk.core.exception.ExpediaGroupException
+import java.util.UUID
 
 /**
  * An exception that is thrown when a service error occurs.
  *
+ * @param requestId The unique identifier for the request.
  * @param message An optional error message.
  * @param cause An optional cause of the error.
  */
 open class ExpediaGroupServiceException(
+    val requestId: UUID? = null,
     message: String? = null,
-    cause: Throwable? = null,
-    val transactionId: String? = null
+    cause: Throwable? = null
 ) : ExpediaGroupException(message, cause)
