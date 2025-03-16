@@ -23,7 +23,6 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import java.io.ByteArrayInputStream
-import java.util.UUID
 
 class SDKCoreResponseExtensionTest {
     private val mapper = jacksonObjectMapper()
