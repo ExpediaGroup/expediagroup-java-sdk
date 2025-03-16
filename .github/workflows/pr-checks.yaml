@@ -2,8 +2,7 @@ name: code-quality-checks
 
 on:
   push:
-    branches:
-      - "feature/new-sdk-core"
+
 jobs:
   build-modules:
     runs-on: ubuntu-latest
