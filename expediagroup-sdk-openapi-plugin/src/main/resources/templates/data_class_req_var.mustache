@@ -5,12 +5,6 @@
     @Deprecated(message = "This property is deprecated.")
 {{/deprecated}}
 {{#lambda.indented}}@JsonProperty("{{baseName}}"){{/lambda.indented}}
-{{^format}}
-    {{#lambda.indented}}{{>models/constraints}}{{/lambda.indented}}
-{{/format}}
-{{#format}}
-    {{#isString}}{{#lambda.indented}}{{>models/constraints}}{{/lambda.indented}}{{/isString}}
-{{/format}}
 {{#isInherited}}override {{/isInherited}}{{>modelMutable}} {{{name}}}:
 {{#isArray}}
     {{#isList}}
