@@ -1,11 +1,7 @@
 name: Publish Snapshots
 
 on:
-  workflow_dispatch:
-    inputs:
-      branch:
-        description: "Branch name to release snapshots from"
-        required: true
+  push:
 
 jobs:
   publish:
@@ -14,7 +10,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.branch }}
+          ref: 'feature/OmarAlJarrah/revert-concrete-types-pr'
 
       - name: Set Up JDK
         uses: actions/setup-java@v3
