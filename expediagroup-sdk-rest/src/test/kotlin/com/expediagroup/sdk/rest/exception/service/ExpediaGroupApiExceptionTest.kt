@@ -106,36 +106,4 @@ class ExpediaGroupApiExceptionTest {
         assertEquals("Unsuccessful response code [500] for request-id [${mockResponse.request.id}]", exception.message)
         assertEquals(requestId, exception.requestId)
     }
-
-//    @Test
-//    fun `handles null source from response body`() {
-//        val requestId = UUID.randomUUID()
-//        val mockResponse: Response =
-//            mockk(relaxed = true) {
-//                every { isSuccessful } returns false
-//                every { status } returns Status.INTERNAL_SERVER_ERROR
-//                every { request } returns
-//                    mockk {
-//                        every { id } returns requestId
-//                    }
-//                // Use mockk with relaxUnitFun=true to allow null returns from functions
-//
-//                every { body } returns ResponseBody.Companion.create(
-//                    inputStream = mockk<InputStream>{
-//                        every { source() } returns null
-//                    },
-//                    mediaType = CommonMediaTypes.APPLICATION_JSON,
-//                    contentLength = 0
-//                )
-//            }
-//
-//        val exception = ExpediaGroupApiException.forResponse(mockResponse)
-//
-//        assertEquals(requestId, exception.requestId)
-//        assertEquals(
-//            "Unsuccessful response code [500] for request-id [$requestId]",
-//            exception.message
-//        )
-//        assertNull(exception.cause)
-//    }
 }
