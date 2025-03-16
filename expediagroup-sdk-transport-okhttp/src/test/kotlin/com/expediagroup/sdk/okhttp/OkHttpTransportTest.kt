@@ -14,6 +14,7 @@ import io.mockk.verify
 import okhttp3.Call
 import okhttp3.OkHttpClient
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
@@ -80,9 +81,12 @@ class OkHttpTransportTest {
         val transport = OkHttpTransport(mockOkHttpClient)
 
         // When & Expect
-        assertThrows<ExpediaGroupNetworkException> {
-            transport.execute(sdkRequest)
-        }
+        val exception =
+            assertThrows<ExpediaGroupNetworkException> {
+                transport.execute(sdkRequest)
+            }
+
+        assertNotNull(exception.requestId)
     }
 
     @Test

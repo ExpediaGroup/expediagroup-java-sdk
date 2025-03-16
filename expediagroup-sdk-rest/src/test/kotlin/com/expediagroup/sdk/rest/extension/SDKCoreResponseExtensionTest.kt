@@ -7,6 +7,7 @@ import com.expediagroup.sdk.core.http.Request
 import com.expediagroup.sdk.core.http.Response
 import com.expediagroup.sdk.core.http.ResponseBody
 import com.expediagroup.sdk.core.http.Status
+import com.expediagroup.sdk.rest.exception.service.ExpediaGroupApiException
 import com.expediagroup.sdk.rest.trait.operation.ContentTypeTrait
 import com.expediagroup.sdk.rest.trait.operation.JacksonModelOperationResponseBodyTrait
 import com.expediagroup.sdk.rest.trait.operation.OperationNoResponseBodyTrait
@@ -28,6 +29,44 @@ class SDKCoreResponseExtensionTest {
 
     @Nested
     inner class ToRestResponseOperationResponseBodyTraitTest {
+        @Test
+        fun `throws ExpediaGroupApiException on unsuccessful response`() {
+            val inputStream = """{"error": "internal server error"}""".byteInputStream()
+            val responseBody =
+                ResponseBody.create(
+                    inputStream = inputStream,
+                    mediaType = CommonMediaTypes.APPLICATION_JSON,
+                    contentLength = inputStream.available().toLong()
+                )
+            val request = Request.builder().url("http://localhost:8080").method(Method.POST).build()
+            val requestId = request.id
+            val response =
+                Response.builder().status(Status.INTERNAL_SERVER_ERROR).protocol(Protocol.HTTP_1_1)
+                    .request(request).body(responseBody).build()
+            val operation =
+                object : JacksonModelOperationResponseBodyTrait<ArrayList<String>> {
+                    override fun getRequestInfo(): OperationRequestTrait =
+                        object : OperationRequestTrait, ContentTypeTrait {
+                            override fun getHttpMethod(): String = "POST"
+
+                            override fun getContentType(): String = CommonMediaTypes.APPLICATION_JSON.toString()
+                        }
+
+                    override fun getTypeIdentifier(): TypeReference<ArrayList<String>> = jacksonTypeRef()
+                }
+
+            val exception =
+                assertThrows<ExpediaGroupApiException> {
+                    response.toRestResponse(operation, mapper)
+                }
+
+            assertEquals(requestId, exception.requestId)
+            assertEquals("Unsuccessful response code [500] for request-id [$requestId]", exception.message)
+            assertNotNull(exception.cause)
+            assertEquals("""{"error": "internal server error"}""", exception.cause?.message)
+            assertNull(exception.cause?.cause)
+        }
+
         @Test
         fun `parses response body and headers when OperationResponseBodyTrait is implemented`() {
             val inputStream = """["first", "second"]""".byteInputStream()
@@ -68,6 +107,40 @@ class SDKCoreResponseExtensionTest {
 
     @Nested
     inner class ToRestResponseOperationNoResponseBodyTraitTest {
+        @Test
+        fun `throws ExpediaGroupApiException on unsuccessful response`() {
+            val inputStream = """{"error": "internal server error"}""".byteInputStream()
+            val responseBody =
+                ResponseBody.create(
+                    inputStream = inputStream,
+                    mediaType = CommonMediaTypes.APPLICATION_JSON,
+                    contentLength = inputStream.available().toLong()
+                )
+            val request = Request.builder().url("http://localhost:8080").method(Method.POST).build()
+            val requestId = request.id
+            val response =
+                Response.builder().status(Status.INTERNAL_SERVER_ERROR).protocol(Protocol.HTTP_1_1)
+                    .request(request).body(responseBody).build()
+            val operation =
+                object : OperationNoResponseBodyTrait {
+                    override fun getRequestInfo(): OperationRequestTrait =
+                        object : OperationRequestTrait {
+                            override fun getHttpMethod(): String = "POST"
+                        }
+                }
+
+            val exception =
+                assertThrows<ExpediaGroupApiException> {
+                    response.toRestResponse(operation)
+                }
+
+            assertEquals(requestId, exception.requestId)
+            assertEquals("Unsuccessful response code [500] for request-id [$requestId]", exception.message)
+            assertNotNull(exception.cause)
+            assertEquals("""{"error": "internal server error"}""", exception.cause?.message)
+            assertNull(exception.cause?.cause)
+        }
+
         @Test
         fun `parses response headers and ignores body values when OperationNoResponseBodyTrait is implemented`() {
             val response =

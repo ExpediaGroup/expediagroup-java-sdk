@@ -3,6 +3,7 @@ package com.expediagroup.sdk.rest
 import com.expediagroup.sdk.core.http.CommonMediaTypes
 import com.expediagroup.sdk.core.http.ResponseBody
 import com.expediagroup.sdk.core.transport.AbstractAsyncRequestExecutor
+import com.expediagroup.sdk.rest.exception.service.ExpediaGroupApiException
 import com.expediagroup.sdk.rest.model.Response
 import com.expediagroup.sdk.rest.trait.operation.JacksonModelOperationResponseBodyTrait
 import com.expediagroup.sdk.rest.trait.operation.OperationNoResponseBodyTrait
@@ -17,6 +18,7 @@ import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -48,7 +50,10 @@ class AsyncRestExecutorTest {
                         override fun getHttpMethod(): String = "POST"
                     }
             }
-        val mockResponse = mockk<SDKCoreResponse>(relaxed = true)
+        val mockResponse =
+            mockk<SDKCoreResponse>(relaxed = true) {
+                every { isSuccessful } returns true
+            }
         val requestExecutor =
             mockk<AbstractAsyncRequestExecutor>(relaxed = true) {
                 every { execute(any()) } returns
@@ -66,6 +71,39 @@ class AsyncRestExecutorTest {
         verify(exactly = 1) { requestExecutor.execute(any()) }
         verify(exactly = 1) { mockResponse.close() }
         assertEquals(Response(data = null, headers = mockResponse.headers), response)
+    }
+
+    @Test
+    fun `execute with failing response throws ExecutionException wrapping ExpediaGroupApiException`() {
+        // Given
+        val testOperation =
+            object : OperationNoResponseBodyTrait {
+                override fun getRequestInfo(): OperationRequestTrait =
+                    object : OperationRequestTrait {
+                        override fun getHttpMethod(): String = "POST"
+                    }
+            }
+        val mockResponse = mockk<SDKCoreResponse>(relaxed = true) { every { isSuccessful } returns false }
+        val requestExecutor =
+            mockk<AbstractAsyncRequestExecutor>(relaxed = true) {
+                every { execute(any()) } returns
+                    CompletableFuture<SDKCoreResponse>().apply {
+                        complete(mockResponse)
+                    }
+            }
+        val executor = AsyncRestExecutor(mockMapper, requestExecutor, serverUrl)
+
+        val exception =
+            assertThrows<ExecutionException> {
+                executor.execute(testOperation).get()
+            }
+
+        assertNotNull(exception.cause)
+        assertTrue(exception.cause is ExpediaGroupApiException)
+        assertEquals(
+            "Unsuccessful response code [${mockResponse.status.code}] for request-id [${mockResponse.request.id}]",
+            exception.cause!!.message
+        )
     }
 
     @Test
@@ -88,6 +126,7 @@ class AsyncRestExecutorTest {
                         inputStream = "[\"test\"]".byteInputStream(),
                         contentLength = "[\"test\"]".byteInputStream().available().toLong()
                     )
+                every { isSuccessful } returns true
             }
 
         val requestExecutor =

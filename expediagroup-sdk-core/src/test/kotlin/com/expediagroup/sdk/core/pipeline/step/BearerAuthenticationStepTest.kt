@@ -2,6 +2,7 @@ package com.expediagroup.sdk.core.pipeline.step
 
 import com.expediagroup.sdk.core.authentication.bearer.AbstractBearerAuthenticationManager
 import com.expediagroup.sdk.core.exception.service.ExpediaGroupAuthException
+import com.expediagroup.sdk.core.exception.service.ExpediaGroupServiceException
 import com.expediagroup.sdk.core.http.Request
 import io.mockk.Runs
 import io.mockk.every
@@ -16,6 +17,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import java.io.IOException
 import java.net.URL
+import java.util.UUID
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
@@ -97,6 +99,26 @@ class BearerAuthenticationStepTest {
 
         assertEquals("Failed to authenticate", exception.message)
         assert(exception.cause is IOException)
+    }
+
+    @Test
+    fun `should have requestId when cause is ExpediaGroupServiceException`() {
+        // Given
+        val requestId = UUID.randomUUID()
+
+        // Arrange
+        every { mockAuthenticationManager.isTokenAboutToExpire() } returns true
+        every { mockAuthenticationManager.authenticate() } throws ExpediaGroupServiceException(requestId = requestId)
+
+        // Act & Assert
+        val exception =
+            assertThrows<ExpediaGroupAuthException> {
+                authenticationStep.invoke(mockRequest)
+            }
+
+        assertEquals("Failed to authenticate", exception.message)
+        assertEquals(requestId, exception.requestId)
+        assert(exception.cause is ExpediaGroupServiceException)
     }
 
     @Test
