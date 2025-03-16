@@ -32,7 +32,6 @@ class SDKCoreResponseExtensionTest {
     inner class ToRestResponseOperationResponseBodyTraitTest {
         @Test
         fun `throws ExpediaGroupApiException on unsuccessful response`() {
-            val requestId = UUID.randomUUID()
             val inputStream = """{"error": "internal server error"}""".byteInputStream()
             val responseBody =
                 ResponseBody.create(
@@ -40,7 +39,8 @@ class SDKCoreResponseExtensionTest {
                     mediaType = CommonMediaTypes.APPLICATION_JSON,
                     contentLength = inputStream.available().toLong()
                 )
-            val request = Request.builder().id(requestId).url("http://localhost:8080").method(Method.POST).build()
+            val request = Request.builder().url("http://localhost:8080").method(Method.POST).build()
+            val requestId = request.id
             val response =
                 Response.builder().status(Status.INTERNAL_SERVER_ERROR).protocol(Protocol.HTTP_1_1)
                     .request(request).body(responseBody).build()
@@ -110,7 +110,6 @@ class SDKCoreResponseExtensionTest {
     inner class ToRestResponseOperationNoResponseBodyTraitTest {
         @Test
         fun `throws ExpediaGroupApiException on unsuccessful response`() {
-            val requestId = UUID.randomUUID()
             val inputStream = """{"error": "internal server error"}""".byteInputStream()
             val responseBody =
                 ResponseBody.create(
@@ -118,7 +117,8 @@ class SDKCoreResponseExtensionTest {
                     mediaType = CommonMediaTypes.APPLICATION_JSON,
                     contentLength = inputStream.available().toLong()
                 )
-            val request = Request.builder().id(requestId).url("http://localhost:8080").method(Method.POST).build()
+            val request = Request.builder().url("http://localhost:8080").method(Method.POST).build()
+            val requestId = request.id
             val response =
                 Response.builder().status(Status.INTERNAL_SERVER_ERROR).protocol(Protocol.HTTP_1_1)
                     .request(request).body(responseBody).build()
