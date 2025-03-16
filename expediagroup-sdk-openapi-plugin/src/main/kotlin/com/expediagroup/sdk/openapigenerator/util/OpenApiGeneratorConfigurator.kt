@@ -70,16 +70,60 @@ object OpenApiGeneratorConfigurator {
 
         project.afterEvaluate {
             val namespace = project.properties["namespace"]?.toString()
-            require(!namespace.isNullOrBlank()) { "namespace must be set. Make sure to specify the SDK namespace in gradle.properties" }
+
+            require(!namespace.isNullOrBlank()) {
+                "namespace must be set. Make sure to specify the SDK namespace in gradle.properties"
+            }
+
+            ext.configFile.convention(configFilePath)
 
             val product = Product(namespace)
 
-            loadInitialConfigurations(ext, finalTemplatesDirectoryPath, configFilePath)
-            loadArtifactData(ext, product)
-            loadGlobalProperties(ext)
-            loadTypeMappings(ext)
-            loadLambdas(ext)
-            loadAdditionalProperties(ext, product)
+            // Set official defaults / conventions
+            ext.generatorName.set("kotlin")
+            ext.templateDir.set(finalTemplatesDirectoryPath)
+
+            ext.groupId.convention(product.groupId)
+            ext.packageName.convention(product.packageName)
+            ext.apiPackage.convention(product.apiPackage)
+            ext.modelPackage.convention(product.modelsPackage)
+
+            // Merge global properties
+            val defaultGlobalProps =
+                mapOf(
+                    "models" to "",
+                    "apis" to "",
+                    "supportingFiles" to "false",
+                    "modelDocs" to "false",
+                    "modelTests" to "false"
+                )
+            val userGlobalProps = ext.globalProperties.orNull ?: emptyMap<String, String>()
+            ext.globalProperties.set(defaultGlobalProps + userGlobalProps)
+
+            // Merge additional properties
+            val defaultAdditionalProps =
+                mapOf(
+                    "namespace" to product.namespace,
+                    "apiSuffix" to "Operation"
+                )
+
+            val lambdas =
+                mapOf(
+                    "customReturnType" to CustomReturnTypeLambda(),
+                    "httpAcceptHeader" to HttpAcceptHeaderLambda(),
+                    "removeDoubleQuotes" to RemoveDoubleQuotesLambda(),
+                    "nonBodyParams" to NonBodyParamsLambda(),
+                    "hasNonBodyParams" to HasNonBodyParamsLambda(),
+                    "exceptionDataTypes" to ExceptionDataTypesLambda(),
+                    "defineApiExceptions" to DefineApiExceptionsLambda(),
+                    "eliminateDiscriminators" to EliminateDiscriminatorsLambda(),
+                    "assignDiscriminators" to AssignDiscriminatorsLambda(),
+                    "removeLeadingSlashes" to RemoveLeadingSlashesLambda(),
+                    "isPaginatable" to IsPaginatableLambda()
+                )
+
+            val userAdditionalProps = ext.additionalProperties.orNull ?: emptyMap<String, Any>()
+            ext.additionalProperties.set(defaultAdditionalProps + userAdditionalProps + lambdas)
         }
     }
 
@@ -104,93 +148,5 @@ object OpenApiGeneratorConfigurator {
         }
 
         return targetFile.toAbsolutePath().toString()
-    }
-
-    private fun loadLambdas(ext: OpenApiGeneratorGenerateExtension) {
-        val lambdas =
-            mapOf(
-                "customReturnType" to CustomReturnTypeLambda(),
-                "httpAcceptHeader" to HttpAcceptHeaderLambda(),
-                "removeDoubleQuotes" to RemoveDoubleQuotesLambda(),
-                "nonBodyParams" to NonBodyParamsLambda(),
-                "hasNonBodyParams" to HasNonBodyParamsLambda(),
-                "exceptionDataTypes" to ExceptionDataTypesLambda(),
-                "defineApiExceptions" to DefineApiExceptionsLambda(),
-                "eliminateDiscriminators" to EliminateDiscriminatorsLambda(),
-                "assignDiscriminators" to AssignDiscriminatorsLambda(),
-                "removeLeadingSlashes" to RemoveLeadingSlashesLambda(),
-                "isPaginatable" to IsPaginatableLambda()
-            )
-
-        val userAdditionalProps = ext.additionalProperties.orNull ?: emptyMap<String, Any>()
-        ext.additionalProperties.set(lambdas + userAdditionalProps)
-    }
-
-    private fun loadTypeMappings(ext: OpenApiGeneratorGenerateExtension) {
-        val typeMappings =
-            mapOf(
-                "array" to "kotlin.collections.ArrayList",
-                "map" to "kotlin.collections.HashMap",
-                "set" to "kotlin.collections.HashSet"
-            )
-
-        val userTypeMappings = ext.typeMappings.orNull ?: emptyMap<String, String>()
-        ext.typeMappings.set(typeMappings + userTypeMappings)
-    }
-
-    private fun loadAdditionalProperties(
-        ext: OpenApiGeneratorGenerateExtension,
-        product: Product
-    ) {
-        val defaultAdditionalProps =
-            mapOf(
-                "namespace" to product.namespace,
-                "apiSuffix" to "Operation"
-            )
-
-        val userAdditionalProps = ext.additionalProperties.orNull ?: emptyMap<String, Any>()
-        ext.additionalProperties.set(defaultAdditionalProps + userAdditionalProps)
-    }
-
-    private fun loadGlobalProperties(ext: OpenApiGeneratorGenerateExtension) {
-        val defaultGlobalProps =
-            mapOf(
-                "models" to "",
-                "apis" to "",
-                "supportingFiles" to "false",
-                "modelDocs" to "false",
-                "modelTests" to "false"
-            )
-
-        val userGlobalProps = ext.globalProperties.orNull ?: emptyMap<String, String>()
-        ext.globalProperties.set(defaultGlobalProps + userGlobalProps)
-    }
-
-    private fun loadArtifactData(
-        ext: OpenApiGeneratorGenerateExtension,
-        product: Product
-    ) {
-        ext.groupId.convention(product.groupId)
-        ext.packageName.convention(product.packageName)
-        ext.apiPackage.convention(product.apiPackage)
-        ext.modelPackage.convention(product.modelsPackage)
-    }
-
-    private fun loadInitialConfigurations(
-        ext: OpenApiGeneratorGenerateExtension,
-        finalTemplatesDirectoryPath: String,
-        configFilePath: String
-    ) {
-        ext.configFile.convention(configFilePath)
-
-        ext.generatorName.set("kotlin")
-        ext.templateDir.set(finalTemplatesDirectoryPath)
-
-        ext.dryRun.convention(false)
-        ext.cleanupOutput.convention(false)
-        ext.generateApiTests.convention(false)
-        ext.generateModelTests.convention(false)
-        ext.generateApiDocumentation.convention(false)
-        ext.generateModelDocumentation.convention(false)
     }
 }
