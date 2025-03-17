@@ -1,11 +1,7 @@
-name: Publish Snapshots
+name: Release XAP
 
 on:
-  workflow_dispatch:
-    inputs:
-      branch:
-        description: "Branch name to release snapshots from"
-        required: true
+  push:
 
 jobs:
   publish:
@@ -14,7 +10,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.branch }}
+          repository: "ExpediaGroup/xap-java-sdk"
+          ref: "feature/new-sdk-core"
 
       - name: Set Up JDK
         uses: actions/setup-java@v3
@@ -23,6 +20,7 @@ jobs:
           java-version: '17'
 
       - name: Publish Snapshots
+        working-directory: xap-sdk
         env:
           GPG_PASSPHRASE: ${{ secrets.GPG_PRIVATE_KEY_PASSPHRASE }}
           GPG_SECRET: ${{ secrets.GPG_PRIVATE_KEY }}
