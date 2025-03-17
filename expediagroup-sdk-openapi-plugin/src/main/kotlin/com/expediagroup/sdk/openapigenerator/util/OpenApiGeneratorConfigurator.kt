@@ -77,7 +77,6 @@ object OpenApiGeneratorConfigurator {
             loadInitialConfigurations(ext, finalTemplatesDirectoryPath, configFilePath)
             loadArtifactData(ext, product)
             loadGlobalProperties(ext)
-            loadTypeMappings(ext)
             loadLambdas(ext)
             loadAdditionalProperties(ext, product)
         }
@@ -124,18 +123,6 @@ object OpenApiGeneratorConfigurator {
 
         val userAdditionalProps = ext.additionalProperties.orNull ?: emptyMap<String, Any>()
         ext.additionalProperties.set(lambdas + userAdditionalProps)
-    }
-
-    private fun loadTypeMappings(ext: OpenApiGeneratorGenerateExtension) {
-        val typeMappings =
-            mapOf(
-                "array" to "kotlin.collections.ArrayList",
-                "map" to "kotlin.collections.HashMap",
-                "set" to "kotlin.collections.HashSet"
-            )
-
-        val userTypeMappings = ext.typeMappings.orNull ?: emptyMap<String, String>()
-        ext.typeMappings.set(typeMappings + userTypeMappings)
     }
 
     private fun loadAdditionalProperties(

@@ -1,9 +1,9 @@
 {{#isContainer}}
     {{#uniqueItems}}
-        kotlin.collections.HashSet
+        kotlin.collections.{{#modelMutable}}Mutable{{/modelMutable}}Set
     {{/uniqueItems}}
     {{^uniqueItems}}
-        kotlin.collections.ArrayList
+        kotlin.collections.{{#modelMutable}}Mutable{{/modelMutable}}List
     {{/uniqueItems}}
     <
         {{#items.isEnum}}{{classname}}Params.{{{enumName}}}{{/items.isEnum}}
