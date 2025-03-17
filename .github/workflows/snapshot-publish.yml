@@ -10,7 +10,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          ref:'feature/OmarAlJarrah/revert-use-concrete-containers'
+          ref: 'feature/OmarAlJarrah/revert-use-concrete-containers'
 
       - name: Set Up JDK
         uses: actions/setup-java@v3
