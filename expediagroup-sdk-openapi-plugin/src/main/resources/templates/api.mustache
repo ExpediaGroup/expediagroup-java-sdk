@@ -2,24 +2,27 @@ package com.expediagroup.sdk.{{namespace}}.operations
 {{>operations/imports}}
 {{#operations}}
     {{#operation}}
-        /**
-        * {{{summary}}}
-        {{#hasBodyParam}}
-            * @property requestBody [{{#bodyParam}}{{{dataType}}}{{/bodyParam}}]
-        {{/hasBodyParam}}
-        {{#hasNonBodyParams}}
-            * @property params [{{{classname}}}Params]
-        {{/hasNonBodyParams}}
-        */
-        class {{classname}}(
-        {{#hasNonBodyParams}}
-            private val params: {{{classname}}}Params,
-        {{/hasNonBodyParams}}
-        {{#hasBodyParam}}
-            private val requestBody: {{#bodyParam}}{{{dataType}}}{{/bodyParam}},
-        {{/hasBodyParam}}
-        ) : {{>traits/inheritance}} {
-        {{>traits/implementation}}
-        }
+        {{#processOperation}}
+            /**
+            * {{{summary}}}
+            {{#hasBodyParam}}
+                * @property requestBody [{{#bodyParam}}{{{dataType}}}{{/bodyParam}}]
+            {{/hasBodyParam}}
+            {{#hasNonBodyParams}}
+                * @property params [{{{classname}}}Params]
+            {{/hasNonBodyParams}}
+            */
+            class {{classname}}(
+            {{#hasNonBodyParams}}
+                private val params: {{{classname}}}Params,
+            {{/hasNonBodyParams}}
+            {{#hasBodyParam}}
+                private val requestBody: {{#bodyParam}}{{{dataType}}}{{/bodyParam}},
+            {{/hasBodyParam}}
+            ) : {{>traits/inheritance}} {
+            {{>traits/implementation}}
+            {{>embeddings/api}}
+            }
+        {{/processOperation}}
     {{/operation}}
 {{/operations}}
