@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package com.expediagroup.sdk.core.authentication.bearer
+package com.expediagroup.sdk.core.authentication.oauth
 
-import com.expediagroup.sdk.core.authentication.common.Credentials
 import com.expediagroup.sdk.core.common.getExceptionFromStack
 import com.expediagroup.sdk.core.exception.service.ExpediaGroupAuthException
 import com.expediagroup.sdk.core.exception.service.ExpediaGroupServiceException
@@ -39,11 +38,11 @@ import java.util.concurrent.CompletableFuture
  * Typically, this async implementation should be used with async SDK calls where the [AsyncTransport] is already
  * configured and used to handle requests.
  */
-class BearerAuthenticationAsyncManager(
+class OAuthAuthenticationAsyncManager(
     authUrl: String,
-    credentials: Credentials,
+    credentials: OAuthCredentials,
     private val asyncTransport: AsyncTransport
-) : AbstractBearerAuthenticationManager(authUrl, credentials) {
+) : AbstractOAuthAuthenticationManager(authUrl, credentials) {
     private val requestExecutor =
         object : AbstractAsyncRequestExecutor(asyncTransport) {
             override val executionPipeline =
@@ -72,7 +71,7 @@ class BearerAuthenticationAsyncManager(
 
             val request = buildAuthenticationRequest()
             executeAuthenticationRequest(request)
-                .thenApply { BearerTokenResponse.parse(it) }
+                .thenApply { OAuthTokenResponse.parse(it) }
                 .thenAccept { storeToken(it) }
                 .join()
         } catch (e: Exception) {

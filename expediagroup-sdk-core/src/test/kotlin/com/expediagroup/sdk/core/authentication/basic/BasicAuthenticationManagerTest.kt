@@ -1,17 +1,25 @@
 package com.expediagroup.sdk.core.authentication.basic
 
-import com.expediagroup.sdk.core.authentication.common.Credentials
+import com.expediagroup.sdk.core.authentication.common.encodeBasic
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.mockkStatic
+import io.mockk.unmockkAll
 import io.mockk.verify
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class BasicAuthenticationManagerTest {
+    @AfterEach
+    fun tearDown() {
+        unmockkAll()
+    }
+
     @Test
     fun `should encode the provided credentials`() {
         // Given
-        val credentials = Credentials("key", "secret")
+        val credentials = BasicCredentials("key", "secret")
         val basicAuthenticationManager = BasicAuthenticationManager(credentials)
 
         // When
@@ -24,7 +32,7 @@ class BasicAuthenticationManagerTest {
     @Test
     fun `should clear the cached encoded credentials`() {
         // Given
-        val credentials = Credentials("key", "secret")
+        val credentials = BasicCredentials("key", "secret")
         val basicAuthenticationManager = BasicAuthenticationManager(credentials)
 
         // When & Expect
@@ -37,16 +45,18 @@ class BasicAuthenticationManagerTest {
     @Test
     fun `should not re-encode the credentials once cached`() {
         // Given
-        val mockCredentials = mockk<Credentials>()
+        mockkStatic("com.expediagroup.sdk.core.authentication.common.AuthUtilsKt")
+        val mockCredentials = mockk<BasicCredentials>(relaxed = true)
+
         val basicAuthenticationManager = BasicAuthenticationManager(mockCredentials)
 
-        every { mockCredentials.encodeBasic() } returns "Basic encoded"
+        every { encodeBasic(any(), any()) } returns "Basic encoded"
 
         // When
         basicAuthenticationManager.authenticate()
         basicAuthenticationManager.authenticate()
 
         // Expect
-        verify(exactly = 1) { mockCredentials.encodeBasic() }
+        verify(exactly = 1) { encodeBasic(any(), any()) }
     }
 }

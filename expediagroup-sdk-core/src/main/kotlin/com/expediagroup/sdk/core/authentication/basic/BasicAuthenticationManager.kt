@@ -17,16 +17,16 @@
 package com.expediagroup.sdk.core.authentication.basic
 
 import com.expediagroup.sdk.core.authentication.common.AuthenticationManager
-import com.expediagroup.sdk.core.authentication.common.Credentials
+import com.expediagroup.sdk.core.authentication.common.encodeBasic
 
 /**
- * Manages Basic Authentication by encoding the given [Credentials] and providing
+ * Manages Basic Authentication by encoding the given [BasicCredentials] and providing
  * an authorization header value for requests.
  *
  * @property credentials The user's credentials that will be encoded for authentication.
  */
 class BasicAuthenticationManager(
-    private val credentials: Credentials
+    private val credentials: BasicCredentials
 ) : AuthenticationManager {
     /**
      * A cached version of the encoded credentials, or `null` if not yet encoded.
@@ -39,7 +39,7 @@ class BasicAuthenticationManager(
      */
     override fun authenticate() {
         if (encodedCredentials == null) {
-            credentials.encodeBasic().also { encodedCredentials = it }
+            encodeBasic(credentials.username, credentials.password).also { encodedCredentials = it }
         }
     }
 

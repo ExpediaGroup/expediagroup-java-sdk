@@ -1,36 +1,37 @@
-package com.expediagroup.sdk.core.authentication.bearer
+package com.expediagroup.sdk.core.authentication.oauth
 
-import com.expediagroup.sdk.core.authentication.common.Credentials
+import com.expediagroup.sdk.core.authentication.common.encodeBasic
 import com.expediagroup.sdk.core.http.Method
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.mockkStatic
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class TestBearerAuthenticationManager(
+class TestOAuthAuthenticationManager(
     authUrl: String,
-    credentials: Credentials
-) : AbstractBearerAuthenticationManager(authUrl, credentials) {
+    credentials: OAuthCredentials
+) : AbstractOAuthAuthenticationManager(authUrl, credentials) {
     override fun authenticate() {}
 }
 
-class AbstractBearerAuthenticationManagerTest {
+class AbstractOAuthAuthenticationManagerTest {
     private val authUrl = "https://example.com/auth"
-    private val credentials = mockk<Credentials>(relaxed = true)
-    private lateinit var authManager: AbstractBearerAuthenticationManager
+    private val credentials = mockk<OAuthCredentials>(relaxed = true)
+    private lateinit var authManager: AbstractOAuthAuthenticationManager
 
     @BeforeEach
     fun setUp() {
-        authManager = TestBearerAuthenticationManager(authUrl, credentials)
+        authManager = TestOAuthAuthenticationManager(authUrl, credentials)
     }
 
     @Test
     fun `should store and retrieve token correctly`() {
         // Given
-        val bearerTokenResponse = BearerTokenResponse("dummyToken", 3600)
-        authManager.storeToken(bearerTokenResponse)
+        val oauthTokenResponse = OAuthTokenResponse("dummyToken", 3600)
+        authManager.storeToken(oauthTokenResponse)
 
         // When
         val header = authManager.getAuthorizationHeaderValue()
@@ -42,9 +43,9 @@ class AbstractBearerAuthenticationManagerTest {
     @Test
     fun `should detect token about to expire`() {
         // Given
-        authManager = TestBearerAuthenticationManager(authUrl, credentials)
-        val bearerTokenResponse = BearerTokenResponse("dummyToken", 10)
-        authManager.storeToken(bearerTokenResponse)
+        authManager = TestOAuthAuthenticationManager(authUrl, credentials)
+        val oauthTokenResponse = OAuthTokenResponse("dummyToken", 10)
+        authManager.storeToken(oauthTokenResponse)
 
         // When
         val isAboutToExpire = authManager.isTokenAboutToExpire()
@@ -55,8 +56,8 @@ class AbstractBearerAuthenticationManagerTest {
 
     @Test
     fun `should clear authentication`() {
-        val bearerTokenResponse = BearerTokenResponse("dummyToken", 3600)
-        authManager.storeToken(bearerTokenResponse)
+        val oauthTokenResponse = OAuthTokenResponse("dummyToken", 3600)
+        authManager.storeToken(oauthTokenResponse)
 
         // When
         authManager.clearAuthentication()
@@ -68,7 +69,8 @@ class AbstractBearerAuthenticationManagerTest {
     @Test
     fun `should build authentication request with correct headers`() {
         // Given
-        every { credentials.encodeBasic() } returns "Basic encodedCredentials"
+        mockkStatic("com.expediagroup.sdk.core.authentication.common.AuthUtilsKt")
+        every { encodeBasic(any(), any()) } returns "Basic encodedCredentials"
 
         // When
         val request = authManager.buildAuthenticationRequest()

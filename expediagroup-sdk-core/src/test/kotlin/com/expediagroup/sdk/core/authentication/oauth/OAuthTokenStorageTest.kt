@@ -1,4 +1,4 @@
-package com.expediagroup.sdk.core.authentication.bearer
+package com.expediagroup.sdk.core.authentication.oauth
 
 import io.mockk.every
 import io.mockk.mockk
@@ -21,7 +21,7 @@ import java.util.concurrent.CountDownLatch
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
-class BearerTokenStorageTest {
+class OAuthTokenStorageTest {
     @Test
     fun `toString should not expose sensitive data`() {
         // Given
@@ -30,13 +30,13 @@ class BearerTokenStorageTest {
                 every { instant() } returns Instant.parse("2024-01-01T12:00:00Z")
                 every { zone } returns ZoneOffset.UTC
             }
-        val tokenStorage = BearerTokenStorage.create("standard_token", 3600, clock = mockClock)
+        val tokenStorage = OAuthTokenStorage.create("standard_token", 3600, clock = mockClock)
 
         // When
         val stringToken = tokenStorage.toString()
 
         // Expect
-        val expected = "BearerTokenStorage(expiresIn=3600, expirationBufferSeconds=60, expiryInstant=${
+        val expected = "OAuthTokenStorage(expiresIn=3600, expirationBufferSeconds=60, expiryInstant=${
             Instant.now(mockClock).plusSeconds(3600)
         })"
         assertEquals(expected, stringToken)
@@ -53,7 +53,7 @@ class BearerTokenStorageTest {
                 }
 
             val tokenStorage =
-                BearerTokenStorage.create(
+                OAuthTokenStorage.create(
                     accessToken = "standard_token",
                     expiresIn = 3600,
                     clock = mockClock
@@ -72,7 +72,7 @@ class BearerTokenStorageTest {
         fun `create token with varied expiration times`(expiresIn: Long) {
             val tokenStorage =
                 try {
-                    BearerTokenStorage.create(
+                    OAuthTokenStorage.create(
                         accessToken = "test_token",
                         expiresIn = expiresIn.coerceAtMost(3600 * 24 * 365) // Limit to max 1 year
                     )
@@ -97,7 +97,7 @@ class BearerTokenStorageTest {
         @Test
         fun `token with negative expiration time`() {
             val tokenStorage =
-                BearerTokenStorage.create(
+                OAuthTokenStorage.create(
                     accessToken = "expired_token",
                     expiresIn = -1
                 )
@@ -107,7 +107,7 @@ class BearerTokenStorageTest {
 
         @Test
         fun `empty token always expires`() {
-            val emptyTokenStorage = BearerTokenStorage.empty
+            val emptyTokenStorage = OAuthTokenStorage.empty
 
             assertAll(
                 "Empty token assertions",
@@ -128,7 +128,7 @@ class BearerTokenStorageTest {
             expectedExpired: Boolean
         ) {
             val tokenStorage =
-                BearerTokenStorage.create(
+                OAuthTokenStorage.create(
                     accessToken = "buffer_test_token",
                     expiresIn = expiresIn,
                     expirationBufferSeconds = bufferSeconds,
@@ -147,7 +147,7 @@ class BearerTokenStorageTest {
         fun `authorization header with special characters`() {
             val tokenWithSpecialChars = "token!@#$%^&*()_+"
             val tokenStorage =
-                BearerTokenStorage.create(
+                OAuthTokenStorage.create(
                     accessToken = tokenWithSpecialChars,
                     expiresIn = 3600
                 )
@@ -159,7 +159,7 @@ class BearerTokenStorageTest {
         fun `authorization header with unicode characters`() {
             val tokenWithUnicode = "token_🚀_special@chars_😊"
             val tokenStorage =
-                BearerTokenStorage.create(
+                OAuthTokenStorage.create(
                     accessToken = tokenWithUnicode,
                     expiresIn = 3600
                 )
@@ -174,13 +174,13 @@ class BearerTokenStorageTest {
         fun `concurrent token creation`() {
             val executor = Executors.newFixedThreadPool(10)
             val latch = CountDownLatch(100)
-            val tokens = ConcurrentLinkedQueue<BearerTokenStorage>()
+            val tokens = ConcurrentLinkedQueue<OAuthTokenStorage>()
 
             repeat(100) {
                 executor.submit {
                     try {
                         val token =
-                            BearerTokenStorage.create(
+                            OAuthTokenStorage.create(
                                 accessToken = "concurrent_token_$it",
                                 expiresIn = 3600
                             )
@@ -205,7 +205,7 @@ class BearerTokenStorageTest {
         fun `extreme expiration buffer scenarios`() {
             // Very small buffer
             val smallBufferToken =
-                BearerTokenStorage.create(
+                OAuthTokenStorage.create(
                     accessToken = "small_buffer_token",
                     expiresIn = 10,
                     expirationBufferSeconds = 1
@@ -213,7 +213,7 @@ class BearerTokenStorageTest {
 
             // Extremely large buffer
             val largeBufferToken =
-                BearerTokenStorage.create(
+                OAuthTokenStorage.create(
                     accessToken = "large_buffer_token",
                     expiresIn = 3600,
                     expirationBufferSeconds = 3599
@@ -239,7 +239,7 @@ class BearerTokenStorageTest {
                 }
 
             val tokenStorage =
-                BearerTokenStorage.create(
+                OAuthTokenStorage.create(
                     accessToken = "precision_test_token",
                     expiresIn = 30,
                     expirationBufferSeconds = 31,
@@ -257,8 +257,8 @@ class BearerTokenStorageTest {
     inner class StabilityTests {
         @Test
         fun `verify empty token singleton`() {
-            val emptyToken1 = BearerTokenStorage.empty
-            val emptyToken2 = BearerTokenStorage.empty
+            val emptyToken1 = OAuthTokenStorage.empty
+            val emptyToken2 = OAuthTokenStorage.empty
 
             assertSame(emptyToken1, emptyToken2, "Empty token should be a singleton")
         }
@@ -267,7 +267,7 @@ class BearerTokenStorageTest {
         fun `multiple token creations consistency`() {
             val tokens =
                 (1..100).map {
-                    BearerTokenStorage.create("token_$it", 3600)
+                    OAuthTokenStorage.create("token_$it", 3600)
                 }
 
             assertTrue(

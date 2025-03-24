@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package com.expediagroup.sdk.core.authentication.bearer
+package com.expediagroup.sdk.core.authentication.oauth
 
-import com.expediagroup.sdk.core.authentication.common.Credentials
 import com.expediagroup.sdk.core.common.getExceptionFromStack
 import com.expediagroup.sdk.core.exception.service.ExpediaGroupAuthException
 import com.expediagroup.sdk.core.exception.service.ExpediaGroupServiceException
@@ -35,18 +34,18 @@ import java.util.UUID
 /**
  * Manages bearer token authentication for HTTP requests.
  *
- * The `BearerAuthenticationManager` handles the lifecycle of bearer tokens, including retrieval, storage,
+ * The [OAuthAuthenticationManager] handles the lifecycle of bearer tokens, including retrieval, storage,
  * and validation. It interacts with an authentication server to fetch tokens using client credentials,
  * ensures tokens are refreshed when necessary, and provides them in the required format for authorization headers.
  *
  * @param authUrl The URL of the authentication server's endpoint to obtain bearer tokens.
- * @param credentials The [Credentials] containing the client key and secret used for authentication.
+ * @param credentials The [OAuthCredentials] containing the client key and secret used for authentication.
  */
-class BearerAuthenticationManager(
+class OAuthAuthenticationManager(
     authUrl: String,
-    credentials: Credentials,
+    credentials: OAuthCredentials,
     private val transport: Transport
-) : AbstractBearerAuthenticationManager(authUrl, credentials) {
+) : AbstractOAuthAuthenticationManager(authUrl, credentials) {
     private val requestExecutor =
         object : AbstractRequestExecutor(transport) {
             override val executionPipeline: ExecutionPipeline =
@@ -79,7 +78,7 @@ class BearerAuthenticationManager(
                 }.let {
                     executeAuthenticationRequest(it)
                 }.let {
-                    BearerTokenResponse.parse(it)
+                    OAuthTokenResponse.parse(it)
                 }.also {
                     storeToken(it)
                 }

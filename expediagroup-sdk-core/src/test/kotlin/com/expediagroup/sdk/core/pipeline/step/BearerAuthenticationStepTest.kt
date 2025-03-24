@@ -1,6 +1,6 @@
 package com.expediagroup.sdk.core.pipeline.step
 
-import com.expediagroup.sdk.core.authentication.bearer.AbstractBearerAuthenticationManager
+import com.expediagroup.sdk.core.authentication.oauth.AbstractOAuthAuthenticationManager
 import com.expediagroup.sdk.core.exception.service.ExpediaGroupAuthException
 import com.expediagroup.sdk.core.exception.service.ExpediaGroupServiceException
 import com.expediagroup.sdk.core.http.Request
@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 
 class BearerAuthenticationStepTest {
-    private lateinit var mockAuthenticationManager: AbstractBearerAuthenticationManager
+    private lateinit var mockAuthenticationManager: AbstractOAuthAuthenticationManager
     private lateinit var mockRequest: Request
     private lateinit var mockRequestBuilder: Request.Builder
     private lateinit var authenticationStep: BearerAuthenticationStep
@@ -144,7 +144,7 @@ class BearerAuthenticationStepTest {
     @Test
     fun `should authenticate only once when multiple threads detect token expiration`() {
         // Arrange
-        val authManager = mockk<AbstractBearerAuthenticationManager>(relaxed = true)
+        val authManager = mockk<AbstractOAuthAuthenticationManager>(relaxed = true)
         val authenticationStep = BearerAuthenticationStep(authManager)
         val numberOfThreads = 5
         val latch = CountDownLatch(numberOfThreads)
