@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.expediagroup.sdk.core.authentication.basic
+package com.expediagroup.sdk.core.auth.basic
 
-import com.expediagroup.sdk.core.authentication.common.AuthenticationManager
-import com.expediagroup.sdk.core.authentication.common.encodeBasic
+import com.expediagroup.sdk.core.auth.common.AuthManager
+import com.expediagroup.sdk.core.auth.common.encodeBasic
 
 /**
  * Manages Basic Authentication by encoding the given [BasicCredentials] and providing
@@ -25,9 +25,9 @@ import com.expediagroup.sdk.core.authentication.common.encodeBasic
  *
  * @property credentials The user's credentials that will be encoded for authentication.
  */
-class BasicAuthenticationManager(
+class BasicAuthManager(
     private val credentials: BasicCredentials
-) : AuthenticationManager {
+) : AuthManager {
     /**
      * A cached version of the encoded credentials, or `null` if not yet encoded.
      */

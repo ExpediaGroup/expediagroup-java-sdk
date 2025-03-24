@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.expediagroup.sdk.core.authentication.oauth
+package com.expediagroup.sdk.core.auth.oauth
 
-import com.expediagroup.sdk.core.authentication.common.AuthenticationManager
-import com.expediagroup.sdk.core.authentication.common.encodeBasic
+import com.expediagroup.sdk.core.auth.common.AuthManager
+import com.expediagroup.sdk.core.auth.common.encodeBasic
 import com.expediagroup.sdk.core.http.CommonMediaTypes
 import com.expediagroup.sdk.core.http.Method
 import com.expediagroup.sdk.core.http.Request
@@ -26,12 +26,12 @@ import com.expediagroup.sdk.core.http.RequestBody
 /**
  * Abstract class that contains common functionalities to store and renew OAuth (bearer) tokens.
  * This class does not handle the bearer token fetching or parsing. Subclasses have to implement the
- * [AuthenticationManager.authenticate] method where the token is fetched and parsed.
+ * [AuthManager.authenticate] method where the token is fetched and parsed.
  */
-abstract class AbstractOAuthAuthenticationManager(
+abstract class AbstractOAuthManager(
     private val authUrl: String,
     protected val credentials: OAuthCredentials
-) : AuthenticationManager {
+) : AuthManager {
     @Volatile
     private var oauthTokenStorage = OAuthTokenStorage.empty
 

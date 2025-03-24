@@ -1,4 +1,4 @@
-package com.expediagroup.sdk.core.authentication.oauth
+package com.expediagroup.sdk.core.auth.oauth
 
 import com.expediagroup.sdk.core.exception.client.ExpediaGroupResponseParsingException
 import com.expediagroup.sdk.core.http.CommonMediaTypes

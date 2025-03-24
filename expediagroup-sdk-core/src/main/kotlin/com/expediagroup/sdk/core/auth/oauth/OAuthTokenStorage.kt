@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.expediagroup.sdk.core.authentication.oauth
+package com.expediagroup.sdk.core.auth.oauth
 
 import java.time.Clock
 import java.time.Instant

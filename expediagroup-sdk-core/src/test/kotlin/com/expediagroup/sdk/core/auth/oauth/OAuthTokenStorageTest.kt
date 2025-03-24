@@ -1,4 +1,4 @@
-package com.expediagroup.sdk.core.authentication.oauth
+package com.expediagroup.sdk.core.auth.oauth
 
 import io.mockk.every
 import io.mockk.mockk

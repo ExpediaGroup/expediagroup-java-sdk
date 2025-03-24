@@ -1,4 +1,4 @@
-package com.expediagroup.sdk.core.authentication.basic
+package com.expediagroup.sdk.core.auth.basic
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test

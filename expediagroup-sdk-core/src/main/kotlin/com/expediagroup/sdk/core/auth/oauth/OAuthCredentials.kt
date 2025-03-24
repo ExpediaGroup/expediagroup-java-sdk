@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.expediagroup.sdk.core.authentication.basic
+package com.expediagroup.sdk.core.auth.oauth
 
-data class BasicCredentials(
-    val username: String,
-    val password: String
+data class OAuthCredentials(
+    val key: String,
+    val secret: String
 ) {
-    override fun toString(): String = "BasicCredentials(username=***, password=***)"
+    override fun toString(): String = "OAuthCredentials(key=***, secret=***)"
 }

@@ -1,4 +1,4 @@
-package com.expediagroup.sdk.core.authentication.oauth
+package com.expediagroup.sdk.core.auth.oauth
 
 import com.expediagroup.sdk.core.exception.client.ExpediaGroupResponseParsingException
 import com.expediagroup.sdk.core.exception.service.ExpediaGroupAuthException
@@ -27,17 +27,17 @@ import java.util.UUID
 import java.util.concurrent.CompletableFuture
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class OAuthAuthenticationAsyncManagerTest {
+class OAuthAsyncManagerTest {
     private lateinit var asyncTransport: AsyncTransport
     private lateinit var credentials: OAuthCredentials
-    private lateinit var asyncAuthenticationManager: OAuthAuthenticationAsyncManager
+    private lateinit var asyncAuthenticationManager: OAuthAsyncManager
     private val authUrl = "https://auth.example.com/token"
 
     @BeforeAll
     fun setup() {
         asyncTransport = mockk()
         credentials = OAuthCredentials("client_key", "client_secret")
-        asyncAuthenticationManager = OAuthAuthenticationAsyncManager(authUrl, credentials, asyncTransport)
+        asyncAuthenticationManager = OAuthAsyncManager(authUrl, credentials, asyncTransport)
     }
 
     @AfterEach

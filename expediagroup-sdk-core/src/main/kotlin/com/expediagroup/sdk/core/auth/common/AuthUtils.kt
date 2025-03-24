@@ -1,4 +1,4 @@
-package com.expediagroup.sdk.core.authentication.common
+package com.expediagroup.sdk.core.auth.common
 
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets.ISO_8859_1

@@ -16,7 +16,7 @@
 
 package com.expediagroup.sdk.core.pipeline.step
 
-import com.expediagroup.sdk.core.authentication.oauth.AbstractOAuthAuthenticationManager
+import com.expediagroup.sdk.core.auth.oauth.AbstractOAuthManager
 import com.expediagroup.sdk.core.common.getExceptionFromStack
 import com.expediagroup.sdk.core.exception.service.ExpediaGroupAuthException
 import com.expediagroup.sdk.core.exception.service.ExpediaGroupServiceException
@@ -24,8 +24,8 @@ import com.expediagroup.sdk.core.http.Request
 import com.expediagroup.sdk.core.pipeline.RequestPipelineStep
 import java.util.UUID
 
-class BearerAuthenticationStep(
-    private val authenticationManager: AbstractOAuthAuthenticationManager
+class OAuthStep(
+    private val authenticationManager: AbstractOAuthManager
 ) : RequestPipelineStep {
     private val lock = Any()
 

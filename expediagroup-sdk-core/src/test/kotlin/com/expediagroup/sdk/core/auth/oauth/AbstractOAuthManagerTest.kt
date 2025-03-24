@@ -1,6 +1,6 @@
-package com.expediagroup.sdk.core.authentication.oauth
+package com.expediagroup.sdk.core.auth.oauth
 
-import com.expediagroup.sdk.core.authentication.common.encodeBasic
+import com.expediagroup.sdk.core.auth.common.encodeBasic
 import com.expediagroup.sdk.core.http.Method
 import io.mockk.every
 import io.mockk.mockk
@@ -10,21 +10,21 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class TestOAuthAuthenticationManager(
+class TestOAuthManager(
     authUrl: String,
     credentials: OAuthCredentials
-) : AbstractOAuthAuthenticationManager(authUrl, credentials) {
+) : AbstractOAuthManager(authUrl, credentials) {
     override fun authenticate() {}
 }
 
-class AbstractOAuthAuthenticationManagerTest {
+class AbstractOAuthManagerTest {
     private val authUrl = "https://example.com/auth"
     private val credentials = mockk<OAuthCredentials>(relaxed = true)
-    private lateinit var authManager: AbstractOAuthAuthenticationManager
+    private lateinit var authManager: AbstractOAuthManager
 
     @BeforeEach
     fun setUp() {
-        authManager = TestOAuthAuthenticationManager(authUrl, credentials)
+        authManager = TestOAuthManager(authUrl, credentials)
     }
 
     @Test
@@ -43,7 +43,7 @@ class AbstractOAuthAuthenticationManagerTest {
     @Test
     fun `should detect token about to expire`() {
         // Given
-        authManager = TestOAuthAuthenticationManager(authUrl, credentials)
+        authManager = TestOAuthManager(authUrl, credentials)
         val oauthTokenResponse = OAuthTokenResponse("dummyToken", 10)
         authManager.storeToken(oauthTokenResponse)
 
@@ -69,7 +69,7 @@ class AbstractOAuthAuthenticationManagerTest {
     @Test
     fun `should build authentication request with correct headers`() {
         // Given
-        mockkStatic("com.expediagroup.sdk.core.authentication.common.AuthUtilsKt")
+        mockkStatic("com.expediagroup.sdk.core.auth.common.AuthUtilsKt")
         every { encodeBasic(any(), any()) } returns "Basic encodedCredentials"
 
         // When

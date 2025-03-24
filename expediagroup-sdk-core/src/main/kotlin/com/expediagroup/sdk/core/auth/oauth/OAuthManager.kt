@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.expediagroup.sdk.core.authentication.oauth
+package com.expediagroup.sdk.core.auth.oauth
 
 import com.expediagroup.sdk.core.common.getExceptionFromStack
 import com.expediagroup.sdk.core.exception.service.ExpediaGroupAuthException
@@ -26,26 +26,29 @@ import com.expediagroup.sdk.core.pipeline.ExecutionPipeline
 import com.expediagroup.sdk.core.pipeline.step.RequestHeadersStep
 import com.expediagroup.sdk.core.pipeline.step.RequestLoggingStep
 import com.expediagroup.sdk.core.pipeline.step.ResponseLoggingStep
-import com.expediagroup.sdk.core.transport.AbstractAsyncRequestExecutor
-import com.expediagroup.sdk.core.transport.AsyncTransport
+import com.expediagroup.sdk.core.transport.AbstractRequestExecutor
+import com.expediagroup.sdk.core.transport.Transport
 import org.slf4j.LoggerFactory
 import java.util.UUID
-import java.util.concurrent.CompletableFuture
 
 /**
- * Manages bearer tokens fetching, parsing, storing, and renewal.
- * This async implementation uses the injected [AsyncTransport] to make the authentication requests.
- * Typically, this async implementation should be used with async SDK calls where the [AsyncTransport] is already
- * configured and used to handle requests.
+ * Manages bearer token authentication for HTTP requests.
+ *
+ * The [OAuthManager] handles the lifecycle of bearer tokens, including retrieval, storage,
+ * and validation. It interacts with an authentication server to fetch tokens using client credentials,
+ * ensures tokens are refreshed when necessary, and provides them in the required format for authorization headers.
+ *
+ * @param authUrl The URL of the authentication server's endpoint to obtain bearer tokens.
+ * @param credentials The [OAuthCredentials] containing the client key and secret used for authentication.
  */
-class OAuthAuthenticationAsyncManager(
+class OAuthManager(
     authUrl: String,
     credentials: OAuthCredentials,
-    private val asyncTransport: AsyncTransport
-) : AbstractOAuthAuthenticationManager(authUrl, credentials) {
+    private val transport: Transport
+) : AbstractOAuthManager(authUrl, credentials) {
     private val requestExecutor =
-        object : AbstractAsyncRequestExecutor(asyncTransport) {
-            override val executionPipeline =
+        object : AbstractRequestExecutor(transport) {
+            override val executionPipeline: ExecutionPipeline =
                 ExecutionPipeline(
                     requestPipeline =
                         listOf(
@@ -64,48 +67,47 @@ class OAuthAuthenticationAsyncManager(
      *
      * This method sends a request to the authentication server, parses the response, and
      * stores the token for future use.
+     *
+     * @throws ExpediaGroupAuthException If the authentication request fails.
      */
     override fun authenticate() {
         try {
             clearAuthentication()
-
-            val request = buildAuthenticationRequest()
-            executeAuthenticationRequest(request)
-                .thenApply { OAuthTokenResponse.parse(it) }
-                .thenAccept { storeToken(it) }
-                .join()
+                .let {
+                    buildAuthenticationRequest()
+                }.let {
+                    executeAuthenticationRequest(it)
+                }.let {
+                    OAuthTokenResponse.parse(it)
+                }.also {
+                    storeToken(it)
+                }
         } catch (e: Exception) {
-            val requestId: UUID? =
+            val id: UUID? =
                 e.getExceptionFromStack(ExpediaGroupServiceException::class.java)?.let {
                     (it as ExpediaGroupServiceException).requestId
                 }
 
-            throw ExpediaGroupAuthException(
-                requestId = requestId,
-                message = "Authentication Failed",
-                cause = e
-            )
+            throw ExpediaGroupAuthException(requestId = id, message = "Authentication Failed", cause = e)
         }
     }
 
     /**
      * Executes the authentication request and validates the response.
+     *
+     * @param request The [Request] object to be executed.
+     * @return The [Response] received from the server.
+     * @throws ExpediaGroupAuthException If the server responds with an error.
      */
-    private fun executeAuthenticationRequest(request: Request): CompletableFuture<Response> =
-        requestExecutor
-            .execute(request)
-            .thenApply {
-                if (it.isSuccessful) {
-                    it
-                } else {
-                    throw ExpediaGroupAuthException(
-                        requestId = it.request.id,
-                        "Received unsuccessful authentication response: [${it.status}]"
-                    )
-                }
-            }.exceptionally {
-                throw it
+    private fun executeAuthenticationRequest(request: Request): Response =
+        requestExecutor.execute(request).apply {
+            if (!this.isSuccessful) {
+                throw throw ExpediaGroupAuthException(
+                    requestId = this.request.id,
+                    message = "Received unsuccessful authentication response: [${this.status}]"
+                )
             }
+        }
 
     companion object {
         private val logger = LoggerDecorator(LoggerFactory.getLogger(this::class.java.enclosingClass))
