@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - "feature/new-sdk-core"
-      - "mdwairi/test-release-please"
 
 permissions:
   contents: write
