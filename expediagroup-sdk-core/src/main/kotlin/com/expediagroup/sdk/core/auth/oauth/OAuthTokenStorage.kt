@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.expediagroup.sdk.core.authentication.bearer
+package com.expediagroup.sdk.core.auth.oauth
 
 import java.time.Clock
 import java.time.Instant
@@ -22,7 +22,7 @@ import java.time.Instant
 /**
  * Stores and manages a bearer token and its expiration details.
  *
- * The `BearerTokenStorage` class is responsible for encapsulating the bearer token along with its
+ * The [OAuthTokenStorage] class is responsible for encapsulating the access token along with its
  * expiration time. It provides utilities to check if the token is about to expire and to format
  * the token as an `Authorization` header value.
  *
@@ -31,7 +31,7 @@ import java.time.Instant
  * @param expirationBufferSeconds The number of seconds before the token's expiration time that it is considered "about to expire".
  * @param clock The clock to use for time-based operations. Defaults to system clock.
  */
-class BearerTokenStorage private constructor(
+class OAuthTokenStorage private constructor(
     val accessToken: String,
     val expiresIn: Long,
     private val expirationBufferSeconds: Long,
@@ -65,7 +65,7 @@ class BearerTokenStorage private constructor(
          * Creates an empty bearer token storage instance.
          * This instance will always report as expired.
          */
-        val empty: BearerTokenStorage = create("", -1)
+        val empty: OAuthTokenStorage = create("", -1)
 
         /**
          * Creates a new bearer token storage instance with default settings.
@@ -81,7 +81,7 @@ class BearerTokenStorage private constructor(
             expiresIn: Long,
             expirationBufferSeconds: Long = DEFAULT_EXPIRATION_BUFFER_SECONDS,
             clock: Clock = Clock.systemUTC()
-        ): BearerTokenStorage {
+        ): OAuthTokenStorage {
             val expiryInstant =
                 if (expiresIn >= 0) {
                     Instant.now(clock).plusSeconds(expiresIn)
@@ -89,7 +89,7 @@ class BearerTokenStorage private constructor(
                     Instant.EPOCH
                 }
 
-            return BearerTokenStorage(
+            return OAuthTokenStorage(
                 accessToken = accessToken,
                 expiresIn = expiresIn,
                 expirationBufferSeconds = expirationBufferSeconds,
@@ -99,5 +99,5 @@ class BearerTokenStorage private constructor(
         }
     }
 
-    override fun toString(): String = "BearerTokenStorage(expiresIn=$expiresIn, expirationBufferSeconds=$expirationBufferSeconds, expiryInstant=$expiryInstant)"
+    override fun toString(): String = "OAuthTokenStorage(expiresIn=$expiresIn, expirationBufferSeconds=$expirationBufferSeconds, expiryInstant=$expiryInstant)"
 }

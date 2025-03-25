@@ -1,6 +1,5 @@
-package com.expediagroup.sdk.core.authentication.bearer
+package com.expediagroup.sdk.core.auth.oauth
 
-import com.expediagroup.sdk.core.authentication.common.Credentials
 import com.expediagroup.sdk.core.exception.client.ExpediaGroupResponseParsingException
 import com.expediagroup.sdk.core.exception.client.ExpediaGroupTransportException
 import com.expediagroup.sdk.core.exception.service.ExpediaGroupAuthException
@@ -28,17 +27,17 @@ import org.junit.jupiter.api.assertThrows
 import java.util.UUID
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class BearerAuthenticationManagerTest {
+class OAuthManagerTest {
     private lateinit var transport: Transport
-    private lateinit var credentials: Credentials
-    private lateinit var authenticationManager: BearerAuthenticationManager
+    private lateinit var credentials: OAuthCredentials
+    private lateinit var authenticationManager: OAuthManager
     private val authUrl = "https://auth.example.com/token"
 
     @BeforeAll
     fun setup() {
         transport = mockk()
-        credentials = Credentials("client_key", "client_secret")
-        authenticationManager = BearerAuthenticationManager(authUrl, credentials, transport)
+        credentials = OAuthCredentials("client_key", "client_secret")
+        authenticationManager = OAuthManager(authUrl, credentials, transport)
     }
 
     @AfterEach

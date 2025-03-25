@@ -14,33 +14,33 @@
  * limitations under the License.
  */
 
-package com.expediagroup.sdk.core.authentication.bearer
+package com.expediagroup.sdk.core.auth.oauth
 
-import com.expediagroup.sdk.core.authentication.common.AuthenticationManager
-import com.expediagroup.sdk.core.authentication.common.Credentials
+import com.expediagroup.sdk.core.auth.common.AuthManager
+import com.expediagroup.sdk.core.auth.common.encodeBasic
 import com.expediagroup.sdk.core.http.CommonMediaTypes
 import com.expediagroup.sdk.core.http.Method
 import com.expediagroup.sdk.core.http.Request
 import com.expediagroup.sdk.core.http.RequestBody
 
 /**
- * Abstract class that contains common functionalities to store and renew bearer tokens.
+ * Abstract class that contains common functionalities to store and renew OAuth (bearer) tokens.
  * This class does not handle the bearer token fetching or parsing. Subclasses have to implement the
- * [AuthenticationManager.authenticate] method where the token is fetched and parsed.
+ * [AuthManager.authenticate] method where the token is fetched and parsed.
  */
-abstract class AbstractBearerAuthenticationManager(
+abstract class AbstractOAuthManager(
     private val authUrl: String,
-    protected val credentials: Credentials
-) : AuthenticationManager {
+    protected val credentials: OAuthCredentials
+) : AuthManager {
     @Volatile
-    private var bearerTokenStorage = BearerTokenStorage.empty
+    private var oauthTokenStorage = OAuthTokenStorage.empty
 
     /**
      * Checks if the current bearer token is about to expire and needs renewal.
      *
      * @return `true` if the token is near expiration, `false` otherwise.
      */
-    fun isTokenAboutToExpire(): Boolean = bearerTokenStorage.isAboutToExpire()
+    fun isTokenAboutToExpire(): Boolean = oauthTokenStorage.isAboutToExpire()
 
     /**
      * Clears the stored authentication token.
@@ -48,7 +48,7 @@ abstract class AbstractBearerAuthenticationManager(
      * This method resets the internal token storage, effectively invalidating the current session.
      */
     override fun clearAuthentication() {
-        bearerTokenStorage = BearerTokenStorage.empty
+        oauthTokenStorage = OAuthTokenStorage.empty
     }
 
     /**
@@ -56,7 +56,7 @@ abstract class AbstractBearerAuthenticationManager(
      *
      * @return The token in the format `Bearer <token>` for use in HTTP headers.
      */
-    fun getAuthorizationHeaderValue(): String = bearerTokenStorage.getAuthorizationHeaderValue()
+    fun getAuthorizationHeaderValue(): String = oauthTokenStorage.getAuthorizationHeaderValue()
 
     /**
      * Creates an HTTP request to fetch a new bearer token from the authentication server.
@@ -71,7 +71,7 @@ abstract class AbstractBearerAuthenticationManager(
             .url(authUrl)
             .method(Method.POST)
             .body(body)
-            .setHeader("Authorization", credentials.encodeBasic())
+            .setHeader("Authorization", encodeBasic(credentials.key, credentials.secret))
             .setHeader("Content-Type", CommonMediaTypes.APPLICATION_FORM_URLENCODED.toString())
             .build()
     }
@@ -79,13 +79,13 @@ abstract class AbstractBearerAuthenticationManager(
     /**
      * Stores the retrieved token in internal storage for subsequent use.
      *
-     * @param bearerTokenResponse The [BearerTokenResponse] containing the token and its expiration time.
+     * @param OAuthTokenResponse The [OAuthTokenResponse] containing the token and its expiration time.
      */
-    fun storeToken(bearerTokenResponse: BearerTokenResponse) {
-        bearerTokenStorage =
-            BearerTokenStorage.create(
-                accessToken = bearerTokenResponse.accessToken,
-                expiresIn = bearerTokenResponse.expiresIn
+    fun storeToken(oauthTokenResponse: OAuthTokenResponse) {
+        oauthTokenStorage =
+            OAuthTokenStorage.create(
+                accessToken = oauthTokenResponse.accessToken,
+                expiresIn = oauthTokenResponse.expiresIn
             )
     }
 }

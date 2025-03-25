@@ -1,6 +1,6 @@
 package com.expediagroup.sdk.core.pipeline.step
 
-import com.expediagroup.sdk.core.authentication.basic.BasicAuthenticationManager
+import com.expediagroup.sdk.core.auth.basic.BasicAuthManager
 import com.expediagroup.sdk.core.http.Method
 import com.expediagroup.sdk.core.http.Request
 import io.mockk.every
@@ -11,12 +11,12 @@ import io.mockk.verify
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-class BasicAuthenticationStepTest {
+class BasicAuthStepTest {
     @Test
     fun `should call authenticate and set Authorization header`() {
         // Given
-        val mockManager = mockk<BasicAuthenticationManager>()
-        val basicAuthenticationStep = BasicAuthenticationStep(mockManager)
+        val mockManager = mockk<BasicAuthManager>()
+        val basicAuthStep = BasicAuthStep(mockManager)
         val originalRequest =
             Request
                 .builder()
@@ -28,7 +28,7 @@ class BasicAuthenticationStepTest {
         every { mockManager.getAuthorizationHeaderValue() } returns "Basic mockValue"
 
         // When
-        val newRequest = basicAuthenticationStep.invoke(originalRequest)
+        val newRequest = basicAuthStep.invoke(originalRequest)
 
         // Expect
         verify(exactly = 1) { mockManager.authenticate() }
@@ -39,7 +39,7 @@ class BasicAuthenticationStepTest {
     @Test
     fun `should preserve other headers in Request`() {
         // Given
-        val mockManager = mockk<BasicAuthenticationManager>()
+        val mockManager = mockk<BasicAuthManager>()
         every { mockManager.authenticate() } just runs
         every { mockManager.getAuthorizationHeaderValue() } returns "Basic mockValue"
 
@@ -51,7 +51,7 @@ class BasicAuthenticationStepTest {
                 .setHeader("X-Custom-Header", "MyValue")
                 .build()
 
-        val testStep = BasicAuthenticationStep(mockManager)
+        val testStep = BasicAuthStep(mockManager)
 
         // When
         val newRequest = testStep.invoke(originalRequest)
