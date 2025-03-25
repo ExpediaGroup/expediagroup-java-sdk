@@ -1,4 +1,4 @@
-package com.expediagroup.sdk.core.authentication.bearer
+package com.expediagroup.sdk.core.auth.oauth
 
 import com.expediagroup.sdk.core.exception.client.ExpediaGroupResponseParsingException
 import com.expediagroup.sdk.core.http.CommonMediaTypes
@@ -13,15 +13,15 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
-class BearerTokenResponseTest {
+class OAuthTokenResponseTest {
     @Test
     fun `should map to the expected api response`() {
         val accessToken = "token"
         val expiresIn = 3600L
 
         var available: Int?
-        val bearerTokenResponse =
-            BearerTokenResponse.parse(
+        val oauthTokenResponse =
+            OAuthTokenResponse.parse(
                 Response
                     .builder()
                     .body(
@@ -47,8 +47,8 @@ class BearerTokenResponseTest {
                     ).build()
             )
 
-        assertEquals(bearerTokenResponse.accessToken, accessToken)
-        assertEquals(bearerTokenResponse.expiresIn, expiresIn)
+        assertEquals(oauthTokenResponse.accessToken, accessToken)
+        assertEquals(oauthTokenResponse.expiresIn, expiresIn)
     }
 
     @Test
@@ -57,8 +57,8 @@ class BearerTokenResponseTest {
         val accessToken = "token"
         val responseString = """{ "access_token": "$accessToken", "expires_in": 3600 }"""
 
-        val bearerTokenResponse =
-            BearerTokenResponse.parse(
+        val oauthTokenResponse =
+            OAuthTokenResponse.parse(
                 Response
                     .builder()
                     .body(
@@ -77,8 +77,8 @@ class BearerTokenResponseTest {
                     ).build()
             )
 
-        assertEquals(bearerTokenResponse.accessToken, accessToken)
-        assertEquals(bearerTokenResponse.expiresIn, 3600L)
+        assertEquals(oauthTokenResponse.accessToken, accessToken)
+        assertEquals(oauthTokenResponse.expiresIn, 3600L)
     }
 
     @Test
@@ -87,8 +87,8 @@ class BearerTokenResponseTest {
         val accessToken = "token"
         val responseString = """{ "access_token": "$accessToken", "expires_in": 3600 }"""
 
-        val bearerTokenResponse =
-            BearerTokenResponse.parse(
+        val oauthTokenResponse =
+            OAuthTokenResponse.parse(
                 Response
                     .builder()
                     .body(ResponseBody.create(responseString.toByteArray().inputStream(), mediaType = null))
@@ -103,14 +103,14 @@ class BearerTokenResponseTest {
                     ).build()
             )
 
-        assertEquals(bearerTokenResponse.accessToken, accessToken)
-        assertEquals(bearerTokenResponse.expiresIn, 3600L)
+        assertEquals(oauthTokenResponse.accessToken, accessToken)
+        assertEquals(oauthTokenResponse.expiresIn, 3600L)
     }
 
     @Test
     fun `parse should throw ExpediaGroupResponseParsingException in case of unsuccessful response`() {
         assertThrows<ExpediaGroupResponseParsingException> {
-            BearerTokenResponse.parse(
+            OAuthTokenResponse.parse(
                 Response
                     .builder()
                     .status(Status.INTERNAL_SERVER_ERROR)
@@ -131,7 +131,7 @@ class BearerTokenResponseTest {
     fun `parse should throw ExpediaGroupResponseParsingException if access_token or expiresIn are missing`() {
         var available: Int?
         assertThrows<ExpediaGroupResponseParsingException> {
-            BearerTokenResponse.parse(
+            OAuthTokenResponse.parse(
                 Response
                     .builder()
                     .body(
@@ -162,8 +162,8 @@ class BearerTokenResponseTest {
         val accessToken = "token"
         val expiresIn = 3600L
         var available: Int?
-        val bearerTokenResponse =
-            BearerTokenResponse.parse(
+        val oauthTokenResponse =
+            OAuthTokenResponse.parse(
                 Response
                     .builder()
                     .body(
@@ -189,7 +189,7 @@ class BearerTokenResponseTest {
                     ).build()
             )
 
-        assertEquals(bearerTokenResponse.accessToken, accessToken)
-        assertEquals(bearerTokenResponse.expiresIn, expiresIn)
+        assertEquals(oauthTokenResponse.accessToken, accessToken)
+        assertEquals(oauthTokenResponse.expiresIn, expiresIn)
     }
 }
