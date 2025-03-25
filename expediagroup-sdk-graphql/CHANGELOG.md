@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.5-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-graphql-v0.0.4-alpha...expediagroup-sdk-graphql-v0.0.5-alpha) (2025-03-25)
+
+
+### Features
+
+* support Basic and OAuth credentials types ([#1074](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1074)) ([0970108](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/097010870fb4fb17c53f9d5b87d30f0b43e3658a))
+
 ## [0.0.4-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-graphql-v0.0.3-alpha...expediagroup-sdk-graphql-v0.0.4-alpha) (2025-03-25)
 
 
