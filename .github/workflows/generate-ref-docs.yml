@@ -1,0 +1,51 @@
+name: Generate Reference Documentation
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        required: true
+        type: string
+      ref:
+        required: true
+        type: string
+      code-path:
+        required: true
+        type: string
+
+permissions:
+  id-token: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
+
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'corretto'
+          java-version: '21'
+
+      - name: Configure git
+        run: |
+          git config --global user.email "oss@expediagroup.com"
+          git config --global user.name "eg-oss-ci"
+          git fetch --all
+
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.13"
+
+      - working-directory: ${{ inputs.code-path }}
+        run: gradle dokkaGenerate -PVERSION="${{ inputs.version }}"
+
+      - run: |
+          git add .
+          git commit -m "chore: update reference documentation for version ${{ inputs.version }}"
+
+          git subtree split -P docs/html/sources -b "gh-pages-release-${{ inputs.version }}" "gh-pages"
+          git push origin "gh-pages-release-${{ inputs.version }}"
