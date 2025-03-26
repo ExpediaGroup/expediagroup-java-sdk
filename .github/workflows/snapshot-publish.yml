@@ -1,9 +1,6 @@
 name: Publish Snapshots
 
 on:
-  push:
-    branches:
-      - "mdwairi/credentials-marker-interface"
   workflow_dispatch:
     inputs:
       branch:
