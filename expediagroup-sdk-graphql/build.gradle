@@ -20,6 +20,7 @@ dependencies {
     /* Apollo */
     api 'com.apollographql.apollo:apollo-api:4.1.1'
 
+    /* EG SDK Core */
     api(project(":expediagroup-sdk-core"))
 
     /* Testing */
