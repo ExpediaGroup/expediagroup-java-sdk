@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.6-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-openapi-plugin-v0.0.5-alpha...expediagroup-sdk-openapi-plugin-v0.0.6-alpha) (2025-03-26)
+
+
+### Bug Fixes
+
+* revert use concrete containers and refactor generator plugin ([#1063](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1063)) ([04ba324](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/04ba324134083788dfc899b54b6cdd0490fd5252))
+
 ## [0.0.5-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-openapi-plugin-v0.0.4-alpha...expediagroup-sdk-openapi-plugin-v0.0.5-alpha) (2025-03-16)
 
 
