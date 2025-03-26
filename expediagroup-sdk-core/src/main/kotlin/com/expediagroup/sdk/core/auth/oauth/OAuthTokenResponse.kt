@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.expediagroup.sdk.core.authentication.bearer
+package com.expediagroup.sdk.core.auth.oauth
 
 import com.expediagroup.sdk.core.common.getOrThrow
 import com.expediagroup.sdk.core.exception.client.ExpediaGroupResponseParsingException
@@ -28,14 +28,14 @@ import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 /**
  * Represents the response from an authentication server containing a bearer token and its expiration details.
  *
- * The `TokenResponse` class is used to deserialize the response from an authentication server. It includes
+ * The [OAuthTokenResponse] class is used to deserialize the response from an authentication server. It includes
  * the bearer token and the duration (in seconds) until the token expires.
  *
  * @param accessToken The bearer token issued by the authentication server.
  * @param expiresIn The time in seconds until the token expires, starting from when it was issued.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class BearerTokenResponse(
+data class OAuthTokenResponse(
     @JsonProperty("access_token") val accessToken: String,
     @JsonProperty("expires_in") val expiresIn: Long
 ) {
@@ -49,10 +49,10 @@ data class BearerTokenResponse(
          * Parses the response from the authentication server to extract token details.
          *
          * @param response The [Response] from the authentication server.
-         * @return A [BearerTokenResponse] object containing the token and its metadata.
+         * @return A [OAuthTokenResponse] object containing the token and its metadata.
          * @throws ExpediaGroupResponseParsingException If the response cannot be parsed.
          */
-        fun parse(response: Response): BearerTokenResponse {
+        fun parse(response: Response): OAuthTokenResponse {
             val responseBody =
                 response.body.getOrThrow {
                     ExpediaGroupResponseParsingException("Authenticate response body is empty or cannot be parsed")
@@ -64,7 +64,7 @@ data class BearerTokenResponse(
                 }
 
             return try {
-                objectMapper.readValue(responseString, BearerTokenResponse::class.java)
+                objectMapper.readValue(responseString, OAuthTokenResponse::class.java)
             } catch (e: Exception) {
                 throw ExpediaGroupResponseParsingException("Failed to parse authentication response", e)
             }

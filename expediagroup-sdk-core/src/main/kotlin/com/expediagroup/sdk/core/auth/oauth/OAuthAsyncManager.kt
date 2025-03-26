@@ -14,15 +14,18 @@
  * limitations under the License.
  */
 
-package com.expediagroup.sdk.core.authentication.bearer
+package com.expediagroup.sdk.core.auth.oauth
 
-import com.expediagroup.sdk.core.authentication.common.Credentials
+import com.expediagroup.sdk.core.auth.common.AuthUtils.MASKED_BODY_FIELDS
+import com.expediagroup.sdk.core.auth.common.AuthUtils.MASKED_HEADERS
 import com.expediagroup.sdk.core.common.getExceptionFromStack
 import com.expediagroup.sdk.core.exception.service.ExpediaGroupAuthException
 import com.expediagroup.sdk.core.exception.service.ExpediaGroupServiceException
 import com.expediagroup.sdk.core.http.Request
 import com.expediagroup.sdk.core.http.Response
 import com.expediagroup.sdk.core.logging.LoggerDecorator
+import com.expediagroup.sdk.core.logging.masking.MaskHeaders
+import com.expediagroup.sdk.core.logging.masking.MaskJson
 import com.expediagroup.sdk.core.pipeline.ExecutionPipeline
 import com.expediagroup.sdk.core.pipeline.step.RequestHeadersStep
 import com.expediagroup.sdk.core.pipeline.step.RequestLoggingStep
@@ -39,11 +42,11 @@ import java.util.concurrent.CompletableFuture
  * Typically, this async implementation should be used with async SDK calls where the [AsyncTransport] is already
  * configured and used to handle requests.
  */
-class BearerAuthenticationAsyncManager(
+class OAuthAsyncManager(
     authUrl: String,
-    credentials: Credentials,
+    credentials: OAuthCredentials,
     private val asyncTransport: AsyncTransport
-) : AbstractBearerAuthenticationManager(authUrl, credentials) {
+) : AbstractOAuthManager(authUrl, credentials) {
     private val requestExecutor =
         object : AbstractAsyncRequestExecutor(asyncTransport) {
             override val executionPipeline =
@@ -51,11 +54,17 @@ class BearerAuthenticationAsyncManager(
                     requestPipeline =
                         listOf(
                             RequestHeadersStep(),
-                            RequestLoggingStep(logger)
+                            RequestLoggingStep(
+                                logger = logger,
+                                maskHeaders = MaskHeaders(MASKED_HEADERS)
+                            )
                         ),
                     responsePipeline =
                         listOf(
-                            ResponseLoggingStep(logger)
+                            ResponseLoggingStep(
+                                logger = logger,
+                                maskBody = MaskJson(MASKED_BODY_FIELDS)
+                            )
                         )
                 )
         }
@@ -72,7 +81,7 @@ class BearerAuthenticationAsyncManager(
 
             val request = buildAuthenticationRequest()
             executeAuthenticationRequest(request)
-                .thenApply { BearerTokenResponse.parse(it) }
+                .thenApply { OAuthTokenResponse.parse(it) }
                 .thenAccept { storeToken(it) }
                 .join()
         } catch (e: Exception) {

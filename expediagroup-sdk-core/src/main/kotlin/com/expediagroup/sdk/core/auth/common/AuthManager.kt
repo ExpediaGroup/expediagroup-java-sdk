@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package com.expediagroup.sdk.core.authentication.common
+package com.expediagroup.sdk.core.auth.common
 
 import com.expediagroup.sdk.core.exception.service.ExpediaGroupAuthException
 
 /**
  * Defines the contract for managing authentication within the SDK.
  *
- * An `AuthenticationManager` is responsible for handling the process of authenticating with an external
+ * An `AuthManager` is responsible for handling the process of authenticating with an external
  * service or API and maintaining the authentication state. Implementations should handle token lifecycle,
  * including acquisition, storage, and renewal.
  */
-interface AuthenticationManager {
+interface AuthManager {
     /**
      * Performs the authentication process, obtaining the necessary credentials or tokens.
      *

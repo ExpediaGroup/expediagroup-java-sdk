@@ -14,15 +14,18 @@
  * limitations under the License.
  */
 
-package com.expediagroup.sdk.core.authentication.bearer
+package com.expediagroup.sdk.core.auth.oauth
 
-import com.expediagroup.sdk.core.authentication.common.Credentials
+import com.expediagroup.sdk.core.auth.common.AuthUtils.MASKED_BODY_FIELDS
+import com.expediagroup.sdk.core.auth.common.AuthUtils.MASKED_HEADERS
 import com.expediagroup.sdk.core.common.getExceptionFromStack
 import com.expediagroup.sdk.core.exception.service.ExpediaGroupAuthException
 import com.expediagroup.sdk.core.exception.service.ExpediaGroupServiceException
 import com.expediagroup.sdk.core.http.Request
 import com.expediagroup.sdk.core.http.Response
 import com.expediagroup.sdk.core.logging.LoggerDecorator
+import com.expediagroup.sdk.core.logging.masking.MaskHeaders
+import com.expediagroup.sdk.core.logging.masking.MaskJson
 import com.expediagroup.sdk.core.pipeline.ExecutionPipeline
 import com.expediagroup.sdk.core.pipeline.step.RequestHeadersStep
 import com.expediagroup.sdk.core.pipeline.step.RequestLoggingStep
@@ -35,18 +38,18 @@ import java.util.UUID
 /**
  * Manages bearer token authentication for HTTP requests.
  *
- * The `BearerAuthenticationManager` handles the lifecycle of bearer tokens, including retrieval, storage,
+ * The [OAuthManager] handles the lifecycle of bearer tokens, including retrieval, storage,
  * and validation. It interacts with an authentication server to fetch tokens using client credentials,
  * ensures tokens are refreshed when necessary, and provides them in the required format for authorization headers.
  *
  * @param authUrl The URL of the authentication server's endpoint to obtain bearer tokens.
- * @param credentials The [Credentials] containing the client key and secret used for authentication.
+ * @param credentials The [OAuthCredentials] containing the client key and secret used for authentication.
  */
-class BearerAuthenticationManager(
+class OAuthManager(
     authUrl: String,
-    credentials: Credentials,
+    credentials: OAuthCredentials,
     private val transport: Transport
-) : AbstractBearerAuthenticationManager(authUrl, credentials) {
+) : AbstractOAuthManager(authUrl, credentials) {
     private val requestExecutor =
         object : AbstractRequestExecutor(transport) {
             override val executionPipeline: ExecutionPipeline =
@@ -54,11 +57,17 @@ class BearerAuthenticationManager(
                     requestPipeline =
                         listOf(
                             RequestHeadersStep(),
-                            RequestLoggingStep(logger)
+                            RequestLoggingStep(
+                                logger = logger,
+                                maskHeaders = MaskHeaders(MASKED_HEADERS)
+                            )
                         ),
                     responsePipeline =
                         listOf(
-                            ResponseLoggingStep(logger)
+                            ResponseLoggingStep(
+                                logger = logger,
+                                maskBody = MaskJson(MASKED_BODY_FIELDS)
+                            )
                         )
                 )
         }
@@ -79,7 +88,7 @@ class BearerAuthenticationManager(
                 }.let {
                     executeAuthenticationRequest(it)
                 }.let {
-                    BearerTokenResponse.parse(it)
+                    OAuthTokenResponse.parse(it)
                 }.also {
                     storeToken(it)
                 }

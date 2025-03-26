@@ -16,12 +16,12 @@
 
 package com.expediagroup.sdk.core.pipeline.step
 
-import com.expediagroup.sdk.core.authentication.basic.BasicAuthenticationManager
+import com.expediagroup.sdk.core.auth.basic.BasicAuthManager
 import com.expediagroup.sdk.core.http.Request
 import com.expediagroup.sdk.core.pipeline.RequestPipelineStep
 
-class BasicAuthenticationStep(
-    private val authenticationManager: BasicAuthenticationManager
+class BasicAuthStep(
+    private val authenticationManager: BasicAuthManager
 ) : RequestPipelineStep {
     override fun invoke(request: Request): Request =
         authenticationManager.authenticate().let {
