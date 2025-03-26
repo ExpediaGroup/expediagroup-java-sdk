@@ -22,7 +22,7 @@ dependencies {
 
     /* EG SDK Core */
 
-    api 'com.expediagroup:expediagroup-sdk-core:0.0.5-alpha-SNAPSHOT'
+    api 'com.expediagroup:expediagroup-sdk-core:0.0.4-alpha'
 
     /* Testing */
     testImplementation platform('org.junit:junit-bom:5.11.4')
