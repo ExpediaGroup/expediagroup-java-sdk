@@ -16,9 +16,11 @@
 
 package com.expediagroup.sdk.core.auth.oauth
 
+import com.expediagroup.sdk.core.auth.common.Credentials
+
 data class OAuthCredentials(
     val key: String,
     val secret: String
-) {
+) : Credentials {
     override fun toString(): String = "OAuthCredentials(key=***, secret=***)"
 }
