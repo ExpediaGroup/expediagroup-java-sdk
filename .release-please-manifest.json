@@ -1,5 +1,5 @@
 {
-  "expediagroup-sdk-core": "0.0.5-alpha",
+  "expediagroup-sdk-core": "0.0.6-alpha",
   "expediagroup-sdk-graphql": "0.0.4-alpha",
   "expediagroup-sdk-rest": "0.0.4-alpha",
   "expediagroup-sdk-openapi-plugin": "0.0.6-alpha",
