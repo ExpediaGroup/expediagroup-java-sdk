@@ -43,6 +43,10 @@ jobs:
       - working-directory: ${{ inputs.code-path }}
         run: gradle dokkaGenerate -PVERSION="${{ inputs.version }}"
 
+      - name: Copy to releases directory
+        working-directory: docs/html
+        run: mkdir -p releases/${{ inputs.version }} && cp -R sources/* releases/${{ inputs.version }}
+
       - run: |
           git add .
           git commit -m "chore: update reference documentation for version ${{ inputs.version }}"
