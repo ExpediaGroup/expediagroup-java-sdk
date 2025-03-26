@@ -27,4 +27,5 @@ fun encodeBasic(
 
 object AuthUtils {
     val MASKED_HEADERS = listOf("authorization")
+    val MASKED_BODY_FIELDS = setOf("access_token")
 }

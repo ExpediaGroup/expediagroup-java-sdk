@@ -1,6 +1,9 @@
 name: Publish Snapshots
 
 on:
+  push:
+    branches:
+      - "mdwairi/mask-auth-headers"
   workflow_dispatch:
     inputs:
       branch:
