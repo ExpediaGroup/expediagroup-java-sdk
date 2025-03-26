@@ -24,3 +24,7 @@ fun encodeBasic(
     val encoded = Base64.getEncoder().encodeToString(bytes)
     return "Basic $encoded"
 }
+
+object AuthUtils {
+    val MASKED_HEADERS = listOf("authorization")
+}

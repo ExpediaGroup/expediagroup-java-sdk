@@ -16,12 +16,14 @@
 
 package com.expediagroup.sdk.core.auth.oauth
 
+import com.expediagroup.sdk.core.auth.common.AuthUtils.MASKED_HEADERS
 import com.expediagroup.sdk.core.common.getExceptionFromStack
 import com.expediagroup.sdk.core.exception.service.ExpediaGroupAuthException
 import com.expediagroup.sdk.core.exception.service.ExpediaGroupServiceException
 import com.expediagroup.sdk.core.http.Request
 import com.expediagroup.sdk.core.http.Response
 import com.expediagroup.sdk.core.logging.LoggerDecorator
+import com.expediagroup.sdk.core.logging.masking.MaskHeaders
 import com.expediagroup.sdk.core.pipeline.ExecutionPipeline
 import com.expediagroup.sdk.core.pipeline.step.RequestHeadersStep
 import com.expediagroup.sdk.core.pipeline.step.RequestLoggingStep
@@ -53,7 +55,10 @@ class OAuthManager(
                     requestPipeline =
                         listOf(
                             RequestHeadersStep(),
-                            RequestLoggingStep(logger)
+                            RequestLoggingStep(
+                                logger = logger,
+                                maskHeaders = MaskHeaders(MASKED_HEADERS)
+                            )
                         ),
                     responsePipeline =
                         listOf(
