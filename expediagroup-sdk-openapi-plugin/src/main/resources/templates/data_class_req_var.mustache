@@ -9,10 +9,10 @@
 {{#isArray}}
     {{#isList}}
         {{#uniqueItems}}kotlin.collections.
-        HashSet
+        {{#modelMutable}}Mutable{{/modelMutable}}Set
         {{/uniqueItems}}
         {{^uniqueItems}}kotlin.collections.
-        ArrayList
+        {{#modelMutable}}Mutable{{/modelMutable}}List
         {{/uniqueItems}}
     {{/isList}}
     {{^isList}}
