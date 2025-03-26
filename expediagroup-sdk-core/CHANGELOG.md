@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.6-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-core-v0.0.5-alpha...expediagroup-sdk-core-v0.0.6-alpha) (2025-03-26)
+
+
+### Features
+
+* mask sensitive auth fields ([#1086](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1086)) ([89a9f73](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/89a9f733e42466119812c59326d2aef3cc10cfb0))
+
 ## [0.0.5-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-core-v0.0.4-alpha...expediagroup-sdk-core-v0.0.5-alpha) (2025-03-26)
 
 
