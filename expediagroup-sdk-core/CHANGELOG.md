@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.5-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-core-v0.0.4-alpha...expediagroup-sdk-core-v0.0.5-alpha) (2025-03-26)
+
+
+### Features
+
+* add Credentials marker interface ([#1084](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1084)) ([65fa5f9](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/65fa5f91182f0b4ff66994e622a2f1b60e3f7978))
+
 ## [0.0.4-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-core-v0.0.3-alpha...expediagroup-sdk-core-v0.0.4-alpha) (2025-03-25)
 
 
