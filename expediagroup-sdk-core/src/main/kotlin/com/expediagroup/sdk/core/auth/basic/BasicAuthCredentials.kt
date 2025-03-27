@@ -18,9 +18,9 @@ package com.expediagroup.sdk.core.auth.basic
 
 import com.expediagroup.sdk.core.auth.common.Credentials
 
-data class BasicCredentials(
+data class BasicAuthCredentials(
     val username: String,
     val password: String
 ) : Credentials {
-    override fun toString(): String = "BasicCredentials(username=***, password=***)"
+    override fun toString(): String = "BasicAuthCredentials(username=***, password=***)"
 }

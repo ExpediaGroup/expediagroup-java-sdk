@@ -20,13 +20,13 @@ import com.expediagroup.sdk.core.auth.common.AuthManager
 import com.expediagroup.sdk.core.auth.common.encodeBasic
 
 /**
- * Manages Basic Authentication by encoding the given [BasicCredentials] and providing
+ * Manages Basic Authentication by encoding the given [BasicAuthCredentials] and providing
  * an authorization header value for requests.
  *
  * @property credentials The user's credentials that will be encoded for authentication.
  */
 class BasicAuthManager(
-    private val credentials: BasicCredentials
+    private val credentials: BasicAuthCredentials
 ) : AuthManager {
     /**
      * A cached version of the encoded credentials, or `null` if not yet encoded.
