@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.7-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-core-v0.0.6-alpha...expediagroup-sdk-core-v0.0.7-alpha) (2025-03-27)
+
+
+### Bug Fixes
+
+* rename BasicCredentials to BasicAuthCredentials ([#1089](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1089)) ([73e0e00](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/73e0e005687abf4cba360e599afd60b6af5d3c2a))
+
 ## [0.0.6-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-core-v0.0.5-alpha...expediagroup-sdk-core-v0.0.6-alpha) (2025-03-26)
 
 
