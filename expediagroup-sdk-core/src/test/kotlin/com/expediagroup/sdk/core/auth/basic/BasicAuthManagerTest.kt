@@ -19,7 +19,7 @@ class BasicAuthManagerTest {
     @Test
     fun `should encode the provided credentials`() {
         // Given
-        val credentials = BasicCredentials("key", "secret")
+        val credentials = BasicAuthCredentials("key", "secret")
         val basicAuthManager = BasicAuthManager(credentials)
 
         // When
@@ -32,7 +32,7 @@ class BasicAuthManagerTest {
     @Test
     fun `should clear the cached encoded credentials`() {
         // Given
-        val credentials = BasicCredentials("key", "secret")
+        val credentials = BasicAuthCredentials("key", "secret")
         val basicAuthManager = BasicAuthManager(credentials)
 
         // When & Expect
@@ -46,7 +46,7 @@ class BasicAuthManagerTest {
     fun `should not re-encode the credentials once cached`() {
         // Given
         mockkStatic("com.expediagroup.sdk.core.auth.common.AuthUtilsKt")
-        val mockCredentials = mockk<BasicCredentials>(relaxed = true)
+        val mockCredentials = mockk<BasicAuthCredentials>(relaxed = true)
 
         val basicAuthManager = BasicAuthManager(mockCredentials)
 
