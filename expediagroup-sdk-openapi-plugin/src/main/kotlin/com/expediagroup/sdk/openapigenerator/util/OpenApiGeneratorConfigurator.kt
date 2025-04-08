@@ -111,13 +111,21 @@ object OpenApiGeneratorConfigurator {
 
     @Suppress("UNCHECKED_CAST")
     private fun loadLambdas(ext: OpenApiGeneratorGenerateExtension) {
-        val modelProcessors =
-            ext.additionalProperties.orNull?.get("modelProcessors")
-                as? List<(CodegenModel) -> CodegenModel> ?: emptyList()
+        val operationProcessors: List<(CodegenOperation) -> CodegenOperation> =
+            ext.additionalProperties.orNull?.let {
+                it.getOrDefault(
+                    "operationProcessors",
+                    emptyList<(CodegenOperation) -> CodegenOperation>()
+                ) as List<(CodegenOperation) -> CodegenOperation>
+            } ?: emptyList()
 
-        val operationProcessors =
-            ext.additionalProperties.orNull?.get("modelProcessors")
-                as? List<(CodegenOperation) -> CodegenOperation> ?: emptyList()
+        val modelProcessors: List<(CodegenModel) -> CodegenModel> =
+            ext.additionalProperties.orNull?.let {
+                it.getOrDefault(
+                    "modelProcessors",
+                    emptyList<(CodegenModel) -> CodegenModel>()
+                ) as List<(CodegenModel) -> CodegenModel>
+            } ?: emptyList()
 
         val lambdas =
             mapOf(
