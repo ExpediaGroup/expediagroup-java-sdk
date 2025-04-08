@@ -9,6 +9,9 @@ import org.openapitools.codegen.CodegenResponse
 import org.openapitools.codegen.model.ApiInfoMap
 import java.io.Serializable
 import java.io.Writer
+import org.slf4j.LoggerFactory
+
+private val LOGGER = LoggerFactory.getLogger(Mustache::class.java)
 
 class IsPaginatableLambda : Mustache.Lambda, Serializable {
     override fun execute(
@@ -188,6 +191,7 @@ class ProcessOperation(
         var operation: CodegenOperation = fragment.context() as CodegenOperation
 
         processors.forEach { process ->
+            LOGGER.info("Processing operation ${operation.operationId} using ${process::class.simpleName} processor")
             operation = process(operation)
         }
 
@@ -205,6 +209,7 @@ class ProcessModel(
         var model: CodegenModel = fragment.context() as CodegenModel
 
         processors.forEach { process ->
+            LOGGER.info("Processing model ${model.name} using ${process::class.simpleName} processor")
             model = process(model)
         }
 
