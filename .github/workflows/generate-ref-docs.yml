@@ -1,0 +1,106 @@
+name: Deploy Reference Docs
+
+on:
+  workflow_call:
+    inputs:
+      ref:
+        description: 'Branch or tag to deploy reference docs from'
+        type: string
+        required: true
+      sources_dir:
+        description: 'Directory containing the sources for the reference docs'
+        type: string
+        default: 'code'
+    secrets:
+      GITHUB_PAT:
+        description: 'Token to authenticate with GitHub'
+        required: true
+
+permissions:
+  id-token: write
+
+jobs:
+  deploy-reference-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
+
+      - name: Setup java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'corretto'
+          java-version: '21'
+
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.13"
+
+      - name: Configure git
+        run: |
+          git config --global user.email "oss@expediagroup.com"
+          git config --global user.name "eg-oss-ci"
+          git fetch --all
+
+      - name: Checkout to gh-pages branch
+        run: git checkout gh-pages
+
+      - name: Extract and Store Latest Live Docs Version Number
+        run: echo "LATEST_DOCS_VERSION=$(jq -r '.version' version.json)" >> $GITHUB_ENV
+
+      - name: Move Latest Docs to the "$temp/older" Directory (Archiving latest live release)
+        run: |
+          mkdir -p older
+          mv -v older ${{ runner.temp }}/older
+          mkdir -p ${{ runner.temp }}/older/${{ env.LATEST_DOCS_VERSION }}
+          mv -v ./* ${{ runner.temp }}/older/${{ env.LATEST_DOCS_VERSION }}
+          mv -v ${{ runner.temp }}/older/${{ env.LATEST_DOCS_VERSION }}/assets ${{ runner.temp }}/assets
+
+      - name: Checkout back to original branch
+        run: git checkout ${{ inputs.ref }}
+
+      - name: Generate Reference Docs
+        run: |
+            gradle -p ${{ inputs.sources_dir }} dokkaGenerate\
+              -Pdokka-old-versions.location=${{ runner.temp }}/older\
+              -Pdokka-assets.location=${{ runner.temp }}/assets
+
+      - name: Extract and Store Newly Generated Docs Version Number
+        run: echo "NEW_DOCS_VERSION=$(jq -r '.version' ${{ inputs.sources_dir }}/build/dokka/html/version.json)" >> $GITHUB_ENV
+
+      - name: Check the New Release Version
+        run: |
+          for dir in ${{ runner.temp }}/older/*; do
+            if [ -d "$dir" ]; then
+              DIR_NAME=$(basename "$dir")
+              if [ "$DIR_NAME" == "${{ env.NEW_DOCS_VERSION }}" ]; then
+                echo "Error: Reference Docs with version ${{env.NEW_DOCS_VERSION }} already exists."
+                echo "Hint: Make sure to update the project version in the pom.xml file"
+                exit 1
+              fi
+            fi
+          done
+
+      - name: Move the Newly Generated Docs to a Temporary Workspace
+        run: mv -v ${{ inputs.sources_dir }}/build/dokka/html ${{ runner.temp }}/${{ env.NEW_DOCS_VERSION }}
+
+      - name: Checkout "gh-pages" Branch
+        run: git checkout gh-pages
+
+      - name: Cleanup Old Docs from the Repository's Root
+        run: rm -rf ./* .gradle
+
+      - name: Move Newly Generated Docs to the Repository Root
+        run: mv -v ${{ runner.temp }}/${{ env.NEW_DOCS_VERSION }}/* .
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_PAT }}
+          commit-message: "chore: publishing docs for version ${{ env.NEW_DOCS_VERSION }}"
+          body: "This PR adds the reference documentation for version ${{ env.NEW_DOCS_VERSION }}."
+          title: "chore: reference docs update for version ${{ env.NEW_DOCS_VERSION }}"
+          branch: "docs-update-${{ env.NEW_DOCS_VERSION }}"
+          add-paths: .
