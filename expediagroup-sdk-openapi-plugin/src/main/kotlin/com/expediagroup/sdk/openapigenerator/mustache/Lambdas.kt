@@ -7,33 +7,11 @@ import org.openapitools.codegen.CodegenOperation
 import org.openapitools.codegen.CodegenProperty
 import org.openapitools.codegen.CodegenResponse
 import org.openapitools.codegen.model.ApiInfoMap
+import org.slf4j.LoggerFactory
 import java.io.Serializable
 import java.io.Writer
 
-class IsPaginatableLambda : Mustache.Lambda, Serializable {
-    override fun execute(
-        fragment: Template.Fragment,
-        writer: Writer
-    ) {
-        val operation = fragment.context() as CodegenOperation
-        if (operation.returnType == null) return
-
-        val paginationHeaders = listOf("Pagination-Total-Results", "Link")
-        val availableHeaders = operation.responses.find { it.code == "200" }?.headers?.filter { it.baseName in paginationHeaders }
-        if (availableHeaders?.size == paginationHeaders.size) {
-            val fallbackBody =
-                when {
-                    operation.returnType.startsWith("kotlin.collections.List") -> "emptyList()"
-                    operation.returnType.startsWith("kotlin.collections.Map") -> "emptyMap()"
-                    operation.returnType.startsWith("kotlin.collections.Set") -> "emptySet()"
-                    else -> ""
-                }
-
-            val context = mapOf("fallbackBody" to fallbackBody)
-            fragment.execute(context, writer)
-        }
-    }
-}
+private val LOGGER = LoggerFactory.getLogger(Mustache::class.java)
 
 class RemoveLeadingSlashesLambda : Mustache.Lambda, Serializable {
     override fun execute(
@@ -175,5 +153,41 @@ class CustomReturnTypeLambda : Mustache.Lambda, Serializable {
             return
         }
         fragment.execute(context, writer)
+    }
+}
+
+class ProcessOperation(
+    private val processors: List<(CodegenOperation) -> CodegenOperation>
+) : Mustache.Lambda, Serializable {
+    override fun execute(
+        fragment: Template.Fragment,
+        writer: Writer
+    ) {
+        var operation: CodegenOperation = fragment.context() as CodegenOperation
+
+        processors.forEach { process ->
+            LOGGER.info("Processing operation ${operation.operationId} using ${process::class.simpleName} processor")
+            operation = process(operation)
+        }
+
+        fragment.execute(operation, writer)
+    }
+}
+
+class ProcessModel(
+    private val processors: List<(CodegenModel) -> CodegenModel>
+) : Mustache.Lambda, Serializable {
+    override fun execute(
+        fragment: Template.Fragment,
+        writer: Writer
+    ) {
+        var model: CodegenModel = fragment.context() as CodegenModel
+
+        processors.forEach { process ->
+            LOGGER.info("Processing model ${model.name} using ${process::class.simpleName} processor")
+            model = process(model)
+        }
+
+        fragment.execute(model, writer)
     }
 }

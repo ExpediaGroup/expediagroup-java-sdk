@@ -23,11 +23,14 @@ import com.expediagroup.sdk.openapigenerator.mustache.EliminateDiscriminatorsLam
 import com.expediagroup.sdk.openapigenerator.mustache.ExceptionDataTypesLambda
 import com.expediagroup.sdk.openapigenerator.mustache.HasNonBodyParamsLambda
 import com.expediagroup.sdk.openapigenerator.mustache.HttpAcceptHeaderLambda
-import com.expediagroup.sdk.openapigenerator.mustache.IsPaginatableLambda
 import com.expediagroup.sdk.openapigenerator.mustache.NonBodyParamsLambda
+import com.expediagroup.sdk.openapigenerator.mustache.ProcessModel
+import com.expediagroup.sdk.openapigenerator.mustache.ProcessOperation
 import com.expediagroup.sdk.openapigenerator.mustache.RemoveDoubleQuotesLambda
 import com.expediagroup.sdk.openapigenerator.mustache.RemoveLeadingSlashesLambda
 import org.gradle.api.Project
+import org.openapitools.codegen.CodegenModel
+import org.openapitools.codegen.CodegenOperation
 import org.openapitools.generator.gradle.plugin.extensions.OpenApiGeneratorGenerateExtension
 import java.io.IOException
 import java.io.InputStream
@@ -105,7 +108,24 @@ object OpenApiGeneratorConfigurator {
         return targetFile.toAbsolutePath().toString()
     }
 
+    @Suppress("UNCHECKED_CAST")
     private fun loadLambdas(ext: OpenApiGeneratorGenerateExtension) {
+        val operationProcessors: List<(CodegenOperation) -> CodegenOperation> =
+            ext.additionalProperties.orNull?.let {
+                it.getOrDefault(
+                    "operationProcessors",
+                    emptyList<(CodegenOperation) -> CodegenOperation>()
+                ) as List<(CodegenOperation) -> CodegenOperation>
+            } ?: emptyList()
+
+        val modelProcessors: List<(CodegenModel) -> CodegenModel> =
+            ext.additionalProperties.orNull?.let {
+                it.getOrDefault(
+                    "modelProcessors",
+                    emptyList<(CodegenModel) -> CodegenModel>()
+                ) as List<(CodegenModel) -> CodegenModel>
+            } ?: emptyList()
+
         val lambdas =
             mapOf(
                 "customReturnType" to CustomReturnTypeLambda(),
@@ -118,7 +138,8 @@ object OpenApiGeneratorConfigurator {
                 "eliminateDiscriminators" to EliminateDiscriminatorsLambda(),
                 "assignDiscriminators" to AssignDiscriminatorsLambda(),
                 "removeLeadingSlashes" to RemoveLeadingSlashesLambda(),
-                "isPaginatable" to IsPaginatableLambda()
+                "processOperation" to ProcessOperation(operationProcessors),
+                "processModel" to ProcessModel(modelProcessors)
             )
 
         val userAdditionalProps = ext.additionalProperties.orNull ?: emptyMap<String, Any>()
