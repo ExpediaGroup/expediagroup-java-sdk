@@ -13,31 +13,6 @@ import java.io.Writer
 
 private val LOGGER = LoggerFactory.getLogger(Mustache::class.java)
 
-class IsPaginatableLambda : Mustache.Lambda, Serializable {
-    override fun execute(
-        fragment: Template.Fragment,
-        writer: Writer
-    ) {
-        val operation = fragment.context() as CodegenOperation
-        if (operation.returnType == null) return
-
-        val paginationHeaders = listOf("Pagination-Total-Results", "Link")
-        val availableHeaders = operation.responses.find { it.code == "200" }?.headers?.filter { it.baseName in paginationHeaders }
-        if (availableHeaders?.size == paginationHeaders.size) {
-            val fallbackBody =
-                when {
-                    operation.returnType.startsWith("kotlin.collections.List") -> "emptyList()"
-                    operation.returnType.startsWith("kotlin.collections.Map") -> "emptyMap()"
-                    operation.returnType.startsWith("kotlin.collections.Set") -> "emptySet()"
-                    else -> ""
-                }
-
-            val context = mapOf("fallbackBody" to fallbackBody)
-            fragment.execute(context, writer)
-        }
-    }
-}
-
 class RemoveLeadingSlashesLambda : Mustache.Lambda, Serializable {
     override fun execute(
         fragment: Template.Fragment,

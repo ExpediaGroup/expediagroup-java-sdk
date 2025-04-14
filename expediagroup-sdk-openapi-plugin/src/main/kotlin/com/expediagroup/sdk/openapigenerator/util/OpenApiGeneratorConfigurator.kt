@@ -23,7 +23,6 @@ import com.expediagroup.sdk.openapigenerator.mustache.EliminateDiscriminatorsLam
 import com.expediagroup.sdk.openapigenerator.mustache.ExceptionDataTypesLambda
 import com.expediagroup.sdk.openapigenerator.mustache.HasNonBodyParamsLambda
 import com.expediagroup.sdk.openapigenerator.mustache.HttpAcceptHeaderLambda
-import com.expediagroup.sdk.openapigenerator.mustache.IsPaginatableLambda
 import com.expediagroup.sdk.openapigenerator.mustache.NonBodyParamsLambda
 import com.expediagroup.sdk.openapigenerator.mustache.ProcessModel
 import com.expediagroup.sdk.openapigenerator.mustache.ProcessOperation
@@ -139,7 +138,6 @@ object OpenApiGeneratorConfigurator {
                 "eliminateDiscriminators" to EliminateDiscriminatorsLambda(),
                 "assignDiscriminators" to AssignDiscriminatorsLambda(),
                 "removeLeadingSlashes" to RemoveLeadingSlashesLambda(),
-                "isPaginatable" to IsPaginatableLambda(),
                 "processOperation" to ProcessOperation(operationProcessors),
                 "processModel" to ProcessModel(modelProcessors)
             )
