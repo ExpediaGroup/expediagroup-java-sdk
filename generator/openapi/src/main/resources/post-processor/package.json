@@ -21,7 +21,7 @@
     "process": "node build/src/index.js"
   },
   "devDependencies": {
-    "@types/node": "22.14.0",
+    "@types/node": "22.14.1",
     "gts": "6.0.2",
     "tsc-alias": "1.8.15",
     "typescript": "5.8.3"
