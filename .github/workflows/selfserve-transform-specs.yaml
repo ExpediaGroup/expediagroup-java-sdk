@@ -39,7 +39,7 @@ jobs:
       - name: Transform specs
         working-directory: product-repo
         run: |
-          npx --yes -p @expediagroup/spec-transformer cli ${{ inputs.transformations }} -i specs.yaml -o transformedSpecs.yaml
+          npx --yes -p @expediagroup/spec-transformer cli ${{ inputs.transformations }} --input specs.yaml --output transformedSpecs.yaml
 
       - name: Upload transformed specs
         uses: actions/upload-artifact@v4
