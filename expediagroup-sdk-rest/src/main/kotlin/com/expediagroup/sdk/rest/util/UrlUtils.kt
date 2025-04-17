@@ -87,21 +87,21 @@ fun parseUrlQueryParamsFromQuery(
  *
  * @param values The list of query parameter values as strings.
  * @param objectMapper The Jackson `ObjectMapper` used for type conversion.
- * @param jacksonTypeRef The Jackson `TypeReference` specifying the target type.
+ * @param typeRef The Jackson `TypeReference` specifying the target type.
  * @return The converted value of the specified type.
  * @param T The target type to which the query parameter values should be converted.
  */
 fun <T> resolveUrlQueryParamValuesType(
     values: Collection<String>,
     objectMapper: ObjectMapper,
-    jacksonTypeRef: TypeReference<T>
+    typeRef: TypeReference<T>
 ): T =
-    if (objectMapper.typeFactory.constructType(jacksonTypeRef).let { it.isContainerType || it.isArrayType }) {
-        objectMapper.convertValue(values, jacksonTypeRef)
+    if (objectMapper.typeFactory.constructType(typeRef).let { it.isContainerType || it.isArrayType }) {
+        objectMapper.convertValue(values, typeRef)
     } else {
         require(values.isNotEmpty()) {
             "Cannot resolve type for empty values"
         }
 
-        objectMapper.convertValue(values.first(), jacksonTypeRef)
+        objectMapper.convertValue(values.first(), typeRef)
     }
