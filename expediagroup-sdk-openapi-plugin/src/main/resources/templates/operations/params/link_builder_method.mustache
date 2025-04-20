@@ -5,7 +5,7 @@ fun withLink(link: {{#linkType}}{{{.}}}{{/linkType}}) = apply {
 
 {{#hasPathParams}}
     if (path != null) {
-        val pathParams: Map<String, String> = com.expediagroup.sdk.rest.util.parseUrlPathTemplateParams(
+        val pathParams: Map<String, String> = com.expediagroup.sdk.rest.util.UrlUtils.parsePathParams(
             path = path,
             template = """{{{path}}}"""
         )
@@ -25,7 +25,7 @@ fun withLink(link: {{#linkType}}{{{.}}}{{/linkType}}) = apply {
     {{#queryParams}}"{{{baseName}}}" to "{{collectionFormat}}"{{/queryParams}}
     )
     if (query != null) {
-        val queryParams = com.expediagroup.sdk.rest.util.parseUrlQueryParamsFromQuery(
+        val queryParams = com.expediagroup.sdk.rest.util.UrlUtils.parseQueryParams(
             query = query,
             destringifyStrategies = destringifyStrategies,
         )
@@ -33,7 +33,7 @@ fun withLink(link: {{#linkType}}{{{.}}}{{/linkType}}) = apply {
     {{#queryParams}}
         if (queryParams.containsKey("{{{baseName}}}") {
             queryParams["{{{baseName}}}"]?.takeIf { it.isNotEmpty() }?.let { values: List<String> ->
-                this.{{{paramName}}} = com.expediagroup.sdk.rest.util.resolveUrlQueryParamValuesType<{{>partials/datatype}}>(
+                this.{{{paramName}}} = com.expediagroup.sdk.rest.util.UrlUtils.resolveUrlQueryParamValuesType<{{>partials/datatype}}>(
                     values = values,
                     objectMapper = {{{jacksonObjectMapper}}},
                     typeRef = com.fasterxml.jackson.module.kotlin.jacksonTypeRef<{{>partials/datatype}}>(),

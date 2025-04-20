@@ -2,6 +2,7 @@ package com.expediagroup.sdk.rest.util
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -11,7 +12,7 @@ import org.junit.jupiter.params.provider.ValueSource
 
 class UrlUtilsTest {
     @Nested
-    inner class ParseUrlPathTemplateParamsTest {
+    inner class ParsePathParamsTest {
         @Test
         fun `parses path template parameters correctly`() {
             // Given
@@ -20,7 +21,7 @@ class UrlUtilsTest {
 
             // When
             val result =
-                parseUrlPathTemplateParams(
+                UrlUtils.parsePathParams(
                     template = template,
                     path = path
                 )
@@ -43,15 +44,14 @@ class UrlUtilsTest {
             // When
             val exception =
                 assertThrows<IllegalArgumentException> {
-                    parseUrlPathTemplateParams(
+                    UrlUtils.parsePathParams(
                         template = template,
                         path = path
                     )
                 }
 
             // Then
-            val expectedExceptionMessage =
-                "Template and path segments must have the same number of segments"
+            val expectedExceptionMessage = "Template and path must contain the same number of segments"
 
             assertEquals(expectedExceptionMessage, exception.message)
         }
@@ -64,7 +64,7 @@ class UrlUtilsTest {
 
             // When
             val result =
-                parseUrlPathTemplateParams(
+                UrlUtils.parsePathParams(
                     template = template,
                     path = path
                 )
@@ -89,7 +89,7 @@ class UrlUtilsTest {
 
             // When
             val result =
-                parseUrlPathTemplateParams(
+                UrlUtils.parsePathParams(
                     template = template,
                     path = path
                 )
@@ -106,7 +106,7 @@ class UrlUtilsTest {
 
             // When
             val result =
-                parseUrlPathTemplateParams(
+                UrlUtils.parsePathParams(
                     template = template,
                     path = path
                 )
@@ -117,18 +117,24 @@ class UrlUtilsTest {
     }
 
     @Nested
-    inner class ParseUrlQueryParamsFromQueryTest {
+    inner class ParseQueryParamsTest {
         @Test
         fun `parses query string with pipe-delimited values using pipe strategy`() {
-            val query = "key=value1|value2|value3"
-            val destringifyStrategies = mapOf("key" to "pipes")
+            val query = "key=value1|value2|value3&key2=value1,value2"
+            val destringifyStrategies =
+                mapOf(
+                    "key" to "pipes",
+                    "key2" to "csv"
+                )
 
-            val result = parseUrlQueryParamsFromQuery(query, destringifyStrategies)
+            val result = UrlUtils.parseQueryParams(query, destringifyStrategies)
 
             val expected =
                 mapOf(
-                    "key" to mutableListOf("value1", "value2", "value3")
+                    "key" to mutableListOf("value1", "value2", "value3"),
+                    "key2" to mutableListOf("value1", "value2")
                 )
+
             assertEquals(expected, result)
         }
 
@@ -137,7 +143,7 @@ class UrlUtilsTest {
             val query = "key=value1,value2,value3"
             val destringifyStrategies = mapOf("key" to "csv")
 
-            val result = parseUrlQueryParamsFromQuery(query, destringifyStrategies)
+            val result = UrlUtils.parseQueryParams(query, destringifyStrategies)
 
             val expected =
                 mapOf(
@@ -151,7 +157,7 @@ class UrlUtilsTest {
             val query = "key=value"
             val destringifyStrategies = emptyMap<String, String>()
 
-            val result = parseUrlQueryParamsFromQuery(query, destringifyStrategies)
+            val result = UrlUtils.parseQueryParams(query, destringifyStrategies)
 
             val expected =
                 mapOf(
@@ -165,7 +171,7 @@ class UrlUtilsTest {
             val query = "key1=value1&key2=value2"
             val destringifyStrategies = emptyMap<String, String>()
 
-            val result = parseUrlQueryParamsFromQuery(query, destringifyStrategies)
+            val result = UrlUtils.parseQueryParams(query, destringifyStrategies)
 
             val expected =
                 mapOf(
@@ -180,7 +186,7 @@ class UrlUtilsTest {
             val query = "key=value1%20value2%20value3"
             val destringifyStrategies = mapOf("key" to "ssv")
 
-            val result = parseUrlQueryParamsFromQuery(query, destringifyStrategies)
+            val result = UrlUtils.parseQueryParams(query, destringifyStrategies)
 
             val expected =
                 mapOf(
@@ -194,7 +200,7 @@ class UrlUtilsTest {
             val query = "key1=value%201&key2=value%2C2"
             val destringifyStrategies = emptyMap<String, String>()
 
-            val result = parseUrlQueryParamsFromQuery(query, destringifyStrategies)
+            val result = UrlUtils.parseQueryParams(query, destringifyStrategies)
 
             val expected =
                 mapOf(
@@ -209,7 +215,7 @@ class UrlUtilsTest {
             val query = ""
             val destringifyStrategies = emptyMap<String, String>()
 
-            val result = parseUrlQueryParamsFromQuery(query, destringifyStrategies)
+            val result = UrlUtils.parseQueryParams(query, destringifyStrategies)
 
             assertEquals(emptyMap<String, MutableList<String>>(), result)
         }
@@ -219,7 +225,7 @@ class UrlUtilsTest {
             val query = "key1=value1&=value2&key3="
             val destringifyStrategies = emptyMap<String, String>()
 
-            val result = parseUrlQueryParamsFromQuery(query, destringifyStrategies)
+            val result = UrlUtils.parseQueryParams(query, destringifyStrategies)
 
             val expected =
                 mapOf(
@@ -240,7 +246,7 @@ class UrlUtilsTest {
 
             // When
             val result =
-                parseUrlQueryParamsFromQuery(
+                UrlUtils.parseQueryParams(
                     query = query,
                     destringifyStrategies = destringifyStrategies
                 )
@@ -264,7 +270,7 @@ class UrlUtilsTest {
             val destringifyStrategies = emptyMap<String, String>()
 
             // When
-            val result = parseUrlQueryParamsFromQuery(query, destringifyStrategies)
+            val result = UrlUtils.parseQueryParams(query, destringifyStrategies)
 
             // Then
             val expected =
@@ -276,21 +282,20 @@ class UrlUtilsTest {
         }
 
         @Test
-        fun `does not destringify query parameters with unknown strategy`() {
+        fun `throws IllegalArgumentException on unknown destringify strategy`() {
             // Given
             val query = "param1=value1&param2=value2,value3"
             val destringifyStrategies = mapOf("param2" to "random")
 
             // When
-            val result = parseUrlQueryParamsFromQuery(query, destringifyStrategies)
+            val exception =
+                Assertions.assertThrows(IllegalArgumentException::class.java) {
+                    UrlUtils.parseQueryParams(query, destringifyStrategies)
+                }
 
             // Then
-            val expected =
-                mapOf(
-                    "param1" to mutableListOf("value1"),
-                    "param2" to mutableListOf("value2,value3")
-                )
-            assertEquals(expected, result)
+            val expectedMessage = "Unknown destringify strategy [random] for key: param2"
+            assertEquals(expectedMessage, exception.message)
         }
     }
 
@@ -303,7 +308,7 @@ class UrlUtilsTest {
             val values = listOf("123")
             val jacksonTypeRef = jacksonTypeRef<Int>()
 
-            val result = resolveUrlQueryParamValuesType(values, objectMapper, jacksonTypeRef)
+            val result = UrlUtils.resolveUrlQueryParamValuesType(values, objectMapper, jacksonTypeRef)
             val expected = 123
 
             assertEquals(expected, result)
@@ -314,7 +319,7 @@ class UrlUtilsTest {
             val values = listOf("1", "2", "3")
             val jacksonTypeRef = jacksonTypeRef<List<Int>>()
 
-            val result = resolveUrlQueryParamValuesType(values, objectMapper, jacksonTypeRef)
+            val result = UrlUtils.resolveUrlQueryParamValuesType(values, objectMapper, jacksonTypeRef)
             val expected = listOf(1, 2, 3)
 
             assertEquals(expected, result)
@@ -325,7 +330,7 @@ class UrlUtilsTest {
             val values = listOf("testValue")
             val jacksonTypeRef = jacksonTypeRef<String>()
 
-            val result = resolveUrlQueryParamValuesType(values, objectMapper, jacksonTypeRef)
+            val result = UrlUtils.resolveUrlQueryParamValuesType(values, objectMapper, jacksonTypeRef)
             val expected = "testValue"
 
             assertEquals(expected, result)
@@ -336,7 +341,7 @@ class UrlUtilsTest {
             val values = emptyList<String>()
             val jacksonTypeRef = jacksonTypeRef<List<Int>>()
 
-            val result = resolveUrlQueryParamValuesType(values, objectMapper, jacksonTypeRef)
+            val result = UrlUtils.resolveUrlQueryParamValuesType(values, objectMapper, jacksonTypeRef)
             val expected = emptyList<Int>()
 
             assertEquals(expected, result)
@@ -348,7 +353,7 @@ class UrlUtilsTest {
             val jacksonTypeRef = jacksonTypeRef<Int>()
 
             assertThrows<IllegalArgumentException> {
-                resolveUrlQueryParamValuesType(values, objectMapper, jacksonTypeRef)
+                UrlUtils.resolveUrlQueryParamValuesType(values, objectMapper, jacksonTypeRef)
             }
         }
 
@@ -363,11 +368,11 @@ class UrlUtilsTest {
             // When
             val exception1 =
                 assertThrows<IllegalArgumentException> {
-                    resolveUrlQueryParamValuesType(values, objectMapper, jacksonTypeRef1)
+                    UrlUtils.resolveUrlQueryParamValuesType(values, objectMapper, jacksonTypeRef1)
                 }
             val exception2 =
                 assertThrows<IllegalArgumentException> {
-                    resolveUrlQueryParamValuesType(values, objectMapper, jacksonTypeRef2)
+                    UrlUtils.resolveUrlQueryParamValuesType(values, objectMapper, jacksonTypeRef2)
                 }
 
             // Then
