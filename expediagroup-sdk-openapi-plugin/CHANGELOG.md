@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.9-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-openapi-plugin-v0.0.8-alpha...expediagroup-sdk-openapi-plugin-v0.0.9-alpha) (2025-04-21)
+
+
+### Features
+
+* new links model utilities ([#1127](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1127)) ([433c2ed](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/433c2ed397921f2918b559786f83f21b57d83280))
+
 ## [0.0.8-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-openapi-plugin-v0.0.7-alpha...expediagroup-sdk-openapi-plugin-v0.0.8-alpha) (2025-04-14)
 
 
