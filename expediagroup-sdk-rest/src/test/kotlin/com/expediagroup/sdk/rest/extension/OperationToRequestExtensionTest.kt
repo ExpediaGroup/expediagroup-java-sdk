@@ -11,7 +11,7 @@ import com.expediagroup.sdk.rest.trait.operation.OperationRequestBodyTrait
 import com.expediagroup.sdk.rest.trait.operation.OperationRequestTrait
 import com.expediagroup.sdk.rest.trait.operation.UrlPathTrait
 import com.expediagroup.sdk.rest.trait.operation.UrlQueryParamsTrait
-import com.expediagroup.sdk.rest.util.stringifyExplode
+import com.expediagroup.sdk.rest.util.UrlQueryParamStringifier
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import okio.Buffer
 import org.junit.jupiter.api.Assertions.assertAll
@@ -250,8 +250,8 @@ class OperationToRequestExtensionTest {
 
                     override fun getUrlQueryParams(): List<UrlQueryParam> =
                         listOf(
-                            UrlQueryParam("key1", listOf("value1"), stringifyExplode),
-                            UrlQueryParam("key2", listOf("value2", "value3"), stringifyExplode)
+                            UrlQueryParam("key1", listOf("value1"), UrlQueryParamStringifier.explode),
+                            UrlQueryParam("key2", listOf("value2", "value3"), UrlQueryParamStringifier.explode)
                         )
                 }
 
@@ -310,7 +310,7 @@ class OperationToRequestExtensionTest {
 
                     override fun getUrlQueryParams(): List<UrlQueryParam> =
                         listOf(
-                            UrlQueryParam("key2", listOf("value2", "value3"), stringifyExplode)
+                            UrlQueryParam("key2", listOf("value2", "value3"), UrlQueryParamStringifier.explode)
                         )
                 }
 
@@ -347,8 +347,8 @@ class OperationToRequestExtensionTest {
 
                     override fun getUrlQueryParams(): List<UrlQueryParam> =
                         listOf(
-                            UrlQueryParam("key1", listOf("value1"), stringifyExplode),
-                            UrlQueryParam("key2", listOf("value2", "value3"), stringifyExplode)
+                            UrlQueryParam("key1", listOf("value1"), UrlQueryParamStringifier.explode),
+                            UrlQueryParam("key2", listOf("value2", "value3"), UrlQueryParamStringifier.explode)
                         )
                 }
 

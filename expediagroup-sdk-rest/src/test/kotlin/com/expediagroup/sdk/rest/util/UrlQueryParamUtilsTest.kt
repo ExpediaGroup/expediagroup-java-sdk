@@ -3,6 +3,7 @@ package com.expediagroup.sdk.rest.util
 import com.expediagroup.sdk.rest.model.UrlQueryParam
 import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 class UrlQueryParamUtilsTest {
@@ -11,7 +12,7 @@ class UrlQueryParamUtilsTest {
     }
 
     @Test
-    fun `invoke should correctly convert UrlQueryParam to String using provided logic`() {
+    fun `invoke in StringifyQueryParam instances should correctly convert UrlQueryParam to String using provided logic`() {
         val customStringify =
             StringifyQueryParam { param ->
                 "${param.key}:${param.value.joinToString("-")}"
@@ -26,54 +27,151 @@ class UrlQueryParamUtilsTest {
     }
 
     @Test
-    fun `stringifyForm should correctly convert UrlQueryParam to form-encoded String`() {
-        val param = UrlQueryParam("myKey", listOf("v1", "v2"), stringifyForm)
-        val expectedString = "myKey=v1%2Cv2"
+    fun `invoke in DestringifyQueryParam instances should correctly convert String to UrlQueryParam using provided logic`() {
+        val customDestringify =
+            DestringifyQueryParam { name, query ->
+                val values = query.split("-")
+                UrlQueryParam(name, values, stringifyQueryParam)
+            }
 
-        val actualString = stringifyForm(param)
+        val expectedParam = UrlQueryParam("myKey", listOf("v1", "v2"), stringifyQueryParam)
+        val actualParam = customDestringify("myKey", "v1-v2")
 
-        assertEquals(expectedString, actualString)
+        assertEquals(expectedParam, actualParam)
     }
 
-    @Test
-    fun `stringifyExplode should correctly convert UrlQueryParam to exploded form-encoded String`() {
-        val param = UrlQueryParam("myKey", listOf("v1", "v2"), stringifyExplode)
-        val expectedString = "myKey=v1&myKey=v2"
+    @Nested
+    inner class StringifiersTest {
+        @Test
+        fun `stringifyForm should correctly convert UrlQueryParam to form-encoded String`() {
+            val param = UrlQueryParam("myKey", listOf("v1", "v2"), UrlQueryParamStringifier.form)
+            val expectedString = "myKey=v1%2Cv2"
 
-        val actualString = stringifyExplode(param)
+            val actualString = UrlQueryParamStringifier.form(param)
 
-        assertEquals(expectedString, actualString)
+            assertEquals(expectedString, actualString)
+        }
+
+        @Test
+        fun `stringifyExplode should correctly convert UrlQueryParam to exploded form-encoded String`() {
+            val param = UrlQueryParam("myKey", listOf("v1", "v2"), UrlQueryParamStringifier.explode)
+            val expectedString = "myKey=v1&myKey=v2"
+
+            val actualString = UrlQueryParamStringifier.explode(param)
+
+            assertEquals(expectedString, actualString)
+        }
+
+        @Test
+        fun `stringifySpaceDelimited should correctly convert UrlQueryParam to space-delimited String`() {
+            val param = UrlQueryParam("myKey", listOf("v1", "v2"), UrlQueryParamStringifier.spaceDelimited)
+            val expectedString = "myKey=v1+v2"
+
+            val actualString = UrlQueryParamStringifier.spaceDelimited(param)
+
+            assertEquals(expectedString, actualString)
+        }
+
+        @Test
+        fun `stringifyPipeDelimited should correctly convert UrlQueryParam to pipe-delimited String`() {
+            val param = UrlQueryParam("myKey", listOf("v1", "v2"), UrlQueryParamStringifier.pipeDelimited)
+            val expectedString = "myKey=v1%7Cv2"
+
+            val actualString = UrlQueryParamStringifier.pipeDelimited(param)
+
+            assertEquals(expectedString, actualString)
+        }
+
+        @Test
+        fun `swaggerCollectionFormatStringifier should return correct stringify method`() {
+            mapOf(
+                "csv" to UrlQueryParamStringifier.form,
+                "pipes" to UrlQueryParamStringifier.pipeDelimited,
+                "ssv" to UrlQueryParamStringifier.spaceDelimited,
+                "multi" to UrlQueryParamStringifier.explode
+            ).forEach { (format, expected) ->
+                assertEquals(swaggerCollectionFormatStringifier.get(format), expected)
+            }
+        }
     }
 
-    @Test
-    fun `stringifySpaceDelimited should correctly convert UrlQueryParam to space-delimited String`() {
-        val param = UrlQueryParam("myKey", listOf("v1", "v2"), stringifySpaceDelimited)
-        val expectedString = "myKey=v1+v2"
+    @Nested
+    inner class DestringifiersTest {
+        @Test
+        fun `destringifyForm should correctly convert form-encoded String to UrlQueryParam`() {
+            // Given
+            val queryParamName = "myKey"
+            val queryParamValue = "v1,v2"
 
-        val actualString = stringifySpaceDelimited(param)
+            // When
+            val actualParam = UrlQueryParamDestringifiers.form(queryParamName, queryParamValue)
+            val expectedParam = UrlQueryParam("myKey", listOf("v1", "v2"), UrlQueryParamStringifier.form)
 
-        assertEquals(expectedString, actualString)
-    }
+            // Then
+            assertEquals(expectedParam, actualParam)
+        }
 
-    @Test
-    fun `stringifyPipeDelimited should correctly convert UrlQueryParam to pipe-delimited String`() {
-        val param = UrlQueryParam("myKey", listOf("v1", "v2"), stringifyPipeDelimited)
-        val expectedString = "myKey=v1%7Cv2"
+        @Test
+        fun `destringifyExplode should correctly convert exploded form-encoded String to UrlQueryParam`() {
+            // Given
+            val queryParamName = "myKey"
+            val queryParamValue = "v1&v2"
 
-        val actualString = stringifyPipeDelimited(param)
+            // When
+            val actualParam = UrlQueryParamDestringifiers.explode(queryParamName, queryParamValue)
+            val expectedParam = UrlQueryParam("myKey", listOf("v1", "v2"), UrlQueryParamStringifier.explode)
 
-        assertEquals(expectedString, actualString)
-    }
+            // Then
+            assertEquals(expectedParam, actualParam)
+        }
 
-    @Test
-    fun `swaggerCollectionFormatStringifier should return correct stringify method`() {
-        mapOf(
-            "csv" to stringifyForm,
-            "pipes" to stringifyPipeDelimited,
-            "ssv" to stringifySpaceDelimited,
-            "multi" to stringifyExplode
-        ).forEach { (format, expected) ->
-            assertEquals(swaggerCollectionFormatStringifier.get(format), expected)
+        @Test
+        fun `destringifySpaceDelimited should correctly convert space-delimited String to UrlQueryParam`() {
+            // Given
+            val queryParamName = "myKey"
+            val queryParamValue = "v1 v2"
+
+            // When
+            val actualParam = UrlQueryParamDestringifiers.spaceDelimited(queryParamName, queryParamValue)
+            val expectedParam = UrlQueryParam("myKey", listOf("v1", "v2"), UrlQueryParamStringifier.spaceDelimited)
+
+            // Then
+            assertEquals(expectedParam, actualParam)
+        }
+
+        @Test
+        fun `destringifyPipeDelimited should correctly convert pipe-delimited String to UrlQueryParam`() {
+            // Given
+            val queryParamName = "myKey"
+            val queryParamValue = "v1|v2"
+
+            // When
+            val actualParam = UrlQueryParamDestringifiers.pipeDelimited(queryParamName, queryParamValue)
+            val expectedParam = UrlQueryParam("myKey", listOf("v1", "v2"), UrlQueryParamStringifier.pipeDelimited)
+
+            // Then
+            assertEquals(expectedParam, actualParam)
+        }
+
+        @Test
+        fun `all destringifiers should correctly convert single value String to UrlQueryParam`() {
+            // Given
+            val queryParamName = "myKey"
+            val queryParamValue = "v1"
+
+            // When
+            val pipeDelimitedActualParam = UrlQueryParamDestringifiers.pipeDelimited(queryParamName, queryParamValue)
+            val spaceDelimitedActualParam = UrlQueryParamDestringifiers.spaceDelimited(queryParamName, queryParamValue)
+            val explodeActualParam = UrlQueryParamDestringifiers.explode(queryParamName, queryParamValue)
+            val formActualParam = UrlQueryParamDestringifiers.form(queryParamName, queryParamValue)
+
+            val expectedValue = listOf("v1")
+
+            // Then
+            assertEquals(expectedValue, pipeDelimitedActualParam.value)
+            assertEquals(expectedValue, spaceDelimitedActualParam.value)
+            assertEquals(expectedValue, explodeActualParam.value)
+            assertEquals(expectedValue, formActualParam.value)
         }
     }
 }

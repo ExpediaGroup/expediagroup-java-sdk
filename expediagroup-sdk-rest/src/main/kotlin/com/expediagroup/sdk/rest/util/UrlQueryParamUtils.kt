@@ -33,52 +33,130 @@ fun interface StringifyQueryParam : (UrlQueryParam) -> String {
 }
 
 /**
- * Converts a UrlQueryParam to a form-encoded String.
- * Example: key=value1,value2
+ * Functional interface for converting a string representation of a query parameter
+ * into a `UrlQueryParam` object.
+ *
+ * This interface takes two input strings: the name of the query parameter and its value,
+ * and returns a `UrlQueryParam` object that represents the parsed query parameter.
  */
-val stringifyForm =
-    StringifyQueryParam { param ->
-        StringBuilder().apply {
-            append("${param.key}=")
-            append(param.value.joinToString(URLEncoder.encode(",", "UTF-8")))
-        }.toString()
-    }
+fun interface DestringifyQueryParam : (String, String) -> UrlQueryParam {
+    /**
+     * Converts the given query parameter name and value into a `UrlQueryParam` object.
+     *
+     * @param name The name of the query parameter.
+     * @param query The string representation of the query parameter's value.
+     * @return A `UrlQueryParam` object representing the parsed query parameter.
+     */
+    override fun invoke(
+        name: String,
+        query: String
+    ): UrlQueryParam
+}
 
-/**
- * Converts a UrlQueryParam to an exploded form-encoded String.
- * Example: key=value1&key=value2
- */
-val stringifyExplode =
-    StringifyQueryParam { param ->
-        StringBuilder().apply {
-            append("${param.key}=")
-            append(param.value.joinToString("&${param.key}="))
-        }.toString()
-    }
+object UrlQueryParamStringifier {
+    /**
+     * Converts a UrlQueryParam to a form-encoded String.
+     * Example: key=value1,value2
+     */
+    val form =
+        StringifyQueryParam { param ->
+            StringBuilder().apply {
+                append("${param.key}=")
+                append(param.value.joinToString(URLEncoder.encode(",", "UTF-8")))
+            }.toString()
+        }
 
-/**
- * Converts a UrlQueryParam to a space-delimited String.
- * Example: key=value1%20value2
- */
-val stringifySpaceDelimited =
-    StringifyQueryParam { param ->
-        StringBuilder().apply {
-            append("${param.key}=")
-            append(param.value.joinToString(URLEncoder.encode(" ", "UTF-8")))
-        }.toString()
-    }
+    /**
+     * Converts a UrlQueryParam to an exploded form-encoded String.
+     * Example: key=value1&key=value2
+     */
+    val explode =
+        StringifyQueryParam { param ->
+            StringBuilder().apply {
+                append("${param.key}=")
+                append(param.value.joinToString("&${param.key}="))
+            }.toString()
+        }
 
-/**
- * Converts a UrlQueryParam to a pipe-delimited String.
- * Example: key=value1|value2
- */
-val stringifyPipeDelimited =
-    StringifyQueryParam { param ->
-        StringBuilder().apply {
-            append("${param.key}=")
-            append(param.value.joinToString(URLEncoder.encode("|", "UTF-8")))
-        }.toString()
-    }
+    /**
+     * Converts a UrlQueryParam to a space-delimited String.
+     * Example: key=value1%20value2
+     */
+    val spaceDelimited =
+        StringifyQueryParam { param ->
+            StringBuilder().apply {
+                append("${param.key}=")
+                append(param.value.joinToString(URLEncoder.encode(" ", "UTF-8")))
+            }.toString()
+        }
+
+    /**
+     * Converts a UrlQueryParam to a pipe-delimited String.
+     * Example: key=value1|value2
+     */
+    val pipeDelimited =
+        StringifyQueryParam { param ->
+            StringBuilder().apply {
+                append("${param.key}=")
+                append(param.value.joinToString(URLEncoder.encode("|", "UTF-8")))
+            }.toString()
+        }
+}
+
+object UrlQueryParamDestringifiers {
+    /**
+     * Converts a string representation of a query parameter in "form" format
+     * (comma-separated values) into a `UrlQueryParam` object.
+     */
+    val form =
+        DestringifyQueryParam { name: String, value: String ->
+            UrlQueryParam(
+                key = name,
+                value = value.split(",").filter(String::isNotBlank),
+                stringify = UrlQueryParamStringifier.form
+            )
+        }
+
+    /**
+     * Converts a string representation of a query parameter in "explode" format
+     * (multiple key-value pairs separated by '&') into a `UrlQueryParam` object.
+     *
+     */
+    val explode =
+        DestringifyQueryParam { name: String, value: String ->
+            UrlQueryParam(
+                key = name,
+                value = value.split("&").filter(String::isNotBlank),
+                stringify = UrlQueryParamStringifier.explode
+            )
+        }
+
+    /**
+     * Converts a string representation of a query parameter in "space-delimited" format
+     * (values separated by spaces) into a `UrlQueryParam` object.
+     */
+    val spaceDelimited =
+        DestringifyQueryParam { name: String, value: String ->
+            UrlQueryParam(
+                key = name,
+                value = value.split(" ").filter(String::isNotBlank),
+                stringify = UrlQueryParamStringifier.spaceDelimited
+            )
+        }
+
+    /**
+     * Converts a string representation of a query parameter in "pipe-delimited" format
+     * (values separated by '|') into a `UrlQueryParam` object.
+     */
+    val pipeDelimited =
+        DestringifyQueryParam { name: String, value: String ->
+            UrlQueryParam(
+                key = name,
+                value = value.split("|").filter(String::isNotBlank),
+                stringify = UrlQueryParamStringifier.pipeDelimited
+            )
+        }
+}
 
 /**
  * A map that associates Swagger collection format identifiers with their corresponding
@@ -91,11 +169,29 @@ val stringifyPipeDelimited =
  * - "pipes": Pipe-separated values (e.g., key=value1|value2)
  * - "multi": Multiple key-value pairs (e.g., key=value1&key=value2)
  */
-@Suppress("unused")
 val swaggerCollectionFormatStringifier =
     mapOf(
-        "csv" to stringifyForm,
-        "ssv" to stringifySpaceDelimited,
-        "pipes" to stringifyPipeDelimited,
-        "multi" to stringifyExplode
+        "csv" to UrlQueryParamStringifier.form,
+        "ssv" to UrlQueryParamStringifier.spaceDelimited,
+        "pipes" to UrlQueryParamStringifier.pipeDelimited,
+        "multi" to UrlQueryParamStringifier.explode
+    )
+
+/**
+ * A map that associates Swagger collection format identifiers with their corresponding
+ * destringify functions. This map is used to convert string representations of query
+ * parameters to lists of values based on the specified collection format.
+ *
+ * The supported collection formats are:
+ * - "csv": Comma-separated values (e.g., key=value1,value2)
+ * - "ssv": Space-separated values (e.g., key=value1%20value2)
+ * - "pipes": Pipe-separated values (e.g., key=value1|value2)
+ * - "multi": Multiple key-value pairs (e.g., key=value1&key=value2)
+ */
+val swaggerCollectionFormatDestringifier: Map<String, DestringifyQueryParam> =
+    mapOf(
+        "csv" to UrlQueryParamDestringifiers.form,
+        "ssv" to UrlQueryParamDestringifiers.spaceDelimited,
+        "pipes" to UrlQueryParamDestringifiers.pipeDelimited,
+        "multi" to UrlQueryParamDestringifiers.explode
     )

@@ -153,7 +153,8 @@ object OpenApiGeneratorConfigurator {
         val defaultAdditionalProps =
             mapOf(
                 "namespace" to product.namespace,
-                "apiSuffix" to "Operation"
+                "apiSuffix" to "Operation",
+                "jacksonObjectMapper" to "${product.packageName}.configuration.OBJECT_MAPPER",
             )
 
         val userAdditionalProps = ext.additionalProperties.orNull ?: emptyMap<String, Any>()
