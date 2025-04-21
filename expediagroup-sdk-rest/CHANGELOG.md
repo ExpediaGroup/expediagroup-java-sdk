@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.7-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-rest-v0.0.6-alpha...expediagroup-sdk-rest-v0.0.7-alpha) (2025-04-21)
+
+
+### Features
+
+* new links model utilities ([#1127](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1127)) ([433c2ed](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/433c2ed397921f2918b559786f83f21b57d83280))
+
 ## [0.0.6-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-rest-v0.0.5-alpha...expediagroup-sdk-rest-v0.0.6-alpha) (2025-03-27)
 
 
