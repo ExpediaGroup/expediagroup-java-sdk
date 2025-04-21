@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.0.9-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-openapi-plugin-v0.0.8-alpha...expediagroup-sdk-openapi-plugin-v0.0.9-alpha) (2025-04-21)
+
+
+### Features
+
+* new links model utilities ([#1127](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1127)) ([433c2ed](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/433c2ed397921f2918b559786f83f21b57d83280))
+
+## [0.0.8-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-openapi-plugin-v0.0.7-alpha...expediagroup-sdk-openapi-plugin-v0.0.8-alpha) (2025-04-14)
+
+
+### Features
+
+* openapi processors ([#1068](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1068)) ([8ecd807](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/8ecd807075a80eec7d66083329b91c07953e747b))
+
+## [0.0.7-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-openapi-plugin-v0.0.6-alpha...expediagroup-sdk-openapi-plugin-v0.0.7-alpha) (2025-04-13)
+
+
+### Bug Fixes
+
+* update parameter name in validation messages ([#1116](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1116)) ([426f4dd](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/426f4dd9bfcea7790cf508c853cb21711d718607))
+
 ## [0.0.6-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-openapi-plugin-v0.0.5-alpha...expediagroup-sdk-openapi-plugin-v0.0.6-alpha) (2025-03-26)
 
 
