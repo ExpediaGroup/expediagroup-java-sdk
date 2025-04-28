@@ -11,9 +11,12 @@ fun withLink(link: {{#linkType}}{{{.}}}{{/linkType}}) = apply {
         )
 
         {{#pathParams}}
-            if (pathParams.containsKey("{{{baseName}}}") {
-                pathParams["{{{baseName}}}"].takeIf { it.isNotBlank() }?.let {
-                    this.{{{paramName}}} = {{{jacksonObjectMapper}}}.convertValue(it, jacksonTypeRef<{{>partials/datatype}}>())
+            if (pathParams.containsKey("{{{baseName}}}")) {
+                pathParams["{{{baseName}}}"].takeIf { !it.isNullOrEmpty() }?.let {
+                    this.{{{paramName}}} = {{{jacksonObjectMapper}}}.convertValue(
+                        it,
+                        com.fasterxml.jackson.module.kotlin.jacksonTypeRef<{{>partials/datatype}}>()
+                    )
                 }
             }
         {{/pathParams}}
@@ -31,8 +34,8 @@ fun withLink(link: {{#linkType}}{{{.}}}{{/linkType}}) = apply {
         )
 
     {{#queryParams}}
-        if (queryParams.containsKey("{{{baseName}}}") {
-            queryParams["{{{baseName}}}"]?.takeIf { it.isNotEmpty() }?.let { values: List<String> ->
+        if (queryParams.containsKey("{{{baseName}}}")) {
+            queryParams["{{{baseName}}}"]?.takeIf { !it.isNullOrEmpty() }?.let { values: List<String> ->
                 this.{{{paramName}}} = com.expediagroup.sdk.rest.util.UrlUtils.resolveUrlQueryParamValuesType<{{>partials/datatype}}>(
                     values = values,
                     objectMapper = {{{jacksonObjectMapper}}},
