@@ -17,6 +17,7 @@
 package com.expediagroup.sdk.core.logging
 
 import com.expediagroup.sdk.core.http.Headers
+import com.expediagroup.sdk.core.http.MediaType
 import com.expediagroup.sdk.core.http.Request
 import com.expediagroup.sdk.core.http.RequestBody
 import com.expediagroup.sdk.core.logging.Constant.DEFAULT_MAX_BODY_SIZE
@@ -31,7 +32,8 @@ internal object RequestLogger {
         vararg tags: String,
         maxBodyLogSize: Long? = null,
         maskBody: (String) -> String = { it },
-        maskHeaders: (Headers) -> Headers = { it }
+        maskHeaders: (Headers) -> Headers = { it },
+        loggableContentTypes: List<MediaType> = emptyList()
     ) {
         try {
             var logString =
@@ -42,7 +44,7 @@ internal object RequestLogger {
             if (logger.isDebugEnabled) {
                 val requestBodyString =
                     request.body?.let {
-                        maskBody(it.readLoggableBody(maxBodyLogSize, it.mediaType()?.charset))
+                        maskBody(it.readLoggableBody(maxBodyLogSize, it.mediaType()?.charset, loggableContentTypes))
                     }
 
                 logString += ", Body=$requestBodyString"
@@ -50,7 +52,7 @@ internal object RequestLogger {
             } else {
                 logger.info(logString, "Outgoing", *tags)
             }
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             logger.error("Failed to log request")
         }
     }
@@ -58,14 +60,15 @@ internal object RequestLogger {
     @Throws(IOException::class)
     private fun RequestBody.readLoggableBody(
         maxBodyLogSize: Long?,
-        charset: Charset?
+        charset: Charset?,
+        loggableContentTypes: List<MediaType> = emptyList()
     ): String {
         this.mediaType().also {
             if (it === null) {
                 return "Request body of unknown media type cannot be logged"
             }
 
-            if (!isLoggable(it)) {
+            if (!isLoggable(it, loggableContentTypes)) {
                 return "Request body of type ${it.fullType} cannot be logged"
             }
         }
