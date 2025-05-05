@@ -27,6 +27,10 @@ class Builder(
         return params
     }
 
+    {{#link}}
+        {{>operations/params/link_builder_method}}
+    {{/link}}
+
 }
 
 fun toBuilder() = Builder(
