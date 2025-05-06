@@ -199,6 +199,33 @@ class RequestLoggerTest {
     }
 
     @Test
+    fun `should log request body with custom media type when configured`() {
+        val json = """something"""
+        val bodyContent = Buffer().write(json.toByteArray())
+
+        val testRequest =
+            Request
+                .builder()
+                .url("https://example.com")
+                .method(Method.POST)
+                .addHeader("Content-Type", "application/json+custom")
+                .body(RequestBody.create(bodyContent, mediaType = MediaType.parse("application/json+custom")))
+                .build()
+
+        every { mockLogger.isDebugEnabled } returns true
+
+        RequestLogger.log(mockLogger, testRequest, loggableContentTypes = listOf(MediaType.parse("application/json+custom")))
+
+        verify(exactly = 1) {
+            mockLogger.debug(
+                "URL=https://example.com, Method=POST, Headers=[{content-type=[application/json+custom]}], Body=something",
+                "Outgoing",
+                *anyVararg()
+            )
+        }
+    }
+
+    @Test
     fun `should respect max log size for request body`() {
         // Given
         val bodyContent = """{"key":"value"}"""
@@ -209,7 +236,7 @@ class RequestLoggerTest {
                 .builder()
                 .url("https://example.com")
                 .method(Method.GET)
-                .body(RequestBody.create(buffer, mediaType = MediaType.parse("application/json")))
+                .body(RequestBody.create(buffer, mediaType = CommonMediaTypes.APPLICATION_JSON))
                 .build()
 
         every { mockLogger.isDebugEnabled } returns true
@@ -237,7 +264,7 @@ class RequestLoggerTest {
                 .url("https://example.com")
                 .method(Method.POST)
                 .addHeader("Content-Type", "application/json")
-                .body(RequestBody.create(bodyContent, mediaType = MediaType.parse("application/json")))
+                .body(RequestBody.create(bodyContent, mediaType = CommonMediaTypes.APPLICATION_JSON))
                 .build()
 
         every { mockLogger.isDebugEnabled } returns true
@@ -264,7 +291,7 @@ class RequestLoggerTest {
                 .url("https://example.com")
                 .method(Method.POST)
                 .addHeader("Content-Type", "application/json")
-                .body(RequestBody.create(bodyContent, mediaType = MediaType.parse("application/json")))
+                .body(RequestBody.create(bodyContent, mediaType = CommonMediaTypes.APPLICATION_JSON))
                 .build()
 
         every { mockLogger.isDebugEnabled } returns false
@@ -291,7 +318,7 @@ class RequestLoggerTest {
                 .url("https://example.com")
                 .method(Method.POST)
                 .addHeader("Content-Type", "application/json")
-                .body(RequestBody.create(bodyContent, mediaType = MediaType.parse("application/json")))
+                .body(RequestBody.create(bodyContent, mediaType = CommonMediaTypes.APPLICATION_JSON))
                 .build()
 
         every { mockLogger.isDebugEnabled } returns true
@@ -324,7 +351,7 @@ class RequestLoggerTest {
                 .url("https://example.com")
                 .method(Method.POST)
                 .addHeader("Content-Type", "application/json")
-                .body(RequestBody.create(bodyContent, mediaType = MediaType.parse("application/json")))
+                .body(RequestBody.create(bodyContent, mediaType = CommonMediaTypes.APPLICATION_JSON))
                 .build()
 
         every { mockLogger.isDebugEnabled } returns false

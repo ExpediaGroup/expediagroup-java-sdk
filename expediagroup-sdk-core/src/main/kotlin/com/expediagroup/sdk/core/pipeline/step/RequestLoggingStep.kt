@@ -17,6 +17,7 @@
 package com.expediagroup.sdk.core.pipeline.step
 
 import com.expediagroup.sdk.core.http.Headers
+import com.expediagroup.sdk.core.http.MediaType
 import com.expediagroup.sdk.core.http.Request
 import com.expediagroup.sdk.core.http.RequestBody
 import com.expediagroup.sdk.core.logging.LoggerDecorator
@@ -28,7 +29,8 @@ class RequestLoggingStep(
     private val logger: LoggerDecorator,
     private val maxRequestBodySize: Long? = null,
     private val maskBody: (String) -> String = { it },
-    private val maskHeaders: (Headers) -> Headers = { it }
+    private val maskHeaders: (Headers) -> Headers = { it },
+    private val loggableContentTypes: List<MediaType> = emptyList()
 ) : RequestPipelineStep {
     override fun invoke(request: Request): Request {
         var reusableRequest: Request = request
@@ -46,7 +48,8 @@ class RequestLoggingStep(
             reusableRequest,
             maxBodyLogSize = maxRequestBodySize,
             maskBody = maskBody,
-            maskHeaders = maskHeaders
+            maskHeaders = maskHeaders,
+            loggableContentTypes = loggableContentTypes
         )
 
         return reusableRequest
