@@ -33,7 +33,7 @@
         <kotlin.compiler.jvmTarget>1.8</kotlin.compiler.jvmTarget>
 
         <!--External Libraries-->
-        <specmatic.version>2.11.0</specmatic.version>
+        <specmatic.version>2.11.3</specmatic.version>
         <jackson.version>2.19.0</jackson.version>
 
         <!--Plugin Versions-->
