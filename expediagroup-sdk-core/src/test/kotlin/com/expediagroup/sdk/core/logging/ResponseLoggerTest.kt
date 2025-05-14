@@ -276,7 +276,8 @@ class ResponseLoggerTest {
                         .url("https://example.com")
                         .method(Method.POST)
                         .build()
-                ).body(ResponseBody.create(Buffer(), mediaType = CommonMediaTypes.APPLICATION_OCTET_STREAM))
+                ).body(
+                    ResponseBody.create(Buffer(), mediaType = CommonMediaTypes.APPLICATION_OCTET_STREAM))
                 .build()
 
         every { mockLogger.isDebugEnabled } returns true
@@ -289,6 +290,35 @@ class ResponseLoggerTest {
             """
             URL=https://example.com, Code=200, Headers=[{}], Body=Response body of type application/octet-stream cannot be logged
             """.trimIndent()
+
+        verify { mockLogger.debug(expectedLogMessage, "Incoming", *anyVararg<String>()) }
+    }
+
+    @Test
+    fun `should log response body with custom media type when configured`() {
+        val bodyContent = """{"key":"value"}"""
+        val buffer = Buffer().write(bodyContent.toByteArray())
+
+        val testResponse =
+            Response
+                .builder()
+                .protocol(Protocol.HTTP_1_1)
+                .status(Status.OK)
+                .request(
+                    Request
+                        .builder()
+                        .url("https://example.com")
+                        .method(Method.POST)
+                        .build()
+                ).body(ResponseBody.create(buffer, mediaType = MediaType.parse("application/json+custom"), contentLength = buffer.size))
+                .build()
+
+        every { mockLogger.isDebugEnabled } returns true
+
+        ResponseLogger.log(mockLogger, testResponse, loggableContentTypes = listOf(MediaType.parse("application/json+custom")))
+
+        val expectedLogMessage =
+            """URL=https://example.com, Code=200, Headers=[{}], Body={"key":"value"}"""
 
         verify { mockLogger.debug(expectedLogMessage, "Incoming", *anyVararg<String>()) }
     }
