@@ -66,7 +66,7 @@ private fun pctEncode(s: String): String =
 private fun join(
     key: String,
     items: List<String>,
-    delimiter: String,
+    delimiter: String = ",",
     explode: Boolean = false,
 ): String {
     if (items.isEmpty()) return ""          // or null-check, as you prefer
@@ -86,22 +86,22 @@ object UrlQueryParamStringifier {
 
     /** form + explode=false   ➜  key=v1,v2 */
     val form = StringifyQueryParam { p ->
-        join(p.key, p.value, ",", explode = false)
+        join(key = p.key, items = p.value, delimiter = ",", explode = false)
     }
 
     /** form + explode=true    ➜  key=v1&key=v2 */
     val explode = StringifyQueryParam { p ->
-        join(p.key, p.value, ",", explode = true)
+        join(key = p.key, items = p.value, explode = true)
     }
 
     /** spaceDelimited         ➜  key=v1%20v2%20v3  (explode is always false) */
     val spaceDelimited = StringifyQueryParam { p ->
-        join(p.key, p.value, "%20", explode = false)
+        join(key = p.key, items = p.value, delimiter = "%20", explode = false)
     }
 
     /** pipeDelimited          ➜  key=v1|v2|v3      (explode is always false) */
     val pipeDelimited = StringifyQueryParam { p ->
-        join(p.key, p.value, "|", explode = false)
+        join(key = p.key, items = p.value, delimiter = "|", explode = false)
     }
 }
 
