@@ -62,7 +62,13 @@ object UrlQueryParamStringifier {
         StringifyQueryParam { param ->
             StringBuilder().apply {
                 append("${param.key}=")
-                append(param.value.joinToString(URLEncoder.encode(",", "UTF-8")))
+                append(
+                    param.value.joinToString(",") {
+                        URLEncoder
+                            .encode(it, "utf-8")
+                            .replace("+", "%20")
+                    }
+                )
             }.toString()
         }
 
@@ -72,10 +78,9 @@ object UrlQueryParamStringifier {
      */
     val explode =
         StringifyQueryParam { param ->
-            StringBuilder().apply {
-                append("${param.key}=")
-                append(param.value.joinToString("&${param.key}="))
-            }.toString()
+            param.value.joinToString("&") { value ->
+                "${param.key}=${URLEncoder.encode(value, "UTF-8").replace("+", "%20")}"
+            }
         }
 
     /**
@@ -86,7 +91,13 @@ object UrlQueryParamStringifier {
         StringifyQueryParam { param ->
             StringBuilder().apply {
                 append("${param.key}=")
-                append(param.value.joinToString(URLEncoder.encode(" ", "UTF-8")))
+                append(
+                    param.value.joinToString(" ") {
+                        URLEncoder
+                            .encode(it, "utf-8")
+                            .replace("+", "%20")
+                    }
+                )
             }.toString()
         }
 
@@ -98,7 +109,13 @@ object UrlQueryParamStringifier {
         StringifyQueryParam { param ->
             StringBuilder().apply {
                 append("${param.key}=")
-                append(param.value.joinToString(URLEncoder.encode("|", "UTF-8")))
+                append(
+                    param.value.joinToString("|") {
+                        URLEncoder
+                            .encode(it, "utf-8")
+                            .replace("+", "%20")
+                    }
+                )
             }.toString()
         }
 }
