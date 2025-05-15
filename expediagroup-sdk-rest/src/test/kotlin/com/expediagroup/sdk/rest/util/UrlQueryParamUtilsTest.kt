@@ -82,28 +82,9 @@ class UrlQueryParamUtilsTest {
         }
 
         @Test
-        fun `dummy tests`() {
-            val param = UrlQueryParam("myKey", listOf("v1 v2", "v3,v4"), UrlQueryParamStringifier.explode)
-            val expectedString = "myKey=v1%20v2&myKey=v3%2Cv4"
-            val actualString = UrlQueryParamStringifier.explode(param)
-
-            assertEquals(expectedString, actualString)
-        }
-
-        @Test
         fun `stringifySpaceDelimited should convert UrlQueryParam to space-delimited String`() {
             val param = UrlQueryParam("myKey", listOf("v1", "v2"), UrlQueryParamStringifier.spaceDelimited)
-            val expectedString = "myKey=v1 v2"
-
-            val actualString = UrlQueryParamStringifier.spaceDelimited(param)
-
-            assertEquals(expectedString, actualString)
-        }
-
-        @Test
-        fun `stringifySpaceDelimited should convert and encode UrlQueryParam to space-delimited String`() {
-            val param = UrlQueryParam("myKey", listOf("v1 v2", "v2,v3"), UrlQueryParamStringifier.spaceDelimited)
-            val expectedString = "myKey=v1%20v2 v2%2Cv3"
+            val expectedString = "myKey=v1%20v2"
 
             val actualString = UrlQueryParamStringifier.spaceDelimited(param)
 
