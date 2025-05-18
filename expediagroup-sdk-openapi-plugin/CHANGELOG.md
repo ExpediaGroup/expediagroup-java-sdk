@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.12-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-openapi-plugin-v0.0.11-alpha...expediagroup-sdk-openapi-plugin-v0.0.12-alpha) (2025-05-18)
+
+
+### Bug Fixes
+
+* fix query params mustache ([#1163](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1163)) ([3ecbaff](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/3ecbaff05c667a6dbbd69eb07731b71fc80162f9))
+
 ## [0.0.11-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-openapi-plugin-v0.0.10-alpha...expediagroup-sdk-openapi-plugin-v0.0.11-alpha) (2025-05-15)
 
 
