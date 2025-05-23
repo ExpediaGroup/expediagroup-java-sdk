@@ -20,6 +20,7 @@ import com.expediagroup.sdk.rest.exception.service.ExpediaGroupApiException
 import com.expediagroup.sdk.rest.model.Response
 import com.expediagroup.sdk.rest.trait.operation.JacksonModelOperationResponseBodyTrait
 import com.expediagroup.sdk.rest.trait.operation.OperationNoResponseBodyTrait
+import com.expediagroup.sdk.rest.trait.operation.OperationResponseTrait
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.expediagroup.sdk.core.http.Response as SDKCoreResponse
 
@@ -50,15 +51,19 @@ internal fun <T : Any> SDKCoreResponse.parseBodyAs(
  * @param operation the operation that defines the response body type
  * @param mapper Jackson object mapper
  * @return a Response object containing the parsed response body and headers
+ *
+ * requestId: UUID,
+ *     val statusCode: Int,
+ *     val errorResponse: Any? = null,
+ *     message: String? = null,
+ *     cause: Throwable? = null
  */
 internal fun <T : Any> SDKCoreResponse.toRestResponse(
     operation: JacksonModelOperationResponseBodyTrait<T>,
     mapper: ObjectMapper
 ): Response<T> =
     use {
-        this.throwOnFailure {
-            ExpediaGroupApiException.forResponse(this)
-        }
+        throwOnFailure { mapFailedResponseToException(operation) }
 
         Response(
             data = parseBodyAs(operation, mapper),
@@ -75,7 +80,7 @@ internal fun <T : Any> SDKCoreResponse.toRestResponse(
 internal fun SDKCoreResponse.toRestResponse(operation: OperationNoResponseBodyTrait): Response<Nothing?> =
     use {
         this.throwOnFailure {
-            ExpediaGroupApiException.forResponse(this)
+            mapFailedResponseToException(operation)
         }
 
         Response(
@@ -97,3 +102,49 @@ internal fun SDKCoreResponse.throwOnFailure(block: (SDKCoreResponse) -> RuntimeE
     } else {
         throw block(this)
     }
+
+/**
+ * Converts a **non-2xx [SDKCoreResponse]** into the most specific exception implementing
+ * `ExpediaGroupApiException` the SDK can provide.
+ *
+ * For an operation called `GetFlightListing` as an example. The SDK generates `GetFlightsListing404Exception` if
+ * there's a response model defined in the spec file for the `404` status code. This function attempts to deserialize the response
+ * to the specified error model for `404` status code (defined in the spec file).
+ *
+ * ### Resolution algorithm
+ * 1. Reads the raw response body (as UTF-8) into *`errorResponse`*.
+ * 2. If the body is **non-blank** it delegates to
+ *    [JacksonModelOperationResponseBodyTrait.getExceptionForCode] to obtain an
+ *    operation-specific exception (e.g. `GetFlightsListing401Exception`).
+ * 3. If the delegate throws **`ExpediaGroupResponseParsingException`**
+ *    (body could not be deserialized) *or* the body is blank, the method
+ *    falls back to a generic [ExpediaGroupApiException] whose `message`
+ *    contains the raw text.
+ *
+ * @param operation the operation metadata used to map *code* → exception type.
+ *
+ * @return A typed `ExpediaGroupApiException` when the body can be parsed;
+ *         otherwise a generic fallback that still carries the status code,
+ *         raw body text, and `request.id`.
+ */
+internal fun SDKCoreResponse.mapFailedResponseToException(operation: OperationResponseTrait): ExpediaGroupApiException {
+    val errorResponse = body?.source()?.readUtf8().orEmpty()
+
+    val message =
+        buildString {
+            append("Received unsuccessful response [${this@mapFailedResponseToException.status.code}]")
+            append(" ")
+            append("for requestId [${this@mapFailedResponseToException.request.id}]")
+            if (errorResponse.isNotEmpty()) {
+                append(", ")
+                append("Response=$errorResponse")
+            }
+        }
+
+    return operation.getRequestInfo().getExceptionForCode(
+        code = this.status.code,
+        errorResponseStr = errorResponse,
+        requestId = this.request.id,
+        message = message
+    )
+}
