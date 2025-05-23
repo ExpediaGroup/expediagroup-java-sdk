@@ -82,7 +82,7 @@ object UrlQueryParamStringifier {
     /** form ➜  key=v1,v2 */
     val form =
         StringifyQueryParam { p ->
-            join(key = p.key, items = p.value, delimiter = ",", explode = false)
+            join(key = p.key, items = p.value, delimiter = ",")
         }
 
     /** explode ➜  key=v1&key=v2 */
@@ -94,13 +94,13 @@ object UrlQueryParamStringifier {
     /** spaceDelimited ➜  key=v1%20v2%20v3  (explode is always false) */
     val spaceDelimited =
         StringifyQueryParam { p ->
-            join(key = p.key, items = p.value, delimiter = "%20", explode = false)
+            join(key = p.key, items = p.value, delimiter = "%20")
         }
 
     /** pipeDelimited ➜  key=v1|v2|v3      (explode is always false) */
     val pipeDelimited =
         StringifyQueryParam { p ->
-            join(key = p.key, items = p.value, delimiter = "|", explode = false)
+            join(key = p.key, items = p.value, delimiter = "|")
         }
 }
 

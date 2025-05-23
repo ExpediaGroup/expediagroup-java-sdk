@@ -2,6 +2,7 @@ package com.expediagroup.sdk.rest
 
 import com.expediagroup.sdk.core.http.CommonMediaTypes
 import com.expediagroup.sdk.core.http.ResponseBody
+import com.expediagroup.sdk.core.http.Status
 import com.expediagroup.sdk.core.transport.AbstractAsyncRequestExecutor
 import com.expediagroup.sdk.rest.exception.service.ExpediaGroupApiException
 import com.expediagroup.sdk.rest.model.Response
@@ -23,6 +24,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import java.io.InputStream
+import java.util.UUID
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ExecutionException
 import com.expediagroup.sdk.core.http.Response as SDKCoreResponse
@@ -40,20 +42,46 @@ class AsyncRestExecutorTest {
         asyncRestExecutor = AsyncRestExecutor(mockMapper, mockAsyncRequestExecutor, serverUrl)
     }
 
+    class Operation500Exception(
+        code: Int,
+        requestId: UUID?,
+        message: String?
+    ) : ExpediaGroupApiException(code = code, requestId = requestId, message = message)
+
+    open class DefaultOperationRequest(
+        private val operationId: String = "testOperation",
+        private val method: String = "GET"
+    ) : OperationRequestTrait {
+        override fun getHttpMethod(): String = method
+
+        override fun getOperationId(): String = operationId
+
+        override fun getExceptionForCode(
+            code: Int,
+            errorResponseStr: String?,
+            requestId: UUID?,
+            message: String?,
+            cause: Throwable?
+        ): ExpediaGroupApiException =
+            when (code) {
+                500 -> Operation500Exception(code = code, requestId = requestId, message = message)
+                else -> ExpediaGroupApiException(code, UUID.randomUUID(), message = message)
+            }
+    }
+
     @Test
     fun `execute no response body operation delegates to abstract executor and closes response`() {
         // Given
         val testOperation =
             object : OperationNoResponseBodyTrait {
-                override fun getRequestInfo(): OperationRequestTrait =
-                    object : OperationRequestTrait {
-                        override fun getHttpMethod(): String = "POST"
-                    }
+                override fun getRequestInfo() = DefaultOperationRequest(method = "POST")
             }
+
         val mockResponse =
             mockk<SDKCoreResponse>(relaxed = true) {
                 every { isSuccessful } returns true
             }
+
         val requestExecutor =
             mockk<AbstractAsyncRequestExecutor>(relaxed = true) {
                 every { execute(any()) } returns
@@ -61,6 +89,7 @@ class AsyncRestExecutorTest {
                         complete(mockResponse)
                     }
             }
+
         val executor = AsyncRestExecutor(mockMapper, requestExecutor, serverUrl)
 
         // When
@@ -74,16 +103,20 @@ class AsyncRestExecutorTest {
     }
 
     @Test
-    fun `execute with failing response throws ExecutionException wrapping ExpediaGroupApiException`() {
+    fun `execute with failing response throws ExecutionException wrapping the original cause`() {
         // Given
         val testOperation =
             object : OperationNoResponseBodyTrait {
-                override fun getRequestInfo(): OperationRequestTrait =
-                    object : OperationRequestTrait {
-                        override fun getHttpMethod(): String = "POST"
-                    }
+                override fun getRequestInfo() = DefaultOperationRequest(method = "POST")
             }
-        val mockResponse = mockk<SDKCoreResponse>(relaxed = true) { every { isSuccessful } returns false }
+
+        val mockResponse =
+            mockk<SDKCoreResponse>(relaxed = true) {
+                every { isSuccessful } returns false
+                every { status } returns Status.INTERNAL_SERVER_ERROR
+                every { request.id } returns UUID.randomUUID()
+            }
+
         val requestExecutor =
             mockk<AbstractAsyncRequestExecutor>(relaxed = true) {
                 every { execute(any()) } returns
@@ -91,6 +124,7 @@ class AsyncRestExecutorTest {
                         complete(mockResponse)
                     }
             }
+
         val executor = AsyncRestExecutor(mockMapper, requestExecutor, serverUrl)
 
         val exception =
@@ -99,9 +133,11 @@ class AsyncRestExecutorTest {
             }
 
         assertNotNull(exception.cause)
-        assertTrue(exception.cause is ExpediaGroupApiException)
+
+        assertTrue(exception.cause is Operation500Exception)
+
         assertEquals(
-            "Unsuccessful response code [${mockResponse.status.code}] for request-id [${mockResponse.request.id}]",
+            "Received unsuccessful response [${mockResponse.status.code}] for requestId [${mockResponse.request.id}]",
             exception.cause!!.message
         )
     }
@@ -111,13 +147,11 @@ class AsyncRestExecutorTest {
         // Given
         val testOperation =
             object : JacksonModelOperationResponseBodyTrait<List<String>> {
-                override fun getRequestInfo(): OperationRequestTrait =
-                    object : OperationRequestTrait {
-                        override fun getHttpMethod(): String = "POST"
-                    }
+                override fun getRequestInfo(): OperationRequestTrait = DefaultOperationRequest()
 
                 override fun getTypeIdentifier(): TypeReference<List<String>> = jacksonTypeRef()
             }
+
         val mockResponse =
             mockk<SDKCoreResponse>(relaxed = true) {
                 every { body } returns
@@ -136,6 +170,7 @@ class AsyncRestExecutorTest {
                         complete(mockResponse)
                     }
             }
+
         val executor = AsyncRestExecutor(mockMapper, requestExecutor, serverUrl)
 
         // When
@@ -156,17 +191,12 @@ class AsyncRestExecutorTest {
         // Given
         val testOperationWithNoBody =
             object : OperationNoResponseBodyTrait {
-                override fun getRequestInfo(): OperationRequestTrait =
-                    object : OperationRequestTrait {
-                        override fun getHttpMethod(): String = "POST"
-                    }
+                override fun getRequestInfo(): OperationRequestTrait = DefaultOperationRequest()
             }
+
         val testOperationWithBody =
             object : JacksonModelOperationResponseBodyTrait<List<String>> {
-                override fun getRequestInfo(): OperationRequestTrait =
-                    object : OperationRequestTrait {
-                        override fun getHttpMethod(): String = "POST"
-                    }
+                override fun getRequestInfo(): OperationRequestTrait = DefaultOperationRequest()
 
                 override fun getTypeIdentifier(): TypeReference<List<String>> = jacksonTypeRef()
             }
@@ -181,6 +211,7 @@ class AsyncRestExecutorTest {
 
         val executor = AsyncRestExecutor(mockMapper, requestExecutor, serverUrl)
 
+        // WHEN & EXPECT
         assertThrows<ExecutionException>("test") { executor.execute(testOperationWithNoBody).get() }.also { ex ->
             assertNotNull(ex.cause)
             assertEquals(ex.cause!!.message, "test")

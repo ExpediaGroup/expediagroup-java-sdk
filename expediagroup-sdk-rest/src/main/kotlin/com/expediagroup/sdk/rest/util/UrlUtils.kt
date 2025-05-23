@@ -77,16 +77,11 @@ object UrlUtils {
                     val rawValue = token.substring(eq + 1)
 
                     val destringifier =
-                        destringifyStrategies[name]
-                            ?.let {
-                                require(swaggerCollectionFormatDestringifier[it] != null) {
-                                    "Unknown destringify strategy [$it] for key: $name"
-                                }
+                        destringifyStrategies[name].let {
+                            swaggerCollectionFormatDestringifier[it] ?: UrlQueryParamDestringifiers.explode
+                        }
 
-                                swaggerCollectionFormatDestringifier[it]
-                            }
-
-                    val queryParamValues = destringifier?.invoke(name, rawValue)?.value ?: listOf(rawValue)
+                    val queryParamValues = destringifier.invoke(name, rawValue).value
 
                     getOrPut(name, ::mutableListOf).addAll(queryParamValues)
                 }

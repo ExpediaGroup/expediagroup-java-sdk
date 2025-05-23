@@ -122,6 +122,15 @@ class UrlQueryParamUtilsTest {
                 assertEquals(swaggerCollectionFormatStringifier.get(format), expected)
             }
         }
+
+        @Test
+        fun `stringifiers return empty string if the params list is empty`() {
+            val param = UrlQueryParam("myKey", emptyList(), UrlQueryParamStringifier.form)
+            assertEquals("", UrlQueryParamStringifier.form(param))
+            assertEquals("", UrlQueryParamStringifier.explode(param))
+            assertEquals("", UrlQueryParamStringifier.pipeDelimited(param))
+            assertEquals("", UrlQueryParamStringifier.spaceDelimited(param))
+        }
     }
 
     @Nested
