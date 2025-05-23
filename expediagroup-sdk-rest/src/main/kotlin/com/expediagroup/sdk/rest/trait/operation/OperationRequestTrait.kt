@@ -40,28 +40,17 @@ interface OperationRequestTrait : OperationTrait {
     fun getOperationId(): String
 
     /**
-     * Maps the status code in the response to the suitable exception type. Conventionally, the exceptions
+     * Maps the status code in the response to the suitable exception type. Conventionally, the exception
      * classes consists of the {OperationName}{StatusCode}Exception (e.g. GetFlightsListing404Exception).
-     *
-     * The exception classes deserialize the received responses into their respective error model as specified in the spec file.
      *
      * @param code              HTTP status code returned by the server.
      * @param errorResponseStr  Raw response body (usually JSON or plain text).
-     *                          Parsed only when a typed mapping exists; otherwise
-     *                          preserved as the generic exception’s message.
      * @param requestId         Correlation ID extracted from response headers
-     * @param message           Optional human-readable message to override the body
-     *                          when you already know the error text.
+     * @param message           Optional human-readable message
      * @param cause             Optional root cause that triggered this failure
-     *                          (network I/O, parsing error, etc.).
      *
      * @return The operation-specific exception subclass if available, or a plain
-     *         [ExpediaGroupApiException] when no mapping is defined or were unable to parse the response string.
-     *
-     * @throws com.expediagroup.sdk.core.exception.client.ExpediaGroupResponseParsingException
-     *         If a typed mapping exists but *[errorResponseStr]* cannot be parsed
-     *         into its payload model. Most callers catch this and fall back to the
-     *         generic exception [ExpediaGroupApiException].
+     *         [ExpediaGroupApiException] when no mapping is defined.
      */
     fun getExceptionForCode(
         code: Int,

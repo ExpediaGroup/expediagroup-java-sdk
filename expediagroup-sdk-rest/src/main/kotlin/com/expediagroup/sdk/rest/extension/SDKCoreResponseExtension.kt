@@ -51,12 +51,6 @@ internal fun <T : Any> SDKCoreResponse.parseBodyAs(
  * @param operation the operation that defines the response body type
  * @param mapper Jackson object mapper
  * @return a Response object containing the parsed response body and headers
- *
- * requestId: UUID,
- *     val statusCode: Int,
- *     val errorResponse: Any? = null,
- *     message: String? = null,
- *     cause: Throwable? = null
  */
 internal fun <T : Any> SDKCoreResponse.toRestResponse(
     operation: JacksonModelOperationResponseBodyTrait<T>,
