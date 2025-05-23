@@ -1,19 +1,21 @@
+override fun getOperationId(): String = "{{{operationId}}}"
+
 override fun getHttpMethod(): String = "{{httpMethod}}"
 
 override fun getRequestInfo(): OperationRequestTrait = this
 
 override fun getUrlPath(): String {
-var url = "{{{path}}}"
+    var url = "{{{path}}}"
 
-{{#hasPathParams}}{{#pathParams}}
-    url = url.replace(
-    oldValue = "{" + "{{{baseName}}}" + "}",
-    newValue = this.params.{{{paramName}}}{{#isEnum}}.value{{/isEnum}},
-    ignoreCase = true
-    )
-{{/pathParams}}{{/hasPathParams}}
+    {{#hasPathParams}}{{#pathParams}}
+        url = url.replace(
+        oldValue = "{" + "{{{baseName}}}" + "}",
+        newValue = this.params.{{{paramName}}}{{#isEnum}}.value{{/isEnum}},
+        ignoreCase = true
+        )
+    {{/pathParams}}{{/hasPathParams}}
 
-return url
+    return url
 }
 
 {{#hasBodyParam}}{{#bodyParam}}
@@ -35,3 +37,34 @@ return url
 {{#hasQueryParams}}
     override fun getUrlQueryParams() = this.params.getQueryParams()
 {{/hasQueryParams}}
+
+override fun getExceptionForCode(
+    code: Int,
+    errorResponseStr: String?,
+    requestId: UUID?,
+    message: String?,
+    cause: Throwable?
+): ExpediaGroupApiException = when(code) {
+
+{{#operationExceptions}}
+    {{statusCode}} -> {{exceptionClassName}}(
+        code = code,
+        requestId = requestId,
+        errorResponse = errorResponseStr?.let {
+            try {
+                {{jacksonObjectMapper}}.readValue(errorResponseStr, {{errorModel}}::class.java)
+            } catch(e: Exception) {
+                null
+            }
+        },
+        message = message,
+        cause = cause
+    )
+{{/operationExceptions}}
+    else -> ExpediaGroupApiException(
+        code = code,
+        requestId = requestId,
+        message = errorResponseStr,
+        cause = cause
+    )
+}

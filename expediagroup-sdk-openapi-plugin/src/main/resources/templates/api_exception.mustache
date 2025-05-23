@@ -1,0 +1,29 @@
+package {{ modelPackage }}.exception
+
+import com.expediagroup.sdk.rest.exception.service.ExpediaGroupApiException
+import java.util.UUID
+
+{{#operations}}
+    {{#operation}}
+        {{#processOperation}}
+            {{#operationErrorTypes}}
+                import {{modelPackage}}.{{dataType}}
+            {{/operationErrorTypes}}
+
+            {{#operationExceptions}}
+                class {{exceptionClassName}}(
+                    code: Int = {{statusCode}},
+                    val errorResponse: {{errorModel}}?,
+                    requestId: UUID?,
+                    message: String?,
+                    cause: Throwable?
+                ) : ExpediaGroupApiException(
+                    code = code,
+                    requestId = requestId,
+                    message = message,
+                    cause = cause
+                )
+            {{/operationExceptions}}
+        {{/processOperation}}
+    {{/operation}}
+{{/operations}}

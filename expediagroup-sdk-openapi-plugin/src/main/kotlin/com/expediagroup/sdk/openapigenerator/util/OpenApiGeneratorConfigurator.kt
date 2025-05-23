@@ -18,16 +18,14 @@ package com.expediagroup.sdk.openapigenerator.util
 
 import com.expediagroup.sdk.openapigenerator.mustache.AssignDiscriminatorsLambda
 import com.expediagroup.sdk.openapigenerator.mustache.CustomReturnTypeLambda
-import com.expediagroup.sdk.openapigenerator.mustache.DefineApiExceptionsLambda
 import com.expediagroup.sdk.openapigenerator.mustache.EliminateDiscriminatorsLambda
-import com.expediagroup.sdk.openapigenerator.mustache.ExceptionDataTypesLambda
 import com.expediagroup.sdk.openapigenerator.mustache.HasNonBodyParamsLambda
 import com.expediagroup.sdk.openapigenerator.mustache.HttpAcceptHeaderLambda
 import com.expediagroup.sdk.openapigenerator.mustache.NonBodyParamsLambda
+import com.expediagroup.sdk.openapigenerator.mustache.OperationErrorTypesLambda
+import com.expediagroup.sdk.openapigenerator.mustache.OperationExceptionsLambda
 import com.expediagroup.sdk.openapigenerator.mustache.ProcessModel
 import com.expediagroup.sdk.openapigenerator.mustache.ProcessOperation
-import com.expediagroup.sdk.openapigenerator.mustache.RemoveDoubleQuotesLambda
-import com.expediagroup.sdk.openapigenerator.mustache.RemoveLeadingSlashesLambda
 import org.gradle.api.Project
 import org.openapitools.codegen.CodegenModel
 import org.openapitools.codegen.CodegenOperation
@@ -130,14 +128,12 @@ object OpenApiGeneratorConfigurator {
             mapOf(
                 "customReturnType" to CustomReturnTypeLambda(),
                 "httpAcceptHeader" to HttpAcceptHeaderLambda(),
-                "removeDoubleQuotes" to RemoveDoubleQuotesLambda(),
                 "nonBodyParams" to NonBodyParamsLambda(),
                 "hasNonBodyParams" to HasNonBodyParamsLambda(),
-                "exceptionDataTypes" to ExceptionDataTypesLambda(),
-                "defineApiExceptions" to DefineApiExceptionsLambda(),
+                "operationExceptions" to OperationExceptionsLambda(),
+                "operationErrorTypes" to OperationErrorTypesLambda(),
                 "eliminateDiscriminators" to EliminateDiscriminatorsLambda(),
                 "assignDiscriminators" to AssignDiscriminatorsLambda(),
-                "removeLeadingSlashes" to RemoveLeadingSlashesLambda(),
                 "processOperation" to ProcessOperation(operationProcessors),
                 "processModel" to ProcessModel(modelProcessors)
             )
