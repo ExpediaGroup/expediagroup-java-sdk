@@ -103,7 +103,7 @@ abstract class GenerateEgSdkTask : DefaultTask() {
 
     @TaskAction
     fun generate() {
-        val supportingFilesNames = supportingTemplates.get().joinToString(",") { it.fileName.toString() }
+        val supportingFilesNames = supportingTemplates.get().joinToString(",") { it.fileName }
 
         val config =
             CodegenConfigurator().apply {
@@ -162,7 +162,7 @@ abstract class GenerateEgSdkTask : DefaultTask() {
                                 template.templateFile,
                                 template.destinationPath,
                                 template.fileNameSuffix
-                            ).also { it.templateType = TemplateFileType.API }
+                            ).also { t -> t.templateType = TemplateFileType.API }
                         }
                     } ?: emptyList()
 

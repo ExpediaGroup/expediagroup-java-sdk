@@ -44,7 +44,6 @@ import org.openapitools.codegen.CodegenOperation
  * ```
  */
 abstract class EgSdkGeneratorExtension(project: Project) : ExtensionAware {
-
     /** OpenAPI definition that feeds the generator */
     abstract val specFilePath: RegularFileProperty
 
