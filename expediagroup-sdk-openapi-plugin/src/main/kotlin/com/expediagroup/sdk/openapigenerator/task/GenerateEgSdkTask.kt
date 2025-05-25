@@ -27,6 +27,7 @@ import com.expediagroup.sdk.openapigenerator.mustache.OperationErrorTypesLambda
 import com.expediagroup.sdk.openapigenerator.mustache.OperationExceptionsLambda
 import com.expediagroup.sdk.openapigenerator.mustache.ProcessModel
 import com.expediagroup.sdk.openapigenerator.mustache.ProcessOperation
+import com.expediagroup.sdk.openapigenerator.mustache.RemoveDoubleQuotesLambda
 import com.expediagroup.sdk.openapigenerator.mustache.SupportingTemplate
 import com.samskivert.mustache.Mustache
 import org.gradle.api.DefaultTask
@@ -149,6 +150,7 @@ abstract class GenerateEgSdkTask : DefaultTask() {
                 addAdditionalProperty("operationErrorTypes", OperationErrorTypesLambda())
                 addAdditionalProperty("eliminateDiscriminators", EliminateDiscriminatorsLambda())
                 addAdditionalProperty("assignDiscriminators", AssignDiscriminatorsLambda())
+                addAdditionalProperty("removeDoubleQuotes", RemoveDoubleQuotesLambda())
                 addAdditionalProperty("processOperation", ProcessOperation(operationProcessors.get()))
                 addAdditionalProperty("processModel", ProcessModel(modelProcessors.get()))
             }

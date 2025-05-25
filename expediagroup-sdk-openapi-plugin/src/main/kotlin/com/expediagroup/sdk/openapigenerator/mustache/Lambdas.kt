@@ -154,6 +154,16 @@ class CustomReturnTypeLambda : Mustache.Lambda, Serializable {
     }
 }
 
+class RemoveDoubleQuotesLambda : Mustache.Lambda, Serializable {
+    override fun execute(
+        fragment: Template.Fragment,
+        writer: Writer
+    ) {
+        val data: String = fragment.context() as String
+        writer.write("\"${data.replace(Regex("^\"+|\"$"), "")}\"")
+    }
+}
+
 class ProcessOperation(
     private val processors: List<(CodegenOperation) -> CodegenOperation>
 ) : Mustache.Lambda, Serializable {
