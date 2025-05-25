@@ -17,78 +17,74 @@
 package com.expediagroup.sdk.openapigenerator
 
 import com.expediagroup.sdk.openapigenerator.extension.EgSdkGeneratorExtension
-import com.expediagroup.sdk.openapigenerator.extension.SpecTransformerExtension
 import com.expediagroup.sdk.openapigenerator.task.GenerateEgSdkTask
 import com.expediagroup.sdk.openapigenerator.task.MergeCustomTemplatesTask
-import com.expediagroup.sdk.openapigenerator.task.TransformSpecTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.tasks.TaskProvider
 
+/**
+ * **`com.expediagroup.sdk.openapigenerator`**
+ *
+ * Applying this plugin to a project does exactly two things:
+ *
+ * * `mergeCustomTemplatesTask`: copies the plugin’s built-in mustache
+ *    templates into the build folder and overlays any user-supplied
+ *    templates from `egSdkGenerator.customTemplatesDir`.
+ * * `generateEgSdk`: consumes the _merged_ template directory plus the
+ *    user-defined extension inputs and runs OpenAPI Generator, writing the
+ *    Kotlin SDK into `egSdkGenerator.outputDir`
+ *    (default = `"$projectDir/src/main/kotlin"`).
+ *
+ * ### Incremental & configuration-cache behaviour
+ * * Every input to the tasks comes from a `Property`; the plugin never calls
+ *   `.get()` during configuration.
+ * * If neither the templates nor the OpenAPI spec changed,
+ *   `generateEgSdk` is _*UP-TO-DATE*_.
+ *
+ * ### Typical usage
+ * ```kotlin
+ * plugins { id("com.expediagroup.sdk.openapigenerator") }
+ *
+ * egSdkGenerator {
+ *     namespace.set("cars")
+ *     specFilePath.set(layout.projectDirectory.file("specs/cars.yaml"))
+ *     customTemplatesDir.set(layout.projectDirectory.dir("my-templates"))
+ * }
+ * ```
+ */
 class EgSdkGeneratorPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         with(project) {
-            val egSdkGeneratorExt = extensions.create("egSdkGenerator", EgSdkGeneratorExtension::class.java)
-            val specTransformerExt = egSdkGeneratorExt.extensions.create("specTransformer", SpecTransformerExtension::class.java)
+            val egSdkGeneratorExt =
+                extensions.create(
+                    "egSdkGenerator",
+                    EgSdkGeneratorExtension::class.java
+                )
 
-            val mergeCustomTemplatesTask = registerMergeCustomTemplatesTask()
-            val transformSpecsTask = registerTransformSpecsTask(egSdkGeneratorExt, specTransformerExt)
+            val mergeCustomTemplatesTask =
+                tasks.register(
+                    "mergeCustomTemplatesTask",
+                    MergeCustomTemplatesTask::class.java
+                )
 
-            registerGenerateSdkTask(
-                egSdkGeneratorExt = egSdkGeneratorExt,
-                mergeTemplatesTask = mergeCustomTemplatesTask,
-                transformSpecsTask = transformSpecsTask
-            )
-        }
-    }
+            tasks.apply {
+                register("generateEgSdk", GenerateEgSdkTask::class.java) {
+                    it.dependsOn(mergeCustomTemplatesTask)
 
-    private fun Project.registerTransformSpecsTask(
-        egSdkGeneratorExt: EgSdkGeneratorExtension,
-        specTransformerExt: SpecTransformerExtension
-    ) = tasks.register("transformSpecs", TransformSpecTask::class.java) { t ->
-        t.inputSpec.set(egSdkGeneratorExt.specFilePath)
-        t.outputSpec.set(project.layout.buildDirectory.file("transformed-spec.yaml"))
-        t.specTransformerExtension.headers.set(specTransformerExt.headers)
-        t.specTransformerExtension.operationIdsToTags.set(specTransformerExt.operationIdsToTags)
-        t.specTransformerExtension.defaultStringType.set(specTransformerExt.defaultStringType)
-        t.specTransformerExtension.enabled.set(specTransformerExt.enabled)
-    }
-
-    private fun Project.registerMergeCustomTemplatesTask(): TaskProvider<MergeCustomTemplatesTask> = tasks.register("mergeCustomTemplatesTask", MergeCustomTemplatesTask::class.java)
-
-    private fun Project.registerGenerateSdkTask(
-        egSdkGeneratorExt: EgSdkGeneratorExtension,
-        mergeTemplatesTask: TaskProvider<MergeCustomTemplatesTask>,
-        transformSpecsTask: TaskProvider<TransformSpecTask>
-    ) = tasks.register("generateEgSdk", GenerateEgSdkTask::class.java) {
-        // dependencies
-        it.dependsOn(mergeTemplatesTask)
-        it.dependsOn(transformSpecsTask)
-
-        // choose spec: transformed ↔ original
-        it.specFilePath.set(
-            egSdkGeneratorExt.specTransformer.enabled.flatMap { enabled ->
-                if (enabled) {
-                    transformSpecsTask.flatMap { transformSpecsTask -> transformSpecsTask.outputSpec }
-                } else {
-                    egSdkGeneratorExt.specFilePath
+                    it.specFilePath.set(egSdkGeneratorExt.specFilePath)
+                    it.namespace.set(egSdkGeneratorExt.namespace)
+                    it.customTemplatesDir.set(mergeCustomTemplatesTask.flatMap { mergeTask -> mergeTask.mergedDir })
+                    it.basePackage.set(egSdkGeneratorExt.basePackage)
+                    it.modelPackage.set(egSdkGeneratorExt.modelPackage)
+                    it.operationPackage.set(egSdkGeneratorExt.operationPackage)
+                    it.outputDir.set(egSdkGeneratorExt.outputDir)
+                    it.modelProcessors.set(egSdkGeneratorExt.modelProcessors)
+                    it.operationProcessors.set(egSdkGeneratorExt.operationProcessors)
+                    it.lambdas.set(egSdkGeneratorExt.lambdas)
+                    it.supportingTemplates.set(egSdkGeneratorExt.supportingTemplates)
+                    it.apiTemplates.set(egSdkGeneratorExt.apiTemplates)
                 }
             }
-        )
-
-        // mandatory inputs
-        it.namespace.set(egSdkGeneratorExt.namespace)
-        it.customTemplatesDir.set(mergeTemplatesTask.flatMap { mergeTask -> mergeTask.mergedDir })
-
-        // optional inputs (copy only if user provided)
-        egSdkGeneratorExt.basePackage.orNull?.let(it.basePackage::set)
-        egSdkGeneratorExt.modelPackage.orNull?.let(it.modelPackage::set)
-        egSdkGeneratorExt.operationPackage.orNull?.let(it.operationPackage::set)
-        egSdkGeneratorExt.outputDir.orNull?.let(it.outputDir::set)
-        egSdkGeneratorExt.modelProcessors.orNull?.let(it.modelProcessors::set)
-        egSdkGeneratorExt.operationProcessors.orNull?.let(it.operationProcessors::set)
-        egSdkGeneratorExt.lambdas.orNull?.let(it.lambdas::set)
-        egSdkGeneratorExt.supportingTemplates.orNull?.let(it.supportingTemplates::set)
-        egSdkGeneratorExt.apiTemplates.orNull?.let(it.apiTemplates::set)
+        }
     }
 }

@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2025 Expedia, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.expediagroup.sdk.openapigenerator.task
 
 import com.expediagroup.sdk.openapigenerator.mustache.ApiTemplate
@@ -34,6 +50,11 @@ import org.openapitools.codegen.api.TemplateFileType
 import org.openapitools.codegen.config.CodegenConfigurator
 import kotlin.collections.joinToString
 
+/**
+ * Task to generate the Expedia Group SDK from an OpenAPI specification.
+ * This task uses the OpenAPI Generator to create Kotlin code based on the provided OpenAPI spec.
+ * It allows customization of the generated code through various properties and templates.
+ */
 abstract class GenerateEgSdkTask : DefaultTask() {
     @get:Input
     abstract val namespace: Property<String>
@@ -80,40 +101,20 @@ abstract class GenerateEgSdkTask : DefaultTask() {
     @get:Optional
     abstract val apiTemplates: ListProperty<ApiTemplate>
 
-    init {
-        modelPackage.convention(
-            namespace.map { ns -> "com.expediagroup.sdk.$ns.model" }
-        )
-
-        operationPackage.convention(
-            namespace.map { ns -> "com.expediagroup.sdk.$ns.operation" }
-        )
-
-        outputDir.convention(project.layout.projectDirectory.dir("src/main/kotlin"))
-    }
-
     @TaskAction
     fun generate() {
-        println("Custom Templates Directory: ${customTemplatesDir.get().asFile.absolutePath}")
-        println("Model Processors: ${modelProcessors.get()}")
-        println("Operation Processors: ${operationProcessors.get()}")
-        println("Lambdas: ${lambdas.get()}")
-        println("Supporting Templates: ${supportingTemplates.get()}")
-        println("API Templates: ${apiTemplates.get()}")
-
         val supportingFilesNames = supportingTemplates.get().joinToString(",") { it.fileName.toString() }
-
-        println("Supporting Files NAMES: $supportingFilesNames")
 
         val config =
             CodegenConfigurator().apply {
                 setGeneratorName("kotlin")
                 setPackageName(basePackage.get())
                 setInputSpec(specFilePath.get().asFile.absolutePath)
-                setOutputDir(outputDir.get().asFile.absolutePath)
                 setEnablePostProcessFile(true)
+
+                setOutputDir(outputDir.get().asFile.absolutePath)
+
                 customTemplatesDir.orNull?.let {
-                    println("Using custom templates from: ${it.asFile.absolutePath}")
                     setTemplateDir(it.asFile.absolutePath)
                 }
 
@@ -137,6 +138,7 @@ abstract class GenerateEgSdkTask : DefaultTask() {
                 addAdditionalProperty(CodegenConstants.API_PACKAGE, operationPackage.get())
                 addAdditionalProperty(CodegenConstants.SOURCE_FOLDER, "")
                 addAdditionalProperty("omitGradleWrapper", true)
+                addAdditionalProperty("jacksonObjectMapper", "${basePackage.get()}.configuration.OBJECT_MAPPER")
 
                 // Lambdas
                 addAdditionalProperty("customReturnType", CustomReturnTypeLambda())
@@ -159,7 +161,7 @@ abstract class GenerateEgSdkTask : DefaultTask() {
                             TemplateDefinition(
                                 template.templateFile,
                                 template.destinationPath,
-                                template.fileName
+                                template.fileNameSuffix
                             ).also { it.templateType = TemplateFileType.API }
                         }
                     } ?: emptyList()
@@ -175,9 +177,6 @@ abstract class GenerateEgSdkTask : DefaultTask() {
                         }
                     } ?: emptyList()
 
-                println("Resolved API Templates: $resolvedApiTemplates")
-                println("Resolved Supporting Templates: $resolvedSupportingTemplates")
-
                 userDefinedTemplates(
                     buildList {
                         addAll(resolvedApiTemplates)
@@ -188,10 +187,15 @@ abstract class GenerateEgSdkTask : DefaultTask() {
                                 "Params.kt"
                             ).also { it.templateType = TemplateFileType.API }
                         )
+                        add(
+                            TemplateDefinition(
+                                "api_exception.mustache",
+                                "${modelPackage.get().replace('.', '/')}/exception",
+                                "Exception.kt"
+                            ).also { it.templateType = TemplateFileType.API }
+                        )
                     }
                 )
-
-                println("User Defined Templates $userDefinedTemplates")
             }
 
         val generator = DefaultGenerator(false).apply { opts(generatorInput) }
