@@ -1,8 +1,0 @@
-files:
-  operation_params.mustache:
-    templateType: API
-    destinationFilename: Params.kt
-  api_exception.mustache:
-    templateType: API
-    destinationFilename: Exceptions.kt
-    folder: com/expediagroup/sdk/xap/model/exception
