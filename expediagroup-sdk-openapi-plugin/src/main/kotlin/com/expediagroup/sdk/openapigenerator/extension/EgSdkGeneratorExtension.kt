@@ -56,6 +56,9 @@ abstract class EgSdkGeneratorExtension(project: Project) : ExtensionAware {
     /** Package into which **operation** (API) classes are generated. */
     abstract val operationPackage: Property<String>
 
+    /** The fully-qualified name pointing to Jackson object mapper */
+    abstract val objectMapper: Property<String>
+
     /** Folder that contains user-overrides for `.mustache` templates. */
     abstract val customTemplatesDir: DirectoryProperty
 

@@ -73,6 +73,7 @@ class EgSdkGeneratorPlugin : Plugin<Project> {
 
                     it.specFilePath.set(egSdkGeneratorExt.specFilePath)
                     it.namespace.set(egSdkGeneratorExt.namespace)
+                    it.objectMapper.set(egSdkGeneratorExt.objectMapper)
                     it.customTemplatesDir.set(mergeCustomTemplatesTask.flatMap { mergeTask -> mergeTask.mergedDir })
                     it.basePackage.set(egSdkGeneratorExt.basePackage)
                     it.modelPackage.set(egSdkGeneratorExt.modelPackage)

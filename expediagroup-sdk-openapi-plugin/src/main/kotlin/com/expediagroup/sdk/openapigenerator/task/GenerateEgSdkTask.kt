@@ -67,6 +67,9 @@ abstract class GenerateEgSdkTask : DefaultTask() {
     abstract val basePackage: Property<String>
 
     @get:Input
+    abstract val objectMapper: Property<String>
+
+    @get:Input
     @get:Optional
     abstract val modelPackage: Property<String>
 
@@ -131,6 +134,7 @@ abstract class GenerateEgSdkTask : DefaultTask() {
 
                 // Additional Properties
                 addAdditionalProperty("namespace", namespace.get())
+                addAdditionalProperty("jacksonObjectMapper", objectMapper.get())
                 addAdditionalProperty("modelPackage", modelPackage.get())
                 addAdditionalProperty("operationPackage", operationPackage.get())
                 addAdditionalProperty(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, true)
@@ -139,7 +143,6 @@ abstract class GenerateEgSdkTask : DefaultTask() {
                 addAdditionalProperty(CodegenConstants.API_PACKAGE, operationPackage.get())
                 addAdditionalProperty(CodegenConstants.SOURCE_FOLDER, "")
                 addAdditionalProperty("omitGradleWrapper", true)
-                addAdditionalProperty("jacksonObjectMapper", "${basePackage.get()}.configuration.OBJECT_MAPPER")
 
                 // Lambdas
                 addAdditionalProperty("customReturnType", CustomReturnTypeLambda())
@@ -153,6 +156,8 @@ abstract class GenerateEgSdkTask : DefaultTask() {
                 addAdditionalProperty("removeDoubleQuotes", RemoveDoubleQuotesLambda())
                 addAdditionalProperty("processOperation", ProcessOperation(operationProcessors.get()))
                 addAdditionalProperty("processModel", ProcessModel(modelProcessors.get()))
+
+                lambdas.get().forEach { addAdditionalProperty(it.first, it.second) }
             }
 
         val generatorInput =
