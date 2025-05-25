@@ -294,7 +294,7 @@ class UrlUtilsTest {
                 mapOf(
                     "param1" to listOf("value1", "value2"),
                     "param2" to listOf("value3,value4"),
-                    "param3" to listOf("value5|value6"),
+                    "param3" to listOf("value5|value6")
                 )
 
             assertEquals(expected, result)
