@@ -2,7 +2,6 @@ package com.expediagroup.sdk.rest.util
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -282,20 +281,23 @@ class UrlUtilsTest {
         }
 
         @Test
-        fun `throws IllegalArgumentException on unknown destringify strategy`() {
+        fun `falls back to explode destringifier if the destringify strategy in unknown`() {
             // Given
-            val query = "param1=value1&param2=value2,value3"
+            val query = "param1=value1&param1=value2&param2=value3,value4&param3=value5|value6"
             val destringifyStrategies = mapOf("param2" to "random")
 
-            // When
-            val exception =
-                Assertions.assertThrows(IllegalArgumentException::class.java) {
-                    UrlUtils.parseQueryParams(query, destringifyStrategies)
-                }
+            // WHEN
+            val result = UrlUtils.parseQueryParams(query, destringifyStrategies)
 
-            // Then
-            val expectedMessage = "Unknown destringify strategy [random] for key: param2"
-            assertEquals(expectedMessage, exception.message)
+            // EXPECT
+            val expected =
+                mapOf(
+                    "param1" to listOf("value1", "value2"),
+                    "param2" to listOf("value3,value4"),
+                    "param3" to listOf("value5|value6")
+                )
+
+            assertEquals(expected, result)
         }
     }
 

@@ -17,7 +17,9 @@
 package com.expediagroup.sdk.rest.trait.operation
 
 import com.expediagroup.sdk.core.http.Headers
+import com.expediagroup.sdk.rest.exception.service.ExpediaGroupApiException
 import com.expediagroup.sdk.rest.model.UrlQueryParam
+import java.util.UUID
 
 /**
  * Marker interface for operation requests.
@@ -29,6 +31,34 @@ interface OperationRequestTrait : OperationTrait {
      * @return the HTTP method as a String
      */
     fun getHttpMethod(): String
+
+    /**
+     * Get the operation ID as defined in the source spec file.
+     *
+     * @return the operation ID as a String
+     */
+    fun getOperationId(): String
+
+    /**
+     * Maps the status code in the response to the suitable exception type. Conventionally, the exception
+     * classes consists of the {OperationName}{StatusCode}Exception (e.g. GetFlightsListing404Exception).
+     *
+     * @param code              HTTP status code returned by the server.
+     * @param errorResponseStr  Raw response body (usually JSON or plain text).
+     * @param requestId         Correlation ID extracted from response headers
+     * @param message           Optional human-readable message
+     * @param cause             Optional root cause that triggered this failure
+     *
+     * @return The operation-specific exception subclass if available, or a plain
+     *         [ExpediaGroupApiException] when no mapping is defined.
+     */
+    fun getExceptionForCode(
+        code: Int,
+        errorResponseStr: String? = null,
+        requestId: UUID? = null,
+        message: String? = null,
+        cause: Throwable? = null
+    ): ExpediaGroupApiException
 }
 
 /**
