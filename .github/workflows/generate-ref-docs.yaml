@@ -61,8 +61,21 @@ jobs:
           mkdir -p older
           mv -v older ${{ runner.temp }}/older
           mkdir -p ${{ runner.temp }}/older/${{ env.LATEST_DOCS_VERSION }}
-          mv -v ./* ${{ runner.temp }}/older/${{ env.LATEST_DOCS_VERSION }}
-          mv -v ${{ runner.temp }}/older/${{ env.LATEST_DOCS_VERSION }}/assets ${{ runner.temp }}/assets
+
+          # Check if there are files to move before attempting to move them
+          if ls -A 2>/dev/null | grep -v "^\." >/dev/null; then
+            mv -v ./* ${{ runner.temp }}/older/${{ env.LATEST_DOCS_VERSION }} || echo "No matching files found"
+
+            # Check if assets directory exists before moving it
+            if [ -d "${{ runner.temp }}/older/${{ env.LATEST_DOCS_VERSION }}/assets" ]; then
+              mv -v ${{ runner.temp }}/older/${{ env.LATEST_DOCS_VERSION }}/assets ${{ runner.temp }}/assets
+            else
+              mkdir -p ${{ runner.temp }}/assets
+            fi
+          else
+            echo "No non-hidden files found in the current directory to archive"
+            mkdir -p ${{ runner.temp }}/assets
+          fi
 
       - name: Checkout back to original branch
         run: git checkout ${{ inputs.ref }}
