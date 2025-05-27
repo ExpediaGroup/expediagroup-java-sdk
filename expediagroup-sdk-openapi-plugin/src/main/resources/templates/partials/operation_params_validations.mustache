@@ -1,9 +1,5 @@
 {{#nonBodyParams}}
     {{#params}}
-        {{#required}}
-            require({{{paramName}}} != null) { "{{{paramName}}} must not be null" }
-        {{/required}}
-
         {{#minLength}}
             require({{{paramName}}}?.length ?: 0 >= {{minLength}}) { "{{{paramName}}} must be at least {{minLength}} characters long" }
         {{/minLength}}

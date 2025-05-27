@@ -1,8 +1,4 @@
 {{#allVars}}
-    {{#required}}
-        require({{{name}}} != null) { "{{{name}}} must not be null" }
-    {{/required}}
-
     {{#minLength}}
         require({{{name}}}?.length ?: 0 >= {{minLength}}) { "{{{name}}} must be at least {{minLength}} characters long" }
     {{/minLength}}

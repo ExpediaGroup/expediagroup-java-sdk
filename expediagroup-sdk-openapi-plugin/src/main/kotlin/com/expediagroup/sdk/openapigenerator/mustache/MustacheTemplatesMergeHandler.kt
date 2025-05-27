@@ -14,22 +14,21 @@
  * limitations under the License.
  */
 
-package com.expediagroup.sdk.openapigenerator.util
+package com.expediagroup.sdk.openapigenerator.mustache
 
+import com.expediagroup.sdk.openapigenerator.extension.EgSdkGeneratorExtension
 import org.gradle.api.Project
 import org.gradle.api.file.DuplicatesStrategy
 import org.gradle.api.logging.Logging
-import org.openapitools.generator.gradle.plugin.extensions.OpenApiGeneratorGenerateExtension
 import java.io.File
 import java.net.JarURLConnection
 import java.net.URL
-import kotlin.sequences.asSequence
 
 /**
  * Responsible for assembling final Mustache templates,
  * combining default templates and any user-provided templates.
  */
-object MustacheTemplatesHandler {
+object MustacheTemplatesMergeHandler {
     private val logger = Logging.getLogger(this.javaClass)
 
     /** Directory name where default templates reside within resources. */
@@ -42,7 +41,7 @@ object MustacheTemplatesHandler {
      * Creates or locates the final templates directory, populates it with default templates,
      * and merges any externally provided templates.
      *
-     * @param project The Gradle [Project] instance.
+     * @param project The Gradle [org.gradle.api.Project] instance.
      * @return The absolute path to the final templates' directory.
      */
     fun resolveFinalTemplates(project: Project): String {
@@ -57,7 +56,7 @@ object MustacheTemplatesHandler {
      * If it doesn't exist, it is created.
      *
      * @param project The Gradle [Project] instance.
-     * @return A [File] pointing to the final templates' directory.
+     * @return A [java.io.File] pointing to the final templates' directory.
      */
     private fun initializeFinalTemplatesDirectory(project: Project): File {
         val finalDir = project.layout.buildDirectory.dir(FINAL_TEMPLATES_DIR_NAME).get().asFile
@@ -131,26 +130,24 @@ object MustacheTemplatesHandler {
         project: Project,
         finalTemplatesDirectory: File
     ) {
-        project.afterEvaluate {
-            val openApiExt =
-                it.extensions.findByType(OpenApiGeneratorGenerateExtension::class.java)
-                    ?: return@afterEvaluate
+        val openApiExt =
+            project.extensions.findByType(EgSdkGeneratorExtension::class.java)
+                ?: return
 
-            val externalTemplatePath = openApiExt.templateDir.orNull ?: return@afterEvaluate
-            val externalTemplateDir = project.file(externalTemplatePath).takeIf { dir -> dir.exists() }
+        val externalTemplatePath = openApiExt.customTemplatesDir.orNull ?: return
+        val externalTemplateDir = project.file(externalTemplatePath).takeIf { dir -> dir.exists() }
 
-            if (externalTemplateDir == null) {
-                logger.warn("External templates directory not found: $externalTemplatePath")
-                return@afterEvaluate
-            }
-
-            project.copy { copySpec ->
-                copySpec.from(externalTemplateDir)
-                copySpec.into(finalTemplatesDirectory)
-                copySpec.duplicatesStrategy = DuplicatesStrategy.INCLUDE
-            }
-
-            logger.lifecycle("Merged user templates from $externalTemplatePath into ${finalTemplatesDirectory.absolutePath}")
+        if (externalTemplateDir == null) {
+            logger.warn("External templates directory not found: $externalTemplatePath")
+            return
         }
+
+        project.copy { copySpec ->
+            copySpec.from(externalTemplateDir)
+            copySpec.into(finalTemplatesDirectory)
+            copySpec.duplicatesStrategy = DuplicatesStrategy.INCLUDE
+        }
+
+        logger.lifecycle("Merged user templates from $externalTemplatePath into ${finalTemplatesDirectory.absolutePath}")
     }
 }
