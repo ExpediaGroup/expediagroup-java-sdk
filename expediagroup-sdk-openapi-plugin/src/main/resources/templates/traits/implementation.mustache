@@ -7,13 +7,15 @@ override fun getRequestInfo(): OperationRequestTrait = this
 override fun getUrlPath(): String {
     var url = "{{{path}}}"
 
-    {{#hasPathParams}}{{#pathParams}}
-        url = url.replace(
-        oldValue = "{" + "{{{baseName}}}" + "}",
-        newValue = this.params.{{{paramName}}}{{#isEnum}}.value{{/isEnum}},
-        ignoreCase = true
-        )
-    {{/pathParams}}{{/hasPathParams}}
+    {{#hasPathParams}}
+        {{#pathParams}}
+            url = url.replace(
+                oldValue = "{" + "{{{baseName}}}" + "}",
+                newValue = this.params.{{{paramName}}}{{#isEnum}}.value{{/isEnum}},
+                ignoreCase = true
+            )
+        {{/pathParams}}
+    {{/hasPathParams}}
 
     return url
 }
