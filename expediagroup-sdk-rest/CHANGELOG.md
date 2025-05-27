@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.10-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-rest-v0.0.9-alpha...expediagroup-sdk-rest-v0.0.10-alpha) (2025-05-27)
+
+
+### Bug Fixes
+
+* **deps:** use core version 0.0.8-alpha in rest package ([#1187](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1187)) ([0cfdbd5](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/0cfdbd505854f181cc5898656e3400b37751b9f6))
+
 ## [0.0.9-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-rest-v0.0.8-alpha...expediagroup-sdk-rest-v0.0.9-alpha) (2025-05-26)
 
 
