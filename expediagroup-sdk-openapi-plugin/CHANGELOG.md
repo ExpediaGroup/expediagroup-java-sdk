@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.15-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-openapi-plugin-v0.0.14-alpha...expediagroup-sdk-openapi-plugin-v0.0.15-alpha) (2025-05-27)
+
+
+### Bug Fixes
+
+* fix plugin publication name ([#1184](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1184)) ([7eac4c2](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/7eac4c245df998ab56ba73f486c5573f62f11aeb))
+
 ## [0.0.14-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-openapi-plugin-v0.0.13-alpha...expediagroup-sdk-openapi-plugin-v0.0.14-alpha) (2025-05-27)
 
 
