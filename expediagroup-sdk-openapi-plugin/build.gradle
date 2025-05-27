@@ -13,8 +13,7 @@ apply from: "$rootDir/gradle-tasks/publish-gradle-plugin.gradle"
 apply from: "$rootDir/gradle-tasks/signing.gradle"
 
 dependencies {
-    implementation 'org.openapitools:openapi-generator:7.11.0'
-    implementation 'org.openapitools:openapi-generator-gradle-plugin:7.11.0'
+    api 'org.openapitools:openapi-generator:7.11.0'
 }
 
 kotlin {
@@ -39,11 +38,11 @@ gradlePlugin {
     website = 'https://github.com/ExpediaGroup/expediagroup-java-sdk'
     vcsUrl = 'https://github.com/ExpediaGroup/expediagroup-java-sdk'
     plugins {
-        create("egSdkOpenApiGenerator") {
+        create("egSdkGenerator") {
             id = "com.expediagroup.sdk.openapigenerator"
-            implementationClass = "com.expediagroup.sdk.openapigenerator.EgSdkOpenApiGeneratorPlugin"
-            displayName = "EG SDK OpenApi Gradle Plugin Wrapper"
-            description = "applies the standard OpenAPI Generator plugin (\"org.openapi.generator\") and configures it with Expedia Group SDK defaults."
+            implementationClass = "com.expediagroup.sdk.openapigenerator.EgSdkGeneratorPlugin"
+            displayName = "Expedia Group SDK OpenAPI Generator Plugin"
+            description = "A Gradle plugin for generating EG SDKs from OpenAPI specifications using OpenAPI Generator."
             tags = ["expediagroup", "expedia", "sdk", "plugin", "openapi", "generator"]
         }
     }
@@ -57,7 +56,7 @@ tasks {
     publishing {
         afterEvaluate {
             publications {
-                egSdkOpenApiGeneratorPluginMarkerMaven(MavenPublication) {
+                egSdkGeneratorPluginMarkerMaven(MavenPublication) {
                     pom {
                         description = findProperty("DESCRIPTION")
                         url = project.property("POM_URL")

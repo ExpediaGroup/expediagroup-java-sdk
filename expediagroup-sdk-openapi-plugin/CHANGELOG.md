@@ -1,5 +1,47 @@
 # Changelog
 
+## [0.0.15-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-openapi-plugin-v0.0.14-alpha...expediagroup-sdk-openapi-plugin-v0.0.15-alpha) (2025-05-27)
+
+
+### Bug Fixes
+
+* fix plugin publication name ([#1184](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1184)) ([7eac4c2](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/7eac4c245df998ab56ba73f486c5573f62f11aeb))
+
+## [0.0.14-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-openapi-plugin-v0.0.13-alpha...expediagroup-sdk-openapi-plugin-v0.0.14-alpha) (2025-05-27)
+
+
+### Bug Fixes
+
+* improve validation logic in mustache templates ([#1182](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1182)) ([4ed0686](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/4ed068651922c36e32860933d302fa02b0a54d75))
+
+## [0.0.13-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-openapi-plugin-v0.0.12-alpha...expediagroup-sdk-openapi-plugin-v0.0.13-alpha) (2025-05-27)
+
+
+### Features
+
+* use native OpenAPI generator and support typed exceptions ([#1173](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1173)) ([1fddc88](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/1fddc88cb83fc8610b3500ffaf35f5cba4deed86))
+
+## [0.0.12-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-openapi-plugin-v0.0.11-alpha...expediagroup-sdk-openapi-plugin-v0.0.12-alpha) (2025-05-18)
+
+
+### Bug Fixes
+
+* fix query params mustache ([#1163](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1163)) ([3ecbaff](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/3ecbaff05c667a6dbbd69eb07731b71fc80162f9))
+
+## [0.0.11-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-openapi-plugin-v0.0.10-alpha...expediagroup-sdk-openapi-plugin-v0.0.11-alpha) (2025-05-15)
+
+
+### Bug Fixes
+
+* refactor query params encoding ([#1161](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1161)) ([652783e](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/652783e959c9d0e499101d9bb3aade7fa29b24d6))
+
+## [0.0.10-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-openapi-plugin-v0.0.9-alpha...expediagroup-sdk-openapi-plugin-v0.0.10-alpha) (2025-05-05)
+
+
+### Bug Fixes
+
+* resolve template bugs ([#1142](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1142)) ([6f5a4bd](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/6f5a4bdf244464a73f7e2664fd9c317f841d70d4))
+
 ## [0.0.9-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-openapi-plugin-v0.0.8-alpha...expediagroup-sdk-openapi-plugin-v0.0.9-alpha) (2025-04-21)
 
 

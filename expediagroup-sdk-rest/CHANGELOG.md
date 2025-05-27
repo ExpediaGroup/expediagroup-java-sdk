@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.0.9-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-rest-v0.0.8-alpha...expediagroup-sdk-rest-v0.0.9-alpha) (2025-05-26)
+
+
+### Features
+
+* **expediagroup-sdk-rest:** support throwing typed exceptions per operation ([#1172](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1172)) ([914756a](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/914756ac4e3721642df08661cc679a3067931da2))
+
+## [0.0.8-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-rest-v0.0.7-alpha...expediagroup-sdk-rest-v0.0.8-alpha) (2025-05-15)
+
+
+### Bug Fixes
+
+* refactor query params encoding ([#1161](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1161)) ([652783e](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/652783e959c9d0e499101d9bb3aade7fa29b24d6))
+
 ## [0.0.7-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-rest-v0.0.6-alpha...expediagroup-sdk-rest-v0.0.7-alpha) (2025-04-21)
 
 

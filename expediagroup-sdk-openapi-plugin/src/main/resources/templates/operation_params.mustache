@@ -1,4 +1,5 @@
-package com.expediagroup.sdk.{{namespace}}.operations
+{{>licenseInfo}}
+package {{ operationPackage }}
 
 {{>operations/params/imports}}
 
@@ -17,17 +18,14 @@ package com.expediagroup.sdk.{{namespace}}.operations
                 {{/nonBodyParams}}
                 */
                 @JsonDeserialize(builder = {{classname}}Params.Builder::class)
-                data class {{classname}}Params(
+                @ConsistentCopyVisibility
+                data class {{classname}}Params private constructor(
                 {{#nonBodyParams}}
                     {{#params}}
                         {{>modelMutable}} {{>client/apiParam}}{{^-last}}, {{/-last}}
                     {{/params}}
                 {{/nonBodyParams}}
                 ) {
-
-                init {
-                {{>partials/operation_params_validations}}
-                }
 
                 companion object {
                     @JvmStatic
@@ -43,10 +41,6 @@ package com.expediagroup.sdk.{{namespace}}.operations
                 {{>operations/params/get_query_params}}
 
                 {{>operations/params/get_path_params}}
-
-                {{#link}}
-                    {{>operations/params/link_builder_method}}
-                {{/link}}
                 }
             {{/hasNonBodyParams}}
         {{/processOperation}}

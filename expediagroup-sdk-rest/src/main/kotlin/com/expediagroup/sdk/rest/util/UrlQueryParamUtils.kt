@@ -53,53 +53,54 @@ fun interface DestringifyQueryParam : (String, String) -> UrlQueryParam {
     ): UrlQueryParam
 }
 
+/** The RFC-3986-compliant percent-encode for one component (name or value). */
+private fun pctEncode(s: String): String =
+    URLEncoder.encode(s, "utf-8")
+        .replace("+", "%20") // HTML-form → generic URI
+        .replace("%7E", "~") // keep '~' pretty (optional)
+
+/** Generic helper: join *encoded* items with the given delimiter. */
+private fun join(
+    key: String,
+    items: List<String>,
+    delimiter: String = ",",
+    explode: Boolean = false
+): String {
+    if (items.isEmpty()) return ""
+
+    val encKey = pctEncode(key)
+
+    return if (explode) {
+        items.joinToString("&") { "$encKey=${pctEncode(it)}" }
+    } else {
+        "$encKey=" + items.joinToString(delimiter) { pctEncode(it) }
+    }
+}
+
+// ---------- the four OpenAPI styles for arrays ----------
 object UrlQueryParamStringifier {
-    /**
-     * Converts a UrlQueryParam to a form-encoded String.
-     * Example: key=value1,value2
-     */
+    /** form ➜  key=v1,v2 */
     val form =
-        StringifyQueryParam { param ->
-            StringBuilder().apply {
-                append("${param.key}=")
-                append(param.value.joinToString(URLEncoder.encode(",", "UTF-8")))
-            }.toString()
+        StringifyQueryParam { p ->
+            join(key = p.key, items = p.value, delimiter = ",")
         }
 
-    /**
-     * Converts a UrlQueryParam to an exploded form-encoded String.
-     * Example: key=value1&key=value2
-     */
+    /** explode ➜  key=v1&key=v2 */
     val explode =
-        StringifyQueryParam { param ->
-            StringBuilder().apply {
-                append("${param.key}=")
-                append(param.value.joinToString("&${param.key}="))
-            }.toString()
+        StringifyQueryParam { p ->
+            join(key = p.key, items = p.value, explode = true)
         }
 
-    /**
-     * Converts a UrlQueryParam to a space-delimited String.
-     * Example: key=value1%20value2
-     */
+    /** spaceDelimited ➜  key=v1%20v2%20v3  (explode is always false) */
     val spaceDelimited =
-        StringifyQueryParam { param ->
-            StringBuilder().apply {
-                append("${param.key}=")
-                append(param.value.joinToString(URLEncoder.encode(" ", "UTF-8")))
-            }.toString()
+        StringifyQueryParam { p ->
+            join(key = p.key, items = p.value, delimiter = "%20")
         }
 
-    /**
-     * Converts a UrlQueryParam to a pipe-delimited String.
-     * Example: key=value1|value2
-     */
+    /** pipeDelimited ➜  key=v1|v2|v3      (explode is always false) */
     val pipeDelimited =
-        StringifyQueryParam { param ->
-            StringBuilder().apply {
-                append("${param.key}=")
-                append(param.value.joinToString(URLEncoder.encode("|", "UTF-8")))
-            }.toString()
+        StringifyQueryParam { p ->
+            join(key = p.key, items = p.value, delimiter = "|")
         }
 }
 

@@ -1,5 +1,6 @@
 {{#processModel}}
     import com.fasterxml.jackson.annotation.JsonProperty
+    import com.expediagroup.sdk.core.common.getOrThrow
     {{#discriminator}}
         import com.fasterxml.jackson.annotation.JsonIgnoreProperties
         import com.fasterxml.jackson.annotation.JsonSubTypes
@@ -22,7 +23,7 @@
         {{/discriminator.mappedModels}}
         )
     {{/discriminator}}
-    {{#nonPublicApi}}internal {{/nonPublicApi}}{{#discriminator}}interface {{/discriminator}}{{^discriminator}}data class {{/discriminator}}{{classname}}{{^discriminator}}(
+    {{#nonPublicApi}}internal {{/nonPublicApi}}{{#discriminator}}interface {{/discriminator}}{{^discriminator}}@ConsistentCopyVisibility data class {{/discriminator}}{{classname}}{{^discriminator}} private constructor(
     {{#allVars}}
         {{#eliminateDiscriminators}}
             {{#required}}{{>data_class_req_var}}{{/required}}{{^required}}{{>data_class_opt_var}}{{/required}}{{^-last}},{{/-last}}
@@ -42,47 +43,46 @@
     {{/discriminator}}
 
     {{^discriminator}}
-        init {
-        {{>partials/data_class_validations}}
-        }
-
         companion object {
-        @JvmStatic
-        fun builder() = Builder()
+            @JvmStatic
+            fun builder() = Builder()
         }
 
         class Builder(
-        {{#allVars}}
-            {{#eliminateDiscriminators}}
-                private var {{{name}}}: {{#isEnum}}{{#isArray}}kotlin.collections.List<{{classname}}.{{{nameInPascalCase}}}>{{/isArray}}{{^isArray}}{{#isInherited}}{{{parent}}}.{{{nameInPascalCase}}}{{/isInherited}}{{^isInherited}}{{classname}}.{{{nameInPascalCase}}}{{/isInherited}}{{/isArray}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}? = null{{^-last}},{{/-last}}
-            {{/eliminateDiscriminators}}
-        {{/allVars}}
+            {{#allVars}}
+                {{#eliminateDiscriminators}}
+                    private var {{{name}}}: {{#isEnum}}{{#isArray}}kotlin.collections.List<{{classname}}.{{{nameInPascalCase}}}>{{/isArray}}{{^isArray}}{{#isInherited}}{{{parent}}}.{{{nameInPascalCase}}}{{/isInherited}}{{^isInherited}}{{classname}}.{{{nameInPascalCase}}}{{/isInherited}}{{/isArray}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}? = null{{^-last}},{{/-last}}
+                {{/eliminateDiscriminators}}
+            {{/allVars}}
         ) {
-        {{#allVars}}
-            {{#eliminateDiscriminators}}
-                fun {{{name}}}({{{name}}}: {{#isEnum}}{{#isArray}}kotlin.collections.List<{{classname}}.{{{nameInPascalCase}}}>{{/isArray}}{{^isArray}}{{#isInherited}}{{{parent}}}.{{{nameInPascalCase}}}{{/isInherited}}{{^isInherited}}{{classname}}.{{{nameInPascalCase}}}{{/isInherited}}{{/isArray}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}?{{/required}}) = apply { this.{{{name}}} = {{{name}}} }
-            {{/eliminateDiscriminators}}
-        {{/allVars}}
+            {{#allVars}}
+                {{#eliminateDiscriminators}}
+                    fun {{{name}}}({{{name}}}: {{#isEnum}}{{#isArray}}kotlin.collections.List<{{classname}}.{{{nameInPascalCase}}}>{{/isArray}}{{^isArray}}{{#isInherited}}{{{parent}}}.{{{nameInPascalCase}}}{{/isInherited}}{{^isInherited}}{{classname}}.{{{nameInPascalCase}}}{{/isInherited}}{{/isArray}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}?{{/required}}) = apply { this.{{{name}}} = {{{name}}} }
+                {{/eliminateDiscriminators}}
+            {{/allVars}}
 
-        fun build(): {{classname}} {
-        val instance = {{classname}}(
-        {{#allVars}}
-            {{#eliminateDiscriminators}}
-                {{{name}}} = {{{name}}}{{#required}}!!{{/required}}{{^-last}},{{/-last}}
-            {{/eliminateDiscriminators}}
-        {{/allVars}}
-        )
+            fun build(): {{classname}} {
 
-        return instance
-        }
+                {{>partials/data_class_validations}}
+
+                val instance = {{classname}}(
+                    {{#allVars}}
+                        {{#eliminateDiscriminators}}
+                            {{{name}}} = {{{name}}}{{^-last}},{{/-last}}
+                        {{/eliminateDiscriminators}}
+                    {{/allVars}}
+                )
+
+                return instance
+            }
         }
 
         fun toBuilder() = Builder(
-        {{#allVars}}
-            {{#eliminateDiscriminators}}
-                {{{name}}} = {{{name}}}{{#required}}!!{{/required}}{{^-last}},{{/-last}}
-            {{/eliminateDiscriminators}}
-        {{/allVars}}
+            {{#allVars}}
+                {{#eliminateDiscriminators}}
+                    {{{name}}} = {{{name}}}{{^-last}},{{/-last}}
+                {{/eliminateDiscriminators}}
+            {{/allVars}}
         )
     {{/discriminator}}
     {{#hasEnums}}
