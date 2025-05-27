@@ -56,7 +56,7 @@ tasks {
     publishing {
         afterEvaluate {
             publications {
-                egSdkOpenApiGeneratorPluginMarkerMaven(MavenPublication) {
+                egSdkGeneratorPluginMarkerMaven(MavenPublication) {
                     pom {
                         description = findProperty("DESCRIPTION")
                         url = project.property("POM_URL")
