@@ -1,7 +1,7 @@
 {{#hasPathParams}}fun getPathParams() : Map<String, String> {
 return buildMap {
     {{#pathParams}}
-        {{paramName}}?.also {
+        {{paramName}}{{^required}}?{{/required}}.also {
         put("{{{baseName}}}", {{{paramName}}}{{#isEnum}}.value{{/isEnum}})
         }
     {{/pathParams}}

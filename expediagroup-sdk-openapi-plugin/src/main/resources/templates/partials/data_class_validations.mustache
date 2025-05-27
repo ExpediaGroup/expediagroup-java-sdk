@@ -1,33 +1,41 @@
 {{#allVars}}
-    {{#minLength}}
-        require({{{name}}}?.length ?: 0 >= {{minLength}}) { "{{{name}}} must be at least {{minLength}} characters long" }
-    {{/minLength}}
+    {{#eliminateDiscriminators}}
+        {{#required}}
+            val {{{name}}} = this.{{{name}}}.getOrThrow {
+                IllegalArgumentException("{{{name}}} must not be null")
+            }
+        {{/required}}
 
-    {{#maxLength}}
-        require({{{name}}}?.length ?: 0 <= {{maxLength}}) { "{{{name}}} must be at most {{maxLength}} characters long" }
-    {{/maxLength}}
+        {{#minLength}}
+            require({{{name}}}?.length ?: 0 >= {{minLength}}) { "{{{name}}} must be at least {{minLength}} characters long" }
+        {{/minLength}}
 
-    {{#pattern}}
-        require({{{name}}}?.matches(Regex("{{{pattern}}}")) ?: true) { "{{{name}}} does not match pattern {{{pattern}}}" }
-    {{/pattern}}
+        {{#maxLength}}
+            require({{{name}}}?.length ?: 0 <= {{maxLength}}) { "{{{name}}} must be at most {{maxLength}} characters long" }
+        {{/maxLength}}
 
-    {{#minItems}}
-        require({{{name}}}?.size ?: 0 >= {{minItems}}) { "{{{name}}} must have at least {{minItems}} items" }
-    {{/minItems}}
+        {{#pattern}}
+            require({{{name}}}?.matches(Regex("{{{pattern}}}")) ?: true) { "{{{name}}} does not match pattern {{{pattern}}}" }
+        {{/pattern}}
 
-    {{#maxItems}}
-        require({{{name}}}?.size ?: 0 <= {{maxItems}}) { "{{{name}}} must have at most {{maxItems}} items" }
-    {{/maxItems}}
+        {{#minItems}}
+            require({{{name}}}?.size ?: 0 >= {{minItems}}) { "{{{name}}} must have at least {{minItems}} items" }
+        {{/minItems}}
 
-    {{#minimum}}
-        require({{{name}}}?.let { it {{#exclusiveMinimum}}> {{/exclusiveMinimum}}{{^exclusiveMinimum}}>= {{/exclusiveMinimum}}{{minimum}} } ?: true) {
-        "{{{name}}} must be {{#exclusiveMinimum}}greater than{{/exclusiveMinimum}}{{^exclusiveMinimum}}at least{{/exclusiveMinimum}} {{minimum}}"
-        }
-    {{/minimum}}
+        {{#maxItems}}
+            require({{{name}}}?.size ?: 0 <= {{maxItems}}) { "{{{name}}} must have at most {{maxItems}} items" }
+        {{/maxItems}}
 
-    {{#maximum}}
-        require({{{name}}}?.let { it {{#exclusiveMaximum}}< {{/exclusiveMaximum}}{{^exclusiveMaximum}}<= {{/exclusiveMaximum}}{{maximum}} } ?: true) {
-        "{{{name}}} must be {{#exclusiveMaximum}}less than{{/exclusiveMaximum}}{{^exclusiveMaximum}}at most{{/exclusiveMaximum}} {{maximum}}"
-        }
-    {{/maximum}}
+        {{#minimum}}
+            require({{{name}}}?.let { it {{#exclusiveMinimum}}> {{/exclusiveMinimum}}{{^exclusiveMinimum}}>= {{/exclusiveMinimum}}{{minimum}} } ?: true) {
+            "{{{name}}} must be {{#exclusiveMinimum}}greater than{{/exclusiveMinimum}}{{^exclusiveMinimum}}at least{{/exclusiveMinimum}} {{minimum}}"
+            }
+        {{/minimum}}
+
+        {{#maximum}}
+            require({{{name}}}?.let { it {{#exclusiveMaximum}}< {{/exclusiveMaximum}}{{^exclusiveMaximum}}<= {{/exclusiveMaximum}}{{maximum}} } ?: true) {
+            "{{{name}}} must be {{#exclusiveMaximum}}less than{{/exclusiveMaximum}}{{^exclusiveMaximum}}at most{{/exclusiveMaximum}} {{maximum}}"
+            }
+        {{/maximum}}
+    {{/eliminateDiscriminators}}
 {{/allVars}}
