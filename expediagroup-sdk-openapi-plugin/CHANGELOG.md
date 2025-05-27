@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.14-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-openapi-plugin-v0.0.13-alpha...expediagroup-sdk-openapi-plugin-v0.0.14-alpha) (2025-05-27)
+
+
+### Bug Fixes
+
+* improve validation logic in mustache templates ([#1182](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1182)) ([4ed0686](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/4ed068651922c36e32860933d302fa02b0a54d75))
+
 ## [0.0.13-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-openapi-plugin-v0.0.12-alpha...expediagroup-sdk-openapi-plugin-v0.0.13-alpha) (2025-05-27)
 
 
