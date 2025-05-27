@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.8-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-core-v0.0.7-alpha...expediagroup-sdk-core-v0.0.8-alpha) (2025-05-27)
+
+
+### Features
+
+* add custom loggable types ([#1143](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1143)) ([24cbc1a](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/24cbc1a3a2718a8a0de040c7e8a92eb944d59d6d))
+
 ## [0.0.7-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-core-v0.0.6-alpha...expediagroup-sdk-core-v0.0.7-alpha) (2025-03-27)
 
 
