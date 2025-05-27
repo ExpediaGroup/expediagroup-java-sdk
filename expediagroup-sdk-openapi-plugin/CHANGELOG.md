@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.13-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-openapi-plugin-v0.0.12-alpha...expediagroup-sdk-openapi-plugin-v0.0.13-alpha) (2025-05-27)
+
+
+### Features
+
+* use native OpenAPI generator and support typed exceptions ([#1173](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1173)) ([1fddc88](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/1fddc88cb83fc8610b3500ffaf35f5cba4deed86))
+
 ## [0.0.12-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-openapi-plugin-v0.0.11-alpha...expediagroup-sdk-openapi-plugin-v0.0.12-alpha) (2025-05-18)
 
 
