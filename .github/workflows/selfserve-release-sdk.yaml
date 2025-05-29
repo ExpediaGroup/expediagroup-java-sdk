@@ -4,9 +4,9 @@ on:
   workflow_call:
     inputs:
       branch:
-        description: "Branch to release the SDK from. Defaults to 'main'"
+        description: "Branch to release the SDK from. Defaults to 'legacy'"
         type: string
-        default: 'main'
+        default: 'legacy'
       sdk_path:
         description: "Path to the SDK sources. Defaults to 'code'"
         type: string

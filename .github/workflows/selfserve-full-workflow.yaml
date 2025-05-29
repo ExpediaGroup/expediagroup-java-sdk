@@ -16,9 +16,9 @@ on:
       sdk_repo_ref:
         description: |
           Branch or tag to checkout on the `expediagroup-sdk-core` repository.
-          Leave empty to use the default branch.
+          Leave empty to use the default branch (legacy).
         type: string
-        default: ''
+        default: 'legacy'
       repository:
         description: |
           Repository to generate the SDK in.
