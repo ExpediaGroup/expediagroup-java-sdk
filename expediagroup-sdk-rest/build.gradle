@@ -21,7 +21,7 @@ dependencies {
     implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.18.2'
 
     /* EG SDK Core */
-    api 'com.expediagroup:expediagroup-sdk-core:0.0.3-alpha'
+    api 'com.expediagroup:expediagroup-sdk-core:0.0.8-alpha'
 
     /* Testing */
     testImplementation platform('org.junit:junit-bom:5.11.4')
@@ -37,6 +37,10 @@ test {
     testLogging {
         events "passed", "skipped", "failed"
     }
+}
+
+tasks.named("check") {
+    finalizedBy("koverHtmlReport")
 }
 
 kover {

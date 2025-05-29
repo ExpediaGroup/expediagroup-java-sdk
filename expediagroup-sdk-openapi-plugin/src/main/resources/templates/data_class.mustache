@@ -1,107 +1,108 @@
-import com.fasterxml.jackson.annotation.JsonProperty
-{{#discriminator}}
-    import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-    import com.fasterxml.jackson.annotation.JsonSubTypes
-    import com.fasterxml.jackson.annotation.JsonSubTypes.Type
-    import com.fasterxml.jackson.annotation.JsonTypeInfo
-{{/discriminator}}
+{{#processModel}}
+    import com.fasterxml.jackson.annotation.JsonProperty
+    import com.expediagroup.sdk.core.common.getOrThrow
+    {{#discriminator}}
+        import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+        import com.fasterxml.jackson.annotation.JsonSubTypes
+        import com.fasterxml.jackson.annotation.JsonSubTypes.Type
+        import com.fasterxml.jackson.annotation.JsonTypeInfo
+    {{/discriminator}}
 
-/**
-* {{{description}}}
-{{#vars}}
-    * @param {{{name}}} {{{description}}}
-{{/vars}}
-*/
-{{#discriminator}}
-    @JsonIgnoreProperties(ignoreUnknown = true, value = ["{{discriminator.propertyName}}"])
-    @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "{{discriminator.propertyName}}", visible = true)
-    @JsonSubTypes(
-    {{#discriminator.mappedModels}}
-        Type(value = {{modelName}}::class, name = "{{mappingName}}"){{^-last}},{{/-last}}
-    {{/discriminator.mappedModels}}
-    )
-{{/discriminator}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}{{#discriminator}}interface {{/discriminator}}{{^discriminator}}data class {{/discriminator}}{{classname}}{{^discriminator}}(
-{{#allVars}}
-    {{#eliminateDiscriminators}}
-        {{#required}}{{>data_class_req_var}}{{/required}}{{^required}}{{>data_class_opt_var}}{{/required}}{{^-last}},{{/-last}}
-    {{/eliminateDiscriminators}}
-    {{^-last}}
+    /**
+    * {{{description}}}
+    {{#vars}}
+        * @param {{{name}}} {{{description}}}
+    {{/vars}}
+    */
+    {{#discriminator}}
+        @JsonIgnoreProperties(ignoreUnknown = true, value = ["{{discriminator.propertyName}}"])
+        @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "{{discriminator.propertyName}}", visible = true)
+        @JsonSubTypes(
+        {{#discriminator.mappedModels}}
+            Type(value = {{modelName}}::class, name = "{{mappingName}}"){{^-last}},{{/-last}}
+        {{/discriminator.mappedModels}}
+        )
+    {{/discriminator}}
+    {{#nonPublicApi}}internal {{/nonPublicApi}}{{#discriminator}}interface {{/discriminator}}{{^discriminator}}@ConsistentCopyVisibility data class {{/discriminator}}{{classname}}{{^discriminator}} private constructor(
+    {{#allVars}}
+        {{#eliminateDiscriminators}}
+            {{#required}}{{>data_class_req_var}}{{/required}}{{^required}}{{>data_class_opt_var}}{{/required}}{{^-last}},{{/-last}}
+        {{/eliminateDiscriminators}}
+        {{^-last}}
 
-    {{/-last}}
-{{/allVars}}
-){{/discriminator}}{{#parent}}{{^serializableModel}}{{^parcelizeModels}}{{^isMap}} : {{{parent}}}{{#isArray}}(){{/isArray}}{{/isMap}}{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{#serializableModel}}{{^parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Serializable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{^serializableModel}}{{#parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{#serializableModel}}{{#parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Serializable, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{#serializableModel}}{{^parcelizeModels}} : Serializable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{^serializableModel}}{{#parcelizeModels}} : Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{#serializableModel}}{{#parcelizeModels}} : Serializable, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}} {
-{{^discriminator}}
-    {{#assignDiscriminators}}{{/assignDiscriminators}}
-{{/discriminator}}
+        {{/-last}}
+    {{/allVars}}
+    ){{/discriminator}}{{#parent}}{{^serializableModel}}{{^parcelizeModels}}{{^isMap}} : {{{parent}}}{{#isArray}}(){{/isArray}}{{/isMap}}{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{#serializableModel}}{{^parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Serializable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{^serializableModel}}{{#parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{#serializableModel}}{{#parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Serializable, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{#serializableModel}}{{^parcelizeModels}} : Serializable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{^serializableModel}}{{#parcelizeModels}} : Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{#serializableModel}}{{#parcelizeModels}} : Serializable, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}} {
+    {{^discriminator}}
+        {{#assignDiscriminators}}{{/assignDiscriminators}}
+    {{/discriminator}}
 
-{{#discriminator}}{{#vars}}{{#required}}
-    {{>interface_req_var}}{{/required}}{{^required}}
-    {{>interface_opt_var}}{{/required}}{{/vars}}
-{{/discriminator}}
+    {{#discriminator}}{{#vars}}{{#required}}
+        {{>interface_req_var}}{{/required}}{{^required}}
+        {{>interface_opt_var}}{{/required}}{{/vars}}
+    {{/discriminator}}
 
-{{^discriminator}}
-    init {
-        {{>partials/data_class_validations}}
-    }
-
-    companion object {
-    @JvmStatic
-    fun builder() = Builder()
-    }
+    {{^discriminator}}
+        companion object {
+            @JvmStatic
+            fun builder() = Builder()
+        }
 
         class Builder(
-        {{#allVars}}
-            {{#eliminateDiscriminators}}
-                private var {{{name}}}: {{#isEnum}}{{#isArray}}kotlin.collections.ArrayList<{{classname}}.{{{nameInPascalCase}}}>{{/isArray}}{{^isArray}}{{#isInherited}}{{{parent}}}.{{{nameInPascalCase}}}{{/isInherited}}{{^isInherited}}{{classname}}.{{{nameInPascalCase}}}{{/isInherited}}{{/isArray}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}? = null{{^-last}},{{/-last}}
-            {{/eliminateDiscriminators}}
-        {{/allVars}}
+            {{#allVars}}
+                {{#eliminateDiscriminators}}
+                    private var {{{name}}}: {{#isEnum}}{{#isArray}}kotlin.collections.List<{{classname}}.{{{nameInPascalCase}}}>{{/isArray}}{{^isArray}}{{#isInherited}}{{{parent}}}.{{{nameInPascalCase}}}{{/isInherited}}{{^isInherited}}{{classname}}.{{{nameInPascalCase}}}{{/isInherited}}{{/isArray}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}? = null{{^-last}},{{/-last}}
+                {{/eliminateDiscriminators}}
+            {{/allVars}}
         ) {
-        {{#allVars}}
-            {{#eliminateDiscriminators}}
-                fun {{{name}}}({{{name}}}: {{#isEnum}}{{#isArray}}kotlin.collections.ArrayList<{{classname}}.{{{nameInPascalCase}}}>{{/isArray}}{{^isArray}}{{#isInherited}}{{{parent}}}.{{{nameInPascalCase}}}{{/isInherited}}{{^isInherited}}{{classname}}.{{{nameInPascalCase}}}{{/isInherited}}{{/isArray}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}?{{/required}}) = apply { this.{{{name}}} = {{{name}}} }
-            {{/eliminateDiscriminators}}
-        {{/allVars}}
+            {{#allVars}}
+                {{#eliminateDiscriminators}}
+                    fun {{{name}}}({{{name}}}: {{#isEnum}}{{#isArray}}kotlin.collections.List<{{classname}}.{{{nameInPascalCase}}}>{{/isArray}}{{^isArray}}{{#isInherited}}{{{parent}}}.{{{nameInPascalCase}}}{{/isInherited}}{{^isInherited}}{{classname}}.{{{nameInPascalCase}}}{{/isInherited}}{{/isArray}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}?{{/required}}) = apply { this.{{{name}}} = {{{name}}} }
+                {{/eliminateDiscriminators}}
+            {{/allVars}}
 
-    fun build(): {{classname}} {
-    val instance = {{classname}}(
-    {{#allVars}}
-        {{#eliminateDiscriminators}}
-            {{{name}}} = {{{name}}}{{#required}}!!{{/required}}{{^-last}},{{/-last}}
-        {{/eliminateDiscriminators}}
-    {{/allVars}}
-    )
+            fun build(): {{classname}} {
 
-    return instance
-    }
-    }
+                {{>partials/data_class_validations}}
 
-    fun toBuilder() = Builder(
-    {{#allVars}}
-        {{#eliminateDiscriminators}}
-            {{{name}}} = {{{name}}}{{#required}}!!{{/required}}{{^-last}},{{/-last}}
-        {{/eliminateDiscriminators}}
-    {{/allVars}}
-    )
-{{/discriminator}}
-{{#hasEnums}}
-    {{#vars}}
-        {{#isEnum}}
+                val instance = {{classname}}(
+                    {{#allVars}}
+                        {{#eliminateDiscriminators}}
+                            {{{name}}} = {{{name}}}{{^-last}},{{/-last}}
+                        {{/eliminateDiscriminators}}
+                    {{/allVars}}
+                )
 
-            /**
-            * {{{description}}}
-            * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
-            */
-            enum class {{&nameInPascalCase}}(val value: {{#isArray}}{{{items.dataType}}}{{/isArray}}{{^isArray}}{{dataType}}{{/isArray}}) {
-            {{#allowableValues}}
-                {{#enumVars}}
-                    @JsonProperty({{{value}}})
-                    {{&name}}({{{value}}}){{^-last}},
-                    {{/-last}}{{#-last}};{{/-last}}
-                {{/enumVars}}
-            {{/allowableValues}}
+                return instance
             }
-        {{/isEnum}}
-    {{/vars}}
-{{/hasEnums}}
-}
+        }
+
+        fun toBuilder() = Builder(
+            {{#allVars}}
+                {{#eliminateDiscriminators}}
+                    {{{name}}} = {{{name}}}{{^-last}},{{/-last}}
+                {{/eliminateDiscriminators}}
+            {{/allVars}}
+        )
+    {{/discriminator}}
+    {{#hasEnums}}
+        {{#vars}}
+            {{#isEnum}}
+                /**
+                * {{{description}}}
+                * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
+                */
+                enum class {{&nameInPascalCase}}(val value: {{#isArray}}{{{items.dataType}}}{{/isArray}}{{^isArray}}{{dataType}}{{/isArray}}) {
+                {{#allowableValues}}
+                    {{#enumVars}}
+                        @JsonProperty({{{value}}})
+                        {{&name}}({{{value}}}){{^-last}},
+                        {{/-last}}{{#-last}};{{/-last}}
+                    {{/enumVars}}
+                {{/allowableValues}}
+                }
+            {{/isEnum}}
+        {{/vars}}
+    {{/hasEnums}}
+    }
+{{/processModel}}

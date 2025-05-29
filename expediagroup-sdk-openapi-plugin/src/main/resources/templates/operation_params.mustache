@@ -1,48 +1,48 @@
-package com.expediagroup.sdk.{{namespace}}.operations
+{{>licenseInfo}}
+package {{ operationPackage }}
 
 {{>operations/params/imports}}
 
 {{#operations}}
     {{#operation}}
-        {{#hasNonBodyParams}}
-            import com.fasterxml.jackson.annotation.JsonProperty
-            import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+        {{#processOperation}}
+            {{#hasNonBodyParams}}
+                import com.fasterxml.jackson.annotation.JsonProperty
+                import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 
-            /**
-            {{#nonBodyParams}}
-                {{#params}}
-                    * @property {{{paramName}}} {{{description}}}
-                {{/params}}
-            {{/nonBodyParams}}
-            */
-            @JsonDeserialize(builder = {{classname}}Params.Builder::class)
-            data class {{classname}}Params(
-            {{#nonBodyParams}}
-                {{#params}}
-                    {{>modelMutable}} {{>client/apiParam}}{{^-last}}, {{/-last}}
-                {{/params}}
-            {{/nonBodyParams}}
-            ) {
+                /**
+                {{#nonBodyParams}}
+                    {{#params}}
+                        * @property {{{paramName}}} {{{description}}}
+                    {{/params}}
+                {{/nonBodyParams}}
+                */
+                @JsonDeserialize(builder = {{classname}}Params.Builder::class)
+                @ConsistentCopyVisibility
+                data class {{classname}}Params private constructor(
+                {{#nonBodyParams}}
+                    {{#params}}
+                        {{>modelMutable}} {{>client/apiParam}}{{^-last}}, {{/-last}}
+                    {{/params}}
+                {{/nonBodyParams}}
+                ) {
 
-            init {
-                {{>partials/operation_params_validations}}
-            }
+                companion object {
+                    @JvmStatic
+                    fun builder() = Builder()
+                }
 
-            companion object {
-            @JvmStatic
-            fun builder() = Builder()
-            }
+                {{>operations/params/enum_types}}
 
-            {{>operations/params/enum_types}}
+                {{>operations/params/builder}}
 
-            {{>operations/params/builder}}
+                {{>operations/params/get_headers}}
 
-            {{>operations/params/get_headers}}
+                {{>operations/params/get_query_params}}
 
-            {{>operations/params/get_query_params}}
-
-            {{>operations/params/get_path_params}}
-            }
-        {{/hasNonBodyParams}}
+                {{>operations/params/get_path_params}}
+                }
+            {{/hasNonBodyParams}}
+        {{/processOperation}}
     {{/operation}}
 {{/operations}}

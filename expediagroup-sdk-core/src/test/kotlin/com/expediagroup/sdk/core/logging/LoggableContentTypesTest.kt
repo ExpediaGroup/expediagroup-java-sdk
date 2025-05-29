@@ -65,4 +65,15 @@ class LoggableContentTypesTest {
 
         wildcardTypes.forEach { mediaType -> assertTrue(isLoggable(mediaType)) }
     }
+
+    @Test
+    fun `isLoggable should return true for configured custom types`() {
+        val customTypes =
+            listOf(
+                MediaType.of("application", "json+custom1"),
+                MediaType.of("application", "json+custom2")
+            )
+
+        customTypes.forEach { mediaType -> assertTrue(isLoggable(mediaType, customTypes)) }
+    }
 }

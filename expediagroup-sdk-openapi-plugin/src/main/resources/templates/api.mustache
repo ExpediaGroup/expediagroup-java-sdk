@@ -1,25 +1,52 @@
-package com.expediagroup.sdk.{{namespace}}.operations
-{{>operations/imports}}
+{{>licenseInfo}}
+package {{ operationPackage }}
+
+import com.expediagroup.sdk.rest.exception.service.ExpediaGroupApiException
+import com.expediagroup.sdk.core.exception.client.ExpediaGroupResponseParsingException
+import java.util.UUID
+
 {{#operations}}
     {{#operation}}
-        /**
-        * {{{summary}}}
-        {{#hasBodyParam}}
-            * @property requestBody [{{#bodyParam}}{{{dataType}}}{{/bodyParam}}]
-        {{/hasBodyParam}}
-        {{#hasNonBodyParams}}
-            * @property params [{{{classname}}}Params]
-        {{/hasNonBodyParams}}
-        */
-        class {{classname}}(
-        {{#hasNonBodyParams}}
-            private val params: {{{classname}}}Params,
-        {{/hasNonBodyParams}}
-        {{#hasBodyParam}}
-            private val requestBody: {{#bodyParam}}{{{dataType}}}{{/bodyParam}},
-        {{/hasBodyParam}}
-        ) : {{>traits/inheritance}} {
-        {{>traits/implementation}}
-        }
+        {{#operationExceptions}}
+            import {{modelPackage}}.exception.{{exceptionClassName}}
+        {{/operationExceptions}}
+    {{/operation}}
+{{/operations}}
+
+{{>operations/imports}}
+
+{{#operations}}
+    {{#operation}}
+        {{#processOperation}}
+            /**
+            * {{{summary}}}
+            *
+            * {{notes}}
+            *
+            * {{#returnType}}Executing the operation returns [com.expediagroup.sdk.rest.model.Response] of type [{{.}}]{{/returnType}}
+            *
+            * The operation may result in the following exceptions:
+            {{#operationExceptions}}
+                * - [{{exceptionClassName}}]
+            {{/operationExceptions}}
+            *
+            {{#hasBodyParam}}
+                * @property requestBody [{{#bodyParam}}{{{dataType}}}{{/bodyParam}}]
+            {{/hasBodyParam}}
+            {{#hasNonBodyParams}}
+                * @property params [{{{classname}}}Params]
+            {{/hasNonBodyParams}}
+            */
+            class {{classname}}(
+            {{#hasNonBodyParams}}
+                private val params: {{{classname}}}Params,
+            {{/hasNonBodyParams}}
+            {{#hasBodyParam}}
+                private val requestBody: {{#bodyParam}}{{{dataType}}}{{/bodyParam}},
+            {{/hasBodyParam}}
+            ) : {{>traits/inheritance}} {
+            {{>traits/implementation}}
+            }
+        {{/processOperation}}
     {{/operation}}
 {{/operations}}

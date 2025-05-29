@@ -1,7 +1,9 @@
 {{#nonBodyParams}}
     {{#params}}
         {{#required}}
-            require({{{paramName}}} != null) { "{{{paramName}}} must not be null" }
+            val {{{paramName}}} = this.{{{paramName}}}.getOrThrow {
+                IllegalArgumentException("{{{paramName}}} must not be null")
+            }
         {{/required}}
 
         {{#minLength}}

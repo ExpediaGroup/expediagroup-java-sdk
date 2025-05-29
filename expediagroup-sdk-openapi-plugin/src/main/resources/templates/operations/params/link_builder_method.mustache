@@ -1,0 +1,49 @@
+fun withLink(link: {{#linkType}}{{{.}}}{{/linkType}}) = apply {
+    val url = link.href.trim().split("?", limit = 2)
+    val path = url.getOrNull(0)
+    val query = url.getOrNull(1)
+
+{{#hasPathParams}}
+    if (path != null) {
+        val pathParams: Map<String, String> = com.expediagroup.sdk.rest.util.UrlUtils.parsePathParams(
+            path = path,
+            template = """{{{path}}}"""
+        )
+
+        {{#pathParams}}
+            if (pathParams.containsKey("{{{baseName}}}")) {
+                pathParams["{{{baseName}}}"].takeIf { !it.isNullOrEmpty() }?.let {
+                    this.{{{paramName}}} = {{{jacksonObjectMapper}}}.convertValue(
+                        it,
+                        com.fasterxml.jackson.module.kotlin.jacksonTypeRef<{{>partials/datatype}}>()
+                    )
+                }
+            }
+        {{/pathParams}}
+    }
+{{/hasPathParams}}
+
+{{#hasQueryParams}}
+    val destringifyStrategies = mapOf<String, String>(
+    {{#queryParams}}"{{{baseName}}}" to "{{collectionFormat}}"{{/queryParams}}
+    )
+    if (query != null) {
+        val queryParams = com.expediagroup.sdk.rest.util.UrlUtils.parseQueryParams(
+            query = query,
+            destringifyStrategies = destringifyStrategies,
+        )
+
+    {{#queryParams}}
+        if (queryParams.containsKey("{{{baseName}}}")) {
+            queryParams["{{{baseName}}}"]?.takeIf { !it.isNullOrEmpty() }?.let { values: List<String> ->
+                this.{{{paramName}}} = com.expediagroup.sdk.rest.util.UrlUtils.resolveUrlQueryParamValuesType<{{>partials/datatype}}>(
+                    values = values,
+                    objectMapper = {{{jacksonObjectMapper}}},
+                    typeRef = com.fasterxml.jackson.module.kotlin.jacksonTypeRef<{{>partials/datatype}}>(),
+                )
+            }
+        }
+    {{/queryParams}}
+    }
+{{/hasQueryParams}}
+}
