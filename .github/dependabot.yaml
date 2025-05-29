@@ -8,13 +8,13 @@ updates:
       interval: "daily"
       time: "11:30"
       timezone: "UTC"
-    target-branch: main
+    target-branch: legacy
     reviewers:
       - ExpediaGroup/openworld-committers
     labels:
       - Dependabot
       
-  # Maintain dependencies for maven
+  # Maintain dependencies for Maven
   - package-ecosystem: maven
     directory: "/"
     schedule:
@@ -22,7 +22,7 @@ updates:
       time: "11:30"
       timezone: "UTC"
     open-pull-requests-limit: 10
-    target-branch: main
+    target-branch: legacy
     reviewers:
       - ExpediaGroup/openworld-committers
     labels:
