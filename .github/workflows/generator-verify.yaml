@@ -2,7 +2,7 @@ name: Verify generated SDK
 on:
   pull_request:
     branches:
-      - 'main'
+      - 'legacy'
 concurrency:
   group: ${{ github.head_ref }}
   cancel-in-progress: true
