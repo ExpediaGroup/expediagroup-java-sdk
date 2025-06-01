@@ -277,7 +277,8 @@ class ResponseLoggerTest {
                         .method(Method.POST)
                         .build()
                 ).body(
-                    ResponseBody.create(Buffer(), mediaType = CommonMediaTypes.APPLICATION_OCTET_STREAM))
+                    ResponseBody.create(Buffer(), mediaType = CommonMediaTypes.APPLICATION_OCTET_STREAM)
+                )
                 .build()
 
         every { mockLogger.isDebugEnabled } returns true
