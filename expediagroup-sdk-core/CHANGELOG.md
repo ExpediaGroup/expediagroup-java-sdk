@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.9-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-core-v0.0.8-alpha...expediagroup-sdk-core-v0.0.9-alpha) (2025-06-01)
+
+
+### Bug Fixes
+
+* optimize modules dependencies ([#1194](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1194)) ([fe79d47](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/fe79d47cf9f3b5079369b842274313588108822f))
+
 ## [0.0.8-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-core-v0.0.7-alpha...expediagroup-sdk-core-v0.0.8-alpha) (2025-05-27)
 
 
