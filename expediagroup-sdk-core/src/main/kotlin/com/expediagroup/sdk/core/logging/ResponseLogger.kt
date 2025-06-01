@@ -32,7 +32,7 @@ internal object ResponseLogger {
         maxBodyLogSize: Long? = null,
         maskBody: (String) -> String = { it },
         maskHeaders: (Headers) -> Headers = { it },
-        loggableContentTypes: List<MediaType> = emptyList()
+        loggableContentTypes: List<MediaType>? = null
     ) {
         try {
             var logString =
@@ -43,7 +43,13 @@ internal object ResponseLogger {
             if (logger.isDebugEnabled) {
                 val responseBodyString =
                     response.body?.let {
-                        maskBody(it.readLoggableBody(maxBodyLogSize, it.mediaType()?.charset, loggableContentTypes))
+                        maskBody(
+                            it.readLoggableBody(
+                                maxBodyLogSize = maxBodyLogSize,
+                                charset = it.mediaType()?.charset,
+                                loggableContentTypes = loggableContentTypes
+                            )
+                        )
                     }
 
                 logString += ", Body=$responseBodyString"
@@ -60,14 +66,14 @@ internal object ResponseLogger {
     private fun ResponseBody.readLoggableBody(
         maxBodyLogSize: Long?,
         charset: Charset?,
-        loggableContentTypes: List<MediaType> = emptyList()
+        loggableContentTypes: List<MediaType>?
     ): String {
         this.mediaType().also {
             if (it === null) {
                 return "Response body of unknown media type cannot be logged"
             }
 
-            if (!isLoggable(it, loggableContentTypes)) {
+            if (!isLoggable(it, loggableContentTypes ?: emptyList())) {
                 return "Response body of type ${it.fullType} cannot be logged"
             }
         }
