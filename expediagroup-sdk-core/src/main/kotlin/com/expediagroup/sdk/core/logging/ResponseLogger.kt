@@ -22,6 +22,7 @@ import com.expediagroup.sdk.core.http.Response
 import com.expediagroup.sdk.core.http.ResponseBody
 import com.expediagroup.sdk.core.logging.Constant.DEFAULT_MAX_BODY_SIZE
 import okio.Buffer
+import okio.BufferedSource
 import java.nio.charset.Charset
 
 internal object ResponseLogger {
@@ -68,23 +69,21 @@ internal object ResponseLogger {
         charset: Charset?,
         loggableContentTypes: List<MediaType>?
     ): String {
-        this.mediaType().also {
-            if (it === null) {
-                return "Response body of unknown media type cannot be logged"
-            }
+        val mt = mediaType() ?: return "Response body of unknown media type cannot be logged"
 
-            if (!isLoggable(it, loggableContentTypes ?: emptyList())) {
-                return "Response body of type ${it.fullType} cannot be logged"
-            }
+        if (!isLoggable(mt, loggableContentTypes ?: emptyList())) {
+            return "Response body of type ${mt.fullType} cannot be logged"
         }
 
-        if (this.contentLength() == -1L) {
-            return "Response body with unknown content length cannot be logged"
+        val maxBytes = maxBodyLogSize ?: DEFAULT_MAX_BODY_SIZE
+
+        val peeked: BufferedSource = source().peek()
+        val out = Buffer()
+
+        while (!peeked.exhausted() && out.size < maxBytes) {
+            peeked.read(out, maxBytes - out.size)
         }
 
-        val buffer = Buffer()
-        val bytesToRead = minOf(maxBodyLogSize ?: DEFAULT_MAX_BODY_SIZE, contentLength())
-        this.source().peek().read(buffer, bytesToRead)
-        return buffer.readString(charset ?: Charsets.UTF_8)
+        return out.readString(charset ?: Charsets.UTF_8)
     }
 }

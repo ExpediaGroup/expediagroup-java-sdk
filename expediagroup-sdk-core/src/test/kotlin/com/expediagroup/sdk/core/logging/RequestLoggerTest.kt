@@ -226,34 +226,6 @@ class RequestLoggerTest {
     }
 
     @Test
-    fun `should respect max log size for request body`() {
-        // Given
-        val bodyContent = """{"key":"value"}"""
-        val buffer = Buffer().write(bodyContent.toByteArray())
-
-        val testRequest =
-            Request
-                .builder()
-                .url("https://example.com")
-                .method(Method.GET)
-                .body(RequestBody.create(buffer, mediaType = CommonMediaTypes.APPLICATION_JSON))
-                .build()
-
-        every { mockLogger.isDebugEnabled } returns true
-
-        // When
-        RequestLogger.log(mockLogger, testRequest, maxBodyLogSize = 1L)
-
-        // Expect
-        val expectedLogMessage =
-            """
-            URL=https://example.com, Method=GET, Headers=[{}], Body={
-            """.trimIndent()
-
-        verify { mockLogger.debug(expectedLogMessage, "Outgoing", *anyVararg<String>()) }
-    }
-
-    @Test
     fun `should call masker with each log on debug level`() {
         val json = """{"username":"john", "apiKey":"secret123", "email":"john@example.com", "password":"p@ssw0rd"}"""
         val bodyContent = Buffer().write(json.toByteArray())

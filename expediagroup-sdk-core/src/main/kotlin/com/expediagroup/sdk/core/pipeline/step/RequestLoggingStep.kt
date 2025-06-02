@@ -27,7 +27,6 @@ import okio.Buffer
 
 class RequestLoggingStep(
     private val logger: LoggerDecorator,
-    private val maxRequestBodySize: Long? = null,
     private val maskBody: (String) -> String = { it },
     private val maskHeaders: (Headers) -> Headers = { it },
     private val loggableContentTypes: List<MediaType> = emptyList()
@@ -46,7 +45,6 @@ class RequestLoggingStep(
         RequestLogger.log(
             logger,
             reusableRequest,
-            maxBodyLogSize = maxRequestBodySize,
             maskBody = maskBody,
             maskHeaders = maskHeaders,
             loggableContentTypes = loggableContentTypes
