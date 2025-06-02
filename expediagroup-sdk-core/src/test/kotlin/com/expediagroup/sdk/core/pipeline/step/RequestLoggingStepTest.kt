@@ -22,7 +22,7 @@ class RequestLoggingStepTest {
     @BeforeEach
     fun setUp() {
         mockLogger = mockk(relaxed = true)
-        loggingStep = RequestLoggingStep(logger = mockLogger, maxRequestBodySize = 1024L)
+        loggingStep = RequestLoggingStep(logger = mockLogger)
     }
 
     @Test

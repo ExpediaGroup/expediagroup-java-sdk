@@ -20,7 +20,6 @@ import com.expediagroup.sdk.core.http.Headers
 import com.expediagroup.sdk.core.http.MediaType
 import com.expediagroup.sdk.core.http.Request
 import com.expediagroup.sdk.core.http.RequestBody
-import com.expediagroup.sdk.core.logging.Constant.DEFAULT_MAX_BODY_SIZE
 import okio.Buffer
 import java.io.IOException
 import java.nio.charset.Charset
@@ -30,7 +29,6 @@ internal object RequestLogger {
         logger: LoggerDecorator,
         request: Request,
         vararg tags: String,
-        maxBodyLogSize: Long? = null,
         maskBody: (String) -> String = { it },
         maskHeaders: (Headers) -> Headers = { it },
         loggableContentTypes: List<MediaType>? = null
@@ -46,7 +44,6 @@ internal object RequestLogger {
                     request.body?.let {
                         maskBody(
                             it.readLoggableBody(
-                                maxBodyLogSize = maxBodyLogSize,
                                 charset = it.mediaType()?.charset,
                                 loggableContentTypes = loggableContentTypes
                             )
@@ -65,7 +62,6 @@ internal object RequestLogger {
 
     @Throws(IOException::class)
     private fun RequestBody.readLoggableBody(
-        maxBodyLogSize: Long?,
         charset: Charset?,
         loggableContentTypes: List<MediaType>?
     ): String {
@@ -80,8 +76,7 @@ internal object RequestLogger {
         }
 
         val buffer = Buffer().apply { use { writeTo(this) } }
-        val bytesToRead = minOf(maxBodyLogSize ?: DEFAULT_MAX_BODY_SIZE, buffer.size)
 
-        return buffer.readString(bytesToRead, charset ?: Charsets.UTF_8)
+        return buffer.readString(buffer.size, charset ?: Charsets.UTF_8)
     }
 }

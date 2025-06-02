@@ -13,6 +13,9 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import okio.Buffer
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.io.IOException
@@ -224,45 +227,6 @@ class ResponseLoggerTest {
     }
 
     @Test
-    fun `should not log responses with unknown content length`() {
-        // Given
-        val bodyContent = """{"key":"value"}"""
-        val buffer = Buffer().write(bodyContent.toByteArray())
-
-        val testResponse =
-            Response
-                .builder()
-                .protocol(Protocol.HTTP_1_1)
-                .status(Status.OK)
-                .request(
-                    Request
-                        .builder()
-                        .url("https://example.com")
-                        .method(Method.POST)
-                        .build()
-                ).body(
-                    ResponseBody.create(
-                        buffer,
-                        mediaType = CommonMediaTypes.APPLICATION_JSON,
-                        contentLength = -1
-                    )
-                ).build()
-
-        every { mockLogger.isDebugEnabled } returns true
-
-        // When
-        ResponseLogger.log(mockLogger, testResponse)
-
-        // Expect
-        val expectedLogMessage =
-            """
-            URL=https://example.com, Code=200, Headers=[{}], Body=Response body with unknown content length cannot be logged
-            """.trimIndent()
-
-        verify { mockLogger.debug(expectedLogMessage, "Incoming", *anyVararg<String>()) }
-    }
-
-    @Test
     fun `should handle response body with non-loggable media type`() {
         // Given
         val testResponse =
@@ -357,6 +321,40 @@ class ResponseLoggerTest {
             """.trimIndent()
 
         verify { mockLogger.debug(expectedLogMessage, "Incoming", *anyVararg<String>()) }
+    }
+
+    @Test
+    fun `should not consume the real body`() {
+        // Given
+        val bodyContent = """{"key":"value"}"""
+        val buffer = Buffer().write(bodyContent.toByteArray())
+
+        val responseBody = ResponseBody.create(buffer, mediaType = MediaType.parse("application/json"))
+        val request =
+            Request.builder()
+                .url("https://example.com")
+                .method(Method.POST)
+                .build()
+
+        // Given
+        val testResponse =
+            Response
+                .builder()
+                .protocol(Protocol.HTTP_1_1)
+                .status(Status.OK)
+                .request(request)
+                .body(responseBody)
+                .build()
+
+        every { mockLogger.isDebugEnabled } returns true
+
+        // When
+        ResponseLogger.log(mockLogger, testResponse, maxBodyLogSize = 1L)
+
+        // Expect
+        assertFalse(responseBody.source().exhausted())
+        assertEquals(bodyContent, responseBody.source().readUtf8())
+        assertTrue(responseBody.source().exhausted())
     }
 
     @Test
