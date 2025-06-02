@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.10-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-core-v0.0.9-alpha...expediagroup-sdk-core-v0.0.10-alpha) (2025-06-02)
+
+
+### Bug Fixes
+
+* read loggable body based on the buffer size ([#1203](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1203)) ([40e009d](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/40e009df9d6756f1b9f1552f630f4ea726204a5d))
+
 ## [0.0.9-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-core-v0.0.8-alpha...expediagroup-sdk-core-v0.0.9-alpha) (2025-06-01)
 
 
