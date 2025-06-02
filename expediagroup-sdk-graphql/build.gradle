@@ -18,7 +18,7 @@ dependencies {
     api 'com.apollographql.apollo:apollo-api:4.1.1'
 
     /* EG SDK Core */
-    api 'com.expediagroup:expediagroup-sdk-core:0.0.9-alpha'
+    api 'com.expediagroup:expediagroup-sdk-core:0.0.10-alpha'
 
     /* Logging */
     compileOnly 'org.slf4j:slf4j-api:2.0.16'
