@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.7-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-graphql-v0.0.6-alpha...expediagroup-sdk-graphql-v0.0.7-alpha) (2025-06-02)
+
+
+### Bug Fixes
+
+* bump core version in rest and graphql modules ([#1201](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1201)) ([b5db62d](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/b5db62d6f3e0a69d567064bec5676c79f375d17e))
+
 ## [0.0.6-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-graphql-v0.0.5-alpha...expediagroup-sdk-graphql-v0.0.6-alpha) (2025-06-01)
 
 
