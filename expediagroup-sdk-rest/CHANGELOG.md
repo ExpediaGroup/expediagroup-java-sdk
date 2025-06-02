@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.13-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-rest-v0.0.12-alpha...expediagroup-sdk-rest-v0.0.13-alpha) (2025-06-02)
+
+
+### Bug Fixes
+
+* bump core version ([#1205](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1205)) ([deab832](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/deab832cbb9f29e8c623b92c03ae2ec9d979d713))
+
 ## [0.0.12-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-rest-v0.0.11-alpha...expediagroup-sdk-rest-v0.0.12-alpha) (2025-06-02)
 
 
