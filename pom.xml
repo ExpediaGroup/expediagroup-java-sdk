@@ -100,7 +100,7 @@
         <detekt.version>1.23.1</detekt.version>
 
         <!-- Shared Library Versions -->
-        <airline.version>3.0.0</airline.version>
+        <airline.version>3.1.0</airline.version>
         <assertj.version>3.27.3</assertj.version>
         <junit5.version>5.13.1</junit5.version>
         <mockk.version>1.14.2</mockk.version>
