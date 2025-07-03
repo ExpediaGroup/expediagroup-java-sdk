@@ -70,7 +70,7 @@
         <!-- Plugin Versions -->
         <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
         <maven-dependency-plugin.version>3.8.1</maven-dependency-plugin.version>
-        <maven-enforcer-plugin.version>3.5.0</maven-enforcer-plugin.version>
+        <maven-enforcer-plugin.version>3.6.0</maven-enforcer-plugin.version>
         <maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
         <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
         <maven-shade-plugin.version>3.5.1</maven-shade-plugin.version>
@@ -92,10 +92,10 @@
         <!-- Kotlin Compatible Versions -->
         <kotlin.version>2.2.0</kotlin.version>
         <kotlinx.coroutines.version>1.10.2</kotlinx.coroutines.version>
-        <kotlinx.serialization.version>1.8.1</kotlinx.serialization.version>
+        <kotlinx.serialization.version>1.9.0</kotlinx.serialization.version>
         <ktor.version>3.2.0</ktor.version>
         <kotlin-logging.version>3.0.5</kotlin-logging.version>
-        <kotlin-atomic.version>0.28.0</kotlin-atomic.version>
+        <kotlin-atomic.version>0.29.0</kotlin-atomic.version>
         <ktlint.version>1.1.1</ktlint.version>
         <detekt.version>1.23.1</detekt.version>
 
@@ -277,7 +277,7 @@
             <dependency>
                 <groupId>org.checkerframework</groupId>
                 <artifactId>checker-qual</artifactId>
-                <version>3.49.4</version>
+                <version>3.49.5</version>
             </dependency>
             <dependency>
                 <groupId>com.google.errorprone</groupId>
@@ -287,7 +287,7 @@
             <dependency>
                 <groupId>com.squareup.okio</groupId>
                 <artifactId>okio-jvm</artifactId>
-                <version>3.13.0</version>
+                <version>3.15.0</version>
             </dependency>
             <dependency>
                 <groupId>org.jetbrains</groupId>
