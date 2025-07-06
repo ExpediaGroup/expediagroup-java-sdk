@@ -6,7 +6,6 @@
   "packages": {
     "expediagroup-sdk-core": {
       "path": "expediagroup-sdk-core",
-      "prerelease": true,
       "component": "expediagroup-sdk-core",
       "extra-files": [
         "gradle.properties"
@@ -15,7 +14,6 @@
     "expediagroup-sdk-graphql": {
       "path": "expediagroup-sdk-graphql",
       "component": "expediagroup-sdk-graphql",
-      "prerelease": true,
       "extra-files": [
         "gradle.properties"
       ]
@@ -23,7 +21,6 @@
     "expediagroup-sdk-rest": {
       "path": "expediagroup-sdk-rest",
       "component": "expediagroup-sdk-rest",
-      "prerelease": true,
       "extra-files": [
         "gradle.properties"
       ]
@@ -31,7 +28,6 @@
     "expediagroup-sdk-transport-okhttp": {
       "path": "expediagroup-sdk-transport-okhttp",
       "component": "expediagroup-sdk-transport-okhttp",
-      "prerelease": true,
       "extra-files": [
         "gradle.properties"
       ]
@@ -39,7 +35,6 @@
     "expediagroup-sdk-openapi-plugin": {
       "path": "expediagroup-sdk-openapi-plugin",
       "component": "expediagroup-sdk-openapi-plugin",
-      "prerelease": true,
       "extra-files": [
         "gradle.properties"
       ]

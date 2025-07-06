@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.0.0](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-graphql-v0.0.8...expediagroup-sdk-graphql-v1.0.0) (2025-07-06)
+
+
+### ⚠ BREAKING CHANGES
+
+* release 1.0.0
+
+### Features
+
+* release 1.0.0 ([926f1ca](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/926f1ca599179b04491fe2a56e533d16c331a08d))
+* release 1.0.0 ([7a9b67a](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/7a9b67a9b5b4e2f5f4e3374bd34cc3944116031d))
+* release 1.0.0 ([dfb98be](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/dfb98be62fcd226771f225e018ae057d3f041702))
+
+
+### Bug Fixes
+
+* bump core version ([#1205](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1205)) ([deab832](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/deab832cbb9f29e8c623b92c03ae2ec9d979d713))
+* bump core version in rest and graphql modules ([#1201](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1201)) ([b5db62d](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/b5db62d6f3e0a69d567064bec5676c79f375d17e))
+* optimize modules dependencies ([#1194](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1194)) ([fe79d47](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/fe79d47cf9f3b5079369b842274313588108822f))
+* rename BasicCredentials to BasicAuthCredentials ([#1089](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1089)) ([73e0e00](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/73e0e005687abf4cba360e599afd60b6af5d3c2a))
+
 ## [0.0.8-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-graphql-v0.0.7-alpha...expediagroup-sdk-graphql-v0.0.8-alpha) (2025-06-02)
 
 
