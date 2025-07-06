@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.0-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-transport-okhttp-v0.0.6-alpha...expediagroup-sdk-transport-okhttp-v0.1.0-alpha) (2025-07-06)
+
+
+### Features
+
+* release 1.0.0 ([dfb98be](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/dfb98be62fcd226771f225e018ae057d3f041702))
+
 ## [0.0.6-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-transport-okhttp-v0.0.5-alpha...expediagroup-sdk-transport-okhttp-v0.0.6-alpha) (2025-06-01)
 
 
