@@ -3,7 +3,7 @@ name: release-please
 on:
   push:
     branches:
-      - "feature/new-sdk-core"
+      - "main"
 
 permissions:
   contents: write
