@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.1.0](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-rest-v0.0.13...expediagroup-sdk-rest-v0.1.0) (2025-07-06)
+
+
+### Features
+
+* **expediagroup-sdk-rest:** support throwing typed exceptions per operation ([#1172](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1172)) ([914756a](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/914756ac4e3721642df08661cc679a3067931da2))
+* new links model utilities ([#1127](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1127)) ([433c2ed](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/433c2ed397921f2918b559786f83f21b57d83280))
+* release 1.0.0 ([7a9b67a](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/7a9b67a9b5b4e2f5f4e3374bd34cc3944116031d))
+* release 1.0.0 ([dfb98be](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/dfb98be62fcd226771f225e018ae057d3f041702))
+
+
+### Bug Fixes
+
+* bump core version ([#1205](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1205)) ([deab832](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/deab832cbb9f29e8c623b92c03ae2ec9d979d713))
+* bump core version in rest and graphql modules ([#1201](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1201)) ([b5db62d](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/b5db62d6f3e0a69d567064bec5676c79f375d17e))
+* **deps:** use core version 0.0.8-alpha in rest package ([#1187](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1187)) ([0cfdbd5](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/0cfdbd505854f181cc5898656e3400b37751b9f6))
+* **expediagroup-sdk-rest:** use expediagroup-sdk-core:0.0.7-alpha  ([#1092](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1092)) ([980179b](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/980179ba66d320072b7baa2eda43aecdb34a3f6a))
+* optimize modules dependencies ([#1194](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1194)) ([fe79d47](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/fe79d47cf9f3b5079369b842274313588108822f))
+* refactor query params encoding ([#1161](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1161)) ([652783e](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/652783e959c9d0e499101d9bb3aade7fa29b24d6))
+* rename BasicCredentials to BasicAuthCredentials ([#1089](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1089)) ([73e0e00](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/73e0e005687abf4cba360e599afd60b6af5d3c2a))
+
 ## [0.0.13-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-rest-v0.0.12-alpha...expediagroup-sdk-rest-v0.0.13-alpha) (2025-06-02)
 
 

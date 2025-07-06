@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.1.0](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-openapi-plugin-v0.0.15...expediagroup-sdk-openapi-plugin-v0.1.0) (2025-07-06)
+
+
+### Features
+
+* new links model utilities ([#1127](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1127)) ([433c2ed](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/433c2ed397921f2918b559786f83f21b57d83280))
+* openapi processors ([#1068](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1068)) ([8ecd807](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/8ecd807075a80eec7d66083329b91c07953e747b))
+* release 1.0.0 ([7a9b67a](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/7a9b67a9b5b4e2f5f4e3374bd34cc3944116031d))
+* release 1.0.0 ([dfb98be](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/dfb98be62fcd226771f225e018ae057d3f041702))
+* use native OpenAPI generator and support typed exceptions ([#1173](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1173)) ([1fddc88](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/1fddc88cb83fc8610b3500ffaf35f5cba4deed86))
+
+
+### Bug Fixes
+
+* fix plugin publication name ([#1184](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1184)) ([7eac4c2](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/7eac4c245df998ab56ba73f486c5573f62f11aeb))
+* fix query params mustache ([#1163](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1163)) ([3ecbaff](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/3ecbaff05c667a6dbbd69eb07731b71fc80162f9))
+* improve validation logic in mustache templates ([#1182](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1182)) ([4ed0686](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/4ed068651922c36e32860933d302fa02b0a54d75))
+* refactor query params encoding ([#1161](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1161)) ([652783e](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/652783e959c9d0e499101d9bb3aade7fa29b24d6))
+* resolve template bugs ([#1142](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1142)) ([6f5a4bd](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/6f5a4bdf244464a73f7e2664fd9c317f841d70d4))
+* revert use concrete containers and refactor generator plugin ([#1063](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1063)) ([04ba324](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/04ba324134083788dfc899b54b6cdd0490fd5252))
+* update parameter name in validation messages ([#1116](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1116)) ([426f4dd](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/426f4dd9bfcea7790cf508c853cb21711d718607))
+
 ## [0.0.15-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-openapi-plugin-v0.0.14-alpha...expediagroup-sdk-openapi-plugin-v0.0.15-alpha) (2025-05-27)
 
 
