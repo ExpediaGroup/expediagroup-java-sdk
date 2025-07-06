@@ -6,6 +6,13 @@ on:
       module:
         required: true
         type: string
+  workflow_dispatch:
+    inputs:
+      module:
+        required: true
+        type: string
+        description: "Trigger maven publish for SDK module with the current version"
+
 
 jobs:
   publish:
