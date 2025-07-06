@@ -4,7 +4,7 @@ on:
   pull_request:
     types: [opened, edited, synchronize, reopened]
     branches:
-      - "feature/new-sdk-core"
+      - "main"
 
 jobs:
   check-pr-title:
