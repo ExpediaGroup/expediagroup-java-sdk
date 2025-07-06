@@ -11,7 +11,7 @@ on:
       module:
         required: true
         type: string
-        description: "publish a module"
+        description: "Trigger maven publish for SDK module with the current version"
 
 
 jobs:
