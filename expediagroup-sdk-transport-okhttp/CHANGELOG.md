@@ -1,5 +1,24 @@
 # Changelog
 
+## [1.0.0](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-transport-okhttp-v0.0.6...expediagroup-sdk-transport-okhttp-v1.0.0) (2025-07-06)
+
+
+### ⚠ BREAKING CHANGES
+
+* release 1.0.0
+
+### Features
+
+* release 1.0.0 ([926f1ca](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/926f1ca599179b04491fe2a56e533d16c331a08d))
+* release 1.0.0 ([7a9b67a](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/7a9b67a9b5b4e2f5f4e3374bd34cc3944116031d))
+* release 1.0.0 ([dfb98be](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/dfb98be62fcd226771f225e018ae057d3f041702))
+
+
+### Bug Fixes
+
+* optimize modules dependencies ([#1194](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1194)) ([fe79d47](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/fe79d47cf9f3b5079369b842274313588108822f))
+* rename BasicCredentials to BasicAuthCredentials ([#1089](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1089)) ([73e0e00](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/73e0e005687abf4cba360e599afd60b6af5d3c2a))
+
 ## [0.0.6-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-transport-okhttp-v0.0.5-alpha...expediagroup-sdk-transport-okhttp-v0.0.6-alpha) (2025-06-01)
 
 
