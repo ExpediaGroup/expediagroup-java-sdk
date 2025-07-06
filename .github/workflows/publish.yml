@@ -6,6 +6,13 @@ on:
       module:
         required: true
         type: string
+  workflow_dispatch:
+    inputs:
+      module:
+        required: true
+        type: string
+        description: "publish a module"
+
 
 jobs:
   publish:
