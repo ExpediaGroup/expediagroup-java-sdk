@@ -19,7 +19,7 @@ dependencies {
     compileOnly 'com.expediagroup:expediagroup-sdk-core:0.0.8-alpha'
 
     /* Logging */
-    compileOnly 'org.slf4j:slf4j-api:2.0.16'
+    compileOnly 'org.slf4j:slf4j-api:2.0.17'
 
     /* Testing */
     testImplementation platform('org.junit:junit-bom:5.11.4')
@@ -32,7 +32,7 @@ dependencies {
 
     testImplementation(project(':expediagroup-sdk-core'))
 
-    testImplementation 'org.slf4j:slf4j-api:2.0.16'
+    testImplementation 'org.slf4j:slf4j-api:2.0.17'
 }
 
 test {
