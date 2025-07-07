@@ -22,7 +22,7 @@ dependencies {
     compileOnly 'com.fasterxml.jackson.module:jackson-module-kotlin'
 
     /* Logging */
-    compileOnly 'org.slf4j:slf4j-api:2.0.16'
+    compileOnly 'org.slf4j:slf4j-api:2.0.17'
 
     /* Testing */
     testImplementation platform('org.junit:junit-bom:5.11.4')
@@ -33,7 +33,7 @@ dependencies {
     testImplementation 'io.mockk:mockk:1.13.16'
     testImplementation 'com.squareup.okhttp3:mockwebserver:4.12.0'
 
-    testImplementation 'org.slf4j:slf4j-api:2.0.16'
+    testImplementation 'org.slf4j:slf4j-api:2.0.17'
 
     testImplementation(platform('com.fasterxml.jackson:jackson-bom:2.19.1'))
     testImplementation 'com.fasterxml.jackson.core:jackson-databind'
