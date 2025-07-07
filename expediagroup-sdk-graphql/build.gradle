@@ -15,7 +15,7 @@ apply from: "$rootDir/gradle-tasks/signing.gradle"
 
 dependencies {
     /* Apollo */
-    api 'com.apollographql.apollo:apollo-api:4.1.1'
+    api 'com.apollographql.apollo:apollo-api:4.3.1'
 
     /* EG SDK Core */
     api 'com.expediagroup:expediagroup-sdk-core:0.0.10-alpha'
