@@ -1,7 +1,7 @@
 {
-  "expediagroup-sdk-core": "1.0.0",
-  "expediagroup-sdk-graphql": "1.0.0",
-  "expediagroup-sdk-rest": "1.0.0",
+  "expediagroup-sdk-core": "1.1.0",
+  "expediagroup-sdk-graphql": "1.1.0",
+  "expediagroup-sdk-rest": "1.1.0",
   "expediagroup-sdk-openapi-plugin": "1.0.0",
-  "expediagroup-sdk-transport-okhttp": "1.0.0"
+  "expediagroup-sdk-transport-okhttp": "1.0.1"
 }

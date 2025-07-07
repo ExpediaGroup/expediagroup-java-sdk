@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.1.0](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-core-v1.0.0...expediagroup-sdk-core-v1.1.0) (2025-07-07)
+
+
+### Features
+
+* add Credentials marker interface ([#1084](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1084)) ([65fa5f9](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/65fa5f91182f0b4ff66994e622a2f1b60e3f7978))
+* add custom loggable types ([#1143](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1143)) ([24cbc1a](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/24cbc1a3a2718a8a0de040c7e8a92eb944d59d6d))
+* **deps:** update dependencies com.fasterxml.jackson:jackson-bom from v2.18.2 to v2.19.1 ([#1254](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1254)) ([b652c77](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/b652c77315a2246ce4268f7c149f1defdc230d2c))
+* **deps:** update dependencies com.fasterxml.jackson.module:jackson-module-kotlin from v2.18.2 to v2.19.1 ([#1255](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1255)) ([06f1bcf](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/06f1bcf1f77f185482df964cd04e778d696a5f0a))
+* **deps:** update dependencies com.squareup.okio:okio from v3.10.2 to v3.15.0 ([#1256](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1256)) ([2933bc7](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/2933bc7d3034b02c68ac2dc7df1c90dc2bb5c24f))
+* mask sensitive auth fields ([#1086](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1086)) ([89a9f73](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/89a9f733e42466119812c59326d2aef3cc10cfb0))
+
+
+### Bug Fixes
+
+* **deps:** update dependencies org.slf4j:slf4j-api from v2.0.16 to v2.0.17 ([#1252](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1252)) ([4f6bf32](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/4f6bf32165907d35d21b7fe48d3a3bb0a432dda7))
+* optimize modules dependencies ([#1194](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1194)) ([fe79d47](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/fe79d47cf9f3b5079369b842274313588108822f))
+* read loggable body based on the buffer size ([#1203](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1203)) ([40e009d](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/40e009df9d6756f1b9f1552f630f4ea726204a5d))
+* rename BasicCredentials to BasicAuthCredentials ([#1089](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1089)) ([73e0e00](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/73e0e005687abf4cba360e599afd60b6af5d3c2a))
+
 ## [1.0.0](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-core-v0.0.10...expediagroup-sdk-core-v1.0.0) (2025-07-06)
 
 

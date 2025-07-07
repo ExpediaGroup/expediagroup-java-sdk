@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.1.0](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-graphql-v1.0.0...expediagroup-sdk-graphql-v1.1.0) (2025-07-07)
+
+
+### Features
+
+* **deps:** update dependencies com.apollographql.apollo:apollo-api from v4.1.1 to v4.3.1 ([#1253](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1253)) ([3045736](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/3045736af4be355d022085514b974894d719a8c0))
+
+
+### Bug Fixes
+
+* **deps:** update dependencies org.slf4j:slf4j-api from v2.0.16 to v2.0.17 ([#1252](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1252)) ([4f6bf32](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/4f6bf32165907d35d21b7fe48d3a3bb0a432dda7))
+
 ## [1.0.0](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-graphql-v0.0.8...expediagroup-sdk-graphql-v1.0.0) (2025-07-06)
 
 

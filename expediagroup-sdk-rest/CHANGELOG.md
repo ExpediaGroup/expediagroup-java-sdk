@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.1.0](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-rest-v1.0.0...expediagroup-sdk-rest-v1.1.0) (2025-07-07)
+
+
+### Features
+
+* **deps:** update dependencies com.fasterxml.jackson:jackson-bom from v2.18.2 to v2.19.1 ([#1254](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1254)) ([b652c77](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/b652c77315a2246ce4268f7c149f1defdc230d2c))
+* **deps:** update dependencies com.fasterxml.jackson.module:jackson-module-kotlin from v2.18.2 to v2.19.1 ([#1255](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1255)) ([06f1bcf](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/06f1bcf1f77f185482df964cd04e778d696a5f0a))
+
+
+### Bug Fixes
+
+* **deps:** update dependencies org.slf4j:slf4j-api from v2.0.16 to v2.0.17 ([#1252](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1252)) ([4f6bf32](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/4f6bf32165907d35d21b7fe48d3a3bb0a432dda7))
+
 ## [1.0.0](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-rest-v0.0.13...expediagroup-sdk-rest-v1.0.0) (2025-07-06)
 
 

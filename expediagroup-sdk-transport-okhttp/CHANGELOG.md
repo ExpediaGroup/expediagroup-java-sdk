@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-transport-okhttp-v1.0.0...expediagroup-sdk-transport-okhttp-v1.0.1) (2025-07-07)
+
+
+### Bug Fixes
+
+* **deps:** update dependencies org.slf4j:slf4j-api from v2.0.16 to v2.0.17 ([#1252](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1252)) ([4f6bf32](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/4f6bf32165907d35d21b7fe48d3a3bb0a432dda7))
+
 ## [1.0.0](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-transport-okhttp-v0.0.6...expediagroup-sdk-transport-okhttp-v1.0.0) (2025-07-06)
 
 
