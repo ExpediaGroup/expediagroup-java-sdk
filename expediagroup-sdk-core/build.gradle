@@ -17,7 +17,7 @@ dependencies {
     api 'com.squareup.okio:okio:3.10.2'
 
     /* Serialization/Deserialization */
-    compileOnly(platform('com.fasterxml.jackson:jackson-bom:2.18.2'))
+    compileOnly(platform('com.fasterxml.jackson:jackson-bom:2.19.1'))
     compileOnly 'com.fasterxml.jackson.core:jackson-databind'
     compileOnly 'com.fasterxml.jackson.module:jackson-module-kotlin'
 
@@ -35,7 +35,7 @@ dependencies {
 
     testImplementation 'org.slf4j:slf4j-api:2.0.16'
 
-    testImplementation(platform('com.fasterxml.jackson:jackson-bom:2.18.2'))
+    testImplementation(platform('com.fasterxml.jackson:jackson-bom:2.19.1'))
     testImplementation 'com.fasterxml.jackson.core:jackson-databind'
     testImplementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.18.2'
 }
