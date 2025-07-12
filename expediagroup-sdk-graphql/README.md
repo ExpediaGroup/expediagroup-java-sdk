@@ -49,18 +49,31 @@ When you instantiate a `GraphQLClient`, you need to supply a `GraphQLExecutor` i
 
 ```mermaid
 flowchart LR
+  GCI[MyGraphQLClient]
   GC[GraphQLClient]
   GE[GraphQLExecutor]
   ARE[AbstractRequestExecutor]
 
   %% relationships
-  GC --> GE
-  GE --> ARE
+  GCI --> |extends| GC
+  GC --> |uses| GE
+  GE --> |uses| ARE
 ```
 
 ### GraphQL Responses Processing
+In GraphQL, API responses fall into four categories:
+- Successful response – all requested data is returned.
+- Partial response – some fields resolve successfully while others fail.
+- Error response (no data) – the server is able to process the request but returns errors for every field, yielding no data.
+- Exception response – a transport or server error occurs, and no GraphQL payload is returned.
 
-### Error Handling
+Because GraphQL always uses an HTTP `2xx` status code, the SDK applies its own conventions in the `GraphQLExecutor` to make responses predictable:
+- Exception response: the SDK throws an `ExpediaGroupServiceException`.
+- Partial response: the SDK returns a `RawResponse` containing both the successfully resolved data and the error list.
+- Error response (no data): the SDK throws a `NoDataException`, including the full response payload.
+- Successful response: the SDK returns a `RawResponse` with the data and an empty error list.
+  
+While similar to Apollo’s handling, this approach - especially throwing exceptions when no data is present — aligns with the broader SDK design and provides a consistent error‐handling model.
 
 ### Pagination
 
