@@ -82,8 +82,26 @@ Because GraphQL always uses an HTTP `2xx` status code, the SDK applies its own c
 While similar to Apollo’s handling, this approach - especially throwing exceptions when no data is present — aligns with the broader SDK design and provides a consistent error‐handling model.
 
 ### Pagination
+To simplify working with cursor or offset‐based GraphQL pagination, the SDK provides two abstract utilities:
+
+##### 1. `PaginatedStream<T>`
+
+A lazy, sequential stream of items from any paginated data source.  
+
+**How it works**:  
+- Internally buffers one “page” of results at a time in a `Deque`.  
+- Calls your implementation of `fetchNextPage(): List<T>?` whenever the buffer is empty.  
+- Exposes a Java `Stream<T>` via `stream()`, so you can consume items one by one, without worrying about page boundaries.
 
 
+##### 2. `Paginator<T : PaginatedResponse<*, *>>`
+A simple iterator‐style helper for paging through GraphQL responses that include both data and pageInfo in their model.
+
+**Responsibilities:**
+- Tracks whether more pages remain via your `hasPagesToFetch()` implementation.
+- Implements the `Iterator<T>` interface
+- `hasNext()` returns true until no further pages remain.
+- `next()` should be provided by your subclass to fetch each page’s `PaginatedResponse`.
 
 
 
