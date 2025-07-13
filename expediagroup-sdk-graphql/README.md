@@ -84,7 +84,7 @@ While similar to Apollo’s handling, this approach - especially throwing except
 ### Pagination
 To simplify working with cursor or offset‐based GraphQL pagination, the SDK provides two abstract utilities:
 
-##### 1. `PaginatedStream<T>`
+##### 1. PaginatedStream
 
 A lazy, sequential stream of items from any paginated data source.  
 
@@ -94,7 +94,7 @@ A lazy, sequential stream of items from any paginated data source.
 - Exposes a Java `Stream<T>` via `stream()`, so you can consume items one by one, without worrying about page boundaries.
 
 
-##### 2. `Paginator<T : PaginatedResponse<*, *>>`
+##### 2. Paginator
 A simple iterator‐style helper for paging through GraphQL responses that include both data and pageInfo in their model.
 
 **Responsibilities:**
