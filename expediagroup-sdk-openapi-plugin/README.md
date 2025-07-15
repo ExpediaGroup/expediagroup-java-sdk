@@ -31,15 +31,50 @@ egSdkGenerator {
 }
 ```
 
-See the [Gradle Plugin](#gradle-plugin) section for all available configuration options.
+See the [Configuration Options](#configuration-options) section for all available options.
 
-## Components & Architecture
+## Tasks & Extensions
+Gradle plugins are built around two key concepts:
+
+- **Tasks**  
+  Discrete units of work that encapsulate the logic for a specific build operation (for example, generating source code or publishing an artifact).
+
+- **Extensions**  
+  Configuration objects you declare in your build script. By setting properties on an extension block, you customize how the plugin’s tasks behave.
+
+The plugin provides a primary task, `generateEgSdk` (implemented by the `GenerateEgSdkTask` class), which collects your `egSdkGenerator` extension settings, applies default values and generation conventions, and writes the resulting source files to the configured output directory.
+
+You customize its behavior via the `egSdkGenerator` extension in your `build.gradle.kts`. For example:
+
+```kotlin
+egSdkGenerator {
+    namespace = "lodging"
+    // add any other configuration options here
+}
+```
+
+#### Configuration Options
+
+| Option                 | Description                                                                                                    | Required? | Default                                                          |
+|------------------------|----------------------------------------------------------------------------------------------------------------|-----------|------------------------------------------------------------------|
+| `specFilePath`         | Path to the OpenAPI specification file used by the generator.                                                  | Yes       | _None_                                                           |
+| `basePackage`          | Root package under which all generated code will be organized.                                                | Yes       | _None_                                                           |
+| `modelPackage`         | Package name for the generated model classes.                                                                 | No        | `com.expediagroup.sdk.<namespace>.model`                         |
+| `operationPackage`     | Package name for the generated operation (API) classes.                                                       | No        | `com.expediagroup.sdk.<namespace>.operation`                     |
+| `objectMapper`         | Fully-qualified class name of the Jackson `ObjectMapper` to use for JSON serialization and deserialization.   | Yes       | _None_                                                           |
+| `customTemplatesDir`   | Directory containing user-provided Mustache templates to override the defaults.                                | No        | _None_                                                           |
+| `outputDir`            | Filesystem directory where the generated Kotlin source files will be written.                                  | No        | `src/main/kotlin`                                                |
+| `namespace`            | Namespace segment appended to the base package (e.g., `com.expediagroup.sdk.{namespace}`).                     | Yes       | _None_                                                           |
+| `operationProcessors`  | Functions to post-process each generated operation before template rendering.                                  | No        | _Empty list_                                                     |
+| `modelProcessors`      | Functions to post-process each generated model before template rendering.                                      | No        | _Empty list_                                                     |
+| `lambdas`              | Named Mustache lambdas available for use within templates.                                                     | No        | _Empty list_                                                     |
+| `supportingTemplates`  | Additional supporting-file templates to copy verbatim into the output directory.                               | No        | _Empty list_                                                     |
+| `apiTemplates`         | Additional API-level Mustache templates to render alongside the defaults.                                      | No        | _Empty list_                                                     |
 
 
-### Gradle Plugin
 
-### Custom Mustache Templates
+## Custom Mustache Templates
 
-###  Mustache Utilities
+## Mustache Utilities
 
-### User Provided Templates
+## User Provided Templates
