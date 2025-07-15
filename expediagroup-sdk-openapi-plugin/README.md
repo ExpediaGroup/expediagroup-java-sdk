@@ -71,7 +71,7 @@ egSdkGenerator {
 | `supportingTemplates`  | Additional supporting-file templates to copy verbatim into the output directory.                               | No        | _Empty list_                                                     |
 | `apiTemplates`         | Additional API-level Mustache templates to render alongside the defaults.                                      | No        | _Empty list_                                                     |
 
-
+TODO: Add detailed how-to-guide
 
 ## Custom Mustache Templates
 
