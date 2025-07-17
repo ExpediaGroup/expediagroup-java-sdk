@@ -76,6 +76,37 @@ TODO: Add detailed how-to-guide
 ## Custom Mustache Templates
 This plugin replaces the OpenAPI Generator’s default Mustache templates with custom versions that align the generated code with the SDK’s conventions. As a result, all operation and model classes produced by the generator extend and interoperate with `expediagroup-sdk-rest` components, making them ready to execute within the SDK’s REST framework.
 
+The custom mustahce templates are located in the `src/main/resources/templates` folder in the `expediagroup-sdk-openapi-plugin` module. Some of the templates there overrides the default templates in the original OpenAPI generatator, and others are custom templates specific for the SDK use cases.
+
+Highlighting some of the templates used by the plugin:
+
+#### Core Templates
+- `api.mustache` - Generates API operation classes with exception handling, request/response types, and parameter validation
+- `api_exception.mustache` - Creates custom exception classes for API-specific errors
+- `data_class.mustache` - Generates data classes for request/response models
+- `enum_class.mustache` - Creates enum classes for API constants and values
+
+#### Variable Templates
+- `data_class_opt_var.mustache` - Handles optional variables in data classes
+- `data_class_req_var.mustache` - Handles required variables in data classes
+- `interface_opt_var.mustache` - Defines optional variables in interfaces
+- `interface_req_var.mustache` - Defines required variables in interfaces
+  
+#### Operation Templates
+- `operation_params.mustache` - Generates parameter classes for API operations
+- `operations/imports.mustache` - Manages import statements for operation classes
+- `operations/params/builder.mustache` - Creates builder pattern for operation parameters
+
+#### Partial Templates
+- `partials/data_class_validations.mustache` - Adds validation logic to data classes
+- `partials/datatype.mustache` - Defines data type mappings
+- `partials/operation_params_validations.mustache` - Adds validation for operation parameters
+
+#### Trait Templates
+- `traits/implementation.mustache` - Provides common implementation code for generated classes
+- `traits/imports.mustache` - Manages imports for trait implementations
+- `traits/inheritance.mustache` - Defines inheritance patterns for generated classes
+
 
 ## Mustache Utilities
 
