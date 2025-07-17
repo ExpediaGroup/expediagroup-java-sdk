@@ -213,6 +213,58 @@ _For more details, see the OpenAPI Generator templating documentation on [Templa
 
 
 ## User Provided Processors & Lambdas
+For advanced customizations, the plugin lets you hook into three extension points:
+
+- **Mustache Lambdas**: Custom helper functions you can call from your templates.  
+- **Operation Processors**: Invoked once per `CodegenOperation` to mutate or enrich operation metadata.  
+- **Model Processors**: Invoked once per `CodegenModel` to modify generated data models.
+
+#### Register Custom Lambda
+Define your lambdas in the `lambdas` list and reference them by name in your Mustache templates:
+
+```kotlin
+egSdkGenerator {
+  lambdas.set(listOf(
+    "myCustomLambda" to MyCustomLambda(),
+  ))
+}
+```
+
+Then, in your custom Mustache template:
+
+```mustache
+{{#myCustomLambda}}
+  # Do whatever logic the lambda provides
+{{/myCustomLambda}}
+```
+
+### Register Custom Operation Processor
+Operation processors let you transform each `CodegenOperation` before templating. Supply a list of processor instances:
+
+```kotlin
+egSdkGenerator {
+  operationProcessors.set(listOf(
+    MyCustomOperationProcessor()
+  ))
+}
+```
+
+Each processor must implement `(CodegenOperation) -> CodegenOperation` and `Serializable`, returning the modified operation.
+
+### Register Custom Model Processor
+Model processors work the same way but target `CodegenModel` instances:
+
+```kotlin
+egSdkGenerator {
+  modelProcessors.set(listOf(
+    MyCustomModelProcessor()
+  ))
+}
+```
+
+Each processor must implement `(CodegenModel) -> CodegenModel` and `Serializable`, allowing you to adjust class names, property types, imports, and more.
+
+### buildSrc
 
 ## Recommnedation
 
