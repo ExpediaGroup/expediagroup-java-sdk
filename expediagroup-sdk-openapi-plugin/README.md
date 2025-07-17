@@ -107,7 +107,38 @@ Highlighting some of the templates used by the plugin:
 - `traits/imports.mustache` - Manages imports for trait implementations
 - `traits/inheritance.mustache` - Defines inheritance patterns for generated classes
 
+## Mustache Lambdas
+To unlock advanced code‐generation features, the plugin registers custom Mustache lambdas—small helper functions that templates can invoke during rendering. Each lambda receives its current context (for example, a `CodegenOperation` or `CodegenModel`) and returns a modified data structure or formatted string, enabling dynamic filtering, transformation, and formatting.
 
-## Mustache Utilities
+For instance, the `nonBodyParams` lambda filters out body parameters from an operation’s parameter list. In a template you can write:
+
+```mustache
+{{#nonBodyParams}}
+  {{#params}}
+  * @property {{{paramName}}} – {{{description}}}
+  {{/params}}
+{{/nonBodyParams}}
+```
+
+Here, `nonBodyParams` supplies a context containing only query, path, and header parameters. The inner `{{#params}}` block then iterates over that filtered list to generate documentation lines. By leveraging custom lambdas like this, your templates remain clean and your generated code becomes more intuitive and maintainable.
+
+[Lambdas.kt](https://github.com/ExpediaGroup/expediagroup-java-sdk/blob/main/expediagroup-sdk-openapi-plugin/src/main/kotlin/com/expediagroup/sdk/openapigenerator/mustache/Lambdas.kt)
+
+#### Internal Configuration
+The `generateEgSdk` task drives the OpenAPI Generator with a predefined set of defaults, custom Mustache lambdas, and processor hooks. While some of these settings can be tailored via the `egSdkGenerator` extension, a core subset remains fixed to uphold SDK conventions.
+
+All configuration logic is centralized in the `GenerateEgSdkTask` class, which defines:
+
+- **Global generator settings**: package names, template directories, output paths, and other generator-wide options.  
+- **SDK-specific registrations**: Mustache lambdas and operation/model processors required by our custom templates.
+
+For a complete overview of every applied configuration and registered lambda, review the `GenerateEgSdkTask.kt` source code [here](https://github.com/ExpediaGroup/expediagroup-java-sdk/blob/main/expediagroup-sdk-openapi-plugin/src/main/kotlin/com/expediagroup/sdk/openapigenerator/task/GenerateEgSdkTask.kt).
+
+
+## User Provided Processors & Lambdas
 
 ## User Provided Templates
+
+## Supporting Templates
+
+## API Templates
