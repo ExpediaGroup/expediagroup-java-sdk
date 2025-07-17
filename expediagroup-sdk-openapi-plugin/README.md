@@ -264,8 +264,12 @@ egSdkGenerator {
 
 Each processor must implement `(CodegenModel) -> CodegenModel` and `Serializable`, allowing you to adjust class names, property types, imports, and more.
 
-### buildSrc
+## Recommendations
 
-## Recommnedation
+#### Use a dedicated generation module 
+Create a separate Gradle project or submodule exclusively for running the generator plugin. This keeps your main `build.gradle` files clean, provides a dedicated `src/main/resources/templates` directory for your custom Mustache templates, and allows you to direct generated sources into any target module via the `outputDir` setting.
+
+#### Centralize custom lambdas and processors in `buildSrc`
+If you implement custom Mustache lambdas or operation/model processors, place them under the `buildSrc` directory. This ensures they are compiled before your generation task executes, maintains a clear separation of build logic, and simplifies version management and reuse.
 
 
