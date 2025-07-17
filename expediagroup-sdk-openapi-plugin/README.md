@@ -134,11 +134,86 @@ All configuration logic is centralized in the `GenerateEgSdkTask` class, which d
 
 For a complete overview of every applied configuration and registered lambda, review the `GenerateEgSdkTask.kt` source code [here](https://github.com/ExpediaGroup/expediagroup-java-sdk/blob/main/expediagroup-sdk-openapi-plugin/src/main/kotlin/com/expediagroup/sdk/openapigenerator/task/GenerateEgSdkTask.kt).
 
+## User-Provided Templates
+By default, the plugin uses its bundled Mustache templates. You can override any of these or add new ones by pointing the `customTemplatesDir` option at your own template folder. All files in that directory will be registered and rendered.
+
+### Overriding SDK Templates
+Mirror the SDK template path and filename in your project. For example, to override `api.mustache`:
+
+```
+project-root/
+└── src/
+ └── main/
+  └── resources/
+   └── templates/
+    └── api.mustache
+```
+
+Then, configure the plugin to use your directory:
+
+```kotlin
+egSdkGenerator {
+  customTemplatesDir.set(layout.projectDirectory.dir("src/main/resources/templates"))
+}
+```
+
+Any template in `customTemplatesDir` with a matching name and path will replace the default; additional templates will be rendered alongside the standard ones.
+
+#### API Templates
+You can also define extra API-level templates under your `customTemplatesDir` and register them via the `apiTemplates` option. Each entry specifies the source template file, its target package path, and the filename suffix:
+
+```kotlin
+egSdkGenerator {
+  customTemplatesDir.set(layout.projectDirectory.dir("src/main/resources/templates"))
+  apiTemplates.set(listOf(
+    ApiTemplate(
+      templateFile = "my-custom-api.mustache",
+      destinationPath = "com/expediagroup/sdk/lodging/api",
+      fileNameSuffix = "Api.kt"
+    )
+  ))
+}
+```
+
+Templates listed in `apiTemplates` will be rendered into `com.expediagroup.sdk.lodging.api` with the `Api.kt` suffix (`{OperationName}Api.kt`).
+
+#### Supporting Templates
+
+You can define additional supporting‐file templates under your `customTemplatesDir` and register them via the `supportingTemplates` option. Example:
+
+```kotlin
+egSdkGenerator {
+  customTemplatesDir.set(layout.projectDirectory.dir("src/main/resources/templates"))
+  supportingTemplates.set(listOf(
+    SupportingTemplate(
+      templateFile      = "my-custom-supporting-class.mustache",
+      destinationPath   = "com/expediagroup/sdk/lodging/model",
+      fileName          = "Utilities.kt"
+    )
+  ))
+}
+```
+
+This template will be copied into `com.expediagroup.sdk.lodging.model` and rendered with the filename you specify - `Utilities.kt`.
+
+#### API Templates vs. Supporting Templates
+
+OpenAPI Generator defines distinct template categories. Here’s how they differ:
+
+| Aspect                     | API Templates                               | Supporting Templates                          |
+|----------------------------|---------------------------------------------|-----------------------------------------------|
+| Template category          | `TemplateFileType.API`                      | `TemplateFileType.SUPPORTING`                 |
+| Invocation frequency       | Once per operation in the OpenAPI spec      | Once per template file                        |
+| Purpose                    | Generate operation classes/methods          | Generate standalone files (helpers, extra models, resources) |
+| Configuration property     | `egSdkGenerator { apiTemplates }`           | `egSdkGenerator { supportingTemplates }`      |
+| File naming control        | Uses `fileNameSuffix`                       | Uses `fileName` (explicit)                    |
+| Output package/directory   | Under the configured operation package      | Under the specified destination path          |
+
+_For more details, see the OpenAPI Generator templating documentation on [Template File Types](https://openapi-generator.tech/docs/templating#template-file-types)._
+
 
 ## User Provided Processors & Lambdas
 
-## User Provided Templates
+## Recommnedation
 
-## Supporting Templates
 
-## API Templates
