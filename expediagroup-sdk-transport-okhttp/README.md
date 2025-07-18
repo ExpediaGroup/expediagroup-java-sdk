@@ -51,10 +51,10 @@ Once the `expediagroup-sdk-transport-okhttp` dependency is added to your project
 ## Synchrounous & Asynchrounous Transports
 The `expediagroup-sdk-transport-okhttp` module provides both synchronous and asynchronous implementations of the `Transport` interface, enabling flexibility based on your application's requirements.
 
-#### Synchrounous Transport
+#### Synchronous Transport
 The `OkHttpTransport` class implements the `Transport` interface for executing synchronous HTTP requests. It converts SDK `Request` objects into OkHttp requests, executes them, and maps the responses back into SDK `Response` objects.
 
-#### Asynchrounous Transport
+#### Asynchronous Transport
 The `OkHttpAsyncTransport` class implements the `AsyncTransport` interface for executing asynchronous HTTP requests, returning a `CompletableFuture<Response>` for non-blocking operations. This is useful for applications requiring high concurrency or prefer non-blocking approach.
 
 ## Configuration
