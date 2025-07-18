@@ -48,8 +48,25 @@ Once the `expediagroup-sdk-transport-okhttp` dependency is added to your project
 > Currently, only the OkHttp transport is available; future releases may offer additional implementations.  
 
 
-## Sync OkHttp Transport
+## Synchrounous & Asynchrounous Transports
+The `expediagroup-sdk-transport-okhttp` module provides both synchronous and asynchronous implementations of the `Transport` interface, enabling flexibility based on your application's requirements.
 
-## Async OkHttp Transport
+#### Synchrounous Transport
+The `OkHttpTransport` class implements the `Transport` interface for executing synchronous HTTP requests. It converts SDK `Request` objects into OkHttp requests, executes them, and maps the responses back into SDK `Response` objects.
 
-## 
+#### Asynchrounous Transport
+The `OkHttpAsyncTransport` class implements the `AsyncTransport` interface for executing asynchronous HTTP requests, returning a `CompletableFuture<Response>` for non-blocking operations. This is useful for applications requiring high concurrency or prefer non-blocking approach.
+
+## Configuration
+This transport implementation enables users to configure the underlying OkHttp instance with thier prefered settings. This can be done by providing a custom `OkHttpClientConfiguration` when creating an instance of `OkHttpTransport`.
+
+```java
+OkHttpClientConfiguration okHttpConfig = OkHttpClientConfiguration.builder()
+    .callTimeout(100000)
+    .connectTimeout(100000)
+    .readTimeout(100000)
+    .build();
+
+OkHttpTransport transport = new OkHttpTransport(okHttpConfig);
+```
+
