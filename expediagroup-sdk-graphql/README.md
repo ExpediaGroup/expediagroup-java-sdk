@@ -40,8 +40,6 @@ The GraphQL module builds on the core abstractions to streamline GraphQL client 
 ### Apollo Kotlin Integration
 It's important to highlight that the GraphQL module depends only on the Apollo Kotlin API and its code-generation plugin and **not** on Apollo’s HTTP engine. This enables the SDK to work seamlessly with Apollo-generated operation classes and models while delegating all HTTP requests to its own transport layer. Meanwhile, Apollo remains responsible for serializing queries and deserializing responses, ensuring type-safe handling of the GraphQL payloads.
 
-TODO: ADD Usage Example Document
-
 ### GraphQL Clients
 The GraphQL module provides a high-level abstract class, `GraphQLClient`, which serves as the integration point between your product SDK and the core SDK internals (executors, transports, etc.). 
 
