@@ -107,7 +107,10 @@ abstract class GenerateEgSdkTask : DefaultTask() {
 
     @TaskAction
     fun generate() {
-        val supportingFilesNames = supportingTemplates.get().joinToString(",") { it.fileName }
+        val supportingFilesNames = supportingTemplates.orNull
+            ?.joinToString(",") { it.fileName }
+            .orEmpty()
+            .ifEmpty { "false" }
 
         val config =
             CodegenConfigurator().apply {
@@ -171,7 +174,7 @@ abstract class GenerateEgSdkTask : DefaultTask() {
                                 template.fileNameSuffix
                             ).also { t -> t.templateType = TemplateFileType.API }
                         }
-                    } ?: emptyList()
+                    }
 
                 val resolvedSupportingTemplates =
                     supportingTemplates.orNull?.let {
@@ -182,12 +185,12 @@ abstract class GenerateEgSdkTask : DefaultTask() {
                                 template.fileName
                             )
                         }
-                    } ?: emptyList()
+                    }
 
                 userDefinedTemplates(
                     buildList {
-                        addAll(resolvedApiTemplates)
-                        addAll(resolvedSupportingTemplates)
+                        resolvedApiTemplates?.let { addAll(it) }
+                        resolvedSupportingTemplates?.let { addAll(it) }
                         add(
                             TemplateDefinition(
                                 "operation_params.mustache",
