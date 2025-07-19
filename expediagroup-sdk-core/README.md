@@ -52,10 +52,6 @@ Each product SDK defines its own execution pipeline by composing "request pipeli
 
 The primary entry point for integrating a product SDK with the core is through the `AbstractRequestExecutor` for synchronous calls and the `AbstractAsyncRequestExecutor` for asynchronous calls. These abstract classes enforce a consistent integration pattern by requiring implementers (i.e., product SDKs) to define the necessary `ExecutionPipeline`. This guarantees that governance and observability processes are applied consistently across all product SDKs, irrespective of the HTTP client used.
 
-TODO: Ready-to-use Pipeline Steps
-
-TODO: Define Custom Pipeline Steps
-
 [pipeline package](https://github.com/ExpediaGroup/expediagroup-java-sdk/tree/main/expediagroup-sdk-core/src/main/kotlin/com/expediagroup/sdk/core/pipeline)
 
 ### Authentication Package
@@ -71,10 +67,6 @@ All SDK modules rely on the `SLF4J` API for logging without shipping a concrete 
 _A product SDK shouldn't provide the SLF4J implementation itself. This should be up to the end-user of the product SDK._
 
 Beyond basic request and response logging, the core module also lets you automatically redact any sensitive information - whether it lives in HTTP headers or in the body of a request or response - so that secrets never end up in your logs.
-
-TODO: Logging Steps Examples
-
-TODO: Masking Example
 
 [logging package](https://github.com/ExpediaGroup/expediagroup-java-sdk/tree/main/expediagroup-sdk-core/src/main/kotlin/com/expediagroup/sdk/core/logging)
 
