@@ -22,12 +22,12 @@ dependencies {
     compileOnly 'org.slf4j:slf4j-api:2.0.17'
 
     /* Testing */
-    testImplementation platform('org.junit:junit-bom:5.11.4')
+    testImplementation platform('org.junit:junit-bom:5.13.3')
     testImplementation 'org.junit.jupiter:junit-jupiter-api'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
     testImplementation 'org.junit.jupiter:junit-jupiter-params'
 
-    testImplementation 'io.mockk:mockk:1.13.16'
+    testImplementation 'io.mockk:mockk:1.14.4'
     testImplementation 'com.squareup.okhttp3:mockwebserver:4.12.0'
 
     testImplementation(project(':expediagroup-sdk-core'))
