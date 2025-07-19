@@ -71,8 +71,6 @@ egSdkGenerator {
 | `supportingTemplates`  | Additional supporting-file templates to copy verbatim into the output directory.                               | No        | _Empty list_                                                     |
 | `apiTemplates`         | Additional API-level Mustache templates to render alongside the defaults.                                      | No        | _Empty list_                                                     |
 
-TODO: Add detailed how-to-guide
-
 ## Custom Mustache Templates
 This plugin replaces the OpenAPI Generator’s default Mustache templates with custom versions that align the generated code with the SDK’s conventions. As a result, all operation and model classes produced by the generator extend and interoperate with `expediagroup-sdk-rest` components, making them ready to execute within the SDK’s REST framework.
 
