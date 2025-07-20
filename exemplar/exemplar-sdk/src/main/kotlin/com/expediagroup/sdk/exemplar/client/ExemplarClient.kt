@@ -39,6 +39,11 @@ import com.expediagroup.sdk.rest.trait.operation.OperationNoResponseBodyTrait
  * RestClient (Product SDK layer) → RestExecutor (REST package) → RequestExecutor (Core package)
  *
  * This class serves as a reference implementation and can be used as a starting point for building your own SDK client.
+ *
+ * @see RestClient
+ * @see RestExecutor
+ * @see RequestExecutor
+ * @see DefaultObjectMapper
  */
 class ExemplarClient
     @JvmOverloads

@@ -42,6 +42,11 @@ import java.util.concurrent.CompletableFuture
  * This class serves as a reference implementation and can be used as a starting point for building your own SDK client.
  *
  * NOTE: It's not necessarily required to implement this class if you don't need asynchronous operations. See [ExemplarClient] for a synchronous version.
+ *
+ * @see AsyncRestClient
+ * @see AsyncRestExecutor
+ * @see AsyncRequestExecutor
+ * @see DefaultObjectMapper
  */
 class AsyncExemplarClient
     @JvmOverloads

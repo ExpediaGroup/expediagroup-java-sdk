@@ -26,6 +26,24 @@ import com.expediagroup.sdk.core.transport.AbstractRequestExecutor
 import com.expediagroup.sdk.core.transport.Transport
 import org.slf4j.LoggerFactory
 
+/**
+ * Acts as the main bridge between the Product SDK and the internal core layers by defining the execution pipeline
+ * used to handle outgoing requests and incoming responses.
+ *
+ * [RequestExecutor] extends [AbstractRequestExecutor] from the core package. To use it, you must override
+ * the [executionPipeline] property to configure how requests and responses are processed.
+ *
+ * It's recommended to pass an optional [Transport] instance to the superclass constructor. This allows users
+ * to override the default transport that would otherwise be resolved automatically. If Transport is provided explicitly,
+ * it will take precedence over the one discovered via classpath scanning.
+ *
+ * The [AbstractRequestExecutor] takes care of resolving and wiring the transport as long as the appropriate
+ * transport dependency is included in the classpath.
+ *
+ * @see Transport
+ * @see AbstractRequestExecutor
+ * @see ExecutionPipeline
+ */
 class RequestExecutor
     @JvmOverloads
     constructor(
