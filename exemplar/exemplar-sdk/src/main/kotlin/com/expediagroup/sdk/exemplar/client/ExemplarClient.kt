@@ -24,6 +24,22 @@ import com.expediagroup.sdk.rest.model.Response
 import com.expediagroup.sdk.rest.trait.operation.JacksonModelOperationResponseBodyTrait
 import com.expediagroup.sdk.rest.trait.operation.OperationNoResponseBodyTrait
 
+/**
+ * This is the exemplar synchronous SDK client that users can use to interact with your REST APIs.
+ *
+ * It extends [RestClient] and is designed for synchronous execution of API operations.
+ * To use it, you must override the [restExecutor] property with an instance of [RestExecutor],
+ * which should be configured with your server's base URL and an [RequestExecutor] instance.
+ *
+ * While the base implementation is provided here, you are encouraged to customize this client
+ * as needed — such as adding new methods, properties, or exposing configuration options via constructors
+ * or builder-style APIs.
+ *
+ * The execution flow is structured as follows:
+ * RestClient (Product SDK layer) → RestExecutor (REST package) → RequestExecutor (Core package)
+ *
+ * This class serves as a reference implementation and can be used as a starting point for building your own SDK client.
+ */
 class ExemplarClient
     @JvmOverloads
     constructor(transport: Transport? = null) : RestClient() {

@@ -25,6 +25,24 @@ import com.expediagroup.sdk.rest.trait.operation.JacksonModelOperationResponseBo
 import com.expediagroup.sdk.rest.trait.operation.OperationNoResponseBodyTrait
 import java.util.concurrent.CompletableFuture
 
+/**
+ * This is the exemplar asynchronous SDK client that users can use to interact with your REST APIs.
+ *
+ * It extends [AsyncRestClient] and is designed for asynchronous execution of API operations.
+ * To use it, you must override the [restExecutor] property with an instance of [AsyncRestExecutor],
+ * which should be configured with your server's base URL and an [AsyncRequestExecutor] instance.
+ *
+ * While the base implementation is provided here, you are encouraged to customize this client
+ * as needed — such as adding new methods, properties, or exposing configuration options via constructors
+ * or builder-style APIs.
+ *
+ * The execution flow is structured as follows:
+ * AsyncRestClient (Product SDK layer) → AsyncRestExecutor (REST package) → AsyncRequestExecutor (Core package)
+ *
+ * This class serves as a reference implementation and can be used as a starting point for building your own SDK client.
+ *
+ * NOTE: It's not necessarily required to implement this class if you don't need asynchronous operations. See [ExemplarClient] for a synchronous version.
+ */
 class AsyncExemplarClient
     @JvmOverloads
     constructor(asyncTransport: AsyncTransport? = null) : AsyncRestClient() {
