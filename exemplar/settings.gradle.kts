@@ -9,6 +9,7 @@ pluginManagement {
 
 rootProject.name = "exemplar"
 
-include("exemplar-sdk")
+include("exemplar-sdk-rest")
+include("exemplar-sdk-graphql")
 include("exemplar-server")
 include("exemplar-playground-java")

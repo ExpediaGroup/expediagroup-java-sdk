@@ -2,6 +2,9 @@ plugins {
     id("com.expediagroup.sdk.openapigenerator") version "3.0.0"
 }
 
+version = "0.0.1-SNAPSHOT"
+group = "com.expediagroup"
+
 dependencies {
     api("com.expediagroup:expediagroup-sdk-rest:0.0.13-alpha")
 
@@ -55,4 +58,18 @@ tasks.register<Exec>("transformSpecs") {
 tasks.register<Exec>("generateAndFormat") {
     dependsOn(":exemplar-sdk:generateEgSdk")
     commandLine("sh", "-c", "../gradlew :exemplar-sdk:ktlintFormat")
+}
+
+// Prepare the content for sdk.properties
+val sdkPropertiesContent = """
+    artifactName=exemplar-sdk
+    version=$version
+    groupId=$group
+""".trimIndent()
+
+// Configure the processResources task to include sdk.properties
+tasks.named<ProcessResources>("processResources") {
+    from(project.resources.text.fromString(sdkPropertiesContent)) {
+        rename { "sdk.properties" }
+    }
 }

@@ -1,0 +1,16 @@
+mutation UpdateBooking($confirmationNumber: String!, $input: BookingUpdateInput!) {
+    updateBooking(confirmationNumber: $confirmationNumber, input: $input) {
+        confirmationNumber
+        status
+        checkInDate
+        checkOutDate
+        guests
+        totalPrice
+        guestInfo {
+            firstName
+            lastName
+            email
+            phone
+        }
+    }
+}
