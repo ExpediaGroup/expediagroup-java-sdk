@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.16-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-openapi-plugin-v0.0.15-alpha...expediagroup-sdk-openapi-plugin-v0.0.16-alpha) (2025-07-22)
+
+
+### Features
+
+* **deps:** update dependencies org.openapitools:openapi-generator from v7.11.0 to v7.14.0 ([#1260](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1260)) ([4ce26a8](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/4ce26a8793a6008a0e603bb59518870a5b600c0b))
+
 ## [1.0.0](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-openapi-plugin-v0.0.15...expediagroup-sdk-openapi-plugin-v1.0.0) (2025-07-06)
 
 

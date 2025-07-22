@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.0.7-alpha](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-transport-okhttp-v0.0.6-alpha...expediagroup-sdk-transport-okhttp-v0.0.7-alpha) (2025-07-22)
+
+
+### Features
+
+* **deps:** update dependencies io.mockk:mockk from v1.13.16 to v1.14.4 ([#1258](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1258)) ([e5849c7](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/e5849c747a98450e39a13a421159e7d44951b4d4))
+* **deps:** update dependencies org.junit:junit-bom from v5.11.4 to v5.13.3 ([#1259](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1259)) ([ef48981](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/ef48981901922d13e8a3421c5934119ea999e4bc))
+
+
+### Bug Fixes
+
+* **deps:** update dependencies io.mockk:mockk from v1.14.4 to v1.14.5 ([#1269](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1269)) ([5f07cdb](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/5f07cdb02eff3c520a189ae7a32421d5d59f1a8d))
+* **deps:** update dependencies org.slf4j:slf4j-api from v2.0.16 to v2.0.17 ([#1252](https://github.com/ExpediaGroup/expediagroup-java-sdk/issues/1252)) ([4f6bf32](https://github.com/ExpediaGroup/expediagroup-java-sdk/commit/4f6bf32165907d35d21b7fe48d3a3bb0a432dda7))
+
 ## [1.0.0](https://github.com/ExpediaGroup/expediagroup-java-sdk/compare/expediagroup-sdk-transport-okhttp-v0.0.6...expediagroup-sdk-transport-okhttp-v1.0.0) (2025-07-06)
 
 
