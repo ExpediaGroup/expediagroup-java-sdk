@@ -38,8 +38,8 @@ import org.openapitools.codegen.CodegenOperation
  *
  * ```kotlin
  * egSdkGenerator {
+ *     basePackage = "com.expediagroup.sdk.example"
  *     specFilePath = layout.projectDirectory.file("specs/openapi.yaml")
- *     namespace = "rapid"
  * }
  * ```
  */
@@ -65,9 +65,6 @@ abstract class EgSdkGeneratorExtension(project: Project) : ExtensionAware {
     /** Final destination directory for the generated Kotlin sources. */
     abstract val outputDir: DirectoryProperty
 
-    /** namespace (e.g. `"rapid"`) inserted into package names {basePackage}.{namespace} */
-    abstract val namespace: Property<String>
-
     /** User-supplied processors that post-process **operations** before templating. */
     abstract val operationProcessors: ListProperty<(CodegenOperation) -> CodegenOperation>
 
@@ -85,8 +82,8 @@ abstract class EgSdkGeneratorExtension(project: Project) : ExtensionAware {
 
     init {
         // Default values
-        modelPackage.set(namespace.map { ns -> "com.expediagroup.sdk.$ns.model" })
-        operationPackage.set(namespace.map { ns -> "com.expediagroup.sdk.$ns.operation" })
+        modelPackage.set(basePackage.map { bp -> "$bp.model" })
+        operationPackage.set(basePackage.map { bp -> "$bp.operation" })
         outputDir.set(project.layout.projectDirectory.dir("src/main/kotlin"))
     }
 }

@@ -57,9 +57,6 @@ import kotlin.collections.joinToString
  * It allows customization of the generated code through various properties and templates.
  */
 abstract class GenerateEgSdkTask : DefaultTask() {
-    @get:Input
-    abstract val namespace: Property<String>
-
     @get:InputFile
     abstract val specFilePath: RegularFileProperty
 
@@ -107,7 +104,11 @@ abstract class GenerateEgSdkTask : DefaultTask() {
 
     @TaskAction
     fun generate() {
-        val supportingFilesNames = supportingTemplates.get().joinToString(",") { it.fileName }
+        val supportingFilesNames =
+            supportingTemplates.orNull
+                ?.joinToString(",") { it.fileName }
+                .orEmpty()
+                .ifEmpty { "false" }
 
         val config =
             CodegenConfigurator().apply {
@@ -133,7 +134,6 @@ abstract class GenerateEgSdkTask : DefaultTask() {
                 addGlobalProperty(CodegenConstants.SUPPORTING_FILES, supportingFilesNames)
 
                 // Additional Properties
-                addAdditionalProperty("namespace", namespace.get())
                 addAdditionalProperty("jacksonObjectMapper", objectMapper.get())
                 addAdditionalProperty("modelPackage", modelPackage.get())
                 addAdditionalProperty("operationPackage", operationPackage.get())
@@ -171,7 +171,7 @@ abstract class GenerateEgSdkTask : DefaultTask() {
                                 template.fileNameSuffix
                             ).also { t -> t.templateType = TemplateFileType.API }
                         }
-                    } ?: emptyList()
+                    }
 
                 val resolvedSupportingTemplates =
                     supportingTemplates.orNull?.let {
@@ -182,12 +182,12 @@ abstract class GenerateEgSdkTask : DefaultTask() {
                                 template.fileName
                             )
                         }
-                    } ?: emptyList()
+                    }
 
                 userDefinedTemplates(
                     buildList {
-                        addAll(resolvedApiTemplates)
-                        addAll(resolvedSupportingTemplates)
+                        resolvedApiTemplates?.let { addAll(it) }
+                        resolvedSupportingTemplates?.let { addAll(it) }
                         add(
                             TemplateDefinition(
                                 "operation_params.mustache",

@@ -46,7 +46,7 @@ import org.gradle.api.Project
  * plugins { id("com.expediagroup.sdk.openapigenerator") }
  *
  * egSdkGenerator {
- *     namespace.set("cars")
+ *     basePackage.set("com.expediagroup.sdk.example")
  *     specFilePath.set(layout.projectDirectory.file("specs/cars.yaml"))
  *     customTemplatesDir.set(layout.projectDirectory.dir("my-templates"))
  * }
@@ -72,7 +72,6 @@ class EgSdkGeneratorPlugin : Plugin<Project> {
                     it.dependsOn(mergeCustomTemplatesTask)
 
                     it.specFilePath.set(egSdkGeneratorExt.specFilePath)
-                    it.namespace.set(egSdkGeneratorExt.namespace)
                     it.objectMapper.set(egSdkGeneratorExt.objectMapper)
                     it.customTemplatesDir.set(mergeCustomTemplatesTask.flatMap { mergeTask -> mergeTask.mergedDir })
                     it.basePackage.set(egSdkGeneratorExt.basePackage)
