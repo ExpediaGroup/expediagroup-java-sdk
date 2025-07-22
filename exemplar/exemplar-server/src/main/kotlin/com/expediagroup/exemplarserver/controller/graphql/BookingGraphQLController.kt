@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-package com.expediagroup.exemplarserver.graphql
+package com.expediagroup.exemplarserver.controller.graphql
 
+import com.expediagroup.exemplarserver.graphql.BookingInputGraphQL
+import com.expediagroup.exemplarserver.graphql.BookingUpdateInputGraphQL
 import com.expediagroup.exemplarserver.model.Booking
 import com.expediagroup.exemplarserver.model.BookingRequest
 import com.expediagroup.exemplarserver.service.BookingService

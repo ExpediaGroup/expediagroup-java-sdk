@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.expediagroup.exemplarserver.controller
+package com.expediagroup.exemplarserver.controller.rest
 
 import com.expediagroup.exemplarserver.model.Hotel
 import com.expediagroup.exemplarserver.service.HotelService
@@ -22,7 +22,6 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
-import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import java.math.BigDecimal
@@ -30,7 +29,7 @@ import java.math.BigDecimal
 @RestController
 @RequestMapping("/api/v1/hotels")
 @Tag(name = "Hotels", description = "Hotel search and information API")
-class HotelController(
+class HotelRestController(
     private val hotelService: HotelService
 ) {
 

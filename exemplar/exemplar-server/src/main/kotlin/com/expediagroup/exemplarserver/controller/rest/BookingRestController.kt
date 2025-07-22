@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.expediagroup.exemplarserver.controller
+package com.expediagroup.exemplarserver.controller.rest
 
 import com.expediagroup.exemplarserver.model.Booking
 import com.expediagroup.exemplarserver.model.BookingRequest
@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/api/v1/bookings")
 @Tag(name = "Bookings", description = "Hotel booking management API")
-class BookingController(private val bookingService: BookingService) {
+class BookingRestController(private val bookingService: BookingService) {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

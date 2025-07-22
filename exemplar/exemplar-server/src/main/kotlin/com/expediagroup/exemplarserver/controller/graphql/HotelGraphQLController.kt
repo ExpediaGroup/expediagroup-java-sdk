@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.expediagroup.exemplarserver.graphql
+package com.expediagroup.exemplarserver.controller.graphql
 
 import com.expediagroup.exemplarserver.model.Hotel
 import com.expediagroup.exemplarserver.service.HotelService
