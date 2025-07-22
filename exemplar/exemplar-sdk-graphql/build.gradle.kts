@@ -19,18 +19,14 @@ dependencies {
 
 apollo {
     service("exemplar") {
-        /* Schema & operations files configurations */
         srcDir("src/main/graphql")
         schemaFile.set(file("src/main/resources/schema.graphqls"))
-        packageName.set("com.expediagroup.sdk.exemplar.graphql")
+        packageName.set("com.expediagroup.sdk.exemplar.graphql.generated")
 
-        /* Generated models configurations */
         generateInputBuilders.set(true)
         generateMethods.set(listOf("equalsHashCode", "toString"))
 
-        /**** Custom Scalars Mappings ****/
         mapScalar("Date", "java.time.LocalDate", "com.apollographql.adapter.core.JavaLocalDateAdapter")
         mapScalar("BigDecimal", "java.math.BigDecimal", "com.apollographql.adapter.core.BigDecimalAdapter")
     }
 }
-

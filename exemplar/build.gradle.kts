@@ -34,5 +34,9 @@ subprojects {
                 "end_of_line" to "lf",
             ),
         )
+
+        filter {
+            exclude("**/generated/**")
+        }
     }
 }
