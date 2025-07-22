@@ -17,11 +17,9 @@ dependencies {
 }
 
 egSdkGenerator {
-    namespace = "exemplar"
-    basePackage = "com.expediagroup.sdk.exemplar"
+    basePackage = "com.expediagroup.sdk.exemplar.rest"
     specFilePath = File("${project.layout.projectDirectory}/transformed-spec.yml")
-
-    objectMapper = "com.expediagroup.sdk.exemplar.core.mapper.DefaultObjectMapper.INSTANCE"
+    objectMapper = "com.expediagroup.sdk.exemplar.rest.core.mapper.DefaultObjectMapper.INSTANCE"
 }
 
 /**
@@ -56,16 +54,17 @@ tasks.register<Exec>("transformSpecs") {
  * Generates the operations and models from the provided spec file and formats the generated code using ktlint.
  */
 tasks.register<Exec>("generateAndFormat") {
-    dependsOn(":exemplar-sdk:generateEgSdk")
-    commandLine("sh", "-c", "../gradlew :exemplar-sdk:ktlintFormat")
+    dependsOn(":exemplar-sdk-rest:generateEgSdk")
+    commandLine("sh", "-c", "../gradlew :exemplar-sdk-rest:ktlintFormat")
 }
 
 // Prepare the content for sdk.properties
-val sdkPropertiesContent = """
+val sdkPropertiesContent =
+    """
     artifactName=exemplar-sdk
     version=$version
     groupId=$group
-""".trimIndent()
+    """.trimIndent()
 
 // Configure the processResources task to include sdk.properties
 tasks.named<ProcessResources>("processResources") {

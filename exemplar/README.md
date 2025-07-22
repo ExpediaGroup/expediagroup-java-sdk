@@ -343,7 +343,6 @@ Modify `exemplar-sdk/build.gradle.kts`:
 
 ```kotlin
 egSdkGenerator {
-    namespace = "your-api"
     basePackage = "com.yourcompany.sdk.yourapi"
     specFilePath = File("${project.layout.projectDirectory}/transformed-spec.yml")
 }
