@@ -10,7 +10,7 @@ Developers can use it as a foundation to bootstrap their own SDKs while followin
 ## 📦 Example Usage
 All SDKs generated with EG SDK modules supports **Java 8**. 
 
-Refer to the [`exemplar-playground-java`](../exemplar-playground-java) for complete usage examples.
+Here's a simple example of executing a generated operation using the SDK client:
 
 ```java
 public class UsageExample {
@@ -28,6 +28,9 @@ public class UsageExample {
     }
 }
 ```
+
+Refer to the [`exemplar-playground-java`](../exemplar-playground-java) for complete usage examples. 
+
 
 ## 🧱 Structure
 
@@ -87,9 +90,9 @@ The `exemplar-sdk-rest` module contains pre-generated models and operations base
    ./gradlew :exemplar-server:generateOpenApiDocs
    ```
 
-   This will generate a new `openapi.yaml` file and place it in the `exemplar-sdk-rest` root directory
+   This will generate a new `openapi.yaml` file and place it in the `exemplar-sdk-rest` root directory.
 
-4. **Re-apply the spec transformation**
+4. **Transform the Spec**
 
    After generating the updated `openapi.yaml` file, run the spec transformation task:
    
@@ -99,7 +102,7 @@ The `exemplar-sdk-rest` module contains pre-generated models and operations base
 
     This will produce or update the `transformed-spec.yaml` file, which is used by the generator plugin.
 
-5. **Regenerate the exemplar SDK**
+5. **Regenerate the SDK**
 
    You can now regenerate or update the SDK’s generated code by running:
 
