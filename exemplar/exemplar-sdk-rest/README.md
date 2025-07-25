@@ -16,6 +16,9 @@ This REST Exemplar SDK mainly depends on [`expediagroup-sdk-rest`](../../expedia
 
 ### ⚙️ Build File Configurations
 
+> [!TIP] 
+> Refer to the [`build.gradle.kts`](./build.gradle.kts) build file for more details.
+
 | Config              | Description                                                                                                                                                                                                                              |
 |---------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Code Generation     | Applies the EG SDK OpenAPI plugin for code generation. This plugin is primarily used to generate models and operations—not the SDK clients. See the plugin's [README](../../expediagroup-sdk-openapi-plugin/README.md) for more details. |
@@ -25,6 +28,9 @@ This REST Exemplar SDK mainly depends on [`expediagroup-sdk-rest`](../../expedia
 | Spec Transformation | Defines a Gradle task to transform the OpenAPI spec using [spec-transformer](https://github.com/ExpediaGroup/spec-transformer). This ensures the spec adheres to SDK generator standards.                                                |
 
 ### 📦 Source Code Structure
+
+> [!TIP]
+> You can find more information and description with each class in these packages.
 
 | Package                                                                       | Description                                                                                                                                                                           |
 |-------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
