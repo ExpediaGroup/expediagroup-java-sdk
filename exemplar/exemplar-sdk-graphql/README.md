@@ -31,9 +31,37 @@ Refer to the [`exemplar-playground-java`](../exemplar-playground-java) for compl
 
 ## 🧱 Structure
 
-* **🛠️ Code-First GraphQL**: The GraphQL schema lives in the `exemplar-server` module and drives the SDK code.
-* **🔌 Integration with Core Modules**: Uses EG SDK core features for HTTP transport, serialization, logging, and error handling.
-* **⚙️ Apollo Kotlin**: [Apollo Kotlin](https://www.apollographql.com/docs/kotlin) is used for generating types and operations from the schema.
+This GraphQL Exemplar SDK mainly depends on [`expediagroup-sdk-graphql`](../../expediagroup-sdk-graphql) and [`apollo-gradle-plugin`](https://github.com/apollographql/apollo-kotlin/tree/main/libraries/apollo-gradle-plugin). These dependecies facilitate building and generating an SDK for your API based on a GraphQL schema and operations.
+
+#### 1. Build File Configurations
+
+Refer to the [`build.gradle.kts`](./build.gradle.kts) build file for more details.
+
+| Config              | Description                                                                                                                                                                                                                              |
+|---------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Code Generation     | Applies [Apollo Kotlin Gradle plugin](https://github.com/apollographql/apollo-kotlin/tree/main/libraries/apollo-gradle-plugin) for code generation. The [`expediagroup-sdk-graphql`](../../expediagroup-sdk-graphql) layer adapts the generated models and opeartions to be executed using the EG SDK core modules |
+| GraphQL Support        | Adds [`expediagroup-sdk-graphql`](../../expediagroup-sdk-graphql) as an `api` dependency.                                                                                                                                                      |
+| Custom Scalars Adapters   | The `apollo-adapters-core` dependency is required if you have custom scalars in your GraphQL schema, and you want to register adapters from Apollo Kotlin library                                                                                                                                                                   |
+| Logging             | Adds the SLF4J API, allowing users to plug in their preferred logging implementation.                                                                                                                                                    |
+
+
+#### 2. Source Code Structure
+You can find more information and description with each class in these packages.
+
+| Package                                                                       | Description                                                                                                                                                                           |
+|-------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [`client`](./src/main/kotlin/com/expediagroup/sdk/exemplar/graphql/client)       | Contains manually implemented SDK clients. These are the main entry points used by consumers. See the [GraphQL module documentation](../../expediagroup-sdk-graphql/README.md) for details. |
+| [`core`](./src/main/kotlin/com/expediagroup/sdk/exemplar/graphql/core)           | Contains integration classes for the core executors. See the [Core module documentation](../../expediagroup-sdk-core/README.md).                                                      |
+
+#### 3. GraphQL Schema and Operations Files
+
+| File                                             | Description                                                                                            |
+|--------------------------------------------------|--------------------------------------------------------------------------------------------------------|
+| [`schema.graphqls`](./openapi.yaml)                 | The original OpenAPI spec file generated from the [`exemplar-server`](../exemplar-server) source code. |
+| [`transformed-spec.yml`](./transformed-spec.yml) | A modified version of the original spec used as input for SDK generation.                              |
+
+<br />
+
 
 ## 🚀 Getting Started
 
