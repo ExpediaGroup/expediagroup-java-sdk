@@ -51,9 +51,9 @@ Refer to the [`build.gradle.kts`](./build.gradle.kts) build file for complete co
 
 | Configuration | Description |
 |---------------|-------------|
-| **Spring Boot** | Uses Spring Boot 3.5.3 with Spring Web and Spring GraphQL starters |
+| **Spring Boot** | Uses Spring Boot 3 with Spring Web and Spring GraphQL starters |
 | **OpenAPI Generation** | Integrates `springdoc-openapi` for automatic OpenAPI spec generation |
-| **Kotlin Support** | Built with Kotlin 1.9.25 and Spring Kotlin plugin |
+| **Kotlin Support** | Built with Kotlin and Spring Kotlin plugin |
 | **GraphQL** | Includes Spring GraphQL starter for schema-first GraphQL implementation |
 | **Documentation** | Swagger UI available at `/swagger-ui.html` for REST API testing |
 | **GraphQL Playground** | GraphiQL interface available at `/graphiql` for interactive GraphQL testing |
@@ -159,62 +159,7 @@ The server implements a complete hotel booking domain with the following key ent
 - **Properties**: First name, last name, email, phone number
 - **Validation**: Required fields with format validation
 
-## 🧪 Testing
-
-### Running Tests
-
-Execute the test suite:
-
-```bash
-./gradlew :exemplar-server:test
-```
-
-The test suite includes:
-- Unit tests for services and repositories
-- Integration tests for REST controllers
-- GraphQL resolver tests
-
-### Manual Testing
-
-#### REST API Testing
-```bash
-# Search hotels
-curl "http://localhost:8080/api/v1/hotels?city=New%20York&maxPrice=300"
-
-# Get hotel by ID
-curl "http://localhost:8080/api/v1/hotels/1"
-
-# Create a booking
-curl -X POST "http://localhost:8080/api/v1/bookings" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "hotelId": 1,
-    "checkInDate": "2025-08-15",
-    "checkOutDate": "2025-08-18",
-    "guests": 2,
-    "guestInfo": {
-      "firstName": "John",
-      "lastName": "Doe",
-      "email": "john.doe@example.com",
-      "phoneNumber": "+1-555-123-4567"
-    }
-  }'
-```
-
-#### GraphQL Testing
-Use the GraphiQL interface at `http://localhost:8080/graphiql` or send POST requests to `/graphql`:
-
-```bash
-curl -X POST "http://localhost:8080/graphql" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "query": "query { hotels(city: \"New York\") { id name pricePerNight } }"
-  }'
-```
-
 ## 🔗 Related Modules
-
-The exemplar-server integrates with other modules in the SDK ecosystem:
 
 * [`exemplar-sdk-rest`](../exemplar-sdk-rest): Generated REST client SDK that consumes this server's OpenAPI specification
 * [`exemplar-sdk-graphql`](../exemplar-sdk-graphql): GraphQL client SDK that uses this server's GraphQL schema
@@ -231,18 +176,6 @@ The server follows a **code-first approach** where:
 3. GraphQL schemas are manually maintained but validated against resolvers
 4. Client SDKs are generated from these specifications
 
-### Error Handling
-- Standardized error responses using **Problem Details (RFC 7807)**
-- Global exception handling with `@ControllerAdvice`
-- Appropriate HTTP status codes for different error scenarios
-- GraphQL errors handled gracefully without throwing exceptions
-
-### Data Storage
-- Uses **in-memory storage** for demonstration purposes
-- Pre-populated with sample hotels in major cities
-- Data persists only during server runtime
-- Suitable for testing and development workflows
-
 ### Extension Points
 To adapt this server for your own API:
 1. Modify the domain models in the `model` package
@@ -251,13 +184,3 @@ To adapt this server for your own API:
 4. Implement persistent storage if required
 5. Regenerate OpenAPI specs and update SDK dependencies
 
-## 📚 Key Features
-
-This server demonstrates several important API development patterns:
-
-1. **Dual Protocol Support**: Both REST and GraphQL endpoints for the same domain
-2. **Automatic Documentation**: OpenAPI generation from Spring Boot annotations
-3. **Type Safety**: Kotlin data classes with validation annotations
-4. **Error Standardization**: Consistent error handling across all endpoints
-5. **Testing Strategy**: Comprehensive test coverage with multiple testing approaches
-6. **Development Tooling**: Interactive API exploration with Swagger UI and GraphiQL
