@@ -57,7 +57,7 @@ You can find more information and description with each class in these packages.
 
 | File                                                    | Description                                                                                                                      |
 |---------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
-| [`schema.graphqls`](./src/main/graphql/schema.graphqls) | The original GraphQL schema file generated from the [`exemplar-server`](../exemplar-server) source code.                         |
+| [`schema.graphqls`](./src/main/graphql/schema.graphqls) | The original GraphQL schema file in the [`exemplar-server`](../exemplar-server).                         |
 | [`query`](./src/main/graphql/query)                     | Directory contains the GraphQL queries based on the root schema. This Directory is referenced as `srcDir` in the Apollo plugin   |
 | [`mutation`](./src/main/graphql/mutation)               | Directory contains the GraphQL mutations based on the root schema. This Directory is referenced as `srcDir` in the Apollo plugin |
 
@@ -66,38 +66,53 @@ You can find more information and description with each class in these packages.
 
 ## 🚀 Getting Started
 
-1. **Start the Server**
-   Make sure the `exemplar-server` is running with the latest schema.
+The `exemplar-sdk-graphql` contains the manually implemented classes only, Apollo Plugin will generate the models and operations on build. The generated classes won't be written to the source directory, instead, they will be in the `build` directory under the `packageName` you specify in the plugin configurations but you can always change this by configuring the Apollo plugin.
 
-2. **Build the SDK**
-   Run the following from the project root:
+1. **Update the `schema.graphqls` and the exemplar-server code**
+
+   Spring Boot GraphQL is schema-first. So you need to make the necessary changes to the [`schema.graphqls`](../exemplar-server/src/main/resources/graphql/schema.graphqls) first and then update    the  `exemplar-server` GraphQL controllers to reflect the schema.
+
+2. **Copy the schema file to the graphql directory**
+
+   After updating the exemplar server and the GraphQL schema, you'll need to copy the schema file and place it under the [`graphql`](./src/main/graphql) directory. We can point to the original     schema in the `exemplar-server`, but it's cleaner to keep them seprated and keep this exemplar SDK an independant entity and as close as possible to the real-world SDKs.
+
+3. **Make sure to navigate to the `exemplar` module root**
 
    ```bash
    cd exemplar
-   ./gradlew :exemplar-sdk-graphql:build
+   ```
+   
+4. **Build the SDK**
+
+   After updating the schema and the exemplar-server, you can build the SDK again and Apollo Plugin will regenerate the classes to reflect the chagnes
+   
+   ```bash
+   ./gradlew :exemplar-sdk-graphql:clean :exemplar-sdk-graphql:build
    ```
 
-3. **Explore and Extend**
-   Use the generated SDK as a starting point for your own implementation.
+   This will regenerate the classes and place them in the `build` directory.
 
-## 📁 Key Components
+5. **Test your changes in the exemplar playground**
 
-| Path                            | Description                                                                                                                |
-|---------------------------------|----------------------------------------------------------------------------------------------------------------------------|
-| `src/main/kotlin`               | Contains the required classes that bridge the Exemplar SDK with the SDK internals and core modules (Manually implemented). |
-| `src/main/graphql`              | Contains the GraphQL schema and operations (mirrored from `exemplar-server`).                                              |
-| `build/generated/source/apollo` | Auto-generated models and operations from Apollo Kotlin.                                                                   |
+    Use the dedicated playground module to validate your changes.
 
+    First, start the exemplar-server:
+
+   ```bash
+   ./gradlew :exemplar-server:bootRun
+   ```
+
+   You can then write your own tests or explore the existing demonstrations. For more information, refer to the [exemplar-playground-java](../exemplar-playground-java) module.
+   
 ## 🔗 Related Modules
 
-* [`exemplar-server`](../exemplar-server): The GraphQL backend defining the schema and serving the API.
-* [`expediagroup-sdk-core`](../../expediagroup-sdk-core): Core utilities and abstractions for building SDKs across GraphQL and REST.
-* [`expediagroup-sdk-graphql`](../../expediagroup-sdk-graphql): Core libraries for building GraphQL SDKs, including transport and serialization.
+* [`exemplar-server`](../exemplar-server): Backend module that defines the API and generates the OpenAPI spec.
+* [`exemplar-playground-java`](../exemplar-playground-java): Dedicated module to test out the generated exemplar SDKs with the exemplar server.
+* [`expediagroup-sdk-core`](../../expediagroup-sdk-core): Core SDK abstractions for HTTP handling, serialization, and error mapping.
+* [`expediagroup-sdk-graphql`](../../expediagroup-sdk-rest): Adds REST APIs support layer to the SDK core.
+
 
 ## 📝 Notes
 
-* This module is intended for **educational and demonstration** purposes.
-* For REST examples, refer to the [`exemplar-sdk-rest`](../exemplar-sdk-rest) module.
-* Customize this SDK to suit your own GraphQL APIs and workflows.
-
-📄 For more context, see the root [`README.md`](../README.md) and documentation in the [`expediagroup-sdk-graphql`](../../expediagroup-sdk-graphql) module.
+* This SDK is intended for **educational and demonstration** use.
+* For REST exemplar, refer to the [`exemplar-sdk-rest`](../exemplar-sdk-rest) module.
