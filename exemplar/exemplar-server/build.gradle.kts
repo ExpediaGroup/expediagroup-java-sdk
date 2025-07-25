@@ -44,7 +44,7 @@ tasks.withType<Test> {
 
 openApi {
     apiDocsUrl.set("http://localhost:8080/v3/api-docs.yaml")
-    outputDir.set(file("$rootDir/exemplar-sdk"))
+    outputDir.set(file("$rootDir/exemplar-sdk-rest"))
     outputFileName.set("openapi.yaml")
     waitTimeInSeconds.set(20)
 }

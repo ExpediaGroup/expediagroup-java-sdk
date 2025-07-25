@@ -37,28 +37,29 @@ This GraphQL Exemplar SDK mainly depends on [`expediagroup-sdk-graphql`](../../e
 
 Refer to the [`build.gradle.kts`](./build.gradle.kts) build file for more details.
 
-| Config              | Description                                                                                                                                                                                                                              |
-|---------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Code Generation     | Applies [Apollo Kotlin Gradle plugin](https://github.com/apollographql/apollo-kotlin/tree/main/libraries/apollo-gradle-plugin) for code generation. The [`expediagroup-sdk-graphql`](../../expediagroup-sdk-graphql) layer adapts the generated models and opeartions to be executed using the EG SDK core modules |
-| GraphQL Support        | Adds [`expediagroup-sdk-graphql`](../../expediagroup-sdk-graphql) as an `api` dependency.                                                                                                                                                      |
-| Custom Scalars Adapters   | The `apollo-adapters-core` dependency is required if you have custom scalars in your GraphQL schema, and you want to register adapters from Apollo Kotlin library                                                                                                                                                                   |
-| Logging             | Adds the SLF4J API, allowing users to plug in their preferred logging implementation.                                                                                                                                                    |
+| Config                  | Description                                                                                                                                                                                                                                                                                                        |
+|-------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Code Generation         | Applies [Apollo Kotlin Gradle plugin](https://github.com/apollographql/apollo-kotlin/tree/main/libraries/apollo-gradle-plugin) for code generation. The [`expediagroup-sdk-graphql`](../../expediagroup-sdk-graphql) layer adapts the generated models and opeartions to be executed using the EG SDK core modules |
+| GraphQL Support         | Adds [`expediagroup-sdk-graphql`](../../expediagroup-sdk-graphql) as an `api` dependency.                                                                                                                                                                                                                          |
+| Custom Scalars Adapters | The `apollo-adapters-core` dependency is required if you have custom scalars in your GraphQL schema, and you want to register adapters from Apollo Kotlin library                                                                                                                                                  |
+| Logging                 | Adds the SLF4J API, allowing users to plug in their preferred logging implementation.                                                                                                                                                                                                                              |
 
 
 #### 2. Source Code Structure
 You can find more information and description with each class in these packages.
 
-| Package                                                                       | Description                                                                                                                                                                           |
-|-------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [`client`](./src/main/kotlin/com/expediagroup/sdk/exemplar/graphql/client)       | Contains manually implemented SDK clients. These are the main entry points used by consumers. See the [GraphQL module documentation](../../expediagroup-sdk-graphql/README.md) for details. |
-| [`core`](./src/main/kotlin/com/expediagroup/sdk/exemplar/graphql/core)           | Contains integration classes for the core executors. See the [Core module documentation](../../expediagroup-sdk-core/README.md).                                                      |
+| Package                                                                    | Description                                                                                                                                                                                 |
+|----------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [`client`](./src/main/kotlin/com/expediagroup/sdk/exemplar/graphql/client) | Contains manually implemented SDK clients. These are the main entry points used by consumers. See the [GraphQL module documentation](../../expediagroup-sdk-graphql/README.md) for details. |
+| [`core`](./src/main/kotlin/com/expediagroup/sdk/exemplar/graphql/core)     | Contains integration classes for the core executors. See the [Core module documentation](../../expediagroup-sdk-core/README.md).                                                            |
 
 #### 3. GraphQL Schema and Operations Files
 
-| File                                             | Description                                                                                            |
-|--------------------------------------------------|--------------------------------------------------------------------------------------------------------|
-| [`schema.graphqls`](./openapi.yaml)                 | The original OpenAPI spec file generated from the [`exemplar-server`](../exemplar-server) source code. |
-| [`transformed-spec.yml`](./transformed-spec.yml) | A modified version of the original spec used as input for SDK generation.                              |
+| File                                                    | Description                                                                                                                      |
+|---------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
+| [`schema.graphqls`](./src/main/graphql/schema.graphqls) | The original GraphQL schema file generated from the [`exemplar-server`](../exemplar-server) source code.                         |
+| [`query`](./src/main/graphql/query)                     | Directory contains the GraphQL queries based on the root schema. This Directory is referenced as `srcDir` in the Apollo plugin   |
+| [`mutation`](./src/main/graphql/mutation)               | Directory contains the GraphQL mutations based on the root schema. This Directory is referenced as `srcDir` in the Apollo plugin |
 
 <br />
 
