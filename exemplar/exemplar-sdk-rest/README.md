@@ -57,7 +57,7 @@ The `exemplar-sdk-rest` module contains pre-generated models and operations base
    cd exemplar
    ```
    
-2. **Regenerate the OpenAPI spec**
+3. **Regenerate the OpenAPI spec**
 
    After updating the exemplar-server, run the following command to regenerate the OpenAPI specification:
    
@@ -67,7 +67,7 @@ The `exemplar-sdk-rest` module contains pre-generated models and operations base
 
    This will generate a new `openapi.yaml` file and place it in the `exemplar-sdk-rest` root directory
 
-3. **Re-apply the spec transfomration**
+4. **Re-apply the spec transformation**
 
    After generating the updated `openapi.yaml` file, run the spec transformation task:
    
@@ -77,7 +77,7 @@ The `exemplar-sdk-rest` module contains pre-generated models and operations base
 
     This will produce or update the `transformed-spec.yaml` file, which is used by the generator plugin.
 
-5. **Re-generate the exemplar SDK**
+5. **Regenerate the exemplar SDK**
 
    You can now regenerate or update the SDK’s generated code by running:
 
@@ -87,7 +87,7 @@ The `exemplar-sdk-rest` module contains pre-generated models and operations base
 
    _Note: It's recommended to manually delete the existing `model` and `operation` packages before running the generation task._
 
-6. **Test out your changes in the exemplar playground**
+6. **Test your changes in the exemplar playground**
 
     Use the dedicated playground module to validate your changes.
 
