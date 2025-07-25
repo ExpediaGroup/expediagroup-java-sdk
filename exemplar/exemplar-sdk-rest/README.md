@@ -5,7 +5,7 @@ This module is a **reference implementation** demonstrating how to build REST-ba
 ## 🎯 Purpose
 
 * **Showcase**: Illustrates how to structure and implement a REST SDK using EG SDK core modules.
-* **Reference**: Provides practical examples for interacting with REST APIs, including authentication, error handling, and modeling.
+* **Reference**: Provides practical examples for interacting with REST APIs.
 * **Learning**: Aids new contributors in understanding the architecture and extensibility of the EG SDK ecosystem.
 
 ## 🧱 Structure
