@@ -1,12 +1,33 @@
-# 🧪 Exemplar GraphQL SDK
+# Exemplar GraphQL SDK
 
-This module is a **reference implementation** showcasing how to build a GraphQL-based SDK using the [Expedia Group SDK JVM core libraries](https://github.com/ExpediaGroup/expediagroup-java-sdk). It serves as a guide for teams building their own SDKs with consistent structure, best practices, and integration patterns.
+This module is a **reference implementation** demonstrating how to build GraphQL-based SDKs using the [Expedia Group SDK core libraries](https://github.com/ExpediaGroup/expediagroup-java-sdk). It serves as a guide for developers looking to create their own SDKs with best practices and consistent structure.
 
 ## 🎯 Purpose
+This project also serves as a starter template for building GraphQL SDKs. It includes the minimal setup, configuration, and essential classes required to get a working SDK up and running.
 
-* **Showcase**: Demonstrates how to structure and implement a GraphQL SDK using EG SDK core components.
-* **Reference**: Offers practical examples for interacting with GraphQL APIs—queries, mutations, error handling, and modeling.
-* **Learning**: Helps new contributors understand the design and extensibility of the EG SDK ecosystem.
+Developers can use it as a foundation to bootstrap their own SDKs while following established structure and best practices from the EG SDK ecosystem. Each class in the exemplar SDK is documented to clarify its purpose and usage.
+
+## 📦 Example Usage
+All SDKs generated with EG SDK modules supports **Java 8**. However, running the [Apollo Kotlin](https://www.apollographql.com/docs/kotlin#getting-started) generator as a Gradle plugin requires **Java 11+** (As a Gradle JVM)
+
+Here's a simple example of executing a generated operation using the SDK client:
+
+```java
+public class UsageExample {
+    private static final ExemplarGraphQLClient exemplarClient = new ExemplarGraphQLClient();
+
+    public static void main(String[] args) {
+        SearchHotelsQuery query = new SearchHotelsQuery.Builder()
+            .city("New York")
+            .maxPrice(BigDecimal.valueOf(300.00))
+            .build();
+
+        List<SearchHotelsQuery.Hotel> hotels = exemplarClient.execute(query).getData().getHotels();
+    }
+}
+```
+
+Refer to the [`exemplar-playground-java`](../exemplar-playground-java) for complete usage examples. 
 
 ## 🧱 Structure
 
