@@ -31,7 +31,7 @@ Refer to the [`exemplar-playground-java`](../exemplar-playground-java) for compl
 
 ## 🧱 Structure
 
-This GraphQL Exemplar SDK mainly depends on [`expediagroup-sdk-graphql`](../../expediagroup-sdk-graphql) and [`apollo-gradle-plugin`](https://github.com/apollographql/apollo-kotlin/tree/main/libraries/apollo-gradle-plugin). These dependecies facilitate building and generating an SDK for your API based on a GraphQL schema and operations.
+This GraphQL Exemplar SDK mainly depends on [`expediagroup-sdk-graphql`](../../expediagroup-sdk-graphql) and [`apollo-gradle-plugin`](https://github.com/apollographql/apollo-kotlin/tree/main/libraries/apollo-gradle-plugin). These dependencies facilitate building and generating an SDK for your API based on a GraphQL schema and operations.
 
 #### 1. Build File Configurations
 
@@ -39,7 +39,7 @@ Refer to the [`build.gradle.kts`](./build.gradle.kts) build file for more detail
 
 | Config                  | Description                                                                                                                                                                                                                                                                                                        |
 |-------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Code Generation         | Applies [Apollo Kotlin Gradle plugin](https://github.com/apollographql/apollo-kotlin/tree/main/libraries/apollo-gradle-plugin) for code generation. The [`expediagroup-sdk-graphql`](../../expediagroup-sdk-graphql) layer adapts the generated models and opeartions to be executed using the EG SDK core modules. |
+| Code Generation         | Applies [Apollo Kotlin Gradle plugin](https://github.com/apollographql/apollo-kotlin/tree/main/libraries/apollo-gradle-plugin) for code generation. The [`expediagroup-sdk-graphql`](../../expediagroup-sdk-graphql) layer adapts the generated models and operations to be executed using the EG SDK core modules. |
 | GraphQL Support         | Adds [`expediagroup-sdk-graphql`](../../expediagroup-sdk-graphql) as an `api` dependency.                                                                                                                                                                                                                          |
 | Custom Scalars Adapters | The `apollo-adapters-core` dependency is required if you have custom scalars in your GraphQL schema, and you want to register adapters from Apollo Kotlin library.                                                                                                                                                 |
 | Logging                 | Adds the SLF4J API, allowing users to plug in their preferred logging implementation.                                                                                                                                                                                                                              |
@@ -58,8 +58,8 @@ You can find more information and description with each class in these packages.
 | File                                                    | Description                                                                                                                      |
 |---------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
 | [`schema.graphqls`](./src/main/graphql/schema.graphqls) | A copy of the original GraphQL schema file in the [`exemplar-server`](../exemplar-server).                         |
-| [`query`](./src/main/graphql/query)                     | Directory contains the GraphQL queries based on the root schema. This Directory is referenced as `srcDir` in the Apollo plugin   |
-| [`mutation`](./src/main/graphql/mutation)               | Directory contains the GraphQL mutations based on the root schema. This Directory is referenced as `srcDir` in the Apollo plugin |
+| [`query`](./src/main/graphql/query)                     | This directory contains the GraphQL queries based on the root schema. It's configurable as a `srcDir` in the Apollo plugin block.   |
+| [`mutation`](./src/main/graphql/mutation)               | This directory contains the GraphQL mutations based on the root schema. It's configurable as a `srcDir` in the Apollo plugin block. |
 
 <br />
 
@@ -92,7 +92,7 @@ The `exemplar-sdk-graphql` module contains only the manually implemented classes
    ./gradlew :exemplar-sdk-graphql:clean :exemplar-sdk-graphql:build
    ```
 
-   The generated classes will be placed under the `build` directory.
+   The generated classes will be placed under the `build` directory (`build/generated/source/apollo`).
 
 7. **Test your changes in the exemplar playground**
 
@@ -111,7 +111,7 @@ The `exemplar-sdk-graphql` module contains only the manually implemented classes
 * [`exemplar-server`](../exemplar-server): Backend module that defines the API and generates the OpenAPI spec.
 * [`exemplar-playground-java`](../exemplar-playground-java): Dedicated module to test out the generated exemplar SDKs with the exemplar server.
 * [`expediagroup-sdk-core`](../../expediagroup-sdk-core): Core SDK abstractions for HTTP handling, serialization, and error mapping.
-* [`expediagroup-sdk-graphql`](../../expediagroup-sdk-rest): Adds REST APIs support layer to the SDK core.
+* [`expediagroup-sdk-graphql`](../../expediagroup-sdk-graphql): Adds REST APIs support layer to the SDK core.
 
 
 ## 📝 Notes
