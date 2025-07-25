@@ -66,7 +66,7 @@ You can find more information and description with each class in these packages.
 
 ## 🚀 Getting Started
 
-The `exemplar-sdk-graphql` module contains only the manually implemented classes. Models and operations are generated at build time using the Apollo plugin. By default, the generated code is not written to the source directory — it resides in the `build` directory under the `packageName` specified in the plugin configuration. This behavior can be customized via the Apollo plugin settings.
+The `exemplar-sdk-graphql` module contains only the manually implemented classes. Models and operations are generated at build time using Apollo plugin. By default, the generated code is not written to the source directory — it resides in the `build` directory under the `packageName` specified in the plugin configuration. This behavior can be customized via the Apollo plugin settings.
 
 1. **Update the GraphQL schema and exemplar-server code**
 
