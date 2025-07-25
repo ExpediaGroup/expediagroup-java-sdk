@@ -44,6 +44,7 @@ You can find more information and description with each class in these packages.
 | [`openapi.yaml`](./openapi.yaml)                 | The original OpenAPI spec file generated from the [`exemplar-server`](../exemplar-server) source code. |
 | [`transformed-spec.yml`](./transformed-spec.yml) | A modified version of the original spec used as input for SDK generation.                              |
 
+<br />
 
 ## 🚀 Getting Started
 
