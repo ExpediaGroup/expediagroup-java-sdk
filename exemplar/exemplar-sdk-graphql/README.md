@@ -68,6 +68,8 @@ You can find more information and description with each class in these packages.
 
 The `exemplar-sdk-graphql` module contains only the manually implemented classes. Models and operations are generated at build time using Apollo plugin. By default, the generated code is not written to the source directory — it resides in the `build` directory under the `packageName` specified in the plugin configuration. This behavior can be customized via the Apollo plugin settings.
 
+To update the generated code or sync with a newer GraphQL schema (or operations), follow these steps:
+
 1. **Update the GraphQL schema and exemplar-server code**
 
    Spring Boot GraphQL is schema-first. Start by updating the [`schema.graphqls`](../exemplar-server/src/main/resources/graphql/schema.graphqls) file to reflect your desired changes. Then,         update the `exemplar-server` GraphQL controllers accordingly to match the updated schema.
