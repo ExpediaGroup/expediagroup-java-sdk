@@ -66,33 +66,35 @@ You can find more information and description with each class in these packages.
 
 ## 🚀 Getting Started
 
-The `exemplar-sdk-graphql` contains the manually implemented classes only, Apollo Plugin will generate the models and operations on build. The generated classes won't be written to the source directory, instead, they will be in the `build` directory under the `packageName` you specify in the plugin configurations but you can always change this by configuring the Apollo plugin.
+The `exemplar-sdk-graphql` module contains only the manually implemented classes. Models and operations are generated at build time using the Apollo plugin. By default, the generated code is not written to the source directory — it resides in the `build` directory under the `packageName` specified in the plugin configuration. This behavior can be customized via the Apollo plugin settings.
 
-1. **Update the `schema.graphqls` and the exemplar-server code**
+1. **Update the GraphQL schema and exemplar-server code**
 
-   Spring Boot GraphQL is schema-first. So you need to make the necessary changes to the [`schema.graphqls`](../exemplar-server/src/main/resources/graphql/schema.graphqls) first and then update    the  `exemplar-server` GraphQL controllers to reflect the schema.
+   Spring Boot GraphQL is schema-first. Start by updating the [`schema.graphqls`](../exemplar-server/src/main/resources/graphql/schema.graphqls) file to reflect your desired changes. Then,         update the `exemplar-server` GraphQL controllers accordingly to match the updated schema.
 
-2. **Copy the schema file to the graphql directory**
+3. **Copy the schema file to the SDK**
 
-   After updating the exemplar server and the GraphQL schema, you'll need to copy the schema file and place it under the [`graphql`](./src/main/graphql) directory. We can point to the original     schema in the `exemplar-server`, but it's cleaner to keep them seprated and keep this exemplar SDK an independant entity and as close as possible to the real-world SDKs.
+   After updating the server and schema, copy the updated `schema.graphqls` file into the [`graphql`](./src/main/graphql) directory of the SDK module.
 
-3. **Make sure to navigate to the `exemplar` module root**
+   While it's possible to reference the server’s schema file directly, maintaining a local copy ensures the SDK remains self-contained and more representative of a real-world SDK setup.
+
+5. **Navigate to the `exemplar` module root**
 
    ```bash
    cd exemplar
    ```
    
-4. **Build the SDK**
+6. **Build the SDK**
 
-   After updating the schema and the exemplar-server, you can build the SDK again and Apollo Plugin will regenerate the classes to reflect the chagnes
+   Run the following command to clean and rebuild the SDK. The Apollo plugin will regenerate the models and operations based on the updated schema:
    
    ```bash
    ./gradlew :exemplar-sdk-graphql:clean :exemplar-sdk-graphql:build
    ```
 
-   This will regenerate the classes and place them in the `build` directory.
+   The generated classes will be placed under the `build` directory.
 
-5. **Test your changes in the exemplar playground**
+7. **Test your changes in the exemplar playground**
 
     Use the dedicated playground module to validate your changes.
 
