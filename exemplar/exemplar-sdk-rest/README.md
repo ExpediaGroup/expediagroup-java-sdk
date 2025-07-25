@@ -7,6 +7,28 @@ This project also serves as a starter template for building REST SDKs. It includ
 
 Developers can use it as a foundation to bootstrap their own SDKs while following established structure and best practices from the EG SDK ecosystem. Each class in the exemplar SDK is documented to clarify its purpose and usage.
 
+## 📦 Example Usage
+All SDKs generated with EG SDK modules supports **Java 8**. 
+
+Refer to the [`exemplar-playground-java`](../exemplar-playground-java) for complete usage examples.
+
+```java
+public class UsageExample {
+    private static final ExemplarClient exemplarClient = new ExemplarClient();
+
+    public static void main(String[] args) {
+        SearchHotelOperationParams params = SearchHotelOperationParams.builder()
+            .city("New York")
+            .maxPrice(BigDecimal.valueOf(400.00))
+            .build();
+
+        SearchHotelOperation operation = new SearchHotelOperation(params);
+
+        List<? extends Hotel> hotels = exemplarClient.execute(operation).getData();
+    }
+}
+```
+
 ## 🧱 Structure
 
 This REST Exemplar SDK mainly depends on [`expediagroup-sdk-rest`](../../expediagroup-sdk-rest) and [`expediagroup-sdk-openapi-plugin`](../../expediagroup-sdk-openapi-plugin). These modules facilitate building and generating an SDK for your API based on an OpenAPI specification.
