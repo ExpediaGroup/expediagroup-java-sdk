@@ -57,7 +57,7 @@ You can find more information and description with each class in these packages.
 
 | File                                                    | Description                                                                                                                      |
 |---------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
-| [`schema.graphqls`](./src/main/graphql/schema.graphqls) | The original GraphQL schema file in the [`exemplar-server`](../exemplar-server).                         |
+| [`schema.graphqls`](./src/main/graphql/schema.graphqls) | A copy of the original GraphQL schema file in the [`exemplar-server`](../exemplar-server).                         |
 | [`query`](./src/main/graphql/query)                     | Directory contains the GraphQL queries based on the root schema. This Directory is referenced as `srcDir` in the Apollo plugin   |
 | [`mutation`](./src/main/graphql/mutation)               | Directory contains the GraphQL mutations based on the root schema. This Directory is referenced as `srcDir` in the Apollo plugin |
 
