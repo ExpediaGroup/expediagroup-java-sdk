@@ -3,10 +3,9 @@
 This module is a **reference implementation** demonstrating how to build REST-based SDKs using the [Expedia Group SDK core libraries](https://github.com/ExpediaGroup). It serves as a guide for developers looking to create their own SDKs with best practices and consistent structure.
 
 ## 🎯 Purpose
+This project also serves as a starter template for building REST SDKs. It includes the minimal setup, configuration, and essential classes required to get a working SDK up and running.
 
-* **Showcase**: Illustrates how to structure and implement a REST SDK using EG SDK core modules.
-* **Reference**: Provides practical examples for interacting with REST APIs.
-* **Learning**: Aids new contributors in understanding the architecture and extensibility of the EG SDK ecosystem.
+Developers can use it as a foundation to bootstrap their own SDKs while following established structure and best practices from the EG SDK ecosystem. Each class in the exemplar SDK is documented to clarify its purpose and usage.
 
 ## 🧱 Structure
 
