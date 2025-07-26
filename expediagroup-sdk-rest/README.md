@@ -43,9 +43,9 @@ For more hands-on examples, please refer to the [exemplar](../exemplar) module ð
 
 | Module                                                     | Description                                                                     |
 |------------------------------------------------------------|---------------------------------------------------------------------------------|
-| **[exemplar-server](./exemplar-server)**                   | Spring Boot server providing REST and GraphQL APIs for hotel booking operations |
-| **[exemplar-sdk-rest](./exemplar-sdk-rest)**               | Generated REST SDK with type-safe operations and models                         |
-| **[exemplar-playground-java](./exemplar-playground-java)** | Usage examples, tutorials, and SDK integration patterns                         |
+| **[exemplar-server](../exemplar/exemplar-server)**                   | Spring Boot server providing REST and GraphQL APIs for hotel booking operations |
+| **[exemplar-sdk-rest](../exemplar/exemplar-sdk-rest)**               | Generated REST SDK with type-safe operations and models                         |
+| **[exemplar-playground-java](../exemplar/exemplar-playground-java)** | Usage examples, tutorials, and SDK integration patterns                         |
 
 ## Operations Traits
 
