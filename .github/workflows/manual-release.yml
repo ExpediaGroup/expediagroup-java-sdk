@@ -1,0 +1,55 @@
+name: Manual Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      module:
+        description: 'Select the module to release'
+        required: true
+        type: choice
+        options:
+          - expediagroup-sdk-core
+          - expediagroup-sdk-graphql
+          - expediagroup-sdk-rest
+          - expediagroup-sdk-transport-okhttp
+          - expediagroup-sdk-openapi-plugin
+      create_tag:
+        description: 'Create git tag for this release'
+        required: true
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+jobs:
+  get-version-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup JDK 11
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+
+      - name: Build and Test
+        run: ./gradlew clean build
+
+      - name: Publish ${{ inputs.module }}
+        env:
+          GPG_PASSPHRASE: ${{ secrets.GPG_PRIVATE_KEY_PASSPHRASE }}
+          GPG_SECRET: ${{ secrets.GPG_PRIVATE_KEY }}
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+        run: |
+          echo "Publishing ${{ inputs.module }} version ${{ steps.version.outputs.version }} to Maven Central"
+          ./gradlew :${{ inputs.module }}:publishToSonatype closeAndReleaseSonatypeStagingRepository
+
+      - name: Publish Summary
+        run: |
+          echo "✅ Successfully published ${{ inputs.module }} version ${{ steps.version.outputs.version }} to Maven Central" >> $GITHUB_STEP_SUMMARY

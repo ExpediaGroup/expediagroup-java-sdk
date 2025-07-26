@@ -3,6 +3,16 @@ name: Publish Snapshots
 on:
   workflow_dispatch:
     inputs:
+      module:
+        description: 'Select the module to release'
+        required: true
+        type: choice
+        options:
+          - expediagroup-sdk-core
+          - expediagroup-sdk-graphql
+          - expediagroup-sdk-rest
+          - expediagroup-sdk-transport-okhttp
+          - expediagroup-sdk-openapi-plugin
       branch:
         description: "Branch name to release snapshots from"
         required: true
