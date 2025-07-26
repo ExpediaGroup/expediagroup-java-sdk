@@ -21,12 +21,12 @@ These foundations enable developers to create consistent, high-quality Java SDKs
 
 | Module                                                                     | Purpose                           | Key Features                                                           |
 |----------------------------------------------------------------------------|-----------------------------------|------------------------------------------------------------------------|
-| **[expediagroup-sdk-core](expediagroup-sdk-core)**                         | SDK foundation and utilities      | HTTP abstractions, authentication, logging, pipeline architecture      |
-| **[expediagroup-sdk-rest](expediagroup-sdk-rest)**                         | REST API client framework         | Request/response handling, operation patterns, REST-specific utilities |
-| **[expediagroup-sdk-graphql](expediagroup-sdk-graphql)**                   | GraphQL client framework          | Apollo integration, type-safe operations                               |
-| **[expediagroup-sdk-transport-okhttp](expediagroup-sdk-transport-okhttp)** | HTTP transport layer              | OkHttp-based transport, supporting both sync and async executions      |
-| **[expediagroup-sdk-openapi-plugin](expediagroup-sdk-openapi-plugin)**     | Code generation plugin            | Gradle plugin for generating SDKs from OpenAPI specifications          |
-| **[exemplar](exemplar)**                                                   | Complete reference implementation | Full-featured demo with server, generated SDKs, and usage examples     |
+| [expediagroup-sdk-core](expediagroup-sdk-core)                         | SDK foundation and utilities      | HTTP abstractions, authentication, logging, pipeline architecture      |
+| [expediagroup-sdk-rest](expediagroup-sdk-rest)                         | REST API client framework         | Request/response handling, operation patterns, REST-specific utilities |
+| [expediagroup-sdk-graphql](expediagroup-sdk-graphql)                   | GraphQL client framework          | Apollo integration, type-safe operations                               |
+| [expediagroup-sdk-transport-okhttp](expediagroup-sdk-transport-okhttp) | HTTP transport layer              | OkHttp-based transport, supporting both sync and async executions      |
+| [expediagroup-sdk-openapi-plugin](expediagroup-sdk-openapi-plugin)    | Code generation plugin            | Gradle plugin for generating SDKs from OpenAPI specifications          |
+| [exemplar](exemplar)                                                  | Complete reference implementation | Full-featured demo with server, generated SDKs, and usage examples     |
 
 ## Quick Start
 This repository provides the foundational modules to build Product SDKs for REST/GraphQL APIs in EG. Once you have initiailized a new SDK project for your API, you can add dependency on these foundational modules.
@@ -56,21 +56,20 @@ dependencies {
 
 ## Architecture Highlights
 
-### Pluggable Transport Layer
+#### Pluggable Transport Layer
 Swap HTTP implementations without code changes - see [transport documentation](expediagroup-sdk-transport-okhttp) for details.
 
-> [!NOTE]
-> Currently, only OkHttp transport is supported. You may implement your own Transport interface using a different HTTP client. See [exemplar-playground-java](exemplar/exemplar-playground-java) for custom transport examples.
+_Currently, only OkHttp transport is supported. You may implement your own Transport interface using a different HTTP client. See [exemplar-playground-java](exemplar/exemplar-playground-java) for custom transport examples._
 
-### Pipeline-Based Processing
+#### Pipeline-Based Processing
 Extensible request/response processing with custom steps - explore [pipeline examples](exemplar/exemplar-sdk-rest/src/main/kotlin/com/expediagroup/sdk/exemplar/rest/core/executor/demo).
 
 ## SDK Generation
 
-### From OpenAPI Specification
+#### From OpenAPI Specification
 Use the [OpenAPI plugin](expediagroup-sdk-openapi-plugin) to generate type-safe REST clients from your API specifications.
 
-### From GraphQL Schema
+#### From GraphQL Schema
 Integrate with [GraphQL module](expediagroup-sdk-graphql) and [Apollo Kotlin](https://www.apollographql.com/docs/kotlin) for type-safe GraphQL operations and schema-first development.
 
 ## License
