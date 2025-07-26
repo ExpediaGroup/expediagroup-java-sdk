@@ -141,6 +141,8 @@ public class HandleOperationException {
         } catch (Exception e) {
             // Handle any unexpected exceptions that might occur
             logger.error("Unexpected error during exception handling demonstration: {}", e.getMessage(), e);
+        } finally {
+            exemplarClient.dispose();
         }
     }
 }

@@ -109,10 +109,11 @@ public class FullExemplarScenario {
             updateBooking(updatedMiamiBooking);
 
             logger.info("=== Full Exemplar SDK Scenario Completed Successfully ===");
-
         } catch (Exception e) {
             logger.error("Error during scenario execution: {}", e.getMessage(), e);
             throw new RuntimeException("Scenario failed", e);
+        } finally {
+            exemplarClient.dispose();
         }
     }
 

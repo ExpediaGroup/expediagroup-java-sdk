@@ -84,6 +84,8 @@ public class HandleOperationException {
         demonstratePartialResponse();
 
         logger.info("=== GraphQL Exception Handling Demonstration Completed ===");
+
+        exemplarClient.dispose();
     }
 
     /*

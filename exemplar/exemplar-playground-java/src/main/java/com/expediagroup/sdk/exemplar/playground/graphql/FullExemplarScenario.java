@@ -39,56 +39,60 @@ public class FullExemplarScenario {
     private static final ExemplarGraphQLClient exemplarClient = new ExemplarGraphQLClient();
 
     public static void main(String[] args) {
-        logger.info("=== Starting Full Exemplar GraphQL SDK Scenario ===");
+        try {
+            logger.info("=== Starting Full Exemplar GraphQL SDK Scenario ===");
 
-        // Step 1: Discover available hotels
-        searchAllHotels();
+            // Step 1: Discover available hotels
+            searchAllHotels();
 
-        // Step 2: Search and select hotels by specific criteria
-        SearchHotelsQuery.Hotel nyHotel = searchHotelByCityAndMaxPrice("New York", BigDecimal.valueOf(300.00));
-        SearchHotelsQuery.Hotel miamiHotel = searchHotelByCityAndMaxPrice("Miami", BigDecimal.valueOf(400.00));
+            // Step 2: Search and select hotels by specific criteria
+            SearchHotelsQuery.Hotel nyHotel = searchHotelByCityAndMaxPrice("New York", BigDecimal.valueOf(300.00));
+            SearchHotelsQuery.Hotel miamiHotel = searchHotelByCityAndMaxPrice("Miami", BigDecimal.valueOf(400.00));
 
-        // Step 3: Create bookings for selected hotels
-        CreateBookingMutation.CreateBooking nyBooking = makeBooking(nyHotel);
-        CreateBookingMutation.CreateBooking miamiBooking = makeBooking(miamiHotel);
+            // Step 3: Create bookings for selected hotels
+            CreateBookingMutation.CreateBooking nyBooking = makeBooking(nyHotel);
+            CreateBookingMutation.CreateBooking miamiBooking = makeBooking(miamiHotel);
 
-        // Step 4: Retrieve and review all bookings
-        getAllBookings();
+            // Step 4: Retrieve and review all bookings
+            getAllBookings();
 
-        // Step 5: Demonstrate booking modifications
-        // Since the API uses PUT-like updates, we need to copy the previous data
-        // Apollo does not generate toBuilder methods
-        BookingUpdateInput updatedNyBooking = new BookingUpdateInput.Builder()
-            .checkInDate(LocalDate.now())
-            .checkOutDate(LocalDate.now().plusDays(5)) // Extend the stay (Update)
-            .guestInfo(new GuestInfoInput.Builder()
-                .firstName("John")
-                .lastName("Doe")
-                .email("example@email.com")
-                .build()
-            )
-            .guests(nyBooking.getGuests())
-            .build();
+            // Step 5: Demonstrate booking modifications
+            // Since the API uses PUT-like updates, we need to copy the previous data
+            // Apollo does not generate toBuilder methods
+            BookingUpdateInput updatedNyBooking = new BookingUpdateInput.Builder()
+                .checkInDate(LocalDate.now())
+                .checkOutDate(LocalDate.now().plusDays(5)) // Extend the stay (Update)
+                .guestInfo(new GuestInfoInput.Builder()
+                    .firstName("John")
+                    .lastName("Doe")
+                    .email("example@email.com")
+                    .build()
+                )
+                .guests(nyBooking.getGuests())
+                .build();
 
-        // Cancel Miami booking
-        BookingUpdateInput updatedMiamiBooking = new BookingUpdateInput.Builder()
-            .status(BookingStatus.CANCELLED)
-            .checkInDate(LocalDate.now())
-            .checkOutDate(LocalDate.now().plusDays(5))
-            .guestInfo(new GuestInfoInput.Builder()
-                .firstName("John")
-                .lastName("Doe")
-                .email("example@email.com")
-                .build()
-            )
-            .guests(nyBooking.getGuests())
-            .build();
+            // Cancel Miami booking
+            BookingUpdateInput updatedMiamiBooking = new BookingUpdateInput.Builder()
+                .status(BookingStatus.CANCELLED)
+                .checkInDate(LocalDate.now())
+                .checkOutDate(LocalDate.now().plusDays(5))
+                .guestInfo(new GuestInfoInput.Builder()
+                    .firstName("John")
+                    .lastName("Doe")
+                    .email("example@email.com")
+                    .build()
+                )
+                .guests(nyBooking.getGuests())
+                .build();
 
-        // Step 6: Apply booking updates
-        updateBooking(nyBooking.getConfirmationNumber(), updatedNyBooking);
-        updateBooking(miamiBooking.getConfirmationNumber(), updatedMiamiBooking);
+            // Step 6: Apply booking updates
+            updateBooking(nyBooking.getConfirmationNumber(), updatedNyBooking);
+            updateBooking(miamiBooking.getConfirmationNumber(), updatedMiamiBooking);
 
-        logger.info("=== Full Exemplar GraphQL SDK Scenario Completed Successfully ===");
+            logger.info("=== Full Exemplar GraphQL SDK Scenario Completed Successfully ===");
+        } finally {
+            exemplarClient.dispose();
+        }
     }
 
     /**
