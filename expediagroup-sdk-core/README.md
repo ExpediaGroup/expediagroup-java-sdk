@@ -34,6 +34,9 @@ In most cases, you don’t need to add `expediagroup-sdk-core` directly, just in
 ## Purpose
 The SDK Core module serves as the foundational "shell" that abstracts the execution of requests and responses via an **injected** HTTP client. It acts as a toolkit, empowering product SDKs to deliver a polished and user-friendly experience by providing ready-to-use components such as request execution, logging, authentication, and exception handling. The SDK core streamlines the development of cohesive SDKs.
 
+## Examples and Playground
+The `exemplar` module in this repo contains multiple showcases that demonstrate the integration patterns between a product SDK and the core module. For more hands-on examples, please refer to the [exemplar](../exemplar) module 🚀.
+
 ## Transport Package
 The `Transport` interface defines the abstraction layer for making HTTP requests within the SDK. This interface allows SDK users to integrate their preferred HTTP client or transport mechanism while adhering to a standardized contract. The SDK relies on this interface to execute requests and process responses, offering flexibility and compatibility across diverse environments and libraries. To achieve complete abstraction, the SDK core module introduces standardized HTTP models customized for SDK usage (in the http package), such as `Request` and `Response`, which all `Transport` implementations are required to use. These models ensure consistency in how the SDK interacts with external systems, regardless of the underlying HTTP client or transport mechanism.
 
