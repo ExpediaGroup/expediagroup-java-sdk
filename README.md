@@ -18,14 +18,14 @@ These foundations enable developers to create consistent, high-quality Java SDKs
 
 ## 📦 Core Modules
 
-| Module | Purpose | Key Features |
-|--------|---------|--------------|
-| **[expediagroup-sdk-core](expediagroup-sdk-core/)** | SDK foundation and utilities | HTTP abstractions, authentication, logging, pipeline architecture |
-| **[expediagroup-sdk-rest](expediagroup-sdk-rest/)** | REST API client framework | Request/response handling, operation patterns, REST-specific utilities |
-| **[expediagroup-sdk-graphql](expediagroup-sdk-graphql/)** | GraphQL client framework | Apollo integration, type-safe queries, subscription support |
-| **[expediagroup-sdk-transport-okhttp](expediagroup-sdk-transport-okhttp/)** | HTTP transport layer | OkHttp-based transport with connection pooling and retry logic |
-| **[expediagroup-sdk-openapi-plugin](expediagroup-sdk-openapi-plugin/)** | Code generation plugin | Gradle plugin for generating SDKs from OpenAPI specifications |
-| **[exemplar](exemplar/)** | Complete reference implementation | Full-featured demo with server, generated SDKs, and usage examples |
+| Module                                                                     | Purpose                           | Key Features                                                           |
+|----------------------------------------------------------------------------|-----------------------------------|------------------------------------------------------------------------|
+| **[expediagroup-sdk-core](expediagroup-sdk-core)**                         | SDK foundation and utilities      | HTTP abstractions, authentication, logging, pipeline architecture      |
+| **[expediagroup-sdk-rest](expediagroup-sdk-rest)**                         | REST API client framework         | Request/response handling, operation patterns, REST-specific utilities |
+| **[expediagroup-sdk-graphql](expediagroup-sdk-graphql)**                   | GraphQL client framework          | Apollo integration, type-safe queries, subscription support            |
+| **[expediagroup-sdk-transport-okhttp](expediagroup-sdk-transport-okhttp)** | HTTP transport layer              | OkHttp-based transport with connection pooling and retry logic         |
+| **[expediagroup-sdk-openapi-plugin](expediagroup-sdk-openapi-plugin)**     | Code generation plugin            | Gradle plugin for generating SDKs from OpenAPI specifications          |
+| **[exemplar](exemplar)**                                                   | Complete reference implementation | Full-featured demo with server, generated SDKs, and usage examples     |
 
 ## 🎯 Quick Start
 
@@ -47,36 +47,36 @@ dependencies {
 ### Getting Started
 
 1. **Choose your API type**: REST or GraphQL
-2. **Review the [exemplar](exemplar/)**: Complete working examples with server and client implementations
+2. **Review the [exemplar](exemplar)**: Complete working examples with server and client implementations
 3. **Follow module guides**: Each module contains detailed setup and usage instructions
-4. **Explore demos**: Check out the [playground examples](exemplar/exemplar-playground-java/) for practical patterns
+4. **Explore demos**: Check out the [playground examples](exemplar/exemplar-playground-java) for practical patterns
 
 ## 🏗️ Architecture Highlights
 
 ### Pluggable Transport Layer
-Swap HTTP implementations without code changes - see [transport documentation](expediagroup-sdk-transport-okhttp/) for details.
+Swap HTTP implementations without code changes - see [transport documentation](expediagroup-sdk-transport-okhttp) for details.
 
 ### Pipeline-Based Processing
-Extensible request/response processing with custom steps - explore [pipeline examples](exemplar/exemplar-sdk-rest/src/main/kotlin/com/expediagroup/sdk/exemplar/rest/core/executor/demo/).
+Extensible request/response processing with custom steps - explore [pipeline examples](exemplar/exemplar-sdk-rest/src/main/kotlin/com/expediagroup/sdk/exemplar/rest/core/executor/demo).
 
 ### Comprehensive Error Handling
-Built-in error handling for service and transport failures - see [error handling guide](exemplar/exemplar-playground-java/) for patterns.
+Built-in error handling for service and transport failures - see [error handling guide](exemplar/exemplar-playground-java) for patterns.
 
 ## 🛠️ SDK Generation
 
 ### From OpenAPI Specification
-Use the [OpenAPI plugin](expediagroup-sdk-openapi-plugin/) to generate type-safe REST clients from your API specifications.
+Use the [OpenAPI plugin](expediagroup-sdk-openapi-plugin) to generate type-safe REST clients from your API specifications.
 
 ### From GraphQL Schema
-Integrate with [GraphQL module](expediagroup-sdk-graphql/) for type-safe GraphQL operations and schema-first development.
+Integrate with [GraphQL module](expediagroup-sdk-graphql) for type-safe GraphQL operations and schema-first development.
 
 ## 📚 Documentation & Examples
 
-- **[Complete Examples](exemplar/)**: Full-featured reference implementation with REST and GraphQL APIs
-- **[REST SDK Guide](expediagroup-sdk-rest/)**: Comprehensive REST client development guide  
-- **[GraphQL SDK Guide](expediagroup-sdk-graphql/)**: GraphQL client integration patterns
-- **[Custom Transport Guide](exemplar/exemplar-playground-java/)**: Building custom HTTP transport layers
-- **[Authentication Patterns](exemplar/exemplar-sdk-rest/src/main/kotlin/com/expediagroup/sdk/exemplar/rest/core/executor/demo/)**: OAuth, Basic Auth, and custom authentication
+- **[Complete Examples](exemplar)**: Full-featured reference implementation with REST and GraphQL APIs
+- **[REST SDK Guide](expediagroup-sdk-rest)**: Comprehensive REST client development guide  
+- **[GraphQL SDK Guide](expediagroup-sdk-graphql)**: GraphQL client integration patterns
+- **[Custom Transport Guide](exemplar/exemplar-playground-java)**: Building custom HTTP transport layers
+- **[Authentication Patterns](exemplar/exemplar-sdk-rest/src/main/kotlin/com/expediagroup/sdk/exemplar/rest/core/executor/demo)**: OAuth, Basic Auth, and custom authentication
 
 ## 🔧 Enterprise Features
 
