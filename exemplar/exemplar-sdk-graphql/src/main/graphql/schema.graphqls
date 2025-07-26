@@ -10,6 +10,11 @@ type Query {
     # Booking operations
     bookings: [Booking!]!
     booking(confirmationNumber: String!): Booking
+
+    # Exception demonstration operations
+    demoHttpException: Hotel
+    demoNoDataError: Hotel
+    demoPartialResponse: Hotel
 }
 
 type Mutation {
