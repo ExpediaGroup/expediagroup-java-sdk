@@ -100,6 +100,9 @@ The SDK has a set of exception models each for a defined purpose, categorized ba
 ## Metadata Loader
 The core module includes a utility for loading runtime metadata such as SDK name, JVM version, SDK version, locale, etc... from `sdk.properties` file. Each product SDK must bundle this file in its resources, and it’s typically generated automatically during the build process.
 
+**Additional Resources**
+- [Generate sdk.properties file - Gradle Task](../exemplar/gradle-tasks/sdk-properties.gradle.kts)
+  
 ## Full Integration View - Diagram
 The diagram below illustrates the architecture and interaction between a product SDK and the SDK Core, highlighting the flow of operations and the role of various components in synchronous and asynchronous request execution.
 
