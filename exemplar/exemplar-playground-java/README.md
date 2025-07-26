@@ -26,25 +26,6 @@ This playground demonstrates the full capabilities of the Expedia Group Java SDK
 
 > **Note**: This playground works with the [exemplar-server](../exemplar-server) to provide a complete end-to-end demonstration. The server provides both REST and GraphQL endpoints that these examples interact with.
 
-## 🏗 Architecture & Structure
-
-```
-exemplar-playground-java/
-├── src/main/java/com/expediagroup/sdk/exemplar/playground/
-│   ├── common/                    # Shared utilities and configurations
-│   │   ├── ConfigureOkHttpTransport.java    # Custom OkHttp transport setup
-│   │   ├── CustomTransport.java             # Java HttpClient transport demo
-│   │   └── CustomAsyncTransport.java        # Async transport implementation
-│   ├── rest/                      # REST API usage examples
-│   │   ├── FullExemplarScenario.java        # Complete sync REST workflow
-│   │   ├── AsyncFullExemplarScenario.java   # Complete async REST workflow
-│   │   └── HandleOperationException.java    # REST error handling patterns
-│   └── graphql/                   # GraphQL usage examples
-│       ├── FullExemplarScenario.java        # Complete sync GraphQL workflow
-│       ├── AsyncFullExemplarScenario.java   # Complete async GraphQL workflow
-│       └── HandleOperationException.java    # GraphQL error handling patterns
-└── build.gradle.kts              # Build configuration and dependencies
-```
 
 ### Key Dependencies
 
