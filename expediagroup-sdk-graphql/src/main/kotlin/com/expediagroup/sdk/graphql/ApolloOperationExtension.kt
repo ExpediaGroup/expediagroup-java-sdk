@@ -20,9 +20,11 @@ import com.apollographql.apollo.api.ApolloResponse
 import com.apollographql.apollo.api.Error
 import com.apollographql.apollo.api.Operation
 import com.apollographql.apollo.api.composeJsonRequest
+import com.apollographql.apollo.api.http.HttpHeader
 import com.apollographql.apollo.api.json.buildJsonString
 import com.apollographql.apollo.api.json.jsonReader
 import com.apollographql.apollo.api.parseResponse
+import com.apollographql.apollo.exception.ApolloHttpException
 import com.expediagroup.sdk.core.http.CommonMediaTypes
 import com.expediagroup.sdk.core.http.Method
 import com.expediagroup.sdk.core.http.Request
@@ -52,6 +54,18 @@ fun <D : Operation.Data> Operation<D>.toSDKRequest(url: String): Request {
 }
 
 fun <D : Operation.Data> Response.toApolloResponse(operation: Operation<D>): ApolloResponse<D> {
+    if (status.code != 200) {
+        return ApolloResponse.Builder(operation, request.id)
+            .exception(
+                ApolloHttpException(
+                    statusCode = status.code,
+                    headers = headers.entries().map { HttpHeader(it.key, it.value.toString()) },
+                    message = "Received non 200 response from the GraphQL server",
+                    body = this.body?.source()?.buffer
+                )
+            ).build()
+    }
+
     val apolloResponse =
         this.body?.let {
             val jsonReader = it.source().buffer.jsonReader()
