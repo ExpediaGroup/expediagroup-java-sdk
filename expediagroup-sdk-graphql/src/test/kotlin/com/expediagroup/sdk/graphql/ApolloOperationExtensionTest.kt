@@ -1,6 +1,7 @@
 package com.expediagroup.sdk.graphql
 
 import com.apollographql.apollo.api.toResponseJson
+import com.apollographql.apollo.exception.ApolloHttpException
 import com.expediagroup.sdk.core.http.CommonMediaTypes
 import com.expediagroup.sdk.core.http.Method
 import com.expediagroup.sdk.core.http.Protocol
@@ -13,6 +14,7 @@ import okio.Buffer
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertInstanceOf
 import testservice.TestMutation
 import testservice.TestQuery
 import testservice.type.buildTestData
@@ -82,5 +84,24 @@ class ApolloOperationExtensionTest {
         // Expect
         assertEquals("Failed to parse response with null body", apolloResponse.errors?.get(0)?.message)
         assertNull(apolloResponse.data)
+    }
+
+    @Test
+    fun `toApolloResponse should populate exception when the response status is not 200`() {
+        // Given
+        val testSDKResponse =
+            Response.builder()
+                .status(Status.INTERNAL_SERVER_ERROR)
+                .protocol(Protocol.HTTP_1_1)
+                .request(mockk { every { id } returns UUID.randomUUID() })
+                .build()
+
+        // When
+        val apolloResponse = testSDKResponse.toApolloResponse(TestMutation())
+
+        // Expect
+        assertInstanceOf<ApolloHttpException>(apolloResponse.exception)
+        assertNull(apolloResponse.data)
+        assertNull(apolloResponse.errors)
     }
 }
