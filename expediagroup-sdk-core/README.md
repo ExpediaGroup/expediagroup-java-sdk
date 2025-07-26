@@ -31,21 +31,26 @@ In most cases, you don’t need to add `expediagroup-sdk-core` directly, just in
   ```
 </details>
 
-## Architecture & Components
+## Purpose
 The SDK Core module serves as the foundational "shell" that abstracts the execution of requests and responses via an **injected** HTTP client. It acts as a toolkit, empowering product SDKs to deliver a polished and user-friendly experience by providing ready-to-use components such as request execution, logging, authentication, and exception handling. The SDK core streamlines the development of cohesive SDKs.
 
-### Transport Package
+## Transport Package
 The `Transport` interface defines the abstraction layer for making HTTP requests within the SDK. This interface allows SDK users to integrate their preferred HTTP client or transport mechanism while adhering to a standardized contract. The SDK relies on this interface to execute requests and process responses, offering flexibility and compatibility across diverse environments and libraries. To achieve complete abstraction, the SDK core module introduces standardized HTTP models customized for SDK usage (in the http package), such as `Request` and `Response`, which all `Transport` implementations are required to use. These models ensure consistency in how the SDK interacts with external systems, regardless of the underlying HTTP client or transport mechanism.
 
-> [!TIP]
-> Refer to SDK Transport Usage Guide for more information and examples
+[transport package](./src/main/kotlin/com/expediagroup/sdk/core/transport)
 
-### HTTP Package
+**Additional Resources**
+- [EG OkHttp Transport](../expediagroup-sdk-transport-okhttp)
+- [Configure OkHttp Transport](../exemplar/exemplar-playground-java/src/main/java/com/expediagroup/sdk/exemplar/playground/common/ConfigureOkHttpTransport.java)
+- [Custom Sync Transport](../exemplar/exemplar-playground-java/src/main/java/com/expediagroup/sdk/exemplar/playground/common/CustomTransport.java)
+- [Custom Async Transport](../exemplar/exemplar-playground-java/src/main/java/com/expediagroup/sdk/exemplar/playground/common/CustomAsyncTransport.java)
+
+## HTTP Package
 As mentioned earlier, the core module doesn’t depend on any specific HTTP client. To make this possible, the SDK defines its own generic HTTP request and response models. At runtime, those SDK models are translated into the native types required by your chosen HTTP client (for example, converting to OkHttp’s `Request` and `Response` objects).
 
 [http package](https://github.com/ExpediaGroup/expediagroup-java-sdk/tree/main/expediagroup-sdk-core/src/main/kotlin/com/expediagroup/sdk/core/http)
 
-### Pipeline Package
+## Pipeline Package
 While supporting injectable HTTP clients provides significant flexibility, it is essential to ensure that all requests made by the SDK adhere to governance and observability standards. This includes logging, authentication, client identification, and other critical processes, regardless of the underlying HTTP client being used. To achieve this, the core module introduces an `ExecutionPipeline`, which every product SDK must implement to integrate with the core.
 
 Each product SDK defines its own execution pipeline by composing "request pipeline **steps**" and "response pipeline **steps**". The core ensures that these steps are executed in the correct sequence: request steps are applied before the request is executed, and response steps are applied after the response is received.
@@ -54,14 +59,14 @@ The primary entry point for integrating a product SDK with the core is through t
 
 [pipeline package](https://github.com/ExpediaGroup/expediagroup-java-sdk/tree/main/expediagroup-sdk-core/src/main/kotlin/com/expediagroup/sdk/core/pipeline)
 
-### Authentication Package
+## Authentication Package
 The core module includes a suite of prebuilt components for handling common authentication schemes - such as Basic Auth & OAuth - so you don’t have to reinvent the wheel. True to the core’s “pluggable pipeline” philosophy, it provides the building blocks for each authentication workflow but leaves it up to the product SDK to decide when to invoke them.
 
 In practice, you simply add one of the supplied pipeline steps (for example, `BasicAuthStep` or `OAuthStep`) to your request execution pipeline. If your product SDK requires a custom authentication mechanism that isn’t yet provided, you can implement the `RequestPipelineStep` interface yourself, insert your new step into the pipeline, and encapsulate all of your custom auth logic there. This approach keeps authentication concerns isolated, consistent, and easy to extend.
 
 [auth package](https://github.com/ExpediaGroup/expediagroup-java-sdk/tree/main/expediagroup-sdk-core/src/main/kotlin/com/expediagroup/sdk/core/auth)
 
-### Logging Package
+## Logging Package
 All SDK modules rely on the `SLF4J` API for logging without shipping a concrete implementation, so you remain free to choose any `SLF4J` binding (such as Logback or Log4j2) at runtime. To turn on request and response logging, simply register the built-in `RequestLoggingStep` and `ResponseLoggingStep` in your execution pipeline; as long as you include a valid `SLF4J` binding on your classpath, those steps will automatically emit detailed logs for each outbound HTTP request and inbound HTTP response through your chosen logging framework.
 
 _A product SDK shouldn't provide the SLF4J implementation itself. This should be up to the end-user of the product SDK._
@@ -70,7 +75,7 @@ Beyond basic request and response logging, the core module also lets you automat
 
 [logging package](https://github.com/ExpediaGroup/expediagroup-java-sdk/tree/main/expediagroup-sdk-core/src/main/kotlin/com/expediagroup/sdk/core/logging)
 
-### Exception Package
+## Exception Package
 The SDK has a set of exception models each for a defined purpose, categorized based on the exception nature:
 - Client exception: Any exception that might be thrown or caused by the SDK itself (e.g. Configuration exception)
 - Service exception: Any exception that's caused by the remote server (e.g Authentication Exception).
