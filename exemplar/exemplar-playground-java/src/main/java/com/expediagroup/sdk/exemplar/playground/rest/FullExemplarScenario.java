@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.exemplar.playground;
+package com.expediagroup.sdk.exemplar.playground.rest;
 
 import com.expediagroup.sdk.exemplar.rest.client.ExemplarClient;
 import com.expediagroup.sdk.exemplar.rest.model.Booking;
@@ -155,7 +155,7 @@ public class FullExemplarScenario {
      * @return the first hotel from the search results
      */
     private static Hotel searchHotelByCityAndMaxPrice(String city, BigDecimal maxPrice) {
-        logger.info("2. Search Hotels in City: {} with max price {}$", city, maxPrice);
+        logger.info("2. Search Hotels in City: {} with max price ${}", city, maxPrice);
 
         // Build parameters with specific filters
         SearchHotelOperationParams params = SearchHotelOperationParams.builder()
@@ -170,7 +170,7 @@ public class FullExemplarScenario {
         // In a real application, you would handle empty results gracefully
         Hotel firstHotel = exemplarClient.execute(operation).getData().get(0);
 
-        logger.info("Search completed successfully for city: {} and max price {}$. Found hotel: {}",
+        logger.info("Search completed successfully for city: {} and max price ${}. Found hotel: {}",
                    city, maxPrice, firstHotel.getName());
 
         return firstHotel;
@@ -246,7 +246,6 @@ public class FullExemplarScenario {
 
         logger.info("Retrieved {} bookings.", bookings.size());
 
-        // Optional: Log details about each booking for demonstration
         bookings.forEach(booking ->
             logger.debug("Booking {}: {} - Status: {}",
                         booking.getConfirmationNumber(),

@@ -1,23 +1,25 @@
-mutation CreateBooking($input: BookingInput!) {
-    createBooking(input: $input) {
+query GetAllBookings {
+    bookings {
         confirmationNumber
-        status
         hotel {
             id
             name
             location {
                 city
+                country
+                address
             }
         }
-        checkInDate
-        checkOutDate
-        guests
-        totalPrice
         guestInfo {
             firstName
             lastName
             email
+            phone
         }
-        createdAt
+        guests
+        checkInDate
+        checkOutDate
+        totalPrice
+        status
     }
 }

@@ -1,5 +1,9 @@
 mutation UpdateBooking($confirmationNumber: String!, $input: BookingUpdateInput!) {
     updateBooking(confirmationNumber: $confirmationNumber, input: $input) {
+        hotel {
+            id
+            name
+        }
         confirmationNumber
         status
         checkInDate

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.expediagroup.sdk.exemplar.playground;
+package com.expediagroup.sdk.exemplar.playground.common;
 
 import com.expediagroup.sdk.exemplar.rest.client.ExemplarClient;
 import com.expediagroup.sdk.exemplar.rest.operation.SearchHotelOperation;
