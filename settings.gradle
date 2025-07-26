@@ -9,4 +9,3 @@ include 'expediagroup-sdk-transport-okhttp'
 include 'expediagroup-sdk-graphql'
 include 'expediagroup-sdk-rest'
 include 'expediagroup-sdk-openapi-plugin'
-

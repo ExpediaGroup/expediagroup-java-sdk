@@ -1,0 +1,15 @@
+query DemoNoDataError {
+    demoNoDataError {
+        id
+        name
+        description
+        location {
+            city
+            country
+            address
+        }
+        pricePerNight
+        amenities
+        rating
+    }
+}

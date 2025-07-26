@@ -1,0 +1,15 @@
+query DemoPartialResponse {
+    demoPartialResponse {
+        id
+        name
+        description
+        location {
+            city
+            country
+            address
+        }
+        pricePerNight
+        amenities
+        rating
+    }
+}
