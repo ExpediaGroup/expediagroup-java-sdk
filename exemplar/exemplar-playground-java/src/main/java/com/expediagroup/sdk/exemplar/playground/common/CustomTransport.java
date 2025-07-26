@@ -127,9 +127,7 @@ public class CustomTransport {
                         throw new IllegalArgumentException("Unsupported HTTP method: " + request.getMethod());
                 }
 
-                request.getHeaders().entries().forEach(header -> {
-                    requestBuilder.header(header.getKey(), header.getValue().toString());
-                });
+                request.getHeaders().entries().forEach(header -> requestBuilder.header(header.getKey(), header.getValue().toString()));
 
                 HttpRequest httpRequest = requestBuilder.build();
 
