@@ -59,12 +59,19 @@ The primary entry point for integrating a product SDK with the core is through t
 
 [pipeline package](https://github.com/ExpediaGroup/expediagroup-java-sdk/tree/main/expediagroup-sdk-core/src/main/kotlin/com/expediagroup/sdk/core/pipeline)
 
+**Additional Resources**
+- [Exemplar REST SDK Request Executors Examples](../exemplar/exemplar-sdk-rest/src/main/kotlin/com/expediagroup/sdk/exemplar/rest/core/executor)
+
 ## Authentication Package
 The core module includes a suite of prebuilt components for handling common authentication schemes - such as Basic Auth & OAuth - so you don’t have to reinvent the wheel. True to the core’s “pluggable pipeline” philosophy, it provides the building blocks for each authentication workflow but leaves it up to the product SDK to decide when to invoke them.
 
 In practice, you simply add one of the supplied pipeline steps (for example, `BasicAuthStep` or `OAuthStep`) to your request execution pipeline. If your product SDK requires a custom authentication mechanism that isn’t yet provided, you can implement the `RequestPipelineStep` interface yourself, insert your new step into the pipeline, and encapsulate all of your custom auth logic there. This approach keeps authentication concerns isolated, consistent, and easy to extend.
 
 [auth package](https://github.com/ExpediaGroup/expediagroup-java-sdk/tree/main/expediagroup-sdk-core/src/main/kotlin/com/expediagroup/sdk/core/auth)
+
+**Additional Resources**
+- [Request Executor With Basic Auth Example](../exemplar/exemplar-sdk-rest/src/main/kotlin/com/expediagroup/sdk/exemplar/rest/core/executor/demo/RequestExecutorWithBasicAuth.kt)
+- [Request Executor With OAuth Example](../exemplar/exemplar-sdk-rest/src/main/kotlin/com/expediagroup/sdk/exemplar/rest/core/executor/demo/RequestExecutorWithOAuth.kt)
 
 ## Logging Package
 All SDK modules rely on the `SLF4J` API for logging without shipping a concrete implementation, so you remain free to choose any `SLF4J` binding (such as Logback or Log4j2) at runtime. To turn on request and response logging, simply register the built-in `RequestLoggingStep` and `ResponseLoggingStep` in your execution pipeline; as long as you include a valid `SLF4J` binding on your classpath, those steps will automatically emit detailed logs for each outbound HTTP request and inbound HTTP response through your chosen logging framework.
@@ -75,6 +82,10 @@ Beyond basic request and response logging, the core module also lets you automat
 
 [logging package](https://github.com/ExpediaGroup/expediagroup-java-sdk/tree/main/expediagroup-sdk-core/src/main/kotlin/com/expediagroup/sdk/core/logging)
 
+**Additional Resources**
+- [Request Executor With Additional Loggable Types](../exemplar/exemplar-sdk-rest/src/main/kotlin/com/expediagroup/sdk/exemplar/rest/core/executor/demo/RequestExecutorWithAdditionalLoggableTypes.kt)
+- [Request Executor With Logs Masking](../exemplar/exemplar-sdk-rest/src/main/kotlin/com/expediagroup/sdk/exemplar/rest/core/executor/demo/RequestExecutorWithLogsMasking.kt)
+  
 ## Exception Package
 The SDK has a set of exception models each for a defined purpose, categorized based on the exception nature:
 - Client exception: Any exception that might be thrown or caused by the SDK itself (e.g. Configuration exception)
