@@ -34,13 +34,22 @@ _The `expediagroup-sdk-graphql` requires Java 8 or higher._
   ```
 </details>
 
-## Architecture & Components
+## Purpose
 The GraphQL module builds on the core abstractions to streamline GraphQL client setup and provides a compatibility layer that adapts Apollo Kotlin–generated operations to the core request/response pipeline with minimal configuration.
 
-### Apollo Kotlin Integration
+## Exemplar and Playground
+Please refer to the GraphQL exemplar SDK in the `exemplar` module for more hands-on experince. 
+
+| Module                                                     | Description                                                                     |
+|------------------------------------------------------------|---------------------------------------------------------------------------------|
+| **[exemplar-server](../exemplar/exemplar-server)**                   | Spring Boot server providing REST and GraphQL APIs for hotel booking operations |
+| **[exemplar-sdk-graphql](../exemplar/exemplar-sdk-graphql)**         | Generated GraphQL SDK with Apollo Kotlin integration                            |
+| **[exemplar-playground-java](../exemplar/exemplar-playground-java)** | Usage examples, tutorials, and SDK integration patterns    
+
+## Apollo Kotlin Integration
 It's important to highlight that the GraphQL module depends only on the Apollo Kotlin API and its code-generation plugin and **not** on Apollo’s HTTP engine. This enables the SDK to work seamlessly with Apollo-generated operation classes and models while delegating all HTTP requests to its own transport layer. Meanwhile, Apollo remains responsible for serializing queries and deserializing responses, ensuring type-safe handling of the GraphQL payloads.
 
-### GraphQL Clients
+## GraphQL Clients
 The GraphQL module provides a high-level abstract class, `GraphQLClient`, which serves as the integration point between your product SDK and the core SDK internals (executors, transports, etc.). 
 
 When you instantiate a `GraphQLClient`, you need to supply a `GraphQLExecutor` instance — a component responsible for orchestrating request execution and mapping errors to the SDK’s exception model. Under the hood, the `GraphQLExecutor` delegates to an `AbstractRequestExecutor` implementation from the core module, where you configure your request pipeline (authentication, logging, masking, etc.).
@@ -58,7 +67,7 @@ flowchart LR
   GE --> |uses| ARE
 ```
 
-### GraphQL Responses Processing
+## GraphQL Responses Processing
 In GraphQL, API responses fall into four categories:
 | Response Type                 | Description                                                                          |
 |-------------------------------|--------------------------------------------------------------------------------------|
@@ -79,7 +88,7 @@ Because GraphQL always uses an HTTP `2xx` status code, the SDK applies its own c
   
 While similar to Apollo’s handling, this approach - especially throwing exceptions when no data is present — aligns with the broader SDK design and provides a consistent error‐handling model.
 
-### Pagination
+## Pagination
 To simplify working with cursor or offset‐based GraphQL pagination, the SDK provides two abstract utilities:
 
 ##### 1. PaginatedStream
