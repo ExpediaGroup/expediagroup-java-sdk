@@ -2,7 +2,7 @@
 return buildMap {
     {{#pathParams}}
         {{paramName}}{{^required}}?{{/required}}.also {
-        put("{{{baseName}}}", {{{paramName}}}{{#isEnum}}.value{{/isEnum}})
+        put("{{{baseName}}}", {{{paramName}}}{{#isEnum}}.value{{/isEnum}}{{^isString}}.toString(){{/isString}})
         }
     {{/pathParams}}
     }
