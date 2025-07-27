@@ -1,5 +1,5 @@
 plugins {
-    id("com.expediagroup.sdk.openapigenerator") version "3.0.0"
+    id("com.expediagroup.sdk.openapigenerator") version "0.0.15-alpha"
 }
 
 version = "0.0.1-SNAPSHOT"
