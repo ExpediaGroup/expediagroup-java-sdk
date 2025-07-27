@@ -13,11 +13,6 @@ on:
           - expediagroup-sdk-rest
           - expediagroup-sdk-transport-okhttp
           - expediagroup-sdk-openapi-plugin
-      create_tag:
-        description: 'Create git tag for this release'
-        required: true
-        type: boolean
-        default: true
 
 permissions:
   contents: write
@@ -47,9 +42,9 @@ jobs:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
         run: |
-          echo "Publishing ${{ inputs.module }} version ${{ steps.version.outputs.version }} to Maven Central"
+          echo "Publishing ${{ inputs.module }}
           ./gradlew :${{ inputs.module }}:publishToSonatype closeAndReleaseSonatypeStagingRepository
 
       - name: Publish Summary
         run: |
-          echo "✅ Successfully published ${{ inputs.module }} version ${{ steps.version.outputs.version }} to Maven Central" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Successfully published ${{ inputs.module }} to Maven Central" >> $GITHUB_STEP_SUMMARY
