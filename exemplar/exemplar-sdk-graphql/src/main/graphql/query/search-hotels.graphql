@@ -1,0 +1,15 @@
+query SearchHotels($city: String, $maxPrice: BigDecimal) {
+    hotels(city: $city, maxPrice: $maxPrice) {
+        id
+        name
+        description
+        location {
+            city
+            country
+            address
+        }
+        pricePerNight
+        amenities
+        rating
+    }
+}

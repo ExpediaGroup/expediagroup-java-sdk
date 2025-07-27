@@ -33,6 +33,9 @@ egSdkGenerator {
 
 See the [Configuration Options](#configuration-options) section for all available options.
 
+## Examples and Playground
+Please refer to the [`exemplar-sdk-rest`](../exemplar/exemplar-sdk-rest) for more in-depth examples and usages.
+
 ## Tasks & Extensions
 Gradle plugins are built around two key concepts:
 

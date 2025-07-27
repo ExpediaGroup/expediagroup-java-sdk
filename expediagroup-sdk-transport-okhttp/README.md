@@ -47,6 +47,9 @@ Once the `expediagroup-sdk-transport-okhttp` dependency is added to your project
 >
 > Currently, only the OkHttp transport is available; future releases may offer additional implementations.  
 
+## Examples and Playground
+For more hands-on examples, please refer to the [exemplar](../exemplar) module 🚀.
+
 
 ## Synchrounous & Asynchrounous Transports
 The `expediagroup-sdk-transport-okhttp` module provides both synchronous and asynchronous implementations of the `Transport` interface, enabling flexibility based on your application's requirements.

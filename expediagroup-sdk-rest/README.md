@@ -33,12 +33,21 @@ _The `expediagroup-sdk-rest` requires Java 8 or higher._
   ```
 </details>
 
-## Architecture & Components
+## Purpose
 The REST module provides the core abstractions for defining REST operations, everything from URLs processing and payload (de)serialization to the executor classes that drive request execution. 
 
 It’s designed to work hand-in-hand with our customized [expediagroup-sdk-openapi-plugin](https://github.com/ExpediaGroup/expediagroup-java-sdk/tree/main/expediagroup-sdk-openapi-plugin), which reads your OpenAPI spec and produces operation classes that plug directly into these executors and clients.
 
-### Operations Traits
+## Examples and Playground
+For more hands-on examples, please refer to the [exemplar](../exemplar) module 🚀.
+
+| Module                                                     | Description                                                                     |
+|------------------------------------------------------------|---------------------------------------------------------------------------------|
+| **[exemplar-server](../exemplar/exemplar-server)**                   | Spring Boot server providing REST and GraphQL APIs for hotel booking operations |
+| **[exemplar-sdk-rest](../exemplar/exemplar-sdk-rest)**               | Generated REST SDK with type-safe operations and models                         |
+| **[exemplar-playground-java](../exemplar/exemplar-playground-java)** | Usage examples, tutorials, and SDK integration patterns                         |
+
+## Operations Traits
 
 The REST module defines a set of trait interfaces that generated operation classes implement to support specific HTTP features. Each trait corresponds to a distinct aspect of the OpenAPI specification:
 
@@ -54,13 +63,13 @@ The REST module defines a set of trait interfaces that generated operation class
 | `OperationResponseBodyTrait` (and subclasses) | Implemented by operations with a defined response body.              |
 
 
-### OpenAPI Generator Integration
+## OpenAPI Generator Integration
 Most product SDKs using the REST module rely on the [expediagroup-sdk-openapi-plugin](https://github.com/ExpediaGroup/expediagroup-java-sdk/tree/main/expediagroup-sdk-openapi-plugin) to generate operation classes from your OpenAPI specification. This custom Gradle plugin is preconfigured to target the REST module’s trait interfaces and executor patterns, so the generated code plugs in seamlessly and requires virtually no manual wiring.
 
 > [!NOTE]
 > The generator is currently available only as a Gradle plugin, so you’ll need a Gradle-based project or submodule to run the code generation step.  
 
-### REST Clients
+## REST Clients
 The REST module provides a high-level abstract class, `GraphQLClient`, which serves as the integration point between your product SDK and the core SDK internals (executors, transports, etc.). 
 
 When you instantiate a `RestClient`, you need to supply a `RestExecutor` instance — a component responsible for orchestrating request execution and mapping errors to the SDK’s exception model. Under the hood, the `RestExecutor` delegates to an `AbstractRequestExecutor` implementation from the core module, where you configure your request pipeline (authentication, logging, masking, etc.).
@@ -78,7 +87,7 @@ flowchart LR
   RE --> |uses| ARE
 ```
 
-### Serialization & Deserialization
+## Serialization & Deserialization
 The REST module uses Jackson to handle JSON serialization and deserialization of request and response bodies. Product SDKs must supply a fully configured `ObjectMapper` to the executors, which will be used for all (de)serialization operations. We recommend reusing a single `ObjectMapper` instance across all clients to ensure consistent configuration. Consequently, the SDK does not create or configure `ObjectMapper` instances internally.
 
 

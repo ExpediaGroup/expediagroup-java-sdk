@@ -1,0 +1,15 @@
+query DemoHttpException {
+    demoHttpException {
+        id
+        name
+        description
+        location {
+            city
+            country
+            address
+        }
+        pricePerNight
+        amenities
+        rating
+    }
+}

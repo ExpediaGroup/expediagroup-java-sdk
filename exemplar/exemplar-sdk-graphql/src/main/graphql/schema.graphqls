@@ -1,0 +1,89 @@
+scalar Date
+scalar DateTime
+scalar BigDecimal
+
+type Query {
+    # Hotel operations
+    hotels(city: String, maxPrice: BigDecimal): [Hotel!]!
+    hotel(id: ID!): Hotel
+
+    # Booking operations
+    bookings: [Booking!]!
+    booking(confirmationNumber: String!): Booking
+
+    # Exception demonstration operations
+    demoHttpException: Hotel
+    demoNoDataError: Hotel
+    demoPartialResponse: Hotel
+}
+
+type Mutation {
+    # Booking operations
+    createBooking(input: BookingInput!): Booking!
+    updateBooking(confirmationNumber: String!, input: BookingUpdateInput!): Booking!
+}
+
+type Hotel {
+    id: ID!
+    name: String!
+    description: String
+    location: Location!
+    pricePerNight: BigDecimal!
+    amenities: [String!]!
+    rating: Float
+}
+
+type Location {
+    city: String!
+    country: String!
+    address: String
+}
+
+type Booking {
+    confirmationNumber: String!
+    status: BookingStatus!
+    hotel: Hotel!
+    checkInDate: Date!
+    checkOutDate: Date!
+    guests: Int!
+    guestInfo: GuestInfo!
+    totalPrice: BigDecimal!
+    createdAt: DateTime!
+}
+
+type GuestInfo {
+    firstName: String!
+    lastName: String!
+    email: String!
+    phone: String
+}
+
+enum BookingStatus {
+    CONFIRMED
+    CANCELLED
+    CHECKED_IN
+    CHECKED_OUT
+}
+
+input BookingInput {
+    hotelId: ID!
+    checkInDate: Date!
+    checkOutDate: Date!
+    guests: Int!
+    guestInfo: GuestInfoInput!
+}
+
+input GuestInfoInput {
+    firstName: String!
+    lastName: String!
+    email: String!
+    phone: String
+}
+
+input BookingUpdateInput {
+    checkInDate: Date
+    checkOutDate: Date
+    guests: Int
+    status: BookingStatus
+    guestInfo: GuestInfoInput
+}

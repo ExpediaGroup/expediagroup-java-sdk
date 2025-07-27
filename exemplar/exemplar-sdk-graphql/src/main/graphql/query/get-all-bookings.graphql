@@ -1,0 +1,25 @@
+query GetAllBookings {
+    bookings {
+        confirmationNumber
+        hotel {
+            id
+            name
+            location {
+                city
+                country
+                address
+            }
+        }
+        guestInfo {
+            firstName
+            lastName
+            email
+            phone
+        }
+        guests
+        checkInDate
+        checkOutDate
+        totalPrice
+        status
+    }
+}
