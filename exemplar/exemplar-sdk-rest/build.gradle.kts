@@ -12,7 +12,7 @@ dependencies {
     api("com.expediagroup:expediagroup-sdk-rest:0.0.13-alpha")
 
     // Product SDKs have to add jackson libraries as a dependency.
-    implementation(platform("com.fasterxml.jackson:jackson-bom:2.18.2"))
+    implementation(platform("com.fasterxml.jackson:jackson-bom:2.19.2"))
     implementation("com.fasterxml.jackson.core:jackson-databind")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     runtimeOnly("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
