@@ -39,6 +39,10 @@ jobs:
           gpg-passphrase: ${{ secrets.GPG_PRIVATE_KEY_PASSPHRASE }}
           settings-path: ${{ github.workspace }}
 
+      - name: Test
+        run: |
+          curl -u "$SONATYPE_USERNAME:$SONATYPE_PASSWORD" https://s01.oss.sonatype.org/service/local/staging/profiles
+
       - name: Build and Test
         run: ./gradlew clean build
 

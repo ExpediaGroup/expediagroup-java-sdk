@@ -14,8 +14,6 @@ apply from: "$rootDir/gradle-tasks/publish.gradle"
 apply from: "$rootDir/gradle-tasks/signing.gradle"
 
 dependencies {
-    implementation(platform("com.expediagroup:eg-oss-bom:3.0.1"))
-
     /* Apollo */
     api 'com.apollographql.apollo:apollo-api:4.3.1'
 
