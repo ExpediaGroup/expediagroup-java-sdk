@@ -32,7 +32,9 @@ data class SearchHotelOperationParams private constructor(
         null,
     val maxPrice: java.math.BigDecimal? =
         null
+
 ) {
+
     companion object {
         @JvmStatic
         fun builder() = Builder()
@@ -41,6 +43,7 @@ data class SearchHotelOperationParams private constructor(
     class Builder(
         @JsonProperty("city") private var city: kotlin.String? = null,
         @JsonProperty("maxPrice") private var maxPrice: java.math.BigDecimal? = null
+
     ) {
         /**
          * @param city
@@ -53,52 +56,47 @@ data class SearchHotelOperationParams private constructor(
         fun maxPrice(maxPrice: java.math.BigDecimal) = apply { this.maxPrice = maxPrice }
 
         fun build(): SearchHotelOperationParams {
-            val params =
-                SearchHotelOperationParams(
-                    city = city,
-                    maxPrice = maxPrice
-                )
+            val params = SearchHotelOperationParams(
+                city = city,
+                maxPrice = maxPrice
+            )
             return params
         }
     }
 
-    fun toBuilder() =
-        Builder(
-            city = city,
-            maxPrice = maxPrice
-        )
+    fun toBuilder() = Builder(
+        city = city,
+        maxPrice = maxPrice
+    )
 
-    fun getQueryParams(): List<UrlQueryParam> =
-        buildList {
-            city?.let {
-                val key = "city"
-                val value =
-                    buildList {
-                        add(it)
-                    }
-
-                add(
-                    UrlQueryParam(
-                        key = key,
-                        value = value,
-                        stringify = swaggerCollectionFormatStringifier.getOrDefault("", explode)
-                    )
-                )
+    fun getQueryParams(): List<UrlQueryParam> = buildList {
+        city?.let {
+            val key = "city"
+            val value = buildList {
+                add(it)
             }
-            maxPrice?.let {
-                val key = "maxPrice"
-                val value =
-                    buildList {
-                        add(it.toString())
-                    }
 
-                add(
-                    UrlQueryParam(
-                        key = key,
-                        value = value,
-                        stringify = swaggerCollectionFormatStringifier.getOrDefault("", explode)
-                    )
+            add(
+                UrlQueryParam(
+                    key = key,
+                    value = value,
+                    stringify = swaggerCollectionFormatStringifier.getOrDefault("", explode)
                 )
-            }
+            )
         }
+        maxPrice?.let {
+            val key = "maxPrice"
+            val value = buildList {
+                add(it.toString())
+            }
+
+            add(
+                UrlQueryParam(
+                    key = key,
+                    value = value,
+                    stringify = swaggerCollectionFormatStringifier.getOrDefault("", explode)
+                )
+            )
+        }
+    }
 }

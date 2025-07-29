@@ -32,37 +32,46 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * @param checkOutTime Check-out time
  */
 @ConsistentCopyVisibility data class Hotel private constructor(
-    // Unique hotel identifier
+    /* Unique hotel identifier */
     @JsonProperty("id")
     val id: kotlin.Long,
-    // Hotel name
+
+    /* Hotel name */
     @JsonProperty("name")
     val name: kotlin.String,
-    // Hotel location
+
+    /* Hotel location */
     @JsonProperty("location")
     val location: Location,
-    // Price per night in USD
+
+    /* Price per night in USD */
     @JsonProperty("pricePerNight")
     val pricePerNight: java.math.BigDecimal,
-    // Hotel amenities
+
+    /* Hotel amenities */
     @JsonProperty("amenities")
     val amenities: kotlin.collections
         .List<
             kotlin.String
-        >,
-    // Hotel description
+            >,
+
+    /* Hotel description */
     @JsonProperty("description")
     val description: kotlin.String? = null,
-    // Star rating
+
+    /* Star rating */
     @JsonProperty("starRating")
     val starRating: kotlin.Int? = null,
-    // Check-in time
+
+    /* Check-in time */
     @JsonProperty("checkInTime")
     val checkInTime: kotlin.String? = null,
-    // Check-out time
+
+    /* Check-out time */
     @JsonProperty("checkOutTime")
     val checkOutTime: kotlin.String? = null
 ) {
+
     companion object {
         @JvmStatic
         fun builder() = Builder()
@@ -80,78 +89,66 @@ import com.fasterxml.jackson.annotation.JsonProperty
         private var checkOutTime: kotlin.String? = null
     ) {
         fun id(id: kotlin.Long) = apply { this.id = id }
-
         fun name(name: kotlin.String) = apply { this.name = name }
-
         fun location(location: Location) = apply { this.location = location }
-
         fun pricePerNight(pricePerNight: java.math.BigDecimal) = apply { this.pricePerNight = pricePerNight }
-
-        fun amenities(amenities: kotlin.collections.List<kotlin.String>) = apply { this.amenities = amenities }
-
+        fun amenities(amenities: kotlin.collections.List<kotlin.String>) = apply {
+            this.amenities =
+                amenities
+        }
         fun description(description: kotlin.String?) = apply { this.description = description }
-
         fun starRating(starRating: kotlin.Int?) = apply { this.starRating = starRating }
-
         fun checkInTime(checkInTime: kotlin.String?) = apply { this.checkInTime = checkInTime }
-
         fun checkOutTime(checkOutTime: kotlin.String?) = apply { this.checkOutTime = checkOutTime }
 
         fun build(): Hotel {
-            val id =
-                this.id.getOrThrow {
-                    IllegalArgumentException("id must not be null")
-                }
+            val id = this.id.getOrThrow {
+                IllegalArgumentException("id must not be null")
+            }
 
-            val name =
-                this.name.getOrThrow {
-                    IllegalArgumentException("name must not be null")
-                }
+            val name = this.name.getOrThrow {
+                IllegalArgumentException("name must not be null")
+            }
 
             require(name?.length ?: 0 >= 1) { "name must be at least 1 characters long" }
 
-            val location =
-                this.location.getOrThrow {
-                    IllegalArgumentException("location must not be null")
-                }
+            val location = this.location.getOrThrow {
+                IllegalArgumentException("location must not be null")
+            }
 
-            val pricePerNight =
-                this.pricePerNight.getOrThrow {
-                    IllegalArgumentException("pricePerNight must not be null")
-                }
+            val pricePerNight = this.pricePerNight.getOrThrow {
+                IllegalArgumentException("pricePerNight must not be null")
+            }
 
-            val amenities =
-                this.amenities.getOrThrow {
-                    IllegalArgumentException("amenities must not be null")
-                }
+            val amenities = this.amenities.getOrThrow {
+                IllegalArgumentException("amenities must not be null")
+            }
 
-            val instance =
-                Hotel(
-                    id = id,
-                    name = name,
-                    location = location,
-                    pricePerNight = pricePerNight,
-                    amenities = amenities,
-                    description = description,
-                    starRating = starRating,
-                    checkInTime = checkInTime,
-                    checkOutTime = checkOutTime
-                )
+            val instance = Hotel(
+                id = id,
+                name = name,
+                location = location,
+                pricePerNight = pricePerNight,
+                amenities = amenities,
+                description = description,
+                starRating = starRating,
+                checkInTime = checkInTime,
+                checkOutTime = checkOutTime
+            )
 
             return instance
         }
     }
 
-    fun toBuilder() =
-        Builder(
-            id = id,
-            name = name,
-            location = location,
-            pricePerNight = pricePerNight,
-            amenities = amenities,
-            description = description,
-            starRating = starRating,
-            checkInTime = checkInTime,
-            checkOutTime = checkOutTime
-        )
+    fun toBuilder() = Builder(
+        id = id,
+        name = name,
+        location = location,
+        pricePerNight = pricePerNight,
+        amenities = amenities,
+        description = description,
+        starRating = starRating,
+        checkInTime = checkInTime,
+        checkOutTime = checkOutTime
+    )
 }

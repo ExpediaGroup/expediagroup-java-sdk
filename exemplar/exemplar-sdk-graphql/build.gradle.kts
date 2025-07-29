@@ -1,5 +1,5 @@
 plugins {
-    id("com.apollographql.apollo") version "4.3.1"
+    id("com.apollographql.apollo") version "4.3.2"
 }
 
 version = "0.0.1-SNAPSHOT"
@@ -9,7 +9,7 @@ apply("../gradle-tasks/sdk-properties.gradle.kts")
 
 dependencies {
     // Pulling the GraphQL SDK as an API dependency to allow users to use the SDK internals without needing to add it explicitly.
-    api("com.expediagroup:expediagroup-sdk-graphql:0.0.8-alpha")
+    api("com.expediagroup:expediagroup-sdk-graphql:0.0.9-alpha")
 
     // This dependency is required if you have custom scalars in your GraphQL schema, and you want to register adapters from Apollo Kotlin.
     implementation("com.apollographql.adapters:apollo-adapters-core:0.7.0")

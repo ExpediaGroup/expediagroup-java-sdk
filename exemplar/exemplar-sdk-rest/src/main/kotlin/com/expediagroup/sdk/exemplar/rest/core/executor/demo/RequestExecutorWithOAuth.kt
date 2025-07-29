@@ -53,7 +53,6 @@ import org.slf4j.LoggerFactory
 class RequestExecutorWithOAuth @JvmOverloads constructor(
     transport: Transport? = null
 ) : AbstractRequestExecutor(transport) {
-
     override val executionPipeline: ExecutionPipeline = ExecutionPipeline(
         requestPipeline = listOf(
             RequestHeadersStep(),
@@ -62,13 +61,13 @@ class RequestExecutorWithOAuth @JvmOverloads constructor(
                 OAuthManager(
                     credentials = OAuthCredentials(key = "key", secret = "secret"),
                     transport = super.transport,
-                    authUrl = "https://example.com/auth", // NOTE: This implementation is tied to EG OAuth APIs
-                ),
-            ),
+                    authUrl = "https://example.com/auth" // NOTE: This implementation is tied to EG OAuth APIs
+                )
+            )
         ),
         responsePipeline = listOf(
-            ResponseLoggingStep(logger = logger),
-        ),
+            ResponseLoggingStep(logger = logger)
+        )
     )
 
     companion object {

@@ -24,25 +24,19 @@ data class Location(
     @field:NotBlank
     @Schema(description = "Street address", example = "123 Main St")
     val address: String,
-
     @field:NotBlank
     @Schema(description = "City", example = "New York")
     val city: String,
-
     @field:NotBlank
     @Schema(description = "State or province", example = "NY")
     val state: String,
-
     @field:NotBlank
     @Schema(description = "Country", example = "USA")
     val country: String,
-
     @Schema(description = "Postal code", example = "10001")
     val postalCode: String?,
-
     @Schema(description = "Latitude", example = "40.7589")
     val latitude: Double?,
-
     @Schema(description = "Longitude", example = "-73.9851")
     val longitude: Double?
 )

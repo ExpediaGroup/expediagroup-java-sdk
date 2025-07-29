@@ -6,7 +6,6 @@ pluginManagement {
     }
 }
 
-
 rootProject.name = "exemplar"
 
 include("exemplar-sdk-rest")

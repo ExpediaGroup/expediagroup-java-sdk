@@ -94,10 +94,7 @@ data class Headers private constructor(
          * @param value the header value
          * @return this builder
          */
-        fun add(
-            name: String,
-            value: String
-        ): Builder = apply { add(sanitizeName(name), listOf(value)) }
+        fun add(name: String, value: String): Builder = apply { add(sanitizeName(name), listOf(value)) }
 
         /**
          * Adds all header values for the specified name.
@@ -106,13 +103,9 @@ data class Headers private constructor(
          * @param values the list of header values
          * @return this builder
          */
-        fun add(
-            name: String,
-            values: List<String>
-        ): Builder =
-            apply {
-                headersMap.computeIfAbsent(sanitizeName(name)) { mutableListOf() }.addAll(values)
-            }
+        fun add(name: String, values: List<String>): Builder = apply {
+            headersMap.computeIfAbsent(sanitizeName(name)) { mutableListOf() }.addAll(values)
+        }
 
         /**
          * Sets the header with the specified name to the single value provided.
@@ -122,10 +115,7 @@ data class Headers private constructor(
          * @param value the header value
          * @return this builder
          */
-        fun set(
-            name: String,
-            value: String
-        ): Builder = apply { set(sanitizeName(name), listOf(value)) }
+        fun set(name: String, value: String): Builder = apply { set(sanitizeName(name), listOf(value)) }
 
         /**
          * Sets the header with the specified name to the values list provided.
@@ -135,14 +125,10 @@ data class Headers private constructor(
          * @param values the header value
          * @return this builder
          */
-        fun set(
-            name: String,
-            values: List<String>
-        ): Builder =
-            apply {
-                remove(sanitizeName(name))
-                add(sanitizeName(name), values)
-            }
+        fun set(name: String, values: List<String>): Builder = apply {
+            remove(sanitizeName(name))
+            add(sanitizeName(name), values)
+        }
 
         /**
          * Removes any header with the specified name.
@@ -150,10 +136,9 @@ data class Headers private constructor(
          * @param name the header name
          * @return this builder
          */
-        fun remove(name: String): Builder =
-            apply {
-                headersMap.remove(sanitizeName(name))
-            }
+        fun remove(name: String): Builder = apply {
+            headersMap.remove(sanitizeName(name))
+        }
 
         /**
          * Builds an immutable [Headers] instance.

@@ -214,7 +214,11 @@ class RequestLoggerTest {
 
         every { mockLogger.isDebugEnabled } returns true
 
-        RequestLogger.log(mockLogger, testRequest, loggableContentTypes = listOf(MediaType.parse("application/json+custom")))
+        RequestLogger.log(
+            mockLogger,
+            testRequest,
+            loggableContentTypes = listOf(MediaType.parse("application/json+custom"))
+        )
 
         verify(exactly = 1) {
             mockLogger.debug(

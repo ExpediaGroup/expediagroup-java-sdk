@@ -19,7 +19,9 @@ class AuthUtilsTest {
         val key = "username"
         val secret = "password"
         val iso8859DecodedCredentials = "$key:$secret"
-        val iso8859EncodedCredentials = "Basic ${Base64.getEncoder().encodeToString(iso8859DecodedCredentials.toByteArray())}"
+        val iso8859EncodedCredentials = "Basic ${Base64.getEncoder().encodeToString(
+            iso8859DecodedCredentials.toByteArray()
+        )}"
 
         val encoded = encodeBasic(key, secret)
         assertEquals(encoded, iso8859EncodedCredentials)
@@ -30,7 +32,9 @@ class AuthUtilsTest {
         val key = "username"
         val secret = "password"
         val iso8859DecodedCredentials = "$key:$secret"
-        val iso8859EncodedCredentials = "Basic ${Base64.getEncoder().encodeToString(iso8859DecodedCredentials.toByteArray())}"
+        val iso8859EncodedCredentials = "Basic ${Base64.getEncoder().encodeToString(
+            iso8859DecodedCredentials.toByteArray()
+        )}"
 
         val encoded = encodeBasic(key, secret)
         assertEquals(encoded, iso8859EncodedCredentials)

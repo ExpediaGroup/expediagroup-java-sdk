@@ -30,10 +30,9 @@ class RestExecutor(
      * @param operation The operation to be executed.
      * @return A Response object containing the result of the operation.
      */
-    fun execute(operation: OperationNoResponseBodyTrait): Response<Nothing?> =
-        execute(operation) { response ->
-            response.toRestResponse(operation)
-        }
+    fun execute(operation: OperationNoResponseBodyTrait): Response<Nothing?> = execute(operation) { response ->
+        response.toRestResponse(operation)
+    }
 
     /**
      * Executes an operation that expects a response body of type T.
@@ -58,8 +57,7 @@ class RestExecutor(
     private fun <T> execute(
         operation: OperationResponseTrait,
         transform: (SDKCoreResponse) -> Response<T>
-    ): Response<T> =
-        operation.getRequestInfo().parseRequest(URL(serverUrl), mapper).let(
-            requestExecutor::execute
-        ).let(transform)
+    ): Response<T> = operation.getRequestInfo().parseRequest(URL(serverUrl), mapper).let(
+        requestExecutor::execute
+    ).let(transform)
 }

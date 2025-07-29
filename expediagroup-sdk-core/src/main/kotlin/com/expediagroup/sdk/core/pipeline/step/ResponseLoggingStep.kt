@@ -29,14 +29,13 @@ class ResponseLoggingStep(
     private val maskHeaders: (Headers) -> Headers = { it },
     private val loggableContentTypes: List<MediaType> = emptyList()
 ) : ResponsePipelineStep {
-    override fun invoke(response: Response): Response =
-        response.also {
-            ResponseLogger.log(
-                logger,
-                it,
-                maskBody = maskBody,
-                maskHeaders = maskHeaders,
-                loggableContentTypes = loggableContentTypes
-            )
-        }
+    override fun invoke(response: Response): Response = response.also {
+        ResponseLogger.log(
+            logger,
+            it,
+            maskBody = maskBody,
+            maskHeaders = maskHeaders,
+            loggableContentTypes = loggableContentTypes
+        )
+    }
 }

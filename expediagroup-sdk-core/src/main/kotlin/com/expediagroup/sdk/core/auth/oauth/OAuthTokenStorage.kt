@@ -46,10 +46,9 @@ class OAuthTokenStorage private constructor(
      *
      * @return `true` if the token is about to expire; `false` otherwise.
      */
-    fun isAboutToExpire(): Boolean =
-        run {
-            Instant.now(clock).isAfter(expiryInstant.minusSeconds(expirationBufferSeconds))
-        }
+    fun isAboutToExpire(): Boolean = run {
+        Instant.now(clock).isAfter(expiryInstant.minusSeconds(expirationBufferSeconds))
+    }
 
     /**
      * Formats the bearer token as an `Authorization` header value.
@@ -99,5 +98,6 @@ class OAuthTokenStorage private constructor(
         }
     }
 
-    override fun toString(): String = "OAuthTokenStorage(expiresIn=$expiresIn, expirationBufferSeconds=$expirationBufferSeconds, expiryInstant=$expiryInstant)"
+    override fun toString(): String =
+        "OAuthTokenStorage(expiresIn=$expiresIn, expirationBufferSeconds=$expirationBufferSeconds, expiryInstant=$expiryInstant)"
 }

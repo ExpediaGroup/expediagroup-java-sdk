@@ -2,7 +2,7 @@ import kotlinx.kover.gradle.plugin.dsl.AggregationType
 import kotlinx.kover.gradle.plugin.dsl.CoverageUnit
 
 plugins {
-    id 'com.apollographql.apollo' version '4.3.1'
+    id 'com.apollographql.apollo' version '4.3.2'
     id 'maven-publish'
     id 'signing'
 }
@@ -15,7 +15,7 @@ apply from: "$rootDir/gradle-tasks/signing.gradle"
 
 dependencies {
     /* Apollo */
-    api 'com.apollographql.apollo:apollo-api:4.3.1'
+    api 'com.apollographql.apollo:apollo-api:4.3.2'
 
     /* EG SDK Core */
     api 'com.expediagroup:expediagroup-sdk-core:0.0.10-alpha'
@@ -24,7 +24,7 @@ dependencies {
     compileOnly 'org.slf4j:slf4j-api:2.0.17'
 
     /* Testing */
-    testImplementation platform('org.junit:junit-bom:5.13.3')
+    testImplementation platform('org.junit:junit-bom:5.13.4')
     testImplementation 'org.junit.jupiter:junit-jupiter-api'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'

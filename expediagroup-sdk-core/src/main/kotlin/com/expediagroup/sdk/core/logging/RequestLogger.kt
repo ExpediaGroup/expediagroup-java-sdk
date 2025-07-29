@@ -61,10 +61,7 @@ internal object RequestLogger {
     }
 
     @Throws(IOException::class)
-    private fun RequestBody.readLoggableBody(
-        charset: Charset?,
-        loggableContentTypes: List<MediaType>?
-    ): String {
+    private fun RequestBody.readLoggableBody(charset: Charset?, loggableContentTypes: List<MediaType>?): String {
         this.mediaType().also {
             if (it === null) {
                 return "Request body of unknown media type cannot be logged"

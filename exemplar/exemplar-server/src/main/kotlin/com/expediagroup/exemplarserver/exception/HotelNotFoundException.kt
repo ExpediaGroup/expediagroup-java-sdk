@@ -18,5 +18,5 @@ package com.expediagroup.exemplarserver.exception
 
 class HotelNotFoundException(
     message: String? = null,
-    cause: Throwable? = null,
+    cause: Throwable? = null
 ) : RuntimeException(message, cause)

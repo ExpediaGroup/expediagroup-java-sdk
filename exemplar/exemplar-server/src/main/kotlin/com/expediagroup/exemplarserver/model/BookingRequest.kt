@@ -27,21 +27,17 @@ data class BookingRequest(
     @field:NotNull
     @Schema(description = "Hotel ID to book", example = "12345")
     val hotelId: Long,
-
     @field:NotNull
     @Schema(description = "Check-in date", example = "2025-08-15")
     @JsonFormat(pattern = "yyyy-MM-dd")
     val checkInDate: LocalDate,
-
     @field:NotNull
     @Schema(description = "Check-out date", example = "2025-08-18")
     @JsonFormat(pattern = "yyyy-MM-dd")
     val checkOutDate: LocalDate,
-
     @field:Positive
     @Schema(description = "Number of guests", example = "2")
     val guests: Int,
-
     @field:NotNull
     @Schema(description = "Guest information")
     val guestInfo: GuestInfo
