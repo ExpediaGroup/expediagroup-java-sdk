@@ -38,10 +38,9 @@ enum class Protocol(
          * Parses a protocol string to a [Protocol] enum.
          */
         @JvmStatic
-        fun get(protocol: String): Protocol =
-            when (protocol.uppercase()) {
-                "HTTP/2", "HTTP/2.0" -> HTTP_2
-                else -> lookup[protocol.uppercase()] ?: throw IllegalArgumentException("Unexpected protocol: $protocol")
-            }
+        fun get(protocol: String): Protocol = when (protocol.uppercase()) {
+            "HTTP/2", "HTTP/2.0" -> HTTP_2
+            else -> lookup[protocol.uppercase()] ?: throw IllegalArgumentException("Unexpected protocol: $protocol")
+        }
     }
 }

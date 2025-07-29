@@ -67,12 +67,11 @@ abstract class PaginatedStream<T> {
      *
      * @return The next item from the current page, or `null` if there are no more items.
      */
-    private fun pollCurrentPage(): T? =
-        try {
-            currentPage.removeFirst()
-        } catch (e: NoSuchElementException) {
-            null
-        }
+    private fun pollCurrentPage(): T? = try {
+        currentPage.removeFirst()
+    } catch (e: NoSuchElementException) {
+        null
+    }
 
     /**
      * Checks if the current page is empty.

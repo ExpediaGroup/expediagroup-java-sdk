@@ -122,11 +122,7 @@ class OAuthTokenStorageTest {
             "3, 1, false", // Not yet expired
             "3, 2, true" // About to expire
         )
-        fun `token expiration with custom buffer`(
-            expiresIn: Long,
-            bufferSeconds: Long,
-            expectedExpired: Boolean
-        ) {
+        fun `token expiration with custom buffer`(expiresIn: Long, bufferSeconds: Long, expectedExpired: Boolean) {
             val tokenStorage =
                 OAuthTokenStorage.create(
                     accessToken = "buffer_test_token",

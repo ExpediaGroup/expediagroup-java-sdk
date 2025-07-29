@@ -27,7 +27,16 @@ class MaskJsonTest {
         // Given
         val fields = setOf("password", "apiKey", "token")
         val maskJson = MaskJson(fields)
-        val json = """{"username":"john", "password":"secret123", "apiKey":"key123", "email":"john@example.com", "token":"abc123"}"""
+
+        val json = """
+        {
+            "username":"john",
+            "password":"secret123",
+            "apiKey":"key123",
+            "email":"john@example.com",
+            "token":"abc123"
+        }
+        """.trimIndent()
 
         // When
         val maskedJson = maskJson.invoke(json)

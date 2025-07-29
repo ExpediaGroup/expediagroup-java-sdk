@@ -46,10 +46,7 @@ class OkHttpAsyncTransport(
         request.toOkHttpRequest().let {
             okHttpClient.newCall(it).enqueue(
                 object : Callback {
-                    override fun onFailure(
-                        call: Call,
-                        e: IOException
-                    ) {
+                    override fun onFailure(call: Call, e: IOException) {
                         future.completeExceptionally(
                             ExpediaGroupNetworkException(
                                 requestId = request.id,
@@ -59,10 +56,7 @@ class OkHttpAsyncTransport(
                         )
                     }
 
-                    override fun onResponse(
-                        call: Call,
-                        response: okhttp3.Response
-                    ) {
+                    override fun onResponse(call: Call, response: okhttp3.Response) {
                         future.complete(response.toSDKResponse(request))
                     }
                 }

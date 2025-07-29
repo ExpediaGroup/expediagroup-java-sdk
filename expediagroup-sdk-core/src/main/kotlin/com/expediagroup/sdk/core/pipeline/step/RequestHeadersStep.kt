@@ -23,9 +23,8 @@ import com.expediagroup.sdk.core.pipeline.RequestPipelineStep
 class RequestHeadersStep : RequestPipelineStep {
     private val metadata = MetadataLoader.load()
 
-    override fun invoke(request: Request): Request =
-        request
-            .newBuilder()
-            .setHeader("User-Agent", metadata.asUserAgentString())
-            .build()
+    override fun invoke(request: Request): Request = request
+        .newBuilder()
+        .setHeader("User-Agent", metadata.asUserAgentString())
+        .build()
 }
