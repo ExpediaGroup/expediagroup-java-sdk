@@ -61,7 +61,6 @@ import org.slf4j.LoggerFactory
 class RequestExecutorWithLogsMasking @JvmOverloads constructor(
     transport: Transport? = null
 ) : AbstractRequestExecutor(transport) {
-
     /** Masks sensitive HTTP headers to prevent credential leaks in logs */
     private val headersMask = MaskHeaders(listOf("authorization"))
 
@@ -74,7 +73,7 @@ class RequestExecutorWithLogsMasking @JvmOverloads constructor(
                 logger = logger,
                 maskHeaders = headersMask,
                 maskBody = bodyMask
-            ),
+            )
         ),
         responsePipeline = listOf()
     )

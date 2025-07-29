@@ -67,11 +67,7 @@ abstract class ResponseBody : Closeable {
          */
         @JvmStatic
         @JvmOverloads
-        fun create(
-            inputStream: InputStream,
-            mediaType: MediaType? = null,
-            contentLength: Long = -1L
-        ): ResponseBody =
+        fun create(inputStream: InputStream, mediaType: MediaType? = null, contentLength: Long = -1L): ResponseBody =
             object : ResponseBody() {
                 private val source = inputStream.source().buffer()
 
@@ -92,11 +88,7 @@ abstract class ResponseBody : Closeable {
          */
         @JvmStatic
         @JvmOverloads
-        fun create(
-            source: BufferedSource,
-            mediaType: MediaType? = null,
-            contentLength: Long = -1L
-        ): ResponseBody =
+        fun create(source: BufferedSource, mediaType: MediaType? = null, contentLength: Long = -1L): ResponseBody =
             object : ResponseBody() {
                 override fun mediaType(): MediaType? = mediaType
 

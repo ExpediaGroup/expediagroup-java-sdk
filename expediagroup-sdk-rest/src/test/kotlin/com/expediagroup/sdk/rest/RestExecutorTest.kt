@@ -59,11 +59,10 @@ class RestExecutorTest {
             requestId: UUID?,
             message: String?,
             cause: Throwable?
-        ): ExpediaGroupApiException =
-            when (code) {
-                500 -> Operation500Exception(code = code, requestId = requestId, message = message)
-                else -> ExpediaGroupApiException(code, UUID.randomUUID(), message = message)
-            }
+        ): ExpediaGroupApiException = when (code) {
+            500 -> Operation500Exception(code = code, requestId = requestId, message = message)
+            else -> ExpediaGroupApiException(code, UUID.randomUUID(), message = message)
+        }
     }
 
     @Test

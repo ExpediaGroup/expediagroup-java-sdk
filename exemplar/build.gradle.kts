@@ -31,8 +31,8 @@ subprojects {
                 "indent_style" to "space",
                 "indent_size" to "4",
                 "insert_final_newline" to "true",
-                "end_of_line" to "lf",
-            ),
+                "end_of_line" to "lf"
+            )
         )
 
         filter {

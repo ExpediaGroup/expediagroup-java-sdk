@@ -44,8 +44,7 @@ class MaskJson(
      * @param msg The JSON string to be masked.
      * @return The masked JSON string.
      */
-    override fun invoke(msg: String): String =
-        regexes.fold(msg) { acc, regex ->
-            regex.replace(acc, Constant.DEFAULT_LOG_MASKING_REPLACEMENT_TEMPLATE)
-        }
+    override fun invoke(msg: String): String = regexes.fold(msg) { acc, regex ->
+        regex.replace(acc, Constant.DEFAULT_LOG_MASKING_REPLACEMENT_TEMPLATE)
+    }
 }

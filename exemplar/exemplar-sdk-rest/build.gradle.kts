@@ -1,5 +1,5 @@
 plugins {
-    id("com.expediagroup.sdk.openapigenerator") version "0.0.15-alpha"
+    id("com.expediagroup.sdk.openapigenerator") version "0.0.16-alpha"
 }
 
 version = "0.0.1-SNAPSHOT"
@@ -12,7 +12,7 @@ dependencies {
     api("com.expediagroup:expediagroup-sdk-rest:0.0.13-alpha")
 
     // Product SDKs have to add jackson libraries as a dependency.
-    implementation(platform("com.fasterxml.jackson:jackson-bom:2.18.2"))
+    implementation(platform("com.fasterxml.jackson:jackson-bom:2.19.2"))
     implementation("com.fasterxml.jackson.core:jackson-databind")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     runtimeOnly("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
@@ -20,7 +20,6 @@ dependencies {
     // Don't force SLF4J implementation, as it is provided by the SDK user.
     implementation("org.slf4j:slf4j-api:2.0.17")
 }
-
 
 /**
  * Use the Expedia Group OpenAPI Generator plugin to generate the SDK Operations & Models from your OpenAPI spec.

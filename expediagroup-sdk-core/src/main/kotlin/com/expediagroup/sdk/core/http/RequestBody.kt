@@ -59,11 +59,7 @@ abstract class RequestBody {
          */
         @JvmStatic
         @JvmOverloads
-        fun create(
-            inputStream: InputStream,
-            mediaType: MediaType? = null,
-            contentLength: Long = -1
-        ): RequestBody =
+        fun create(inputStream: InputStream, mediaType: MediaType? = null, contentLength: Long = -1): RequestBody =
             object : RequestBody() {
                 override fun mediaType(): MediaType? = mediaType
 
@@ -87,11 +83,7 @@ abstract class RequestBody {
          */
         @JvmStatic
         @JvmOverloads
-        fun create(
-            source: Source,
-            mediaType: MediaType? = null,
-            contentLength: Long = -1
-        ): RequestBody =
+        fun create(source: Source, mediaType: MediaType? = null, contentLength: Long = -1): RequestBody =
             object : RequestBody() {
                 override fun mediaType(): MediaType? = mediaType
 
@@ -117,11 +109,7 @@ abstract class RequestBody {
          */
         @JvmStatic
         @JvmOverloads
-        fun create(
-            byteString: ByteString,
-            mediaType: MediaType? = null,
-            contentLength: Long = -1
-        ): RequestBody =
+        fun create(byteString: ByteString, mediaType: MediaType? = null, contentLength: Long = -1): RequestBody =
             object : RequestBody() {
                 override fun mediaType(): MediaType? = mediaType
 
@@ -142,10 +130,7 @@ abstract class RequestBody {
          */
         @JvmStatic
         @JvmOverloads
-        fun create(
-            formData: Map<String, String>,
-            charset: Charset = Charsets.UTF_8
-        ): RequestBody {
+        fun create(formData: Map<String, String>, charset: Charset = Charsets.UTF_8): RequestBody {
             val encodedForm =
                 formData
                     .map { (key, value) ->

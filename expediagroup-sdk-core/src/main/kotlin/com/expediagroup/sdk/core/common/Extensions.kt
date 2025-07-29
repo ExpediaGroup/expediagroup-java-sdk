@@ -30,10 +30,7 @@ inline fun <T> T?.getOrThrow(exceptionSupplier: () -> Throwable): T = this ?: th
  *
  * @see Throwable.cause
  */
-fun Throwable.getExceptionFromStack(
-    exceptionType: Class<out Throwable>,
-    limit: Int = 1_000
-): Throwable? {
+fun Throwable.getExceptionFromStack(exceptionType: Class<out Throwable>, limit: Int = 1_000): Throwable? {
     var depth = 0
     var throwable: Throwable? = this
 

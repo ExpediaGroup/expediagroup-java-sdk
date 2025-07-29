@@ -100,11 +100,10 @@ class OperationToRequestExtensionTest {
             // GIVEN
             val operation =
                 object : DefaultOperationRequest(), HeadersTrait {
-                    override fun getHeaders(): Headers =
-                        Headers.builder()
-                            .add("key1", "value1")
-                            .add("key2", "value2")
-                            .build()
+                    override fun getHeaders(): Headers = Headers.builder()
+                        .add("key1", "value1")
+                        .add("key2", "value2")
+                        .build()
                 }
 
             // WHEN
@@ -255,11 +254,10 @@ class OperationToRequestExtensionTest {
                 object : DefaultOperationRequest(), UrlPathTrait, UrlQueryParamsTrait {
                     override fun getUrlPath(): String = "/test"
 
-                    override fun getUrlQueryParams(): List<UrlQueryParam> =
-                        listOf(
-                            UrlQueryParam("key1", listOf("value1"), UrlQueryParamStringifier.explode),
-                            UrlQueryParam("key2", listOf("value2", "value3"), UrlQueryParamStringifier.explode)
-                        )
+                    override fun getUrlQueryParams(): List<UrlQueryParam> = listOf(
+                        UrlQueryParam("key1", listOf("value1"), UrlQueryParamStringifier.explode),
+                        UrlQueryParam("key2", listOf("value2", "value3"), UrlQueryParamStringifier.explode)
+                    )
                 }
 
             // WHEN
@@ -317,10 +315,9 @@ class OperationToRequestExtensionTest {
                 object : DefaultOperationRequest(), UrlPathTrait, UrlQueryParamsTrait {
                     override fun getUrlPath(): String = "/test"
 
-                    override fun getUrlQueryParams(): List<UrlQueryParam> =
-                        listOf(
-                            UrlQueryParam("key2", listOf("value2", "value3"), UrlQueryParamStringifier.explode)
-                        )
+                    override fun getUrlQueryParams(): List<UrlQueryParam> = listOf(
+                        UrlQueryParam("key2", listOf("value2", "value3"), UrlQueryParamStringifier.explode)
+                    )
                 }
 
             // WHEN
@@ -356,11 +353,10 @@ class OperationToRequestExtensionTest {
                 object : DefaultOperationRequest(), UrlPathTrait, UrlQueryParamsTrait {
                     override fun getUrlPath(): String = ""
 
-                    override fun getUrlQueryParams(): List<UrlQueryParam> =
-                        listOf(
-                            UrlQueryParam("key1", listOf("value1"), UrlQueryParamStringifier.explode),
-                            UrlQueryParam("key2", listOf("value2", "value3"), UrlQueryParamStringifier.explode)
-                        )
+                    override fun getUrlQueryParams(): List<UrlQueryParam> = listOf(
+                        UrlQueryParam("key1", listOf("value1"), UrlQueryParamStringifier.explode),
+                        UrlQueryParam("key2", listOf("value2", "value3"), UrlQueryParamStringifier.explode)
+                    )
                 }
 
             // WHEN

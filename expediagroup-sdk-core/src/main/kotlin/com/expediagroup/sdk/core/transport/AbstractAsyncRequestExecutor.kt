@@ -96,7 +96,10 @@ abstract class AbstractAsyncRequestExecutor(
                     throw ExpediaGroupPipelineExecutionException("exception while executing the response pipeline", e)
                 }
             }.exceptionally { e ->
-                if (e.cause is ExpediaGroupPipelineExecutionException) throw e.cause as ExpediaGroupPipelineExecutionException
+                if (e.cause is ExpediaGroupPipelineExecutionException) {
+                    throw e.cause as ExpediaGroupPipelineExecutionException
+                }
+
                 throw ExpediaGroupTransportException("Failed to execute the request", e)
             }
     }

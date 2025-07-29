@@ -37,17 +37,13 @@ import org.springframework.stereotype.Controller
 class ExceptionDemoGraphQLController(
     private val hotelService: HotelService
 ) {
-
     /**
      * NOT REACHABLE. Requests to this resolver will be caught by `GraphQLDemoExceptionFilter` before it reaches here.
      * Spring GraphQL always returns 200 response even when exceptions are thrown. This filter is used as a workaround for
      * demo purposes.
      */
     @QueryMapping
-    fun demoHttpException(): Hotel {
-        return hotelService.search(null, null)[0]
-    }
-
+    fun demoHttpException(): Hotel = hotelService.search(null, null)[0]
 
     /**
      * NOT REACHABLE. Requests to this resolver will be caught by `GraphQLDemoExceptionFilter` before it reaches here.
@@ -55,9 +51,7 @@ class ExceptionDemoGraphQLController(
      * it was handled by the request filter.
      */
     @QueryMapping
-    fun demoNoDataError(): Hotel? {
-        return hotelService.search(null, null)[0]
-    }
+    fun demoNoDataError(): Hotel? = hotelService.search(null, null)[0]
 
     /**
      * Demonstrates a resolver that returns data with accompanying errors.
@@ -68,10 +62,11 @@ class ExceptionDemoGraphQLController(
     fun demoPartialResponse(): DataFetcherResult<Hotel> {
         val hotels = hotelService.search(null, null)
 
-        val error: GraphQLError = GraphqlErrorBuilder.newError()
-            .message("Some optional data could not be loaded")
-            .path(listOf("demoPartialResponse", "rating"))
-            .build()
+        val error: GraphQLError =
+            GraphqlErrorBuilder.newError()
+                .message("Some optional data could not be loaded")
+                .path(listOf("demoPartialResponse", "rating"))
+                .build()
 
         return DataFetcherResult.newResult<Hotel>()
             .data(hotels[0])

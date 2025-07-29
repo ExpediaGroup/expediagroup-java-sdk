@@ -25,7 +25,7 @@ dependencies {
     api 'com.expediagroup:expediagroup-sdk-core:0.0.10-alpha'
 
     /* Testing */
-    testImplementation platform('org.junit:junit-bom:5.13.3')
+    testImplementation platform('org.junit:junit-bom:5.13.4')
     testImplementation 'org.junit.jupiter:junit-jupiter-api'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
     testImplementation 'org.junit.jupiter:junit-jupiter-params'

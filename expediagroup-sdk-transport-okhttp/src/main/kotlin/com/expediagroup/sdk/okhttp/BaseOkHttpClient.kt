@@ -47,10 +47,9 @@ internal object BaseOkHttpClient {
      *
      * @return The singleton instance of `OkHttpClient`.
      */
-    fun getInstance(): OkHttpClient =
-        instance ?: synchronized(this) {
-            OkHttpClient().also { instance = it }
-        }
+    fun getInstance(): OkHttpClient = instance ?: synchronized(this) {
+        OkHttpClient().also { instance = it }
+    }
 
     /**
      * Creates a new `OkHttpClient` instance configured with the provided settings.
@@ -61,33 +60,32 @@ internal object BaseOkHttpClient {
      * @param configuration The `OkHttpClientConfiguration` containing settings for the client.
      * @return A new `OkHttpClient` instance configured with the specified settings.
      */
-    fun getConfiguredInstance(configuration: OkHttpClientConfiguration): OkHttpClient =
-        getInstance()
-            .newBuilder()
-            .apply {
-                configuration.callTimeout?.let {
-                    callTimeout(Duration.ofMillis(it.toLong()))
-                }
-                configuration.connectTimeout?.let {
-                    connectTimeout(Duration.ofMillis(it.toLong()))
-                }
-                configuration.readTimeout?.let {
-                    readTimeout(Duration.ofMillis(it.toLong()))
-                }
-                configuration.writeTimeout?.let {
-                    writeTimeout(Duration.ofMillis(it.toLong()))
-                }
-                configuration.connectionPool?.let {
-                    connectionPool(it)
-                }
-                configuration.retryOnConnectionFailure?.let {
-                    retryOnConnectionFailure(it)
-                }
-                configuration.interceptors?.forEach {
-                    addInterceptor(it)
-                }
-                configuration.networkInterceptors?.forEach {
-                    addNetworkInterceptor(it)
-                }
-            }.build()
+    fun getConfiguredInstance(configuration: OkHttpClientConfiguration): OkHttpClient = getInstance()
+        .newBuilder()
+        .apply {
+            configuration.callTimeout?.let {
+                callTimeout(Duration.ofMillis(it.toLong()))
+            }
+            configuration.connectTimeout?.let {
+                connectTimeout(Duration.ofMillis(it.toLong()))
+            }
+            configuration.readTimeout?.let {
+                readTimeout(Duration.ofMillis(it.toLong()))
+            }
+            configuration.writeTimeout?.let {
+                writeTimeout(Duration.ofMillis(it.toLong()))
+            }
+            configuration.connectionPool?.let {
+                connectionPool(it)
+            }
+            configuration.retryOnConnectionFailure?.let {
+                retryOnConnectionFailure(it)
+            }
+            configuration.interceptors?.forEach {
+                addInterceptor(it)
+            }
+            configuration.networkInterceptors?.forEach {
+                addNetworkInterceptor(it)
+            }
+        }.build()
 }

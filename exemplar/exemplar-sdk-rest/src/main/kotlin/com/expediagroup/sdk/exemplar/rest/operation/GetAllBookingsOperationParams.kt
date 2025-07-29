@@ -14,5 +14,3 @@
  * limitations under the License.
  */
 package com.expediagroup.sdk.exemplar.rest.operation
-
-

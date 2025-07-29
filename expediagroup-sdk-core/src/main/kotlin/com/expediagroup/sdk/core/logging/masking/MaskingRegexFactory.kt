@@ -45,13 +45,9 @@ object MaskingRegexFactory {
      * @return A Regex object that matches the specified fields and their values in a JSON string.
      * @throws IllegalArgumentException if any field name is invalid.
      */
-    fun createRegexFor(
-        fields: Set<String>,
-        match: String = "[^\\\"]+"
-    ): Regex =
-        fields.joinToString("|").let {
-            "\"($it)(\\\\?\"\\s*:\\s*\\\\*\")$match(?:\\\\?\")".toRegex().also {
-                require(fields.all(::canMaskField)) { "Invalid field name in $fields" }
-            }
+    fun createRegexFor(fields: Set<String>, match: String = "[^\\\"]+"): Regex = fields.joinToString("|").let {
+        "\"($it)(\\\\?\"\\s*:\\s*\\\\*\")$match(?:\\\\?\")".toRegex().also {
+            require(fields.all(::canMaskField)) { "Invalid field name in $fields" }
         }
+    }
 }

@@ -275,12 +275,22 @@ class ResponseLoggerTest {
                         .url("https://example.com")
                         .method(Method.POST)
                         .build()
-                ).body(ResponseBody.create(buffer, mediaType = MediaType.parse("application/json+custom"), contentLength = buffer.size))
+                ).body(
+                    ResponseBody.create(
+                        buffer,
+                        mediaType = MediaType.parse("application/json+custom"),
+                        contentLength = buffer.size
+                    )
+                )
                 .build()
 
         every { mockLogger.isDebugEnabled } returns true
 
-        ResponseLogger.log(mockLogger, testResponse, loggableContentTypes = listOf(MediaType.parse("application/json+custom")))
+        ResponseLogger.log(
+            mockLogger,
+            testResponse,
+            loggableContentTypes = listOf(MediaType.parse("application/json+custom"))
+        )
 
         val expectedLogMessage =
             """URL=https://example.com, Code=200, Headers=[{}], Body={"key":"value"}"""
@@ -306,7 +316,13 @@ class ResponseLoggerTest {
                         .url("https://example.com")
                         .method(Method.POST)
                         .build()
-                ).body(ResponseBody.create(buffer, mediaType = MediaType.parse("application/json"), contentLength = buffer.size))
+                ).body(
+                    ResponseBody.create(
+                        buffer,
+                        mediaType = MediaType.parse("application/json"),
+                        contentLength = buffer.size
+                    )
+                )
                 .build()
 
         every { mockLogger.isDebugEnabled } returns true
@@ -373,7 +389,13 @@ class ResponseLoggerTest {
                         .url("https://example.com")
                         .method(Method.POST)
                         .build()
-                ).body(ResponseBody.create(buffer, mediaType = MediaType.parse("application/json"), contentLength = buffer.size))
+                ).body(
+                    ResponseBody.create(
+                        buffer,
+                        mediaType = MediaType.parse("application/json"),
+                        contentLength = buffer.size
+                    )
+                )
                 .build()
 
         every { mockLogger.isDebugEnabled } returns true
@@ -405,7 +427,13 @@ class ResponseLoggerTest {
                         .url("https://example.com")
                         .method(Method.POST)
                         .build()
-                ).body(ResponseBody.create(buffer, mediaType = MediaType.parse("application/json"), contentLength = buffer.size))
+                ).body(
+                    ResponseBody.create(
+                        buffer,
+                        mediaType = MediaType.parse("application/json"),
+                        contentLength = buffer.size
+                    )
+                )
                 .build()
 
         every { mockLogger.isDebugEnabled } returns false
@@ -438,7 +466,13 @@ class ResponseLoggerTest {
                         .method(Method.POST)
                         .build()
                 ).addHeader("Content-Type", "application/json")
-                .body(ResponseBody.create(buffer, mediaType = MediaType.parse("application/json"), contentLength = buffer.size))
+                .body(
+                    ResponseBody.create(
+                        buffer,
+                        mediaType = MediaType.parse("application/json"),
+                        contentLength = buffer.size
+                    )
+                )
                 .build()
 
         every { mockLogger.isDebugEnabled } returns true
@@ -477,7 +511,13 @@ class ResponseLoggerTest {
                         .method(Method.POST)
                         .build()
                 ).addHeader("Content-Type", "application/json")
-                .body(ResponseBody.create(buffer, mediaType = MediaType.parse("application/json"), contentLength = buffer.size))
+                .body(
+                    ResponseBody.create(
+                        buffer,
+                        mediaType = MediaType.parse("application/json"),
+                        contentLength = buffer.size
+                    )
+                )
                 .build()
 
         every { mockLogger.isDebugEnabled } returns false

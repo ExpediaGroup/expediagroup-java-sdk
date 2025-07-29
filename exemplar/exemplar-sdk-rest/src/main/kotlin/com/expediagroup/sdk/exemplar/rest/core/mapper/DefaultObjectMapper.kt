@@ -32,10 +32,9 @@ import com.fasterxml.jackson.module.kotlin.jacksonMapperBuilder
  * for binding serialization logic.
  */
 object DefaultObjectMapper {
-    val INSTANCE: ObjectMapper =
-        jacksonMapperBuilder()
-            .enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS)
-            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-            .build()
-            .findAndRegisterModules()
+    val INSTANCE: ObjectMapper = jacksonMapperBuilder()
+        .enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS)
+        .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+        .build()
+        .findAndRegisterModules()
 }
