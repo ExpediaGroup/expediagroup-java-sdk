@@ -1,5 +1,5 @@
 plugins {
-    id("com.apollographql.apollo") version "4.3.1"
+    id("com.apollographql.apollo") version "4.3.2"
 }
 
 version = "0.0.1-SNAPSHOT"
