@@ -74,44 +74,44 @@ class CreateBookingOperation(
         requestId: UUID?,
         message: String?,
         cause: Throwable?
-    ): ExpediaGroupApiException =
-        when (code) {
-            400 ->
-                CreateBooking400Exception(
-                    code = code,
-                    requestId = requestId,
-                    errorResponse =
-                        errorResponseStr?.let {
-                            try {
-                                com.expediagroup.sdk.exemplar.rest.core.mapper.DefaultObjectMapper.INSTANCE.readValue(errorResponseStr, ProblemDetail::class.java)
-                            } catch (e: Exception) {
-                                null
-                            }
-                        },
-                    message = message,
-                    cause = cause
-                )
-            404 ->
-                CreateBooking404Exception(
-                    code = code,
-                    requestId = requestId,
-                    errorResponse =
-                        errorResponseStr?.let {
-                            try {
-                                com.expediagroup.sdk.exemplar.rest.core.mapper.DefaultObjectMapper.INSTANCE.readValue(errorResponseStr, ProblemDetail::class.java)
-                            } catch (e: Exception) {
-                                null
-                            }
-                        },
-                    message = message,
-                    cause = cause
-                )
-            else ->
-                ExpediaGroupApiException(
-                    code = code,
-                    requestId = requestId,
-                    message = errorResponseStr,
-                    cause = cause
-                )
-        }
+    ): ExpediaGroupApiException = when (code) {
+        400 -> CreateBooking400Exception(
+            code = code,
+            requestId = requestId,
+            errorResponse = errorResponseStr?.let {
+                try {
+                    com.expediagroup.sdk.exemplar.rest.core.mapper.DefaultObjectMapper.INSTANCE.readValue(
+                        errorResponseStr,
+                        ProblemDetail::class.java
+                    )
+                } catch (e: Exception) {
+                    null
+                }
+            },
+            message = message,
+            cause = cause
+        )
+        404 -> CreateBooking404Exception(
+            code = code,
+            requestId = requestId,
+            errorResponse = errorResponseStr?.let {
+                try {
+                    com.expediagroup.sdk.exemplar.rest.core.mapper.DefaultObjectMapper.INSTANCE.readValue(
+                        errorResponseStr,
+                        ProblemDetail::class.java
+                    )
+                } catch (e: Exception) {
+                    null
+                }
+            },
+            message = message,
+            cause = cause
+        )
+        else -> ExpediaGroupApiException(
+            code = code,
+            requestId = requestId,
+            message = errorResponseStr,
+            cause = cause
+        )
+    }
 }

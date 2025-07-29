@@ -52,20 +52,20 @@ class OAuthAsyncManager(
             override val executionPipeline =
                 ExecutionPipeline(
                     requestPipeline =
-                        listOf(
-                            RequestHeadersStep(),
-                            RequestLoggingStep(
-                                logger = logger,
-                                maskHeaders = MaskHeaders(MASKED_HEADERS)
-                            )
-                        ),
-                    responsePipeline =
-                        listOf(
-                            ResponseLoggingStep(
-                                logger = logger,
-                                maskBody = MaskJson(MASKED_BODY_FIELDS)
-                            )
+                    listOf(
+                        RequestHeadersStep(),
+                        RequestLoggingStep(
+                            logger = logger,
+                            maskHeaders = MaskHeaders(MASKED_HEADERS)
                         )
+                    ),
+                    responsePipeline =
+                    listOf(
+                        ResponseLoggingStep(
+                            logger = logger,
+                            maskBody = MaskJson(MASKED_BODY_FIELDS)
+                        )
+                    )
                 )
         }
 
@@ -101,21 +101,20 @@ class OAuthAsyncManager(
     /**
      * Executes the authentication request and validates the response.
      */
-    private fun executeAuthenticationRequest(request: Request): CompletableFuture<Response> =
-        requestExecutor
-            .execute(request)
-            .thenApply {
-                if (it.isSuccessful) {
-                    it
-                } else {
-                    throw ExpediaGroupAuthException(
-                        requestId = it.request.id,
-                        "Received unsuccessful authentication response: [${it.status}]"
-                    )
-                }
-            }.exceptionally {
-                throw it
+    private fun executeAuthenticationRequest(request: Request): CompletableFuture<Response> = requestExecutor
+        .execute(request)
+        .thenApply {
+            if (it.isSuccessful) {
+                it
+            } else {
+                throw ExpediaGroupAuthException(
+                    requestId = it.request.id,
+                    "Received unsuccessful authentication response: [${it.status}]"
+                )
             }
+        }.exceptionally {
+            throw it
+        }
 
     companion object {
         private val logger = LoggerDecorator(LoggerFactory.getLogger(this::class.java.enclosingClass))

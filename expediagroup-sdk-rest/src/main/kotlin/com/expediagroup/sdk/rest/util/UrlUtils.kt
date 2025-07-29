@@ -30,10 +30,7 @@ object UrlUtils {
      * @return A map where the keys are template segments and the values are the corresponding path segments.
      * @throws IllegalArgumentException if either path or template is null.
      */
-    fun parsePathParams(
-        template: String,
-        path: String
-    ): Map<String, String> {
+    fun parsePathParams(template: String, path: String): Map<String, String> {
         val templateSegments = template.trim('/').split('/')
         val pathSegments = path.trim('/').split('/')
 
@@ -61,10 +58,7 @@ object UrlUtils {
      * @param destringifyStrategies The strategy to destringify query parameter values (e.g., comma-delimited, space-delimited).
      * @return A map where the keys are parameter names and the values are lists of parameter values.
      */
-    fun parseQueryParams(
-        query: String,
-        destringifyStrategies: Map<String, String>
-    ): Map<String, MutableList<String>> =
+    fun parseQueryParams(query: String, destringifyStrategies: Map<String, String>): Map<String, MutableList<String>> =
         buildMap {
             URLDecoder.decode(query, StandardCharsets.UTF_8.name())
                 .splitToSequence('&')
@@ -100,14 +94,13 @@ object UrlUtils {
         values: Collection<String>,
         objectMapper: ObjectMapper,
         typeRef: TypeReference<T>
-    ): T =
-        if (objectMapper.typeFactory.constructType(typeRef).let { it.isContainerType || it.isArrayType }) {
-            objectMapper.convertValue(values, typeRef)
-        } else {
-            require(values.isNotEmpty()) {
-                "Cannot resolve type for empty values"
-            }
-
-            objectMapper.convertValue(values.first(), typeRef)
+    ): T = if (objectMapper.typeFactory.constructType(typeRef).let { it.isContainerType || it.isArrayType }) {
+        objectMapper.convertValue(values, typeRef)
+    } else {
+        require(values.isNotEmpty()) {
+            "Cannot resolve type for empty values"
         }
+
+        objectMapper.convertValue(values.first(), typeRef)
+    }
 }

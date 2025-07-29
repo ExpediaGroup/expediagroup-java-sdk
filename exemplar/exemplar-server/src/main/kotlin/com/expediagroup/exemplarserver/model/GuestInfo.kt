@@ -24,15 +24,12 @@ data class GuestInfo(
     @field:NotBlank
     @Schema(description = "First name", example = "John")
     val firstName: String,
-
     @field:NotBlank
     @Schema(description = "Last name", example = "Doe")
     val lastName: String,
-
     @field:NotBlank
     @Schema(description = "Email address", example = "john.doe@example.com")
     val email: String,
-
     @Schema(description = "Phone number", example = "+1-555-123-4567")
     val phoneNumber: String?
 )

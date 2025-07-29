@@ -26,10 +26,10 @@ internal class TestPaginator(private val availablePages: Int) : Paginator<TestPa
         return TestPaginatedResponse(
             data = TestQuery.Data {},
             pageInfo =
-                PageInfo(
-                    pageSize = 1,
-                    hasNext = hasNext()
-                ),
+            PageInfo(
+                pageSize = 1,
+                hasNext = hasNext()
+            ),
             rawResponse = RawResponse(data = TestQuery.Data {}, errors = emptyList())
         )
     }

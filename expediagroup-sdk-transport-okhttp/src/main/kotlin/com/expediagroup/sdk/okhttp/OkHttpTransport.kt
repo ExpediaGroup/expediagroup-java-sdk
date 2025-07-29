@@ -46,16 +46,15 @@ class OkHttpTransport(private val okHttpClient: OkHttpClient) : Transport {
      * @return The SDK response resulting from the HTTP request execution.
      * @throws ExpediaGroupNetworkException If an error occurs during the request execution.
      */
-    override fun execute(request: Request): Response =
-        try {
-            request.toOkHttpRequest().let { okHttpClient.newCall(it).execute() }.toSDKResponse(request)
-        } catch (e: Exception) {
-            throw ExpediaGroupNetworkException(
-                requestId = request.id,
-                message = "Failed to execute the request",
-                cause = e
-            )
-        }
+    override fun execute(request: Request): Response = try {
+        request.toOkHttpRequest().let { okHttpClient.newCall(it).execute() }.toSDKResponse(request)
+    } catch (e: Exception) {
+        throw ExpediaGroupNetworkException(
+            requestId = request.id,
+            message = "Failed to execute the request",
+            cause = e
+        )
+    }
 
     override fun dispose() {
         okHttpClient.dispatcher.executorService.shutdown()

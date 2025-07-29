@@ -29,17 +29,23 @@ import com.fasterxml.jackson.annotation.JsonProperty
 @ConsistentCopyVisibility data class ProblemDetail private constructor(
     @JsonProperty("type")
     val type: java.net.URI? = null,
+
     @JsonProperty("title")
     val title: kotlin.String? = null,
+
     @JsonProperty("status")
     val status: kotlin.Int? = null,
+
     @JsonProperty("detail")
     val detail: kotlin.String? = null,
+
     @JsonProperty("instance")
     val instance: java.net.URI? = null,
+
     @JsonProperty("properties")
     val properties: kotlin.collections.Map<kotlin.String, kotlin.Any>? = null
 ) {
+
     companion object {
         @JvmStatic
         fun builder() = Builder()
@@ -54,39 +60,35 @@ import com.fasterxml.jackson.annotation.JsonProperty
         private var properties: kotlin.collections.Map<kotlin.String, kotlin.Any>? = null
     ) {
         fun type(type: java.net.URI?) = apply { this.type = type }
-
         fun title(title: kotlin.String?) = apply { this.title = title }
-
         fun status(status: kotlin.Int?) = apply { this.status = status }
-
         fun detail(detail: kotlin.String?) = apply { this.detail = detail }
-
         fun instance(instance: java.net.URI?) = apply { this.instance = instance }
-
-        fun properties(properties: kotlin.collections.Map<kotlin.String, kotlin.Any>?) = apply { this.properties = properties }
+        fun properties(properties: kotlin.collections.Map<kotlin.String, kotlin.Any>?) = apply {
+            this.properties =
+                properties
+        }
 
         fun build(): ProblemDetail {
-            val instance =
-                ProblemDetail(
-                    type = type,
-                    title = title,
-                    status = status,
-                    detail = detail,
-                    instance = instance,
-                    properties = properties
-                )
+            val instance = ProblemDetail(
+                type = type,
+                title = title,
+                status = status,
+                detail = detail,
+                instance = instance,
+                properties = properties
+            )
 
             return instance
         }
     }
 
-    fun toBuilder() =
-        Builder(
-            type = type,
-            title = title,
-            status = status,
-            detail = detail,
-            instance = instance,
-            properties = properties
-        )
+    fun toBuilder() = Builder(
+        type = type,
+        title = title,
+        status = status,
+        detail = detail,
+        instance = instance,
+        properties = properties
+    )
 }

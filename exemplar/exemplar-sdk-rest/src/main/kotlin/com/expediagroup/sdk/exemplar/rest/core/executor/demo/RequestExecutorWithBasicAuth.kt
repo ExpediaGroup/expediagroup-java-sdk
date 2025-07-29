@@ -44,7 +44,6 @@ import com.expediagroup.sdk.core.transport.Transport
 class RequestExecutorWithBasicAuth @JvmOverloads constructor(
     transport: Transport? = null
 ) : AbstractRequestExecutor(transport) {
-
     override val executionPipeline: ExecutionPipeline = ExecutionPipeline(
         requestPipeline = listOf(
             BasicAuthStep(

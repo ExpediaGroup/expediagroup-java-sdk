@@ -54,12 +54,11 @@ class GetHotelByIdOperation(
     override fun getUrlPath(): String {
         var url = "/api/v1/hotels/{id}"
 
-        url =
-            url.replace(
-                oldValue = "{" + "id" + "}",
-                newValue = this.params.id,
-                ignoreCase = true
-            )
+        url = url.replace(
+            oldValue = "{" + "id" + "}",
+            newValue = this.params.id.toString(),
+            ignoreCase = true
+        )
 
         return url
     }
@@ -72,44 +71,44 @@ class GetHotelByIdOperation(
         requestId: UUID?,
         message: String?,
         cause: Throwable?
-    ): ExpediaGroupApiException =
-        when (code) {
-            400 ->
-                GetHotelById400Exception(
-                    code = code,
-                    requestId = requestId,
-                    errorResponse =
-                        errorResponseStr?.let {
-                            try {
-                                com.expediagroup.sdk.exemplar.rest.core.mapper.DefaultObjectMapper.INSTANCE.readValue(errorResponseStr, ProblemDetail::class.java)
-                            } catch (e: Exception) {
-                                null
-                            }
-                        },
-                    message = message,
-                    cause = cause
-                )
-            404 ->
-                GetHotelById404Exception(
-                    code = code,
-                    requestId = requestId,
-                    errorResponse =
-                        errorResponseStr?.let {
-                            try {
-                                com.expediagroup.sdk.exemplar.rest.core.mapper.DefaultObjectMapper.INSTANCE.readValue(errorResponseStr, ProblemDetail::class.java)
-                            } catch (e: Exception) {
-                                null
-                            }
-                        },
-                    message = message,
-                    cause = cause
-                )
-            else ->
-                ExpediaGroupApiException(
-                    code = code,
-                    requestId = requestId,
-                    message = errorResponseStr,
-                    cause = cause
-                )
-        }
+    ): ExpediaGroupApiException = when (code) {
+        400 -> GetHotelById400Exception(
+            code = code,
+            requestId = requestId,
+            errorResponse = errorResponseStr?.let {
+                try {
+                    com.expediagroup.sdk.exemplar.rest.core.mapper.DefaultObjectMapper.INSTANCE.readValue(
+                        errorResponseStr,
+                        ProblemDetail::class.java
+                    )
+                } catch (e: Exception) {
+                    null
+                }
+            },
+            message = message,
+            cause = cause
+        )
+        404 -> GetHotelById404Exception(
+            code = code,
+            requestId = requestId,
+            errorResponse = errorResponseStr?.let {
+                try {
+                    com.expediagroup.sdk.exemplar.rest.core.mapper.DefaultObjectMapper.INSTANCE.readValue(
+                        errorResponseStr,
+                        ProblemDetail::class.java
+                    )
+                } catch (e: Exception) {
+                    null
+                }
+            },
+            message = message,
+            cause = cause
+        )
+        else -> ExpediaGroupApiException(
+            code = code,
+            requestId = requestId,
+            message = errorResponseStr,
+            cause = cause
+        )
+    }
 }

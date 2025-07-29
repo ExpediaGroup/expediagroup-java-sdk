@@ -44,10 +44,7 @@ import java.net.URL
  * @throws IllegalStateException if the HTTP method or URL is not set
  * @throws IOException if an I/O error occurs
  */
-internal fun OperationRequestTrait.parseRequest(
-    url: URL,
-    mapper: ObjectMapper
-): Request {
+internal fun OperationRequestTrait.parseRequest(url: URL, mapper: ObjectMapper): Request {
     val builder = Request.builder().method(this.parseMethod())
 
     if (this is HeadersTrait && this.getHeaders().entries().isNotEmpty()) {
@@ -79,21 +76,20 @@ internal fun OperationRequestTrait.parseRequest(
  * @return the constructed URL
  * @throws MalformedURLException if the constructed URL is invalid
  */
-internal fun UrlPathTrait.parseURL(base: URL): URL =
-    URL(
-        StringBuilder().apply {
-            append(base.toString().trim('/'))
+internal fun UrlPathTrait.parseURL(base: URL): URL = URL(
+    StringBuilder().apply {
+        append(base.toString().trim('/'))
 
-            if (this@parseURL.getUrlPath().isNotBlank()) {
-                append(this@parseURL.getUrlPath())
-            }
+        if (this@parseURL.getUrlPath().isNotBlank()) {
+            append(this@parseURL.getUrlPath())
+        }
 
-            if (this@parseURL is UrlQueryParamsTrait && this@parseURL.getUrlQueryParams().isNotEmpty()) {
-                append("?")
-                append(this@parseURL.getUrlQueryParams().joinToString("&"))
-            }
-        }.toString()
-    )
+        if (this@parseURL is UrlQueryParamsTrait && this@parseURL.getUrlQueryParams().isNotEmpty()) {
+            append("?")
+            append(this@parseURL.getUrlQueryParams().joinToString("&"))
+        }
+    }.toString()
+)
 
 /**
  * Extension function to parse the HTTP method of an operation request.

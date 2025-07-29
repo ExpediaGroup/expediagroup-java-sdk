@@ -57,7 +57,6 @@ import org.slf4j.LoggerFactory
 class RequestExecutorWithCustomPipelineStep @JvmOverloads constructor(
     transport: Transport? = null
 ) : AbstractRequestExecutor(transport) {
-
     override val executionPipeline: ExecutionPipeline = ExecutionPipeline(
         requestPipeline = listOf(
             RequestHeadersStep(),
@@ -67,7 +66,7 @@ class RequestExecutorWithCustomPipelineStep @JvmOverloads constructor(
         responsePipeline = listOf(
             ResponseLoggingStep(logger = logger),
             CustomResponsePipelineStep()
-        ),
+        )
     )
 
     companion object {

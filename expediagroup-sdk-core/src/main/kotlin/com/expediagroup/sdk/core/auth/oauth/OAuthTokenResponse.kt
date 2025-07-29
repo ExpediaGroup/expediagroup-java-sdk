@@ -36,8 +36,8 @@ import com.fasterxml.jackson.module.kotlin.registerKotlinModule
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class OAuthTokenResponse(
-    @JsonProperty("access_token") val accessToken: String,
-    @JsonProperty("expires_in") val expiresIn: Long
+    @param:JsonProperty("access_token") val accessToken: String,
+    @param:JsonProperty("expires_in") val expiresIn: Long
 ) {
     companion object {
         private val objectMapper =
