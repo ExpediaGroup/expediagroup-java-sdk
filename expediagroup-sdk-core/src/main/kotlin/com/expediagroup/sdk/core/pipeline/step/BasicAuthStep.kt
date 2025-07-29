@@ -23,11 +23,10 @@ import com.expediagroup.sdk.core.pipeline.RequestPipelineStep
 class BasicAuthStep(
     private val authenticationManager: BasicAuthManager
 ) : RequestPipelineStep {
-    override fun invoke(request: Request): Request =
-        authenticationManager.authenticate().let {
-            request
-                .newBuilder()
-                .setHeader("Authorization", authenticationManager.getAuthorizationHeaderValue())
-                .build()
-        }
+    override fun invoke(request: Request): Request = authenticationManager.authenticate().let {
+        request
+            .newBuilder()
+            .setHeader("Authorization", authenticationManager.getAuthorizationHeaderValue())
+            .build()
+    }
 }

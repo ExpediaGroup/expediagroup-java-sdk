@@ -12,7 +12,7 @@ class UrlQueryParamUtilsTest {
     }
 
     @Test
-    fun `invoke in StringifyQueryParam instances should correctly convert UrlQueryParam to String using provided logic`() {
+    fun `invoke in StringifyQueryParam should correctly convert UrlQueryParam to String using provided logic`() {
         val customStringify =
             StringifyQueryParam { param ->
                 "${param.key}:${param.value.joinToString("-")}"
@@ -27,7 +27,7 @@ class UrlQueryParamUtilsTest {
     }
 
     @Test
-    fun `invoke in DestringifyQueryParam instances should correctly convert String to UrlQueryParam using provided logic`() {
+    fun `invoke in DestringifyQueryParam should correctly convert String to UrlQueryParam using provided logic`() {
         val customDestringify =
             DestringifyQueryParam { name, query ->
                 val values = query.split("-")

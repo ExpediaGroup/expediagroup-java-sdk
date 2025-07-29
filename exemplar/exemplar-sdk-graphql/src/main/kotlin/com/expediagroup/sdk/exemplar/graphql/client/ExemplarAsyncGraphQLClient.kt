@@ -45,14 +45,14 @@ import java.util.concurrent.CompletableFuture
  * @see AsyncGraphQLExecutor
  * @see AsyncRequestExecutor
  */
-class ExemplarAsyncGraphQLClient
-    @JvmOverloads
-    constructor(asyncTransport: AsyncTransport? = null) : AsyncGraphQLClient() {
-        override val asyncGraphQLExecutor: AsyncGraphQLExecutor =
-            AsyncGraphQLExecutor(
-                asyncRequestExecutor = AsyncRequestExecutor(asyncTransport),
-                serverUrl = "http://localhost:8080/graphql"
-            )
+class ExemplarAsyncGraphQLClient @JvmOverloads constructor(
+    asyncTransport: AsyncTransport? = null
+) : AsyncGraphQLClient() {
+    override val asyncGraphQLExecutor: AsyncGraphQLExecutor = AsyncGraphQLExecutor(
+        asyncRequestExecutor = AsyncRequestExecutor(asyncTransport),
+        serverUrl = "http://localhost:8080/graphql"
+    )
 
-        fun <T : Operation.Data> execute(operation: Operation<T>): CompletableFuture<RawResponse<T>> = asyncGraphQLExecutor.execute(operation)
-    }
+    fun <T : Operation.Data> execute(operation: Operation<T>): CompletableFuture<RawResponse<T>> =
+        asyncGraphQLExecutor.execute(operation)
+}

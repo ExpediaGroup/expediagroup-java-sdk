@@ -14,11 +14,7 @@ import java.util.Base64
  * @param charset The character set to use for encoding the credentials. Defaults to [ISO_8859_1].
  * @return The `Basic` authentication header value as a string.
  */
-fun encodeBasic(
-    username: String,
-    password: String,
-    charset: Charset = ISO_8859_1
-): String {
+fun encodeBasic(username: String, password: String, charset: Charset = ISO_8859_1): String {
     val keyAndSecret = "$username:$password"
     val bytes = keyAndSecret.toByteArray(charset)
     val encoded = Base64.getEncoder().encodeToString(bytes)

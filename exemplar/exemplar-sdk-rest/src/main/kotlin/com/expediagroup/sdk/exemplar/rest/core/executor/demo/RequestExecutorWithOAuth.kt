@@ -50,32 +50,27 @@ import org.slf4j.LoggerFactory
  * @see OAuthManager
  * @see OAuthCredentials
  */
-class RequestExecutorWithOAuth
-    @JvmOverloads
-    constructor(
-        transport: Transport? = null
-    ) : AbstractRequestExecutor(transport) {
-        override val executionPipeline: ExecutionPipeline =
-            ExecutionPipeline(
-                requestPipeline =
-                    listOf(
-                        RequestHeadersStep(),
-                        RequestLoggingStep(logger = logger),
-                        OAuthStep(
-                            OAuthManager(
-                                credentials = OAuthCredentials(key = "key", secret = "secret"),
-                                transport = super.transport,
-                                authUrl = "https://example.com/auth" // NOTE: This implementation is tied to EG OAuth APIs
-                            )
-                        )
-                    ),
-                responsePipeline =
-                    listOf(
-                        ResponseLoggingStep(logger = logger)
-                    )
+class RequestExecutorWithOAuth @JvmOverloads constructor(
+    transport: Transport? = null
+) : AbstractRequestExecutor(transport) {
+    override val executionPipeline: ExecutionPipeline = ExecutionPipeline(
+        requestPipeline = listOf(
+            RequestHeadersStep(),
+            RequestLoggingStep(logger = logger),
+            OAuthStep(
+                OAuthManager(
+                    credentials = OAuthCredentials(key = "key", secret = "secret"),
+                    transport = super.transport,
+                    authUrl = "https://example.com/auth" // NOTE: This implementation is tied to EG OAuth APIs
+                )
             )
+        ),
+        responsePipeline = listOf(
+            ResponseLoggingStep(logger = logger)
+        )
+    )
 
-        companion object {
-            private val logger = LoggerDecorator(LoggerFactory.getLogger(this::class.java.enclosingClass))
-        }
+    companion object {
+        private val logger = LoggerDecorator(LoggerFactory.getLogger(this::class.java.enclosingClass))
     }
+}

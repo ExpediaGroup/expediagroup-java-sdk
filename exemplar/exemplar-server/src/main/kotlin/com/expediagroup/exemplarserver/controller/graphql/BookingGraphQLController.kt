@@ -36,19 +36,14 @@ class BookingGraphQLController(
     fun bookings(): List<Booking> = bookingService.findAll()
 
     @QueryMapping
-    fun booking(
-        @Argument confirmationNumber: String
-    ): Booking? =
-        try {
-            bookingService.find(confirmationNumber)
-        } catch (e: Exception) {
-            null // Return null for GraphQL instead of throwing exception
-        }
+    fun booking(@Argument confirmationNumber: String): Booking? = try {
+        bookingService.find(confirmationNumber)
+    } catch (e: Exception) {
+        null // Return null for GraphQL instead of throwing exception
+    }
 
     @MutationMapping
-    fun createBooking(
-        @Argument input: BookingInputGraphQL
-    ): Booking {
+    fun createBooking(@Argument input: BookingInputGraphQL): Booking {
         val request =
             BookingRequest(
                 hotelId = input.hotelId,
@@ -61,10 +56,7 @@ class BookingGraphQLController(
     }
 
     @MutationMapping
-    fun updateBooking(
-        @Argument confirmationNumber: String,
-        @Argument input: BookingUpdateInputGraphQL
-    ): Booking {
+    fun updateBooking(@Argument confirmationNumber: String, @Argument input: BookingUpdateInputGraphQL): Booking {
         val existing = bookingService.find(confirmationNumber)
         val updatedBooking =
             existing.copy(

@@ -53,12 +53,11 @@ class DeleteBookingOperation(
     override fun getUrlPath(): String {
         var url = "/api/v1/bookings/{confirmationNumber}"
 
-        url =
-            url.replace(
-                oldValue = "{" + "confirmationNumber" + "}",
-                newValue = this.params.confirmationNumber,
-                ignoreCase = true
-            )
+        url = url.replace(
+            oldValue = "{" + "confirmationNumber" + "}",
+            newValue = this.params.confirmationNumber,
+            ignoreCase = true
+        )
 
         return url
     }
@@ -71,44 +70,44 @@ class DeleteBookingOperation(
         requestId: UUID?,
         message: String?,
         cause: Throwable?
-    ): ExpediaGroupApiException =
-        when (code) {
-            400 ->
-                DeleteBooking400Exception(
-                    code = code,
-                    requestId = requestId,
-                    errorResponse =
-                        errorResponseStr?.let {
-                            try {
-                                com.expediagroup.sdk.exemplar.rest.core.mapper.DefaultObjectMapper.INSTANCE.readValue(errorResponseStr, ProblemDetail::class.java)
-                            } catch (e: Exception) {
-                                null
-                            }
-                        },
-                    message = message,
-                    cause = cause
-                )
-            404 ->
-                DeleteBooking404Exception(
-                    code = code,
-                    requestId = requestId,
-                    errorResponse =
-                        errorResponseStr?.let {
-                            try {
-                                com.expediagroup.sdk.exemplar.rest.core.mapper.DefaultObjectMapper.INSTANCE.readValue(errorResponseStr, ProblemDetail::class.java)
-                            } catch (e: Exception) {
-                                null
-                            }
-                        },
-                    message = message,
-                    cause = cause
-                )
-            else ->
-                ExpediaGroupApiException(
-                    code = code,
-                    requestId = requestId,
-                    message = errorResponseStr,
-                    cause = cause
-                )
-        }
+    ): ExpediaGroupApiException = when (code) {
+        400 -> DeleteBooking400Exception(
+            code = code,
+            requestId = requestId,
+            errorResponse = errorResponseStr?.let {
+                try {
+                    com.expediagroup.sdk.exemplar.rest.core.mapper.DefaultObjectMapper.INSTANCE.readValue(
+                        errorResponseStr,
+                        ProblemDetail::class.java
+                    )
+                } catch (e: Exception) {
+                    null
+                }
+            },
+            message = message,
+            cause = cause
+        )
+        404 -> DeleteBooking404Exception(
+            code = code,
+            requestId = requestId,
+            errorResponse = errorResponseStr?.let {
+                try {
+                    com.expediagroup.sdk.exemplar.rest.core.mapper.DefaultObjectMapper.INSTANCE.readValue(
+                        errorResponseStr,
+                        ProblemDetail::class.java
+                    )
+                } catch (e: Exception) {
+                    null
+                }
+            },
+            message = message,
+            cause = cause
+        )
+        else -> ExpediaGroupApiException(
+            code = code,
+            requestId = requestId,
+            message = errorResponseStr,
+            cause = cause
+        )
+    }
 }

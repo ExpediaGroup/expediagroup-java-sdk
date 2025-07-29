@@ -41,24 +41,20 @@ import com.expediagroup.sdk.core.transport.Transport
  * @see BasicAuthManager
  * @see BasicAuthCredentials
  */
-class RequestExecutorWithBasicAuth
-    @JvmOverloads
-    constructor(
-        transport: Transport? = null
-    ) : AbstractRequestExecutor(transport) {
-        override val executionPipeline: ExecutionPipeline =
-            ExecutionPipeline(
-                requestPipeline =
-                    listOf(
-                        BasicAuthStep(
-                            BasicAuthManager(
-                                BasicAuthCredentials(
-                                    username = "user",
-                                    password = "password"
-                                )
-                            )
-                        )
-                    ),
-                responsePipeline = listOf()
+class RequestExecutorWithBasicAuth @JvmOverloads constructor(
+    transport: Transport? = null
+) : AbstractRequestExecutor(transport) {
+    override val executionPipeline: ExecutionPipeline = ExecutionPipeline(
+        requestPipeline = listOf(
+            BasicAuthStep(
+                BasicAuthManager(
+                    BasicAuthCredentials(
+                        username = "user",
+                        password = "password"
+                    )
+                )
             )
-    }
+        ),
+        responsePipeline = listOf()
+    )
+}

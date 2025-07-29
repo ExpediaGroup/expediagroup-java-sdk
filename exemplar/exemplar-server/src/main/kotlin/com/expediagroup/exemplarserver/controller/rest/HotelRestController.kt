@@ -39,7 +39,11 @@ class HotelRestController(
 ) {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    @Operation(operationId = "search-hotel", summary = "Search hotels", description = "Search for hotels based on criteria")
+    @Operation(
+        operationId = "search-hotel",
+        summary = "Search hotels",
+        description = "Search for hotels based on criteria"
+    )
     @ApiResponses(value = [ApiResponse(responseCode = "200", description = "Successfully retrieved hotels")])
     fun search(
         @RequestParam(required = false) city: String?,
@@ -48,14 +52,16 @@ class HotelRestController(
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    @Operation(operationId = "get-hotel-by-id", summary = "Get hotel by ID", description = "Retrieve detailed information about a specific hotel")
+    @Operation(
+        operationId = "get-hotel-by-id",
+        summary = "Get hotel by ID",
+        description = "Retrieve detailed information about a specific hotel"
+    )
     @ApiResponses(
         value = [
             ApiResponse(responseCode = "200", description = "Successfully retrieved hotel"),
             ApiResponse(responseCode = "404", description = "Hotel not found")
         ]
     )
-    fun findById(
-        @PathVariable id: Long
-    ): Hotel = hotelService.findById(id)
+    fun findById(@PathVariable id: Long): Hotel = hotelService.findById(id)
 }

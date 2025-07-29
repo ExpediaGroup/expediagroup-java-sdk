@@ -38,7 +38,13 @@ class MetadataLoaderTest {
         try {
             Thread.currentThread().contextClassLoader =
                 object : ClassLoader(originalClassLoader) {
-                    override fun getResourceAsStream(name: String?): InputStream? = if (name == "sdk.properties") null else super.getResourceAsStream(name)
+                    override fun getResourceAsStream(name: String?): InputStream? = if (name ==
+                        "sdk.properties"
+                    ) {
+                        null
+                    } else {
+                        super.getResourceAsStream(name)
+                    }
                 }
 
             val metadata = MetadataLoader.load()

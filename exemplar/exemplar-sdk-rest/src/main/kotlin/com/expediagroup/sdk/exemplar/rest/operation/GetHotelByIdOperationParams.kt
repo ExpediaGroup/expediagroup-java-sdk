@@ -26,7 +26,9 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 @ConsistentCopyVisibility
 data class GetHotelByIdOperationParams private constructor(
     val id: kotlin.Long
+
 ) {
+
     companion object {
         @JvmStatic
         fun builder() = Builder()
@@ -34,6 +36,7 @@ data class GetHotelByIdOperationParams private constructor(
 
     class Builder(
         @JsonProperty("id") private var id: kotlin.Long? = null
+
     ) {
         /**
          * @param id
@@ -41,28 +44,24 @@ data class GetHotelByIdOperationParams private constructor(
         fun id(id: kotlin.Long) = apply { this.id = id }
 
         fun build(): GetHotelByIdOperationParams {
-            val id =
-                this.id.getOrThrow {
-                    IllegalArgumentException("id must not be null")
-                }
+            val id = this.id.getOrThrow {
+                IllegalArgumentException("id must not be null")
+            }
 
-            val params =
-                GetHotelByIdOperationParams(
-                    id = id
-                )
+            val params = GetHotelByIdOperationParams(
+                id = id
+            )
             return params
         }
     }
 
-    fun toBuilder() =
-        Builder(
-            id = id
-        )
+    fun toBuilder() = Builder(
+        id = id
+    )
 
-    fun getPathParams(): Map<String, String> =
-        buildMap {
-            id.also {
-                put("id", id.toString())
-            }
+    fun getPathParams(): Map<String, String> = buildMap {
+        id.also {
+            put("id", id.toString())
         }
+    }
 }

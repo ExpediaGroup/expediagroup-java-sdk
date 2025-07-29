@@ -35,7 +35,8 @@ class BookingService(
 ) {
     fun findAll(): List<Booking> = bookingRepository.findAll()
 
-    fun find(confirmationNumber: String): Booking = bookingRepository.find(confirmationNumber) ?: throw BookingNotFoundException("Booking with confirmation number $confirmationNumber does not exist")
+    fun find(confirmationNumber: String): Booking = bookingRepository.find(confirmationNumber)
+        ?: throw BookingNotFoundException("Booking with confirmation number $confirmationNumber does not exist")
 
     fun create(request: BookingRequest): Booking {
         val hotel = hotelService.findById(request.hotelId)
@@ -65,10 +66,7 @@ class BookingService(
         return bookingRepository.save(booking)
     }
 
-    fun update(
-        confirmationNumber: String,
-        booking: Booking
-    ): Booking {
+    fun update(confirmationNumber: String, booking: Booking): Booking {
         val existingBooking =
             bookingRepository.find(confirmationNumber)
                 ?: throw BookingNotFoundException("Booking with confirmation number $confirmationNumber does not exist")

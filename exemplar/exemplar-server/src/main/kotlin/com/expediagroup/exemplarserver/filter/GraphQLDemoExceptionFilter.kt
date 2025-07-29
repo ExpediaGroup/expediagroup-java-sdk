@@ -39,11 +39,7 @@ import java.io.InputStreamReader
  */
 @Component
 class GraphQLDemoExceptionFilter : Filter {
-    override fun doFilter(
-        request: ServletRequest,
-        response: ServletResponse,
-        chain: FilterChain
-    ) {
+    override fun doFilter(request: ServletRequest, response: ServletResponse, chain: FilterChain) {
         val httpRequest = request as HttpServletRequest
         val httpResponse = response as HttpServletResponse
 

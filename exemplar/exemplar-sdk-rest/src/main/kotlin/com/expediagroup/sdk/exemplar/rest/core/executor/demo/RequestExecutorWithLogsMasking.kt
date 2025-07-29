@@ -58,31 +58,27 @@ import org.slf4j.LoggerFactory
  * @see MaskJson
  * @see RequestLoggingStep
  */
-class RequestExecutorWithLogsMasking
-    @JvmOverloads
-    constructor(
-        transport: Transport? = null
-    ) : AbstractRequestExecutor(transport) {
-        /** Masks sensitive HTTP headers to prevent credential leaks in logs */
-        private val headersMask = MaskHeaders(listOf("authorization"))
+class RequestExecutorWithLogsMasking @JvmOverloads constructor(
+    transport: Transport? = null
+) : AbstractRequestExecutor(transport) {
+    /** Masks sensitive HTTP headers to prevent credential leaks in logs */
+    private val headersMask = MaskHeaders(listOf("authorization"))
 
-        /** Masks sensitive JSON fields in request/response bodies */
-        private val bodyMask = MaskJson(setOf("access_token"))
+    /** Masks sensitive JSON fields in request/response bodies */
+    private val bodyMask = MaskJson(setOf("access_token"))
 
-        override val executionPipeline: ExecutionPipeline =
-            ExecutionPipeline(
-                requestPipeline =
-                    listOf(
-                        RequestLoggingStep(
-                            logger = logger,
-                            maskHeaders = headersMask,
-                            maskBody = bodyMask
-                        )
-                    ),
-                responsePipeline = listOf()
+    override val executionPipeline: ExecutionPipeline = ExecutionPipeline(
+        requestPipeline = listOf(
+            RequestLoggingStep(
+                logger = logger,
+                maskHeaders = headersMask,
+                maskBody = bodyMask
             )
+        ),
+        responsePipeline = listOf()
+    )
 
-        companion object {
-            private val logger = LoggerDecorator(LoggerFactory.getLogger(this::class.java.enclosingClass))
-        }
+    companion object {
+        private val logger = LoggerDecorator(LoggerFactory.getLogger(this::class.java.enclosingClass))
     }
+}
