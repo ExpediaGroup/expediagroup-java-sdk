@@ -5,7 +5,7 @@ charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = true
 end_of_line = lf
-max_line_length = 200
+max_line_length = 120
 
 [*.{js,json,yml,yaml,sh}]
 indent_size = 2

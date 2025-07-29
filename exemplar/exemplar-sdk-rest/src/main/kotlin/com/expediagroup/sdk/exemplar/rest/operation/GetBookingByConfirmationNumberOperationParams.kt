@@ -26,7 +26,9 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 @ConsistentCopyVisibility
 data class GetBookingByConfirmationNumberOperationParams private constructor(
     val confirmationNumber: kotlin.String
+
 ) {
+
     companion object {
         @JvmStatic
         fun builder() = Builder()
@@ -34,22 +36,22 @@ data class GetBookingByConfirmationNumberOperationParams private constructor(
 
     class Builder(
         @JsonProperty("confirmationNumber") private var confirmationNumber: kotlin.String? = null
+
     ) {
         /**
          * @param confirmationNumber Booking confirmation number
          */
-        fun confirmationNumber(confirmationNumber: kotlin.String) = apply { this.confirmationNumber = confirmationNumber }
+        fun confirmationNumber(confirmationNumber: kotlin.String) =
+            apply { this.confirmationNumber = confirmationNumber }
 
         fun build(): GetBookingByConfirmationNumberOperationParams {
-            val confirmationNumber =
-                this.confirmationNumber.getOrThrow {
-                    IllegalArgumentException("confirmationNumber must not be null")
-                }
+            val confirmationNumber = this.confirmationNumber.getOrThrow {
+                IllegalArgumentException("confirmationNumber must not be null")
+            }
 
-            val params =
-                GetBookingByConfirmationNumberOperationParams(
-                    confirmationNumber = confirmationNumber
-                )
+            val params = GetBookingByConfirmationNumberOperationParams(
+                confirmationNumber = confirmationNumber
+            )
             return params
         }
     }

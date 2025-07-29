@@ -31,7 +31,6 @@ class CreateBooking400Exception(
     message = message,
     cause = cause
 )
-
 class CreateBooking404Exception(
     code: Int = 404,
     val errorResponse: ProblemDetail?,

@@ -28,7 +28,8 @@ class HotelGraphQLController(
     private val hotelService: HotelService
 ) {
     @QueryMapping
-    fun hotels(@Argument city: String?, @Argument maxPrice: BigDecimal?): List<Hotel> = hotelService.search(city, maxPrice)
+    fun hotels(@Argument city: String?, @Argument maxPrice: BigDecimal?): List<Hotel> =
+        hotelService.search(city, maxPrice)
 
     @QueryMapping
     fun hotel(@Argument id: Long): Hotel? = try {

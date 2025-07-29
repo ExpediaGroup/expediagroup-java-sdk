@@ -63,7 +63,8 @@ constructor(asyncTransport: AsyncTransport? = null) : AsyncRestClient() {
      * @param operation The operation to execute.
      * @return A CompletableFuture containing the response.
      */
-    fun execute(operation: OperationNoResponseBodyTrait): CompletableFuture<Response<Nothing?>> = restExecutor.execute(operation)
+    fun execute(operation: OperationNoResponseBodyTrait): CompletableFuture<Response<Nothing?>> =
+        restExecutor.execute(operation)
 
     /**
      * Executes an operation that expects a response body.
@@ -72,5 +73,6 @@ constructor(asyncTransport: AsyncTransport? = null) : AsyncRestClient() {
      * @param operation The operation to execute.
      * @return A CompletableFuture containing the response.
      */
-    fun <T : Any> execute(operation: JacksonModelOperationResponseBodyTrait<T>): CompletableFuture<Response<T>> = restExecutor.execute(operation)
+    fun <T : Any> execute(operation: JacksonModelOperationResponseBodyTrait<T>): CompletableFuture<Response<T>> =
+        restExecutor.execute(operation)
 }

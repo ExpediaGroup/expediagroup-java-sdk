@@ -69,5 +69,6 @@ constructor(transport: Transport? = null) : RestClient() {
      * @param operation The operation to execute.
      * @return The response of the operation.
      */
-    fun <T : Any> execute(operation: JacksonModelOperationResponseBodyTrait<T>): Response<T> = restExecutor.execute(operation)
+    fun <T : Any> execute(operation: JacksonModelOperationResponseBodyTrait<T>): Response<T> =
+        restExecutor.execute(operation)
 }

@@ -28,22 +28,28 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * @param guestInfo Guest information
  */
 @ConsistentCopyVisibility data class BookingRequest private constructor(
-    // Hotel ID to book
+    /* Hotel ID to book */
     @JsonProperty("hotelId")
     val hotelId: kotlin.Long,
-    // Check-in date
+
+    /* Check-in date */
     @JsonProperty("checkInDate")
     val checkInDate: java.time.LocalDate,
-    // Check-out date
+
+    /* Check-out date */
     @JsonProperty("checkOutDate")
     val checkOutDate: java.time.LocalDate,
-    // Number of guests
+
+    /* Number of guests */
     @JsonProperty("guests")
     val guests: kotlin.Int,
-    // Guest information
+
+    /* Guest information */
     @JsonProperty("guestInfo")
     val guestInfo: GuestInfo
+
 ) {
+
     companion object {
         @JvmStatic
         fun builder() = Builder()
@@ -57,49 +63,39 @@ import com.fasterxml.jackson.annotation.JsonProperty
         private var guestInfo: GuestInfo? = null
     ) {
         fun hotelId(hotelId: kotlin.Long) = apply { this.hotelId = hotelId }
-
         fun checkInDate(checkInDate: java.time.LocalDate) = apply { this.checkInDate = checkInDate }
-
         fun checkOutDate(checkOutDate: java.time.LocalDate) = apply { this.checkOutDate = checkOutDate }
-
         fun guests(guests: kotlin.Int) = apply { this.guests = guests }
-
         fun guestInfo(guestInfo: GuestInfo) = apply { this.guestInfo = guestInfo }
 
         fun build(): BookingRequest {
-            val hotelId =
-                this.hotelId.getOrThrow {
-                    IllegalArgumentException("hotelId must not be null")
-                }
+            val hotelId = this.hotelId.getOrThrow {
+                IllegalArgumentException("hotelId must not be null")
+            }
 
-            val checkInDate =
-                this.checkInDate.getOrThrow {
-                    IllegalArgumentException("checkInDate must not be null")
-                }
+            val checkInDate = this.checkInDate.getOrThrow {
+                IllegalArgumentException("checkInDate must not be null")
+            }
 
-            val checkOutDate =
-                this.checkOutDate.getOrThrow {
-                    IllegalArgumentException("checkOutDate must not be null")
-                }
+            val checkOutDate = this.checkOutDate.getOrThrow {
+                IllegalArgumentException("checkOutDate must not be null")
+            }
 
-            val guests =
-                this.guests.getOrThrow {
-                    IllegalArgumentException("guests must not be null")
-                }
+            val guests = this.guests.getOrThrow {
+                IllegalArgumentException("guests must not be null")
+            }
 
-            val guestInfo =
-                this.guestInfo.getOrThrow {
-                    IllegalArgumentException("guestInfo must not be null")
-                }
+            val guestInfo = this.guestInfo.getOrThrow {
+                IllegalArgumentException("guestInfo must not be null")
+            }
 
-            val instance =
-                BookingRequest(
-                    hotelId = hotelId,
-                    checkInDate = checkInDate,
-                    checkOutDate = checkOutDate,
-                    guests = guests,
-                    guestInfo = guestInfo
-                )
+            val instance = BookingRequest(
+                hotelId = hotelId,
+                checkInDate = checkInDate,
+                checkOutDate = checkOutDate,
+                guests = guests,
+                guestInfo = guestInfo
+            )
 
             return instance
         }

@@ -50,22 +50,31 @@ class GraphQLScalarConfiguration {
         .description("LocalDate scalar")
         .coercing(
             object : Coercing<LocalDate, String> {
-                override fun serialize(dataFetcherResult: Any, graphQLContext: GraphQLContext, locale: Locale): String = when (dataFetcherResult) {
-                    is LocalDate -> dataFetcherResult.format(DateTimeFormatter.ISO_LOCAL_DATE)
-                    else -> throw CoercingSerializeException("Expected LocalDate but was ${dataFetcherResult::class.java}")
-                }
+                override fun serialize(dataFetcherResult: Any, graphQLContext: GraphQLContext, locale: Locale): String =
+                    when (dataFetcherResult) {
+                        is LocalDate -> dataFetcherResult.format(DateTimeFormatter.ISO_LOCAL_DATE)
+                        else -> throw CoercingSerializeException(
+                            "Expected LocalDate but was ${dataFetcherResult::class.java}"
+                        )
+                    }
 
-                override fun parseValue(input: Any, graphQLContext: GraphQLContext, locale: Locale): LocalDate = when (input) {
-                    is String ->
-                        try {
-                            LocalDate.parse(input, DateTimeFormatter.ISO_LOCAL_DATE)
-                        } catch (e: DateTimeParseException) {
-                            throw CoercingParseValueException("Invalid date format: $input", e)
-                        }
-                    else -> throw CoercingParseValueException("Expected String but was ${input::class.java}")
-                }
+                override fun parseValue(input: Any, graphQLContext: GraphQLContext, locale: Locale): LocalDate =
+                    when (input) {
+                        is String ->
+                            try {
+                                LocalDate.parse(input, DateTimeFormatter.ISO_LOCAL_DATE)
+                            } catch (e: DateTimeParseException) {
+                                throw CoercingParseValueException("Invalid date format: $input", e)
+                            }
+                        else -> throw CoercingParseValueException("Expected String but was ${input::class.java}")
+                    }
 
-                override fun parseLiteral(input: Value<*>, variables: CoercedVariables, graphQLContext: GraphQLContext, locale: Locale): LocalDate = when (input) {
+                override fun parseLiteral(
+                    input: Value<*>,
+                    variables: CoercedVariables,
+                    graphQLContext: GraphQLContext,
+                    locale: Locale
+                ): LocalDate = when (input) {
                     is StringValue ->
                         try {
                             LocalDate.parse(input.value, DateTimeFormatter.ISO_LOCAL_DATE)
@@ -83,22 +92,31 @@ class GraphQLScalarConfiguration {
         .description("OffsetDateTime scalar")
         .coercing(
             object : Coercing<OffsetDateTime, String> {
-                override fun serialize(dataFetcherResult: Any, graphQLContext: GraphQLContext, locale: Locale): String = when (dataFetcherResult) {
-                    is OffsetDateTime -> dataFetcherResult.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
-                    else -> throw CoercingSerializeException("Expected OffsetDateTime but was ${dataFetcherResult::class.java}")
-                }
+                override fun serialize(dataFetcherResult: Any, graphQLContext: GraphQLContext, locale: Locale): String =
+                    when (dataFetcherResult) {
+                        is OffsetDateTime -> dataFetcherResult.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
+                        else -> throw CoercingSerializeException(
+                            "Expected OffsetDateTime but was ${dataFetcherResult::class.java}"
+                        )
+                    }
 
-                override fun parseValue(input: Any, graphQLContext: GraphQLContext, locale: Locale): OffsetDateTime = when (input) {
-                    is String ->
-                        try {
-                            OffsetDateTime.parse(input, DateTimeFormatter.ISO_OFFSET_DATE_TIME)
-                        } catch (e: DateTimeParseException) {
-                            throw CoercingParseValueException("Invalid datetime format: $input", e)
-                        }
-                    else -> throw CoercingParseValueException("Expected String but was ${input::class.java}")
-                }
+                override fun parseValue(input: Any, graphQLContext: GraphQLContext, locale: Locale): OffsetDateTime =
+                    when (input) {
+                        is String ->
+                            try {
+                                OffsetDateTime.parse(input, DateTimeFormatter.ISO_OFFSET_DATE_TIME)
+                            } catch (e: DateTimeParseException) {
+                                throw CoercingParseValueException("Invalid datetime format: $input", e)
+                            }
+                        else -> throw CoercingParseValueException("Expected String but was ${input::class.java}")
+                    }
 
-                override fun parseLiteral(input: Value<*>, variables: CoercedVariables, graphQLContext: GraphQLContext, locale: Locale): OffsetDateTime = when (input) {
+                override fun parseLiteral(
+                    input: Value<*>,
+                    variables: CoercedVariables,
+                    graphQLContext: GraphQLContext,
+                    locale: Locale
+                ): OffsetDateTime = when (input) {
                     is StringValue ->
                         try {
                             OffsetDateTime.parse(input.value, DateTimeFormatter.ISO_OFFSET_DATE_TIME)
@@ -116,25 +134,37 @@ class GraphQLScalarConfiguration {
         .description("BigDecimal scalar")
         .coercing(
             object : Coercing<BigDecimal, BigDecimal> {
-                override fun serialize(dataFetcherResult: Any, graphQLContext: GraphQLContext, locale: Locale): BigDecimal = when (dataFetcherResult) {
+                override fun serialize(
+                    dataFetcherResult: Any,
+                    graphQLContext: GraphQLContext,
+                    locale: Locale
+                ): BigDecimal = when (dataFetcherResult) {
                     is BigDecimal -> dataFetcherResult
                     is Number -> BigDecimal.valueOf(dataFetcherResult.toDouble())
                     else -> throw CoercingSerializeException("Expected Number but was ${dataFetcherResult::class.java}")
                 }
 
-                override fun parseValue(input: Any, graphQLContext: GraphQLContext, locale: Locale): BigDecimal = when (input) {
-                    is BigDecimal -> input
-                    is Number -> BigDecimal.valueOf(input.toDouble())
-                    is String ->
-                        try {
-                            BigDecimal(input)
-                        } catch (e: NumberFormatException) {
-                            throw CoercingParseValueException("Invalid number format: $input", e)
-                        }
-                    else -> throw CoercingParseValueException("Expected Number or String but was ${input::class.java}")
-                }
+                override fun parseValue(input: Any, graphQLContext: GraphQLContext, locale: Locale): BigDecimal =
+                    when (input) {
+                        is BigDecimal -> input
+                        is Number -> BigDecimal.valueOf(input.toDouble())
+                        is String ->
+                            try {
+                                BigDecimal(input)
+                            } catch (e: NumberFormatException) {
+                                throw CoercingParseValueException("Invalid number format: $input", e)
+                            }
+                        else -> throw CoercingParseValueException(
+                            "Expected Number or String but was ${input::class.java}"
+                        )
+                    }
 
-                override fun parseLiteral(input: Value<*>, variables: CoercedVariables, graphQLContext: GraphQLContext, locale: Locale): BigDecimal = when (input) {
+                override fun parseLiteral(
+                    input: Value<*>,
+                    variables: CoercedVariables,
+                    graphQLContext: GraphQLContext,
+                    locale: Locale
+                ): BigDecimal = when (input) {
                     is StringValue ->
                         try {
                             BigDecimal(input.value)

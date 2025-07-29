@@ -31,7 +31,6 @@ class GetBookingByConfirmationNumber400Exception(
     message = message,
     cause = cause
 )
-
 class GetBookingByConfirmationNumber404Exception(
     code: Int = 404,
     val errorResponse: ProblemDetail?,

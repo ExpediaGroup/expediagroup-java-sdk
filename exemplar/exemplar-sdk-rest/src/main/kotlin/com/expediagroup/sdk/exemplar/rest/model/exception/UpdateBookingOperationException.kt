@@ -31,7 +31,6 @@ class UpdateBooking400Exception(
     message = message,
     cause = cause
 )
-
 class UpdateBooking404Exception(
     code: Int = 404,
     val errorResponse: ProblemDetail?,

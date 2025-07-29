@@ -32,7 +32,9 @@ data class SearchHotelOperationParams private constructor(
         null,
     val maxPrice: java.math.BigDecimal? =
         null
+
 ) {
+
     companion object {
         @JvmStatic
         fun builder() = Builder()
@@ -41,6 +43,7 @@ data class SearchHotelOperationParams private constructor(
     class Builder(
         @JsonProperty("city") private var city: kotlin.String? = null,
         @JsonProperty("maxPrice") private var maxPrice: java.math.BigDecimal? = null
+
     ) {
         /**
          * @param city
@@ -53,11 +56,10 @@ data class SearchHotelOperationParams private constructor(
         fun maxPrice(maxPrice: java.math.BigDecimal) = apply { this.maxPrice = maxPrice }
 
         fun build(): SearchHotelOperationParams {
-            val params =
-                SearchHotelOperationParams(
-                    city = city,
-                    maxPrice = maxPrice
-                )
+            val params = SearchHotelOperationParams(
+                city = city,
+                maxPrice = maxPrice
+            )
             return params
         }
     }
@@ -70,10 +72,9 @@ data class SearchHotelOperationParams private constructor(
     fun getQueryParams(): List<UrlQueryParam> = buildList {
         city?.let {
             val key = "city"
-            val value =
-                buildList {
-                    add(it)
-                }
+            val value = buildList {
+                add(it)
+            }
 
             add(
                 UrlQueryParam(
@@ -85,10 +86,9 @@ data class SearchHotelOperationParams private constructor(
         }
         maxPrice?.let {
             val key = "maxPrice"
-            val value =
-                buildList {
-                    add(it.toString())
-                }
+            val value = buildList {
+                add(it.toString())
+            }
 
             add(
                 UrlQueryParam(

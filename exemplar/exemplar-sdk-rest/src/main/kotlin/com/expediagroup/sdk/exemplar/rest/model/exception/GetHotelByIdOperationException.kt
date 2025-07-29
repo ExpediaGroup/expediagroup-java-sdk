@@ -31,7 +31,6 @@ class GetHotelById400Exception(
     message = message,
     cause = cause
 )
-
 class GetHotelById404Exception(
     code: Int = 404,
     val errorResponse: ProblemDetail?,
