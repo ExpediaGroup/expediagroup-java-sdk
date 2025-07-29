@@ -20,5 +20,5 @@ import java.lang.RuntimeException
 
 class BookingNotFoundException(
     message: String? = null,
-    cause: Throwable? = null,
+    cause: Throwable? = null
 ) : RuntimeException(message, cause)

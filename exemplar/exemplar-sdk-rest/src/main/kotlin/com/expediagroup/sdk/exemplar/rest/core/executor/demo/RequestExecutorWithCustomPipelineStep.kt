@@ -54,26 +54,30 @@ import org.slf4j.LoggerFactory
  * @see ResponsePipelineStep
  * @see ExecutionPipeline
  */
-class RequestExecutorWithCustomPipelineStep @JvmOverloads constructor(
-    transport: Transport? = null
-) : AbstractRequestExecutor(transport) {
+class RequestExecutorWithCustomPipelineStep
+    @JvmOverloads
+    constructor(
+        transport: Transport? = null
+    ) : AbstractRequestExecutor(transport) {
+        override val executionPipeline: ExecutionPipeline =
+            ExecutionPipeline(
+                requestPipeline =
+                    listOf(
+                        RequestHeadersStep(),
+                        RequestLoggingStep(logger = logger),
+                        CustomRequestPipelineStep()
+                    ),
+                responsePipeline =
+                    listOf(
+                        ResponseLoggingStep(logger = logger),
+                        CustomResponsePipelineStep()
+                    )
+            )
 
-    override val executionPipeline: ExecutionPipeline = ExecutionPipeline(
-        requestPipeline = listOf(
-            RequestHeadersStep(),
-            RequestLoggingStep(logger = logger),
-            CustomRequestPipelineStep()
-        ),
-        responsePipeline = listOf(
-            ResponseLoggingStep(logger = logger),
-            CustomResponsePipelineStep()
-        ),
-    )
-
-    companion object {
-        private val logger = LoggerDecorator(LoggerFactory.getLogger(this::class.java.enclosingClass))
+        companion object {
+            private val logger = LoggerDecorator(LoggerFactory.getLogger(this::class.java.enclosingClass))
+        }
     }
-}
 
 /**
  * **Custom Request Pipeline Step**

@@ -26,13 +26,20 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.ResponseStatus
+import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/v1/bookings")
 @Tag(name = "Bookings", description = "Hotel booking management API")
 class BookingRestController(private val bookingService: BookingService) {
-
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(
@@ -47,7 +54,9 @@ class BookingRestController(private val bookingService: BookingService) {
             ApiResponse(responseCode = "404", description = "Hotel not found")
         ]
     )
-    fun create(@Valid @RequestBody request: BookingRequest): Booking = bookingService.create(request)
+    fun create(
+        @Valid @RequestBody request: BookingRequest
+    ): Booking = bookingService.create(request)
 
     @GetMapping("/{confirmationNumber}")
     @ResponseStatus(HttpStatus.OK)

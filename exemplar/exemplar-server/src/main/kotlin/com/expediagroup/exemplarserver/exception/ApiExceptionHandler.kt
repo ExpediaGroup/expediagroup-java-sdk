@@ -24,15 +24,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 
 @RestControllerAdvice
 class ApiExceptionHandler {
-
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(BookingNotFoundException::class, HotelNotFoundException::class)
-    fun notFoundHandler(ex: RuntimeException): ProblemDetail =
-        ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.message)
+    fun notFoundHandler(ex: RuntimeException): ProblemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.message)
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BadRequestException::class)
-    fun badRequestHandler(ex: RuntimeException): ProblemDetail {
-        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.message)
-    }
+    fun badRequestHandler(ex: RuntimeException): ProblemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.message)
 }

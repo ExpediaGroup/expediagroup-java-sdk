@@ -32,30 +32,31 @@ class BookingGraphQLController(
     private val bookingService: BookingService,
     private val hotelService: HotelService
 ) {
+    @QueryMapping
+    fun bookings(): List<Booking> = bookingService.findAll()
 
     @QueryMapping
-    fun bookings(): List<Booking> {
-        return bookingService.findAll()
-    }
-
-    @QueryMapping
-    fun booking(@Argument confirmationNumber: String): Booking? {
-        return try {
+    fun booking(
+        @Argument confirmationNumber: String
+    ): Booking? =
+        try {
             bookingService.find(confirmationNumber)
         } catch (e: Exception) {
             null // Return null for GraphQL instead of throwing exception
         }
-    }
 
     @MutationMapping
-    fun createBooking(@Argument input: BookingInputGraphQL): Booking {
-        val request = BookingRequest(
-            hotelId = input.hotelId,
-            checkInDate = input.checkInDate,
-            checkOutDate = input.checkOutDate,
-            guests = input.guests,
-            guestInfo = input.guestInfo.toGuestInfo()
-        )
+    fun createBooking(
+        @Argument input: BookingInputGraphQL
+    ): Booking {
+        val request =
+            BookingRequest(
+                hotelId = input.hotelId,
+                checkInDate = input.checkInDate,
+                checkOutDate = input.checkOutDate,
+                guests = input.guests,
+                guestInfo = input.guestInfo.toGuestInfo()
+            )
         return bookingService.create(request)
     }
 
@@ -65,13 +66,14 @@ class BookingGraphQLController(
         @Argument input: BookingUpdateInputGraphQL
     ): Booking {
         val existing = bookingService.find(confirmationNumber)
-        val updatedBooking = existing.copy(
-            checkInDate = input.checkInDate ?: existing.checkInDate,
-            checkOutDate = input.checkOutDate ?: existing.checkOutDate,
-            guests = input.guests ?: existing.guests,
-            status = input.status ?: existing.status,
-            guestInfo = input.guestInfo?.toGuestInfo() ?: existing.guestInfo
-        )
+        val updatedBooking =
+            existing.copy(
+                checkInDate = input.checkInDate ?: existing.checkInDate,
+                checkOutDate = input.checkOutDate ?: existing.checkOutDate,
+                guests = input.guests ?: existing.guests,
+                status = input.status ?: existing.status,
+                guestInfo = input.guestInfo?.toGuestInfo() ?: existing.guestInfo
+            )
         return bookingService.update(confirmationNumber, updatedBooking)
     }
 }

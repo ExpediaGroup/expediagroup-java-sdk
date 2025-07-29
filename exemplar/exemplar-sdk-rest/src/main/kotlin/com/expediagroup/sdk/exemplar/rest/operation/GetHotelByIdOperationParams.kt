@@ -62,7 +62,7 @@ data class GetHotelByIdOperationParams private constructor(
     fun getPathParams(): Map<String, String> =
         buildMap {
             id.also {
-                put("id", id)
+                put("id", id.toString())
             }
         }
 }

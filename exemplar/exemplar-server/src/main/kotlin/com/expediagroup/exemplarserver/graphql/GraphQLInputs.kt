@@ -42,10 +42,11 @@ data class GuestInfoInputGraphQL(
     val email: String,
     val phone: String? = null
 ) {
-    fun toGuestInfo() = GuestInfo(
-        firstName = firstName,
-        lastName = lastName,
-        email = email,
-        phoneNumber = phone
-    )
+    fun toGuestInfo() =
+        GuestInfo(
+            firstName = firstName,
+            lastName = lastName,
+            email = email,
+            phoneNumber = phone
+        )
 }
