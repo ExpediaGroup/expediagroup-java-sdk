@@ -26,11 +26,11 @@ class UpdateBooking400Exception(
     message: String?,
     cause: Throwable?
 ) : ExpediaGroupApiException(
-        code = code,
-        requestId = requestId,
-        message = message,
-        cause = cause
-    )
+    code = code,
+    requestId = requestId,
+    message = message,
+    cause = cause
+)
 
 class UpdateBooking404Exception(
     code: Int = 404,
@@ -39,8 +39,8 @@ class UpdateBooking404Exception(
     message: String?,
     cause: Throwable?
 ) : ExpediaGroupApiException(
-        code = code,
-        requestId = requestId,
-        message = message,
-        cause = cause
-    )
+    code = code,
+    requestId = requestId,
+    message = message,
+    cause = cause
+)

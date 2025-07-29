@@ -65,10 +65,7 @@ class BookingService(
         return bookingRepository.save(booking)
     }
 
-    fun update(
-        confirmationNumber: String,
-        booking: Booking
-    ): Booking {
+    fun update(confirmationNumber: String, booking: Booking): Booking {
         val existingBooking =
             bookingRepository.find(confirmationNumber)
                 ?: throw BookingNotFoundException("Booking with confirmation number $confirmationNumber does not exist")

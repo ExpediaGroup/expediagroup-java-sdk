@@ -49,7 +49,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
     val amenities: kotlin.collections
         .List<
             kotlin.String
-        >,
+            >,
     // Hotel description
     @JsonProperty("description")
     val description: kotlin.String? = null,
@@ -142,16 +142,15 @@ import com.fasterxml.jackson.annotation.JsonProperty
         }
     }
 
-    fun toBuilder() =
-        Builder(
-            id = id,
-            name = name,
-            location = location,
-            pricePerNight = pricePerNight,
-            amenities = amenities,
-            description = description,
-            starRating = starRating,
-            checkInTime = checkInTime,
-            checkOutTime = checkOutTime
-        )
+    fun toBuilder() = Builder(
+        id = id,
+        name = name,
+        location = location,
+        pricePerNight = pricePerNight,
+        amenities = amenities,
+        description = description,
+        starRating = starRating,
+        checkInTime = checkInTime,
+        checkOutTime = checkOutTime
+    )
 }

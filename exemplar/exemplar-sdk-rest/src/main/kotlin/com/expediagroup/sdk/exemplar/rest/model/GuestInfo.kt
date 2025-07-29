@@ -92,11 +92,10 @@ import com.fasterxml.jackson.annotation.JsonProperty
         }
     }
 
-    fun toBuilder() =
-        Builder(
-            firstName = firstName,
-            lastName = lastName,
-            email = email,
-            phoneNumber = phoneNumber
-        )
+    fun toBuilder() = Builder(
+        firstName = firstName,
+        lastName = lastName,
+        email = email,
+        phoneNumber = phoneNumber
+    )
 }

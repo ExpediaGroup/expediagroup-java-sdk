@@ -41,10 +41,7 @@ class HotelRestController(
     @ResponseStatus(HttpStatus.OK)
     @Operation(operationId = "search-hotel", summary = "Search hotels", description = "Search for hotels based on criteria")
     @ApiResponses(value = [ApiResponse(responseCode = "200", description = "Successfully retrieved hotels")])
-    fun search(
-        @RequestParam(required = false) city: String?,
-        @RequestParam(required = false) maxPrice: BigDecimal?
-    ): List<Hotel> = hotelService.search(city, maxPrice)
+    fun search(@RequestParam(required = false) city: String?, @RequestParam(required = false) maxPrice: BigDecimal?): List<Hotel> = hotelService.search(city, maxPrice)
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
@@ -55,7 +52,5 @@ class HotelRestController(
             ApiResponse(responseCode = "404", description = "Hotel not found")
         ]
     )
-    fun findById(
-        @PathVariable id: Long
-    ): Hotel = hotelService.findById(id)
+    fun findById(@PathVariable id: Long): Hotel = hotelService.findById(id)
 }

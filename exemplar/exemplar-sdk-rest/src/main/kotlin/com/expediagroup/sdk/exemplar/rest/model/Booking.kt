@@ -158,18 +158,17 @@ import com.fasterxml.jackson.annotation.JsonProperty
         }
     }
 
-    fun toBuilder() =
-        Builder(
-            confirmationNumber = confirmationNumber,
-            status = status,
-            hotel = hotel,
-            checkInDate = checkInDate,
-            checkOutDate = checkOutDate,
-            guests = guests,
-            guestInfo = guestInfo,
-            totalPrice = totalPrice,
-            createdAt = createdAt
-        )
+    fun toBuilder() = Builder(
+        confirmationNumber = confirmationNumber,
+        status = status,
+        hotel = hotel,
+        checkInDate = checkInDate,
+        checkOutDate = checkOutDate,
+        guests = guests,
+        guestInfo = guestInfo,
+        totalPrice = totalPrice,
+        createdAt = createdAt
+    )
 
     /**
      * Booking status

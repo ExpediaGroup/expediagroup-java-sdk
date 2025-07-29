@@ -33,10 +33,9 @@ class MaskHeaders(
      * @param headers The original `Headers` object.
      * @return A new `Headers` object with the specified headers masked.
      */
-    override fun invoke(headers: Headers): Headers =
-        headers.newBuilder().apply {
-            headers.names().filter { keys.contains(it) }.forEach { key ->
-                set(key, Constant.OMITTED)
-            }
-        }.build()
+    override fun invoke(headers: Headers): Headers = headers.newBuilder().apply {
+        headers.names().filter { keys.contains(it) }.forEach { key ->
+            set(key, Constant.OMITTED)
+        }
+    }.build()
 }

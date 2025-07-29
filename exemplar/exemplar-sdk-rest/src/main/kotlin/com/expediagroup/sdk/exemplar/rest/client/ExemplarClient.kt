@@ -46,29 +46,28 @@ import com.expediagroup.sdk.rest.trait.operation.OperationNoResponseBodyTrait
  * @see DefaultObjectMapper
  */
 class ExemplarClient
-    @JvmOverloads
-    constructor(transport: Transport? = null) : RestClient() {
-        override val restExecutor: RestExecutor =
-            RestExecutor(
-                mapper = DefaultObjectMapper.INSTANCE,
-                serverUrl = "http://localhost:8080",
-                requestExecutor = RequestExecutor(transport)
-            )
+@JvmOverloads
+constructor(transport: Transport? = null) : RestClient() {
+    override val restExecutor: RestExecutor = RestExecutor(
+        mapper = DefaultObjectMapper.INSTANCE,
+        serverUrl = "http://localhost:8080",
+        requestExecutor = RequestExecutor(transport)
+    )
 
-        /**
-         * Executes an operation that does not expect a response body.
-         *
-         * @param operation The operation to execute.
-         * @return The response of the operation.
-         */
-        fun execute(operation: OperationNoResponseBodyTrait): Response<Nothing?> = restExecutor.execute(operation)
+    /**
+     * Executes an operation that does not expect a response body.
+     *
+     * @param operation The operation to execute.
+     * @return The response of the operation.
+     */
+    fun execute(operation: OperationNoResponseBodyTrait): Response<Nothing?> = restExecutor.execute(operation)
 
-        /**
-         * Executes an operation that expects a response body.
-         *
-         * @param T The type of the response body.
-         * @param operation The operation to execute.
-         * @return The response of the operation.
-         */
-        fun <T : Any> execute(operation: JacksonModelOperationResponseBodyTrait<T>): Response<T> = restExecutor.execute(operation)
-    }
+    /**
+     * Executes an operation that expects a response body.
+     *
+     * @param T The type of the response body.
+     * @param operation The operation to execute.
+     * @return The response of the operation.
+     */
+    fun <T : Any> execute(operation: JacksonModelOperationResponseBodyTrait<T>): Response<T> = restExecutor.execute(operation)
+}

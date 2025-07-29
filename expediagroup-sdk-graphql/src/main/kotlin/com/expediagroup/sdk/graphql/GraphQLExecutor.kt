@@ -46,36 +46,34 @@ class GraphQLExecutor(
      * @throws [ExpediaGroupServiceException] If an exception occurs during operation execution.
      * @throws [NoDataException] If the operation completes without data but includes errors.
      */
-    fun <T : Operation.Data> execute(operation: Operation<T>): RawResponse<T> =
-        operation
-            .toSDKRequest(serverUrl).let {
-                requestExecutor.execute(it)
-            }.toApolloResponse(operation).let {
-                processApolloResponse(it)
-            }
+    fun <T : Operation.Data> execute(operation: Operation<T>): RawResponse<T> = operation
+        .toSDKRequest(serverUrl).let {
+            requestExecutor.execute(it)
+        }.toApolloResponse(operation).let {
+            processApolloResponse(it)
+        }
 
     /**
      * Handles the response from a GraphQL operation
      *
      * @param response The ApolloResponse containing the data and errors from the GraphQL operation.
      */
-    private fun <T : Operation.Data> processApolloResponse(response: ApolloResponse<T>): RawResponse<T> =
-        when {
-            response.exception != null -> throw ExpediaGroupServiceException(
-                requestId = response.requestUuid,
-                cause = response.exception
-            )
+    private fun <T : Operation.Data> processApolloResponse(response: ApolloResponse<T>): RawResponse<T> = when {
+        response.exception != null -> throw ExpediaGroupServiceException(
+            requestId = response.requestUuid,
+            cause = response.exception
+        )
 
-            response.data == null && response.hasErrors() -> throw NoDataException(
-                requestId = response.requestUuid,
-                message = "No data received from the server",
-                errors = response.errors!!.map { GraphQLError.fromApolloError(it) }
-            )
+        response.data == null && response.hasErrors() -> throw NoDataException(
+            requestId = response.requestUuid,
+            message = "No data received from the server",
+            errors = response.errors!!.map { GraphQLError.fromApolloError(it) }
+        )
 
-            else ->
-                RawResponse(
-                    data = response.data!!,
-                    errors = response.errors?.map { GraphQLError.fromApolloError(it) }
-                )
-        }
+        else ->
+            RawResponse(
+                data = response.data!!,
+                errors = response.errors?.map { GraphQLError.fromApolloError(it) }
+            )
+    }
 }

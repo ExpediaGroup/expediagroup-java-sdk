@@ -49,29 +49,28 @@ import java.util.concurrent.CompletableFuture
  * @see DefaultObjectMapper
  */
 class AsyncExemplarClient
-    @JvmOverloads
-    constructor(asyncTransport: AsyncTransport? = null) : AsyncRestClient() {
-        override val restExecutor: AsyncRestExecutor =
-            AsyncRestExecutor(
-                mapper = DefaultObjectMapper.INSTANCE,
-                serverUrl = "http://localhost:8080",
-                requestExecutor = AsyncRequestExecutor(asyncTransport)
-            )
+@JvmOverloads
+constructor(asyncTransport: AsyncTransport? = null) : AsyncRestClient() {
+    override val restExecutor: AsyncRestExecutor = AsyncRestExecutor(
+        mapper = DefaultObjectMapper.INSTANCE,
+        serverUrl = "http://localhost:8080",
+        requestExecutor = AsyncRequestExecutor(asyncTransport)
+    )
 
-        /**
-         * Executes an operation that does not expect a response body.
-         *
-         * @param operation The operation to execute.
-         * @return A CompletableFuture containing the response.
-         */
-        fun execute(operation: OperationNoResponseBodyTrait): CompletableFuture<Response<Nothing?>> = restExecutor.execute(operation)
+    /**
+     * Executes an operation that does not expect a response body.
+     *
+     * @param operation The operation to execute.
+     * @return A CompletableFuture containing the response.
+     */
+    fun execute(operation: OperationNoResponseBodyTrait): CompletableFuture<Response<Nothing?>> = restExecutor.execute(operation)
 
-        /**
-         * Executes an operation that expects a response body.
-         *
-         * @param T The type of the response body.
-         * @param operation The operation to execute.
-         * @return A CompletableFuture containing the response.
-         */
-        fun <T : Any> execute(operation: JacksonModelOperationResponseBodyTrait<T>): CompletableFuture<Response<T>> = restExecutor.execute(operation)
-    }
+    /**
+     * Executes an operation that expects a response body.
+     *
+     * @param T The type of the response body.
+     * @param operation The operation to execute.
+     * @return A CompletableFuture containing the response.
+     */
+    fun <T : Any> execute(operation: JacksonModelOperationResponseBodyTrait<T>): CompletableFuture<Response<T>> = restExecutor.execute(operation)
+}

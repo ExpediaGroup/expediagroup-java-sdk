@@ -47,25 +47,16 @@ fun interface DestringifyQueryParam : (String, String) -> UrlQueryParam {
      * @param query The string representation of the query parameter's value.
      * @return A `UrlQueryParam` object representing the parsed query parameter.
      */
-    override fun invoke(
-        name: String,
-        query: String
-    ): UrlQueryParam
+    override fun invoke(name: String, query: String): UrlQueryParam
 }
 
 /** The RFC-3986-compliant percent-encode for one component (name or value). */
-private fun pctEncode(s: String): String =
-    URLEncoder.encode(s, "utf-8")
-        .replace("+", "%20") // HTML-form → generic URI
-        .replace("%7E", "~") // keep '~' pretty (optional)
+private fun pctEncode(s: String): String = URLEncoder.encode(s, "utf-8")
+    .replace("+", "%20") // HTML-form → generic URI
+    .replace("%7E", "~") // keep '~' pretty (optional)
 
 /** Generic helper: join *encoded* items with the given delimiter. */
-private fun join(
-    key: String,
-    items: List<String>,
-    delimiter: String = ",",
-    explode: Boolean = false
-): String {
+private fun join(key: String, items: List<String>, delimiter: String = ",", explode: Boolean = false): String {
     if (items.isEmpty()) return ""
 
     val encKey = pctEncode(key)

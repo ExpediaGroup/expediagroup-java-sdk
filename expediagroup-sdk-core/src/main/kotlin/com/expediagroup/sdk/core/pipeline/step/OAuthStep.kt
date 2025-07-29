@@ -57,9 +57,8 @@ class OAuthStep(
         }
     }
 
-    private fun addAuthorizationHeader(request: Request): Request =
-        request
-            .newBuilder()
-            .addHeader("Authorization", authenticationManager.getAuthorizationHeaderValue())
-            .build()
+    private fun addAuthorizationHeader(request: Request): Request = request
+        .newBuilder()
+        .addHeader("Authorization", authenticationManager.getAuthorizationHeaderValue())
+        .build()
 }

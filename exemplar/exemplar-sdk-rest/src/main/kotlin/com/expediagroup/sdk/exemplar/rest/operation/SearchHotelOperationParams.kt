@@ -62,43 +62,41 @@ data class SearchHotelOperationParams private constructor(
         }
     }
 
-    fun toBuilder() =
-        Builder(
-            city = city,
-            maxPrice = maxPrice
-        )
+    fun toBuilder() = Builder(
+        city = city,
+        maxPrice = maxPrice
+    )
 
-    fun getQueryParams(): List<UrlQueryParam> =
-        buildList {
-            city?.let {
-                val key = "city"
-                val value =
-                    buildList {
-                        add(it)
-                    }
+    fun getQueryParams(): List<UrlQueryParam> = buildList {
+        city?.let {
+            val key = "city"
+            val value =
+                buildList {
+                    add(it)
+                }
 
-                add(
-                    UrlQueryParam(
-                        key = key,
-                        value = value,
-                        stringify = swaggerCollectionFormatStringifier.getOrDefault("", explode)
-                    )
+            add(
+                UrlQueryParam(
+                    key = key,
+                    value = value,
+                    stringify = swaggerCollectionFormatStringifier.getOrDefault("", explode)
                 )
-            }
-            maxPrice?.let {
-                val key = "maxPrice"
-                val value =
-                    buildList {
-                        add(it.toString())
-                    }
-
-                add(
-                    UrlQueryParam(
-                        key = key,
-                        value = value,
-                        stringify = swaggerCollectionFormatStringifier.getOrDefault("", explode)
-                    )
-                )
-            }
+            )
         }
+        maxPrice?.let {
+            val key = "maxPrice"
+            val value =
+                buildList {
+                    add(it.toString())
+                }
+
+            add(
+                UrlQueryParam(
+                    key = key,
+                    value = value,
+                    stringify = swaggerCollectionFormatStringifier.getOrDefault("", explode)
+                )
+            )
+        }
+    }
 }

@@ -105,12 +105,11 @@ import com.fasterxml.jackson.annotation.JsonProperty
         }
     }
 
-    fun toBuilder() =
-        Builder(
-            hotelId = hotelId,
-            checkInDate = checkInDate,
-            checkOutDate = checkOutDate,
-            guests = guests,
-            guestInfo = guestInfo
-        )
+    fun toBuilder() = Builder(
+        hotelId = hotelId,
+        checkInDate = checkInDate,
+        checkOutDate = checkOutDate,
+        guests = guests,
+        guestInfo = guestInfo
+    )
 }

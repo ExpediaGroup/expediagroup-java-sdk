@@ -123,14 +123,13 @@ import com.fasterxml.jackson.annotation.JsonProperty
         }
     }
 
-    fun toBuilder() =
-        Builder(
-            address = address,
-            city = city,
-            state = state,
-            country = country,
-            postalCode = postalCode,
-            latitude = latitude,
-            longitude = longitude
-        )
+    fun toBuilder() = Builder(
+        address = address,
+        city = city,
+        state = state,
+        country = country,
+        postalCode = postalCode,
+        latitude = latitude,
+        longitude = longitude
+    )
 }

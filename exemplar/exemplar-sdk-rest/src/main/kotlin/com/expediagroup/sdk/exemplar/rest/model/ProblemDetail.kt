@@ -80,13 +80,12 @@ import com.fasterxml.jackson.annotation.JsonProperty
         }
     }
 
-    fun toBuilder() =
-        Builder(
-            type = type,
-            title = title,
-            status = status,
-            detail = detail,
-            instance = instance,
-            properties = properties
-        )
+    fun toBuilder() = Builder(
+        type = type,
+        title = title,
+        status = status,
+        detail = detail,
+        instance = instance,
+        properties = properties
+    )
 }

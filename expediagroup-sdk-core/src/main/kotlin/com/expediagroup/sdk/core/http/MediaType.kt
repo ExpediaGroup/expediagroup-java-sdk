@@ -82,11 +82,7 @@ data class MediaType private constructor(
          */
         @JvmStatic
         @JvmOverloads
-        fun of(
-            type: String,
-            subtype: String,
-            parameters: Map<String, String> = emptyMap()
-        ): MediaType {
+        fun of(type: String, subtype: String, parameters: Map<String, String> = emptyMap()): MediaType {
             require(type.isNotBlank()) { "Type must not be blank" }
             require(subtype.isNotBlank()) { "Subtype must not be blank" }
 

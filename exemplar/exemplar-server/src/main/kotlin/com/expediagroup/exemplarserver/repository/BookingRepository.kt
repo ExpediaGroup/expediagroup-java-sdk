@@ -25,10 +25,9 @@ class BookingRepository {
 
     fun findAll(): List<Booking> = bookings
 
-    fun find(confirmationNumber: String): Booking? =
-        bookings.firstOrNull {
-            it.confirmationNumber == confirmationNumber
-        }
+    fun find(confirmationNumber: String): Booking? = bookings.firstOrNull {
+        it.confirmationNumber == confirmationNumber
+    }
 
     fun save(booking: Booking): Booking = bookings.add(booking).let { booking }
 

@@ -17,7 +17,7 @@ open class ExpediaGroupApiException(
     message: String? = null,
     cause: Throwable? = null
 ) : ExpediaGroupServiceException(
-        message = message,
-        cause = cause,
-        requestId = requestId
-    )
+    message = message,
+    cause = cause,
+    requestId = requestId
+)

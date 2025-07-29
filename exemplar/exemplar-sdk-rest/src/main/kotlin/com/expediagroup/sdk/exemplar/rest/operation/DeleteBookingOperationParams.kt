@@ -54,15 +54,13 @@ data class DeleteBookingOperationParams private constructor(
         }
     }
 
-    fun toBuilder() =
-        Builder(
-            confirmationNumber = confirmationNumber
-        )
+    fun toBuilder() = Builder(
+        confirmationNumber = confirmationNumber
+    )
 
-    fun getPathParams(): Map<String, String> =
-        buildMap {
-            confirmationNumber.also {
-                put("confirmationNumber", confirmationNumber)
-            }
+    fun getPathParams(): Map<String, String> = buildMap {
+        confirmationNumber.also {
+            put("confirmationNumber", confirmationNumber)
         }
+    }
 }

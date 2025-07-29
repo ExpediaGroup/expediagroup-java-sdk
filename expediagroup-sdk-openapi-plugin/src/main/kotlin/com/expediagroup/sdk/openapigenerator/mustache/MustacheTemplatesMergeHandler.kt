@@ -93,10 +93,7 @@ object MustacheTemplatesMergeHandler {
      * @param resourceUrl The URL pointing to the default templates in the JAR.
      * @param targetDir The final destination for extracted files.
      */
-    private fun extractResourcesFromJar(
-        resourceUrl: URL,
-        targetDir: File
-    ) {
+    private fun extractResourcesFromJar(resourceUrl: URL, targetDir: File) {
         try {
             val connection = resourceUrl.openConnection() as JarURLConnection
             connection.jarFile.use { jarFile ->
@@ -126,10 +123,7 @@ object MustacheTemplatesMergeHandler {
      * @param project The Gradle [Project] instance.
      * @param finalTemplatesDirectory The destination directory for merged templates.
      */
-    private fun setupExternalTemplatesMerge(
-        project: Project,
-        finalTemplatesDirectory: File
-    ) {
+    private fun setupExternalTemplatesMerge(project: Project, finalTemplatesDirectory: File) {
         val openApiExt =
             project.extensions.findByType(EgSdkGeneratorExtension::class.java)
                 ?: return
@@ -148,6 +142,8 @@ object MustacheTemplatesMergeHandler {
             copySpec.duplicatesStrategy = DuplicatesStrategy.INCLUDE
         }
 
-        logger.lifecycle("Merged user templates from $externalTemplatePath into ${finalTemplatesDirectory.absolutePath}")
+        logger.lifecycle(
+            "Merged user templates from $externalTemplatePath into ${finalTemplatesDirectory.absolutePath}"
+        )
     }
 }

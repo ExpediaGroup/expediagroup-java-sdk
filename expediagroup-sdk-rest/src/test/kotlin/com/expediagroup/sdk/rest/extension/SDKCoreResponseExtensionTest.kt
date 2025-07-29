@@ -39,51 +39,47 @@ class SDKCoreResponseExtensionTest {
 
     class TestOperationWithResponseBody(private val response: Response) :
         JacksonModelOperationResponseBodyTrait<ArrayList<String>> {
-        override fun getRequestInfo(): OperationRequestTrait =
-            object : OperationRequestTrait, ContentTypeTrait {
-                override fun getHttpMethod(): String = "GET"
+        override fun getRequestInfo(): OperationRequestTrait = object : OperationRequestTrait, ContentTypeTrait {
+            override fun getHttpMethod(): String = "GET"
 
-                override fun getContentType(): String = CommonMediaTypes.APPLICATION_JSON.toString()
+            override fun getContentType(): String = CommonMediaTypes.APPLICATION_JSON.toString()
 
-                override fun getOperationId(): String = "testOperation"
+            override fun getOperationId(): String = "testOperation"
 
-                override fun getExceptionForCode(
-                    code: Int,
-                    errorResponseStr: String?,
-                    requestId: UUID?,
-                    message: String?,
-                    cause: Throwable?
-                ): ExpediaGroupApiException =
-                    when (code) {
-                        500 -> Operation500Exception(code = code, requestId = response.request.id, message = message)
-                        else -> ExpediaGroupApiException(code = code, requestId = response.request.id, message = message)
-                    }
+            override fun getExceptionForCode(
+                code: Int,
+                errorResponseStr: String?,
+                requestId: UUID?,
+                message: String?,
+                cause: Throwable?
+            ): ExpediaGroupApiException = when (code) {
+                500 -> Operation500Exception(code = code, requestId = response.request.id, message = message)
+                else -> ExpediaGroupApiException(code = code, requestId = response.request.id, message = message)
             }
+        }
 
         override fun getTypeIdentifier(): TypeReference<ArrayList<String>> = jacksonTypeRef()
     }
 
     class TestOperationNoResponseBody(private val response: Response) : OperationNoResponseBodyTrait {
-        override fun getRequestInfo(): OperationRequestTrait =
-            object : OperationRequestTrait, ContentTypeTrait {
-                override fun getHttpMethod(): String = "GET"
+        override fun getRequestInfo(): OperationRequestTrait = object : OperationRequestTrait, ContentTypeTrait {
+            override fun getHttpMethod(): String = "GET"
 
-                override fun getContentType(): String = CommonMediaTypes.APPLICATION_JSON.toString()
+            override fun getContentType(): String = CommonMediaTypes.APPLICATION_JSON.toString()
 
-                override fun getOperationId(): String = "testOperation"
+            override fun getOperationId(): String = "testOperation"
 
-                override fun getExceptionForCode(
-                    code: Int,
-                    errorResponseStr: String?,
-                    requestId: UUID?,
-                    message: String?,
-                    cause: Throwable?
-                ): ExpediaGroupApiException =
-                    when (code) {
-                        500 -> Operation500Exception(code = code, requestId = response.request.id, message = message)
-                        else -> ExpediaGroupApiException(code = code, requestId = response.request.id, message = message)
-                    }
+            override fun getExceptionForCode(
+                code: Int,
+                errorResponseStr: String?,
+                requestId: UUID?,
+                message: String?,
+                cause: Throwable?
+            ): ExpediaGroupApiException = when (code) {
+                500 -> Operation500Exception(code = code, requestId = response.request.id, message = message)
+                else -> ExpediaGroupApiException(code = code, requestId = response.request.id, message = message)
             }
+        }
     }
 
     @Nested

@@ -54,9 +54,7 @@ class BookingRestController(private val bookingService: BookingService) {
             ApiResponse(responseCode = "404", description = "Hotel not found")
         ]
     )
-    fun create(
-        @Valid @RequestBody request: BookingRequest
-    ): Booking = bookingService.create(request)
+    fun create(@Valid @RequestBody request: BookingRequest): Booking = bookingService.create(request)
 
     @GetMapping("/{confirmationNumber}")
     @ResponseStatus(HttpStatus.OK)
