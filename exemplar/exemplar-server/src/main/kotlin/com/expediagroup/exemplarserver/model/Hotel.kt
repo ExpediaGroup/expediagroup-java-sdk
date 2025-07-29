@@ -26,31 +26,23 @@ import java.math.BigDecimal
 data class Hotel(
     @Schema(description = "Unique hotel identifier", example = "12345")
     val id: Long,
-
     @field:NotBlank
     @Schema(description = "Hotel name", example = "Grand Plaza Hotel")
     val name: String,
-
     @Schema(description = "Hotel description", example = "A luxurious hotel in the heart of the city")
     val description: String?,
-
     @field:NotNull
     @Schema(description = "Hotel location")
     val location: Location,
-
     @field:Positive
     @Schema(description = "Price per night in USD", example = "199.99")
     val pricePerNight: BigDecimal,
-
     @Schema(description = "Hotel amenities")
     val amenities: List<String> = emptyList(),
-
     @Schema(description = "Star rating", example = "4")
     val starRating: Int?,
-
     @Schema(description = "Check-in time", example = "15:00")
     val checkInTime: String?,
-
     @Schema(description = "Check-out time", example = "11:00")
     val checkOutTime: String?
 )

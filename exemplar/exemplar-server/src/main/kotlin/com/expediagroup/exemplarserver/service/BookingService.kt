@@ -33,12 +33,9 @@ class BookingService(
     private val bookingRepository: BookingRepository,
     private val hotelService: HotelService
 ) {
-
     fun findAll(): List<Booking> = bookingRepository.findAll()
 
-    fun find(confirmationNumber: String): Booking {
-        return bookingRepository.find(confirmationNumber) ?: throw BookingNotFoundException("Booking with confirmation number $confirmationNumber does not exist")
-    }
+    fun find(confirmationNumber: String): Booking = bookingRepository.find(confirmationNumber) ?: throw BookingNotFoundException("Booking with confirmation number $confirmationNumber does not exist")
 
     fun create(request: BookingRequest): Booking {
         val hotel = hotelService.findById(request.hotelId)
@@ -52,41 +49,45 @@ class BookingService(
 
         val confirmationNumber = "BK${UUID.randomUUID().toString().replace("-", "").substring(0, 8).uppercase()}"
 
-        val booking = Booking(
-            confirmationNumber = confirmationNumber,
-            status = BookingStatus.CONFIRMED,
-            hotel = hotel,
-            checkInDate = request.checkInDate,
-            checkOutDate = request.checkOutDate,
-            guests = request.guests,
-            guestInfo = request.guestInfo,
-            totalPrice = totalPrice,
-            createdAt = OffsetDateTime.now()
-        )
+        val booking =
+            Booking(
+                confirmationNumber = confirmationNumber,
+                status = BookingStatus.CONFIRMED,
+                hotel = hotel,
+                checkInDate = request.checkInDate,
+                checkOutDate = request.checkOutDate,
+                guests = request.guests,
+                guestInfo = request.guestInfo,
+                totalPrice = totalPrice,
+                createdAt = OffsetDateTime.now()
+            )
 
         return bookingRepository.save(booking)
     }
 
-    fun update(confirmationNumber: String, booking: Booking): Booking {
-        val existingBooking = bookingRepository.find(confirmationNumber)
-            ?: throw BookingNotFoundException("Booking with confirmation number $confirmationNumber does not exist")
+    fun update(
+        confirmationNumber: String,
+        booking: Booking
+    ): Booking {
+        val existingBooking =
+            bookingRepository.find(confirmationNumber)
+                ?: throw BookingNotFoundException("Booking with confirmation number $confirmationNumber does not exist")
 
         if (booking.checkInDate >= booking.checkOutDate) {
             throw BadRequestException("Check-in date must be before check-out date")
         }
 
-        val updatedBooking = existingBooking.copy(
-            checkInDate = booking.checkInDate,
-            checkOutDate = booking.checkOutDate,
-            guests = booking.guests,
-            guestInfo = booking.guestInfo,
-            status = booking.status
-        )
+        val updatedBooking =
+            existingBooking.copy(
+                checkInDate = booking.checkInDate,
+                checkOutDate = booking.checkOutDate,
+                guests = booking.guests,
+                guestInfo = booking.guestInfo,
+                status = booking.status
+            )
 
         return bookingRepository.save(updatedBooking)
     }
 
-    fun delete(confirmationNumber: String): Boolean {
-        return bookingRepository.delete(confirmationNumber)
-    }
+    fun delete(confirmationNumber: String): Boolean = bookingRepository.delete(confirmationNumber)
 }

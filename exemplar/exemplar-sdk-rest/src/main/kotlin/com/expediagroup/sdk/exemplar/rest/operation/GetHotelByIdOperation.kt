@@ -57,7 +57,7 @@ class GetHotelByIdOperation(
         url =
             url.replace(
                 oldValue = "{" + "id" + "}",
-                newValue = this.params.id,
+                newValue = this.params.id.toString(),
                 ignoreCase = true
             )
 

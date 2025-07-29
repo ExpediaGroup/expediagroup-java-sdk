@@ -36,25 +36,29 @@ import org.slf4j.LoggerFactory
  * @see RequestLoggingStep
  * @see MediaType
  */
-class RequestExecutorWithAdditionalLoggableTypes @JvmOverloads constructor(
-    transport: Transport? = null
-) : AbstractRequestExecutor(transport) {
+class RequestExecutorWithAdditionalLoggableTypes
+    @JvmOverloads
+    constructor(
+        transport: Transport? = null
+    ) : AbstractRequestExecutor(transport) {
+        override val executionPipeline: ExecutionPipeline =
+            ExecutionPipeline(
+                requestPipeline =
+                    listOf(
+                        RequestLoggingStep(
+                            logger = logger,
+                            loggableContentTypes =
+                                listOf(
+                                    MediaType.parse("application/vnd.exp-activity.v3+json"),
+                                    MediaType.parse("application/vnd.exp-hotel.v3+json"),
+                                    MediaType.parse("application/vnd.exp-lodging.v3+json")
+                                )
+                        )
+                    ),
+                responsePipeline = listOf()
+            )
 
-    override val executionPipeline: ExecutionPipeline = ExecutionPipeline(
-        requestPipeline = listOf(
-            RequestLoggingStep(
-                logger = logger,
-                loggableContentTypes = listOf(
-                    MediaType.parse("application/vnd.exp-activity.v3+json"),
-                    MediaType.parse("application/vnd.exp-hotel.v3+json"),
-                    MediaType.parse("application/vnd.exp-lodging.v3+json"),
-                )
-            ),
-        ),
-        responsePipeline = listOf()
-    )
-
-    companion object {
-        private val logger = LoggerDecorator(LoggerFactory.getLogger(this::class.java.enclosingClass))
+        companion object {
+            private val logger = LoggerDecorator(LoggerFactory.getLogger(this::class.java.enclosingClass))
+        }
     }
-}

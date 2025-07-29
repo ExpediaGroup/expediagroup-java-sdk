@@ -27,21 +27,19 @@ import java.math.BigDecimal
 class HotelGraphQLController(
     private val hotelService: HotelService
 ) {
-
     @QueryMapping
     fun hotels(
         @Argument city: String?,
         @Argument maxPrice: BigDecimal?
-    ): List<Hotel> {
-        return hotelService.search(city, maxPrice)
-    }
+    ): List<Hotel> = hotelService.search(city, maxPrice)
 
     @QueryMapping
-    fun hotel(@Argument id: Long): Hotel? {
-        return try {
+    fun hotel(
+        @Argument id: Long
+    ): Hotel? =
+        try {
             hotelService.findById(id)
         } catch (e: Exception) {
             null // Return null for GraphQL instead of throwing exception
         }
-    }
 }

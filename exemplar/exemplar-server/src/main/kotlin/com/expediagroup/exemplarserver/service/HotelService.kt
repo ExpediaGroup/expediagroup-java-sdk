@@ -28,9 +28,10 @@ class HotelService(
     fun search(
         city: String?,
         maxPrice: BigDecimal?
-    ): List<Hotel> = hotelRepository.findAll().filter { hotel ->
-        (city == null || hotel.location.city.equals(city, ignoreCase = true)) && (maxPrice == null || hotel.pricePerNight <= maxPrice)
-    }
+    ): List<Hotel> =
+        hotelRepository.findAll().filter { hotel ->
+            (city == null || hotel.location.city.equals(city, ignoreCase = true)) && (maxPrice == null || hotel.pricePerNight <= maxPrice)
+        }
 
     fun findById(id: Long): Hotel = hotelRepository.findById(id) ?: throw HotelNotFoundException("Hotel with id $id does not exist")
 }
