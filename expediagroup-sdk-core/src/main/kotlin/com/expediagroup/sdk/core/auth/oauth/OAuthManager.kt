@@ -55,20 +55,20 @@ class OAuthManager(
             override val executionPipeline: ExecutionPipeline =
                 ExecutionPipeline(
                     requestPipeline =
-                        listOf(
-                            RequestHeadersStep(),
-                            RequestLoggingStep(
-                                logger = logger,
-                                maskHeaders = MaskHeaders(MASKED_HEADERS)
-                            )
-                        ),
-                    responsePipeline =
-                        listOf(
-                            ResponseLoggingStep(
-                                logger = logger,
-                                maskBody = MaskJson(MASKED_BODY_FIELDS)
-                            )
+                    listOf(
+                        RequestHeadersStep(),
+                        RequestLoggingStep(
+                            logger = logger,
+                            maskHeaders = MaskHeaders(MASKED_HEADERS)
                         )
+                    ),
+                    responsePipeline =
+                    listOf(
+                        ResponseLoggingStep(
+                            logger = logger,
+                            maskBody = MaskJson(MASKED_BODY_FIELDS)
+                        )
+                    )
                 )
         }
 
@@ -109,15 +109,14 @@ class OAuthManager(
      * @return The [Response] received from the server.
      * @throws ExpediaGroupAuthException If the server responds with an error.
      */
-    private fun executeAuthenticationRequest(request: Request): Response =
-        requestExecutor.execute(request).apply {
-            if (!this.isSuccessful) {
-                throw throw ExpediaGroupAuthException(
-                    requestId = this.request.id,
-                    message = "Received unsuccessful authentication response: [${this.status}]"
-                )
-            }
+    private fun executeAuthenticationRequest(request: Request): Response = requestExecutor.execute(request).apply {
+        if (!this.isSuccessful) {
+            throw throw ExpediaGroupAuthException(
+                requestId = this.request.id,
+                message = "Received unsuccessful authentication response: [${this.status}]"
+            )
         }
+    }
 
     companion object {
         private val logger = LoggerDecorator(LoggerFactory.getLogger(this::class.java.enclosingClass))

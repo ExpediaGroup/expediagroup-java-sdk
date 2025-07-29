@@ -38,10 +38,7 @@ internal val LOGGABLE_CONTENT_TYPES =
         MediaType.of("application", "hal+json")
     )
 
-internal fun isLoggable(
-    mediaType: MediaType,
-    loggableContentTypes: List<MediaType> = emptyList()
-): Boolean =
+internal fun isLoggable(mediaType: MediaType, loggableContentTypes: List<MediaType> = emptyList()): Boolean =
     LOGGABLE_CONTENT_TYPES.plus(loggableContentTypes).any { loggableType ->
         loggableType.includes(mediaType)
     }

@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build-and-test:
+  build-and-test-core-packages:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -18,5 +18,22 @@ jobs:
           distribution: 'temurin'
           java-version: '11'
 
-      - name: Build and Test
+      - name: Build and Test Core Packages
         run: ./gradlew clean build
+
+  build-and-test-exemplar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Build and Test Exemplar
+        run: |
+          cd exemplar && ./gradlew clean build
+

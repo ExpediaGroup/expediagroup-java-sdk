@@ -63,7 +63,7 @@ class AsyncGraphQLExecutorTest {
     }
 
     @Test
-    fun `should throw ExecutionException with ExpediaGroupServiceException as cause when ApolloResponse has exception`() {
+    fun `should throw ExecutionException with ExpediaGroupServiceException cause when ApolloResponse has exception`() {
         // Given
         val testOperation = TestMutation()
         val testOperationData = """{data: "invalid data"}"""
@@ -78,7 +78,8 @@ class AsyncGraphQLExecutorTest {
                 .body(ResponseBody.create(buffer))
                 .build()
 
-        every { mockAsyncRequestExecutor.execute(any()) } returns CompletableFuture.completedFuture(testSDKResponse)
+        every { mockAsyncRequestExecutor.execute(any()) } returns CompletableFuture
+            .completedFuture(testSDKResponse)
 
         // When & Expect
         val exception =
@@ -90,7 +91,7 @@ class AsyncGraphQLExecutorTest {
     }
 
     @Test
-    fun `should throw ExecutionException with NoDataException as cause when ApolloResponse has no data but has errors`() {
+    fun `should throw ExecutionException with NoDataException cause when ApolloResponse has no data but has errors`() {
         // Given
         val errorResponse = """{"errors": [{ "message": "Some error occurred" }]}"""
         val buffer = Buffer().apply { writeUtf8(errorResponse) }

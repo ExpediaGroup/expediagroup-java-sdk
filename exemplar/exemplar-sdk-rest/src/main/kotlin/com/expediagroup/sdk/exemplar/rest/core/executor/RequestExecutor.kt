@@ -44,29 +44,24 @@ import org.slf4j.LoggerFactory
  * @see AbstractRequestExecutor
  * @see ExecutionPipeline
  */
-class RequestExecutor
-    @JvmOverloads
-    constructor(
-        transport: Transport? = null
-    ) : AbstractRequestExecutor(transport) {
-        override val executionPipeline =
-            ExecutionPipeline(
-                requestPipeline = getRequestPipeline(),
-                responsePipeline = getResponsePipeline()
-            )
+class RequestExecutor @JvmOverloads constructor(
+    transport: Transport? = null
+) : AbstractRequestExecutor(transport) {
+    override val executionPipeline = ExecutionPipeline(
+        requestPipeline = getRequestPipeline(),
+        responsePipeline = getResponsePipeline()
+    )
 
-        private fun getRequestPipeline(): List<RequestPipelineStep> =
-            listOf(
-                RequestHeadersStep(),
-                RequestLoggingStep(logger)
-            )
+    private fun getRequestPipeline(): List<RequestPipelineStep> = listOf(
+        RequestHeadersStep(),
+        RequestLoggingStep(logger)
+    )
 
-        private fun getResponsePipeline(): List<ResponsePipelineStep> =
-            listOf(
-                ResponseLoggingStep(logger)
-            )
+    private fun getResponsePipeline(): List<ResponsePipelineStep> = listOf(
+        ResponseLoggingStep(logger)
+    )
 
-        companion object {
-            private val logger = LoggerDecorator(LoggerFactory.getLogger(this::class.java.enclosingClass))
-        }
+    companion object {
+        private val logger = LoggerDecorator(LoggerFactory.getLogger(this::class.java.enclosingClass))
     }
+}

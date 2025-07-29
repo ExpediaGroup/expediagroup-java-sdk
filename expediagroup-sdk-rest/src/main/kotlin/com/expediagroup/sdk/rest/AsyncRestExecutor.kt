@@ -75,18 +75,17 @@ class AsyncRestExecutor(
     private fun <T> execute(
         operation: OperationResponseTrait,
         transform: (SDKCoreResponse) -> Response<T>
-    ): CompletableFuture<Response<T>> =
-        CompletableFuture<Response<T>>().apply {
-            operation
-                .getRequestInfo()
-                .parseRequest(URL(serverUrl), mapper).let(
-                    requestExecutor::execute
-                ).let { response ->
-                    response.thenApply {
-                        this.complete(transform(it))
-                    }.exceptionally {
-                        this.completeExceptionally(it)
-                    }
+    ): CompletableFuture<Response<T>> = CompletableFuture<Response<T>>().apply {
+        operation
+            .getRequestInfo()
+            .parseRequest(URL(serverUrl), mapper).let(
+                requestExecutor::execute
+            ).let { response ->
+                response.thenApply {
+                    this.complete(transform(it))
+                }.exceptionally {
+                    this.completeExceptionally(it)
                 }
-        }
+            }
+    }
 }

@@ -109,11 +109,10 @@ abstract class AbstractRequestExecutor(
     override fun dispose() = transport.dispose()
 
     companion object {
-        private fun loadTransport(): Transport =
-            ServiceLoader.load(Transport::class.java).firstOrNull().getOrThrow {
-                ExpediaGroupConfigurationException(
-                    "No Transport implementation found. Please include valid SDK transport dependency"
-                )
-            }
+        private fun loadTransport(): Transport = ServiceLoader.load(Transport::class.java).firstOrNull().getOrThrow {
+            ExpediaGroupConfigurationException(
+                "No Transport implementation found. Please include valid SDK transport dependency"
+            )
+        }
     }
 }

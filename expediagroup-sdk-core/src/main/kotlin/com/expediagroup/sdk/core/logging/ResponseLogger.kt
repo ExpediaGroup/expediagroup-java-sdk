@@ -38,7 +38,11 @@ internal object ResponseLogger {
         try {
             var logString =
                 buildString {
-                    append("URL=${response.request.url}, Code=${response.status.code}, Headers=[${maskHeaders(response.headers)}]")
+                    append(
+                        "URL=${response.request.url}, Code=${response.status.code}, Headers=[${maskHeaders(
+                            response.headers
+                        )}]"
+                    )
                 }
 
             if (logger.isDebugEnabled) {

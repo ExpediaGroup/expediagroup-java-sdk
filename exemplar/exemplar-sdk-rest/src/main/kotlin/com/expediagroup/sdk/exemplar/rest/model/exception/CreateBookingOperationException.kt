@@ -26,12 +26,11 @@ class CreateBooking400Exception(
     message: String?,
     cause: Throwable?
 ) : ExpediaGroupApiException(
-        code = code,
-        requestId = requestId,
-        message = message,
-        cause = cause
-    )
-
+    code = code,
+    requestId = requestId,
+    message = message,
+    cause = cause
+)
 class CreateBooking404Exception(
     code: Int = 404,
     val errorResponse: ProblemDetail?,
@@ -39,8 +38,8 @@ class CreateBooking404Exception(
     message: String?,
     cause: Throwable?
 ) : ExpediaGroupApiException(
-        code = code,
-        requestId = requestId,
-        message = message,
-        cause = cause
-    )
+    code = code,
+    requestId = requestId,
+    message = message,
+    cause = cause
+)

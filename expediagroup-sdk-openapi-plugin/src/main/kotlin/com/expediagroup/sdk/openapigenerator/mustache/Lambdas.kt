@@ -29,10 +29,7 @@ import java.io.Writer
 private val LOGGER = LoggerFactory.getLogger(Mustache::class.java)
 
 class AssignDiscriminatorsLambda : Mustache.Lambda, Serializable {
-    override fun execute(
-        fragment: Template.Fragment,
-        writer: Writer
-    ) {
+    override fun execute(fragment: Template.Fragment, writer: Writer) {
         val model = fragment.context() as CodegenModel
         getParentDiscriminator(model).forEach {
             val type: String = (if (it.isEnum) "${it.parentName}." else "") + it.type
@@ -44,11 +41,10 @@ class AssignDiscriminatorsLambda : Mustache.Lambda, Serializable {
 }
 
 class EliminateDiscriminatorsLambda : Mustache.Lambda, Serializable {
-    override fun execute(
-        fragment: Template.Fragment,
-        writer: Writer
-    ) {
-        val discriminators: List<String> = getParentDiscriminator(fragment.context(1) as CodegenModel).map { it.originalName }
+    override fun execute(fragment: Template.Fragment, writer: Writer) {
+        val discriminators: List<String> = getParentDiscriminator(fragment.context(1) as CodegenModel).map {
+            it.originalName
+        }
         val property = fragment.context() as CodegenProperty
         if (!discriminators.contains(property.baseName)) {
             writer.write(fragment.execute())
@@ -57,10 +53,7 @@ class EliminateDiscriminatorsLambda : Mustache.Lambda, Serializable {
 }
 
 class OperationErrorTypesLambda : Mustache.Lambda, Serializable {
-    override fun execute(
-        fragment: Template.Fragment,
-        writer: Writer
-    ) {
+    override fun execute(fragment: Template.Fragment, writer: Writer) {
         val operation = fragment.context() as CodegenOperation
         val seen = linkedSetOf<String>()
 
@@ -73,10 +66,7 @@ class OperationErrorTypesLambda : Mustache.Lambda, Serializable {
 }
 
 class OperationExceptionsLambda : Mustache.Lambda, Serializable {
-    override fun execute(
-        fragment: Template.Fragment,
-        writer: Writer
-    ) {
+    override fun execute(fragment: Template.Fragment, writer: Writer) {
         val operation: CodegenOperation = fragment.context() as CodegenOperation
 
         operation.responses.filter { !it.is2xx }.map {
@@ -95,10 +85,7 @@ class OperationExceptionsLambda : Mustache.Lambda, Serializable {
 }
 
 class HasNonBodyParamsLambda : Mustache.Lambda, Serializable {
-    override fun execute(
-        fragment: Template.Fragment,
-        writer: Writer
-    ) {
+    override fun execute(fragment: Template.Fragment, writer: Writer) {
         val operation = fragment.context() as CodegenOperation
         if (operation.hasPathParams || operation.hasHeaderParams || operation.hasQueryParams) {
             fragment.execute(writer)
@@ -107,10 +94,7 @@ class HasNonBodyParamsLambda : Mustache.Lambda, Serializable {
 }
 
 class NonBodyParamsLambda : Mustache.Lambda, Serializable {
-    override fun execute(
-        fragment: Template.Fragment,
-        writer: Writer
-    ) {
+    override fun execute(fragment: Template.Fragment, writer: Writer) {
         val operation = fragment.context() as CodegenOperation
         val params = operation.pathParams + operation.headerParams + operation.queryParams
         val context = mapOf("params" to params)
@@ -119,10 +103,7 @@ class NonBodyParamsLambda : Mustache.Lambda, Serializable {
 }
 
 class HttpAcceptHeaderLambda : Mustache.Lambda, Serializable {
-    override fun execute(
-        fragment: Template.Fragment,
-        writer: Writer
-    ) {
+    override fun execute(fragment: Template.Fragment, writer: Writer) {
         val response: CodegenResponse = fragment.context() as CodegenResponse
         if (response.code == "200") {
             val mediaTypes: MutableSet<String> = response.content.keys
@@ -133,10 +114,7 @@ class HttpAcceptHeaderLambda : Mustache.Lambda, Serializable {
 }
 
 class CustomReturnTypeLambda : Mustache.Lambda, Serializable {
-    override fun execute(
-        fragment: Template.Fragment,
-        writer: Writer
-    ) {
+    override fun execute(fragment: Template.Fragment, writer: Writer) {
         val response: CodegenOperation = fragment.context() as CodegenOperation
         val context =
             mapOf(
@@ -155,10 +133,7 @@ class CustomReturnTypeLambda : Mustache.Lambda, Serializable {
 }
 
 class RemoveDoubleQuotesLambda : Mustache.Lambda, Serializable {
-    override fun execute(
-        fragment: Template.Fragment,
-        writer: Writer
-    ) {
+    override fun execute(fragment: Template.Fragment, writer: Writer) {
         val data: String = fragment.context() as String
         writer.write("\"${data.replace(Regex("^\"+|\"$"), "")}\"")
     }
@@ -167,10 +142,7 @@ class RemoveDoubleQuotesLambda : Mustache.Lambda, Serializable {
 class ProcessOperation(
     private val processors: List<(CodegenOperation) -> CodegenOperation>
 ) : Mustache.Lambda, Serializable {
-    override fun execute(
-        fragment: Template.Fragment,
-        writer: Writer
-    ) {
+    override fun execute(fragment: Template.Fragment, writer: Writer) {
         var operation: CodegenOperation = fragment.context() as CodegenOperation
 
         processors.forEach { process ->
@@ -185,10 +157,7 @@ class ProcessOperation(
 class ProcessModel(
     private val processors: List<(CodegenModel) -> CodegenModel>
 ) : Mustache.Lambda, Serializable {
-    override fun execute(
-        fragment: Template.Fragment,
-        writer: Writer
-    ) {
+    override fun execute(fragment: Template.Fragment, writer: Writer) {
         var model: CodegenModel = fragment.context() as CodegenModel
 
         processors.forEach { process ->

@@ -55,15 +55,14 @@ internal fun <T : Any> SDKCoreResponse.parseBodyAs(
 internal fun <T : Any> SDKCoreResponse.toRestResponse(
     operation: JacksonModelOperationResponseBodyTrait<T>,
     mapper: ObjectMapper
-): Response<T> =
-    use {
-        throwOnFailure { mapFailedResponseToException(operation) }
+): Response<T> = use {
+    throwOnFailure { mapFailedResponseToException(operation) }
 
-        Response(
-            data = parseBodyAs(operation, mapper),
-            headers = headers
-        )
-    }
+    Response(
+        data = parseBodyAs(operation, mapper),
+        headers = headers
+    )
+}
 
 /**
  * Extension function to convert an SDKCoreResponse to a RestResponse with empty body.
@@ -71,17 +70,16 @@ internal fun <T : Any> SDKCoreResponse.toRestResponse(
  * @return a Response object containing null data and headers
  */
 @Suppress("UNUSED_PARAMETER")
-internal fun SDKCoreResponse.toRestResponse(operation: OperationNoResponseBodyTrait): Response<Nothing?> =
-    use {
-        this.throwOnFailure {
-            mapFailedResponseToException(operation)
-        }
-
-        Response(
-            data = null,
-            headers = headers
-        )
+internal fun SDKCoreResponse.toRestResponse(operation: OperationNoResponseBodyTrait): Response<Nothing?> = use {
+    this.throwOnFailure {
+        mapFailedResponseToException(operation)
     }
+
+    Response(
+        data = null,
+        headers = headers
+    )
+}
 
 /**
  * Throws an exception if the response is not successful.
