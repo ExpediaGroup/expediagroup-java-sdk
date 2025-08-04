@@ -14,7 +14,7 @@ apply from: "$rootDir/gradle-tasks/signing.gradle"
 
 dependencies {
     /* EG SDK Core */
-    api 'com.squareup.okio:okio:3.15.0'
+    api 'com.squareup.okio:okio:3.16.0'
 
     /* Serialization/Deserialization */
     compileOnly(platform('com.fasterxml.jackson:jackson-bom:2.19.2'))
