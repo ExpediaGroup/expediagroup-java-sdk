@@ -118,6 +118,18 @@ The toolkit currently supports generating SDKs targeting **Java 8** and later ve
 
 ---
 
+## Documentation
+
+For comprehensive information about this repository and how to use it as SDK generation infrastructure, see the [DOCUMENTATION](DOCUMENTATION.md) guide. This covers:
+
+- Repository architecture and components
+- How product teams use this infrastructure
+- Workflow details and usage patterns
+- Getting started guide for new teams
+- Troubleshooting and support
+
+---
+
 ## Getting Help
 
 - **Toolkit Issues**: For problems specific to the SDK toolkit, please open an issue in this repository.
