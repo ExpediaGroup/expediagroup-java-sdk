@@ -9,7 +9,7 @@ apply("../gradle-tasks/sdk-properties.gradle.kts")
 
 dependencies {
     // Pulling the REST SDK as an API dependency to allow users to use the SDK internals without needing to add it explicitly.
-    api("com.expediagroup:expediagroup-sdk-rest:0.0.13-alpha")
+    api("com.expediagroup:expediagroup-sdk-rest:1.0.0")
 
     // Product SDKs have to add jackson libraries as a dependency.
     implementation(platform("com.fasterxml.jackson:jackson-bom:2.19.2"))
