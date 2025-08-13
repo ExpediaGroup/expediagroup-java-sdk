@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.expediagroup:expediagroup-sdk-transport-okhttp:0.0.6-alpha")
+    implementation("com.expediagroup:expediagroup-sdk-transport-okhttp:1.0.0")
     implementation(project(":exemplar-sdk-rest"))
     implementation(project(":exemplar-sdk-graphql"))
 

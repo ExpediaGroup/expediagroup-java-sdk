@@ -16,7 +16,7 @@ dependencies {
     api 'com.squareup.okhttp3:okhttp:4.12.0'
 
     /* EG SDK Core */
-    compileOnly 'com.expediagroup:expediagroup-sdk-core:0.0.8-alpha'
+    compileOnly 'com.expediagroup:expediagroup-sdk-core:1.0.0'
 
     /* Logging */
     compileOnly 'org.slf4j:slf4j-api:2.0.17'

@@ -22,7 +22,7 @@ dependencies {
     compileOnly 'org.slf4j:slf4j-api:2.0.17'
 
     /* EG SDK Core */
-    api 'com.expediagroup:expediagroup-sdk-core:0.0.10-alpha'
+    api 'com.expediagroup:expediagroup-sdk-core:1.0.0'
 
     /* Testing */
     testImplementation platform('org.junit:junit-bom:5.13.4')
