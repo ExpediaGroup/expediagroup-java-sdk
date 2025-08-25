@@ -13,7 +13,7 @@ apply from: "$rootDir/gradle-tasks/publish-gradle-plugin.gradle"
 apply from: "$rootDir/gradle-tasks/signing.gradle"
 
 dependencies {
-    api 'org.openapitools:openapi-generator:7.14.0'
+    api 'org.openapitools:openapi-generator:7.15.0'
 }
 
 kotlin {
