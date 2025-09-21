@@ -14,7 +14,7 @@ apply from: "$rootDir/gradle-tasks/signing.gradle"
 
 dependencies {
     /* Serialization/Deserialization */
-    compileOnly(platform('com.fasterxml.jackson:jackson-bom:2.19.2'))
+    compileOnly(platform('com.fasterxml.jackson:jackson-bom:2.20.0'))
     compileOnly 'com.fasterxml.jackson.core:jackson-databind'
     compileOnly 'com.fasterxml.jackson.module:jackson-module-kotlin'
 
@@ -36,7 +36,7 @@ dependencies {
 
     testImplementation 'org.slf4j:slf4j-api:2.0.17'
 
-    testImplementation(platform('com.fasterxml.jackson:jackson-bom:2.19.2'))
+    testImplementation(platform('com.fasterxml.jackson:jackson-bom:2.20.0'))
     testImplementation 'com.fasterxml.jackson.core:jackson-databind'
     testImplementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.20.0'
 }
