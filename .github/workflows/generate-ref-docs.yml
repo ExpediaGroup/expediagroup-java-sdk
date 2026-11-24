@@ -24,17 +24,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v5.1.0
         with:
           ref: ${{ inputs.ref }}
 
       - name: Setup java
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v5.7.0
         with:
           distribution: 'corretto'
           java-version: '21'
 
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v4.4.4
         with:
           gradle-version: "8.13"
 
@@ -96,7 +96,7 @@ jobs:
         run: mv -v ${{ runner.temp }}/${{ env.NEW_DOCS_VERSION }}/* .
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v7.0.11
         with:
           token: ${{ secrets.GITHUB_PAT }}
           commit-message: "chore: publishing docs for version ${{ env.NEW_DOCS_VERSION }}"
